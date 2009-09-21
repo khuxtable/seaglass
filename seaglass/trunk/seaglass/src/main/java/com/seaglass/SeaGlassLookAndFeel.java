@@ -56,6 +56,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
     private SynthStyleFactory nimbusFactory;
 
+    // Install into the UI.
+    static {
+        UIManager.installLookAndFeel("SeaGlass", "com.seaglass.SeaGlassLookAndFeel");
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -118,8 +123,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                     "TitlePane:seaglassMinimizeButton[Enabled].backgroundPainter",
                     uiDefaults
                         .get("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[Enabled+WindowMaximized].backgroundPainter"));
-            uiDefaults.put("TitlePane.minimizeIcon", new SeaGlassIcon("TitlePane:seaglassMinimizeButton",
-                "backgroundPainter", 19, 18));
+            uiDefaults.put("TitlePane.minimizeIcon", new SeaGlassIcon("TitlePane:seaglassMinimizeButton", "backgroundPainter", 19,
+                18));
 
             if (PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
                 uiDefaults.put("ToolBarUI", packageName + "ToolBarUI");
