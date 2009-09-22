@@ -78,6 +78,7 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
     private Color color32 = decodeColor("nimbusRed", 0.5962963f, -0.7372781f, 0.10196078f, 0);
     private Color color33 = decodeColor("nimbusRed", 0.5962963f, -0.73911506f, 0.12549019f, 0);
     private Color color34 = decodeColor("nimbusBlueGrey", 0.0f, -0.027957506f, -0.31764707f, 0);
+    private Color black = Color.black;
 
 
     //Array of current component colors, updated in each paint call
@@ -148,7 +149,7 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
 
     private void paintBackgroundModified(Graphics2D g) {
         roundRect = decodeRoundRect2();
-        g.setPaint(color5);
+        g.setPaint(black); // 5
         g.fill(roundRect);
         roundRect = decodeRoundRect1();
         g.setPaint(decodeGradient4(roundRect));
@@ -160,7 +161,7 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
         g.setPaint(color20);
         g.fill(path);
         path = decodePath2();
-        g.setPaint(color13);
+        g.setPaint(black); // 13
         g.fill(path);
 
     }
@@ -198,20 +199,14 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundModifiedAndWindowNotFocused(Graphics2D g) {
-        roundRect = decodeRoundRect2();
-        g.setPaint(color5);
-        g.fill(roundRect);
         roundRect = decodeRoundRect1();
-        g.setPaint(decodeGradient4(roundRect));
+        g.setPaint(decodeGradient8(roundRect));
         g.fill(roundRect);
-        roundRect = decodeRoundRect4();
-        g.setPaint(decodeGradient5(roundRect));
+        roundRect = decodeRoundRect3();
+        g.setPaint(decodeGradient9(roundRect));
         g.fill(roundRect);
-        path = decodePath1();
-        g.setPaint(color20);
-        g.fill(path);
         path = decodePath2();
-        g.setPaint(color13);
+        g.setPaint(black); // 34
         g.fill(path);
 
     }
