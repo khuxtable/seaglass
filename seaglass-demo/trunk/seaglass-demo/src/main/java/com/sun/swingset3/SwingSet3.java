@@ -143,6 +143,7 @@ public class SwingSet3 extends SingleFrameApplication  {
             System.setProperty("com.apple.mrj.application.apple.menu.about.name", "SwingSet3");
         }
         
+        UIManager.installLookAndFeel("SeaGlass", "com.seaglass.SeaGlassLookAndFeel");
         // temporary workaround for problem with Nimbus classname
         UIManager.LookAndFeelInfo lafInfo[] = UIManager.getInstalledLookAndFeels();
         for(int i = 0; i < lafInfo.length; i++) {
