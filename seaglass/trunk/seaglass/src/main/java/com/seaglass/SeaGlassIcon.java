@@ -19,7 +19,7 @@
  * 
  * $Id$
  */
-package com.seaglass.painter;
+package com.seaglass;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -33,7 +33,6 @@ import javax.swing.UIManager;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.SynthContext;
 
-import com.seaglass.SeaGlassLookAndFeel;
 import com.sun.java.swing.Painter;
 import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 
