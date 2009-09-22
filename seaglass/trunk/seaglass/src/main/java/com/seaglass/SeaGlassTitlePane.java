@@ -80,7 +80,6 @@ import sun.swing.SwingUtilities2;
  */
 public class SeaGlassTitlePane extends JComponent {
     private static final Color     DEFAULT_EMPHASIS_COLOR = new Color(255, 255, 255, 110);
-    private static final long      serialVersionUID       = -2504556849516482113L;
     private static final Border    handyEmptyBorder       = new EmptyBorder(0, 0, 0, 0);
     private static final int       IMAGE_HEIGHT           = 16;
     private static final int       IMAGE_WIDTH            = 16;
