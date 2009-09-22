@@ -50,7 +50,6 @@ import javax.swing.plaf.synth.SynthStyleFactory;
 import com.seaglass.painter.AbstractRegionPainter;
 import com.seaglass.painter.ScrollBarScrollBarButtonPainter;
 import com.seaglass.painter.ScrollBarScrollBarThumbPainter;
-import com.seaglass.painter.SeaGlassIcon;
 import com.seaglass.painter.TitlePaneCloseButtonPainter;
 import com.seaglass.util.MacPainterFactory;
 import com.seaglass.util.PlatformUtils;
