@@ -129,15 +129,25 @@ public class SeaGlassTitlePane extends JComponent {
      */
     private JButton                closeButton;
 
+    private Icon                   closeIcon;
+    private Icon                   closeIconModified;
+    private Icon                   closeIconUnfocused;
+    private Icon                   closeIconUnfocusedModified;
+
+    private Icon                   iconifyIcon;
+    private Icon                   iconifyIconUnfocused;
+
     /**
      * Icon used for toggleButton when window is normal size.
      */
     private Icon                   maximizeIcon;
+    private Icon                   maximizeIconUnfocused;
 
     /**
      * Icon used for toggleButton when window is maximized.
      */
     private Icon                   minimizeIcon;
+    private Icon                   minimizeIconUnfocused;
 
     /**
      * Listens for changes in the state of the Window listener to update the
@@ -434,15 +444,25 @@ public class SeaGlassTitlePane extends JComponent {
         closeButton.setAction(closeAction);
         closeButton.setName("TitlePane.closeButton");
 
+        closeIcon = UIManager.getIcon("TitlePane.closeIcon");
+        closeIconModified = UIManager.getIcon("TitlePane.closeIconModified");
+        closeIconUnfocused = UIManager.getIcon("TitlePane.closeIconUnfocused");
+        closeIconUnfocusedModified = UIManager.getIcon("TitlePane.closeIconUnfocusedModified");
+
         closeButton.setText(null);
         closeButton.putClientProperty("paintActive", Boolean.TRUE);
         closeButton.setBorder(handyEmptyBorder);
         closeButton.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, "Close");
-        closeButton.setIcon(UIManager.getIcon("TitlePane.closeIcon"));
+        closeButton.setIcon(closeIcon);
 
         if (getWindowDecorationStyle() == JRootPane.FRAME) {
             maximizeIcon = UIManager.getIcon("TitlePane.maximizeIcon");
             minimizeIcon = UIManager.getIcon("TitlePane.minimizeIcon");
+            maximizeIconUnfocused = UIManager.getIcon("TitlePane.maximizeIconUnfocused");
+            minimizeIconUnfocused = UIManager.getIcon("TitlePane.minimizeIconUnfocused");
+            
+            iconifyIcon = UIManager.getIcon("TitlePane.iconifyIcon");
+            iconifyIconUnfocused = UIManager.getIcon("TitlePane.iconifyIconUnfocused");
 
             iconifyButton = createTitleButton();
             iconifyButton.setAction(iconifyAction);
@@ -451,7 +471,7 @@ public class SeaGlassTitlePane extends JComponent {
             iconifyButton.putClientProperty("paintActive", Boolean.TRUE);
             iconifyButton.setBorder(handyEmptyBorder);
             iconifyButton.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, "Iconify");
-            iconifyButton.setIcon(UIManager.getIcon("TitlePane.iconifyIcon"));
+            iconifyButton.setIcon(iconifyIcon);
 
             toggleButton = createTitleButton();
             toggleButton.setAction(restoreAction);
@@ -625,10 +645,27 @@ public class SeaGlassTitlePane extends JComponent {
 
         Color foreground;
 
+        boolean isModified = rootPane.getClientProperty("Window.documentModified") == Boolean.TRUE;
         if (isSelected) {
             foreground = activeForeground;
+            closeButton.setIcon(isModified ? closeIconModified : closeIcon);
+            iconifyButton.setIcon(iconifyIcon);
+            Icon icon = toggleButton.getIcon();
+            if (icon == minimizeIconUnfocused) {
+                toggleButton.setIcon(minimizeIcon);
+            } else if (icon == maximizeIconUnfocused) {
+                toggleButton.setIcon(maximizeIcon);
+            }
         } else {
             foreground = inactiveForeground;
+            closeButton.setIcon(isModified ? closeIconUnfocusedModified : closeIconUnfocused);
+            iconifyButton.setIcon(iconifyIconUnfocused);
+            Icon icon = toggleButton.getIcon();
+            if (icon == minimizeIcon) {
+                toggleButton.setIcon(minimizeIconUnfocused);
+            } else if (icon == maximizeIcon) {
+                toggleButton.setIcon(maximizeIconUnfocused);
+            }
         }
 
         backgroundPainter.paint((Graphics2D) g, this, getWidth(), getHeight());
@@ -949,6 +986,9 @@ public class SeaGlassTitlePane extends JComponent {
          */
         public void propertyChange(PropertyChangeEvent e) {
             if (closeButton != null && WINDOW_DOCUMENT_MODIFIED.equals(e.getPropertyName())) {
+                boolean isModified = e.getNewValue() == Boolean.TRUE;
+                Icon icon = isModified ? closeIconModified : closeIcon;
+                closeButton.setIcon(icon);
                 closeButton.revalidate();
                 closeButton.repaint();
             }

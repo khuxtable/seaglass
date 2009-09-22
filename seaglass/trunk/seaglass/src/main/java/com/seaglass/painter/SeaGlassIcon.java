@@ -68,7 +68,10 @@ public class SeaGlassIcon extends SynthIcon {
         if (painter == null) {
             painter = (Painter) UIManager.get(prefix + "[Enabled]." + key);
         }
-        
+        if (painter == null) {
+            painter = (Painter) UIManager.get(prefix + "." + key);
+        }
+
         if (painter != null && context != null) {
             JComponent c = context.getComponent();
             boolean rotate = false;

@@ -49,6 +49,7 @@ import javax.swing.plaf.synth.SynthStyleFactory;
 import com.seaglass.painter.AbstractRegionPainter;
 import com.seaglass.painter.ScrollBarScrollBarThumbPainter;
 import com.seaglass.painter.SeaGlassIcon;
+import com.seaglass.painter.TitlePaneCloseButtonPainter;
 import com.seaglass.util.MacPainterFactory;
 import com.seaglass.util.PlatformUtils;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -102,9 +103,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             uiDefaults.put("seaglassBase", new ColorUIResource(20, 40, 110));
             uiDefaults.put("nimbusBase", new ColorUIResource(61, 95, 140));
-            uiDefaults.put("control", new ColorUIResource(227, 231, 232)); // 220, 233, 239
+            uiDefaults.put("control", new ColorUIResource(227, 231, 232)); // 220,
+            // 233,
+            // 239
             uiDefaults.put("scrollbar", new ColorUIResource(255, 255, 255));
-            uiDefaults.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228)); // 170, 178, 194
+            uiDefaults.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228)); // 170,
+            // 178,
+            // 194
             uiDefaults.put("nimbusSelectionBackground", new ColorUIResource(82, 127, 187));
             uiDefaults.put("nimbusSelection", new ColorUIResource(113, 193, 242));
             uiDefaults.put("nimbusOrange", new ColorUIResource(246, 188, 96));
@@ -125,22 +130,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             killMouseOver(uiDefaults);
 
-            uiDefaults.put("TitlePane.closeIcon", new SeaGlassIcon(
-                "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\"", "backgroundPainter", 19, 18));
-
-            uiDefaults.put("TitlePane.iconifyIcon", new SeaGlassIcon(
-                "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"", "backgroundPainter", 19, 18));
-
-            uiDefaults.put("TitlePane.maximizeIcon", new SeaGlassIcon(
-                "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"", "backgroundPainter", 19, 18));
-
-            uiDefaults
-                .put(
-                    "TitlePane:seaglassMinimizeButton[Enabled].backgroundPainter",
-                    uiDefaults
-                        .get("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[Enabled+WindowMaximized].backgroundPainter"));
-            uiDefaults.put("TitlePane.minimizeIcon", new SeaGlassIcon("TitlePane:seaglassMinimizeButton", "backgroundPainter", 19,
-                18));
+            if (!PlatformUtils.isMac()) {
+                setTitlePaneButtons();
+            }
 
             if (PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
                 uiDefaults.put("ToolBarUI", packageName + "ToolBarUI");
@@ -227,6 +219,61 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             }
         }
         return uiDefaults;
+    }
+
+    /**
+     * Set the icons to paint the title pane decorations.
+     */
+    private void setTitlePaneButtons() {
+        // Set the multiplicity of states for the Close button.
+        uiDefaults.put("TitlePane:seaglassCloseButton.backgroundPainter", new TitlePaneCloseButtonPainter(
+            new AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0), new Dimension(19, 18), false,
+                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
+            TitlePaneCloseButtonPainter.BACKGROUND_ENABLED));
+        uiDefaults.put("TitlePane:seaglassCloseButton[Modified].backgroundPainter", new TitlePaneCloseButtonPainter(
+            new AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0), new Dimension(19, 18), false,
+                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
+            TitlePaneCloseButtonPainter.BACKGROUND_MODIFIED));
+        uiDefaults.put("TitlePane:seaglassCloseButton[Unfocused].backgroundPainter", new TitlePaneCloseButtonPainter(
+            new AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0), new Dimension(19, 18), false,
+                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
+            TitlePaneCloseButtonPainter.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
+        uiDefaults.put("TitlePane:seaglassCloseButton[Unfocused+Modified].backgroundPainter", new TitlePaneCloseButtonPainter(
+            new AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0), new Dimension(19, 18), false,
+                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
+            TitlePaneCloseButtonPainter.BACKGROUND_MODIFIED_WINDOWNOTFOCUSED));
+        uiDefaults.put("TitlePane.closeIcon", new SeaGlassIcon("TitlePane:seaglassCloseButton", "backgroundPainter", 19, 18));
+        uiDefaults.put("TitlePane.closeIconModified", new SeaGlassIcon("TitlePane:seaglassCloseButton[Modified]",
+            "backgroundPainter", 19, 18));
+        uiDefaults.put("TitlePane.closeIconUnfocused", new SeaGlassIcon("TitlePane:seaglassCloseButton[Unfocused]",
+            "backgroundPainter", 19, 18));
+        uiDefaults.put("TitlePane.closeIconUnfocusedModified", new SeaGlassIcon(
+            "TitlePane:seaglassCloseButton[Unfocused+Modified]", "backgroundPainter", 19, 18));
+
+        // Set the iconify button
+        uiDefaults.put("TitlePane.iconifyIcon", new SeaGlassIcon(
+            "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"", "backgroundPainter", 19, 18));
+        uiDefaults.put("TitlePane.iconifyIconUnfocused", new SeaGlassIcon(
+            "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"[Enabled+WindowNotFocused]",
+            "backgroundPainter", 19, 18));
+
+        // Set the maximize button
+        uiDefaults.put("TitlePane.maximizeIcon", new SeaGlassIcon(
+            "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"", "backgroundPainter", 19, 18));
+        uiDefaults.put("TitlePane.maximizeIconUnfocused", new SeaGlassIcon(
+            "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[Enabled+WindowNotFocused]",
+            "backgroundPainter", 19, 18));
+
+        // Set the minimize button
+        uiDefaults.put("TitlePane.minimizeIcon", new SeaGlassIcon(
+            "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[Enabled+WindowMaximized]",
+            "backgroundPainter", 19, 18));
+        uiDefaults
+            .put(
+                "TitlePane.minimizeIconUnfocused",
+                new SeaGlassIcon(
+                    "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[Enabled+WindowMaximized+WindowNotFocused]",
+                    "backgroundPainter", 19, 18));
     }
 
     private void killMouseOver(UIDefaults uiDefaults) {
