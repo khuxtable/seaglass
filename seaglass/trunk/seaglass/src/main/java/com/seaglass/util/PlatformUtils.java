@@ -23,6 +23,8 @@ package com.seaglass.util;
 
 public class PlatformUtils {
 
+    private static final String SEA_GLASS_OVERRIDE_OS_NAME = "SeaGlass.Override.os.name";
+
     private PlatformUtils() {
         // utility class - no constructor needed.
     }
@@ -51,6 +53,9 @@ public class PlatformUtils {
      * @return true if this JVM is running on a Mac.
      */
     public static boolean isMac() {
+        if (System.getProperty(SEA_GLASS_OVERRIDE_OS_NAME) != null) {
+            return System.getProperty(SEA_GLASS_OVERRIDE_OS_NAME).startsWith("Mac OS");
+        }
         return System.getProperty("os.name").startsWith("Mac OS");
     }
 
