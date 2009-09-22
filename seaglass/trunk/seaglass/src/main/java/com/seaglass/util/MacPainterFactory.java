@@ -17,7 +17,7 @@
  * License along with Aqvavit.  If not, see
  *     <http://www.gnu.org/licenses/>.
  * 
- * $Id: AqvavitLookAndFeel.java 80 2009-09-14 17:47:06Z kathryn@kathrynhuxtable.org $
+ * $Id$
  */
 package com.seaglass.util;
 
