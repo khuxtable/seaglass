@@ -51,7 +51,7 @@ public class PlatformUtils {
      * @return true if this JVM is running on a Mac.
      */
     public static boolean isMac() {
-        return false && System.getProperty("os.name").startsWith("Mac OS");
+        return System.getProperty("os.name").startsWith("Mac OS");
     }
 
     /**
