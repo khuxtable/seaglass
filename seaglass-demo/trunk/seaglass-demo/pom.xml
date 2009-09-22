@@ -6,6 +6,15 @@
 	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SeaGlass Demo</name>
+	<description>
+	   Demo to showcase features of the Swing UI toolkit using the Sea Glass look and feel.
+	   This is basically SwingSet3 from Sun with some slight changes to accomodate Sea Glass.
+	</description>
+	<url>http://code.google.com/p/seaglass</url>
+	<organization>
+	   <name>com.seaglass</name>
+	   <url>http://code.google.com/p/seaglass/</url>
+	</organization>
 	<build>
 		<plugins>
 			<plugin>
@@ -16,40 +25,18 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>appassembler-maven-plugin</artifactId>
-				<version>1.0</version>
-				<executions>
-					<execution>
-						<id>assemble</id>
-						<phase>package</phase>
-						<goals>
-							<goal>assemble</goal>
-						</goals>
-						<configuration>
-							<programs>
-								<program>
-									<mainClass>com.aqvavit.demo.DSeaGlassAll</mainClass>
-									<name>seaglass-demo</name>
-								</program>
-							</programs>
-							<generateRepository>false</generateRepository>
-							<repositoryLayout>flat</repositoryLayout>
-							<extraJvmArguments>-Djava.library.path=lib</extraJvmArguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.seaglass.demo.DSeaGlassAll</mainClass>
+							<mainClass>com.sun.swingset3.SwingSet3</mainClass>
 							<addClasspath>true</addClasspath>
 							<addExtensions />
 							<classpathPrefix>lib</classpathPrefix>
 						</manifest>
+						<manifestEntries>
+                            <SplashScreen-Image>com/sun/swingset3/resources/images/splash3.png</SplashScreen-Image>
+						</manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
@@ -69,8 +56,37 @@
 					<outputDirectory>${project.build.directory}/lib</outputDirectory>
 				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>org.codehaus.mojo.webstart</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                <executions>
+                    <execution>
+                        <id>package-webstart</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jnlp</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <jnlp>
+                        <outputFile>seaglass-demo-${version}.jnlp</outputFile>
+                        <spec>6.0+</spec>
+                        <j2seVersion>1.6+</j2seVersion>
+                        <mainClass>com.sun.swingset3.SwingSet3</mainClass>
+                    </jnlp>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
+	<repositories>
+    <repository>
+        <id>javanetRepository</id>
+        <name>Java.net repository</name>
+        <url>http://download.java.net/maven/2</url>
+    </repository>
+    </repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -78,6 +94,26 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>javax.jnlp</groupId>
+            <artifactId>jnlp-api</artifactId>
+            <version>1.5</version>
+        </dependency>
+		<dependency>
+		    <groupId>org.swinglabs</groupId>
+		    <artifactId>swingx</artifactId>
+		    <version>0.9.5-2</version>
+		</dependency>
+        <dependency>
+            <groupId>org.jdesktop</groupId>
+            <artifactId>swing-worker</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdesktop</groupId>
+            <artifactId>appframework</artifactId>
+            <version>1.0.3</version>
+        </dependency>
 		<dependency>
 			<groupId>jgoodies</groupId>
 			<artifactId>forms</artifactId>
@@ -87,6 +123,11 @@
 			<groupId>com.seaglass</groupId>
 			<artifactId>seaglass</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>net.java.dev.timingframework</groupId>
+			<artifactId>timingframework</artifactId>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 </project>
