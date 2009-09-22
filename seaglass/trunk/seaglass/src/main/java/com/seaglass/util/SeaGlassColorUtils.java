@@ -28,13 +28,9 @@ import java.awt.Color;
  * 
  * @author Ken Orr
  */
-public class MacColorUtils {
+public class SeaGlassColorUtils {
 
     public static Color EMPTY_COLOR = new Color(0, 0, 0, 0);
-
-    // Leopard colors. ////////////////////////////////////////////////////////////////////////////
-
-    public static Color LEOPARD_BORDER_COLOR = new Color(0x555555);
 
     // OS X unified toolbar colors. ///////////////////////////////////////////////////////////////
 

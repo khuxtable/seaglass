@@ -61,7 +61,7 @@ import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 
 import com.seaglass.painter.Painter;
-import com.seaglass.util.MacPainterFactory;
+import com.seaglass.painter.TitleBarPainter;
 import com.seaglass.util.PlatformUtils;
 import com.seaglass.util.SeaGlassUtils;
 import com.seaglass.util.WindowUtils;
@@ -323,7 +323,7 @@ public class SeaGlassTitlePane extends JComponent {
      * Determines the Colors to draw with.
      */
     private void determineColors() {
-        backgroundPainter = MacPainterFactory.createTitleBarPainter();
+        backgroundPainter = new TitleBarPainter();
 
         switch (getWindowDecorationStyle()) {
         case JRootPane.FRAME:
