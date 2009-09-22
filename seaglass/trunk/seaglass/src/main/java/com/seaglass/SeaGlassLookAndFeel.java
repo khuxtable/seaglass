@@ -156,18 +156,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             uiDefaults.put("InternalFrame:InternalFrameTitlePane.textForeground", new Color(0, 0, 0));
 
-            // This is temporary code to print crude title decorations.
-            final Object[] internalFrameIconArgs = new Object[1];
-            internalFrameIconArgs[0] = new Integer(16);
-            uiDefaults.put("InternalFrame.closeIcon", new UIDefaults.ProxyLazyValue("com.seaglass.util.TemporaryIconFactory",
-                "getInternalFrameCloseIcon", internalFrameIconArgs));
-            uiDefaults.put("InternalFrame.maximizeIcon", new UIDefaults.ProxyLazyValue("com.seaglass.util.TemporaryIconFactory",
-                "getInternalFrameMaximizeIcon", internalFrameIconArgs));
-            uiDefaults.put("InternalFrame.iconifyIcon", new UIDefaults.ProxyLazyValue("com.seaglass.util.TemporaryIconFactory",
-                "getInternalFrameMinimizeIcon", internalFrameIconArgs));
-            uiDefaults.put("InternalFrame.minimizeIcon", new UIDefaults.ProxyLazyValue("com.seaglass.util.TemporaryIconFactory",
-                "getInternalFrameAltMaximizeIcon", internalFrameIconArgs));
-
             if (!PlatformUtils.isMac()) {
                 // If we're not on a Mac, draw our own title bar.
                 JFrame.setDefaultLookAndFeelDecorated(true);
