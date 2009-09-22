@@ -99,10 +99,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             uiDefaults.put("nimbusBase", new ColorUIResource(61, 95, 140));
             uiDefaults.put("control", new ColorUIResource(220, 233, 239));
             uiDefaults.put("scrollbar", new ColorUIResource(255, 255, 255));
-            // 113, 193, 242
             uiDefaults.put("nimbusBlueGrey", new ColorUIResource(170, 178, 194));
             uiDefaults.put("nimbusSelectionBackground", new ColorUIResource(82, 127, 187));
             uiDefaults.put("nimbusSelection", new ColorUIResource(113, 193, 242));
+            uiDefaults.put("nimbusOrange", new ColorUIResource(246, 188, 96));
+            uiDefaults.put("nimbusGreen", new ColorUIResource(144, 203, 96));
+            uiDefaults.put("nimbusRed", new ColorUIResource(236, 67, 60));
 
             uiDefaults.put("Table.background", new ColorUIResource(255, 255, 255));
             uiDefaults.put("Table.alternateRowColor", new Color(220, 233, 239));
