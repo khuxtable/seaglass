@@ -17,7 +17,7 @@
  * License along with Aqvavit.  If not, see
  *     <http://www.gnu.org/licenses/>.
  * 
- * $Id: AqvavitLookAndFeel.java 36 2009-09-11 08:00:55Z kathryn@kathrynhuxtable.org $
+ * $Id$
  */
 package com.seaglass.util;
 
@@ -51,7 +51,7 @@ public class PlatformUtils {
      * @return true if this JVM is running on a Mac.
      */
     public static boolean isMac() {
-        return System.getProperty("os.name").startsWith("Mac OS");
+        return false && System.getProperty("os.name").startsWith("Mac OS");
     }
 
     /**

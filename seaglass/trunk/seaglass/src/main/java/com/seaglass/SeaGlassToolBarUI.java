@@ -17,7 +17,7 @@
  * License along with Aqvavit.  If not, see
  *     <http://www.gnu.org/licenses/>.
  * 
- * $Id: AqvavitToolBarUI.java 84 2009-09-15 08:58:59Z kathryn@kathrynhuxtable.org $
+ * $Id$
  */
 package com.seaglass;
 

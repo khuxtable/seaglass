@@ -17,7 +17,7 @@
  * License along with Aqvavit.  If not, see
  *     <http://www.gnu.org/licenses/>.
  * 
- * $Id: AqvavitUtils.java 69 2009-09-14 14:49:07Z kathryn@kathrynhuxtable.org $
+ * $Id$
  */
 package com.seaglass.util;
 

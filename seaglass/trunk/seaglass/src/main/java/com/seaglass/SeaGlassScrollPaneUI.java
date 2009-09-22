@@ -17,7 +17,7 @@
  * License along with Aqvavit.  If not, see
  *     <http://www.gnu.org/licenses/>.
  * 
- * $Id: AqvavitScrollPaneUI.java 11 2009-09-10 03:14:06Z kathryn@kathrynhuxtable.org $
+ * $Id$
  */
 package com.seaglass;
 
