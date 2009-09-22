@@ -19,7 +19,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.util;
 
 import javax.swing.plaf.synth.SynthGraphicsUtils;
 

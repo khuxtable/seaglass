@@ -49,7 +49,6 @@ import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicToolBarUI;
 
 import com.seaglass.painter.Painter;
-import com.seaglass.util.SeaGlassUtils;
 import com.seaglass.util.WindowUtils;
 
 /**
@@ -309,7 +308,7 @@ public class SeaGlassToolBarUI extends BasicToolBarUI {
             Rectangle bumpRect = new Rectangle();
 
             if (toolBar.getOrientation() == JToolBar.HORIZONTAL) {
-                int x = SeaGlassUtils.isLeftToRight(toolBar) ? 0 : toolBar.getSize().width - 14;
+                int x = SeaGlassLookAndFeel.isLeftToRight(toolBar) ? 0 : toolBar.getSize().width - 14;
                 bumpRect.setBounds(x, 0, 14, toolBar.getSize().height);
             } else { // vertical
                 bumpRect.setBounds(0, 0, toolBar.getSize().width, 14);
@@ -317,7 +316,7 @@ public class SeaGlassToolBarUI extends BasicToolBarUI {
             if (bumpRect.contains(e.getPoint())) {
                 pressedInBumps = true;
                 Point dragOffset = e.getPoint();
-                if (!SeaGlassUtils.isLeftToRight(toolBar)) {
+                if (!SeaGlassLookAndFeel.isLeftToRight(toolBar)) {
                     dragOffset.x -= (toolBar.getSize().width - toolBar.getPreferredSize().width);
                 }
                 setDragOffset(dragOffset);

@@ -28,6 +28,7 @@ import static java.awt.BorderLayout.WEST;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -51,7 +52,7 @@ import com.seaglass.painter.AbstractRegionPainter;
 import com.seaglass.painter.ScrollBarScrollBarButtonPainter;
 import com.seaglass.painter.ScrollBarScrollBarThumbPainter;
 import com.seaglass.painter.TitlePaneCloseButtonPainter;
-import com.seaglass.util.MacPainterFactory;
+import com.seaglass.painter.ToolBarPainter;
 import com.seaglass.util.PlatformUtils;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 import com.sun.java.swing.plaf.nimbus.NimbusStyle;
@@ -61,11 +62,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private UIDefaults        uiDefaults = null;
 
     private SynthStyleFactory nimbusFactory;
-
-    // Install into the UI.
-    static {
-        UIManager.installLookAndFeel("SeaGlass", "com.seaglass.SeaGlassLookAndFeel");
-    }
 
     /**
      * {@inheritDoc}
@@ -91,21 +87,28 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         if (uiDefaults == null) {
             uiDefaults = super.getDefaults();
 
+            // Set the default font to Lucida Grande if available, else use
+            // Lucida Sans Unicode. Grande is a later font and a bit nicer
+            // looking, but it is a derivation of Sans Unicode, so they're
+            // compatible.
             Font font = new Font("Lucida Grande", Font.PLAIN, 13);
             if (font == null) {
                 font = new Font("Lucida Sans Unicode", Font.PLAIN, 13);
             }
-
             uiDefaults.put("defaultFont", font);
 
+            // Set the package name.
             String packageName = "com.seaglass.SeaGlass";
+            
+            // Override the root pane and scroll pane behavior.
             uiDefaults.put("RootPaneUI", packageName + "RootPaneUI");
-            uiDefaults.put("ScrollPaneUI", "com.seaglass.SeaGlassScrollPaneUI");
+            uiDefaults.put("ScrollPaneUI", packageName + "ScrollPaneUI");
 
+            // Set base colors.
             uiDefaults.put("seaglassBase", new ColorUIResource(20, 40, 110));
             uiDefaults.put("nimbusBase", new ColorUIResource(61, 95, 140));
             // Original control: 220, 233, 239
-            uiDefaults.put("control", new ColorUIResource(227, 231, 232));
+            uiDefaults.put("control", new ColorUIResource(231, 239, 243));
             uiDefaults.put("scrollbar", new ColorUIResource(255, 255, 255));
             // Original blue grey: 170, 178, 194
             uiDefaults.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228));
@@ -116,41 +119,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             uiDefaults.put("nimbusGreen", new ColorUIResource(144, 203, 96));
             uiDefaults.put("nimbusRed", new ColorUIResource(236, 67, 60));
 
-            uiDefaults.put("Table.background", new ColorUIResource(255, 255, 255));
-            uiDefaults.put("Table.alternateRowColor", new Color(220, 233, 239));
+            initTables();
 
-            uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Enabled].foregroundPainter", new LazyPainter(
-                "com.seaglass.painter.ScrollBarScrollBarButtonPainter",
-                ScrollBarScrollBarButtonPainter.FOREGROUND_ENABLED, new Insets(1, 1, 1, 1), new Dimension(25, 15), false,
-                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-            uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Disabled].foregroundPainter", new LazyPainter(
-                "com.seaglass.painter.ScrollBarScrollBarButtonPainter",
-                ScrollBarScrollBarButtonPainter.FOREGROUND_DISABLED, new Insets(1, 1, 1, 1), new Dimension(25, 15), false,
-                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-            uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Pressed].foregroundPainter", new LazyPainter(
-                "com.seaglass.painter.ScrollBarScrollBarButtonPainter",
-                ScrollBarScrollBarButtonPainter.FOREGROUND_PRESSED, new Insets(1, 1, 1, 1), new Dimension(25, 15), false,
-                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            initScrollBars();
 
-            uiDefaults.put("ScrollBar:ScrollBarThumb[Enabled].backgroundPainter", new ScrollBarScrollBarThumbPainter(
-                new AbstractRegionPainter.PaintContext(new Insets(0, 15, 0, 15), new Dimension(38, 15), false,
-                    AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0),
-                ScrollBarScrollBarThumbPainter.BACKGROUND_ENABLED));
-            uiDefaults.put("ScrollBar:ScrollBarThumb[Pressed].backgroundPainter", new ScrollBarScrollBarThumbPainter(
-                new AbstractRegionPainter.PaintContext(new Insets(0, 15, 0, 15), new Dimension(38, 15), false,
-                    AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0),
-                ScrollBarScrollBarThumbPainter.BACKGROUND_PRESSED));
-
-            killMouseOver(uiDefaults);
+            eliminateMouseOverBehavior(uiDefaults);
 
             if (!PlatformUtils.isMac()) {
-                setTitlePaneButtons();
+                initTitlePaneButtons();
             }
 
             if (PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
                 uiDefaults.put("ToolBarUI", packageName + "ToolBarUI");
-                Object toolBarGradient = MacPainterFactory.createTexturedWindowWorkaroundPainter();
-                uiDefaults.put("ToolBar.gradient", toolBarGradient);
+                uiDefaults.put("ToolBar.gradient", new ToolBarPainter());
             }
 
             uiDefaults.put("InternalFrame:InternalFrameTitlePane.textForeground", new Color(0, 0, 0));
@@ -223,9 +204,42 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
+     * 
+     */
+    private void initTables() {
+        uiDefaults.put("Table.background", new ColorUIResource(255, 255, 255));
+        uiDefaults.put("Table.alternateRowColor", new Color(220, 233, 239));
+    }
+
+    /**
+     * 
+     */
+    private void initScrollBars() {
+        uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Enabled].foregroundPainter", new LazyPainter(
+            "com.seaglass.painter.ScrollBarScrollBarButtonPainter", ScrollBarScrollBarButtonPainter.FOREGROUND_ENABLED, new Insets(
+                1, 1, 1, 1), new Dimension(25, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Disabled].foregroundPainter", new LazyPainter(
+            "com.seaglass.painter.ScrollBarScrollBarButtonPainter", ScrollBarScrollBarButtonPainter.FOREGROUND_DISABLED,
+            new Insets(1, 1, 1, 1), new Dimension(25, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0,
+            1.0));
+        uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Pressed].foregroundPainter", new LazyPainter(
+            "com.seaglass.painter.ScrollBarScrollBarButtonPainter", ScrollBarScrollBarButtonPainter.FOREGROUND_PRESSED, new Insets(
+                1, 1, 1, 1), new Dimension(25, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+
+        uiDefaults.put("ScrollBar:ScrollBarThumb[Enabled].backgroundPainter", new ScrollBarScrollBarThumbPainter(
+            new AbstractRegionPainter.PaintContext(new Insets(0, 15, 0, 15), new Dimension(38, 15), false,
+                AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0),
+            ScrollBarScrollBarThumbPainter.BACKGROUND_ENABLED));
+        uiDefaults.put("ScrollBar:ScrollBarThumb[Pressed].backgroundPainter", new ScrollBarScrollBarThumbPainter(
+            new AbstractRegionPainter.PaintContext(new Insets(0, 15, 0, 15), new Dimension(38, 15), false,
+                AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0),
+            ScrollBarScrollBarThumbPainter.BACKGROUND_PRESSED));
+    }
+
+    /**
      * Set the icons to paint the title pane decorations.
      */
-    private void setTitlePaneButtons() {
+    private void initTitlePaneButtons() {
         // Set the multiplicity of states for the Close button.
         uiDefaults.put("TitlePane:seaglassCloseButton.backgroundPainter", new TitlePaneCloseButtonPainter(
             new AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0), new Dimension(19, 18), false,
@@ -277,7 +291,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                     "backgroundPainter", 19, 18));
     }
 
-    private void killMouseOver(UIDefaults uiDefaults) {
+    private void eliminateMouseOverBehavior(UIDefaults uiDefaults) {
         // Kill MouseOver on Button.
         uiDefaults.put("Button[Default+MouseOver].backgroundPainter", null);
         uiDefaults.put("Button[Default+Focused+MouseOver].backgroundPainter", null);
@@ -476,6 +490,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         return true;
     }
 
+    /*
+     * Convenience function for determining ComponentOrientation. Helps us avoid
+     * having Munge directives throughout the code.
+     */
+    public static boolean isLeftToRight(Component c) {
+        return c.getComponentOrientation().isLeftToRight();
+    }
+
     /**
      * Package private method which returns either BorderLayout.NORTH,
      * BorderLayout.SOUTH, BorderLayout.EAST, or BorderLayout.WEST depending on
@@ -524,36 +546,29 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * proper class and invoke its constructor.
      */
     private static final class LazyPainter implements UIDefaults.LazyValue {
-        private int which;
+        private int                                which;
         private AbstractRegionPainter.PaintContext ctx;
-        private String className;
+        private String                             className;
 
-        LazyPainter(String className, int which, Insets insets,
-                    Dimension canvasSize, boolean inverted) {
+        LazyPainter(String className, int which, Insets insets, Dimension canvasSize, boolean inverted) {
             if (className == null) {
-                throw new IllegalArgumentException(
-                        "The className must be specified");
+                throw new IllegalArgumentException("The className must be specified");
             }
 
             this.className = className;
             this.which = which;
-            this.ctx = new AbstractRegionPainter.PaintContext(
-                insets, canvasSize, inverted);
+            this.ctx = new AbstractRegionPainter.PaintContext(insets, canvasSize, inverted);
         }
 
-        LazyPainter(String className, int which, Insets insets,
-                    Dimension canvasSize, boolean inverted,
-                    AbstractRegionPainter.PaintContext.CacheMode cacheMode,
-                    double maxH, double maxV) {
+        LazyPainter(String className, int which, Insets insets, Dimension canvasSize, boolean inverted,
+            AbstractRegionPainter.PaintContext.CacheMode cacheMode, double maxH, double maxV) {
             if (className == null) {
-                throw new IllegalArgumentException(
-                        "The className must be specified");
+                throw new IllegalArgumentException("The className must be specified");
             }
 
             this.className = className;
             this.which = which;
-            this.ctx = new AbstractRegionPainter.PaintContext(
-                    insets, canvasSize, inverted, cacheMode, maxH, maxV);
+            this.ctx = new AbstractRegionPainter.PaintContext(insets, canvasSize, inverted, cacheMode, maxH, maxV);
         }
 
         @SuppressWarnings("unchecked")
@@ -563,23 +578,18 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 Class c;
                 Object cl;
                 // See if we should use a separate ClassLoader
-                if (table == null || !((cl = table.get("ClassLoader"))
-                                       instanceof ClassLoader)) {
-                    cl = Thread.currentThread().
-                                getContextClassLoader();
+                if (table == null || !((cl = table.get("ClassLoader")) instanceof ClassLoader)) {
+                    cl = Thread.currentThread().getContextClassLoader();
                     if (cl == null) {
                         // Fallback to the system class loader.
                         cl = ClassLoader.getSystemClassLoader();
                     }
                 }
 
-                c = Class.forName(className, true, (ClassLoader)cl);
-                Constructor constructor = c.getConstructor(
-                        AbstractRegionPainter.PaintContext.class, int.class);
+                c = Class.forName(className, true, (ClassLoader) cl);
+                Constructor constructor = c.getConstructor(AbstractRegionPainter.PaintContext.class, int.class);
                 if (constructor == null) {
-                    throw new NullPointerException(
-                            "Failed to find the constructor for the class: " +
-                            className);
+                    throw new NullPointerException("Failed to find the constructor for the class: " + className);
                 }
                 return constructor.newInstance(ctx, which);
             } catch (Exception e) {
