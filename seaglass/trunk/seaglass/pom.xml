@@ -4,7 +4,7 @@
 	<groupId>com.seaglass</groupId>
 	<artifactId>seaglass</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>seaglass</name>
 	<url>http://maven.apache.org</url>
 	<build>
