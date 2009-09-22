@@ -33,6 +33,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.lang.reflect.Constructor;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -47,6 +48,7 @@ import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.plaf.synth.SynthStyleFactory;
 
 import com.seaglass.painter.AbstractRegionPainter;
+import com.seaglass.painter.ScrollBarScrollBarButtonPainter;
 import com.seaglass.painter.ScrollBarScrollBarThumbPainter;
 import com.seaglass.painter.SeaGlassIcon;
 import com.seaglass.painter.TitlePaneCloseButtonPainter;
@@ -103,13 +105,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             uiDefaults.put("seaglassBase", new ColorUIResource(20, 40, 110));
             uiDefaults.put("nimbusBase", new ColorUIResource(61, 95, 140));
-            uiDefaults.put("control", new ColorUIResource(227, 231, 232)); // 220,
-            // 233,
-            // 239
+            // Original control: 220, 233, 239
+            uiDefaults.put("control", new ColorUIResource(227, 231, 232));
             uiDefaults.put("scrollbar", new ColorUIResource(255, 255, 255));
-            uiDefaults.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228)); // 170,
-            // 178,
-            // 194
+            // Original blue grey: 170, 178, 194
+            uiDefaults.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228));
+            uiDefaults.put("seaglassScrollBarBase", new ColorUIResource(176, 180, 188));
             uiDefaults.put("nimbusSelectionBackground", new ColorUIResource(82, 127, 187));
             uiDefaults.put("nimbusSelection", new ColorUIResource(113, 193, 242));
             uiDefaults.put("nimbusOrange", new ColorUIResource(246, 188, 96));
@@ -118,6 +119,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             uiDefaults.put("Table.background", new ColorUIResource(255, 255, 255));
             uiDefaults.put("Table.alternateRowColor", new Color(220, 233, 239));
+
+            uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Enabled].foregroundPainter", new LazyPainter(
+                "com.seaglass.painter.ScrollBarScrollBarButtonPainter",
+                ScrollBarScrollBarButtonPainter.FOREGROUND_ENABLED, new Insets(1, 1, 1, 1), new Dimension(25, 15), false,
+                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Disabled].foregroundPainter", new LazyPainter(
+                "com.seaglass.painter.ScrollBarScrollBarButtonPainter",
+                ScrollBarScrollBarButtonPainter.FOREGROUND_DISABLED, new Insets(1, 1, 1, 1), new Dimension(25, 15), false,
+                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Pressed].foregroundPainter", new LazyPainter(
+                "com.seaglass.painter.ScrollBarScrollBarButtonPainter",
+                ScrollBarScrollBarButtonPainter.FOREGROUND_PRESSED, new Insets(1, 1, 1, 1), new Dimension(25, 15), false,
+                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
 
             uiDefaults.put("ScrollBar:ScrollBarThumb[Enabled].backgroundPainter", new ScrollBarScrollBarThumbPainter(
                 new AbstractRegionPainter.PaintContext(new Insets(0, 15, 0, 15), new Dimension(38, 15), false,
@@ -511,5 +525,80 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             }
         }
         return NORTH;
+    }
+
+    /**
+     * This class is private because it relies on the constructor of the
+     * auto-generated AbstractRegionPainter subclasses. Hence, it is not
+     * generally useful, and is private.
+     * <p/>
+     * LazyPainter is a LazyValue class. It will create the
+     * AbstractRegionPainter lazily, when asked. It uses reflection to load the
+     * proper class and invoke its constructor.
+     */
+    private static final class LazyPainter implements UIDefaults.LazyValue {
+        private int which;
+        private AbstractRegionPainter.PaintContext ctx;
+        private String className;
+
+        LazyPainter(String className, int which, Insets insets,
+                    Dimension canvasSize, boolean inverted) {
+            if (className == null) {
+                throw new IllegalArgumentException(
+                        "The className must be specified");
+            }
+
+            this.className = className;
+            this.which = which;
+            this.ctx = new AbstractRegionPainter.PaintContext(
+                insets, canvasSize, inverted);
+        }
+
+        LazyPainter(String className, int which, Insets insets,
+                    Dimension canvasSize, boolean inverted,
+                    AbstractRegionPainter.PaintContext.CacheMode cacheMode,
+                    double maxH, double maxV) {
+            if (className == null) {
+                throw new IllegalArgumentException(
+                        "The className must be specified");
+            }
+
+            this.className = className;
+            this.which = which;
+            this.ctx = new AbstractRegionPainter.PaintContext(
+                    insets, canvasSize, inverted, cacheMode, maxH, maxV);
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public Object createValue(UIDefaults table) {
+            try {
+                Class c;
+                Object cl;
+                // See if we should use a separate ClassLoader
+                if (table == null || !((cl = table.get("ClassLoader"))
+                                       instanceof ClassLoader)) {
+                    cl = Thread.currentThread().
+                                getContextClassLoader();
+                    if (cl == null) {
+                        // Fallback to the system class loader.
+                        cl = ClassLoader.getSystemClassLoader();
+                    }
+                }
+
+                c = Class.forName(className, true, (ClassLoader)cl);
+                Constructor constructor = c.getConstructor(
+                        AbstractRegionPainter.PaintContext.class, int.class);
+                if (constructor == null) {
+                    throw new NullPointerException(
+                            "Failed to find the constructor for the class: " +
+                            className);
+                }
+                return constructor.newInstance(ctx, which);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
     }
 }
