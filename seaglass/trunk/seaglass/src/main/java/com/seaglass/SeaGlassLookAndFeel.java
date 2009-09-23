@@ -80,6 +80,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void uninitialize() {
+        JFrame.setDefaultLookAndFeelDecorated(false);
+        super.uninitialize();
+    }
+
+    /**
      * @inheritDoc
      */
     @Override
@@ -99,7 +108,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             // Set the package name.
             String packageName = "com.seaglass.SeaGlass";
-            
+
             // Override the root pane and scroll pane behavior.
             uiDefaults.put("RootPaneUI", packageName + "RootPaneUI");
             uiDefaults.put("ScrollPaneUI", packageName + "ScrollPaneUI");
