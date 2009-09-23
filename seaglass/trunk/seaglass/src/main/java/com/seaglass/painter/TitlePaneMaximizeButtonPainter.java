@@ -632,7 +632,7 @@ public final class TitlePaneMaximizeButtonPainter extends AbstractRegionPainter 
                                decodeY(1.0f), //y
                                decodeX(2.0f) - decodeX(1.0f), //width
                                decodeY(1.9444444f) - decodeY(1.0f), //height
-                               8.6f, 8.6f); //rounding
+                               0.25f, 0.25f); //rounding
         return roundRect;
     }
 
@@ -641,7 +641,7 @@ public final class TitlePaneMaximizeButtonPainter extends AbstractRegionPainter 
                                decodeY(1.0555556f), //y
                                decodeX(1.9473684f) - decodeX(1.0526316f), //width
                                decodeY(1.8888888f) - decodeY(1.0555556f), //height
-                               6.75f, 6.75f); //rounding
+                               0.25f, 0.25f); //rounding
         return roundRect;
     }
 
@@ -748,7 +748,7 @@ public final class TitlePaneMaximizeButtonPainter extends AbstractRegionPainter 
                                decodeY(1.6111112f), //y
                                decodeX(2.0f) - decodeX(1.0f), //width
                                decodeY(2.0f) - decodeY(1.6111112f), //height
-                               6.0f, 6.0f); //rounding
+                               0.4f, 0.4f); //rounding
         return roundRect;
     }
 
