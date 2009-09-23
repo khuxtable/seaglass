@@ -53,9 +53,9 @@ import com.seaglass.painter.AbstractRegionPainter;
 import com.seaglass.painter.ButtonPainter;
 import com.seaglass.painter.CheckBoxPainter;
 import com.seaglass.painter.RadioButtonPainter;
-import com.seaglass.painter.ScrollBarScrollBarButtonPainter;
-import com.seaglass.painter.ScrollBarScrollBarThumbPainter;
-import com.seaglass.painter.ScrollBarScrollBarTrackPainter;
+import com.seaglass.painter.ScrollBarButtonPainter;
+import com.seaglass.painter.ScrollBarThumbPainter;
+import com.seaglass.painter.ScrollBarTrackPainter;
 import com.seaglass.painter.TitlePaneCloseButtonPainter;
 import com.seaglass.painter.ToolBarPainter;
 import com.seaglass.util.PlatformUtils;
@@ -417,31 +417,31 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void initScrollBars() {
         uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Enabled].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ScrollBarScrollBarButtonPainter", ScrollBarScrollBarButtonPainter.FOREGROUND_ENABLED, new Insets(
+            "com.seaglass.painter.ScrollBarButtonPainter", ScrollBarButtonPainter.FOREGROUND_ENABLED, new Insets(
                 1, 1, 1, 1), new Dimension(25, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Disabled].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ScrollBarScrollBarButtonPainter", ScrollBarScrollBarButtonPainter.FOREGROUND_DISABLED,
+            "com.seaglass.painter.ScrollBarButtonPainter", ScrollBarButtonPainter.FOREGROUND_DISABLED,
             new Insets(1, 1, 1, 1), new Dimension(25, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0,
             1.0));
         uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Pressed].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ScrollBarScrollBarButtonPainter", ScrollBarScrollBarButtonPainter.FOREGROUND_PRESSED, new Insets(
+            "com.seaglass.painter.ScrollBarButtonPainter", ScrollBarButtonPainter.FOREGROUND_PRESSED, new Insets(
                 1, 1, 1, 1), new Dimension(25, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
 
-        uiDefaults.put("ScrollBar:ScrollBarThumb[Enabled].backgroundPainter", new ScrollBarScrollBarThumbPainter(
+        uiDefaults.put("ScrollBar:ScrollBarThumb[Enabled].backgroundPainter", new ScrollBarThumbPainter(
             new AbstractRegionPainter.PaintContext(new Insets(0, 15, 0, 15), new Dimension(38, 15), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0),
-            ScrollBarScrollBarThumbPainter.BACKGROUND_ENABLED));
-        uiDefaults.put("ScrollBar:ScrollBarThumb[Pressed].backgroundPainter", new ScrollBarScrollBarThumbPainter(
+            ScrollBarThumbPainter.BACKGROUND_ENABLED));
+        uiDefaults.put("ScrollBar:ScrollBarThumb[Pressed].backgroundPainter", new ScrollBarThumbPainter(
             new AbstractRegionPainter.PaintContext(new Insets(0, 15, 0, 15), new Dimension(38, 15), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0),
-            ScrollBarScrollBarThumbPainter.BACKGROUND_PRESSED));
+            ScrollBarThumbPainter.BACKGROUND_PRESSED));
 
         uiDefaults.put("ScrollBar:ScrollBarTrack[Disabled].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.ScrollBarScrollBarTrackPainter", ScrollBarScrollBarTrackPainter.BACKGROUND_DISABLED,
+            "com.seaglass.painter.ScrollBarTrackPainter", ScrollBarTrackPainter.BACKGROUND_DISABLED,
             new Insets(5, 5, 5, 5), new Dimension(18, 15), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 2.0));
         uiDefaults.put("ScrollBar:ScrollBarTrack[Enabled].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.ScrollBarScrollBarTrackPainter", ScrollBarScrollBarTrackPainter.BACKGROUND_ENABLED,
+            "com.seaglass.painter.ScrollBarTrackPainter", ScrollBarTrackPainter.BACKGROUND_ENABLED,
             new Insets(5, 10, 5, 9), new Dimension(34, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0,
             1.0));
     }
