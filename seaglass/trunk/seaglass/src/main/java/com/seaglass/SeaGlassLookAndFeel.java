@@ -49,6 +49,7 @@ import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.plaf.synth.SynthStyleFactory;
 
 import com.seaglass.painter.AbstractRegionPainter;
+import com.seaglass.painter.ButtonPainter;
 import com.seaglass.painter.ScrollBarScrollBarButtonPainter;
 import com.seaglass.painter.ScrollBarScrollBarThumbPainter;
 import com.seaglass.painter.TitlePaneCloseButtonPainter;
@@ -59,9 +60,12 @@ import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 
 public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
-    private UIDefaults        uiDefaults = null;
+    // Set the package name.
+    private static final String PACKAGE_PREFIX = "com.seaglass.SeaGlass";
 
-    private SynthStyleFactory nimbusFactory;
+    private UIDefaults          uiDefaults     = null;
+
+    private SynthStyleFactory   nimbusFactory;
 
     /**
      * {@inheritDoc}
@@ -96,37 +100,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         if (uiDefaults == null) {
             uiDefaults = super.getDefaults();
 
-            // Set the default font to Lucida Grande if available, else use
-            // Lucida Sans Unicode. Grande is a later font and a bit nicer
-            // looking, but it is a derivation of Sans Unicode, so they're
-            // compatible.
-            Font font = new Font("Lucida Grande", Font.PLAIN, 13);
-            if (font == null) {
-                font = new Font("Lucida Sans Unicode", Font.PLAIN, 13);
-            }
-            uiDefaults.put("defaultFont", font);
-
-            // Set the package name.
-            String packageName = "com.seaglass.SeaGlass";
+            // Set the default font.
+            initDefaultFont();
 
             // Override the root pane and scroll pane behavior.
-            uiDefaults.put("RootPaneUI", packageName + "RootPaneUI");
-            uiDefaults.put("ScrollPaneUI", packageName + "ScrollPaneUI");
+            uiDefaults.put("RootPaneUI", PACKAGE_PREFIX + "RootPaneUI");
+            uiDefaults.put("ScrollPaneUI", PACKAGE_PREFIX + "ScrollPaneUI");
 
             // Set base colors.
-            uiDefaults.put("seaglassBase", new ColorUIResource(20, 40, 110));
-            uiDefaults.put("nimbusBase", new ColorUIResource(61, 95, 140));
-            // Original control: 220, 233, 239
-            uiDefaults.put("control", new ColorUIResource(231, 239, 243));
-            uiDefaults.put("scrollbar", new ColorUIResource(255, 255, 255));
-            // Original blue grey: 170, 178, 194
-            uiDefaults.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228));
-            uiDefaults.put("seaglassScrollBarBase", new ColorUIResource(176, 180, 188));
-            uiDefaults.put("nimbusSelectionBackground", new ColorUIResource(82, 127, 187));
-            uiDefaults.put("nimbusSelection", new ColorUIResource(113, 193, 242));
-            uiDefaults.put("nimbusOrange", new ColorUIResource(246, 188, 96));
-            uiDefaults.put("nimbusGreen", new ColorUIResource(144, 203, 96));
-            uiDefaults.put("nimbusRed", new ColorUIResource(236, 67, 60));
+            initializeBaseColors();
+
+            initButtons();
 
             initTables();
 
@@ -139,7 +123,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             }
 
             if (PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
-                uiDefaults.put("ToolBarUI", packageName + "ToolBarUI");
+                uiDefaults.put("ToolBarUI", PACKAGE_PREFIX + "ToolBarUI");
                 uiDefaults.put("ToolBar.gradient", new ToolBarPainter());
             }
 
@@ -153,67 +137,174 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 System.setProperty("apple.laf.useScreenMenuBar", "true");
 
                 // If we're on a Mac, use Aqua for some things.
-                try {
-                    // Instantiate Aqua but don't install it.
-                    Class<?> lnfClass = Class.forName(UIManager.getSystemLookAndFeelClassName(), true, Thread.currentThread()
-                        .getContextClassLoader());
-                    LookAndFeel aqua = (LookAndFeel) lnfClass.newInstance();
-                    UIDefaults aquaDefaults = aqua.getDefaults();
-
-                    // Use Mac key bindings. Nimbus uses Windows keybindings on
-                    // Windows and GTK on anything else. We should use Aqua's
-                    // bindings on Mac.
-                    uiDefaults.put("ComboBox.ancestorInputMap", aquaDefaults.get("ComboBox.ancestorInputMap"));
-                    uiDefaults.put("ComboBox.editorInputMap", aquaDefaults.get("ComboBox.editorInputMap"));
-                    uiDefaults.put("FormattedTextField.focusInputMap", aquaDefaults.get("FormattedTextField.focusInputMap"));
-                    uiDefaults.put("PasswordField.focusInputMap", aquaDefaults.get("PasswordField.focusInputMap"));
-                    uiDefaults.put("Spinner.ancestorInputMap", aquaDefaults.get("Spinner.ancestorInputMap"));
-                    uiDefaults.put("Spinner.focusInputMap", aquaDefaults.get("Spinner.focusInputMap"));
-                    uiDefaults.put("TabbedPane.focusInputMap", aquaDefaults.get("TabbedPane.focusInputMap"));
-                    uiDefaults.put("TabbedPane.ancestorInputMap", aquaDefaults.get("TabbedPane.ancestorInputMap"));
-                    uiDefaults.put("TabbedPane.wrap.focusInputMap", aquaDefaults.get("TabbedPane.wrap.focusInputMap"));
-                    uiDefaults.put("TabbedPane.wrap.ancestorInputMap", aquaDefaults.get("TabbedPane.wrap.ancestorInputMap"));
-                    uiDefaults.put("TabbedPane.scroll.focusInputMap", aquaDefaults.get("TabbedPane.scroll.focusInputMap"));
-                    uiDefaults.put("TabbedPane.scroll.ancestorInputMap", aquaDefaults.get("TabbedPane.scroll.ancestorInputMap"));
-                    uiDefaults.put("TextArea.focusInputMap", aquaDefaults.get("TextArea.focusInputMap"));
-                    uiDefaults.put("TextField.focusInputMap", aquaDefaults.get("TextField.focusInputMap"));
-                    uiDefaults.put("TextPane.focusInputMap", aquaDefaults.get("TextPane.focusInputMap"));
-
-                    // Use Aqua for any menu UI classes.
-
-                    uiDefaults.put("MenuBarUI", aquaDefaults.get("MenuBarUI"));
-                    uiDefaults.put("MenuUI", aquaDefaults.get("MenuUI"));
-                    uiDefaults.put("MenuItemUI", aquaDefaults.get("MenuItemUI"));
-                    uiDefaults.put("CheckBoxMenuItemUI", aquaDefaults.get("CheckBoxMenuItemUI"));
-                    uiDefaults.put("RadioButtonMenuItemUI", aquaDefaults.get("RadioButtonMenuItemUI"));
-                    uiDefaults.put("PopupMenuUI", aquaDefaults.get("PopupMenuUI"));
-
-                    // If the Mac paint doesn't exist, use Aqua to paint a
-                    // unified toolbar.
-                    if (!PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
-                        uiDefaults.put("ToolBarUI", aquaDefaults.get("ToolBarUI"));
-                        uiDefaults.put("ToolBar.border", aquaDefaults.get("ToolBar.border"));
-                        uiDefaults.put("ToolBar.background", aquaDefaults.get("ToolBar.background"));
-                        uiDefaults.put("ToolBar.foreground", aquaDefaults.get("ToolBar.foreground"));
-                        uiDefaults.put("ToolBar.font", aquaDefaults.get("ToolBar.font"));
-                        uiDefaults.put("ToolBar.dockingBackground", aquaDefaults.get("ToolBar.dockingBackground"));
-                        uiDefaults.put("ToolBar.floatingBackground", aquaDefaults.get("ToolBar.floatingBackground"));
-                        uiDefaults.put("ToolBar.dockingForeground", aquaDefaults.get("ToolBar.dockingForeground"));
-                        uiDefaults.put("ToolBar.floatingForeground", aquaDefaults.get("ToolBar.floatingForeground"));
-                        uiDefaults.put("ToolBar.rolloverBorder", aquaDefaults.get("ToolBar.rolloverBorder"));
-                        uiDefaults.put("ToolBar.nonrolloverBorder", aquaDefaults.get("ToolBar.nonrolloverBorder"));
-                    }
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                initAquaSettings();
             }
         }
         return uiDefaults;
     }
 
     /**
-     * 
+     * Initialize the default font.
+     */
+    private void initDefaultFont() {
+        // Set the default font to Lucida Grande if available, else use
+        // Lucida Sans Unicode. Grande is a later font and a bit nicer
+        // looking, but it is a derivation of Sans Unicode, so they're
+        // compatible.
+        Font font = new Font("Lucida Grande", Font.PLAIN, 13);
+        if (font == null) {
+            font = new Font("Lucida Sans Unicode", Font.PLAIN, 13);
+        }
+        uiDefaults.put("defaultFont", font);
+    }
+
+    /**
+     * Initialize the base colors.
+     */
+    private void initializeBaseColors() {
+        uiDefaults.put("seaglassBase", new ColorUIResource(20, 40, 110));
+        uiDefaults.put("nimbusBase", new ColorUIResource(61, 95, 140));
+        // Original control: 220, 233, 239
+        uiDefaults.put("control", new ColorUIResource(231, 239, 243));
+        uiDefaults.put("scrollbar", new ColorUIResource(255, 255, 255));
+        // Original blue grey: 170, 178, 194
+        uiDefaults.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228));
+        uiDefaults.put("seaglassScrollBarBase", new ColorUIResource(176, 180, 188));
+        uiDefaults.put("nimbusSelectionBackground", new ColorUIResource(82, 127, 187));
+        uiDefaults.put("nimbusSelection", new ColorUIResource(113, 193, 242));
+        uiDefaults.put("nimbusOrange", new ColorUIResource(246, 188, 96));
+        uiDefaults.put("nimbusGreen", new ColorUIResource(144, 203, 96));
+        uiDefaults.put("nimbusRed", new ColorUIResource(236, 67, 60));
+    }
+
+    /**
+     * Use Aqua settings for some properties if we're on a Mac.
+     */
+    private void initAquaSettings() {
+        try {
+            // Instantiate Aqua but don't install it.
+            Class<?> lnfClass = Class.forName(UIManager.getSystemLookAndFeelClassName(), true, Thread.currentThread()
+                .getContextClassLoader());
+            LookAndFeel aqua = (LookAndFeel) lnfClass.newInstance();
+            UIDefaults aquaDefaults = aqua.getDefaults();
+
+            // Use Mac key bindings. Nimbus uses Windows keybindings on
+            // Windows and GTK on anything else. We should use Aqua's
+            // bindings on Mac.
+            uiDefaults.put("ComboBox.ancestorInputMap", aquaDefaults.get("ComboBox.ancestorInputMap"));
+            uiDefaults.put("ComboBox.editorInputMap", aquaDefaults.get("ComboBox.editorInputMap"));
+            uiDefaults.put("FormattedTextField.focusInputMap", aquaDefaults.get("FormattedTextField.focusInputMap"));
+            uiDefaults.put("PasswordField.focusInputMap", aquaDefaults.get("PasswordField.focusInputMap"));
+            uiDefaults.put("Spinner.ancestorInputMap", aquaDefaults.get("Spinner.ancestorInputMap"));
+            uiDefaults.put("Spinner.focusInputMap", aquaDefaults.get("Spinner.focusInputMap"));
+            uiDefaults.put("TabbedPane.focusInputMap", aquaDefaults.get("TabbedPane.focusInputMap"));
+            uiDefaults.put("TabbedPane.ancestorInputMap", aquaDefaults.get("TabbedPane.ancestorInputMap"));
+            uiDefaults.put("TabbedPane.wrap.focusInputMap", aquaDefaults.get("TabbedPane.wrap.focusInputMap"));
+            uiDefaults.put("TabbedPane.wrap.ancestorInputMap", aquaDefaults.get("TabbedPane.wrap.ancestorInputMap"));
+            uiDefaults.put("TabbedPane.scroll.focusInputMap", aquaDefaults.get("TabbedPane.scroll.focusInputMap"));
+            uiDefaults.put("TabbedPane.scroll.ancestorInputMap", aquaDefaults.get("TabbedPane.scroll.ancestorInputMap"));
+            uiDefaults.put("TextArea.focusInputMap", aquaDefaults.get("TextArea.focusInputMap"));
+            uiDefaults.put("TextField.focusInputMap", aquaDefaults.get("TextField.focusInputMap"));
+            uiDefaults.put("TextPane.focusInputMap", aquaDefaults.get("TextPane.focusInputMap"));
+
+            // Use Aqua for any menu UI classes.
+            uiDefaults.put("MenuBarUI", aquaDefaults.get("MenuBarUI"));
+            uiDefaults.put("MenuUI", aquaDefaults.get("MenuUI"));
+            uiDefaults.put("MenuItemUI", aquaDefaults.get("MenuItemUI"));
+            uiDefaults.put("CheckBoxMenuItemUI", aquaDefaults.get("CheckBoxMenuItemUI"));
+            uiDefaults.put("RadioButtonMenuItemUI", aquaDefaults.get("RadioButtonMenuItemUI"));
+            uiDefaults.put("PopupMenuUI", aquaDefaults.get("PopupMenuUI"));
+
+            // If the Mac paint doesn't exist, use Aqua to paint a
+            // unified toolbar.
+            if (!PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
+                uiDefaults.put("ToolBarUI", aquaDefaults.get("ToolBarUI"));
+                uiDefaults.put("ToolBar.border", aquaDefaults.get("ToolBar.border"));
+                uiDefaults.put("ToolBar.background", aquaDefaults.get("ToolBar.background"));
+                uiDefaults.put("ToolBar.foreground", aquaDefaults.get("ToolBar.foreground"));
+                uiDefaults.put("ToolBar.font", aquaDefaults.get("ToolBar.font"));
+                uiDefaults.put("ToolBar.dockingBackground", aquaDefaults.get("ToolBar.dockingBackground"));
+                uiDefaults.put("ToolBar.floatingBackground", aquaDefaults.get("ToolBar.floatingBackground"));
+                uiDefaults.put("ToolBar.dockingForeground", aquaDefaults.get("ToolBar.dockingForeground"));
+                uiDefaults.put("ToolBar.floatingForeground", aquaDefaults.get("ToolBar.floatingForeground"));
+                uiDefaults.put("ToolBar.rolloverBorder", aquaDefaults.get("ToolBar.rolloverBorder"));
+                uiDefaults.put("ToolBar.nonrolloverBorder", aquaDefaults.get("ToolBar.nonrolloverBorder"));
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    private void initButtons() {
+        // Initialize Button
+        uiDefaults.put("Button[Default].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_DEFAULT, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("Button[Default+Focused].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_DEFAULT_FOCUSED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("Button[Default+Pressed].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_PRESSED_DEFAULT, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("Button[Default+Focused+Pressed].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_PRESSED_DEFAULT_FOCUSED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("Button[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_DISABLED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("Button[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_ENABLED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("Button[Focused].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_FOCUSED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("Button[Pressed].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_PRESSED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("Button[Focused+Pressed].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_PRESSED_FOCUSED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+
+        // Initialize ToggleButton
+        uiDefaults.put("ToggleButton[Selected].textForeground", new ColorUIResource(255, 255, 255));
+        uiDefaults.put("ToggleButton[Focused+Selected].textForeground", new ColorUIResource(255, 255, 255));
+        uiDefaults.put("ToggleButton[Disabled+Selected].textForeground", new ColorUIResource(255, 255, 255));
+        uiDefaults.put("ToggleButton[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_DISABLED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("ToggleButton[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_ENABLED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("ToggleButton[Focused].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_FOCUSED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("ToggleButton[Pressed].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_PRESSED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("ToggleButton[Focused+Pressed].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_PRESSED_FOCUSED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("ToggleButton[Selected].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_SELECTED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("ToggleButton[Focused+Selected].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_SELECTED_FOCUSED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("ToggleButton[Pressed+Selected].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_PRESSED_SELECTED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+        uiDefaults.put("ToggleButton[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.ButtonPainter", ButtonPainter.BACKGROUND_PRESSED_SELECTED_FOCUSED, new Insets(7, 7, 7, 7),
+            new Dimension(84, 26), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            3.0));
+        uiDefaults.put("ToggleButton[Disabled+Selected].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_DISABLED_SELECTED, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 3.0));
+    }
+
+    /**
+     * Initialize the table UI settings.
      */
     private void initTables() {
         uiDefaults.put("Table.background", new ColorUIResource(255, 255, 255));
@@ -221,7 +312,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
-     * 
+     * Initialize the scroll bar UI settings.
      */
     private void initScrollBars() {
         uiDefaults.put("ScrollBar:\"ScrollBar.button\"[Enabled].foregroundPainter", new LazyPainter(
