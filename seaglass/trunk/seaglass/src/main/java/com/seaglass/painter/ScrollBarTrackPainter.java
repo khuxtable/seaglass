@@ -21,12 +21,6 @@
  */
 package com.seaglass.painter;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-
 /**
  * ScrollBarTrackPainter implementation.
  */
@@ -50,11 +44,5 @@ public final class ScrollBarTrackPainter extends AbstractImagePainter {
             return "vertical_scrollbar/v_scroll_track";
         }
         return null;
-    }
-
-    @Override
-    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        ImageIcon icon = new ImageIcon(image.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-        icon.paintIcon(c, g, 0, 0);
     }
 }
