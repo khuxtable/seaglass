@@ -96,9 +96,9 @@ public final class ButtonPainter extends AbstractImagePainter {
         case BACKGROUND_SELECTED_FOCUSED:
             return "button-selected";
         case BACKGROUND_PRESSED_SELECTED:
-            return "button-selected";
+            return "button-pressed";
         case BACKGROUND_PRESSED_SELECTED_FOCUSED:
-            return "button-selected";
+            return "button-pressed";
         case BACKGROUND_DISABLED_SELECTED:
             return "button-disabled-selected";
         }
