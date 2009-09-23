@@ -66,41 +66,41 @@ public final class ButtonPainter extends AbstractImagePainter {
     protected String getImageName(int state) {
         switch (state) {
         case BACKGROUND_DEFAULT:
-            return "button-default";
+            return "button/button-default";
         case BACKGROUND_DEFAULT_FOCUSED:
-            return "button-default";
+            return "button/button-default";
         case BACKGROUND_MOUSEOVER_DEFAULT:
-            return "button-default";
+            return "button/button-default";
         case BACKGROUND_MOUSEOVER_DEFAULT_FOCUSED:
-            return "button-default";
+            return "button/button-default";
         case BACKGROUND_PRESSED_DEFAULT:
-            return "button-pressed";
+            return "button/button-pressed";
         case BACKGROUND_PRESSED_DEFAULT_FOCUSED:
-            return "button-pressed";
+            return "button/button-pressed";
         case BACKGROUND_DISABLED:
-            return "button-disabled";
+            return "button/button-disabled";
         case BACKGROUND_ENABLED:
-            return "button-default";
+            return "button/button-default";
         case BACKGROUND_FOCUSED:
-            return "button-default";
+            return "button/button-default";
         case BACKGROUND_MOUSEOVER:
-            return "button-default";
+            return "button/button-default";
         case BACKGROUND_MOUSEOVER_FOCUSED:
-            return "button-default";
+            return "button/button-default";
         case BACKGROUND_PRESSED:
-            return "button-pressed";
+            return "button/button-pressed";
         case BACKGROUND_PRESSED_FOCUSED:
-            return "button-pressed";
+            return "button/button-pressed";
         case BACKGROUND_SELECTED:
-            return "button-selected";
+            return "button/button-selected";
         case BACKGROUND_SELECTED_FOCUSED:
-            return "button-selected";
+            return "button/button-selected";
         case BACKGROUND_PRESSED_SELECTED:
-            return "button-pressed";
+            return "button/button-pressed";
         case BACKGROUND_PRESSED_SELECTED_FOCUSED:
-            return "button-pressed";
+            return "button/button-pressed";
         case BACKGROUND_DISABLED_SELECTED:
-            return "button-disabled-selected";
+            return "button/button-disabled-selected";
         }
         return null;
     }
