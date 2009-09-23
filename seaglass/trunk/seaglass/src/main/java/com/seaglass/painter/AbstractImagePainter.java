@@ -27,7 +27,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
+ * An abstraction of an image painter, using AbstractRegionPainter and an image
+ * resource.
  * 
+ * @author Kathryn Huxtable
  */
 public abstract class AbstractImagePainter extends AbstractRegionPainter {
 
