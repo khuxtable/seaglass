@@ -2,9 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/laffy.jar"/>
-	<classpathentry kind="lib" path="lib/nimbus.jar"/>
 	<classpathentry kind="lib" path="lib/swingx-2007_08_19.jar"/>
 	<classpathentry kind="lib" path="lib/seaglass-0.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/laffy-seaglass.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
