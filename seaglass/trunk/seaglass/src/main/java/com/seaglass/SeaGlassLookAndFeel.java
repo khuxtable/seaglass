@@ -55,6 +55,7 @@ import com.seaglass.painter.CheckBoxPainter;
 import com.seaglass.painter.RadioButtonPainter;
 import com.seaglass.painter.ScrollBarScrollBarButtonPainter;
 import com.seaglass.painter.ScrollBarScrollBarThumbPainter;
+import com.seaglass.painter.ScrollBarScrollBarTrackPainter;
 import com.seaglass.painter.TitlePaneCloseButtonPainter;
 import com.seaglass.painter.ToolBarPainter;
 import com.seaglass.util.PlatformUtils;
@@ -165,14 +166,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * Initialize the base colors.
      */
     private void initializeBaseColors() {
-        uiDefaults.put("seaglassBase", new ColorUIResource(20, 40, 110));
         uiDefaults.put("nimbusBase", new ColorUIResource(61, 95, 140));
         // Original control: 220, 233, 239
         uiDefaults.put("control", new ColorUIResource(231, 239, 243));
         uiDefaults.put("scrollbar", new ColorUIResource(255, 255, 255));
         // Original blue grey: 170, 178, 194
         uiDefaults.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228));
-        uiDefaults.put("seaglassScrollBarBase", new ColorUIResource(176, 180, 188));
+        uiDefaults.put("seaglassScrollThumbBase", new ColorUIResource(90, 150, 255));
+        uiDefaults.put("seaglassScrollBarButtonBase", new ColorUIResource(170, 174, 182));
+        uiDefaults.put("seaglassScrollBarTrackBase", new ColorUIResource(205, 208, 218));
         uiDefaults.put("nimbusSelectionBackground", new ColorUIResource(82, 127, 187));
         uiDefaults.put("nimbusSelection", new ColorUIResource(113, 193, 242));
         uiDefaults.put("nimbusOrange", new ColorUIResource(246, 188, 96));
@@ -323,37 +325,36 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         uiDefaults.put("RadioButton[MouseOver].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
             RadioButtonPainter.ICON_MOUSEOVER, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        uiDefaults.put("RadioButton[Focused+MouseOver].iconPainter", new LazyPainter(
-            "com.seaglass.painter.RadioButtonPainter", RadioButtonPainter.ICON_MOUSEOVER_FOCUSED, new Insets(5, 5, 5, 5),
-            new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        uiDefaults.put("RadioButton[Focused+MouseOver].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
+            RadioButtonPainter.ICON_MOUSEOVER_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
+            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         uiDefaults.put("RadioButton[Pressed].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
             RadioButtonPainter.ICON_PRESSED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        uiDefaults.put("RadioButton[Focused+Pressed].iconPainter", new LazyPainter(
-            "com.seaglass.painter.RadioButtonPainter", RadioButtonPainter.ICON_PRESSED_FOCUSED, new Insets(5, 5, 5, 5),
-            new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        uiDefaults.put("RadioButton[Focused+Pressed].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
+            RadioButtonPainter.ICON_PRESSED_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
+            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         uiDefaults.put("RadioButton[Selected].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
             RadioButtonPainter.ICON_SELECTED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        uiDefaults.put("RadioButton[Focused+Selected].iconPainter", new LazyPainter(
-            "com.seaglass.painter.RadioButtonPainter", RadioButtonPainter.ICON_SELECTED_FOCUSED, new Insets(5, 5, 5, 5),
-            new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        uiDefaults.put("RadioButton[Pressed+Selected].iconPainter", new LazyPainter(
-            "com.seaglass.painter.RadioButtonPainter", RadioButtonPainter.ICON_PRESSED_SELECTED, new Insets(5, 5, 5, 5),
-            new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        uiDefaults.put("RadioButton[Focused+Selected].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
+            RadioButtonPainter.ICON_SELECTED_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
+            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        uiDefaults.put("RadioButton[Pressed+Selected].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
+            RadioButtonPainter.ICON_PRESSED_SELECTED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
+            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         uiDefaults.put("RadioButton[Focused+Pressed+Selected].iconPainter", new LazyPainter(
-            "com.seaglass.painter.RadioButtonPainter", RadioButtonPainter.ICON_PRESSED_SELECTED_FOCUSED, new Insets(5, 5,
-                5, 5), new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        uiDefaults.put("RadioButton[MouseOver+Selected].iconPainter", new LazyPainter(
-            "com.seaglass.painter.RadioButtonPainter", RadioButtonPainter.ICON_MOUSEOVER_SELECTED,
-            new Insets(5, 5, 5, 5), new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0,
-            1.0));
-        uiDefaults.put("RadioButton[Focused+MouseOver+Selected].iconPainter", new LazyPainter(
-            "com.seaglass.painter.RadioButtonPainter", RadioButtonPainter.ICON_MOUSEOVER_SELECTED_FOCUSED, new Insets(5,
-                5, 5, 5), new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        uiDefaults.put("RadioButton[Disabled+Selected].iconPainter", new LazyPainter(
-            "com.seaglass.painter.RadioButtonPainter", RadioButtonPainter.ICON_DISABLED_SELECTED, new Insets(5, 5, 5, 5),
+            "com.seaglass.painter.RadioButtonPainter", RadioButtonPainter.ICON_PRESSED_SELECTED_FOCUSED, new Insets(5, 5, 5, 5),
             new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        uiDefaults.put("RadioButton[MouseOver+Selected].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
+            RadioButtonPainter.ICON_MOUSEOVER_SELECTED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
+            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        uiDefaults.put("RadioButton[Focused+MouseOver+Selected].iconPainter", new LazyPainter(
+            "com.seaglass.painter.RadioButtonPainter", RadioButtonPainter.ICON_MOUSEOVER_SELECTED_FOCUSED, new Insets(5, 5, 5, 5),
+            new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        uiDefaults.put("RadioButton[Disabled+Selected].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
+            RadioButtonPainter.ICON_DISABLED_SELECTED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
+            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         uiDefaults.put("RadioButton.icon", new SeaGlassIcon("RadioButton", "iconPainter", 18, 18));
 
         // Initialize CheckBox
@@ -388,16 +389,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         uiDefaults.put("CheckBox[Pressed+Selected].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
             CheckBoxPainter.ICON_PRESSED_SELECTED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        uiDefaults.put("CheckBox[Focused+Pressed+Selected].iconPainter", new LazyPainter(
-            "com.seaglass.painter.CheckBoxPainter", CheckBoxPainter.ICON_PRESSED_SELECTED_FOCUSED,
-            new Insets(5, 5, 5, 5), new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0,
-            1.0));
-        uiDefaults.put("CheckBox[MouseOver+Selected].iconPainter", new LazyPainter(
-            "com.seaglass.painter.CheckBoxPainter", CheckBoxPainter.ICON_MOUSEOVER_SELECTED, new Insets(5, 5, 5, 5),
-            new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        uiDefaults.put("CheckBox[Focused+MouseOver+Selected].iconPainter", new LazyPainter(
-            "com.seaglass.painter.CheckBoxPainter", CheckBoxPainter.ICON_MOUSEOVER_SELECTED_FOCUSED, new Insets(5, 5, 5,
-                5), new Dimension(18, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        uiDefaults.put("CheckBox[Focused+Pressed+Selected].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
+            CheckBoxPainter.ICON_PRESSED_SELECTED_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
+            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        uiDefaults.put("CheckBox[MouseOver+Selected].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
+            CheckBoxPainter.ICON_MOUSEOVER_SELECTED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
+            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        uiDefaults.put("CheckBox[Focused+MouseOver+Selected].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
+            CheckBoxPainter.ICON_MOUSEOVER_SELECTED_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
+            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         uiDefaults.put("CheckBox[Disabled+Selected].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
             CheckBoxPainter.ICON_DISABLED_SELECTED, new Insets(5, 5, 5, 5), new Dimension(18, 18), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
@@ -435,6 +435,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             new AbstractRegionPainter.PaintContext(new Insets(0, 15, 0, 15), new Dimension(38, 15), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0),
             ScrollBarScrollBarThumbPainter.BACKGROUND_PRESSED));
+
+        uiDefaults.put("ScrollBar:ScrollBarTrack[Disabled].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.ScrollBarScrollBarTrackPainter", ScrollBarScrollBarTrackPainter.BACKGROUND_DISABLED,
+            new Insets(5, 5, 5, 5), new Dimension(18, 15), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 2.0));
+        uiDefaults.put("ScrollBar:ScrollBarTrack[Enabled].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.ScrollBarScrollBarTrackPainter", ScrollBarScrollBarTrackPainter.BACKGROUND_ENABLED,
+            new Insets(5, 10, 5, 9), new Dimension(34, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0,
+            1.0));
     }
 
     /**

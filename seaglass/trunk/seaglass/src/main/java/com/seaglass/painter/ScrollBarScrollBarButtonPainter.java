@@ -1,8 +1,23 @@
 /*
- * ScrollBarScrollBarButtonPainter.java %E%
+ * Copyright (c) 2009 Kathryn Huxtable and Kenneth Orr.
  *
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * This file is part of the SeaGlass Pluggable Look and Feel.
+ *
+ * SeaGlass is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+
+ * SeaGlass is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with SeaGlass.  If not, see
+ *     <http://www.gnu.org/licenses/>.
+ * 
+ * $Id$
  */
 package com.seaglass.painter;
 
@@ -16,6 +31,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 
 /**
+ * ScrollBarButtonPainter implementation.
  */
 public final class ScrollBarScrollBarButtonPainter extends AbstractRegionPainter {
     //package private integers representing the available states that
@@ -41,36 +57,36 @@ public final class ScrollBarScrollBarButtonPainter extends AbstractRegionPainter
     //by a particular instance of ScrollBarScrollBarButtonPainter would be created. For the moment at least,
     //however, all are created for each instance.
     private Color color1 = new Color(255, 200, 0, 255);
-    private Color color2 = decodeColor("seaglassScrollBarBase", -0.01111114f, -0.07763158f, -0.1490196f, 0);
-    private Color color3 = decodeColor("seaglassScrollBarBase", -0.111111104f, -0.10580933f, 0.086274505f, 0);
-    private Color color4 = decodeColor("seaglassScrollBarBase", -0.027777791f, -0.102261856f, 0.20392156f, 0);
-    private Color color5 = decodeColor("seaglassScrollBarBase", -0.039682567f, -0.079276316f, 0.13333333f, 0);
-    private Color color6 = decodeColor("seaglassScrollBarBase", -0.027777791f, -0.07382907f, 0.109803915f, 0);
-    private Color color7 = decodeColor("seaglassScrollBarBase", -0.039682567f, -0.08241387f, 0.23137254f, 0);
-    private Color color8 = decodeColor("seaglassScrollBarBase", -0.055555522f, -0.08443936f, -0.29411766f, -136);
-    private Color color9 = decodeColor("seaglassScrollBarBase", -0.055555522f, -0.09876161f, 0.25490195f, -178);
-    private Color color10 = decodeColor("seaglassScrollBarBase", 0.055555582f, -0.08878718f, -0.5647059f, 0);
-    private Color color11 = decodeColor("seaglassScrollBarBase", -0.027777791f, -0.080223285f, -0.4862745f, 0);
-    private Color color12 = decodeColor("seaglassScrollBarBase", -0.111111104f, -0.09525914f, -0.23137254f, 0);
-    private Color color13 = decodeColor("seaglassScrollBarBase", 0.0f, -0.110526316f, 0.25490195f, -165);
-    private Color color14 = decodeColor("seaglassScrollBarBase", -0.04444444f, -0.080223285f, -0.09803921f, 0);
-    private Color color15 = decodeColor("seaglassScrollBarBase", -0.6111111f, -0.110526316f, 0.10588235f, 0);
-    private Color color16 = decodeColor("seaglassScrollBarBase", 0.0f, -0.110526316f, 0.25490195f, 0);
-    private Color color17 = decodeColor("seaglassScrollBarBase", -0.039682567f, -0.081719734f, 0.20784312f, 0);
-    private Color color18 = decodeColor("seaglassScrollBarBase", -0.027777791f, -0.07677104f, 0.18431371f, 0);
-    private Color color19 = decodeColor("seaglassScrollBarBase", -0.04444444f, -0.080223285f, -0.09803921f, -69);
-    private Color color20 = decodeColor("seaglassScrollBarBase", -0.055555522f, -0.09876161f, 0.25490195f, -39);
-    private Color color21 = decodeColor("seaglassScrollBarBase", 0.055555582f, -0.0951417f, -0.49019608f, 0);
-    private Color color22 = decodeColor("seaglassScrollBarBase", -0.027777791f, -0.086996906f, -0.4117647f, 0);
-    private Color color23 = decodeColor("seaglassScrollBarBase", -0.111111104f, -0.09719298f, -0.15686274f, 0);
-    private Color color24 = decodeColor("seaglassScrollBarBase", -0.037037015f, -0.043859646f, -0.21568626f, 0);
-    private Color color25 = decodeColor("seaglassScrollBarBase", -0.06349206f, -0.07309316f, -0.011764705f, 0);
-    private Color color26 = decodeColor("seaglassScrollBarBase", -0.048611104f, -0.07296763f, 0.09019607f, 0);
-    private Color color27 = decodeColor("seaglassScrollBarBase", -0.03535354f, -0.05497076f, 0.031372547f, 0);
-    private Color color28 = decodeColor("seaglassScrollBarBase", -0.034188032f, -0.043168806f, 0.011764705f, 0);
-    private Color color29 = decodeColor("seaglassScrollBarBase", -0.03535354f, -0.0600676f, 0.109803915f, 0);
-    private Color color30 = decodeColor("seaglassScrollBarBase", -0.037037015f, -0.043859646f, -0.21568626f, -44);
-    private Color color31 = decodeColor("seaglassScrollBarBase", -0.6111111f, -0.110526316f, -0.74509805f, 0);
+    private Color color2 = decodeColor("seaglassScrollBarButtonBase", -0.01111114f, -0.07763158f, -0.1490196f, 0);
+    private Color color3 = decodeColor("seaglassScrollBarButtonBase", -0.111111104f, -0.10580933f, 0.086274505f, 0);
+    private Color color4 = decodeColor("seaglassScrollBarButtonBase", -0.027777791f, -0.102261856f, 0.20392156f, 0);
+    private Color color5 = decodeColor("seaglassScrollBarButtonBase", -0.039682567f, -0.079276316f, 0.13333333f, 0);
+    private Color color6 = decodeColor("seaglassScrollBarButtonBase", -0.027777791f, -0.07382907f, 0.109803915f, 0);
+    private Color color7 = decodeColor("seaglassScrollBarButtonBase", -0.039682567f, -0.08241387f, 0.23137254f, 0);
+    private Color color8 = decodeColor("seaglassScrollBarButtonBase", -0.055555522f, -0.08443936f, -0.29411766f, -136);
+    private Color color9 = decodeColor("seaglassScrollBarButtonBase", -0.055555522f, -0.09876161f, 0.25490195f, -178);
+    private Color color10 = decodeColor("seaglassScrollBarButtonBase", 0.055555582f, -0.08878718f, -0.5647059f, 0);
+    private Color color11 = decodeColor("seaglassScrollBarButtonBase", -0.027777791f, -0.080223285f, -0.4862745f, 0);
+    private Color color12 = decodeColor("seaglassScrollBarButtonBase", -0.111111104f, -0.09525914f, -0.23137254f, 0);
+    private Color color13 = decodeColor("seaglassScrollBarButtonBase", 0.0f, -0.110526316f, 0.25490195f, -165);
+    private Color color14 = decodeColor("seaglassScrollBarButtonBase", -0.04444444f, -0.080223285f, -0.09803921f, 0);
+    private Color color15 = decodeColor("seaglassScrollBarButtonBase", -0.6111111f, -0.110526316f, 0.10588235f, 0);
+    private Color color16 = decodeColor("seaglassScrollBarButtonBase", 0.0f, -0.110526316f, 0.25490195f, 0);
+    private Color color17 = decodeColor("seaglassScrollBarButtonBase", -0.039682567f, -0.081719734f, 0.20784312f, 0);
+    private Color color18 = decodeColor("seaglassScrollBarButtonBase", -0.027777791f, -0.07677104f, 0.18431371f, 0);
+    private Color color19 = decodeColor("seaglassScrollBarButtonBase", -0.04444444f, -0.080223285f, -0.09803921f, -69);
+    private Color color20 = decodeColor("seaglassScrollBarButtonBase", -0.055555522f, -0.09876161f, 0.25490195f, -39);
+    private Color color21 = decodeColor("seaglassScrollBarButtonBase", 0.055555582f, -0.0951417f, -0.49019608f, 0);
+    private Color color22 = decodeColor("seaglassScrollBarButtonBase", -0.027777791f, -0.086996906f, -0.4117647f, 0);
+    private Color color23 = decodeColor("seaglassScrollBarButtonBase", -0.111111104f, -0.09719298f, -0.15686274f, 0);
+    private Color color24 = decodeColor("seaglassScrollBarButtonBase", -0.037037015f, -0.043859646f, -0.21568626f, 0);
+    private Color color25 = decodeColor("seaglassScrollBarButtonBase", -0.06349206f, -0.07309316f, -0.011764705f, 0);
+    private Color color26 = decodeColor("seaglassScrollBarButtonBase", -0.048611104f, -0.07296763f, 0.09019607f, 0);
+    private Color color27 = decodeColor("seaglassScrollBarButtonBase", -0.03535354f, -0.05497076f, 0.031372547f, 0);
+    private Color color28 = decodeColor("seaglassScrollBarButtonBase", -0.034188032f, -0.043168806f, 0.011764705f, 0);
+    private Color color29 = decodeColor("seaglassScrollBarButtonBase", -0.03535354f, -0.0600676f, 0.109803915f, 0);
+    private Color color30 = decodeColor("seaglassScrollBarButtonBase", -0.037037015f, -0.043859646f, -0.21568626f, -44);
+    private Color color31 = decodeColor("seaglassScrollBarButtonBase", -0.6111111f, -0.110526316f, -0.74509805f, 0);
 
 
     //Array of current component colors, updated in each paint call
