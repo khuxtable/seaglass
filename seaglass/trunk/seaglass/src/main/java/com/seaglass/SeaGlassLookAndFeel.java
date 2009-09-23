@@ -115,7 +115,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             uiDefaults.put("ScrollPaneUI", PACKAGE_PREFIX + "ScrollPaneUI");
 
             // Set base colors.
-            initializeBaseColors();
+            initBaseColors();
 
             initButtons();
 
@@ -170,7 +170,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Initialize the base colors.
      */
-    private void initializeBaseColors() {
+    private void initBaseColors() {
         uiDefaults.put("nimbusBase", new ColorUIResource(61, 95, 140));
         // Original control: 220, 233, 239
         uiDefaults.put("control", new ColorUIResource(231, 239, 243));
