@@ -17,7 +17,7 @@
  * License along with SeaGlass.  If not, see
  *     <http://www.gnu.org/licenses/>.
  * 
- * $Id: org.eclipse.jdt.ui.prefs 30 2009-09-22 11:14:17Z kathryn@kathrynhuxtable.org $
+ * $Id$
  */
 package com.seaglass.painter;
 
