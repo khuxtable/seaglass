@@ -572,7 +572,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                     Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         uiDefaults.put(
             "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[Disabled].backgroundPainter",
-            new LazyPainter("com.TitlePaneMaximizeButtonPainter", TitlePaneMaximizeButtonPainter.BACKGROUND_DISABLED, new Insets(0,
+            new LazyPainter("com.seaglass.painter.TitlePaneMaximizeButtonPainter", TitlePaneMaximizeButtonPainter.BACKGROUND_DISABLED, new Insets(0,
                 0, 0, 0), new Dimension(19, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES,
                 Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         uiDefaults.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[Enabled].backgroundPainter",
