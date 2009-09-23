@@ -460,7 +460,7 @@ public class SeaGlassTitlePane extends JComponent {
             minimizeIcon = UIManager.getIcon("TitlePane.minimizeIcon");
             maximizeIconUnfocused = UIManager.getIcon("TitlePane.maximizeIconUnfocused");
             minimizeIconUnfocused = UIManager.getIcon("TitlePane.minimizeIconUnfocused");
-            
+
             iconifyIcon = UIManager.getIcon("TitlePane.iconifyIcon");
             iconifyIconUnfocused = UIManager.getIcon("TitlePane.iconifyIconUnfocused");
 
@@ -685,13 +685,15 @@ public class SeaGlassTitlePane extends JComponent {
 
         if (!PlatformUtils.isMac()) {
             JMenuBar menuBar = getRootPane().getJMenuBar();
-            for (int i = 0, size = menuBar.getMenuCount(); i < size; i++) {
-                JMenu menu = menuBar.getMenu(i);
-                if (menu.isOpaque()) {
-                    menu.setOpaque(false);
+            if (menuBar != null) {
+                for (int i = 0, size = menuBar.getMenuCount(); i < size; i++) {
+                    JMenu menu = menuBar.getMenu(i);
+                    if (menu.isOpaque()) {
+                        menu.setOpaque(false);
+                    }
                 }
+                menuBar.paintComponents(g);
             }
-            menuBar.paintComponents(g);
         }
 
         String theTitle = getTitle();
