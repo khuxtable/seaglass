@@ -53,21 +53,21 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
     //All Colors used for painting are stored here. Ideally, only those colors being used
     //by a particular instance of SplitPaneDividerPainter would be created. For the moment at least,
     //however, all are created for each instance.
-    private Color color1 = decodeColor("seaGlassSplitPaneDividerBase", 0.0f, -0.017358616f, -0.11372548f, 0);
-    private Color color2 = decodeColor("seaGlassSplitPaneDividerBase", 0.055555582f, -0.102396235f, 0.21960783f, 0);
-    private Color color3 = decodeColor("seaGlassSplitPaneDividerBase", 0.0f, -0.07016757f, 0.12941176f, 0);
+    private Color color1 = decodeColor("seaglassSplitPaneDividerBase", 0.0f, -0.017358616f, -0.11372548f, 0);
+    private Color color2 = decodeColor("seaglassSplitPaneDividerBase", 0.055555582f, -0.102396235f, 0.21960783f, 0);
+    private Color color3 = decodeColor("seaglassSplitPaneDividerBase", 0.0f, -0.07016757f, 0.12941176f, 0);
     private Color color4 = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
-    private Color color5 = decodeColor("seaGlassSplitPaneDividerBase", 0.0f, -0.110526316f, 0.25490195f, 0);
-    private Color color6 = decodeColor("seaGlassSplitPaneDividerBase", 0.0f, -0.048026316f, 0.007843137f, 0);
-    private Color color7 = decodeColor("seaGlassSplitPaneDividerBase", 0.0055555105f, -0.06970999f, 0.21568626f, 0);
-    private Color color8 = decodeColor("seaGlassSplitPaneDividerBase", 0.0f, -0.06704806f, 0.06666666f, 0);
-    private Color color9 = decodeColor("seaGlassSplitPaneDividerBase", 0.0f, -0.019617222f, -0.09803921f, 0);
-    private Color color10 = decodeColor("seaGlassSplitPaneDividerBase", 0.004273474f, -0.03790062f, -0.043137252f, 0);
-    private Color color11 = decodeColor("seaGlassSplitPaneDividerBase", -0.111111104f, -0.106573746f, 0.24705881f, 0);
-    private Color color12 = decodeColor("seaGlassSplitPaneDividerBase", 0.0f, -0.049301825f, 0.02352941f, 0);
-    private Color color13 = decodeColor("seaGlassSplitPaneDividerBase", -0.006944418f, -0.07399663f, 0.11372548f, 0);
-    private Color color14 = decodeColor("seaGlassSplitPaneDividerBase", -0.018518567f, -0.06998578f, 0.12549019f, 0);
-    private Color color15 = decodeColor("seaGlassSplitPaneDividerBase", 0.0f, -0.050526317f, 0.039215684f, 0);
+    private Color color5 = decodeColor("seaglassSplitPaneDividerBase", 0.0f, -0.110526316f, 0.25490195f, 0);
+    private Color color6 = decodeColor("seaglassSplitPaneDividerBase", 0.0f, -0.048026316f, 0.007843137f, 0);
+    private Color color7 = decodeColor("seaglassSplitPaneDividerBase", 0.0055555105f, -0.06970999f, 0.21568626f, 0);
+    private Color color8 = decodeColor("seaglassSplitPaneDividerBase", 0.0f, -0.06704806f, 0.06666666f, 0);
+    private Color color9 = decodeColor("seaglassSplitPaneDividerBase", 0.0f, -0.019617222f, -0.09803921f, 0);
+    private Color color10 = decodeColor("seaglassSplitPaneDividerBase", 0.004273474f, -0.03790062f, -0.043137252f, 0);
+    private Color color11 = decodeColor("seaglassSplitPaneDividerBase", -0.111111104f, -0.106573746f, 0.24705881f, 0);
+    private Color color12 = decodeColor("seaglassSplitPaneDividerBase", 0.0f, -0.049301825f, 0.02352941f, 0);
+    private Color color13 = decodeColor("seaglassSplitPaneDividerBase", -0.006944418f, -0.07399663f, 0.11372548f, 0);
+    private Color color14 = decodeColor("seaglassSplitPaneDividerBase", -0.018518567f, -0.06998578f, 0.12549019f, 0);
+    private Color color15 = decodeColor("seaglassSplitPaneDividerBase", 0.0f, -0.050526317f, 0.039215684f, 0);
 
     public SplitPaneDividerPainter(PaintContext ctx, int state) {
         super();
