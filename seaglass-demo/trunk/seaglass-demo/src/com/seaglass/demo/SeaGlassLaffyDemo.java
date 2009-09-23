@@ -28,6 +28,6 @@ public class SeaGlassLaffyDemo {
         });
 
         // create laffy and load
-        Laffy.main(args);
+        Laffy.getInstance().load(args);
     }
 }
