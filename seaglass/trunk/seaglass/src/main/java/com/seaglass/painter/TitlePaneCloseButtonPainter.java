@@ -253,7 +253,7 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
                                decodeY(1.0f), //y
                                decodeX(2.0f) - decodeX(1.0f), //width
                                decodeY(1.9444444f) - decodeY(1.0f), //height
-                               0.25f, 0.25f); //rounding (8.6f)
+                               6.45f, 6.45f); //rounding (8.6f)
         return roundRect;
     }
 
@@ -300,7 +300,7 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
                                decodeY(1.6111112f), //y
                                decodeX(2.0f) - decodeX(1.0f), //width
                                decodeY(2.0f) - decodeY(1.6111112f), //height
-                               0.1875f, 0.1875f); //rounding (6.0f)
+                               4.5f, 4.5f); //rounding (6.0f)
         return roundRect;
     }
 
@@ -309,7 +309,7 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
                                decodeY(1.0530303f), //y
                                decodeX(1.9473684f) - decodeX(1.0526316f), //width
                                decodeY(1.8863636f) - decodeY(1.0530303f), //height
-                               0.25f, 0.25f); //rounding (6.75f)
+                               5.0625f, 5.0625f); //rounding (6.75f)
         return roundRect;
     }
 
@@ -318,7 +318,7 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
                                decodeY(1.0517677f), //y
                                decodeX(1.9473684f) - decodeX(1.0526316f), //width
                                decodeY(1.8851011f) - decodeY(1.0517677f), //height
-                               0.25f, 0.25f); //rounding (6.75f)
+                               5.0625f, 5.0625f); //rounding (6.75f)
         return roundRect;
     }
 

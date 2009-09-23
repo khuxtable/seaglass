@@ -38,13 +38,13 @@ public final class TitlePaneIconifyButtonPainter extends AbstractRegionPainter {
     //this painter will paint. These are used when creating a new instance
     //of InternalFrameInternalFrameTitlePaneInternalFrameTitlePaneIconifyButtonPainter to determine which region/state is being painted
     //by that instance.
-    static final int BACKGROUND_ENABLED = 1;
-    static final int BACKGROUND_DISABLED = 2;
-    static final int BACKGROUND_MOUSEOVER = 3;
-    static final int BACKGROUND_PRESSED = 4;
-    static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED = 5;
-    static final int BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED = 6;
-    static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED = 7;
+    public static final int BACKGROUND_ENABLED = 1;
+    public static final int BACKGROUND_DISABLED = 2;
+    public static final int BACKGROUND_MOUSEOVER = 3;
+    public static final int BACKGROUND_PRESSED = 4;
+    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED = 5;
+    public static final int BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED = 6;
+    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED = 7;
 
 
     private int state; //refers to one of the static final ints above
@@ -398,7 +398,7 @@ public final class TitlePaneIconifyButtonPainter extends AbstractRegionPainter {
                                decodeY(1.6111112f), //y
                                decodeX(2.0f) - decodeX(1.0f), //width
                                decodeY(2.0f) - decodeY(1.6111112f), //height
-                               0.1875f, 0.1875f); //rounding
+                               4.5f, 4.5f); //rounding
         return roundRect;
     }
 
@@ -407,7 +407,7 @@ public final class TitlePaneIconifyButtonPainter extends AbstractRegionPainter {
                                decodeY(1.0f), //y
                                decodeX(2.0f) - decodeX(1.0f), //width
                                decodeY(1.9444444f) - decodeY(1.0f), //height
-                               0.25f, 0.25f); //rounding
+                               6.45f, 6.45f); //rounding
         return roundRect;
     }
 
@@ -416,7 +416,7 @@ public final class TitlePaneIconifyButtonPainter extends AbstractRegionPainter {
                                decodeY(1.0555556f), //y
                                decodeX(1.9473684f) - decodeX(1.0526316f), //width
                                decodeY(1.8888888f) - decodeY(1.0555556f), //height
-                               0.25f, 0.25f); //rounding
+                               5.0625f, 5.0625f); //rounding
         return roundRect;
     }
 
