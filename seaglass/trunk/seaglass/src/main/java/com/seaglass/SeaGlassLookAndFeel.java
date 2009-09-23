@@ -56,6 +56,7 @@ import com.seaglass.painter.RadioButtonPainter;
 import com.seaglass.painter.ScrollBarButtonPainter;
 import com.seaglass.painter.ScrollBarThumbPainter;
 import com.seaglass.painter.ScrollBarTrackPainter;
+import com.seaglass.painter.SplitPaneDividerPainter;
 import com.seaglass.painter.TitlePaneCloseButtonPainter;
 import com.seaglass.painter.ToolBarPainter;
 import com.seaglass.util.PlatformUtils;
@@ -119,6 +120,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             initTables();
 
             initScrollBars();
+            
+            initSplitPanes();
 
             eliminateMouseOverBehavior(uiDefaults);
 
@@ -175,6 +178,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         uiDefaults.put("seaglassScrollThumbBase", new ColorUIResource(90, 150, 255));
         uiDefaults.put("seaglassScrollBarButtonBase", new ColorUIResource(170, 174, 182));
         uiDefaults.put("seaglassScrollBarTrackBase", new ColorUIResource(205, 208, 218));
+        uiDefaults.put("seaglassSplitPaneDividerBase", new ColorUIResource(170, 174, 182));
         uiDefaults.put("nimbusSelectionBackground", new ColorUIResource(82, 127, 187));
         uiDefaults.put("nimbusSelection", new ColorUIResource(113, 193, 242));
         uiDefaults.put("nimbusOrange", new ColorUIResource(246, 188, 96));
@@ -444,6 +448,16 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             "com.seaglass.painter.ScrollBarTrackPainter", ScrollBarTrackPainter.BACKGROUND_ENABLED,
             new Insets(5, 10, 5, 9), new Dimension(34, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0,
             1.0));
+    }
+    
+    /**
+     * Initialize the split pane UI settings.
+     */
+    private void initSplitPanes() {
+        uiDefaults.put("SplitPane:SplitPaneDivider[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.SplitPaneDividerPainter", SplitPaneDividerPainter.BACKGROUND_ENABLED, new Insets(3, 0, 3, 0), new Dimension(68, 10), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        uiDefaults.put("SplitPane:SplitPaneDivider[Focused].backgroundPainter", new LazyPainter("com.seaglass.painter.SplitPaneDividerPainter", SplitPaneDividerPainter.BACKGROUND_FOCUSED, new Insets(3, 0, 3, 0), new Dimension(68, 10), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        uiDefaults.put("SplitPane:SplitPaneDivider[Enabled].foregroundPainter", new LazyPainter("com.seaglass.painter.SplitPaneDividerPainter", SplitPaneDividerPainter.FOREGROUND_ENABLED, new Insets(0, 24, 0, 24), new Dimension(68, 10), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        uiDefaults.put("SplitPane:SplitPaneDivider[Enabled+Vertical].foregroundPainter", new LazyPainter("com.seaglass.painter.SplitPaneDividerPainter", SplitPaneDividerPainter.FOREGROUND_ENABLED_VERTICAL, new Insets(5, 0, 5, 0), new Dimension(10, 38), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
     }
 
     /**
