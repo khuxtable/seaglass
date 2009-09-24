@@ -432,22 +432,32 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             "com.seaglass.painter.ScrollBarButtonPainter", ScrollBarButtonPainter.FOREGROUND_PRESSED, new Insets(1, 1, 1, 1),
             new Dimension(25, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
 
-        uiDefaults.put("ScrollBar:ScrollBarThumb[Enabled].backgroundPainter", new ScrollBarThumbPainter(
-            new AbstractRegionPainter.PaintContext(new Insets(0, 15, 0, 15), new Dimension(38, 15), false,
-                AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0),
-            ScrollBarThumbPainter.BACKGROUND_ENABLED));
-        uiDefaults.put("ScrollBar:ScrollBarThumb[Pressed].backgroundPainter", new ScrollBarThumbPainter(
-            new AbstractRegionPainter.PaintContext(new Insets(0, 15, 0, 15), new Dimension(38, 15), false,
-                AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0),
-            ScrollBarThumbPainter.BACKGROUND_PRESSED));
+        uiDefaults.put("ScrollBar:ScrollBarThumb.States", "Disabled,Enabled,Focused,MouseOver,Pressed");
+        uiDefaults.put("ScrollBar:ScrollBarThumb[Disabled].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_DISABLED, new Insets(0, 8, 0, 8),
+            new Dimension(32, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            2.0));
+        uiDefaults.put("ScrollBar:ScrollBarThumb[Enabled].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_ENABLED, new Insets(0, 8, 0, 8),
+            new Dimension(32, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            2.0));
+        uiDefaults.put("ScrollBar:ScrollBarThumb[MouseOver].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_PRESSED, new Insets(0, 8, 0, 8),
+            new Dimension(32, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            2.0));
+        uiDefaults.put("ScrollBar:ScrollBarThumb[Pressed].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_PRESSED, new Insets(0, 8, 0, 8),
+            new Dimension(32, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            2.0));
 
         uiDefaults.put("ScrollBar:ScrollBarTrack[Disabled].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.ScrollBarTrackPainter", ScrollBarTrackPainter.BACKGROUND_DISABLED, new Insets(5, 5, 5, 5),
-            new Dimension(18, 15), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            "com.seaglass.painter.ScrollBarTrackPainter", ScrollBarTrackPainter.BACKGROUND_DISABLED, new Insets(0, 0, 0, 0),
+            new Dimension(19, 15), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
             2.0));
         uiDefaults.put("ScrollBar:ScrollBarTrack[Enabled].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.ScrollBarTrackPainter", ScrollBarTrackPainter.BACKGROUND_ENABLED, new Insets(5, 10, 5, 9),
-            new Dimension(34, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.ScrollBarTrackPainter", ScrollBarTrackPainter.BACKGROUND_ENABLED, new Insets(0, 0, 0, 0),
+            new Dimension(19, 15), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY));
     }
 
     /**
@@ -731,8 +741,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Initialize ScrollBar
         uiDefaults.put("ScrollBar:\"ScrollBar.button\"[MouseOver].foregroundPainter", null);
-        uiDefaults.put("ScrollBar:ScrollBarThumb[MouseOver].backgroundPainter", uiDefaults
-            .get("ScrollBar:ScrollBarThumb[Enabled].backgroundPainter"));
 
         // Initialize Slider
         uiDefaults.put("Slider:SliderThumb[Focused+MouseOver].backgroundPainter", null);
