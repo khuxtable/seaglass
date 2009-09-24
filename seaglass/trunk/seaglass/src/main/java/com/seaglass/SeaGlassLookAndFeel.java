@@ -57,6 +57,7 @@ import com.seaglass.painter.ScrollBarButtonPainter;
 import com.seaglass.painter.ScrollBarThumbPainter;
 import com.seaglass.painter.ScrollBarTrackPainter;
 import com.seaglass.painter.SplitPaneDividerPainter;
+import com.seaglass.painter.TableHeaderRendererPainter;
 import com.seaglass.painter.TitlePaneCloseButtonPainter;
 import com.seaglass.painter.TitlePaneIconifyButtonPainter;
 import com.seaglass.painter.TitlePaneMaximizeButtonPainter;
@@ -416,6 +417,45 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void initTables() {
         uiDefaults.put("Table.background", new ColorUIResource(255, 255, 255));
         uiDefaults.put("Table.alternateRowColor", new Color(220, 233, 239));
+        uiDefaults.put("seaglassTableHeaderBase", new Color(49, 77, 113));
+        uiDefaults.put("seaglassTableHeaderBlueGrey", new Color(200, 214, 247));
+        uiDefaults.put("seaglassTableHeaderFocus", new Color(77, 146, 209));
+
+        uiDefaults.put("TableHeader:\"TableHeader.renderer\"[Disabled].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_DISABLED, new Insets(5, 5, 5,
+                5), new Dimension(22, 20), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        uiDefaults.put("TableHeader:\"TableHeader.renderer\"[Enabled].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_ENABLED,
+            new Insets(5, 5, 5, 5), new Dimension(22, 20), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        uiDefaults.put("TableHeader:\"TableHeader.renderer\"[Enabled+Focused].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_ENABLED_FOCUSED, new Insets(5,
+                5, 5, 5), new Dimension(22, 20), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        // uiDefaults.put("TableHeader:\"TableHeader.renderer\"[MouseOver].backgroundPainter",
+        // new LazyPainter(
+        // "com.seaglass.painter.TableHeaderRendererPainter",
+        // TableHeaderRendererPainter.BACKGROUND_MOUSEOVER, new Insets(5, 5, 5,
+        // 5), new Dimension(22, 20), false,
+        // AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+        // Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        uiDefaults.put("TableHeader:\"TableHeader.renderer\"[Pressed].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_PRESSED,
+            new Insets(5, 5, 5, 5), new Dimension(22, 20), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        uiDefaults.put("TableHeader:\"TableHeader.renderer\"[Enabled+Sorted].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_ENABLED_SORTED, new Insets(5,
+                5, 5, 5), new Dimension(22, 20), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        uiDefaults.put("TableHeader:\"TableHeader.renderer\"[Enabled+Focused+Sorted].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_ENABLED_FOCUSED_SORTED,
+            new Insets(5, 5, 5, 5), new Dimension(22, 20), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        uiDefaults.put("TableHeader:\"TableHeader.renderer\"[Disabled+Sorted].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_DISABLED_SORTED, new Insets(5,
+                5, 5, 5), new Dimension(22, 20), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
     }
 
     /**
