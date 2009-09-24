@@ -977,6 +977,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         private AbstractRegionPainter.PaintContext ctx;
         private String                             className;
 
+        @SuppressWarnings("unused")
         LazyPainter(String className, int which, Insets insets, Dimension canvasSize, boolean inverted) {
             if (className == null) {
                 throw new IllegalArgumentException("The className must be specified");
