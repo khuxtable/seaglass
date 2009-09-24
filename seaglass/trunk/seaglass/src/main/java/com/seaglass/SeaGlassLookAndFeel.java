@@ -109,31 +109,31 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             uiDefaults = super.getDefaults();
 
             // Set the default font.
-            initDefaultFont();
+            initializeDefaultFont();
 
             // Override the root pane and scroll pane behavior.
             uiDefaults.put("RootPaneUI", PACKAGE_PREFIX + "RootPaneUI");
             uiDefaults.put("ScrollPaneUI", PACKAGE_PREFIX + "ScrollPaneUI");
 
             // Set base colors.
-            initBaseColors();
+            initializeBaseColors();
 
-            initButtons();
+            initializeButtons();
 
-            initTables();
+            initializeTables();
 
-            initScrollBars();
+            initializeScrollBars();
 
-            initSplitPanes();
+            initializeSplitPanes();
 
             eliminateMouseOverBehavior(uiDefaults);
 
             if (!PlatformUtils.isMac()) {
-                initTitlePaneButtons();
+                initializeTitlePaneButtons();
             }
 
             if (PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
-                initToolBars();
+                initializeToolBars();
             }
 
             uiDefaults.put("InternalFrame:InternalFrameTitlePane.textForeground", new Color(0, 0, 0));
@@ -146,7 +146,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 System.setProperty("apple.laf.useScreenMenuBar", "true");
 
                 // If we're on a Mac, use Aqua for some things.
-                initAquaSettings();
+                initializeAquaSettings();
             }
         }
         return uiDefaults;
@@ -155,7 +155,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Initialize the default font.
      */
-    private void initDefaultFont() {
+    private void initializeDefaultFont() {
         // Set the default font to Lucida Grande if available, else use
         // Lucida Sans Unicode. Grande is a later font and a bit nicer
         // looking, but it is a derivation of Sans Unicode, so they're
@@ -170,7 +170,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Initialize the base colors.
      */
-    private void initBaseColors() {
+    private void initializeBaseColors() {
         uiDefaults.put("nimbusBase", new ColorUIResource(61, 95, 140));
         // Original control: 220, 233, 239
         uiDefaults.put("control", new ColorUIResource(231, 239, 243));
@@ -195,7 +195,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Use Aqua settings for some properties if we're on a Mac.
      */
-    private void initAquaSettings() {
+    private void initializeAquaSettings() {
         try {
             // Instantiate Aqua but don't install it.
             Class<?> lnfClass = Class.forName(UIManager.getSystemLookAndFeelClassName(), true, Thread.currentThread()
@@ -254,7 +254,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Initialize the tool bar settings.
      */
-    private void initToolBars() {
+    private void initializeToolBars() {
         uiDefaults.put("ToolBar[North].borderPainter", new LazyPainter("com.seaglass.painter.ToolBarPainter",
             ToolBarPainter.BORDER_NORTH, new Insets(0, 0, 1, 0), new Dimension(30, 30), false,
             AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
@@ -275,7 +275,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Initialize button settings.
      */
-    private void initButtons() {
+    private void initializeButtons() {
         // Initialize Button
         uiDefaults.put("Button[Default].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
             ButtonPainter.BACKGROUND_DEFAULT, new Insets(7, 7, 7, 7), new Dimension(84, 26), false,
@@ -437,7 +437,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Initialize the table UI settings.
      */
-    private void initTables() {
+    private void initializeTables() {
         uiDefaults.put("Table.background", new ColorUIResource(255, 255, 255));
         uiDefaults.put("Table.alternateRowColor", new Color(220, 233, 239));
         uiDefaults.put("seaglassTableHeaderBase", new Color(49, 77, 113));
@@ -484,7 +484,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Initialize the scroll bar UI settings.
      */
-    private void initScrollBars() {
+    private void initializeScrollBars() {
         uiDefaults.put("ScrollBar.incrementButtonGap", new Integer(-5));
         uiDefaults.put("ScrollBar.decrementButtonGap", new Integer(-5));
         uiDefaults.put("ScrollBar:\"ScrollBar.button\".size", new Integer(20));
@@ -504,19 +504,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         uiDefaults.put("ScrollBar:ScrollBarThumb.States", "Disabled,Enabled,Focused,MouseOver,Pressed");
         uiDefaults.put("ScrollBar:ScrollBarThumb[Disabled].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_DISABLED, new Insets(0, 8, 0, 8),
-            new Dimension(32, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            new Dimension(82, 14), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
             2.0));
         uiDefaults.put("ScrollBar:ScrollBarThumb[Enabled].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_ENABLED, new Insets(0, 8, 0, 8),
-            new Dimension(32, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            new Dimension(82, 14), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
             2.0));
         uiDefaults.put("ScrollBar:ScrollBarThumb[MouseOver].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_PRESSED, new Insets(0, 8, 0, 8),
-            new Dimension(32, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            new Dimension(82, 14), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
             2.0));
         uiDefaults.put("ScrollBar:ScrollBarThumb[Pressed].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_PRESSED, new Insets(0, 8, 0, 8),
-            new Dimension(32, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            new Dimension(82, 14), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
             2.0));
 
         uiDefaults.put("ScrollBar:ScrollBarTrack[Disabled].backgroundPainter", new LazyPainter(
@@ -532,7 +532,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Initialize the split pane UI settings.
      */
-    private void initSplitPanes() {
+    private void initializeSplitPanes() {
         uiDefaults.put("SplitPane:SplitPaneDivider[Enabled].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SplitPaneDividerPainter", SplitPaneDividerPainter.BACKGROUND_ENABLED, new Insets(3, 0, 3, 0),
             new Dimension(68, 10), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
@@ -554,7 +554,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Set the icons to paint the title pane decorations.
      */
-    private void initTitlePaneButtons() {
+    private void initializeTitlePaneButtons() {
         // Set the multiplicity of states for the Close button.
         uiDefaults.put("TitlePane:seaglassCloseButton.backgroundPainter", new TitlePaneCloseButtonPainter(
             new AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0), new Dimension(19, 18), false,
@@ -977,7 +977,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         private AbstractRegionPainter.PaintContext ctx;
         private String                             className;
 
-        @SuppressWarnings("unused")
         LazyPainter(String className, int which, Insets insets, Dimension canvasSize, boolean inverted) {
             if (className == null) {
                 throw new IllegalArgumentException("The className must be specified");
