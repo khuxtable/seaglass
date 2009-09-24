@@ -133,8 +133,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             }
 
             if (PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
-                uiDefaults.put("ToolBarUI", PACKAGE_PREFIX + "ToolBarUI");
-                uiDefaults.put("ToolBar.gradient", new ToolBarPainter());
+                initToolBars();
             }
 
             uiDefaults.put("InternalFrame:InternalFrameTitlePane.textForeground", new Color(0, 0, 0));
@@ -252,6 +251,30 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         }
     }
 
+    /**
+     * Initialize the tool bar settings.
+     */
+    private void initToolBars() {
+        uiDefaults.put("ToolBar[North].borderPainter", new LazyPainter("com.seaglass.painter.ToolBarPainter",
+            ToolBarPainter.BORDER_NORTH, new Insets(0, 0, 1, 0), new Dimension(30, 30), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
+        uiDefaults.put("ToolBar[South].borderPainter", new LazyPainter("com.seaglass.painter.ToolBarPainter",
+            ToolBarPainter.BORDER_SOUTH, new Insets(1, 0, 0, 0), new Dimension(30, 30), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
+        uiDefaults.put("ToolBar[East].borderPainter", new LazyPainter("com.seaglass.painter.ToolBarPainter",
+            ToolBarPainter.BORDER_EAST, new Insets(1, 0, 0, 0), new Dimension(30, 30), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
+        uiDefaults.put("ToolBar[West].borderPainter", new LazyPainter("com.seaglass.painter.ToolBarPainter",
+            ToolBarPainter.BORDER_WEST, new Insets(0, 0, 1, 0), new Dimension(30, 30), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
+        uiDefaults.put("ToolBar[Enabled].handleIconPainter", new LazyPainter("com.seaglass.painter.ToolBarPainter",
+            ToolBarPainter.HANDLEICON_ENABLED, new Insets(5, 5, 5, 5), new Dimension(11, 38), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, 2.0, Double.POSITIVE_INFINITY));
+    }
+
+    /**
+     * Initialize button settings.
+     */
     private void initButtons() {
         // Initialize Button
         uiDefaults.put("Button[Default].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
