@@ -21,20 +21,19 @@
  */
 package com.seaglass.painter;
 
-
 /**
  * ScrollBarThumbPainter implementation.
  */
 public final class ScrollBarThumbPainter extends AbstractImagePainter {
-    //package private integers representing the available states that
-    //this painter will paint. These are used when creating a new instance
-    //of ScrollBarThumbPainter to determine which region/state is being painted
-    //by that instance.
-    public static final int BACKGROUND_DISABLED = 1;
-    public static final int BACKGROUND_ENABLED = 2;
-    public static final int BACKGROUND_FOCUSED = 3;
+    // package private integers representing the available states that
+    // this painter will paint. These are used when creating a new instance
+    // of ScrollBarThumbPainter to determine which region/state is being painted
+    // by that instance.
+    public static final int BACKGROUND_DISABLED  = 1;
+    public static final int BACKGROUND_ENABLED   = 2;
+    public static final int BACKGROUND_FOCUSED   = 3;
     public static final int BACKGROUND_MOUSEOVER = 4;
-    public static final int BACKGROUND_PRESSED = 5;
+    public static final int BACKGROUND_PRESSED   = 5;
 
     public ScrollBarThumbPainter(PaintContext ctx, int state) {
         super(ctx, state);
@@ -42,11 +41,15 @@ public final class ScrollBarThumbPainter extends AbstractImagePainter {
 
     @Override
     protected String getImageName(int state) {
-        switch(state) {
-            case BACKGROUND_DISABLED: return "vertical_scrollbar/vertical_scrollbar_thumb_disabled";
-            case BACKGROUND_ENABLED: return "vertical_scrollbar/vertical_scrollbar_thumb";
-            case BACKGROUND_MOUSEOVER: return "vertical_scrollbar/vertical_scrollbar_thumb";
-            case BACKGROUND_PRESSED: return "vertical_scrollbar/vertical_scrollbar_thumb_pressed";
+        switch (state) {
+        case BACKGROUND_DISABLED:
+            return "scrollbar/vertical_scrollbar_thumb_disabled";
+        case BACKGROUND_ENABLED:
+            return "scrollbar/vertical_scrollbar_thumb";
+        case BACKGROUND_MOUSEOVER:
+            return "scrollbar/vertical_scrollbar_thumb";
+        case BACKGROUND_PRESSED:
+            return "scrollbar/vertical_scrollbar_thumb_pressed";
         }
         return null;
     }
