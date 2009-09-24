@@ -21,19 +21,19 @@
  */
 package com.seaglass.painter;
 
-
 /**
  * ScrollBarButtonPainter implementation.
  */
 public final class ScrollBarButtonPainter extends AbstractImagePainter {
-    //package private integers representing the available states that
-    //this painter will paint. These are used when creating a new instance
-    //of ScrollBarButtonPainter to determine which region/state is being painted
-    //by that instance.
-    public static final int FOREGROUND_ENABLED = 1;
-    public static final int FOREGROUND_DISABLED = 2;
+    // package private integers representing the available states that
+    // this painter will paint. These are used when creating a new instance
+    // of ScrollBarButtonPainter to determine which region/state is being
+    // painted
+    // by that instance.
+    public static final int FOREGROUND_ENABLED   = 1;
+    public static final int FOREGROUND_DISABLED  = 2;
     public static final int FOREGROUND_MOUSEOVER = 3;
-    public static final int FOREGROUND_PRESSED = 4;
+    public static final int FOREGROUND_PRESSED   = 4;
 
     public ScrollBarButtonPainter(PaintContext ctx, int state) {
         super(ctx, state);
@@ -41,11 +41,15 @@ public final class ScrollBarButtonPainter extends AbstractImagePainter {
 
     @Override
     protected String getImageName(int state) {
-        switch(state) {
-            case FOREGROUND_ENABLED: return "vertical_scrollbar/scroll_min_apart";
-            case FOREGROUND_DISABLED: return "vertical_scrollbar/scroll_min_apart";
-            case FOREGROUND_MOUSEOVER: return "vertical_scrollbar/scroll_min_apart";
-            case FOREGROUND_PRESSED: return "vertical_scrollbar/scroll_min_apart_pressed";
+        switch (state) {
+        case FOREGROUND_ENABLED:
+            return "scrollbar/scroll_min_apart";
+        case FOREGROUND_DISABLED:
+            return "scrollbar/scroll_min_apart";
+        case FOREGROUND_MOUSEOVER:
+            return "scrollbar/scroll_min_apart";
+        case FOREGROUND_PRESSED:
+            return "scrollbar/scroll_min_apart_pressed";
         }
         return null;
     }
