@@ -43,13 +43,13 @@ public final class ScrollBarButtonPainter extends AbstractImagePainter {
     protected String getImageName(int state) {
         switch (state) {
         case FOREGROUND_ENABLED:
-            return "scrollbar/scroll_min_apart";
+            return "scrollbar/scroll_button_apart";
         case FOREGROUND_DISABLED:
-            return "scrollbar/scroll_min_apart";
+            return "scrollbar/scroll_button_apart";
         case FOREGROUND_MOUSEOVER:
-            return "scrollbar/scroll_min_apart";
+            return "scrollbar/scroll_button_apart";
         case FOREGROUND_PRESSED:
-            return "scrollbar/scroll_min_apart_pressed";
+            return "scrollbar/scroll_button_apart_pressed";
         }
         return null;
     }
