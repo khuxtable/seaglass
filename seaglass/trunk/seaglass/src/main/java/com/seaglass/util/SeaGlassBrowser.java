@@ -67,7 +67,10 @@ public class SeaGlassBrowser {
     private static Set<String> NIMBUS_PRIMARY_COLORS = new HashSet<String>(Arrays.asList(
             "text", "control", "nimbusBase", "nimbusOrange", "nimbusGreen", "nimbusRed", "nimbusInfoBlue",
             "nimbusAlertYellow", "nimbusFocus", "nimbusSelectedText", "nimbusSelectionBackground",
-            "nimbusDisabledText", "nimbusLightBackground", "info"));
+            "nimbusDisabledText", "nimbusLightBackground", "info",
+            "seaglassButton1", "seaglassButton1c", "seaglassButton2", "seaglassButton2c",   
+            "seaglassScrollBarButtonBase", "seaglassScrollBarTrackBase", "seaglassScrollThumbBase",
+            "seaglassSplitPaneDividerBase"));
     private static Set<String> NIMBUS_SECONDARY_COLORS = new HashSet<String>(Arrays.asList(
             "textForeground", "textBackground", "background",
             "nimbusBlueGrey", "nimbusBorder", "nimbusSelection", "infoText", "menuText", "menu", "scrollbar",
@@ -156,7 +159,7 @@ public class SeaGlassBrowser {
                     IMAGES_DIR = new File(dir,"images");
                     IMAGES_DIR.mkdir();
                     System.out.println("Outputing to " + dir.getAbsolutePath());
-                    File htmlFile = new File(dir, "nimbus.html");
+                    File htmlFile = new File(dir, "seaglass.html");
                     PrintWriter html = new PrintWriter(htmlFile);
 
                     html.println("<html>");
