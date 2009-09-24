@@ -39,9 +39,9 @@ public final class ScrollBarTrackPainter extends AbstractImagePainter {
     protected String getImageName(int state) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return "scrollbar/v_scroll_track_disabled";
+            return "scrollbar/scroll_track_disabled";
         case BACKGROUND_ENABLED:
-            return "scrollbar/v_scroll_track";
+            return "scrollbar/scroll_track";
         }
         return null;
     }
