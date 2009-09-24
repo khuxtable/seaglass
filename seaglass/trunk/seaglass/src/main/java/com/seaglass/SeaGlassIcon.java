@@ -148,7 +148,6 @@ public class SeaGlassIcon extends SynthIcon {
     @SuppressWarnings("unchecked")
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
-        System.out.println("In paintIcon");
         Painter painter = (Painter) UIManager.get(prefix + "[Enabled]." + key);
         if (painter != null) {
             JComponent jc = (c instanceof JComponent) ? (JComponent) c : null;
