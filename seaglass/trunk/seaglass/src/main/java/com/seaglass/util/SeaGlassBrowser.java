@@ -45,6 +45,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.InputMap;
+import javax.swing.JButton;
 import javax.swing.JToolBar;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
@@ -359,7 +360,8 @@ public class SeaGlassBrowser {
         g2.setComposite(AlphaComposite.Clear);
         g2.fillRect(0,0,icon.getIconWidth(), icon.getIconHeight());
         g2.setComposite(old);
-        icon.paintIcon(null,g2, 0, 0);
+        JButton foo = new JButton();
+        icon.paintIcon(foo,g2, 0, 0);
         g2.dispose();
         html.println("<td>"+saveImage(img)+"</td>");
     }
