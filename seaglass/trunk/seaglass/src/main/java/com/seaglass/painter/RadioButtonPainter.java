@@ -56,20 +56,20 @@ public final class RadioButtonPainter extends AbstractImagePainter {
         //generate this entire method. Each state/bg/fg/border combo that has
         //been painted gets its own KEY and paint method.
         switch(state) {
-            case ICON_DISABLED: return "sea_glass_art/radio_button_disabled";
-            case ICON_ENABLED: return "sea_glass_art/radio_button";
-            case ICON_FOCUSED: return "sea_glass_art/radio_button";
-            case ICON_MOUSEOVER: return "sea_glass_art/radio_button";
-            case ICON_MOUSEOVER_FOCUSED: return "sea_glass_art/radio_button";
-            case ICON_PRESSED: return "sea_glass_art/radio_button_pressed";
-            case ICON_PRESSED_FOCUSED: return "sea_glass_art/radio_button_pressed";
-            case ICON_SELECTED: return "sea_glass_art/radio_button_selected";
-            case ICON_SELECTED_FOCUSED: return "sea_glass_art/radio_button_selected";
-            case ICON_PRESSED_SELECTED: return "sea_glass_art/radio_button_selected_pressed";
-            case ICON_PRESSED_SELECTED_FOCUSED: return "sea_glass_art/radio_button_selected_pressed";
-            case ICON_MOUSEOVER_SELECTED: return "sea_glass_art/radio_button_selected";
-            case ICON_MOUSEOVER_SELECTED_FOCUSED: return "sea_glass_art/radio_button_selected";
-            case ICON_DISABLED_SELECTED: return "sea_glass_art/radio_button_disabled_selected";
+            case ICON_DISABLED: return "radio_button_disabled";
+            case ICON_ENABLED: return "radio_button";
+            case ICON_FOCUSED: return "radio_button";
+            case ICON_MOUSEOVER: return "radio_button";
+            case ICON_MOUSEOVER_FOCUSED: return "radio_button";
+            case ICON_PRESSED: return "radio_button_pressed";
+            case ICON_PRESSED_FOCUSED: return "radio_button_pressed";
+            case ICON_SELECTED: return "radio_button_selected";
+            case ICON_SELECTED_FOCUSED: return "radio_button_selected";
+            case ICON_PRESSED_SELECTED: return "radio_button_selected_pressed";
+            case ICON_PRESSED_SELECTED_FOCUSED: return "radio_button_selected_pressed";
+            case ICON_MOUSEOVER_SELECTED: return "radio_button_selected";
+            case ICON_MOUSEOVER_SELECTED_FOCUSED: return "radio_button_selected";
+            case ICON_DISABLED_SELECTED: return "radio_button_disabled_selected";
         }
         return null;
     }
