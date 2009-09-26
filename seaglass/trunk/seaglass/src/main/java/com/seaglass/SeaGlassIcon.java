@@ -34,7 +34,6 @@ import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.SynthContext;
 
 import com.sun.java.swing.Painter;
-import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 
 import sun.swing.plaf.synth.SynthIcon;
 
@@ -222,14 +221,14 @@ public class SeaGlassIcon extends SynthIcon {
         // The key "JComponent.sizeVariant" is used to match Apple's LAF
         String scaleKey = (String) context.getComponent().getClientProperty("JComponent.sizeVariant");
         if (scaleKey != null) {
-            if (NimbusStyle.LARGE_KEY.equals(scaleKey)) {
-                size *= NimbusStyle.LARGE_SCALE;
-            } else if (NimbusStyle.SMALL_KEY.equals(scaleKey)) {
-                size *= NimbusStyle.SMALL_SCALE;
-            } else if (NimbusStyle.MINI_KEY.equals(scaleKey)) {
+            if (SeaGlassStyle.LARGE_KEY.equals(scaleKey)) {
+                size *= SeaGlassStyle.LARGE_SCALE;
+            } else if (SeaGlassStyle.SMALL_KEY.equals(scaleKey)) {
+                size *= SeaGlassStyle.SMALL_SCALE;
+            } else if (SeaGlassStyle.MINI_KEY.equals(scaleKey)) {
                 // mini is not quite as small for icons as full mini is
                 // just too tiny
-                size *= NimbusStyle.MINI_SCALE + 0.07;
+                size *= SeaGlassStyle.MINI_SCALE + 0.07;
             }
         }
         return size;
