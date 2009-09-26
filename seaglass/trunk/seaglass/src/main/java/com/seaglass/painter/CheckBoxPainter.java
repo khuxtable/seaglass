@@ -56,20 +56,20 @@ public final class CheckBoxPainter extends AbstractImagePainter {
         //generate this entire method. Each state/bg/fg/border combo that has
         //been painted gets its own KEY and paint method.
         switch(state) {
-            case ICON_DISABLED: return "button/checkbox-disabled";
-            case ICON_ENABLED: return "button/checkbox-enabled";
-            case ICON_FOCUSED: return "button/checkbox-enabled";
-            case ICON_MOUSEOVER: return "button/checkbox-enabled";
-            case ICON_MOUSEOVER_FOCUSED: return "button/checkbox-enabled";
-            case ICON_PRESSED: return "button/checkbox-pressed";
-            case ICON_PRESSED_FOCUSED: return "button/checkbox-pressed";
-            case ICON_SELECTED: return "button/checkbox-selected";
-            case ICON_SELECTED_FOCUSED: return "button/checkbox-selected";
-            case ICON_PRESSED_SELECTED: return "button/checkbox-pressed-selected";
-            case ICON_PRESSED_SELECTED_FOCUSED: return "button/checkbox-pressed-selected";
-            case ICON_MOUSEOVER_SELECTED: return "button/checkbox-selected";
-            case ICON_MOUSEOVER_SELECTED_FOCUSED: return "button/checkbox-selected";
-            case ICON_DISABLED_SELECTED: return "button/checkbox-disabled-selected";
+            case ICON_DISABLED: return "sea_glass_art/check_box_disabled";
+            case ICON_ENABLED: return "sea_glass_art/check_box";
+            case ICON_FOCUSED: return "sea_glass_art/check_box";
+            case ICON_MOUSEOVER: return "sea_glass_art/check_box";
+            case ICON_MOUSEOVER_FOCUSED: return "sea_glass_art/check_box";
+            case ICON_PRESSED: return "sea_glass_art/check_box_pressed";
+            case ICON_PRESSED_FOCUSED: return "sea_glass_art/check_box_pressed";
+            case ICON_SELECTED: return "sea_glass_art/check_box_selected";
+            case ICON_SELECTED_FOCUSED: return "sea_glass_art/check_box_selected";
+            case ICON_PRESSED_SELECTED: return "sea_glass_art/check_box_selected_pressed";
+            case ICON_PRESSED_SELECTED_FOCUSED: return "sea_glass_art/check_box_selected_pressed";
+            case ICON_MOUSEOVER_SELECTED: return "sea_glass_art/check_box_selected";
+            case ICON_MOUSEOVER_SELECTED_FOCUSED: return "sea_glass_art/check_box_selected";
+            case ICON_DISABLED_SELECTED: return "sea_glass_art/check_box_disabled_selected";
         }
         return null;
     }
