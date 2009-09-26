@@ -44,10 +44,10 @@ import com.sun.java.swing.Painter;
  * @author rbair
  */
 @SuppressWarnings("unchecked")
-class SynthPainterImpl extends SynthPainter {
+class SeaGlassSynthPainterImpl extends SynthPainter {
     private SeaGlassStyle style;
 
-    SynthPainterImpl(SeaGlassStyle style) {
+    SeaGlassSynthPainterImpl(SeaGlassStyle style) {
         this.style = style;
     }
 
