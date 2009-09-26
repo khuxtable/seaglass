@@ -66,41 +66,41 @@ public final class ButtonPainter extends AbstractImagePainter {
     protected String getImageName(int state) {
         switch (state) {
         case BACKGROUND_DEFAULT:
-            return "button/button-default";
+            return "sea_glass_art/button_default";
         case BACKGROUND_DEFAULT_FOCUSED:
-            return "button/button-default";
+            return "sea_glass_art/button_default";
         case BACKGROUND_MOUSEOVER_DEFAULT:
-            return "button/button-default";
+            return "sea_glass_art/button_default";
         case BACKGROUND_MOUSEOVER_DEFAULT_FOCUSED:
-            return "button/button-default";
+            return "sea_glass_art/button_default";
         case BACKGROUND_PRESSED_DEFAULT:
-            return "button/button-pressed";
+            return "sea_glass_art/button_default_pressed";
         case BACKGROUND_PRESSED_DEFAULT_FOCUSED:
-            return "button/button-pressed";
+            return "sea_glass_art/button_default_pressed";
         case BACKGROUND_DISABLED:
-            return "button/button-disabled";
+            return "sea_glass_art/button_disabled";
         case BACKGROUND_ENABLED:
-            return "button/button-default";
+            return "sea_glass_art/button";
         case BACKGROUND_FOCUSED:
-            return "button/button-default";
+            return "sea_glass_art/button";
         case BACKGROUND_MOUSEOVER:
-            return "button/button-default";
+            return "sea_glass_art/button";
         case BACKGROUND_MOUSEOVER_FOCUSED:
-            return "button/button-default";
+            return "sea_glass_art/button";
         case BACKGROUND_PRESSED:
-            return "button/button-pressed";
+            return "sea_glass_art/button_pressed";
         case BACKGROUND_PRESSED_FOCUSED:
-            return "button/button-pressed";
+            return "sea_glass_art/button_pressed";
         case BACKGROUND_SELECTED:
-            return "button/button-selected";
+            return "sea_glass_art/button_selected";
         case BACKGROUND_SELECTED_FOCUSED:
-            return "button/button-selected";
+            return "sea_glass_art/button_selected";
         case BACKGROUND_PRESSED_SELECTED:
-            return "button/button-pressed";
+            return "sea_glass_art/button_pressed";
         case BACKGROUND_PRESSED_SELECTED_FOCUSED:
-            return "button/button-pressed";
+            return "sea_glass_art/button_pressed";
         case BACKGROUND_DISABLED_SELECTED:
-            return "button/button-disabled-selected";
+            return "sea_glass_art/button_disabled_selected";
         }
         return null;
     }
