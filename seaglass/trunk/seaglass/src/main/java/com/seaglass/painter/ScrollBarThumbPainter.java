@@ -43,13 +43,13 @@ public final class ScrollBarThumbPainter extends AbstractImagePainter {
     protected String getImageName(int state) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return "scrollbar/scroll_thumb_disabled";
+            return "h_scroll_thumb_disabled";
         case BACKGROUND_ENABLED:
-            return "scrollbar/scroll_thumb";
+            return "h_scroll_thumb";
         case BACKGROUND_MOUSEOVER:
-            return "scrollbar/scroll_thumb";
+            return "h_scroll_thumb";
         case BACKGROUND_PRESSED:
-            return "scrollbar/scroll_thumb_pressed";
+            return "h_scroll_thumb_pressed";
         }
         return null;
     }

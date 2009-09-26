@@ -56,20 +56,20 @@ public final class CheckBoxPainter extends AbstractImagePainter {
         //generate this entire method. Each state/bg/fg/border combo that has
         //been painted gets its own KEY and paint method.
         switch(state) {
-            case ICON_DISABLED: return "sea_glass_art/check_box_disabled";
-            case ICON_ENABLED: return "sea_glass_art/check_box";
-            case ICON_FOCUSED: return "sea_glass_art/check_box";
-            case ICON_MOUSEOVER: return "sea_glass_art/check_box";
-            case ICON_MOUSEOVER_FOCUSED: return "sea_glass_art/check_box";
-            case ICON_PRESSED: return "sea_glass_art/check_box_pressed";
-            case ICON_PRESSED_FOCUSED: return "sea_glass_art/check_box_pressed";
-            case ICON_SELECTED: return "sea_glass_art/check_box_selected";
-            case ICON_SELECTED_FOCUSED: return "sea_glass_art/check_box_selected";
-            case ICON_PRESSED_SELECTED: return "sea_glass_art/check_box_selected_pressed";
-            case ICON_PRESSED_SELECTED_FOCUSED: return "sea_glass_art/check_box_selected_pressed";
-            case ICON_MOUSEOVER_SELECTED: return "sea_glass_art/check_box_selected";
-            case ICON_MOUSEOVER_SELECTED_FOCUSED: return "sea_glass_art/check_box_selected";
-            case ICON_DISABLED_SELECTED: return "sea_glass_art/check_box_disabled_selected";
+            case ICON_DISABLED: return "check_box_disabled";
+            case ICON_ENABLED: return "check_box";
+            case ICON_FOCUSED: return "check_box";
+            case ICON_MOUSEOVER: return "check_box";
+            case ICON_MOUSEOVER_FOCUSED: return "check_box";
+            case ICON_PRESSED: return "check_box_pressed";
+            case ICON_PRESSED_FOCUSED: return "check_box_pressed";
+            case ICON_SELECTED: return "check_box_selected";
+            case ICON_SELECTED_FOCUSED: return "check_box_selected";
+            case ICON_PRESSED_SELECTED: return "check_box_selected_pressed";
+            case ICON_PRESSED_SELECTED_FOCUSED: return "check_box_selected_pressed";
+            case ICON_MOUSEOVER_SELECTED: return "check_box_selected";
+            case ICON_MOUSEOVER_SELECTED_FOCUSED: return "check_box_selected";
+            case ICON_DISABLED_SELECTED: return "check_box_disabled_selected";
         }
         return null;
     }
