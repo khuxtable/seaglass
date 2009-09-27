@@ -55,6 +55,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 
 import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.painter.AbstractRegionPainter;
+import com.seaglass.painter.ComboBoxPainter;
+import com.seaglass.painter.AbstractRegionPainter.PaintContext;
 import com.sun.java.swing.Painter;
 
 /**
@@ -247,6 +250,13 @@ public class SeaGlassBrowser {
     static void printPainter(PrintWriter html, Painter<?> painter) {
         html.println("<td>Painter</td>");
         int w=25,h=25;
+        if (painter instanceof AbstractRegionPainter) {
+            AbstractRegionPainter p = (AbstractRegionPainter) painter;
+            PaintContext ctx = p.getMyPaintContext();
+            Dimension d = ctx.getCanvasSize();
+            w = d.width;
+            h = d.height;
+        }
         try {
             BufferedImage img = new BufferedImage(w,h, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = img.createGraphics();
