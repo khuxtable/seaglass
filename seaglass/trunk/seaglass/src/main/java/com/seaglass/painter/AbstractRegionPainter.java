@@ -595,6 +595,14 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
                 }
             }
         }
+        
+        public Dimension getCanvasSize() {
+            return canvasSize;
+        }
+        
+        public Insets getStretchingInsets() {
+            return stretchingInsets;
+        }
     }
 
     //---------------------- private methods
@@ -772,5 +780,9 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
             value = 255;
         }
         return value;
+    }
+    
+    public PaintContext getMyPaintContext() {
+        return getPaintContext();
     }
 }
