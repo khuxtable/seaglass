@@ -61,6 +61,7 @@ import com.seaglass.painter.ButtonPainter;
 import com.seaglass.painter.CheckBoxPainter;
 import com.seaglass.painter.ComboBoxArrowButtonPainter;
 import com.seaglass.painter.ComboBoxPainter;
+import com.seaglass.painter.ComboBoxTextFieldPainter;
 import com.seaglass.painter.RadioButtonPainter;
 import com.seaglass.painter.ScrollBarButtonPainter;
 import com.seaglass.painter.ScrollBarThumbPainter;
@@ -93,9 +94,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private SynthStyleFactory   nimbusFactory;
 
     // Refer to setSelectedUI
-    static ComponentUI selectedUI;
+    static ComponentUI          selectedUI;
     // Refer to setSelectedUI
-    static int selectedUIState;
+    static int                  selectedUIState;
 
     /**
      * {@inheritDoc}
@@ -555,6 +556,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaglassComboBoxBase", new ColorUIResource(61, 95, 140));
         d.put("seaglassComboBoxBlueGrey", new ColorUIResource(175, 207, 232));
 
+        // Background
         d.put("ComboBox[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ComboBoxPainter",
             ComboBoxPainter.BACKGROUND_DISABLED, new Insets(8, 9, 8, 23), new Dimension(105, 23), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 5.0));
@@ -598,6 +600,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             ComboBoxPainter.BACKGROUND_PRESSED_EDITABLE, new Insets(0, 0, 0, 0), new Dimension(1, 1), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 5.0));
 
+        // Editable arrow
         d.put("ComboBox:\"ComboBox.arrowButton\"[Disabled+Editable].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.BACKGROUND_DISABLED_EDITABLE, new Insets(
                 8, 1, 8, 8), new Dimension(21, 23), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
@@ -638,6 +641,20 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_SELECTED, new Insets(6, 9, 6,
                 10), new Dimension(24, 19), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
+
+        // Textfield
+        d.put("ComboBox:\"ComboBox.textField\"[Disabled].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.ComboBoxTextFieldPainter", ComboBoxTextFieldPainter.BACKGROUND_DISABLED, new Insets(3, 3, 3, 1),
+            new Dimension(64, 23), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            2.0));
+        d.put("ComboBox:\"ComboBox.textField\"[Enabled].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.ComboBoxTextFieldPainter", ComboBoxTextFieldPainter.BACKGROUND_ENABLED, new Insets(3, 3, 3, 1),
+            new Dimension(64, 23), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            2.0));
+        d.put("ComboBox:\"ComboBox.textField\"[Selected].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.ComboBoxTextFieldPainter", ComboBoxTextFieldPainter.BACKGROUND_SELECTED, new Insets(3, 3, 3, 1),
+            new Dimension(64, 23), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            2.0));
     }
 
     /**
@@ -1369,16 +1386,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
-     * Used by the renderers. For the most part the renderers are implemented
-     * as Labels, which is problematic in so far as they are never selected.
-     * To accomodate this SynthLabelUI checks if the current 
-     * UI matches that of <code>selectedUI</code> (which this methods sets), if
-     * it does, then a state as set by this method is returned. This provides
-     * a way for labels to have a state other than selected.
+     * Used by the renderers. For the most part the renderers are implemented as
+     * Labels, which is problematic in so far as they are never selected. To
+     * accomodate this SynthLabelUI checks if the current UI matches that of
+     * <code>selectedUI</code> (which this methods sets), if it does, then a
+     * state as set by this method is returned. This provides a way for labels
+     * to have a state other than selected.
      */
-    static void setSelectedUI(ComponentUI uix, boolean selected,
-                              boolean focused, boolean enabled,
-                              boolean rollover) {
+    static void setSelectedUI(ComponentUI uix, boolean selected, boolean focused, boolean enabled, boolean rollover) {
         selectedUI = uix;
         selectedUIState = 0;
         if (selected) {
@@ -1386,20 +1401,16 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             if (focused) {
                 selectedUIState |= SynthConstants.FOCUSED;
             }
-        }
-        else if (rollover && enabled) {
-            selectedUIState |=
-                    SynthConstants.MOUSE_OVER | SynthConstants.ENABLED;
+        } else if (rollover && enabled) {
+            selectedUIState |= SynthConstants.MOUSE_OVER | SynthConstants.ENABLED;
             if (focused) {
                 selectedUIState |= SynthConstants.FOCUSED;
             }
-        }
-        else {
+        } else {
             if (enabled) {
                 selectedUIState |= SynthConstants.ENABLED;
                 selectedUIState = SynthConstants.FOCUSED;
-            }
-            else {
+            } else {
                 selectedUIState |= SynthConstants.DISABLED;
             }
         }
