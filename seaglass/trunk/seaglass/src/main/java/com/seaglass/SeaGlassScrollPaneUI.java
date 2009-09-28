@@ -21,8 +21,10 @@
  */
 package com.seaglass;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseWheelEvent;
@@ -150,6 +152,15 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements ScrollPan
         spPropertyChangeListener = null;
         mouseScrollListener = null;
         handler = null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        g.setColor(new Color(231, 239, 243));
+        g.fillRect(c.getX(), c.getY(), c.getWidth(), c.getHeight());
     }
 
     private Handler getHandler() {

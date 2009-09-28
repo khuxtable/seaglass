@@ -25,7 +25,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.ColorType;
 import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthGraphicsUtils;
@@ -35,6 +39,8 @@ import javax.swing.plaf.synth.SynthStyle;
 import com.seaglass.util.SeaGlassGraphicsUtils;
 import com.sun.java.swing.Painter;
 import com.sun.java.swing.plaf.nimbus.NimbusStyle;
+
+import sun.swing.plaf.synth.SynthUI;
 
 /**
  * A SynthStyle implementation used by SeaGlass.
@@ -55,8 +61,8 @@ public final class SeaGlassStyle extends SynthStyle {
 
     /**
      * The SynthPainter that will be returned from this NimbusStyle. The
-     * SynthPainter returned will be a SeaGlassSynthPainterImpl, which will in turn
-     * delegate back to this NimbusStyle for the proper Painter (not
+     * SynthPainter returned will be a SeaGlassSynthPainterImpl, which will in
+     * turn delegate back to this NimbusStyle for the proper Painter (not
      * SynthPainter) to use for painting the foreground, background, or border.
      */
     private SynthPainter                    painter;
@@ -93,6 +99,21 @@ public final class SeaGlassStyle extends SynthStyle {
      */
     public SynthGraphicsUtils getGraphicsUtils(SynthContext context) {
         return SEAGLASS_GRAPHICS;
+    }
+
+    public void installDefaults(SeaGlassContext context, SynthUI ui) {
+        // Special case the Border as this will likely change when the LAF
+        // can have more control over this.
+        if (!context.isSubregion()) {
+            JComponent c = context.getComponent();
+            Border border = c.getBorder();
+
+            if (border == null || border instanceof UIResource) {
+                // c.setBorder(new SynthBorder(ui, getInsets(context, null)));
+                c.setBorder(BorderFactory.createEmptyBorder());
+            }
+        }
+        installDefaults(context);
     }
 
     /**
