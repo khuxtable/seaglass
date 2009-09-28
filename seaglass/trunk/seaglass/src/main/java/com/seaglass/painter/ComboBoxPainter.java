@@ -36,20 +36,20 @@ public final class ComboBoxPainter extends AbstractImagePainter {
     @Override
     protected String getImageName(int state) {
         switch(state) {
-            case BACKGROUND_DISABLED: return "combo_box_disabled.png";
-            case BACKGROUND_DISABLED_PRESSED: return "combo_box_disabled.png";
-            case BACKGROUND_ENABLED: return "combo_box.png";
-            case BACKGROUND_FOCUSED: return "combo_box.png";
-            case BACKGROUND_MOUSEOVER_FOCUSED: return "combo_box.png";
-            case BACKGROUND_MOUSEOVER: return "combo_box.png";
-            case BACKGROUND_PRESSED_FOCUSED: return "combo_box_pressed.png";
-            case BACKGROUND_PRESSED: return "combo_box_pressed.png";
-            case BACKGROUND_ENABLED_SELECTED: return "combo_box_pressed.png";
-            case BACKGROUND_DISABLED_EDITABLE: return "empty_image.png";
-            case BACKGROUND_ENABLED_EDITABLE: return "empty_image.png";
-            case BACKGROUND_FOCUSED_EDITABLE: return "combo_box_focused_editable.png";
-            case BACKGROUND_MOUSEOVER_EDITABLE: return "empty_image.png";
-            case BACKGROUND_PRESSED_EDITABLE: return "empty_image.png";
+            case BACKGROUND_DISABLED: return "combo_box_disabled";
+            case BACKGROUND_DISABLED_PRESSED: return "combo_box_disabled";
+            case BACKGROUND_ENABLED: return "combo_box";
+            case BACKGROUND_FOCUSED: return "combo_box";
+            case BACKGROUND_MOUSEOVER_FOCUSED: return "combo_box";
+            case BACKGROUND_MOUSEOVER: return "combo_box";
+            case BACKGROUND_PRESSED_FOCUSED: return "combo_box_pressed";
+            case BACKGROUND_PRESSED: return "combo_box_pressed";
+            case BACKGROUND_ENABLED_SELECTED: return "combo_box_pressed";
+            case BACKGROUND_DISABLED_EDITABLE: return "empty_image";
+            case BACKGROUND_ENABLED_EDITABLE: return "empty_image";
+            case BACKGROUND_FOCUSED_EDITABLE: return "combo_box_focused_editable";
+            case BACKGROUND_MOUSEOVER_EDITABLE: return "empty_image";
+            case BACKGROUND_PRESSED_EDITABLE: return "empty_image";
         }
         return null;
     }
