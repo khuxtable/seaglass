@@ -32,8 +32,11 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
 import java.lang.reflect.Constructor;
 
 import javax.swing.JComponent;
@@ -43,9 +46,13 @@ import javax.swing.LookAndFeel;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.InsetsUIResource;
+import javax.swing.plaf.synth.ColorType;
 import javax.swing.plaf.synth.Region;
+import javax.swing.plaf.synth.SynthConstants;
 import javax.swing.plaf.synth.SynthContext;
+import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.plaf.synth.SynthStyleFactory;
 
@@ -70,14 +77,25 @@ import com.seaglass.util.PlatformUtils;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 
+import sun.swing.plaf.synth.SynthUI;
+
 public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
+    /**
+     * Used in a handful of places where we need an empty Insets.
+     */
+    static final Insets         EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
 
     // Set the package name.
-    private static final String PACKAGE_PREFIX = "com.seaglass.SeaGlass";
+    private static final String PACKAGE_PREFIX          = "com.seaglass.SeaGlass";
 
-    private UIDefaults          uiDefaults     = null;
+    private UIDefaults          uiDefaults              = null;
 
     private SynthStyleFactory   nimbusFactory;
+
+    // Refer to setSelectedUI
+    static ComponentUI selectedUI;
+    // Refer to setSelectedUI
+    static int selectedUIState;
 
     /**
      * {@inheritDoc}
@@ -124,6 +142,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             // Override the root pane and scroll pane behavior.
             uiDefaults.put("RootPaneUI", PACKAGE_PREFIX + "RootPaneUI");
             uiDefaults.put("ScrollPaneUI", PACKAGE_PREFIX + "ScrollPaneUI");
+            uiDefaults.put("ScrollBarUI", PACKAGE_PREFIX + "ScrollBarUI");
 
             // Set base colors.
             initializeBaseColors(uiDefaults);
@@ -681,6 +700,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ScrollBar.incrementButtonGap", new Integer(-5));
         d.put("ScrollBar.decrementButtonGap", new Integer(-5));
         d.put("ScrollBar:\"ScrollBar.button\".size", new Integer(20));
+
+        // Buttons
         d.put("ScrollBar:\"ScrollBar.button\"[Enabled].foregroundPainter", new LazyPainter(
             "com.seaglass.painter.ScrollBarButtonPainter", ScrollBarButtonPainter.FOREGROUND_ENABLED, new Insets(1, 1, 1, 1),
             new Dimension(20, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
@@ -694,6 +715,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             "com.seaglass.painter.ScrollBarButtonPainter", ScrollBarButtonPainter.FOREGROUND_PRESSED, new Insets(1, 1, 1, 1),
             new Dimension(20, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
 
+        // Thumb
         d.put("ScrollBar:ScrollBarThumb.States", "Disabled,Enabled,Focused,MouseOver,Pressed");
         d.put("ScrollBar:ScrollBarThumb[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ScrollBarThumbPainter",
             ScrollBarThumbPainter.BACKGROUND_DISABLED, new Insets(0, 8, 0, 8), new Dimension(82, 14), false,
@@ -702,13 +724,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             ScrollBarThumbPainter.BACKGROUND_ENABLED, new Insets(0, 8, 0, 8), new Dimension(82, 14), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0));
         d.put("ScrollBar:ScrollBarThumb[MouseOver].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_PRESSED, new Insets(0, 8, 0, 8),
+            "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_MOUSEOVER, new Insets(0, 8, 0, 8),
             new Dimension(82, 14), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
             2.0));
         d.put("ScrollBar:ScrollBarThumb[Pressed].backgroundPainter", new LazyPainter("com.seaglass.painter.ScrollBarThumbPainter",
             ScrollBarThumbPainter.BACKGROUND_PRESSED, new Insets(0, 8, 0, 8), new Dimension(82, 14), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0));
 
+        // Track
         d.put("ScrollBar:ScrollBarTrack[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ScrollBarTrackPainter",
             ScrollBarTrackPainter.BACKGROUND_DISABLED, new Insets(0, 0, 0, 0), new Dimension(19, 15), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0));
@@ -1208,5 +1231,184 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 return null;
             }
         }
+    }
+
+    // Private stuff added from Synth
+
+    /**
+     * A convience method that will reset the Style of StyleContext if
+     * necessary.
+     * 
+     * @return newStyle
+     */
+    static SynthStyle updateStyle(SeaGlassContext context, SynthUI ui) {
+        SeaGlassStyle newStyle = getMyStyle(context.getComponent(), context.getRegion());
+        SynthStyle oldStyle = context.getStyle();
+
+        if (newStyle != oldStyle) {
+            if (oldStyle != null) {
+                oldStyle.uninstallDefaults(context);
+            }
+            context.setStyle(newStyle);
+            newStyle.installDefaults(context, ui);
+        }
+        return newStyle;
+    }
+
+    /**
+     * Gets the style associated with the given component and region. This will
+     * never return null. If an appropriate component and region cannot be
+     * determined, then a default style is returned.
+     * 
+     * @param c
+     *            a non-null reference to a JComponent
+     * @param r
+     *            a non-null reference to the region of the component c
+     * @return a non-null reference to a NimbusStyle.
+     */
+    public static SeaGlassStyle getMyStyle(JComponent c, Region r) {
+        return (SeaGlassStyle) SynthLookAndFeel.getStyle(c, r);
+    }
+
+    /**
+     * Returns the component state for the specified component. This should only
+     * be used for Components that don't have any special state beyond that of
+     * ENABLED, DISABLED or FOCUSED. For example, buttons shouldn't call into
+     * this method.
+     */
+    public static int getComponentState(Component c) {
+        if (c.isEnabled()) {
+            if (c.isFocusOwner()) {
+                return SynthUI.ENABLED | SynthUI.FOCUSED;
+            }
+            return SynthUI.ENABLED;
+        }
+        return SynthUI.DISABLED;
+    }
+
+    /**
+     * A convenience method that handles painting of the background. All SynthUI
+     * implementations should override update and invoke this method.
+     */
+    public static void update(SynthContext state, Graphics g) {
+        paintRegion(state, g, null);
+    }
+
+    /**
+     * A convenience method that handles painting of the background for
+     * subregions. All SynthUI's that have subregions should invoke this method,
+     * than paint the foreground.
+     */
+    public static void updateSubregion(SynthContext state, Graphics g, Rectangle bounds) {
+        paintRegion(state, g, bounds);
+    }
+
+    private static void paintRegion(SynthContext state, Graphics g, Rectangle bounds) {
+        JComponent c = state.getComponent();
+        SynthStyle style = state.getStyle();
+        int x, y, width, height;
+
+        if (bounds == null) {
+            x = 0;
+            y = 0;
+            width = c.getWidth();
+            height = c.getHeight();
+        } else {
+            x = bounds.x;
+            y = bounds.y;
+            width = bounds.width;
+            height = bounds.height;
+        }
+
+        // Fill in the background, if necessary.
+        boolean subregion = state.getRegion().isSubregion();
+        if ((subregion && style.isOpaque(state)) || (!subregion && c.isOpaque())) {
+            g.setColor(style.getColor(state, ColorType.BACKGROUND));
+            g.fillRect(x, y, width, height);
+        }
+    }
+
+    /**
+     * Returns true if the Style should be updated in response to the specified
+     * PropertyChangeEvent. This forwards to
+     * <code>shouldUpdateStyleOnAncestorChanged</code> as necessary.
+     */
+    public static boolean shouldUpdateStyle(PropertyChangeEvent event) {
+        String eName = event.getPropertyName();
+        if ("name" == eName) {
+            // Always update on a name change
+            return true;
+        } else if ("componentOrientation" == eName) {
+            // Always update on a component orientation change
+            return true;
+        } else if ("ancestor" == eName && event.getNewValue() != null) {
+            // Only update on an ancestor change when getting a valid
+            // parent and the LookAndFeel wants this.
+            LookAndFeel laf = UIManager.getLookAndFeel();
+            return (laf instanceof SynthLookAndFeel && ((SynthLookAndFeel) laf).shouldUpdateStyleOnAncestorChanged());
+        }
+        // Note: The following two nimbus based overrides should be refactored
+        // to be in the Nimbus LAF. Due to constraints in an update release,
+        // we couldn't actually provide the public API necessary to allow
+        // NimbusLookAndFeel (a subclass of SynthLookAndFeel) to provide its
+        // own rules for shouldUpdateStyle.
+        else if ("Nimbus.Overrides" == eName) {
+            // Always update when the Nimbus.Overrides client property has
+            // been changed
+            return true;
+        } else if ("Nimbus.Overrides.InheritDefaults" == eName) {
+            // Always update when the Nimbus.Overrides.InheritDefaults
+            // client property has changed
+            return true;
+        } else if ("JComponent.sizeVariant" == eName) {
+            // Always update when the JComponent.sizeVariant
+            // client property has changed
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Used by the renderers. For the most part the renderers are implemented
+     * as Labels, which is problematic in so far as they are never selected.
+     * To accomodate this SynthLabelUI checks if the current 
+     * UI matches that of <code>selectedUI</code> (which this methods sets), if
+     * it does, then a state as set by this method is returned. This provides
+     * a way for labels to have a state other than selected.
+     */
+    static void setSelectedUI(ComponentUI uix, boolean selected,
+                              boolean focused, boolean enabled,
+                              boolean rollover) {
+        selectedUI = uix;
+        selectedUIState = 0;
+        if (selected) {
+            selectedUIState = SynthConstants.SELECTED;
+            if (focused) {
+                selectedUIState |= SynthConstants.FOCUSED;
+            }
+        }
+        else if (rollover && enabled) {
+            selectedUIState |=
+                    SynthConstants.MOUSE_OVER | SynthConstants.ENABLED;
+            if (focused) {
+                selectedUIState |= SynthConstants.FOCUSED;
+            }
+        }
+        else {
+            if (enabled) {
+                selectedUIState |= SynthConstants.ENABLED;
+                selectedUIState = SynthConstants.FOCUSED;
+            }
+            else {
+                selectedUIState |= SynthConstants.DISABLED;
+            }
+        }
+    }
+
+    /**
+     * Clears out the selected UI that was last set in setSelectedUI.
+     */
+    static void resetSelectedUI() {
+        selectedUI = null;
     }
 }

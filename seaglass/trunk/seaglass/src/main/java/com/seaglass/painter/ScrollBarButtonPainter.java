@@ -21,6 +21,14 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Graphics2D;
+
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JScrollBar;
+
+import com.seaglass.SeaGlassScrollBarUI;
+
 /**
  * ScrollBarButtonPainter implementation.
  */
@@ -34,6 +42,8 @@ public final class ScrollBarButtonPainter extends AbstractImagePainter {
     public static final int FOREGROUND_DISABLED  = 2;
     public static final int FOREGROUND_MOUSEOVER = 3;
     public static final int FOREGROUND_PRESSED   = 4;
+    
+    ImageIcon rightImage;
 
     public ScrollBarButtonPainter(PaintContext ctx, int state) {
         super(ctx, state);
@@ -41,16 +51,38 @@ public final class ScrollBarButtonPainter extends AbstractImagePainter {
 
     @Override
     protected String getImageName(int state) {
+        String leftName = null;
+        String rightName = null;
         switch (state) {
         case FOREGROUND_ENABLED:
-            return "h_scroll_left_apart";
+            leftName = "h_scroll_left_apart";
+            rightName = "h_scroll_right_apart";
+            break;
         case FOREGROUND_DISABLED:
-            return "h_scroll_left_apart";
+            leftName = "h_scroll_left_apart";
+            rightName = "h_scroll_right_apart";
+            break;
         case FOREGROUND_MOUSEOVER:
-            return "h_scroll_left_apart";
+            leftName = "h_scroll_left_apart";
+            rightName = "h_scroll_right_apart";
+            break;
         case FOREGROUND_PRESSED:
-            return "h_scroll_left_apart_pressed";
+            leftName = "h_scroll_left_apart_pressed";
+            rightName = "h_scroll_right_apart_pressed";
         }
-        return null;
+        rightImage = new ImageIcon(ScrollBarButtonPainter.class.getResource("/com/seaglass/resources/images/" + rightName + ".png"));
+        return leftName;
+    }
+
+    @Override
+    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
+        if (c != null && c.getParent() != null) {
+            SeaGlassScrollBarUI ui = (SeaGlassScrollBarUI) ((JScrollBar) c.getParent()).getUI();
+            if (ui.getIncreaseButton() == c) {
+                rightImage.paintIcon(c, g, 0, 0);
+                return;
+            }
+        }
+        image.paintIcon(c, g, 0, 0);
     }
 }
