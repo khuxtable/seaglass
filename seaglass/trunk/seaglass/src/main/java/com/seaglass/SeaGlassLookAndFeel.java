@@ -141,9 +141,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             initializeDefaultFont(uiDefaults);
 
             // Override the root pane and scroll pane behavior.
-            uiDefaults.put("RootPaneUI", PACKAGE_PREFIX + "RootPaneUI");
-            uiDefaults.put("ScrollPaneUI", PACKAGE_PREFIX + "ScrollPaneUI");
-            uiDefaults.put("ScrollBarUI", PACKAGE_PREFIX + "ScrollBarUI");
+            useOurUI(uiDefaults, "ComboBoxUI");
+            useOurUI(uiDefaults, "LabelUI");
+            useOurUI(uiDefaults, "RootPaneUI");
+            useOurUI(uiDefaults, "ScrollBarUI");
+            useOurUI(uiDefaults, "ScrollPaneUI");
 
             // Set base colors.
             initializeBaseColors(uiDefaults);
@@ -184,6 +186,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         return uiDefaults;
     }
 
+    private void useOurUI(UIDefaults d, String uiName) {
+        d.put(uiName, PACKAGE_PREFIX + uiName);
+    }
+
     /**
      * Initialize the default font.
      * 
@@ -215,6 +221,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("nimbusBase", new ColorUIResource(61, 95, 140));
         // Original control: 220, 233, 239
         d.put("control", new ColorUIResource(231, 239, 243));
+        // d.put("control", new ColorUIResource(237, 237, 237));
+        // d.put("control", new ColorUIResource(249, 243, 245));
         d.put("scrollbar", new ColorUIResource(255, 255, 255));
         // Original blue grey: 170, 178, 194
         d.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228));
@@ -270,9 +278,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             d.put("MenuBarUI", aquaDefaults.get("MenuBarUI"));
             d.put("MenuUI", aquaDefaults.get("MenuUI"));
             d.put("MenuItemUI", aquaDefaults.get("MenuItemUI"));
-            d.put("CheckBoxMenuItemUI", aquaDefaults.get("CheckBoxMenuItemUI"));
+            // d.put("CheckBoxMenuItemUI",
+            // aquaDefaults.get("CheckBoxMenuItemUI"));
             d.put("RadioButtonMenuItemUI", aquaDefaults.get("RadioButtonMenuItemUI"));
-            d.put("PopupMenuUI", aquaDefaults.get("PopupMenuUI"));
+            // d.put("PopupMenuUI", aquaDefaults.get("PopupMenuUI"));
 
             // If the Mac paint doesn't exist, use Aqua to paint a
             // unified toolbar.
@@ -622,24 +631,24 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 8, 1, 8, 8), new Dimension(21, 23), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[Enabled].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_ENABLED, new Insets(6, 9, 6,
-                10), new Dimension(24, 19), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_ENABLED,
+            new Insets(1, 1, 1, 1), new Dimension(23, 6), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[MouseOver].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_ENABLED, new Insets(6, 9, 6,
-                10), new Dimension(24, 19), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_ENABLED,
+            new Insets(1, 1, 1, 1), new Dimension(23, 6), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[Disabled].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_DISABLED, new Insets(6, 9, 6,
-                10), new Dimension(24, 19), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_DISABLED, new Insets(1, 1, 1,
+                1), new Dimension(23, 6), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[Pressed].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_PRESSED, new Insets(6, 9, 6,
-                10), new Dimension(24, 19), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_PRESSED,
+            new Insets(1, 1, 1, 1), new Dimension(23, 6), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[Selected].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_SELECTED, new Insets(6, 9, 6,
-                10), new Dimension(24, 19), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_SELECTED, new Insets(1, 1, 1,
+                1), new Dimension(23, 6), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
 
         // Textfield
@@ -1150,6 +1159,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
+     * Returns the ui that is of type <code>klass</code>, or null if one can not
+     * be found.
+     */
+    public static Object getUIOfType(ComponentUI ui, Class klass) {
+        if (klass.isInstance(ui)) {
+            return ui;
+        }
+        return null;
+    }
+
+    /**
      * Package private method which returns either BorderLayout.NORTH,
      * BorderLayout.SOUTH, BorderLayout.EAST, or BorderLayout.WEST depending on
      * the location of the toolbar in its parent. The toolbar might be in
@@ -1388,7 +1408,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used by the renderers. For the most part the renderers are implemented as
      * Labels, which is problematic in so far as they are never selected. To
-     * accomodate this SynthLabelUI checks if the current UI matches that of
+     * accomodate this SeaGlassLabelUI checks if the current UI matches that of
      * <code>selectedUI</code> (which this methods sets), if it does, then a
      * state as set by this method is returned. This provides a way for labels
      * to have a state other than selected.
