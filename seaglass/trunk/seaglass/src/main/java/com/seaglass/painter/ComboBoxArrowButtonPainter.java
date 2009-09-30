@@ -41,11 +41,11 @@ public final class ComboBoxArrowButtonPainter extends AbstractImagePainter {
             case BACKGROUND_MOUSEOVER_EDITABLE: return "combo_box_button_background";
             case BACKGROUND_PRESSED_EDITABLE: return "combo_box_button_background_pressed";
             case BACKGROUND_SELECTED_EDITABLE: return "combo_box_button_background_pressed";
-            case FOREGROUND_ENABLED: return "combo_box_arrow_foreground";
-            case FOREGROUND_MOUSEOVER: return "combo_box_arrow_foreground";
+            case FOREGROUND_ENABLED: return "combo_box_arrows";
+            case FOREGROUND_MOUSEOVER: return "combo_box_arrows";
             case FOREGROUND_DISABLED: return "combo_box_arrow_foreground_disabled";
-            case FOREGROUND_PRESSED: return "combo_box_arrow_foreground";
-            case FOREGROUND_SELECTED: return "combo_box_arrow_foreground";
+            case FOREGROUND_PRESSED: return "combo_box_arrows";
+            case FOREGROUND_SELECTED: return "combo_box_arrows";
         }
         return null;
     }
