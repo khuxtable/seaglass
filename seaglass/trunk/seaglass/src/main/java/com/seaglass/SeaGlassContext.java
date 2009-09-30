@@ -139,10 +139,12 @@ public class SeaGlassContext extends SynthContext {
     /**
      * A convenience method for <code>getRegion().isSubregion()</code>.
      */
+    @SuppressWarnings("all")
     public boolean isSubregion() {
         return getRegion().isSubregion();
     }
 
+    @SuppressWarnings("all")
     public void setStyle(SynthStyle style) {
         this.style = style;
     }
@@ -156,6 +158,7 @@ public class SeaGlassContext extends SynthContext {
         return style;
     }
 
+    @SuppressWarnings("all")
     void setComponentState(int state) {
         this.state = state;
     }
@@ -176,6 +179,7 @@ public class SeaGlassContext extends SynthContext {
     /**
      * Resets the state of the Context.
      */
+    @SuppressWarnings("all")
     public void reset(JComponent component, Region region, SynthStyle style, int state) {
         this.component = component;
         this.region = region;
@@ -183,6 +187,7 @@ public class SeaGlassContext extends SynthContext {
         this.state = state;
     }
 
+    @SuppressWarnings("all")
     public void dispose() {
         this.component = null;
         this.style = null;
@@ -193,6 +198,7 @@ public class SeaGlassContext extends SynthContext {
      * Convenience method to get the Painter from the current SynthStyle. This
      * will NEVER return null.
      */
+    @SuppressWarnings("all")
     public SynthPainter getPainter() {
         SynthPainter painter = getStyle().getPainter(this);
 
