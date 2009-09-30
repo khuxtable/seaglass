@@ -152,7 +152,7 @@ class SeaGlassComboPopup extends BasicComboPopup {
                 py -= margin.bottom;
             }
         } else {
-            int yOffset = 3 - margin.top;
+            int yOffset = - margin.top;
             int selectedIndex = comboBox.getSelectedIndex();
             if (selectedIndex <= 0) {
                 py = -yOffset;
