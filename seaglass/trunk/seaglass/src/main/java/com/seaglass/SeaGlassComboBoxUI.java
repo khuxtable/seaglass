@@ -260,31 +260,7 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
     protected ComboPopup createPopup() {
         SeaGlassComboPopup p = new SeaGlassComboPopup(comboBox);
         p.addPopupMenuListener(buttonHandler);
-        p.setVerticalComponentCenterProvider(createComboBoxVerticalCenterProvider());
         return p;
-    }
-
-    /**
-     * Creates a {@link EPComboPopup.ComboBoxVerticalCenterProvider} that
-     * returns a vertical center value that takes HudComboBoxUI's drop shadow.
-     * The visual center is calculated as if the drop shadow did not exist.
-     */
-    private SeaGlassComboPopup.ComboBoxVerticalCenterProvider createComboBoxVerticalCenterProvider() {
-        return new SeaGlassComboPopup.ComboBoxVerticalCenterProvider() {
-            public int provideCenter(JComboBox comboBox) {
-                return calculateArrowButtonVisualVerticalCenter();
-            }
-        };
-    }
-
-    /**
-     * Calculates the visual vertical center of this component. The visual
-     * center is what the user would interpret as the center, thus we adjust the
-     * actual center to take into account the size of the drop shadow.
-     */
-    private int calculateArrowButtonVisualVerticalCenter() {
-        int arrowButtonShadowHeight = 0;// HudPaintingUtils.getHudControlShadowSize(arrowButton);
-        return (comboBox.getHeight() - arrowButtonShadowHeight) / 2;
     }
 
     @Override

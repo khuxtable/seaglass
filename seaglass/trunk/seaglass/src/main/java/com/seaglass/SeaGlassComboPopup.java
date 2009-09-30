@@ -21,6 +21,7 @@
  */
 package com.seaglass;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.Insets;
@@ -28,30 +29,43 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 
+import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.plaf.ComboBoxUI;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicComboPopup;
 
 /**
- * SeaGlassComboPopup.
+ * SeaGlassComboPopup. The code to calculate the popup bounds was lifted from
+ * Quaqua.
  */
 class SeaGlassComboPopup extends BasicComboPopup {
 
-    private static final int               LEFT_SHIFT                     = 5;
+    private static final int LEFT_SHIFT  = 5;
 
-    private ComboBoxVerticalCenterProvider comboBoxVerticalCenterProvider = new DefaultVerticalCenterProvider();
+    private static Border    LIST_BORDER = new LineBorder(Color.BLACK, 1);
 
     public SeaGlassComboPopup(JComboBox combo) {
         super(combo);
     }
 
+    private boolean isDropDown() {
+        return comboBox.isEditable() || hasScrollBars();
+    }
+
+    private boolean hasScrollBars() {
+        return comboBox.getModel().getSize() > getMaximumRowCount();
+    }
+
+    private boolean isEditable() {
+        return comboBox.isEditable();
+    }
+
     /**
      * Configures the list which is used to hold the combo box items in the
      * popup. This method is called when the UI class is created.
-     * 
-     * @see #createList
      */
     @Override
     protected void configureList() {
@@ -71,23 +85,17 @@ class SeaGlassComboPopup extends BasicComboPopup {
     }
 
     /**
-     * @inheritDoc Overridden to take into account any popup insets specified in
-     *             SeaGlassComboBoxUI
+     * Configures the popup portion of the combo box. This method is called when
+     * the UI class is created.
      */
-    @Override
-    protected Rectangle computePopupBounds(int px, int py, int pw, int ph) {
-        ComboBoxUI ui = comboBox.getUI();
-        if (ui instanceof SeaGlassComboBoxUI) {
-            SeaGlassComboBoxUI sui = (SeaGlassComboBoxUI) ui;
-            if (sui.popupInsets != null) {
-                Insets i = sui.popupInsets;
-                px += i.left;
-                py += i.top;
-                pw -= i.left - i.right;
-                ph -= i.top - i.bottom;
-            }
-        }
-        return computeInitialPopupBounds(px, py, pw, ph);
+    protected void configurePopup() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorderPainted(true);
+        setBorder(LIST_BORDER);
+        setOpaque(false);
+        add(scroller);
+        setDoubleBuffered(true);
+        setFocusable(false);
     }
 
     /**
@@ -106,50 +114,65 @@ class SeaGlassComboPopup extends BasicComboPopup {
      *            starting height
      * @return a rectangle which represents the placement and size of the popup
      */
-    private Rectangle computeInitialPopupBounds(int px, int py, int pw, int ph) {
+    protected Rectangle computePopupBounds(int px, int py, int pw, int ph) {
+
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Rectangle screenBounds;
+        int listWidth = getList().getPreferredSize().width;
+        Insets margin = comboBox.getInsets();
 
-        // Reduce the width to match the width of the button.
-        pw -= LEFT_SHIFT;
-        int selectedItemIndex = list.getSelectedIndex();
-        int componentCenter = comboBoxVerticalCenterProvider.provideCenter(comboBox);
-        System.out.println("index = " + selectedItemIndex + ", count = " + list.getComponentCount());
-        int menuItemHeight = 0;
-        if (selectedItemIndex >= 0) {
-            menuItemHeight = list.getCellRenderer().getListCellRendererComponent(list,
-                list.getModel().getElementAt(selectedItemIndex), selectedItemIndex, true, true).getPreferredSize().height;
+        if (hasScrollBars()) {
+            px += margin.left;
+            pw = Math.max(pw - margin.left - margin.right, listWidth + 16);
+        } else {
+            px += margin.left;
+            pw = Math.max(pw - LEFT_SHIFT - margin.left, listWidth);
         }
-        int menuItemCenter = getInsets().top + (selectedItemIndex * menuItemHeight) + menuItemHeight / 2;
-        py = componentCenter - menuItemCenter;
 
         // Calculate the desktop dimensions relative to the combo box.
         GraphicsConfiguration gc = comboBox.getGraphicsConfiguration();
         Point p = new Point();
         SwingUtilities.convertPointFromScreen(p, comboBox);
-        if (gc != null) {
-            Insets screenInsets = toolkit.getScreenInsets(gc);
-            screenBounds = gc.getBounds();
+        if (gc == null) {
+            screenBounds = new Rectangle(p, toolkit.getScreenSize());
+        } else {
+            // Get the screen insets.
+            Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
+            screenBounds = new Rectangle(gc.getBounds());
             screenBounds.width -= (screenInsets.left + screenInsets.right);
             screenBounds.height -= (screenInsets.top + screenInsets.bottom);
-            screenBounds.x += (p.x + screenInsets.left);
-            screenBounds.y += (p.y + screenInsets.top);
+            screenBounds.x += screenInsets.left;
+            screenBounds.y += screenInsets.top;
+        }
+
+        if (isDropDown()) {
+            if (isEditable()) {
+                py -= margin.bottom + 2;
+            } else {
+                py -= margin.bottom;
+            }
         } else {
-            screenBounds = new Rectangle(p, toolkit.getScreenSize());
+            int yOffset = 3 - margin.top;
+            int selectedIndex = comboBox.getSelectedIndex();
+            if (selectedIndex <= 0) {
+                py = -yOffset;
+            } else {
+                py = -yOffset - list.getCellBounds(0, selectedIndex - 1).height;
+
+            }
         }
 
-        Rectangle rect = new Rectangle(px, py, pw, ph);
-        if (py + ph > screenBounds.y + screenBounds.height && ph < screenBounds.height) {
-            rect.y = -rect.height;
+        // Compute the rectangle for the popup menu
+        Rectangle rect = new Rectangle(px, Math.max(py, p.y + screenBounds.y), Math.min(screenBounds.width, pw), Math.min(
+            screenBounds.height - 40, ph));
+
+        // Add the preferred scroll bar width, if the popup does not fit
+        // on the available rectangle.
+        if (rect.height < ph) {
+            rect.width += 16;
         }
+
         return rect;
-    }
-
-    public void setVerticalComponentCenterProvider(ComboBoxVerticalCenterProvider comboBoxVerticalCenterProvider) {
-        if (comboBoxVerticalCenterProvider == null) {
-            throw new IllegalArgumentException("The given CompnonentCenterProvider cannot be null.");
-        }
-        this.comboBoxVerticalCenterProvider = comboBoxVerticalCenterProvider;
     }
 
     /**
@@ -168,29 +191,22 @@ class SeaGlassComboPopup extends BasicComboPopup {
         }
     }
 
-    // public void show() {
-    // clearAndFillMenu();
-    // // if there are combo box items, then show the popup menu.
-    // if (comboBox.getModel().getSize() > 0) {
-    // // Point popupLocation = placePopupOnScreen();
-    // Rectangle popupBounds = calculateInitialPopupBounds();
-    //
-    // // fPopupMenu.show(fComboBox, popupLocation.x, popupLocation.y);
-    // show(comboBox, popupBounds.x, popupBounds.y);
-    // forceCorrectPopupSelectionIfNeccessary();
-    // }
-    // }
-
     /**
      * Implementation of ComboPopup.show().
      */
     public void show() {
-        list.setModel(comboBox.getModel());
-        configureList();
         setListSelection(comboBox.getSelectedIndex());
 
         Point location = getPopupLocation();
         show(comboBox, location.x, location.y);
+
+        // For some reason, this is needed to clear the old selection being
+        // displayed. Calling list.clearSelection() doesn't cut it.
+        list.repaint();
+    }
+
+    private int getMaximumRowCount() {
+        return isEditable() ? comboBox.getMaximumRowCount() : 100;
     }
 
     /**
@@ -202,7 +218,7 @@ class SeaGlassComboPopup extends BasicComboPopup {
 
         // reduce the width of the scrollpane by the insets so that the popup
         // is the same width as the combo box.
-        popupSize.setSize(popupSize.width - (insets.right + insets.left), getPopupHeightForRowCount(comboBox.getMaximumRowCount()));
+        popupSize.setSize(popupSize.width - (insets.right + insets.left), getPopupHeightForRowCount(getMaximumRowCount()));
         Rectangle popupBounds = computePopupBounds(0, comboBox.getBounds().height, popupSize.width, popupSize.height);
         Dimension scrollSize = popupBounds.getSize();
         Point popupLocation = popupBounds.getLocation();
@@ -214,21 +230,5 @@ class SeaGlassComboPopup extends BasicComboPopup {
         list.revalidate();
 
         return popupLocation;
-    }
-
-    // An interface to allow a third-party to provide the center of a given
-    // compoennt. ////////////
-
-    public interface ComboBoxVerticalCenterProvider {
-        int provideCenter(JComboBox comboBox);
-    }
-
-    // A default implementation of ComboBoxVerticalCenterProvider.
-    // ////////////////////////////////
-
-    private static class DefaultVerticalCenterProvider implements ComboBoxVerticalCenterProvider {
-        public int provideCenter(JComboBox comboBox) {
-            return comboBox.getHeight() / 2;
-        }
     }
 }
