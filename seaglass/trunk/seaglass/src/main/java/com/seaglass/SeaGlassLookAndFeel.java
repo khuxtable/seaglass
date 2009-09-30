@@ -650,6 +650,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_SELECTED, new Insets(1, 1, 1,
                 1), new Dimension(23, 6), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
+        d.put("ComboBox:\"ComboBox.arrowButton\"[Editable].foregroundPainter", new LazyPainter(
+            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_EDITABLE, new Insets(1, 1, 1,
+                1), new Dimension(24, 19), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 5.0));
+        d.put("ComboBox:\"ComboBox.arrowButton\"[Editable+Disabled].foregroundPainter", new LazyPainter(
+            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_EDITABLE_DISABLED, new Insets(1, 1, 1,
+                1), new Dimension(24, 19), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 5.0));
 
         // Textfield
         d.put("ComboBox:\"ComboBox.textField\"[Disabled].backgroundPainter", new LazyPainter(
