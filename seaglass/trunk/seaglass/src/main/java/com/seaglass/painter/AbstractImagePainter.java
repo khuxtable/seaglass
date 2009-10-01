@@ -36,8 +36,6 @@ public abstract class AbstractImagePainter extends AbstractRegionPainter {
 
     private static final String IMAGE_DIR = "/com/seaglass/resources/images";
 
-    private StringBuilder       imagePath = new StringBuilder(IMAGE_DIR);
-
     private PaintContext        ctx;
 
     protected ImageIcon         image;
@@ -49,11 +47,17 @@ public abstract class AbstractImagePainter extends AbstractRegionPainter {
         if (imageName == null) {
             throw new RuntimeException("No file was found for the state " + state);
         }
+
+        image = getImage(imageName);
+    }
+
+    protected ImageIcon getImage(String imageName) {
+        StringBuilder imagePath = new StringBuilder(IMAGE_DIR);
         imagePath.append('/');
         imagePath.append(imageName);
         imagePath.append(".png");
 
-        image = new ImageIcon(AbstractImagePainter.class.getResource(imagePath.toString()));
+        return new ImageIcon(AbstractImagePainter.class.getResource(imagePath.toString()));
     }
 
     protected abstract String getImageName(int state);
