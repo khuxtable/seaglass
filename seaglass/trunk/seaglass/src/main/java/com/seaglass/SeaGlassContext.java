@@ -30,16 +30,21 @@ import javax.swing.plaf.synth.SynthStyle;
  * @author Scott Violet
  */
 public class SeaGlassContext extends SynthContext {
-    private static final Map  contextMap;
+    private static final Map     contextMap;
 
-    private static JButton    fakeComponent = new JButton();
-    private static Region     fakeRegion    = Region.BUTTON;
-    private static SynthStyle fakeStyle     = new SeaGlassStyle(null);
+    // This button *must* not have a UI or we end up throwing an NPE.
+    private static final JButton fakeComponent = new JButton() {
+        public void updateUI() {
+            // Do nothing.
+        }
+    };
+    private static Region        fakeRegion    = Region.BUTTON;
+    private static SynthStyle    fakeStyle     = new SeaGlassStyle(null);
 
-    private JComponent        component;
-    private Region            region;
-    private SynthStyle        style;
-    private int               state;
+    private JComponent           component;
+    private Region               region;
+    private SynthStyle           style;
+    private int                  state;
 
     static {
         contextMap = new HashMap();
