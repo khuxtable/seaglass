@@ -21,6 +21,11 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Graphics2D;
+
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+
 /**
  * Button painter. This paints both regular and toggle buttons because they look
  * the same except for the state.
@@ -51,6 +56,10 @@ public final class ButtonPainter extends AbstractImagePainter {
     public static final int BACKGROUND_PRESSED_SELECTED_FOCUSED  = 17;
     public static final int BACKGROUND_DISABLED_SELECTED         = 18;
 
+    private ImageIcon       segmentedFirst;
+    private ImageIcon       segmentedMiddle;
+    private ImageIcon       segmentedLast;
+
     /**
      * Create a new ButtonPainter.
      * 
@@ -64,6 +73,22 @@ public final class ButtonPainter extends AbstractImagePainter {
     }
 
     protected String getImageName(int state) {
+        String name = getInternalImageName(state);
+
+        try {
+            segmentedFirst = getImage(name + "_segmented_first");
+            segmentedMiddle = getImage(name + "_segmented_middle");
+            segmentedLast = getImage(name + "_segmented_last");
+        } catch (Exception e) {
+            segmentedFirst = getImage(name);
+            segmentedMiddle = segmentedFirst;
+            segmentedLast = segmentedFirst;
+        }
+
+        return name;
+    }
+
+    private String getInternalImageName(int state) {
         switch (state) {
         case BACKGROUND_DEFAULT:
             return "button_default";
@@ -102,6 +127,25 @@ public final class ButtonPainter extends AbstractImagePainter {
         case BACKGROUND_DISABLED_SELECTED:
             return "button_disabled_selected";
         }
-        return null;
+        // Catch-all for anything we don't specify.
+        return "button";
+    }
+
+    @Override
+    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
+        if ("segmented".equals(c.getClientProperty("JButton.buttonType"))) {
+            String position = (String) c.getClientProperty("JButton.segmentPosition");
+            if ("first".equals(position)) {
+                segmentedFirst.paintIcon(c, g, 0, 0);
+                return;
+            } else if ("middle".equals(position)) {
+                segmentedMiddle.paintIcon(c, g, 0, 0);
+                return;
+            } else if ("last".equals(position)) {
+                segmentedLast.paintIcon(c, g, 0, 0);
+                return;
+            }
+        }
+        image.paintIcon(c, g, 0, 0);
     }
 }
