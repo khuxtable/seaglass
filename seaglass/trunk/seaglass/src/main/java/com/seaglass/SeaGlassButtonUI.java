@@ -28,6 +28,7 @@ import javax.swing.plaf.synth.ColorType;
 import javax.swing.plaf.synth.Region;
 import javax.swing.plaf.synth.SynthConstants;
 import javax.swing.plaf.synth.SynthContext;
+import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.text.View;
@@ -36,13 +37,13 @@ import sun.swing.plaf.synth.SynthUI;
 
 /**
  * Synth's ButtonUI implementation.
- *
+ * 
  * @version 1.29, 11/22/07
  * @author Scott Violet
  */
-public class SeaGlassButtonUI extends BasicButtonUI implements
-                                 PropertyChangeListener, SynthUI {
-    private SynthStyle style;
+public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeListener, SynthUI {
+    private static final String APPLE_PREFIX = "JButton.";
+    private SynthStyle          style;
 
     public static ComponentUI createUI(JComponent c) {
         return new SeaGlassButtonUI();
@@ -64,10 +65,8 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
         SynthStyle oldStyle = style;
         style = SeaGlassLookAndFeel.updateStyle(context, this);
         if (style != oldStyle) {
-            if (b.getMargin() == null ||
-                                (b.getMargin() instanceof UIResource)) {
-                Insets margin = (Insets)style.get(context,getPropertyPrefix() +
-                                                  "margin");
+            if (b.getMargin() == null || (b.getMargin() instanceof UIResource)) {
+                Insets margin = (Insets) style.get(context, getPropertyPrefix() + "margin");
 
                 if (margin == null) {
                     // Some places assume margins are non-null.
@@ -78,12 +77,18 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
 
             Object value = style.get(context, getPropertyPrefix() + "iconTextGap");
             if (value != null) {
-		        LookAndFeel.installProperty(b, "iconTextGap", value);
+                LookAndFeel.installProperty(b, "iconTextGap", value);
             }
 
             value = style.get(context, getPropertyPrefix() + "contentAreaFilled");
-            LookAndFeel.installProperty(b, "contentAreaFilled",
-                                        value != null? value : Boolean.TRUE);
+            LookAndFeel.installProperty(b, "contentAreaFilled", value != null ? value : Boolean.TRUE);
+
+            value = b.getClientProperty(APPLE_PREFIX + "buttonType");
+            if (value != null) {
+                if ("segmented".equals(value)) {
+                    b.setMargin(SeaGlassLookAndFeel.EMPTY_UIRESOURCE_INSETS);
+                }
+            }
 
             if (oldStyle != null) {
                 uninstallKeyboardActions(b);
@@ -113,8 +118,7 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
 
     SeaGlassContext getContext(JComponent c, int state) {
         Region region = getRegion(c);
-        return SeaGlassContext.getContext(SeaGlassContext.class, c, region,
-                                       style, state);
+        return SeaGlassContext.getContext(SeaGlassContext.class, c, region, style, state);
     }
 
     private Region getRegion(JComponent c) {
@@ -139,8 +143,7 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
         if (model.isPressed()) {
             if (model.isArmed()) {
                 state = PRESSED;
-            }
-            else {
+            } else {
                 state = MOUSE_OVER;
             }
         }
@@ -153,7 +156,7 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
         if (c.isFocusOwner() && button.isFocusPainted()) {
             state |= FOCUSED;
         }
-        if ((c instanceof JButton) && ((JButton)c).isDefaultButton()) {
+        if ((c instanceof JButton) && ((JButton) c).isDefaultButton()) {
             state |= DEFAULT;
         }
         return state;
@@ -164,10 +167,9 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
             throw new NullPointerException("Component must be non-null");
         }
         if (width < 0 || height < 0) {
-            throw new IllegalArgumentException(
-                    "Width and height must be >= 0");
+            throw new IllegalArgumentException("Width and height must be >= 0");
         }
-        AbstractButton b = (AbstractButton)c;
+        AbstractButton b = (AbstractButton) c;
         String text = b.getText();
         if (text == null || "".equals(text)) {
             return -1;
@@ -183,23 +185,18 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
 
         // layout the text and icon
         SeaGlassContext context = getContext(b);
-        FontMetrics fm = context.getComponent().getFontMetrics(
-            context.getStyle().getFont(context));
-        context.getStyle().getGraphicsUtils(context).layoutText(
-            context, fm, b.getText(), b.getIcon(), 
-            b.getHorizontalAlignment(), b.getVerticalAlignment(),
-            b.getHorizontalTextPosition(), b.getVerticalTextPosition(),
-            viewRect, iconRect, textRect, b.getIconTextGap());
-        View view = (View)b.getClientProperty(BasicHTML.propertyKey);
+        FontMetrics fm = context.getComponent().getFontMetrics(context.getStyle().getFont(context));
+        context.getStyle().getGraphicsUtils(context).layoutText(context, fm, b.getText(), b.getIcon(), b.getHorizontalAlignment(),
+            b.getVerticalAlignment(), b.getHorizontalTextPosition(), b.getVerticalTextPosition(), viewRect, iconRect, textRect,
+            b.getIconTextGap());
+        View view = (View) b.getClientProperty(BasicHTML.propertyKey);
         int baseline;
         if (view != null) {
-            baseline = BasicHTML.getHTMLBaseline(view, textRect.width,
-                                                 textRect.height);
+            baseline = BasicHTML.getHTMLBaseline(view, textRect.width, textRect.height);
             if (baseline >= 0) {
                 baseline += textRect.y;
             }
-        }
-        else {
+        } else {
             baseline = textRect.y + fm.getAscent();
         }
         context.dispose();
@@ -207,7 +204,7 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
     }
 
     // ********************************
-    //          Paint Methods
+    // Paint Methods
     // ********************************
 
     public void update(Graphics g, JComponent c) {
@@ -227,47 +224,40 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
     }
 
     protected void paint(SeaGlassContext context, Graphics g) {
-        AbstractButton b = (AbstractButton)context.getComponent();
+        AbstractButton b = (AbstractButton) context.getComponent();
 
-        g.setColor(context.getStyle().getColor(context,
-                                               ColorType.TEXT_FOREGROUND));
+        g.setColor(context.getStyle().getColor(context, ColorType.TEXT_FOREGROUND));
         g.setFont(style.getFont(context));
-        context.getStyle().getGraphicsUtils(context).paintText(
-            context, g, b.getText(), getIcon(b),
-            b.getHorizontalAlignment(), b.getVerticalAlignment(),
-            b.getHorizontalTextPosition(), b.getVerticalTextPosition(),
-            b.getIconTextGap(), b.getDisplayedMnemonicIndex(),
-            getTextShiftOffset(context));
+        context.getStyle().getGraphicsUtils(context).paintText(context, g, b.getText(), getIcon(b), b.getHorizontalAlignment(),
+            b.getVerticalAlignment(), b.getHorizontalTextPosition(), b.getVerticalTextPosition(), b.getIconTextGap(),
+            b.getDisplayedMnemonicIndex(), getTextShiftOffset(context));
     }
 
     void paintBackground(SeaGlassContext context, Graphics g, JComponent c) {
         if (((AbstractButton) c).isContentAreaFilled()) {
-            context.getPainter().paintButtonBackground(context, g, 0, 0,
-                                                       c.getWidth(),
-                                                       c.getHeight());
+            context.getPainter().paintButtonBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
         }
     }
 
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
+    public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
         ((SeaGlassContext) context).getPainter().paintButtonBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Returns the default icon. This should NOT callback
-     * to the JComponent.
-     *
-     * @param b AbstractButton the iocn is associated with
-     * @return default icon 
+     * Returns the default icon. This should NOT callback to the JComponent.
+     * 
+     * @param b
+     *            AbstractButton the iocn is associated with
+     * @return default icon
      */
-   
+
     protected Icon getDefaultIcon(AbstractButton b) {
         SeaGlassContext context = getContext(b);
         Icon icon = context.getStyle().getIcon(context, getPropertyPrefix() + "icon");
         context.dispose();
         return icon;
     }
-    
+
     /**
      * Returns the Icon to use in painting the button.
      */
@@ -286,25 +276,28 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
         } else {
             icon = getEnabledIcon(b, icon);
         }
-        if(icon == null) {
+        if (icon == null) {
             return getDefaultIcon(b);
         }
         return icon;
     }
 
     /**
-     * This method will return the icon that should be used for a button.  We
-     * only want to use the synth icon defined by the style if the specific
-     * icon has not been defined for the button state and the backup icon is a
+     * This method will return the icon that should be used for a button. We
+     * only want to use the synth icon defined by the style if the specific icon
+     * has not been defined for the button state and the backup icon is a
      * UIResource (we set it, not the developer).
-     *
-     * @param b button
-     * @param specificIcon icon returned from the button for the specific state
-     * @param defaultIcon fallback icon
-     * @param state the synth state of the button
+     * 
+     * @param b
+     *            button
+     * @param specificIcon
+     *            icon returned from the button for the specific state
+     * @param defaultIcon
+     *            fallback icon
+     * @param state
+     *            the synth state of the button
      */
-    private Icon getIcon(AbstractButton b, Icon specificIcon, Icon defaultIcon,
-            int state) {
+    private Icon getIcon(AbstractButton b, Icon specificIcon, Icon defaultIcon, int state) {
         Icon icon = specificIcon;
         if (icon == null) {
             if (defaultIcon instanceof UIResource) {
@@ -322,46 +315,40 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
     private Icon getSynthIcon(AbstractButton b, int synthConstant) {
         return style.getIcon(getContext(b, synthConstant), getPropertyPrefix() + "icon");
     }
-    
+
     private Icon getEnabledIcon(AbstractButton b, Icon defaultIcon) {
         if (defaultIcon == null) {
-            defaultIcon = getSynthIcon(b, SynthConstants.ENABLED); 
+            defaultIcon = getSynthIcon(b, SynthConstants.ENABLED);
         }
         return defaultIcon;
     }
-    
+
     private Icon getSelectedIcon(AbstractButton b, Icon defaultIcon) {
-        return getIcon(b, b.getSelectedIcon(), defaultIcon,
-                SynthConstants.SELECTED);
+        return getIcon(b, b.getSelectedIcon(), defaultIcon, SynthConstants.SELECTED);
     }
 
     private Icon getRolloverIcon(AbstractButton b, Icon defaultIcon) {
         ButtonModel model = b.getModel();
         Icon icon;
         if (model.isSelected()) {
-            icon = getIcon(b, b.getRolloverSelectedIcon(), defaultIcon,
-                    SynthConstants.MOUSE_OVER | SynthConstants.SELECTED);
+            icon = getIcon(b, b.getRolloverSelectedIcon(), defaultIcon, SynthConstants.MOUSE_OVER | SynthConstants.SELECTED);
         } else {
-            icon = getIcon(b, b.getRolloverIcon(), defaultIcon,
-                    SynthConstants.MOUSE_OVER);
+            icon = getIcon(b, b.getRolloverIcon(), defaultIcon, SynthConstants.MOUSE_OVER);
         }
         return icon;
     }
 
     private Icon getPressedIcon(AbstractButton b, Icon defaultIcon) {
-        return getIcon(b, b.getPressedIcon(), defaultIcon,
-                SynthConstants.PRESSED);
+        return getIcon(b, b.getPressedIcon(), defaultIcon, SynthConstants.PRESSED);
     }
 
     private Icon getSynthDisabledIcon(AbstractButton b, Icon defaultIcon) {
         ButtonModel model = b.getModel();
         Icon icon;
         if (model.isSelected()) {
-            icon = getIcon(b, b.getDisabledSelectedIcon(), defaultIcon,
-                    SynthConstants.DISABLED | SynthConstants.SELECTED);
+            icon = getIcon(b, b.getDisabledSelectedIcon(), defaultIcon, SynthConstants.DISABLED | SynthConstants.SELECTED);
         } else {
-            icon = getIcon(b, b.getDisabledIcon(), defaultIcon,
-                    SynthConstants.DISABLED);
+            icon = getIcon(b, b.getDisabledIcon(), defaultIcon, SynthConstants.DISABLED);
         }
         return icon;
     }
@@ -370,32 +357,27 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
      * Returns the amount to shift the text/icon when painting.
      */
     protected int getTextShiftOffset(SeaGlassContext state) {
-        AbstractButton button = (AbstractButton)state.getComponent();
+        AbstractButton button = (AbstractButton) state.getComponent();
         ButtonModel model = button.getModel();
 
-        if (model.isArmed() && model.isPressed() &&
-                               button.getPressedIcon() == null) {
-            return state.getStyle().getInt(state, getPropertyPrefix() +
-                                           "textShiftOffset", 0);
+        if (model.isArmed() && model.isPressed() && button.getPressedIcon() == null) {
+            return state.getStyle().getInt(state, getPropertyPrefix() + "textShiftOffset", 0);
         }
         return 0;
     }
 
     // ********************************
-    //          Layout Methods
+    // Layout Methods
     // ********************************
     public Dimension getMinimumSize(JComponent c) {
         if (c.getComponentCount() > 0 && c.getLayout() != null) {
             return null;
         }
-        AbstractButton b = (AbstractButton)c;
+        AbstractButton b = (AbstractButton) c;
         SeaGlassContext ss = getContext(c);
-        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMinimumSize(
-               ss, ss.getStyle().getFont(ss), b.getText(), getSizingIcon(b),
-               b.getHorizontalAlignment(), b.getVerticalAlignment(),
-               b.getHorizontalTextPosition(),
-               b.getVerticalTextPosition(), b.getIconTextGap(),
-               b.getDisplayedMnemonicIndex());
+        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMinimumSize(ss, ss.getStyle().getFont(ss), b.getText(),
+            getSizingIcon(b), b.getHorizontalAlignment(), b.getVerticalAlignment(), b.getHorizontalTextPosition(),
+            b.getVerticalTextPosition(), b.getIconTextGap(), b.getDisplayedMnemonicIndex());
 
         ss.dispose();
         return size;
@@ -405,14 +387,13 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
         if (c.getComponentCount() > 0 && c.getLayout() != null) {
             return null;
         }
-        AbstractButton b = (AbstractButton)c;
+        AbstractButton b = (AbstractButton) c;
         SeaGlassContext ss = getContext(c);
-        Dimension size = ss.getStyle().getGraphicsUtils(ss).getPreferredSize(
-               ss, ss.getStyle().getFont(ss), b.getText(), getSizingIcon(b),
-               b.getHorizontalAlignment(), b.getVerticalAlignment(),
-               b.getHorizontalTextPosition(),
-               b.getVerticalTextPosition(), b.getIconTextGap(),
-               b.getDisplayedMnemonicIndex());
+        SynthStyle style2 = ss.getStyle();
+        SynthGraphicsUtils graphicsUtils = style2.getGraphicsUtils(ss);
+        Dimension size = graphicsUtils.getPreferredSize(ss, style2.getFont(ss), b.getText(),
+            getSizingIcon(b), b.getHorizontalAlignment(), b.getVerticalAlignment(), b.getHorizontalTextPosition(),
+            b.getVerticalTextPosition(), b.getIconTextGap(), b.getDisplayedMnemonicIndex());
 
         ss.dispose();
         return size;
@@ -423,14 +404,11 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
             return null;
         }
 
-        AbstractButton b = (AbstractButton)c;
+        AbstractButton b = (AbstractButton) c;
         SeaGlassContext ss = getContext(c);
-        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMaximumSize(
-               ss, ss.getStyle().getFont(ss), b.getText(), getSizingIcon(b),
-               b.getHorizontalAlignment(), b.getVerticalAlignment(),
-               b.getHorizontalTextPosition(),
-               b.getVerticalTextPosition(), b.getIconTextGap(),
-               b.getDisplayedMnemonicIndex());
+        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMaximumSize(ss, ss.getStyle().getFont(ss), b.getText(),
+            getSizingIcon(b), b.getHorizontalAlignment(), b.getVerticalAlignment(), b.getHorizontalTextPosition(),
+            b.getVerticalTextPosition(), b.getIconTextGap(), b.getDisplayedMnemonicIndex());
 
         ss.dispose();
         return size;
@@ -450,8 +428,8 @@ public class SeaGlassButtonUI extends BasicButtonUI implements
     }
 
     public void propertyChange(PropertyChangeEvent e) {
-        if (SeaGlassLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((AbstractButton)e.getSource());
+        if (SeaGlassLookAndFeel.shouldUpdateStyle(e) || e.getPropertyName() != null && e.getPropertyName().startsWith(APPLE_PREFIX)) {
+            updateStyle((AbstractButton) e.getSource());
         }
     }
 }
