@@ -25,7 +25,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -109,8 +108,7 @@ public final class SeaGlassStyle extends SynthStyle {
             Border border = c.getBorder();
 
             if (border == null || border instanceof UIResource) {
-                // c.setBorder(new SynthBorder(ui, getInsets(context, null)));
-                c.setBorder(BorderFactory.createEmptyBorder());
+                c.setBorder(new SeaGlassBorder(ui, getInsets(context, null)));
             }
         }
         installDefaults(context);
