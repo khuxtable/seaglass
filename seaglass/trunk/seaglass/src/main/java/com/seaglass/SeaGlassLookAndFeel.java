@@ -141,12 +141,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             initializeDefaultFont(uiDefaults);
 
             // Override the root pane and scroll pane behavior.
+            useOurUI(uiDefaults, "ButtonUI");
             useOurUI(uiDefaults, "ComboBoxUI");
             useOurUI(uiDefaults, "LabelUI");
             useOurUI(uiDefaults, "RootPaneUI");
             useOurUI(uiDefaults, "ScrollBarUI");
             useOurUI(uiDefaults, "ScrollPaneUI");
-
+            useOurUI(uiDefaults, "ToggleButtonUI");
+            
             // Set base colors.
             initializeBaseColors(uiDefaults);
 
@@ -222,7 +224,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Original control: 220, 233, 239
         d.put("control", new ColorUIResource(231, 239, 243));
         // d.put("control", new ColorUIResource(237, 237, 237));
-        // d.put("control", new ColorUIResource(249, 243, 245));
+         d.put("control", new ColorUIResource(255, 251, 248));
+         d.put("control", new ColorUIResource(246, 244, 240));
+         d.put("control", new ColorUIResource(252, 250, 248));
         d.put("scrollbar", new ColorUIResource(255, 255, 255));
         // Original blue grey: 170, 178, 194
         d.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228));
@@ -399,6 +403,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void initializeButtons(UIDefaults d) {
         // Initialize Button
+        d.put("Button.States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Default,Segmented,First,Middle,Last");
+        d.put("Button.Segmented", new SeaGlassButtonSegmentedState());
+        d.put("Button.First", new SeaGlassButtonSegmentedFirstState());
+        d.put("Button.Middle", new SeaGlassButtonSegmentedMiddleState());
+        d.put("Button.Last", new SeaGlassButtonSegmentedLastState());
         d.put("Button[Default].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
             ButtonPainter.BACKGROUND_DEFAULT, new Insets(7, 7, 7, 7), new Dimension(86, 28), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
@@ -416,6 +425,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("Button[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
             ButtonPainter.BACKGROUND_ENABLED, new Insets(7, 7, 7, 7), new Dimension(86, 28), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("Button[Enabled+First].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
+            ButtonPainter.BACKGROUND_ENABLED_FIRST, new Insets(7, 7, 7, 7), new Dimension(86, 28), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("Button[Focused].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
             ButtonPainter.BACKGROUND_FOCUSED, new Insets(7, 7, 7, 7), new Dimension(86, 28), false,
@@ -1241,7 +1253,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         }
 
         @SuppressWarnings("unchecked")
-        @Override
         public Object createValue(UIDefaults table) {
             try {
                 Class c;

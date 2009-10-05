@@ -210,7 +210,6 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         super.uninstallListeners();
     }
 
-    @Override
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
     }
@@ -277,7 +276,6 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
     // end UI Initialization
     // ======================
 
-    @Override
     public void propertyChange(PropertyChangeEvent e) {
         if (SeaGlassLookAndFeel.shouldUpdateStyle(e)) {
             updateStyle(comboBox);
@@ -321,7 +319,6 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         }
     }
 
-    @Override
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
         ((SeaGlassContext) context).getPainter().paintComboBoxBorder(context, g, x, y, w, h);
     }
@@ -425,7 +422,6 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
             setText(" ");
         }
 
-        @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             setName("ComboBox.listRenderer");
             SeaGlassLookAndFeel.resetSelectedUI();
@@ -487,7 +483,6 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
             editor.setName("ComboBox.textField");
         }
 
-        @Override
         public Component getEditorComponent() {
             return editor;
         }
@@ -498,7 +493,6 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
          * @param anObject
          *            the displayed value of the editor
          */
-        @Override
         public void setItem(Object anObject) {
             String text;
 
@@ -514,7 +508,6 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
             }
         }
 
-        @Override
         public Object getItem() {
             Object newValue = editor.getText();
 
@@ -540,18 +533,15 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
             return newValue;
         }
 
-        @Override
         public void selectAll() {
             editor.selectAll();
             editor.requestFocus();
         }
 
-        @Override
         public void addActionListener(ActionListener l) {
             editor.addActionListener(l);
         }
 
-        @Override
         public void removeActionListener(ActionListener l) {
             editor.removeActionListener(l);
         }
@@ -690,27 +680,22 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         // MouseListener/MouseMotionListener Methods
         // ------------------------------------------------------------------
 
-        @Override
         public void mouseEntered(MouseEvent mouseEvent) {
             updateOver(true);
         }
 
-        @Override
         public void mouseExited(MouseEvent mouseEvent) {
             updateOver(false);
         }
 
-        @Override
         public void mousePressed(MouseEvent mouseEvent) {
             updatePressed(true);
         }
 
-        @Override
         public void mouseReleased(MouseEvent mouseEvent) {
             updatePressed(false);
         }
 
-        @Override
         public void mouseClicked(MouseEvent e) {
         }
 
@@ -727,18 +712,15 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
          *             This bug was only noticed when acting as a button, but
          *             may be generally present. If so, remove the if() block
          */
-        @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
             if (shouldActLikeButton() || pressedWhenPopupVisible) {
                 comboBox.repaint();
             }
         }
 
-        @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
         }
 
-        @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
         }
     }
