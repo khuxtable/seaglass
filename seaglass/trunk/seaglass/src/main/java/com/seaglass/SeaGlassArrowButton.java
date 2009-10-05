@@ -18,11 +18,12 @@ import javax.swing.plaf.UIResource;
 
 /**
  * JButton object that draws a scaled Arrow in one of the cardinal directions.
- *
- * @version 1.20, 05/22/08
- * @author Scott Violet
+ * 
+ * Based on SynthArrowButton by Scott Violet.
+ * 
+ * @see javax.swing.plaf.synth.SynthArrowButton
  */
-class SeaGlassArrowButton extends JButton implements SwingConstants, UIResource {
+public class SeaGlassArrowButton extends JButton implements SwingConstants, UIResource {
     private int direction;
 
     public SeaGlassArrowButton(int direction) {
@@ -50,8 +51,9 @@ class SeaGlassArrowButton extends JButton implements SwingConstants, UIResource 
         return direction;
     }
 
-    public void setFocusable(boolean focusable) {} 
-    
+    public void setFocusable(boolean focusable) {
+    }
+
     private static class SeaGlassArrowButtonUI extends SeaGlassButtonUI {
         protected void installDefaults(AbstractButton b) {
             super.installDefaults(b);
@@ -59,21 +61,17 @@ class SeaGlassArrowButton extends JButton implements SwingConstants, UIResource 
         }
 
         protected void paint(SeaGlassContext context, Graphics g) {
-            SeaGlassArrowButton button = (SeaGlassArrowButton)context.
-                                      getComponent();
-            context.getPainter().paintArrowButtonForeground(
-                context, g, 0, 0, button.getWidth(), button.getHeight(),
+            SeaGlassArrowButton button = (SeaGlassArrowButton) context.getComponent();
+            context.getPainter().paintArrowButtonForeground(context, g, 0, 0, button.getWidth(), button.getHeight(),
                 button.getDirection());
         }
 
         void paintBackground(SeaGlassContext context, Graphics g, JComponent c) {
-            context.getPainter().paintArrowButtonBackground(context, g, 0, 0,
-                                                c.getWidth(), c.getHeight());
+            context.getPainter().paintArrowButtonBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
         }
 
-        public void paintBorder(SeaGlassContext context, Graphics g, int x,
-                                int y, int w, int h) {
-            context.getPainter().paintArrowButtonBorder(context, g, x, y, w,h);
+        public void paintBorder(SeaGlassContext context, Graphics g, int x, int y, int w, int h) {
+            context.getPainter().paintArrowButtonBorder(context, g, x, y, w, h);
         }
 
         public Dimension getMinimumSize() {
@@ -91,37 +89,29 @@ class SeaGlassArrowButton extends JButton implements SwingConstants, UIResource 
                 // ScrollBar arrow buttons can be non-square when
                 // the ScrollBar.squareButtons property is set to FALSE
                 // and the ScrollBar.buttonSize property is non-null
-                dim = (Dimension)
-                    context.getStyle().get(context, "ScrollBar.buttonSize");
+                dim = (Dimension) context.getStyle().get(context, "ScrollBar.buttonSize");
             }
             if (dim == null) {
                 // For all other cases (including Spinner, ComboBox), we will
                 // fall back on the single ArrowButton.size value to create
                 // a square return value
-                int size =
-                    context.getStyle().getInt(context, "ArrowButton.size", 16);
+                int size = context.getStyle().getInt(context, "ArrowButton.size", 16);
                 dim = new Dimension(size, size);
             }
 
             // handle scaling for sizeVarients for special case components. The
             // key "JComponent.sizeVariant" scales for large/small/mini
             // components are based on Apples LAF
-            JComponent parent = (JComponent)context.getComponent().getParent();
-            if (parent != null && !(parent instanceof JComboBox)){
-                String scaleKey = (String)parent.getClientProperty("JComponent.sizeVariant");
-                if (scaleKey != null){
-                    if ("large".equals(scaleKey)){
-                        dim = new Dimension(
-                                (int)(dim.width * 1.15),
-                                (int)(dim.height * 1.15));
-                    } else if ("small".equals(scaleKey)){
-                        dim = new Dimension(
-                                (int)(dim.width * 0.857),
-                                (int)(dim.height * 0.857));
-                    } else if ("mini".equals(scaleKey)){
-                        dim = new Dimension(
-                                (int)(dim.width * 0.714),
-                                (int)(dim.height * 0.714));
+            JComponent parent = (JComponent) context.getComponent().getParent();
+            if (parent != null && !(parent instanceof JComboBox)) {
+                String scaleKey = (String) parent.getClientProperty("JComponent.sizeVariant");
+                if (scaleKey != null) {
+                    if ("large".equals(scaleKey)) {
+                        dim = new Dimension((int) (dim.width * 1.15), (int) (dim.height * 1.15));
+                    } else if ("small".equals(scaleKey)) {
+                        dim = new Dimension((int) (dim.width * 0.857), (int) (dim.height * 0.857));
+                    } else if ("mini".equals(scaleKey)) {
+                        dim = new Dimension((int) (dim.width * 0.714), (int) (dim.height * 0.714));
                     }
                 }
             }
