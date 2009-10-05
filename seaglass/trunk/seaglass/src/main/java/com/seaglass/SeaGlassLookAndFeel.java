@@ -403,11 +403,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void initializeButtons(UIDefaults d) {
         // Initialize Button
-        d.put("Button.States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Default,Segmented,First,Middle,Last");
-        d.put("Button.Segmented", new SeaGlassButtonSegmentedState());
-        d.put("Button.First", new SeaGlassButtonSegmentedFirstState());
-        d.put("Button.Middle", new SeaGlassButtonSegmentedMiddleState());
-        d.put("Button.Last", new SeaGlassButtonSegmentedLastState());
+        d.put("Button.States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Default");
         d.put("Button[Default].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
             ButtonPainter.BACKGROUND_DEFAULT, new Insets(7, 7, 7, 7), new Dimension(86, 28), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
@@ -425,9 +421,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("Button[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
             ButtonPainter.BACKGROUND_ENABLED, new Insets(7, 7, 7, 7), new Dimension(86, 28), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("Button[Enabled+First].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
-            ButtonPainter.BACKGROUND_ENABLED_FIRST, new Insets(7, 7, 7, 7), new Dimension(86, 28), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("Button[Focused].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
             ButtonPainter.BACKGROUND_FOCUSED, new Insets(7, 7, 7, 7), new Dimension(86, 28), false,
