@@ -17,7 +17,7 @@
  * License along with SeaGlass.  If not, see
  *     <http://www.gnu.org/licenses/>.
  * 
- * $Id: SeaGlassLookAndFeel.java 123 2009-09-28 07:38:51Z kathryn@kathrynhuxtable.org $
+ * $Id$
  */
 package com.seaglass;
 
