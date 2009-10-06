@@ -32,6 +32,9 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.SwingUtilities;
 
 /**
+ * Window Dragger that can be installed on a toolbar or bottom bar, allowing it
+ * to move the whole fram.
+ * 
  * @author Ken Orr
  */
 public class WindowDragger {

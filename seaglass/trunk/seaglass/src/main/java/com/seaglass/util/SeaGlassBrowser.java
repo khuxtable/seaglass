@@ -61,39 +61,82 @@ import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.sun.java.swing.Painter;
 
 /**
- * NimbusBrowser
- *
- * @author Created by Jasper Potts (Aug 27, 2008)
- * @author Modified by Kathryn Huxtable (Sep 23, 2009)
+ * SeaGlassBrowser. Generates a web page displaying the controls and defaults
+ * used by the Sea Glass L&F.
+ * 
+ * Based on NimbusBrowser by Jasper Potts, available at various places on the
+ * web.
  */
 public class SeaGlassBrowser {
 
-    private static Set<String> NIMBUS_PRIMARY_COLORS = new HashSet<String>(Arrays.asList(
-            "text", "control", "nimbusBase", "nimbusOrange", "nimbusGreen", "nimbusRed", "nimbusInfoBlue",
-            "nimbusAlertYellow", "nimbusFocus", "nimbusSelectedText", "nimbusSelectionBackground",
-            "nimbusDisabledText", "nimbusLightBackground", "info",
-            "seaglassButton1", "seaglassButton1c", "seaglassButton2", "seaglassButton2c",   
-            "seaglassScrollBarButtonBase", "seaglassScrollBarTrackBase", "seaglassScrollThumbBase",
-            "seaglassSplitPaneDividerBase"));
-    private static Set<String> NIMBUS_SECONDARY_COLORS = new HashSet<String>(Arrays.asList(
-            "textForeground", "textBackground", "background",
-            "nimbusBlueGrey", "nimbusBorder", "nimbusSelection", "infoText", "menuText", "menu", "scrollbar",
-            "controlText", "controlHighlight", "controlLHighlight", "controlShadow", "controlDkShadow", "textHighlight",
-            "textHighlightText", "textInactiveText", "desktop", "activeCaption", "inactiveCaption"));
-    private static String[] NIMBUS_COMPONENTS = new String[]{
-            "ArrowButton", "Button", "ToggleButton", "RadioButton", "CheckBox", "ColorChooser", "ComboBox",
-            "\"ComboBox.scrollPane\"", "FileChooser", "InternalFrameTitlePane", "InternalFrame", "DesktopIcon",
-            "DesktopPane", "Label", "List", "MenuBar", "MenuItem", "RadioButtonMenuItem", "CheckBoxMenuItem", "Menu",
-            "PopupMenu", "PopupMenuSeparator", "OptionPane", "Panel", "ProgressBar", "Separator", "ScrollBar",
-            "ScrollPane", "Viewport", "Slider", "Spinner", "SplitPane", "TabbedPane", "Table", "TableHeader",
-            "\"Table.editor\"", "\"Tree.cellEditor\"", "TextField", "FormattedTextField", "PasswordField", "TextArea",
-            "TextPane", "EditorPane", "ToolBar", "ToolBarSeparator", "ToolTip", "Tree", "RootPane"};
+    private static Set<String> NIMBUS_PRIMARY_COLORS   = new HashSet<String>(Arrays.asList("text", "control", "nimbusBase",
+                                                           "nimbusOrange", "nimbusGreen", "nimbusRed", "nimbusInfoBlue",
+                                                           "nimbusAlertYellow", "nimbusFocus", "nimbusSelectedText",
+                                                           "nimbusSelectionBackground", "nimbusDisabledText",
+                                                           "nimbusLightBackground", "info", "seaglassButton1", "seaglassButton1c",
+                                                           "seaglassButton2", "seaglassButton2c", "seaglassScrollBarButtonBase",
+                                                           "seaglassScrollBarTrackBase", "seaglassScrollThumbBase",
+                                                           "seaglassSplitPaneDividerBase"));
+    private static Set<String> NIMBUS_SECONDARY_COLORS = new HashSet<String>(Arrays.asList("textForeground", "textBackground",
+                                                           "background", "nimbusBlueGrey", "nimbusBorder", "nimbusSelection",
+                                                           "infoText", "menuText", "menu", "scrollbar", "controlText",
+                                                           "controlHighlight", "controlLHighlight", "controlShadow",
+                                                           "controlDkShadow", "textHighlight", "textHighlightText",
+                                                           "textInactiveText", "desktop", "activeCaption", "inactiveCaption"));
+    private static String[]    NIMBUS_COMPONENTS       = new String[] {
+        "ArrowButton",
+        "Button",
+        "ToggleButton",
+        "RadioButton",
+        "CheckBox",
+        "ColorChooser",
+        "ComboBox",
+        "\"ComboBox.scrollPane\"",
+        "FileChooser",
+        "InternalFrameTitlePane",
+        "InternalFrame",
+        "DesktopIcon",
+        "DesktopPane",
+        "Label",
+        "List",
+        "MenuBar",
+        "MenuItem",
+        "RadioButtonMenuItem",
+        "CheckBoxMenuItem",
+        "Menu",
+        "PopupMenu",
+        "PopupMenuSeparator",
+        "OptionPane",
+        "Panel",
+        "ProgressBar",
+        "Separator",
+        "ScrollBar",
+        "ScrollPane",
+        "Viewport",
+        "Slider",
+        "Spinner",
+        "SplitPane",
+        "TabbedPane",
+        "Table",
+        "TableHeader",
+        "\"Table.editor\"",
+        "\"Tree.cellEditor\"",
+        "TextField",
+        "FormattedTextField",
+        "PasswordField",
+        "TextArea",
+        "TextPane",
+        "EditorPane",
+        "ToolBar",
+        "ToolBarSeparator",
+        "ToolTip",
+        "Tree",
+        "RootPane"                                    };
 
+    // private static String DEFAULT_FONT = "defaultFont";
 
-    //  private static String DEFAULT_FONT = "defaultFont";
-
-    private static File IMAGES_DIR;
-    private static int IMAGE_COUNT = 0;
+    private static File        IMAGES_DIR;
+    private static int         IMAGE_COUNT             = 0;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -113,10 +156,9 @@ public class SeaGlassBrowser {
                 for (Object keyObj : defaultKeys) {
                     String key = keyObj.toString();
                     boolean matchesComponent = false;
-                    componentloop:
-                    for (String componentName : NIMBUS_COMPONENTS) {
-                        if (key.startsWith(componentName + ".") || key.startsWith(componentName + ":") ||
-                                key.startsWith(componentName + "[")) {
+                    componentloop: for (String componentName : NIMBUS_COMPONENTS) {
+                        if (key.startsWith(componentName + ".") || key.startsWith(componentName + ":")
+                                || key.startsWith(componentName + "[")) {
                             Map<String, Object> keys = componentDefaults.get(componentName);
                             if (keys == null) {
                                 keys = new HashMap<String, Object>();
@@ -160,7 +202,7 @@ public class SeaGlassBrowser {
                 try {
                     File dir = new File("target/browser");
                     dir.mkdir();
-                    IMAGES_DIR = new File(dir,"images");
+                    IMAGES_DIR = new File(dir, "images");
                     IMAGES_DIR.mkdir();
                     System.out.println("Outputing to " + dir.getAbsolutePath());
                     File htmlFile = new File(dir, "seaglass.html");
@@ -242,14 +284,14 @@ public class SeaGlassBrowser {
     }
 
     static void printColor(PrintWriter html, Color color) {
-        html.println("<td><pre>#" + getWebColor(color) + " (" + color.getRed() + "," + color.getGreen() + "," +
-                color.getBlue() + ")</pre></td>");
+        html.println("<td><pre>#" + getWebColor(color) + " (" + color.getRed() + "," + color.getGreen() + "," + color.getBlue()
+                + ")</pre></td>");
         html.println("<td width=\"100\" bgcolor=\"#" + getWebColor(color) + "\">&nbsp;</td>");
     }
 
     static void printPainter(PrintWriter html, Painter<?> painter) {
         html.println("<td>Painter</td>");
-        int w=25,h=25;
+        int w = 25, h = 25;
         if (painter instanceof AbstractRegionPainter) {
             AbstractRegionPainter p = (AbstractRegionPainter) painter;
             PaintContext ctx = p.getMyPaintContext();
@@ -270,91 +312,89 @@ public class SeaGlassBrowser {
             cacheMode = p.getMyCacheMode();
         }
         try {
-            BufferedImage img = new BufferedImage(w,h, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = img.createGraphics();
             Composite old = g2.getComposite();
             g2.setComposite(AlphaComposite.Clear);
-            g2.fillRect(0,0,w,h);
+            g2.fillRect(0, 0, w, h);
             g2.setComposite(old);
-            painter.paint(g2, null,w,h);
+            painter.paint(g2, null, w, h);
             g2.dispose();
-            html.println("<td>"+saveImage(img));
+            html.println("<td>" + saveImage(img));
             if (dim != null || insets != null || cacheMode != null) {
                 html.print(" ctx((" + insets.top + "," + insets.left + "," + insets.bottom + "," + insets.right + "),");
                 html.print(" (" + dim.width + "," + dim.height + "), " + cacheMode);
             }
             html.println("</td>");
         } catch (Exception e) {
-            //e.printStackTrace();
+            // e.printStackTrace();
             html.println("<td>NPE&nbsp;</td>");
         }
     }
 
     static void printFont(PrintWriter html, Font font) {
         String style = "";
-        if (font.isBold() && font.isItalic()){
+        if (font.isBold() && font.isItalic()) {
             style = "Bold & Italic";
-        } else if (font.isBold()){
+        } else if (font.isBold()) {
             style = "Bold";
-        } else if (font.isItalic()){
+        } else if (font.isItalic()) {
             style = "Italic";
         }
         html.println("<td>Font: " + font.getFamily() + " " + font.getSize() + " " + style + "</td>");
-        int w=300,h=30;
-        BufferedImage img = new BufferedImage(w,h, BufferedImage.TYPE_INT_ARGB);
+        int w = 300, h = 30;
+        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         Composite old = g2.getComposite();
         g2.setComposite(AlphaComposite.Clear);
-        g2.fillRect(0,0,w,h);
+        g2.fillRect(0, 0, w, h);
         g2.setComposite(old);
         g2.setColor(Color.BLACK);
         g2.setFont(font);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2.drawString("The quick brown fox jumps over the lazy dog.",5,20);
+        g2.drawString("The quick brown fox jumps over the lazy dog.", 5, 20);
         g2.dispose();
-        html.println("<td>"+saveImage(img)+"</td>");
+        html.println("<td>" + saveImage(img) + "</td>");
     }
 
     static void printInsets(PrintWriter html, Insets insets) {
-        html.println("<td>Insets (" + insets.top + "," + insets.left + "," + insets.bottom + "," +
-                insets.right + ")</pre></td>");
-        int w = 50+insets.left+insets.right;
-        int h = 20+insets.top+insets.bottom;
-        BufferedImage img = new BufferedImage(w,h, BufferedImage.TYPE_INT_ARGB);
+        html.println("<td>Insets (" + insets.top + "," + insets.left + "," + insets.bottom + "," + insets.right + ")</pre></td>");
+        int w = 50 + insets.left + insets.right;
+        int h = 20 + insets.top + insets.bottom;
+        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         Composite old = g2.getComposite();
         g2.setComposite(AlphaComposite.Clear);
-        g2.fillRect(0,0,w,h);
+        g2.fillRect(0, 0, w, h);
         g2.setComposite(old);
         g2.setColor(Color.BLACK);
-        g2.drawRect(insets.left, insets.top, 49,19);
+        g2.drawRect(insets.left, insets.top, 49, 19);
         g2.setColor(Color.RED);
-        g2.drawRect(0,0,w-1,h-1);
+        g2.drawRect(0, 0, w - 1, h - 1);
         g2.dispose();
-        html.println("<td>"+saveImage(img)+"</td>");
+        html.println("<td>" + saveImage(img) + "</td>");
     }
-
 
     static void printBorder(PrintWriter html, Border border) {
         Insets insets = border.getBorderInsets(new JToolBar());
-        html.println("<td>Border Insets(" + insets.top + "," + insets.left + "," + insets.bottom + "," +
-                insets.right + ")</pre></td>");
-        int w = 50+insets.left+insets.right;
-        int h = 20+insets.top+insets.bottom;
+        html.println("<td>Border Insets(" + insets.top + "," + insets.left + "," + insets.bottom + "," + insets.right
+                + ")</pre></td>");
+        int w = 50 + insets.left + insets.right;
+        int h = 20 + insets.top + insets.bottom;
         try {
-            BufferedImage img = new BufferedImage(w,h, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = img.createGraphics();
             Composite old = g2.getComposite();
             g2.setComposite(AlphaComposite.Clear);
-            g2.fillRect(0,0,w,h);
+            g2.fillRect(0, 0, w, h);
             g2.setComposite(old);
             g2.setColor(Color.RED);
-            g2.fillRect(insets.left, insets.top, 49,19);
-            border.paintBorder(null,g2, 0,0,w,h);
+            g2.fillRect(insets.left, insets.top, 49, 19);
+            border.paintBorder(null, g2, 0, 0, w, h);
             g2.dispose();
-            html.println("<td>"+saveImage(img)+"</td>");
+            html.println("<td>" + saveImage(img) + "</td>");
         } catch (Exception e) {
-            //e.printStackTrace();
+            // e.printStackTrace();
             html.println("<td>NPE&nbsp;</td>");
         }
     }
@@ -363,19 +403,19 @@ public class SeaGlassBrowser {
         html.println("<td>Dimension (" + dim.width + "," + dim.height + ")</pre></td>");
         int w = dim.width;
         int h = dim.height;
-        if (w==0 || h==0){
+        if (w == 0 || h == 0) {
             html.println("<td>&nbsp;</td>");
         } else {
-            BufferedImage img = new BufferedImage(w,h, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = img.createGraphics();
             Composite old = g2.getComposite();
             g2.setComposite(AlphaComposite.Clear);
-            g2.fillRect(0,0,w,h);
+            g2.fillRect(0, 0, w, h);
             g2.setComposite(old);
             g2.setColor(Color.RED);
-            g2.drawRect(0,0,w-1,h-1);
+            g2.drawRect(0, 0, w - 1, h - 1);
             g2.dispose();
-            html.println("<td>"+saveImage(img)+"</td>");
+            html.println("<td>" + saveImage(img) + "</td>");
         }
     }
 
@@ -385,24 +425,22 @@ public class SeaGlassBrowser {
         Graphics2D g2 = img.createGraphics();
         Composite old = g2.getComposite();
         g2.setComposite(AlphaComposite.Clear);
-        g2.fillRect(0,0,icon.getIconWidth(), icon.getIconHeight());
+        g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
         g2.setComposite(old);
         JButton foo = new JButton();
-        icon.paintIcon(foo,g2, 0, 0);
+        icon.paintIcon(foo, g2, 0, 0);
         g2.dispose();
-        html.println("<td>"+saveImage(img)+"</td>");
+        html.println("<td>" + saveImage(img) + "</td>");
     }
 
-
-
-    static String saveImage(BufferedImage img){
-        File imgFile = new File(IMAGES_DIR,"img_"+(IMAGE_COUNT++)+".png");
+    static String saveImage(BufferedImage img) {
+        File imgFile = new File(IMAGES_DIR, "img_" + (IMAGE_COUNT++) + ".png");
         try {
-            ImageIO.write(img,"png",imgFile);
+            ImageIO.write(img, "png", imgFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "<img src=\"images/"+imgFile.getName()+"\">";
+        return "<img src=\"images/" + imgFile.getName() + "\">";
     }
 
     static String getWebColor(Color color) {

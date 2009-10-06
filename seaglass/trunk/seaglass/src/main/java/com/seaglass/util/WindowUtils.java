@@ -36,19 +36,29 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+/**
+ * Various utitilies used to manage window drawing.
+ * 
+ * @author Ken Orr
+ * @author Kathryn Huxtable
+ */
 public class WindowUtils {
 
     /**
-     * Try's to make the given {@link Window} non-opqaue (transparent) across platforms and JREs. This method is not
-     * guaranteed to succeed, and will fail silently if the given {@code Window} cannot be made non-opaque.
+     * Try's to make the given {@link Window} non-opqaue (transparent) across
+     * platforms and JREs. This method is not guaranteed to succeed, and will
+     * fail silently if the given {@code Window} cannot be made non-opaque.
      * <p/>
-     * This method is useful, for example, when creating a HUD style window that is semi-transparent, and thus doesn't
-     * want the window background to be drawn.
-     *
-     * @param window the {@code Window} to make non-opaque.
+     * This method is useful, for example, when creating a HUD style window that
+     * is semi-transparent, and thus doesn't want the window background to be
+     * drawn.
+     * 
+     * @param window
+     *            the {@code Window} to make non-opaque.
      */
     public static void makeWindowNonOpaque(Window window) {
-        // on the mac, simply setting the window's background color to be fully transparent makes the window non-opaque.
+        // on the mac, simply setting the window's background color to be fully
+        // transparent makes the window non-opaque.
         window.setBackground(new Color(0, 0, 0, 0));
         // on non-mac platforms, try to use the facilities of Java 6 update 10.
         if (!PlatformUtils.isMac()) {
@@ -57,11 +67,13 @@ public class WindowUtils {
     }
 
     /**
-     * Trys to invoke {@code com.sun.awt.AWTUtilities.setWindowOpaque(window,false)} on the given {@link Window}. This
-     * will only work when running with JRE 6 update 10 or higher. This method will silently fail if the method cannot
-     * be invoked.
-     *
-     * @param window the {@code Window} to try and make non-opaque.
+     * Trys to invoke {@code
+     * com.sun.awt.AWTUtilities.setWindowOpaque(window,false)} on the given
+     * {@link Window}. This will only work when running with JRE 6 update 10 or
+     * higher. This method will silently fail if the method cannot be invoked.
+     * 
+     * @param window
+     *            the {@code Window} to try and make non-opaque.
      */
     @SuppressWarnings("unchecked")
     private static void quietlyTryToMakeWindowNonOqaque(Window window) {
@@ -75,7 +87,8 @@ public class WindowUtils {
     }
 
     public static WindowFocusListener createAndInstallRepaintWindowFocusListener(Window window) {
-        // create a WindowFocusListener that repaints the window on focus changes.
+        // create a WindowFocusListener that repaints the window on focus
+        // changes.
         WindowFocusListener windowFocusListener = new WindowFocusListener() {
             public void windowGainedFocus(WindowEvent e) {
                 e.getWindow().repaint();
@@ -92,10 +105,14 @@ public class WindowUtils {
     }
 
     /**
-     * {@code true} if the given {@link Component}'s parent {@link Window} is currently active (focused).
-     *
-     * @param component the {@code Component} to check the parent {@code Window}'s focus for.
-     * @return {@code true} if the given {@code Component}'s parent {@code Window} is currently active.
+     * {@code true} if the given {@link Component}'s parent {@link Window} is
+     * currently active (focused).
+     * 
+     * @param component
+     *            the {@code Component} to check the parent {@code Window}'s
+     *            focus for.
+     * @return {@code true} if the given {@code Component}'s parent {@code
+     *         Window} is currently active.
      */
     public static boolean isParentWindowFocused(Component component) {
         Window window = SwingUtilities.getWindowAncestor(component);
@@ -103,12 +120,16 @@ public class WindowUtils {
     }
 
     /**
-     * Installs a {@link WindowFocusListener} on the given {@link JComponent}'s parent {@link Window}. If the
-     * {@code JComponent} doesn't yet have a parent, then the listener will be installed when the component is added to
-     * a container.
-     *
-     * @param component     the component who's parent frame to listen to focus changes on.
-     * @param focusListener the {@code WindowFocusListener} to notify when focus changes.
+     * Installs a {@link WindowFocusListener} on the given {@link JComponent}'s
+     * parent {@link Window}. If the {@code JComponent} doesn't yet have a
+     * parent, then the listener will be installed when the component is added
+     * to a container.
+     * 
+     * @param component
+     *            the component who's parent frame to listen to focus changes
+     *            on.
+     * @param focusListener
+     *            the {@code WindowFocusListener} to notify when focus changes.
      */
     public static void installWeakWindowFocusListener(JComponent component, WindowFocusListener focusListener) {
         WindowListener weakFocusListener = createWeakWindowFocusListener(focusListener);
@@ -117,11 +138,11 @@ public class WindowUtils {
     }
 
     private static WindowListener createWeakWindowFocusListener(WindowFocusListener windowFocusListener) {
-        final WeakReference<WindowFocusListener> weakReference =
-                new WeakReference<WindowFocusListener>(windowFocusListener);
+        final WeakReference<WindowFocusListener> weakReference = new WeakReference<WindowFocusListener>(windowFocusListener);
         return new WindowAdapter() {
             public void windowActivated(WindowEvent e) {
-                // TODO if the WeakReference's object is null, remove the WeakReference as a FocusListener.
+                // TODO if the WeakReference's object is null, remove the
+                // WeakReference as a FocusListener.
                 if (weakReference.get() != null) {
                     weakReference.get().windowGainedFocus(e);
                 }
@@ -136,12 +157,15 @@ public class WindowUtils {
     }
 
     /**
-     * Installs a listener on the given {@link JComponent}'s parent {@link Window} that repaints
-     * the given component when the parent window's focused state changes. If the given component
-     * does not have a parent at the time this method is called, then an ancestor listener will be
-     * installed that installs a window listener when the components parent changes.
-     *
-     * @param component the {@code JComponent} to add the repaint focus listener to.
+     * Installs a listener on the given {@link JComponent}'s parent
+     * {@link Window} that repaints the given component when the parent window's
+     * focused state changes. If the given component does not have a parent at
+     * the time this method is called, then an ancestor listener will be
+     * installed that installs a window listener when the components parent
+     * changes.
+     * 
+     * @param component
+     *            the {@code JComponent} to add the repaint focus listener to.
      */
     public static void installJComponentRepainterOnWindowFocusChanged(JComponent component) {
         // TODO check to see if the component already has an ancestor.
@@ -150,14 +174,13 @@ public class WindowUtils {
         component.addAncestorListener(ancestorListener);
     }
 
-    private static AncestorListener createAncestorListener(
-            JComponent component, final WindowListener windowListener) {
+    private static AncestorListener createAncestorListener(JComponent component, final WindowListener windowListener) {
         final WeakReference<JComponent> weakReference = new WeakReference<JComponent>(component);
         return new AncestorListener() {
             public void ancestorAdded(AncestorEvent event) {
-                // TODO if the WeakReference's object is null, remove the WeakReference as an AncestorListener.
-                Window window = weakReference.get() == null
-                        ? null : SwingUtilities.getWindowAncestor(weakReference.get());
+                // TODO if the WeakReference's object is null, remove the
+                // WeakReference as an AncestorListener.
+                Window window = weakReference.get() == null ? null : SwingUtilities.getWindowAncestor(weakReference.get());
                 if (window != null) {
                     window.removeWindowListener(windowListener);
                     window.addWindowListener(windowListener);
@@ -165,8 +188,7 @@ public class WindowUtils {
             }
 
             public void ancestorRemoved(AncestorEvent event) {
-                Window window = weakReference.get() == null
-                        ? null : SwingUtilities.getWindowAncestor(weakReference.get());
+                Window window = weakReference.get() == null ? null : SwingUtilities.getWindowAncestor(weakReference.get());
                 if (window != null) {
                     window.removeWindowListener(windowListener);
                 }
