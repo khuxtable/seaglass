@@ -32,6 +32,7 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JComponent;
 
 /**
+ * ToolBarButtonPainter implementation.
  */
 public final class ToolBarButtonPainter extends AbstractRegionPainter {
     //package private integers representing the available states that

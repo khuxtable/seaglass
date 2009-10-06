@@ -21,7 +21,6 @@
  */
 package com.seaglass.painter;
 
-
 /**
  * ScrollBarThumbPainter implementation.
  */
