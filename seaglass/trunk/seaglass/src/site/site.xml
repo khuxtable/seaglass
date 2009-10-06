@@ -26,9 +26,9 @@
 
 		<menu name="Project Reports">
 			<item href="cpd.html" name="CPD Report" />
-			<item href="apidocs/index.html" name="JavaDocs" />
+			<item collapse="true" href="apidocs/index.html" name="JavaDocs" />
 			<item href="pmd.html" name="PMD Report" />
-			<item href="xref/index.html" name="Source Xref" />
+			<item collapse="true" href="xref/index.html" name="Source Xref" />
 			<item href="taglist.html" name="Tag List" />
 		</menu>
 
