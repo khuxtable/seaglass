@@ -2,7 +2,7 @@ body {
   padding: 0px 0px 10px 0px;
 }
 body, td, select, input, li{
-  font-family: Verdana, Helvetica, Arial, sans-serif;
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', sans-serif;
   font-size: 13px;
 }
 code{
@@ -18,7 +18,7 @@ a:link {
 a:visited  {
   color:#4477aa;
 }
-a:active, a:hover {
+a:active {
   color:#6699cc;
 }
 #legend li.externalLink {
@@ -58,7 +58,7 @@ h3 {
 h4 {
   padding: 4px 4px 4px 6px;
   border: none;
-  border-bottom: 1px solid #b8b8c4;
+  border-bottom: 1px solid #b8c4b8;
   color: #006095;
   background-color: white;
   font-weight: normal;
@@ -76,14 +76,15 @@ p {
 #breadcrumbs {
   border-top: 1px solid #aaaaaa;
   border-bottom: 1px solid #aaaaaa;
-  background-color: #ccccd4;
+  background-color: white;
 }
 #leftColumn {
   margin: 10px 0 0 5px;
-  border: 1px solid #999999;
-  background-color: #eeeef4;
+  border: none;
+  background-color: white;
 }
 #navcolumn h5 {
+  margin-top: 1em;
   font-size: smaller;
   border-bottom: 1px solid #aaaaaa;
   padding-top: 2px;
@@ -92,7 +93,7 @@ p {
 
 table.bodyTable th {
   color: white;
-  background-color: #b8b9c4;
+  background-color: #72a0e0;
   text-align: left;
   font-weight: bold;
 }
@@ -102,11 +103,11 @@ table.bodyTable th, table.bodyTable td {
 }
 
 table.bodyTable tr.a {
-  background-color: #dddde2;
+  background-color: #cce5f8;
 }
 
 table.bodyTable tr.b {
-  background-color: #eeeef4;
+  background-color: #edf7ff;
 }
 
 .source {
@@ -115,16 +116,27 @@ table.bodyTable tr.b {
 dl {
   padding: 4px 4px 4px 6px;
   border: 1px solid #aaaaaa;
-  background-color: #ffccff;
+  background-color: white;
 }
 dt {
   color: #006095;
+}
+.xleft {
+  margin-left: 1.5em;
+}
+.xright {
+  margin-right: 1.5em;
 }
 #organizationLogo img, #projectLogo img, #projectLogo span{
   margin: 8px;
 }
 #banner {
+  margin: 1.5em;
   border-bottom: 1px solid #ffffff;
+}
+#footer {
+  margin-top: 1em;
+  border-top: 1px solid #aaaaaa;
 }
 .errormark, .warningmark, .donemark, .infomark {
   background: url(../images/icon_error_sml.gif) no-repeat;
