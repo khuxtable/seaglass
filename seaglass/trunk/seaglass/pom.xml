@@ -41,7 +41,7 @@
 	</developers>
 	<licenses>
 		<license>
-			<name>GNU Lesser General Public License (LGPL)</name>
+			<name>Apache2</name>
 			<url>LICENSE.txt</url>
 		</license>
 	</licenses>
