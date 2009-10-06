@@ -37,6 +37,10 @@ import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassPopupMenuUI.
+ * 
+ * Based on SynthPopupMenuUI by Georges Saab, David Karlton, and Arnaud Weber.
+ * 
+ * @see javax.swing.plaf.synth.SynthPopupMenuUI
  */
 public class SeaGlassPopupMenuUI extends BasicPopupMenuUI implements PropertyChangeListener, SynthUI {
     /**

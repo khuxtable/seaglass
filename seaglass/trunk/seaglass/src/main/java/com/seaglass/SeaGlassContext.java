@@ -1,8 +1,23 @@
 /*
- * @(#)SeaGlassContext.java	1.10 05/11/17
+ * Copyright (c) 2009 Kathryn Huxtable and Kenneth Orr.
  *
- * Copyright 2006 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * This file is part of the SeaGlass Pluggable Look and Feel.
+ *
+ * SeaGlass is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+
+ * SeaGlass is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with SeaGlass.  If not, see
+ *     <http://www.gnu.org/licenses/>.
+ * 
+ * $Id$
  */
 package com.seaglass;
 
@@ -25,19 +40,20 @@ import javax.swing.plaf.synth.SynthStyle;
  * should not cache a <code>SeaGlassContext</code> that is passed to you and
  * expect it to remain valid.
  * 
- * @version 1.10, 11/17/05
- * @since 1.5
- * @author Scott Violet
+ * Extends SynthContext by Scott Violet and reimplements most of its methods
+ * because too much is package local.
+ * 
+ * @see javax.swing.plaf.synth.SynthContext
  */
 public class SeaGlassContext extends SynthContext {
     private static final Map     contextMap;
 
     // This button *must* not have a UI or we end up throwing an NPE.
     private static final JButton fakeComponent = new JButton() {
-        public void updateUI() {
-            // Do nothing.
-        }
-    };
+                                                   public void updateUI() {
+                                                       // Do nothing.
+                                                   }
+                                               };
     private static Region        fakeRegion    = Region.BUTTON;
     private static SynthStyle    fakeStyle     = new SeaGlassStyle(null);
 

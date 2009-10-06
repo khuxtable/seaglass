@@ -50,8 +50,9 @@ import javax.swing.plaf.basic.BasicRootPaneUI;
 import com.seaglass.util.PlatformUtils;
 
 /**
- * @author Kathryn Huxtable
+ * SeaGlassRootPaneUI implementation.
  * 
+ * @author Kathryn Huxtable
  */
 public class SeaGlassRootPaneUI extends BasicRootPaneUI {
 

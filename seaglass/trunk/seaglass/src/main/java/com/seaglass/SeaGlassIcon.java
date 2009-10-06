@@ -39,6 +39,10 @@ import sun.swing.plaf.synth.SynthIcon;
 
 /**
  * An icon that delegates to a painter.
+ * 
+ * Based on NimbusIcon by Richard Bair
+ * 
+ * @see com.sun.java.swing.plaf.nimbus.NimbusIcon
  */
 public class SeaGlassIcon extends SynthIcon {
     private int    width;

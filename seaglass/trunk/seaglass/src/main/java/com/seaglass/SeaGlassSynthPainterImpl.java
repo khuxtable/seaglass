@@ -40,8 +40,11 @@ import com.sun.java.swing.Painter;
 
 
 /**
- *
- * @author rbair
+ * SeaGlassSynthPainterImpl.
+ * 
+ * Based on Nimbus's SynthPainterImpl class by Richard Bair.
+ *  
+ * @see com.sun.java.swing.plaf.nimbus.SynthPainterImpl
  */
 @SuppressWarnings("unchecked")
 class SeaGlassSynthPainterImpl extends SynthPainter {

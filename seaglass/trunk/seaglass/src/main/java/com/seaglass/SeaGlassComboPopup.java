@@ -39,7 +39,10 @@ import javax.swing.plaf.basic.BasicComboPopup;
 
 /**
  * SeaGlassComboPopup. The code to calculate the popup bounds was lifted from
- * Quaqua.
+ * Quaqua by Werner Randelshofer.
+ * 
+ * @see javax.swing.plaf.synth.SynthComboPopup
+ * @see ch.randelshofer.quaqua.QuaquaComboPopup
  */
 class SeaGlassComboPopup extends BasicComboPopup {
 

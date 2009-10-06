@@ -80,6 +80,19 @@ import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 
 import sun.swing.plaf.synth.SynthUI;
 
+/**
+ * This is the main Sea Glass Look and Feel class.
+ * 
+ * At the moment, it customizes Nimbus, and includes some code from
+ * NimbusLookAndFeel and SynthLookAndFeel where those methods were package
+ * local.
+ * 
+ * @author Kathryn Huxtable
+ * @author Kenneth Orr
+ * 
+ * @see javax.swing.plaf.synth.SynthLookAndFeel
+ * @see com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+ */
 public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in a handful of places where we need an empty Insets.
@@ -148,7 +161,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "ScrollBarUI");
             useOurUI(uiDefaults, "ScrollPaneUI");
             useOurUI(uiDefaults, "ToggleButtonUI");
-            
+
             // Set base colors.
             initializeBaseColors(uiDefaults);
 
@@ -224,9 +237,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Original control: 220, 233, 239
         d.put("control", new ColorUIResource(231, 239, 243));
         // d.put("control", new ColorUIResource(237, 237, 237));
-         d.put("control", new ColorUIResource(255, 251, 248));
-         d.put("control", new ColorUIResource(246, 244, 240));
-         d.put("control", new ColorUIResource(252, 250, 248));
+        d.put("control", new ColorUIResource(255, 251, 248));
+        d.put("control", new ColorUIResource(246, 244, 240));
+        d.put("control", new ColorUIResource(252, 250, 248));
         d.put("scrollbar", new ColorUIResource(255, 255, 255));
         // Original blue grey: 170, 178, 194
         d.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228));

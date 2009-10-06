@@ -43,6 +43,8 @@ import sun.swing.plaf.synth.SynthUI;
 
 /**
  * A SynthStyle implementation used by SeaGlass.
+ * 
+ * @see javax.swing.plaf.synth.SynthStyle
  */
 public final class SeaGlassStyle extends SynthStyle {
     /* Keys and scales for large/small/mini components, based on Apple's sizes */
