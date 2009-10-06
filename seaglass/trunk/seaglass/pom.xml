@@ -163,10 +163,10 @@
 		</plugins>
 	</reporting>
 	<scm>
-		<connection>scm:svn:https://seaglass.googlecode.com/svn/seaglass-read-only/trunk/seaglass</connection>
+		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</connection>
 		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</developerConnection>
 		<tag>HEAD</tag>
-		<url>https://code.google.com/p/seaglass/source/browse/seaglass/trunk/seaglass</url>
+		<url>http://code.google.com/p/seaglass/source/browse/seaglass/trunk/seaglass</url>
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
