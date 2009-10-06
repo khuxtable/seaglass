@@ -49,11 +49,11 @@ import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 /**
  * Convenient base class for defining Painter instances for rendering a region
- * or component in Nimbus.
+ * or component in Sea Glass.
  * 
- * @author Jasper Potts
- * @author Richard Bair
- * @author Modified by Kathryn Huxtable (Sep 23, 2009)
+ * Based on Nimbus's AbstractRegionPainter by Jasper Potts and Richard Bair.
+ * 
+ * @see com.sun.java.swing.plaf.nimbus.AbstractRegionPainter
  */
 public abstract class AbstractRegionPainter implements Painter<JComponent> {
     /**
@@ -558,28 +558,29 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
 
         private float         a;                                    // insets.left
         private float         b;                                    // canvasSize.width
-                                                                     // -
-                                                                     // insets.right
+        // -
+        // insets.right
         private float         c;                                    // insets.top
         private float         d;                                    // canvasSize.height
-                                                                     // -
-                                                                     // insets.bottom;
+        // -
+        // insets.bottom;
         private float         aPercent;                             // only
-                                                                     // used if
-                                                                     // inverted
-                                                                     // == true
+        // used if
+        // inverted
+        // == true
         private float         bPercent;                             // only
-                                                                     // used if
-                                                                     // inverted
-                                                                     // == true
+        // used if
+        // inverted
+        // == true
         private float         cPercent;                             // only
-                                                                     // used if
-                                                                     // inverted
-                                                                     // == true
+        // used if
+        // inverted
+        // == true
         private float         dPercent;                             // only
-                                                                     // used if
-                                                                     // inverted
-                                                                     // == true
+
+        // used if
+        // inverted
+        // == true
 
         /**
          * Creates a new PaintContext which does not attempt to cache or scale
@@ -783,7 +784,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
         VolatileImage buffer = (VolatileImage) imageCache.getImage(config, w, h, this, extendedCacheKeys);
 
         int renderCounter = 0; // to avoid any potential, though unlikely,
-                               // infinite loop
+        // infinite loop
         do {
             // validate the buffer so we can check for surface loss
             int bufferStatus = VolatileImage.IMAGE_INCOMPATIBLE;
