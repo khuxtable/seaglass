@@ -54,6 +54,8 @@ import javax.swing.plaf.basic.BasicScrollPaneUI;
  *<p>
  * Minimum necessary copied from BasicScrollPaneUI with appropriate change to
  * support Apple-style horizontal wheel scrolling.
+ * 
+ * @see javax.swing.plaf.basic.BasicScrollPaneUI
  */
 public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements ScrollPaneConstants {
     private MouseWheelListener     mouseScrollListener;

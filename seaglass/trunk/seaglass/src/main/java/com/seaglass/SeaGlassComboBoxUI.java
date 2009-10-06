@@ -60,6 +60,10 @@ import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassComboBoxUI.
+ * 
+ * Based on SynthComboBoxUI by Scott Violet.
+ * 
+ * @see javax.swing.plaf.synth.SynthComboBoxUI
  */
 public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChangeListener, SynthUI {
     private SeaGlassStyle      style;

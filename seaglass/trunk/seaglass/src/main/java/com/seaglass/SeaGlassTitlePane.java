@@ -73,10 +73,8 @@ import sun.swing.SwingUtilities2;
  * <p>
  * This class assumes it will be created with a particular window decoration
  * style, and that if the style changes, a new one will be created.
- */
-/**
+ *
  * @author Kathryn Huxtable
- * 
  */
 public class SeaGlassTitlePane extends JComponent {
     private static final Color     DEFAULT_EMPHASIS_COLOR = new Color(255, 255, 255, 110);

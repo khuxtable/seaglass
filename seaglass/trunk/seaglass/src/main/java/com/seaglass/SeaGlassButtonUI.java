@@ -1,8 +1,23 @@
 /*
- * @(#)SeaGlassButtonUI.java	1.29 07/11/22
+ * Copyright (c) 2009 Kathryn Huxtable and Kenneth Orr.
  *
- * Copyright 2006 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * This file is part of the SeaGlass Pluggable Look and Feel.
+ *
+ * SeaGlass is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+
+ * SeaGlass is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with SeaGlass.  If not, see
+ *     <http://www.gnu.org/licenses/>.
+ * 
+ * $Id$
  */
 package com.seaglass;
 
@@ -36,10 +51,11 @@ import javax.swing.text.View;
 import sun.swing.plaf.synth.SynthUI;
 
 /**
- * Synth's ButtonUI implementation.
+ * SeaGlassButtonUI implementation.
  * 
- * @version 1.29, 11/22/07
- * @author Scott Violet
+ * Based on SynthButtonUI by Scott Violet.
+ * 
+ * @see javax.swing.plaf.synth.SynthButtonUI
  */
 public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeListener, SynthUI {
     private static final String APPLE_PREFIX = "JButton.";
