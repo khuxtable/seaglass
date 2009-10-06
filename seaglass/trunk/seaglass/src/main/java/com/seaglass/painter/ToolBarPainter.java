@@ -31,6 +31,8 @@ import com.seaglass.util.PlatformUtils;
 import com.seaglass.util.WindowUtils;
 
 /**
+ * ToolBarPainter implementation.
+ * 
  * @author Ken Orr
  * @author Modified by Kathryn Huxtable for SeaGlass
  */
