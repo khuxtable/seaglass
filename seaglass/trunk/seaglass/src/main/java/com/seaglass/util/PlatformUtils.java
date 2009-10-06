@@ -21,6 +21,14 @@
  */
 package com.seaglass.util;
 
+/**
+ * Platform utilities to determine anything we need to do differently on a
+ * platform or JRE basis.
+ * 
+ * Based on MacWidgets for Java by Ken Orr.
+ * 
+ * @author Ken Orr
+ */
 public class PlatformUtils {
 
     private static final String SEA_GLASS_OVERRIDE_OS_NAME = "SeaGlass.Override.os.name";
@@ -31,7 +39,7 @@ public class PlatformUtils {
 
     /**
      * Get's the version of Java currently running.
-     *
+     * 
      * @return the version of Java that is running.
      */
     public static String getJavaVersion() {
@@ -40,7 +48,7 @@ public class PlatformUtils {
 
     /**
      * Gets the operating system version that the JVM is running on.
-     *
+     * 
      * @return the operating system version that the JVM is running on.
      */
     public static String getOsVersion() {
@@ -49,7 +57,7 @@ public class PlatformUtils {
 
     /**
      * True if this JVM is running on a Mac.
-     *
+     * 
      * @return true if this JVM is running on a Mac.
      */
     public static boolean isMac() {
@@ -61,7 +69,7 @@ public class PlatformUtils {
 
     /**
      * True if this JVM is running Java 6 on a Mac.
-     *
+     * 
      * @return true if this JVM is running Java 6 on a Mac.
      */
     public static boolean isJava6OnMac() {
@@ -70,7 +78,7 @@ public class PlatformUtils {
 
     /**
      * True if this JVM is running 64 bit Java on a Mac.
-     *
+     * 
      * @return true if this JVM is running 64 bit Java on a Mac.
      */
     public static boolean is64BitJavaOnMac() {
@@ -79,7 +87,7 @@ public class PlatformUtils {
 
     /**
      * True if this JVM is running on Mac OS X 10.5, Leopard.
-     *
+     * 
      * @return true if this JVM is running on Mac OS X 10.5, Leopard.
      */
     public static boolean isLeopard() {

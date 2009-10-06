@@ -28,8 +28,9 @@ import java.awt.Insets;
 /**
  * ImageScalingHelper
  * 
- * @author Created by Jasper Potts (Aug 8, 2007)
- * @author Modified by Kathryn Huxtable (Sep 23, 2009)
+ * Based on Nimbus's ImageScalingHelper by Jasper Potts.
+ * 
+ * @see com.sun.java.swing.plaf.nimbus.ImageScalingHelper
  */
 public class ImageScalingHelper {
 

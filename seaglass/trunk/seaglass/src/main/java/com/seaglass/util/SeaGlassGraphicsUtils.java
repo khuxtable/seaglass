@@ -42,16 +42,17 @@ import sun.swing.SwingUtilities2;
 import sun.swing.plaf.synth.SynthIcon;
 
 /**
- * @author Kathryn Huxtable
+ * Customize the graphics utilities used by Synth.
  * 
+ * @author Kathryn Huxtable
  */
 public class SeaGlassGraphicsUtils extends SynthGraphicsUtils {
     // These are used in the text painting code to avoid allocating a bunch of
     // garbage.
-    private Rectangle paintIconR = new Rectangle();
-    private Rectangle paintTextR = new Rectangle();
-    private Rectangle paintViewR = new Rectangle();
-    private Insets paintInsets = new Insets(0, 0, 0, 0);
+    private Rectangle paintIconR  = new Rectangle();
+    private Rectangle paintTextR  = new Rectangle();
+    private Rectangle paintViewR  = new Rectangle();
+    private Insets    paintInsets = new Insets(0, 0, 0, 0);
 
     /**
      * Paints text at the specified location. This will not attempt to render

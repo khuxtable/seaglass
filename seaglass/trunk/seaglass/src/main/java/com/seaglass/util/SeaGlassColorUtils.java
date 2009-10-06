@@ -26,7 +26,10 @@ import java.awt.Color;
 /**
  * Utility methods for dealing with Mac colors.
  * 
+ * From MacWidgets for Java by Ken Orr.
+ * 
  * @author Ken Orr
+ * @author Kathryn Huxtable
  */
 public class SeaGlassColorUtils {
 

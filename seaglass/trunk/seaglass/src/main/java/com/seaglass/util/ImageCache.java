@@ -38,8 +38,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * by the GC if heap memory gets tight. When our size hits max pixel count least
  * recently requested images are removed first.
  * 
- * @author Created by Jasper Potts (Aug 7, 2007)
- * @author Modified by Kathryn Huxtable (September 23, 2009)
+ * Based on Nimbus's ImageCache by Jasper Potts.
+ * 
+ * @see com.sun.java.swing.plaf.nimbus.ImageCache
  */
 public class ImageCache {
     // Ordered Map keyed by args hash, ordered by most recent accessed entry.

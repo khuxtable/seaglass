@@ -30,6 +30,11 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 
 /**
  * This is a dumping ground for random stuff we want to use in several places.
+ * 
+ * It should probably migrate into SeaGlassGraphicsUtils.
+ * 
+ * @author Ken Orr
+ * @author Kathryn Huxtable
  */
 public class SeaGlassUtils {
 
