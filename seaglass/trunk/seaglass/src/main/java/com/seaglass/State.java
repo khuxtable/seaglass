@@ -21,11 +21,7 @@
  */
 package com.seaglass;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.swing.JComponent;
-import javax.swing.plaf.synth.SynthConstants;
 
 /**
  * <p>Represents a built in, or custom, state in Nimbus.</p>
@@ -68,22 +64,7 @@ import javax.swing.plaf.synth.SynthConstants;
  *     }
  * </code></pre>
  */
-public abstract class State<T extends JComponent> {
-    static final Map<String, StandardState> standardStates = new HashMap<String, StandardState>(7);
-    @SuppressWarnings("unchecked")
-    static final State Enabled = new StandardState(SynthConstants.ENABLED);
-    @SuppressWarnings("unchecked")
-    static final State MouseOver = new StandardState(SynthConstants.MOUSE_OVER);
-    @SuppressWarnings("unchecked")
-    static final State Pressed = new StandardState(SynthConstants.PRESSED);
-    @SuppressWarnings("unchecked")
-    static final State Disabled = new StandardState(SynthConstants.DISABLED);
-    @SuppressWarnings("unchecked")
-    static final State Focused = new StandardState(SynthConstants.FOCUSED);
-    @SuppressWarnings("unchecked")
-    static final State Selected = new StandardState(SynthConstants.SELECTED);
-    @SuppressWarnings("unchecked")
-    static final State Default = new StandardState(SynthConstants.DEFAULT);
+public abstract class State<T extends JComponent> extends com.sun.java.swing.plaf.nimbus.State {
     
     private String name;
 
@@ -103,116 +84,9 @@ public abstract class State<T extends JComponent> {
      *        with the first letter capitalized.
      */
     protected State(String name) {
+        super(name);
         this.name = name;
     }
     
-    @Override public String toString() { return name; }
-    
-    /**
-     * <p>This is the main entry point, called by NimbusStyle.</p>
-     * 
-     * <p>There are both custom states and standard states. Standard states
-     * correlate to the states defined in SynthConstants. When a UI delegate
-     * constructs a SynthContext, it specifies the state that the component is
-     * in according to the states defined in SynthConstants. Our NimbusStyle
-     * will then take this state, and query each State instance in the style
-     * asking whether isInState(c, s).</p>
-     * 
-     * <p>Now, only the standard states care about the "s" param. So we have
-     * this odd arrangement:</p>
-     * <ul>
-     *     <li>NimbusStyle calls State.isInState(c, s)</li>
-     *     <li>State.isInState(c, s) simply delegates to State.isInState(c)</li>
-     *     <li><em>EXCEPT</em>, StandardState overrides State.isInState(c, s) and
-     *         returns directly from that method after checking its state, and
-     *         does not call isInState(c) (since it is not needed for standard states).</li>
-     * </ul>
-     */
-    boolean isInState(T c, int s) {
-        return isInState(c);
-    }
-    
-    /**
-     * <p>Gets whether the specified JComponent is in the custom state represented
-     * by this class. <em>This is an extremely performance sensitive loop.</em>
-     * Please take proper precautions to ensure that it executes quickly.</p>
-     * 
-     * <p>Nimbus uses this method to help determine what state a JComponent is
-     * in. For example, a custom State could exist for JProgressBar such that
-     * it would return <code>true</code> when the progress bar is indeterminate.
-     * Such an implementation of this method would simply be:</p>
-     * 
-     * <pre><code> return c.isIndeterminate();</code></pre>
-     * 
-     * @param c the JComponent to test. This will never be null.
-     * @return true if <code>c</code> is in the custom state represented by
-     *         this <code>State</code> instance
-     */
-    protected abstract boolean isInState(T c);
-    
-    String getName() { return name; }
-    
-    static boolean isStandardStateName(String name) {
-        return standardStates.containsKey(name);
-    }
-    
-    static StandardState getStandardState(String name) {
-        return standardStates.get(name);
-    }
-    
-    static final class StandardState extends State<JComponent> {
-        private int state;
-        
-        private StandardState(int state) {
-            super(toString(state));
-            this.state = state;
-            standardStates.put(getName(), this);
-        }
-
-        public int getState() {
-            return state;
-        }
-
-        @Override
-        boolean isInState(JComponent c, int s) {
-            return (s & state) == state;
-        }
-        
-        @Override
-        protected boolean isInState(JComponent c) {
-            throw new AssertionError("This method should never be called");
-        }
-        
-        private static String toString(int state) {
-            StringBuffer buffer = new StringBuffer();
-            if ((state & SynthConstants.DEFAULT) == SynthConstants.DEFAULT) {
-                buffer.append("Default");
-            }
-            if ((state & SynthConstants.DISABLED) == SynthConstants.DISABLED) {
-                if (buffer.length() > 0) buffer.append("+");
-                buffer.append("Disabled");
-            }
-            if ((state & SynthConstants.ENABLED) == SynthConstants.ENABLED) {
-                if (buffer.length() > 0) buffer.append("+");
-                buffer.append("Enabled");
-            }
-            if ((state & SynthConstants.FOCUSED) == SynthConstants.FOCUSED) {
-                if (buffer.length() > 0) buffer.append("+");
-                buffer.append("Focused");
-            }
-            if ((state & SynthConstants.MOUSE_OVER) == SynthConstants.MOUSE_OVER) {
-                if (buffer.length() > 0) buffer.append("+");
-                buffer.append("MouseOver");
-            }
-            if ((state & SynthConstants.PRESSED) == SynthConstants.PRESSED) {
-                if (buffer.length() > 0) buffer.append("+");
-                buffer.append("Pressed");
-            }
-            if ((state & SynthConstants.SELECTED) == SynthConstants.SELECTED) {
-                if (buffer.length() > 0) buffer.append("+");
-                buffer.append("Selected");
-            }
-            return buffer.toString();
-        }
-    }
+    public String toString() { return name; }
 }
