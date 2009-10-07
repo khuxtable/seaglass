@@ -37,10 +37,6 @@ import com.seaglass.util.WindowUtils;
 public class ToolBarPainter extends AbstractRegionPainter {
     final boolean           IS_MAC_OSX                     = PlatformUtils.isMac();
 
-    // package private integers representing the available states that
-    // this painter will paint. These are used when creating a new instance
-    // of ToolBarPainter to determine which region/state is being painted
-    // by that instance.
     public static final int BORDER_NORTH                   = 1;
     public static final int BORDER_SOUTH                   = 2;
     public static final int BORDER_EAST                    = 3;
@@ -64,7 +60,6 @@ public class ToolBarPainter extends AbstractRegionPainter {
         this.ctx = ctx;
     }
 
-    @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         boolean containedInActiveWindow = WindowUtils.isParentWindowFocused(c);
 
@@ -81,7 +76,6 @@ public class ToolBarPainter extends AbstractRegionPainter {
         g.fillRect(0, 0, width, height);
     }
 
-    @Override
     protected PaintContext getPaintContext() {
         return ctx;
     }
