@@ -58,9 +58,7 @@ public class ImageScalingHelper {
          * with the top, left, bottom and right areas tiled.
          */
         PAINT9_TILE
-    }
-
-    ;
+    };
 
     private static final Insets EMPTY_INSETS       = new Insets(0, 0, 0, 0);
 
