@@ -35,10 +35,18 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JToolBar;
 import javax.swing.LookAndFeel;
 import javax.swing.UIDefaults;
@@ -72,10 +80,18 @@ import com.seaglass.painter.TitlePaneMaximizeButtonPainter;
 import com.seaglass.painter.ToolBarButtonPainter;
 import com.seaglass.painter.ToolBarPainter;
 import com.seaglass.painter.ToolBarToggleButtonPainter;
+import com.seaglass.state.ComboBoxArrowButtonEditableState;
+import com.seaglass.state.ComboBoxEditableState;
+import com.seaglass.state.TitlePaneCloseButtonWindowNotFocusedState;
+import com.seaglass.state.TitlePaneIconifyButtonWindowNotFocusedState;
+import com.seaglass.state.TitlePaneMaximizeButtonWindowMaximizedState;
+import com.seaglass.state.TitlePaneMaximizeButtonWindowNotFocusedState;
+import com.seaglass.state.TitlePaneMenuButtonWindowNotFocusedState;
 import com.seaglass.util.PlatformUtils;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 
+import sun.swing.plaf.synth.DefaultSynthStyle;
 import sun.swing.plaf.synth.SynthUI;
 
 /**
@@ -95,19 +111,91 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in a handful of places where we need an empty Insets.
      */
-    static final Insets         EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
+    static final Insets                  EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
+
+    /**
+     * The map of SynthStyles. This map is keyed by Region. Each Region maps to
+     * a List of LazyStyles. Each LazyStyle has a reference to the prefix that
+     * was registered with it. This reference can then be inspected to see if it
+     * is the proper lazy style.
+     * <p/>
+     * There can be more than one LazyStyle for a single Region if there is more
+     * than one prefix defined for a given region. For example, both Button and
+     * "MyButton" might be prefixes assigned to the Region.Button region.
+     */
+    private Map<Region, List<LazyStyle>> m                       = new HashMap<Region, List<LazyStyle>>();
+
+    /**
+     * A map of regions which have been registered. This mapping is maintained
+     * so that the Region can be found based on prefix in a very fast manner.
+     * This is used in the "matches" method of LazyStyle.
+     */
+
+    private Map<String, Region>          registeredRegions       = new HashMap<String, Region>();
+
+    /**
+     * Our fallback style to avoid NPEs if the proper style cannot be found in
+     * this class. Not sure if relying on DefaultSynthStyle is the best choice.
+     */
+    private DefaultSynthStyle            defaultStyle;
 
     // Set the package name.
-    private static final String PACKAGE_PREFIX          = "com.seaglass.SeaGlass";
+    private static final String          PACKAGE_PREFIX          = "com.seaglass.SeaGlass";
 
-    private UIDefaults          uiDefaults              = null;
+    private UIDefaults                   uiDefaults              = null;
 
-    private SynthStyleFactory   nimbusFactory;
+    private SynthStyleFactory            nimbusFactory;
 
     // Refer to setSelectedUI
-    static ComponentUI          selectedUI;
+    static ComponentUI                   selectedUI;
     // Refer to setSelectedUI
-    static int                  selectedUIState;
+    static int                           selectedUIState;
+
+    public SeaGlassLookAndFeel() {
+        super();
+
+        // initialize the map of styles
+        register(Region.ARROW_BUTTON, "ArrowButton");
+        register(Region.BUTTON, "Button");
+        register(Region.TOGGLE_BUTTON, "ToggleButton");
+        register(Region.RADIO_BUTTON, "RadioButton");
+        register(Region.CHECK_BOX, "CheckBox");
+        register(Region.COLOR_CHOOSER, "ColorChooser");
+        register(Region.PANEL, "ColorChooser:\"ColorChooser.previewPanelHolder\"");
+        register(Region.LABEL, "ColorChooser:\"ColorChooser.previewPanelHolder\":\"OptionPane.label\"");
+        register(Region.COMBO_BOX, "ComboBox");
+        register(Region.TEXT_FIELD, "ComboBox:\"ComboBox.textField\"");
+        register(Region.ARROW_BUTTON, "ComboBox:\"ComboBox.arrowButton\"");
+        register(Region.LABEL, "ComboBox:\"ComboBox.listRenderer\"");
+        register(Region.LABEL, "ComboBox:\"ComboBox.renderer\"");
+        register(Region.SCROLL_PANE, "\"ComboBox.scrollPane\"");
+        register(Region.FILE_CHOOSER, "FileChooser");
+        register(Region.INTERNAL_FRAME_TITLE_PANE, "InternalFrameTitlePane");
+        register(Region.INTERNAL_FRAME, "InternalFrame");
+        register(Region.INTERNAL_FRAME_TITLE_PANE, "InternalFrame:InternalFrameTitlePane");
+        register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"");
+        register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"");
+        register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"");
+        register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\"");
+        register(Region.DESKTOP_ICON, "DesktopIcon");
+        register(Region.DESKTOP_PANE, "DesktopPane");
+        register(Region.LABEL, "Label");
+        register(Region.LIST, "List");
+        register(Region.LABEL, "List:\"List.cellRenderer\"");
+        register(Region.MENU_BAR, "MenuBar");
+        register(Region.MENU, "MenuBar:Menu");
+        register(Region.MENU_ITEM_ACCELERATOR, "MenuBar:Menu:MenuItemAccelerator");
+        register(Region.MENU_ITEM, "MenuItem");
+        register(Region.MENU_ITEM_ACCELERATOR, "MenuItem:MenuItemAccelerator");
+        register(Region.RADIO_BUTTON_MENU_ITEM, "RadioButtonMenuItem");
+        register(Region.MENU_ITEM_ACCELERATOR, "RadioButtonMenuItem:MenuItemAccelerator");
+        register(Region.CHECK_BOX_MENU_ITEM, "CheckBoxMenuItem");
+        register(Region.MENU_ITEM_ACCELERATOR, "CheckBoxMenuItem:MenuItemAccelerator");
+        register(Region.MENU, "Menu");
+        register(Region.MENU_ITEM_ACCELERATOR, "Menu:MenuItemAccelerator");
+        register(Region.POPUP_MENU, "PopupMenu");
+        register(Region.POPUP_MENU_SEPARATOR, "PopupMenuSeparator");
+    }
 
     /**
      * {@inheritDoc}
@@ -120,12 +208,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         setStyleFactory(new SynthStyleFactory() {
             @Override
             public SynthStyle getStyle(JComponent c, Region r) {
-                SynthStyle style = nimbusFactory.getStyle(c, r);
-                if (style instanceof NimbusStyle) {
-                    return new SeaGlassStyle(style);
+                if (r == Region.ARROW_BUTTON || r == Region.BUTTON || r == Region.TOGGLE_BUTTON || r == Region.RADIO_BUTTON
+                        || r == Region.CHECK_BOX || r == Region.COMBO_BOX || r == Region.MENU_BAR || r == Region.MENU
+                        || r == Region.MENU_ITEM_ACCELERATOR || r == Region.MENU_ITEM || r == Region.RADIO_BUTTON_MENU_ITEM
+                        || r == Region.CHECK_BOX_MENU_ITEM || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR) {
+                    return getSeaGlassStyle(c, r);
                 } else {
-                    // Why are toolbars getting here?
-                    return new SeaGlassStyle(style);
+                    SynthStyle style = nimbusFactory.getStyle(c, r);
+                    if (style instanceof NimbusStyle) {
+                        return new SeaGlassStyleWrapper(style);
+                    } else {
+                        // Why are toolbars getting here?
+                        return style;
+                    }
                 }
             }
         });
@@ -581,6 +676,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaglassComboBoxBase", new ColorUIResource(61, 95, 140));
         d.put("seaglassComboBoxBlueGrey", new ColorUIResource(175, 207, 232));
 
+        d.put("ComboBox.Editable", new ComboBoxEditableState());
+        d.put("ComboBox:\"ComboBox.arrowButton\".Editable", new ComboBoxArrowButtonEditableState());
+
         // Background
         d.put("ComboBox[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ComboBoxPainter",
             ComboBoxPainter.BACKGROUND_DISABLED, new Insets(8, 9, 8, 23), new Dimension(105, 23), false,
@@ -812,6 +910,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void initializeTitlePaneButtons(UIDefaults d) {
+        // d.put("InternalFrame:InternalFrameTitlePane.WindowFocused", new
+        // TitlePaneWindowFocusedState());
+        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\".WindowNotFocused",
+            new TitlePaneMenuButtonWindowNotFocusedState());
+        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\".WindowNotFocused",
+            new TitlePaneIconifyButtonWindowNotFocusedState());
+        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\".WindowNotFocused",
+            new TitlePaneMaximizeButtonWindowNotFocusedState());
+        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\".WindowMaximized",
+            new TitlePaneMaximizeButtonWindowMaximizedState());
+        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\".WindowNotFocused",
+            new TitlePaneCloseButtonWindowNotFocusedState());
+
         // Set the multiplicity of states for the Close button.
         d.put("TitlePane:seaglassCloseButton.backgroundPainter", new TitlePaneCloseButtonPainter(
             new AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0), new Dimension(19, 18), false,
@@ -1279,6 +1390,342 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Registers the given region and prefix. The prefix, if it contains quoted
+     * sections, refers to certain named components. If there are not quoted
+     * sections, then the prefix refers to a generic component type.
+     * </p>
+     * 
+     * <p>
+     * If the given region/prefix combo has already been registered, then it
+     * will not be registered twice. The second registration attempt will fail
+     * silently.
+     * </p>
+     * 
+     * @param region
+     *            The Synth Region that is being registered. Such as Button, or
+     *            ScrollBarThumb.
+     * @param prefix
+     *            The UIDefault prefix. For example, could be ComboBox, or if a
+     *            named components, "MyComboBox", or even something like
+     *            ToolBar:"MyComboBox":"ComboBox.arrowButton"
+     */
+    public void register(Region region, String prefix) {
+        // validate the method arguments
+        if (region == null || prefix == null) {
+            throw new IllegalArgumentException("Neither Region nor Prefix may be null");
+        }
+
+        // Add a LazyStyle for this region/prefix to m.
+        List<LazyStyle> styles = m.get(region);
+        if (styles == null) {
+            styles = new LinkedList<LazyStyle>();
+            styles.add(new LazyStyle(prefix));
+            m.put(region, styles);
+        } else {
+            // iterate over all the current styles and see if this prefix has
+            // already been registered. If not, then register it.
+            for (LazyStyle s : styles) {
+                if (prefix.equals(s.prefix)) {
+                    return;
+                }
+            }
+            styles.add(new LazyStyle(prefix));
+        }
+
+        // add this region to the map of registered regions
+        registeredRegions.put(region.getName(), region);
+    }
+
+    /**
+     * <p>
+     * Locate the style associated with the given region, and component. This is
+     * called from NimbusLookAndFeel in the SynthStyleFactory implementation.
+     * </p>
+     * 
+     * <p>
+     * Lookup occurs as follows:<br/>
+     * Check the map of styles <code>m</code>. If the map contains no styles at
+     * all, then simply return the defaultStyle. If the map contains styles,
+     * then iterate over all of the styles for the Region <code>r</code> looking
+     * for the best match, based on prefix. If a match was made, then return
+     * that SynthStyle. Otherwise, return the defaultStyle.
+     * </p>
+     * 
+     * @param comp
+     *            The component associated with this region. For example, if the
+     *            Region is Region.Button then the component will be a JButton.
+     *            If the Region is a subregion, such as ScrollBarThumb, then the
+     *            associated component will be the component that subregion
+     *            belongs to, such as JScrollBar. The JComponent may be named.
+     *            It may not be null.
+     * @param r
+     *            The region we are looking for a style for. May not be null.
+     */
+    SynthStyle getSeaGlassStyle(JComponent comp, Region r) {
+        // validate method arguments
+        if (comp == null || r == null) {
+            throw new IllegalArgumentException("Neither comp nor r may be null");
+        }
+
+        // if there are no lazy styles registered for the region r, then return
+        // the default style
+        List<LazyStyle> styles = m.get(r);
+        if (styles == null || styles.size() == 0) {
+            return defaultStyle;
+        }
+
+        // Look for the best SynthStyle for this component/region pair.
+        LazyStyle foundStyle = null;
+        for (LazyStyle s : styles) {
+            if (s.matches(comp)) {
+                // replace the foundStyle if foundStyle is null, or
+                // if the new style "s" is more specific (ie, its path was
+                // longer), or if the foundStyle was "simple" and the new style
+                // was not (ie: the foundStyle was for something like Button and
+                // the new style was for something like "MyButton", hence, being
+                // more specific.) In all cases, favor the most specific style
+                // found.
+                if (foundStyle == null || (foundStyle.parts.length < s.parts.length)
+                        || (foundStyle.parts.length == s.parts.length && foundStyle.simple && !s.simple)) {
+                    foundStyle = s;
+                }
+            }
+        }
+
+        // return the style, if found, or the default style if not found
+        return foundStyle == null ? defaultStyle : foundStyle.getStyle(comp);
+    }
+
+    /**
+     * A class which creates the SeaGlassStyle associated with it lazily, but
+     * also manages a lot more information about the style. It is less of a
+     * LazyValue type of class, and more of an Entry or Item type of class, as
+     * it represents an entry in the list of LazyStyles in the map m.
+     * 
+     * The primary responsibilities of this class include:
+     * <ul>
+     * <li>Determining whether a given component/region pair matches this style</li>
+     * <li>Splitting the prefix specified in the constructor into its
+     * constituent parts to facilitate quicker matching</li>
+     * <li>Creating and vending a SeaGlassStyle lazily.</li>
+     * </ul>
+     */
+    private final class LazyStyle {
+        /**
+         * The prefix this LazyStyle was registered with. Something like Button
+         * or ComboBox:"ComboBox.arrowButton"
+         */
+        private String                                                prefix;
+        /**
+         * Whether or not this LazyStyle represents an unnamed component
+         */
+        private boolean                                               simple = true;
+        /**
+         * The various parts, or sections, of the prefix. For example, the
+         * prefix: ComboBox:"ComboBox.arrowButton"
+         * 
+         * will be broken into two parts, ComboBox and "ComboBox.arrowButton"
+         */
+        private Part[]                                                parts;
+        /**
+         * Cached shared style.
+         */
+        private SeaGlassStyle                                         style;
+        /**
+         * A weakly referenced hash map such that if the reference JComponent
+         * key is garbage collected then the entry is removed from the map. This
+         * cache exists so that when a JComponent has nimbus overrides in its
+         * client map, a unique style will be created and returned for that
+         * JComponent instance, always. In such a situation each JComponent
+         * instance must have its own instance of SeaGlassStyle.
+         */
+        private WeakHashMap<JComponent, WeakReference<SeaGlassStyle>> overridesCache;
+
+        /**
+         * Create a new LazyStyle.
+         * 
+         * @param prefix
+         *            The prefix associated with this style. Cannot be null.
+         */
+        private LazyStyle(String prefix) {
+            if (prefix == null) {
+                throw new IllegalArgumentException("The prefix must not be null");
+            }
+
+            this.prefix = prefix;
+
+            // there is one odd case that needs to be supported here: cell
+            // renderers. A cell renderer is defined as a named internal
+            // component, so for example:
+            // List."List.cellRenderer"
+            // The problem is that the component named List.cellRenderer is not
+            // a
+            // child of a JList. Rather, it is treated more as a direct
+            // component
+            // Thus, if the prefix ends with "cellRenderer", then remove all the
+            // previous dotted parts of the prefix name so that it becomes, for
+            // example: "List.cellRenderer"
+            // Likewise, we have a hacked work around for cellRenderer,
+            // renderer,
+            // and listRenderer.
+            String temp = prefix;
+            if (temp.endsWith("cellRenderer\"") || temp.endsWith("renderer\"") || temp.endsWith("listRenderer\"")) {
+                temp = temp.substring(temp.lastIndexOf(":\"") + 1);
+            }
+
+            // otherwise, normal code path
+            List<String> sparts = split(temp);
+            parts = new Part[sparts.size()];
+            for (int i = 0; i < parts.length; i++) {
+                parts[i] = new Part(sparts.get(i));
+                if (parts[i].named) {
+                    simple = false;
+                }
+            }
+        }
+
+        /**
+         * Gets the style. Creates it if necessary.
+         * 
+         * @return the style
+         */
+        SynthStyle getStyle(JComponent c) {
+            // if the component has overrides, it gets its own unique style
+            // instead of the shared style.
+            if (c.getClientProperty("Nimbus.Overrides") != null) {
+                if (overridesCache == null) overridesCache = new WeakHashMap<JComponent, WeakReference<SeaGlassStyle>>();
+                WeakReference<SeaGlassStyle> ref = overridesCache.get(c);
+                SeaGlassStyle s = ref == null ? null : ref.get();
+                if (s == null) {
+                    s = new SeaGlassStyle(prefix, c);
+                    overridesCache.put(c, new WeakReference<SeaGlassStyle>(s));
+                }
+                return s;
+            }
+
+            // lazily create the style if necessary
+            if (style == null) style = new SeaGlassStyle(prefix, null);
+
+            // return the style
+            return style;
+        }
+
+        /**
+         * This LazyStyle is a match for the given component if, and only if,
+         * for each part of the prefix the component hierarchy matches exactly.
+         * That is, if given "a":something:"b", then: c.getName() must equals
+         * "b" c.getParent() can be anything c.getParent().getParent().getName()
+         * must equal "a".
+         */
+        boolean matches(JComponent c) {
+            return matches(c, parts.length - 1);
+        }
+
+        private boolean matches(Component c, int partIndex) {
+            if (partIndex < 0) return true;
+            if (c == null) return false;
+            // only get here if partIndex > 0 and c == null
+
+            String name = c.getName();
+            if (parts[partIndex].named && parts[partIndex].s.equals(name)) {
+                // so far so good, recurse
+                return matches(c.getParent(), partIndex - 1);
+            } else if (!parts[partIndex].named) {
+                // if c is not named, and parts[partIndex] has an expected class
+                // type registered, then check to make sure c is of the
+                // right type;
+                Class clazz = parts[partIndex].c;
+                if (clazz != null && clazz.isAssignableFrom(c.getClass())) {
+                    // so far so good, recurse
+                    return matches(c.getParent(), partIndex - 1);
+                } else if (clazz == null && registeredRegions.containsKey(parts[partIndex].s)) {
+                    Region r = registeredRegions.get(parts[partIndex].s);
+                    Component parent = r.isSubregion() ? c : c.getParent();
+                    // special case the JInternalFrameTitlePane, because it
+                    // doesn't fit the mold. very, very funky.
+                    if (r == Region.INTERNAL_FRAME_TITLE_PANE && parent != null && parent instanceof JInternalFrame.JDesktopIcon) {
+                        JInternalFrame.JDesktopIcon icon = (JInternalFrame.JDesktopIcon) parent;
+                        parent = icon.getInternalFrame();
+                    }
+                    // it was the name of a region. So far, so good. Recurse.
+                    return matches(parent, partIndex - 1);
+                }
+            }
+
+            return false;
+        }
+
+        /**
+         * Given some dot separated prefix, split on the colons that are not
+         * within quotes, and not within brackets.
+         * 
+         * @param prefix
+         * @return
+         */
+        private List<String> split(String prefix) {
+            List<String> parts = new ArrayList<String>();
+            int bracketCount = 0;
+            boolean inquotes = false;
+            int lastIndex = 0;
+            for (int i = 0; i < prefix.length(); i++) {
+                char c = prefix.charAt(i);
+
+                if (c == '[') {
+                    bracketCount++;
+                    continue;
+                } else if (c == '"') {
+                    inquotes = !inquotes;
+                    continue;
+                } else if (c == ']') {
+                    bracketCount--;
+                    if (bracketCount < 0) {
+                        throw new RuntimeException("Malformed prefix: " + prefix);
+                    }
+                    continue;
+                }
+
+                if (c == ':' && !inquotes && bracketCount == 0) {
+                    // found a character to split on.
+                    parts.add(prefix.substring(lastIndex, i));
+                    lastIndex = i + 1;
+                }
+            }
+            if (lastIndex < prefix.length() - 1 && !inquotes && bracketCount == 0) {
+                parts.add(prefix.substring(lastIndex));
+            }
+            return parts;
+
+        }
+
+        private final class Part {
+            private String  s;
+            // true if this part represents a component name
+            private boolean named;
+            private Class   c;
+
+            Part(String s) {
+                named = s.charAt(0) == '"' && s.charAt(s.length() - 1) == '"';
+                if (named) {
+                    this.s = s.substring(1, s.length() - 1);
+                } else {
+                    this.s = s;
+                    // TODO use a map of known regions for Synth and Swing, and
+                    // then use [classname] instead of org_class_name style
+                    try {
+                        c = Class.forName("javax.swing.J" + s);
+                    } catch (Exception e) {
+                    }
+                    try {
+                        c = Class.forName(s.replace("_", "."));
+                    } catch (Exception e) {
+                    }
+                }
             }
         }
     }
