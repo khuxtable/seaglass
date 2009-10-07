@@ -53,13 +53,13 @@ public final class ToolBarToggleButtonPainter extends AbstractImagePainter {
             case BACKGROUND_MOUSEOVER_FOCUSED: return "toolbar_button_focused";
             case BACKGROUND_PRESSED: return "toolbar_button_pressed";
             case BACKGROUND_PRESSED_FOCUSED: return "toolbar_button_focused_pressed";
-            case BACKGROUND_SELECTED: return "empty_image";
-            case BACKGROUND_SELECTED_FOCUSED: return "toolbar_button_focused";
-            case BACKGROUND_PRESSED_SELECTED: return "empty_image";
-            case BACKGROUND_PRESSED_SELECTED_FOCUSED: return "toolbar_button_focused";
-            case BACKGROUND_MOUSEOVER_SELECTED: return "empty_image";
-            case BACKGROUND_MOUSEOVER_SELECTED_FOCUSED: return "toolbar_button_focused";
-            case BACKGROUND_DISABLED_SELECTED: return "empty_image";
+            case BACKGROUND_SELECTED: return "toolbar_button_selected";
+            case BACKGROUND_SELECTED_FOCUSED: return "toolbar_button_selected_focused";
+            case BACKGROUND_PRESSED_SELECTED: return "toolbar_button_selected";
+            case BACKGROUND_PRESSED_SELECTED_FOCUSED: return "toolbar_button_selected_focused";
+            case BACKGROUND_MOUSEOVER_SELECTED: return "toolbar_button_selected";
+            case BACKGROUND_MOUSEOVER_SELECTED_FOCUSED: return "toolbar_button_selected_focused";
+            case BACKGROUND_DISABLED_SELECTED: return "toolbar_button_selected";
         }
         return null;
     }
