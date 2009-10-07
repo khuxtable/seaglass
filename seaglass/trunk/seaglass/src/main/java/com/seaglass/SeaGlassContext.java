@@ -53,7 +53,7 @@ public class SeaGlassContext extends SynthContext {
                                                    }
                                                };
     private static Region        fakeRegion    = Region.BUTTON;
-    private static SynthStyle    fakeStyle     = new SeaGlassStyle(null);
+    private static SynthStyle    fakeStyle     = new SeaGlassStyle(null, null);
 
     private JComponent           component;
     private Region               region;
