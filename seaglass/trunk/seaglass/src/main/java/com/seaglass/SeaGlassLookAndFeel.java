@@ -88,6 +88,8 @@ import com.seaglass.painter.ToolBarToggleButtonPainter;
 import com.seaglass.state.ComboBoxArrowButtonEditableState;
 import com.seaglass.state.ComboBoxEditableState;
 import com.seaglass.state.InternalFrameWindowFocusedState;
+import com.seaglass.state.SplitPaneDividerVerticalState;
+import com.seaglass.state.SplitPaneVerticalState;
 import com.seaglass.state.TitlePaneCloseButtonWindowNotFocusedState;
 import com.seaglass.state.TitlePaneIconifyButtonWindowNotFocusedState;
 import com.seaglass.state.TitlePaneMaximizeButtonWindowMaximizedState;
@@ -203,7 +205,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private boolean isSupportedBySeaGlass(JComponent c, Region r) {
         if (r == Region.ARROW_BUTTON || r == Region.BUTTON || r == Region.TOGGLE_BUTTON || r == Region.RADIO_BUTTON
-                || r == Region.CHECK_BOX || r == Region.COMBO_BOX || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR) {
+                || r == Region.CHECK_BOX || r == Region.COMBO_BOX || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR
+                || r == Region.SPLIT_PANE || r == Region.SPLIT_PANE_DIVIDER) {
             return true;
         } else if (!PlatformUtils.isMac()
                 && (r == Region.INTERNAL_FRAME || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.MENU_BAR || r == Region.MENU
@@ -413,27 +416,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void initializeBaseColors(UIDefaults d) {
         d.put("nimbusBase", new ColorUIResource(61, 95, 140));
         // Original control: 220, 233, 239
-        d.put("control", new ColorUIResource(231, 239, 243));
-        // d.put("control", new ColorUIResource(237, 237, 237));
-        d.put("control", new ColorUIResource(255, 251, 248));
-        d.put("control", new ColorUIResource(246, 244, 240));
+        // d.put("control", new ColorUIResource(231, 239, 243));
+        // d.put("control", new ColorUIResource(246, 244, 240));
         d.put("control", new ColorUIResource(248, 248, 248));
         d.put("scrollbar", new ColorUIResource(255, 255, 255));
-        // Original blue grey: 170, 178, 194
-        d.put("nimbusBlueGrey", new ColorUIResource(214, 218, 228));
-        d.put("seaglassScrollThumbBase", new ColorUIResource(90, 150, 255));
-        d.put("seaglassScrollBarButtonBase", new ColorUIResource(170, 174, 182));
-        d.put("seaglassScrollBarTrackBase", new ColorUIResource(205, 208, 218));
-        d.put("seaglassSplitPaneDividerBase", new ColorUIResource(170, 174, 182));
-        d.put("nimbusSelectionBackground", new ColorUIResource(82, 127, 187));
-        d.put("nimbusSelection", new ColorUIResource(113, 193, 242));
-        d.put("nimbusOrange", new ColorUIResource(246, 188, 96));
-        d.put("nimbusGreen", new ColorUIResource(144, 203, 96));
-        d.put("nimbusRed", new ColorUIResource(236, 67, 60));
-        d.put("seaglassButton1", new ColorUIResource(175, 207, 232));
-        d.put("seaglassButton1c", new ColorUIResource(160, 247, 255));
-        d.put("seaglassButton2", new ColorUIResource(16, 59, 116));
-        d.put("seaglassButton2c", new ColorUIResource(46, 194, 226));
     }
 
     /**
@@ -1091,6 +1077,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void initializeSplitPanes(UIDefaults d) {
+        d.put("SplitPane.contentMargins", new InsetsUIResource(1, 1, 1, 1));
+        d.put("SplitPane.States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Vertical");
+        d.put("SplitPane.Vertical", new SplitPaneVerticalState());
+        d.put("SplitPane.size", new Integer(10));
+        d.put("SplitPane.dividerSize", new Integer(10));
+        d.put("SplitPane.centerOneTouchButtons", Boolean.TRUE);
+        d.put("SplitPane.oneTouchButtonOffset", new Integer(30));
+        d.put("SplitPane.oneTouchExpandable", Boolean.FALSE);
+        d.put("SplitPane.continuousLayout", Boolean.TRUE);
+        d.put("SplitPane:SplitPaneDivider.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("SplitPane:SplitPaneDivider.States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Vertical");
+        d.put("SplitPane:SplitPaneDivider.Vertical", new SplitPaneDividerVerticalState());
+
         d.put("SplitPane:SplitPaneDivider[Enabled].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SplitPaneDividerPainter", SplitPaneDividerPainter.BACKGROUND_ENABLED, new Insets(3, 0, 3, 0),
             new Dimension(68, 10), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
