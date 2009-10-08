@@ -132,7 +132,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * than one prefix defined for a given region. For example, both Button and
      * "MyButton" might be prefixes assigned to the Region.Button region.
      */
-    private Map<Region, List<LazyStyle>> m                       = new HashMap<Region, List<LazyStyle>>();
+    private Map<Region, List<LazyStyle>> styleMap                = new HashMap<Region, List<LazyStyle>>();
 
     /**
      * A map of regions which have been registered. This mapping is maintained
@@ -1666,12 +1666,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             throw new IllegalArgumentException("Neither Region nor Prefix may be null");
         }
 
-        // Add a LazyStyle for this region/prefix to m.
-        List<LazyStyle> styles = m.get(region);
+        // Add a LazyStyle for this region/prefix to styleMap.
+        List<LazyStyle> styles = styleMap.get(region);
         if (styles == null) {
             styles = new LinkedList<LazyStyle>();
             styles.add(new LazyStyle(prefix));
-            m.put(region, styles);
+            styleMap.put(region, styles);
         } else {
             // iterate over all the current styles and see if this prefix has
             // already been registered. If not, then register it.
@@ -1695,11 +1695,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * 
      * <p>
      * Lookup occurs as follows:<br/>
-     * Check the map of styles <code>m</code>. If the map contains no styles at
-     * all, then simply return the defaultStyle. If the map contains styles,
-     * then iterate over all of the styles for the Region <code>r</code> looking
-     * for the best match, based on prefix. If a match was made, then return
-     * that SynthStyle. Otherwise, return the defaultStyle.
+     * Check the map of styles <code>styleMap</code>. If the map contains no
+     * styles at all, then simply return the defaultStyle. If the map contains
+     * styles, then iterate over all of the styles for the Region <code>r</code>
+     * looking for the best match, based on prefix. If a match was made, then
+     * return that SynthStyle. Otherwise, return the defaultStyle.
      * </p>
      * 
      * @param comp
@@ -1720,7 +1720,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // if there are no lazy styles registered for the region r, then return
         // the default style
-        List<LazyStyle> styles = m.get(r);
+        List<LazyStyle> styles = styleMap.get(r);
         if (styles == null || styles.size() == 0) {
             return defaultStyle;
         }
@@ -1751,7 +1751,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * A class which creates the SeaGlassStyle associated with it lazily, but
      * also manages a lot more information about the style. It is less of a
      * LazyValue type of class, and more of an Entry or Item type of class, as
-     * it represents an entry in the list of LazyStyles in the map m.
+     * it represents an entry in the list of LazyStyles in the map styleMap.
      * 
      * The primary responsibilities of this class include:
      * <ul>
