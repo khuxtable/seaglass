@@ -1984,7 +1984,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @return newStyle
      */
     static SynthStyle updateStyle(SeaGlassContext context, SynthUI ui) {
-        SeaGlassStyle newStyle = getMyStyle(context.getComponent(), context.getRegion());
+        // Need to use SynthLookAndFeel because Nimbus overrides getStyle to
+        // return NimbusStyle, which we can't use.
+        SeaGlassStyle newStyle = (SeaGlassStyle) SynthLookAndFeel.getStyle(context.getComponent(), context.getRegion());
         SynthStyle oldStyle = context.getStyle();
 
         if (newStyle != oldStyle) {
@@ -1995,21 +1997,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             newStyle.installDefaults(context, ui);
         }
         return newStyle;
-    }
-
-    /**
-     * Gets the style associated with the given component and region. This will
-     * never return null. If an appropriate component and region cannot be
-     * determined, then a default style is returned.
-     * 
-     * @param c
-     *            a non-null reference to a JComponent
-     * @param r
-     *            a non-null reference to the region of the component c
-     * @return a non-null reference to a NimbusStyle.
-     */
-    public static SeaGlassStyle getMyStyle(JComponent c, Region r) {
-        return (SeaGlassStyle) SynthLookAndFeel.getStyle(c, r);
     }
 
     /**
