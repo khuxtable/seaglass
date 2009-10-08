@@ -71,16 +71,15 @@ public class SeaGlassScrollBarUI extends BasicScrollBarUI implements PropertyCha
     }
 
     protected void installDefaults() {
-        // NOTE: This next line of code was added because, since incrGap and
-        // decrGap in
-        // BasicScrollBarUI are private, I need to have some way of updating
-        // them.
-        // This is an incomplete solution (since it implies that the incrGap and
-        // decrGap
-        // are set once, and not reset per state. Probably ok, but not always
-        // ok).
-        // This line of code should be removed at the same time that incrGap and
-        // decrGap are removed and made protected in the super class.
+        /*
+         * NOTE: This next line of code was added because, since incrGap and
+         * decrGap in BasicScrollBarUI are private, I need to have some way of
+         * updating them. This is an incomplete solution (since it implies that
+         * the incrGap and decrGap are set once, and not reset per state.
+         * Probably ok, but not always ok). This line of code should be removed
+         * at the same time that incrGap and decrGap are removed and made
+         * protected in the super class.
+         */
         super.installDefaults();
 
         trackHighlight = NO_HIGHLIGHT;
@@ -115,9 +114,11 @@ public class SeaGlassScrollBarUI extends BasicScrollBarUI implements PropertyCha
             incrGap = style.getInt(context, "ScrollBar.incrementButtonGap", 0);
             decrGap = style.getInt(context, "ScrollBar.decrementButtonGap", 0);
 
-            // handle scaling for sizeVarients for special case components. The
-            // key "JComponent.sizeVariant" scales for large/small/mini
-            // components are based on Apples LAF
+            /*
+             * Handle scaling for sizeVarients for special case components. The
+             * key "JComponent.sizeVariant" scales for large/small/mini
+             * components are based on Apples LAF
+             */
             String scaleKey = (String) scrollbar.getClientProperty("JComponent.sizeVariant");
             if (scaleKey != null) {
                 if ("large".equals(scaleKey)) {
@@ -452,9 +453,11 @@ public class SeaGlassScrollBarUI extends BasicScrollBarUI implements PropertyCha
      * Listener for cursor keys.
      */
     protected class ArrowButtonListener extends MouseAdapter {
-        // Because we are handling both mousePressed and Actions
-        // we need to make sure we don't fire under both conditions.
-        // (keyfocus on scrollbars causes action without mousePress
+        /*
+         * Because we are handling both mousePressed and Actions we need to make
+         * sure we don't fire under both conditions. (keyfocus on scrollbars
+         * causes action without mousePress
+         */
         boolean handledEvent;
 
         public void mousePressed(MouseEvent e) {
