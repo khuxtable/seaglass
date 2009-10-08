@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: SeaGlassLookAndFeel.java 201 2009-10-08 05:15:23Z kathryn@kathrynhuxtable.org $
+ * $Id$
  */
 package com.seaglass.painter;
 
