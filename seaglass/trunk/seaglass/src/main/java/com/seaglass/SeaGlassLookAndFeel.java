@@ -68,6 +68,7 @@ import com.seaglass.painter.CheckBoxPainter;
 import com.seaglass.painter.ComboBoxArrowButtonPainter;
 import com.seaglass.painter.ComboBoxPainter;
 import com.seaglass.painter.ComboBoxTextFieldPainter;
+import com.seaglass.painter.FileChooserBackgroundPainter;
 import com.seaglass.painter.InternalFramePainter;
 import com.seaglass.painter.RadioButtonPainter;
 import com.seaglass.painter.ScrollBarButtonPainter;
@@ -90,6 +91,7 @@ import com.seaglass.state.ComboBoxEditableState;
 import com.seaglass.state.InternalFrameWindowFocusedState;
 import com.seaglass.state.SplitPaneDividerVerticalState;
 import com.seaglass.state.SplitPaneVerticalState;
+import com.seaglass.state.TableHeaderRendererSortedState;
 import com.seaglass.state.TitlePaneCloseButtonWindowNotFocusedState;
 import com.seaglass.state.TitlePaneIconifyButtonWindowNotFocusedState;
 import com.seaglass.state.TitlePaneMaximizeButtonWindowMaximizedState;
@@ -100,6 +102,8 @@ import com.seaglass.util.PlatformUtils;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 
+import sun.swing.plaf.GTKKeybindings;
+import sun.swing.plaf.WindowsKeybindings;
 import sun.swing.plaf.synth.DefaultSynthStyle;
 import sun.swing.plaf.synth.SynthUI;
 
@@ -148,6 +152,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private DefaultSynthStyle            defaultStyle;
 
+    /**
+     * The default font that will be used. I store this value so that it can be
+     * set in the UIDefaults when requested.
+     */
+    private Font                         defaultFont;
+
     // Set the package name.
     private static final String          PACKAGE_PREFIX          = "com.seaglass.SeaGlass";
 
@@ -163,6 +173,18 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     public SeaGlassLookAndFeel() {
         super();
 
+        /*
+         * Create the default font and default style.
+         */
+        defaultFont = getDefaultFont();
+        defaultStyle = new DefaultSynthStyle();
+        defaultStyle.setFont(defaultFont);
+
+        /*
+         * Register all of the regions and their states that this class will use
+         * for later lookup. Additional regions can be registered later by 3rd
+         * party components. These are simply the default registrations.
+         */
         registerStyles();
     }
 
@@ -182,7 +204,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 } else {
                     SynthStyle style = nimbusFactory.getStyle(c, r);
                     if (style instanceof NimbusStyle) {
-                        return new SeaGlassStyleWrapper(style);
+                        return style;// new SeaGlassStyleWrapper(style);
                     } else {
                         // Why are toolbars getting here?
                         return style;
@@ -205,11 +227,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private boolean isSupportedBySeaGlass(JComponent c, Region r) {
         if (r == Region.ARROW_BUTTON || r == Region.BUTTON || r == Region.TOGGLE_BUTTON || r == Region.RADIO_BUTTON
-                || r == Region.CHECK_BOX || r == Region.COMBO_BOX || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR
-                || r == Region.SPLIT_PANE || r == Region.SPLIT_PANE_DIVIDER) {
+                || r == Region.CHECK_BOX || r == Region.LABEL || r == Region.COMBO_BOX || r == Region.POPUP_MENU
+                || r == Region.POPUP_MENU_SEPARATOR || r == Region.SCROLL_BAR || r == Region.SCROLL_BAR_THUMB
+                || r == Region.SCROLL_BAR_TRACK || r == Region.SPLIT_PANE || r == Region.SPLIT_PANE_DIVIDER) {
             return true;
         } else if (!PlatformUtils.isMac()
-                && (r == Region.INTERNAL_FRAME || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.MENU_BAR || r == Region.MENU
+                && (r == Region.COLOR_CHOOSER || r == Region.FILE_CHOOSER || r == Region.INTERNAL_FRAME
+                        || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.MENU_BAR || r == Region.MENU
                         || r == Region.MENU_ITEM_ACCELERATOR || r == Region.MENU_ITEM || r == Region.RADIO_BUTTON_MENU_ITEM || r == Region.CHECK_BOX_MENU_ITEM)) {
             return true;
         }
@@ -329,6 +353,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         if (uiDefaults == null) {
             uiDefaults = super.getDefaults();
 
+            // Install Keybindings. We'll take care of Mac OS X in
+            // defineAquaSettings, below.
+            if (PlatformUtils.isWindows()) {
+                WindowsKeybindings.installKeybindings(uiDefaults);
+            } else {
+                GTKKeybindings.installKeybindings(uiDefaults);
+            }
+
             // Set the default font.
             defineDefaultFont(uiDefaults);
 
@@ -392,11 +424,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @param d
      *            the UI defaults map.
      */
-    private void defineDefaultFont(UIDefaults d) {
-        // Set the default font to Lucida Grande if available, else use
-        // Lucida Sans Unicode. Grande is a later font and a bit nicer
-        // looking, but it is a derivation of Sans Unicode, so they're
-        // compatible.
+    private Font getDefaultFont() {
+        /*
+         * Set the default font to Lucida Grande if available, else use Lucida
+         * Sans Unicode. Grande is a later font and a bit nicer looking, but it
+         * is a derivation of Sans Unicode, so they're compatible.
+         */
         Font font = null;
         if (PlatformUtils.isMac()) {
             font = new Font("Lucida Grande", Font.PLAIN, 13);
@@ -404,7 +437,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         if (font == null) {
             font = new Font("Lucida Sans Unicode", Font.PLAIN, 13);
         }
-        d.put("defaultFont", font);
+        return font;
+    }
+
+    private void defineDefaultFont(UIDefaults d) {
+        d.put("defaultFont", defaultFont);
     }
 
     /**
@@ -414,12 +451,20 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineBaseColors(UIDefaults d) {
-        d.put("nimbusBase", new ColorUIResource(61, 95, 140));
-        // Original control: 220, 233, 239
         // d.put("control", new ColorUIResource(231, 239, 243));
         // d.put("control", new ColorUIResource(246, 244, 240));
         d.put("control", new ColorUIResource(248, 248, 248));
-        d.put("scrollbar", new ColorUIResource(255, 255, 255));
+
+        d.put("FileChooser[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.FileChooserBackgroundPainter",
+            FileChooserBackgroundPainter.BACKGROUND_ENABLED, new Insets(0, 0, 0, 0), new Dimension(100, 30), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
+        d.put("FileChooser[Enabled+Focused].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.FileChooserBackgroundPainter", FileChooserBackgroundPainter.BACKGROUND_ENABLED, new Insets(0, 0,
+                0, 0), new Dimension(100, 30), false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
+        d.put("FileChooser[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.FileChooserBackgroundPainter",
+            FileChooserBackgroundPainter.BACKGROUND_ENABLED, new Insets(0, 0, 0, 0), new Dimension(100, 30), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
+
     }
 
     /**
@@ -989,6 +1034,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void defineTables(UIDefaults d) {
         d.put("Table.background", new ColorUIResource(255, 255, 255));
         d.put("Table.alternateRowColor", new Color(220, 233, 239));
+        d.put("TableHeader:\"TableHeader.renderer\".Sorted", new TableHeaderRendererSortedState());
 
         d.put("TableHeader:\"TableHeader.renderer\"[Disabled].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_DISABLED, new Insets(3, 3, 3,
@@ -1453,7 +1499,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
     /**
      * Return a short string that identifies this look and feel. This String
-     * will be the unquoted String "Nimbus".
+     * will be the unquoted String "SeaGlass".
      * 
      * @return a short string identifying this look and feel.
      */
@@ -1464,7 +1510,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
     /**
      * Return a string that identifies this look and feel. This String will be
-     * the unquoted String "Nimbus".
+     * the unquoted String "SeaGlass".
      * 
      * @return a short string identifying this look and feel.
      */
@@ -1548,18 +1594,20 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * actually IS, with CENTER being NORTH.
      * 
      * This code is used to determine where the border line should be drawn by
-     * the custom toolbar states, and also used by NimbusIcon to determine
+     * the custom toolbar states, and also used by SeaGlassIcon to determine
      * whether the handle icon needs to be shifted to look correct.
      * 
      * Toollbars are unfortunately odd in the way these things are handled, and
      * so this code exists to unify the logic related to toolbars so it can be
-     * shared among the static files such as NimbusIcon and generated files such
-     * as the ToolBar state classes.
+     * shared among the static files such as SeaGlassIcon and generated files
+     * such as the ToolBar state classes.
      */
     public static Object resolveToolbarConstraint(JToolBar toolbar) {
-        // NOTE: we don't worry about component orientation or PAGE_END etc
-        // because the BasicToolBarUI always uses an absolute position of
-        // NORTH/SOUTH/EAST/WEST.
+        /*
+         * NOTE: we don't worry about component orientation or PAGE_END etc
+         * because the BasicToolBarUI always uses an absolute position of
+         * NORTH/SOUTH/EAST/WEST.
+         */
         if (toolbar != null) {
             Container parent = toolbar.getParent();
             if (parent != null) {
@@ -1690,7 +1738,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * <p>
      * Locate the style associated with the given region, and component. This is
-     * called from NimbusLookAndFeel in the SynthStyleFactory implementation.
+     * called from SeaGlassLookAndFeel in the SynthStyleFactory implementation.
      * </p>
      * 
      * <p>
@@ -1702,7 +1750,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * return that SynthStyle. Otherwise, return the defaultStyle.
      * </p>
      * 
-     * @param comp
+     * @param c
      *            The component associated with this region. For example, if the
      *            Region is Region.Button then the component will be a JButton.
      *            If the Region is a subregion, such as ScrollBarThumb, then the
@@ -1712,9 +1760,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @param r
      *            The region we are looking for a style for. May not be null.
      */
-    SynthStyle getSeaGlassStyle(JComponent comp, Region r) {
+    SynthStyle getSeaGlassStyle(JComponent c, Region r) {
         // validate method arguments
-        if (comp == null || r == null) {
+        if (c == null || r == null) {
             throw new IllegalArgumentException("Neither comp nor r may be null");
         }
 
@@ -1728,14 +1776,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Look for the best SynthStyle for this component/region pair.
         LazyStyle foundStyle = null;
         for (LazyStyle s : styles) {
-            if (s.matches(comp)) {
-                // replace the foundStyle if foundStyle is null, or
-                // if the new style "s" is more specific (ie, its path was
-                // longer), or if the foundStyle was "simple" and the new style
-                // was not (ie: the foundStyle was for something like Button and
-                // the new style was for something like "MyButton", hence, being
-                // more specific.) In all cases, favor the most specific style
-                // found.
+            if (s.matches(c)) {
+                /*
+                 * Replace the foundStyle if foundStyle is null, or if the new
+                 * style "s" is more specific (ie, its path was longer), or if
+                 * the foundStyle was "simple" and the new style was not (ie:
+                 * the foundStyle was for something like Button and the new
+                 * style was for something like "MyButton", hence, being more
+                 * specific). In all cases, favor the most specific style found.
+                 */
                 if (foundStyle == null || (foundStyle.parts.length < s.parts.length)
                         || (foundStyle.parts.length == s.parts.length && foundStyle.simple && !s.simple)) {
                     foundStyle = s;
@@ -1744,7 +1793,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         }
 
         // return the style, if found, or the default style if not found
-        return foundStyle == null ? defaultStyle : foundStyle.getStyle(comp);
+        return foundStyle == null ? defaultStyle : foundStyle.getStyle(c);
     }
 
     /**
@@ -1767,10 +1816,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
          * or ComboBox:"ComboBox.arrowButton"
          */
         private String                                                prefix;
+
         /**
          * Whether or not this LazyStyle represents an unnamed component
          */
         private boolean                                               simple = true;
+
         /**
          * The various parts, or sections, of the prefix. For example, the
          * prefix: ComboBox:"ComboBox.arrowButton"
@@ -1778,17 +1829,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
          * will be broken into two parts, ComboBox and "ComboBox.arrowButton"
          */
         private Part[]                                                parts;
+
         /**
          * Cached shared style.
          */
         private SeaGlassStyle                                         style;
+
         /**
          * A weakly referenced hash map such that if the reference JComponent
          * key is garbage collected then the entry is removed from the map. This
-         * cache exists so that when a JComponent has nimbus overrides in its
-         * client map, a unique style will be created and returned for that
-         * JComponent instance, always. In such a situation each JComponent
-         * instance must have its own instance of SeaGlassStyle.
+         * cache exists so that when a JComponent has overrides in its client
+         * map, a unique style will be created and returned for that JComponent
+         * instance, always. In such a situation each JComponent instance must
+         * have its own instance of SeaGlassStyle.
          */
         private WeakHashMap<JComponent, WeakReference<SeaGlassStyle>> overridesCache;
 
@@ -1805,26 +1858,24 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             this.prefix = prefix;
 
-            // there is one odd case that needs to be supported here: cell
-            // renderers. A cell renderer is defined as a named internal
-            // component, so for example:
-            // List."List.cellRenderer"
-            // The problem is that the component named List.cellRenderer is not
-            // a
-            // child of a JList. Rather, it is treated more as a direct
-            // component
-            // Thus, if the prefix ends with "cellRenderer", then remove all the
-            // previous dotted parts of the prefix name so that it becomes, for
-            // example: "List.cellRenderer"
-            // Likewise, we have a hacked work around for cellRenderer,
-            // renderer,
-            // and listRenderer.
+            /*
+             * There is one odd case that needs to be supported here: cell
+             * renderers. A cell renderer is defined as a named internal
+             * component, so for example: List."List.cellRenderer" The problem
+             * is that the component named List.cellRenderer is not a child of a
+             * JList. Rather, it is treated more as a direct component.
+             * 
+             * Thus, if the prefix ends with "cellRenderer", then remove all the
+             * previous dotted parts of the prefix name so that it becomes, for
+             * example: "List.cellRenderer" Likewise, we have a hacked work
+             * around for cellRenderer, renderer, and listRenderer.
+             */
             String temp = prefix;
             if (temp.endsWith("cellRenderer\"") || temp.endsWith("renderer\"") || temp.endsWith("listRenderer\"")) {
                 temp = temp.substring(temp.lastIndexOf(":\"") + 1);
             }
 
-            // otherwise, normal code path
+            // Otherwise, normal code path.
             List<String> sparts = split(temp);
             parts = new Part[sparts.size()];
             for (int i = 0; i < parts.length; i++) {
@@ -1841,10 +1892,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
          * @return the style
          */
         SynthStyle getStyle(JComponent c) {
-            // if the component has overrides, it gets its own unique style
+            // If the component has overrides, it gets its own unique style
             // instead of the shared style.
-            if (c.getClientProperty("Nimbus.Overrides") != null) {
-                if (overridesCache == null) overridesCache = new WeakHashMap<JComponent, WeakReference<SeaGlassStyle>>();
+            if (c.getClientProperty("SeaGlass.Overrides") != null) {
+                if (overridesCache == null) {
+                    overridesCache = new WeakHashMap<JComponent, WeakReference<SeaGlassStyle>>();
+                }
                 WeakReference<SeaGlassStyle> ref = overridesCache.get(c);
                 SeaGlassStyle s = ref == null ? null : ref.get();
                 if (s == null) {
@@ -1854,10 +1907,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 return s;
             }
 
-            // lazily create the style if necessary
-            if (style == null) style = new SeaGlassStyle(prefix, null);
+            // Lazily create the style if necessary.
+            if (style == null) {
+                style = new SeaGlassStyle(prefix, null);
+            }
 
-            // return the style
+            // Return the style.
             return style;
         }
 
@@ -1882,9 +1937,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 // so far so good, recurse
                 return matches(c.getParent(), partIndex - 1);
             } else if (!parts[partIndex].named) {
-                // if c is not named, and parts[partIndex] has an expected class
-                // type registered, then check to make sure c is of the
-                // right type;
+                // If c is not named, and parts[partIndex] has an expected class
+                // type registered, then check to make sure c is of the right
+                // type;
                 Class clazz = parts[partIndex].c;
                 if (clazz != null && clazz.isAssignableFrom(c.getClass())) {
                     // so far so good, recurse
@@ -2076,17 +2131,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             LookAndFeel laf = UIManager.getLookAndFeel();
             return (laf instanceof SynthLookAndFeel && ((SynthLookAndFeel) laf).shouldUpdateStyleOnAncestorChanged());
         }
-        // Note: The following two nimbus based overrides should be refactored
-        // to be in the Nimbus LAF. Due to constraints in an update release,
-        // we couldn't actually provide the public API necessary to allow
-        // NimbusLookAndFeel (a subclass of SynthLookAndFeel) to provide its
-        // own rules for shouldUpdateStyle.
-        else if ("Nimbus.Overrides" == eName) {
-            // Always update when the Nimbus.Overrides client property has
+        /*
+         * Note: The following two Sea Glass based overrides should be
+         * refactored to be in the SeaGlass LAF. Due to constraints in an update
+         * release, we couldn't actually provide the public API necessary to
+         * allow SeaGlassLookAndFeel (a subclass of SynthLookAndFeel) to provide
+         * its own rules for shouldUpdateStyle.
+         */
+        else if ("SeaGlass.Overrides" == eName) {
+            // Always update when the SeaGlass.Overrides client property has
             // been changed
             return true;
-        } else if ("Nimbus.Overrides.InheritDefaults" == eName) {
-            // Always update when the Nimbus.Overrides.InheritDefaults
+        } else if ("SeaGlass.Overrides.InheritDefaults" == eName) {
+            // Always update when the SeaGlass.Overrides.InheritDefaults
             // client property has changed
             return true;
         } else if ("JComponent.sizeVariant" == eName) {
