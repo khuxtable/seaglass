@@ -52,14 +52,18 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
+				<version>2.0.1</version>
 				<configuration>
 					<locales>en</locales>
 					<outputEncoding>UTF-8</outputEncoding>
@@ -117,7 +121,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>taglist-maven-plugin</artifactId>
-				<version>2.0</version>
+				<version>2.4</version>
 				<configuration>
 					<tags>
 						<tag>TODO</tag>
@@ -144,7 +148,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>2.2</version>
+				<version>2.4</version>
 				<configuration>
 					<targetJdk>1.5</targetJdk>
 				</configuration>
@@ -153,7 +157,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.5</version>
+				<version>2.6</version>
 				<configuration>
 					<links>
 						<link>http://java.sun.com/j2se/1.6.0/docs/api</link>
