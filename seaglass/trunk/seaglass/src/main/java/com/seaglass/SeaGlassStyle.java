@@ -58,7 +58,6 @@ import sun.swing.plaf.synth.SynthUI;
 
 /**
  * @author Kathryn Huxtable
- * 
  */
 public class SeaGlassStyle extends SynthStyle {
     /* Keys and scales for large/small/mini components, based on Apples sizes */
@@ -93,6 +92,7 @@ public class SeaGlassStyle extends SynthStyle {
      * </p>
      */
     private static final Color                    DEFAULT_COLOR    = new ColorUIResource(Color.BLACK);
+
     /**
      * Simple Comparator for ordering the RuntimeStates according to their rank.
      */
@@ -101,17 +101,18 @@ public class SeaGlassStyle extends SynthStyle {
                                                                            return a.state - b.state;
                                                                        }
                                                                    };
+
     /**
-     * The prefix for the component or region that this NimbusStyle represents.
+     * The prefix for the component or region that this SeaGlassStyle represents.
      * This prefix is used to lookup state in the UIManager. It should be
      * something like Button or Slider.Thumb or "MyButton" or
      * ComboBox."ComboBox.arrowButton" or "MyComboBox"."ComboBox.arrowButton"
      */
     private String                                prefix;
     /**
-     * The SynthPainter that will be returned from this NimbusStyle. The
+     * The SynthPainter that will be returned from this SeaGlassStyle. The
      * SynthPainter returned will be a SynthPainterImpl, which will in turn
-     * delegate back to this NimbusStyle for the proper Painter (not
+     * delegate back to this SeaGlassStyle for the proper Painter (not
      * SynthPainter) to use for painting the foreground, background, or border.
      */
     private SynthPainter                          painter;
@@ -131,14 +132,14 @@ public class SeaGlassStyle extends SynthStyle {
     private CacheKey                              tmpKey           = new CacheKey("", 0);
 
     /**
-     * Some NimbusStyles are created for a specific component only. In Nimbus,
+     * Some SeaGlassStyles are created for a specific component only. In SeaGlass,
      * this happens whenever the component has as a client property a UIDefaults
      * which overrides (or supplements) those defaults found in UIManager.
      */
     private JComponent                            component;
 
     /**
-     * Create a new NimbusStyle. Only the prefix must be supplied. At the
+     * Create a new SeaGlassStyle. Only the prefix must be supplied. At the
      * appropriate time, installDefaults will be called. At that point, all of
      * the state information will be pulled from UIManager and stored locally
      * within this style.
@@ -148,9 +149,9 @@ public class SeaGlassStyle extends SynthStyle {
      *            org.jdesktop.swingx.JXStatusBar or
      *            ComboBox."ComboBox.arrowButton"
      * @param c
-     *            an optional reference to a component that this NimbusStyle
+     *            an optional reference to a component that this SeaGlassStyle
      *            should be associated with. This is only used when the
-     *            component has Nimbus overrides registered in its client
+     *            component has SeaGlass overrides registered in its client
      *            properties and should be null otherwise.
      */
     SeaGlassStyle(String prefix, JComponent c) {
@@ -200,7 +201,7 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * Called by NimbusLookAndFeel when the look and feel is being uninstalled.
+     * Called by SeaGlassLookAndFeel when the look and feel is being uninstalled.
      * Performs general cleanup of any app-context specific data.
      */
     static void uninitialize() {
@@ -208,7 +209,7 @@ public class SeaGlassStyle extends SynthStyle {
         AppContext ctx = AppContext.getAppContext();
 
         // get the pcl stored in app context
-        PropertyChangeListener pcl = (PropertyChangeListener) ctx.get("NimbusStyle.defaults.pcl");
+        PropertyChangeListener pcl = (PropertyChangeListener) ctx.get("SeaGlassStyle.defaults.pcl");
 
         // if the pcl exists, uninstall it from the UIDefaults tables
         if (pcl != null) {
@@ -217,7 +218,7 @@ public class SeaGlassStyle extends SynthStyle {
         }
 
         // clear out the compiled defaults
-        ctx.put("NimbusStyle.defaults", null);
+        ctx.put("SeaGlassStyle.defaults", null);
     }
 
     /**
@@ -229,10 +230,10 @@ public class SeaGlassStyle extends SynthStyle {
         // to reparse from UIManager.
         if (values != null) return;
 
-        // reconstruct this NimbusStyle based on the entries in the UIManager
+        // reconstruct this SeaGlassStyle based on the entries in the UIManager
         // and possibly based on any overrides within the component's
         // client properties (assuming such a component exists and contains
-        // any Nimbus.Overrides)
+        // any SeaGlass.Overrides)
         values = new Values();
 
         // the profiler revealed that a great deal of CPU time and useless
@@ -248,7 +249,7 @@ public class SeaGlassStyle extends SynthStyle {
         // fetch the defaults from the app context. If null, then create and
         // store the compiled defaults
         Map<String, TreeMap<String, Object>> compiledDefaults = (Map<String, TreeMap<String, Object>>) ctx
-            .get("NimbusStyle.defaults");
+            .get("SeaGlassStyle.defaults");
 
         if (compiledDefaults == null) {
             // the entire UIDefaults tables are parsed and compiled into
@@ -267,7 +268,7 @@ public class SeaGlassStyle extends SynthStyle {
 
             // if it has not already been done, add a listener to both
             // UIManager.getDefaults() and UIManager.getLookAndFeelDefaults().
-            PropertyChangeListener pcl = (PropertyChangeListener) ctx.get("NimbusStyle.defaults.pcl");
+            PropertyChangeListener pcl = (PropertyChangeListener) ctx.get("SeaGlassStyle.defaults.pcl");
 
             // if pcl is null, then it has not yet been registered with
             // the UIManager defaults for this app context
@@ -285,22 +286,22 @@ public class SeaGlassStyle extends SynthStyle {
                 // save the PCL to the app context as a marker indicating
                 // that the PCL has been registered so we don't end up adding
                 // more than one listener to the UIDefaults tables.
-                ctx.put("NimbusStyle.defaults.pcl", pcl);
+                ctx.put("SeaGlassStyle.defaults.pcl", pcl);
             }
 
             // store the defaults for reuse
-            ctx.put("NimbusStyle.defaults", compiledDefaults);
+            ctx.put("SeaGlassStyle.defaults", compiledDefaults);
         }
 
         TreeMap<String, Object> defaults = compiledDefaults.get(prefix);
 
-        // inspect the client properties for the key "Nimbus.Overrides". If the
+        // inspect the client properties for the key "SeaGlass.Overrides". If the
         // value is an instance of UIDefaults, then these defaults are used
         // in place of, or in addition to, the defaults in UIManager.
         if (component != null) {
-            Object o = component.getClientProperty("Nimbus.Overrides");
+            Object o = component.getClientProperty("SeaGlass.Overrides");
             if (o instanceof UIDefaults) {
-                Object i = component.getClientProperty("Nimbus.Overrides.InheritDefaults");
+                Object i = component.getClientProperty("SeaGlass.Overrides.InheritDefaults");
                 boolean inherit = i instanceof Boolean ? (Boolean) i : true;
                 UIDefaults d = (UIDefaults) o;
                 TreeMap<String, Object> map = new TreeMap<String, Object>();
@@ -332,7 +333,7 @@ public class SeaGlassStyle extends SynthStyle {
      * "prefix" out of the key. If the key is not a String or is null then it is
      * ignored. In all other cases a prefix is parsed out (even if that prefix
      * is the empty String or is a "fake" prefix. That is, suppose you had a key
-     * Foo~~MySpecial.KeyThing~~. In this case this is not a Nimbus formatted
+     * Foo~~MySpecial.KeyThing~~. In this case this is not a SeaGlass formatted
      * key, but we don't care, we treat it as if it is. This doesn't pose any
      * harm, it will simply never be used).
      * 
@@ -472,7 +473,7 @@ public class SeaGlassStyle extends SynthStyle {
             if (stateString == null) {
                 // there was no state, just a property. Check for the custom
                 // "contentMargins" property (which is handled specially by
-                // Synth/Nimbus). Also check for the property being "States",
+                // Synth/SeaGlass). Also check for the property being "States",
                 // in which case it is not a real property and should be
                 // ignored.
                 // otherwise, assume it is a property and install it on the
@@ -612,7 +613,7 @@ public class SeaGlassStyle extends SynthStyle {
      *             </p>
      * 
      *             <p>
-     *             In addition, NimbusStyle handles ColorTypes slightly
+     *             In addition, SeaGlassStyle handles ColorTypes slightly
      *             differently from Synth.
      *             </p>
      *             <ul>
@@ -741,7 +742,7 @@ public class SeaGlassStyle extends SynthStyle {
      *             <p>
      *             One special note: the "key" passed to this method could be of
      *             the form "background" or "Button.background" where "Button"
-     *             equals the prefix passed to the NimbusStyle constructor. In
+     *             equals the prefix passed to the SeaGlassStyle constructor. In
      *             either case, it looks for "background".
      *             </p>
      * 
@@ -916,7 +917,7 @@ public class SeaGlassStyle extends SynthStyle {
      * given string. This method is only called from getExtendedState if the
      * developer has specified a specific state for the component to be in (ie,
      * has "wedged" the component in that state) by specifying they client
-     * property "Nimbus.State".
+     * property "SeaGlass.State".
      * 
      * @param names
      *            a non-null array of strings
@@ -936,7 +937,7 @@ public class SeaGlassStyle extends SynthStyle {
 
     /**
      * <p>
-     * Gets the extended state for a given synth context. Nimbus supports the
+     * Gets the extended state for a given synth context. SeaGlass supports the
      * ability to define custom states. The algorithm used for choosing what
      * style information to use for a given state requires a single integer bit
      * string where each bit in the integer represents a different state that
@@ -947,7 +948,7 @@ public class SeaGlassStyle extends SynthStyle {
      * 
      * <p>
      * In addition, this method checks the component in the given context for a
-     * client property called "Nimbus.State". If one exists, then it will
+     * client property called "SeaGlass.State". If one exists, then it will
      * decompose the String associated with that property to determine what
      * state to return. In this way, the developer can force a component to be
      * in a specific state, regardless of what the "real" state of the component
@@ -955,7 +956,7 @@ public class SeaGlassStyle extends SynthStyle {
      * </p>
      * 
      * <p>
-     * The string associated with "Nimbus.State" would be of the form:
+     * The string associated with "SeaGlass.State" would be of the form:
      * 
      * <pre>
      * Enabled + CustomState + MouseOver
@@ -971,12 +972,12 @@ public class SeaGlassStyle extends SynthStyle {
         JComponent c = ctx.getComponent();
         int xstate = 0;
         int mask = 1;
-        // check for the Nimbus.State client property
+        // check for the SeaGlass.State client property
         // Performance NOTE: getClientProperty ends up inside a synchronized
         // block, so there is some potential for performance issues here,
         // however
         // I'm not certain that there is one on a modern VM.
-        Object property = c.getClientProperty("Nimbus.State");
+        Object property = c.getClientProperty("SeaGlass.State");
         if (property != null) {
             String stateNames = property.toString();
             String[] states = stateNames.split("\\+");
@@ -1168,7 +1169,7 @@ public class SeaGlassStyle extends SynthStyle {
 
     /**
      * Essentially a struct of data for a style. A default instance of this
-     * class is used by NimbusStyle. Additional instances exist for each
+     * class is used by SeaGlassStyle. Additional instances exist for each
      * component that has overrides.
      */
     private static final class Values {
@@ -1244,7 +1245,7 @@ public class SeaGlassStyle extends SynthStyle {
      */
     private static final class DefaultsListener implements PropertyChangeListener {
         public void propertyChange(PropertyChangeEvent evt) {
-            AppContext.getAppContext().put("NimbusStyle.defaults", null);
+            AppContext.getAppContext().put("SeaGlassStyle.defaults", null);
         }
     }
 }
