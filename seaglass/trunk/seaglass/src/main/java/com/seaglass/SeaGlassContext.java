@@ -21,6 +21,7 @@ package com.seaglass;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -44,21 +45,29 @@ import javax.swing.plaf.synth.SynthStyle;
  * @see javax.swing.plaf.synth.SynthContext
  */
 public class SeaGlassContext extends SynthContext {
-    private static final Map     contextMap;
 
-    // This button *must* not have a UI or we end up throwing an NPE.
-    private static final JButton fakeComponent = new JButton() {
-                                                   public void updateUI() {
-                                                       // Do nothing.
-                                                   }
-                                               };
-    private static Region        fakeRegion    = Region.BUTTON;
-    private static SynthStyle    fakeStyle     = new SeaGlassStyle(null, null);
+    private static final SynthPainter EMPTY_PAINTER = new SynthPainter() {
+                                                    };
 
-    private JComponent           component;
-    private Region               region;
-    private SynthStyle           style;
-    private int                  state;
+    /**
+     * This button *must* not have a UI or we end up throwing an NPE.
+     */
+    private static final JButton      FAKE_BUTTON   = new JButton() {
+                                                        public void updateUI() {
+                                                            // Do nothing.
+                                                        }
+                                                    };
+
+    private static final JButton      fakeComponent = FAKE_BUTTON;
+    private static Region             fakeRegion    = Region.BUTTON;
+    private static SynthStyle         fakeStyle     = new SeaGlassStyle(null, null);
+
+    private static final Map          contextMap;
+
+    private JComponent                component;
+    private Region                    region;
+    private SynthStyle                style;
+    private int                       state;
 
     static {
         contextMap = new HashMap();
@@ -68,7 +77,7 @@ public class SeaGlassContext extends SynthContext {
         SeaGlassContext context = null;
 
         synchronized (contextMap) {
-            java.util.List instances = (java.util.List) contextMap.get(type);
+            List instances = (List) contextMap.get(type);
 
             if (instances != null) {
                 int size = instances.size();
@@ -93,7 +102,7 @@ public class SeaGlassContext extends SynthContext {
 
     static void releaseContext(SeaGlassContext context) {
         synchronized (contextMap) {
-            java.util.List instances = (java.util.List) contextMap.get(context.getClass());
+            List instances = (List) contextMap.get(context.getClass());
 
             if (instances == null) {
                 instances = new ArrayList(5);
@@ -224,7 +233,7 @@ public class SeaGlassContext extends SynthContext {
         if (painter != null) {
             return painter;
         }
-        return new SynthPainter() {
-        };
+
+        return EMPTY_PAINTER;
     }
 }
