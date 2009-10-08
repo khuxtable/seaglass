@@ -19,19 +19,19 @@
  */
 package com.seaglass.state;
 
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
 import com.seaglass.State;
 
 /**
  */
-public class ComboBoxEditableState extends State {
-    public ComboBoxEditableState() {
-        super("Editable");
+public class TableHeaderRendererSortedState extends State {
+    public TableHeaderRendererSortedState() {
+        super("Sorted");
     }
 
     protected boolean isInState(JComponent c) {
-        return ((JComboBox) c).isEditable();
+        String sortOrder = (String) c.getClientProperty("Table.sortOrder");
+        return sortOrder != null && ("ASCENDING".equals(sortOrder) || "DESCENDING".equals(sortOrder));
     }
 }
