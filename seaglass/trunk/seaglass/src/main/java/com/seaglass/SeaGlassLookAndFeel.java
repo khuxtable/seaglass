@@ -175,14 +175,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         setStyleFactory(new SynthStyleFactory() {
             @Override
             public SynthStyle getStyle(JComponent c, Region r) {
-                if (r == Region.ARROW_BUTTON || r == Region.BUTTON || r == Region.TOGGLE_BUTTON || r == Region.RADIO_BUTTON
-                        || r == Region.CHECK_BOX || r == Region.COMBO_BOX || r == Region.POPUP_MENU
-                        || r == Region.POPUP_MENU_SEPARATOR) {
-                    return getSeaGlassStyle(c, r);
-                } else if (!PlatformUtils.isMac()
-                        && (r == Region.INTERNAL_FRAME || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.MENU_BAR
-                                || r == Region.MENU || r == Region.MENU_ITEM_ACCELERATOR || r == Region.MENU_ITEM
-                                || r == Region.RADIO_BUTTON_MENU_ITEM || r == Region.CHECK_BOX_MENU_ITEM)) {
+                if (isSupportedBySeaGlass(c, r)) {
                     return getSeaGlassStyle(c, r);
                 } else {
                     SynthStyle style = nimbusFactory.getStyle(c, r);
@@ -195,6 +188,29 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 }
             }
         });
+    }
+
+    /**
+     * As a temporary expedient while we work to get all the components
+     * supported, test to see if this is a component which we do support.
+     * 
+     * @param c
+     *            the component
+     * @param r
+     *            the Synth region
+     * @return <code>true</code> if SeaGlass currently supports the
+     *         component/region combo, <code>false</code> otherwise.
+     */
+    private boolean isSupportedBySeaGlass(JComponent c, Region r) {
+        if (r == Region.ARROW_BUTTON || r == Region.BUTTON || r == Region.TOGGLE_BUTTON || r == Region.RADIO_BUTTON
+                || r == Region.CHECK_BOX || r == Region.COMBO_BOX || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR) {
+            return true;
+        } else if (!PlatformUtils.isMac()
+                && (r == Region.INTERNAL_FRAME || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.MENU_BAR || r == Region.MENU
+                        || r == Region.MENU_ITEM_ACCELERATOR || r == Region.MENU_ITEM || r == Region.RADIO_BUTTON_MENU_ITEM || r == Region.CHECK_BOX_MENU_ITEM)) {
+            return true;
+        }
+        return false;
     }
 
     /**
