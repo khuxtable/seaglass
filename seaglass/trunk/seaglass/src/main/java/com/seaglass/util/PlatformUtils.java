@@ -54,6 +54,15 @@ public class PlatformUtils {
     }
 
     /**
+     * True if this JVM is running on Windows.
+     * 
+     * @return true if this JVM is running on Windows.
+     */
+    public static boolean isWindows() {
+        return System.getProperty("os.name").contains("Windows");
+    }
+
+    /**
      * True if this JVM is running on a Mac.
      * 
      * @return true if this JVM is running on a Mac.
