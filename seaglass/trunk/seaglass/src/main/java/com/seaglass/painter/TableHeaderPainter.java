@@ -20,26 +20,21 @@
 package com.seaglass.painter;
 
 /**
- * ScrollBarTrackPainter implementation.
  */
-public final class ScrollBarTrackPainter extends AbstractImagePainter {
-    // package private integers representing the available states that
-    // this painter will paint. These are used when creating a new instance
-    // of ScrollBarTrackPainter to determine which region/state is being painted
-    // by that instance.
-    public static final int BACKGROUND_DISABLED = 1;
-    public static final int BACKGROUND_ENABLED  = 2;
+public final class TableHeaderPainter extends AbstractImagePainter {
+    public static final int ASCENDINGSORTICON_ENABLED  = 1;
+    public static final int DESCENDINGSORTICON_ENABLED = 2;
 
-    public ScrollBarTrackPainter(PaintContext ctx, int state) {
+    public TableHeaderPainter(PaintContext ctx, int state) {
         super(ctx, state);
     }
 
     protected String getImageName(int state) {
         switch (state) {
-        case BACKGROUND_DISABLED:
-            return "h_scroll_track_disabled";
-        case BACKGROUND_ENABLED:
-            return "h_scroll_track_enabled";
+        case ASCENDINGSORTICON_ENABLED:
+            return "table_header_sort_ascending_enabled";
+        case DESCENDINGSORTICON_ENABLED:
+            return "table_header_sort_descending_enabled";
         }
         return null;
     }

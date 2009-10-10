@@ -44,9 +44,9 @@ public final class TableHeaderRendererPainter extends AbstractImagePainter {
     protected String getImageName(int state) {
         switch(state) {
             case BACKGROUND_DISABLED: return "table_header_disabled";
-            case BACKGROUND_ENABLED: return "table_header";
-            case BACKGROUND_ENABLED_FOCUSED: return "table_header";
-            case BACKGROUND_MOUSEOVER: return "table_header";
+            case BACKGROUND_ENABLED: return "table_header_enabled";
+            case BACKGROUND_ENABLED_FOCUSED: return "table_header_enabled";
+            case BACKGROUND_MOUSEOVER: return "table_header_enabled";
             case BACKGROUND_PRESSED: return "table_header_pressed";
             case BACKGROUND_ENABLED_SORTED: return "table_header_sorted";
             case BACKGROUND_ENABLED_FOCUSED_SORTED: return "table_header_sorted";

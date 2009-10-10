@@ -103,21 +103,21 @@ public final class ButtonPainter extends AbstractImagePainter {
         case BACKGROUND_DISABLED:
             return "button_disabled";
         case BACKGROUND_ENABLED:
-            return "button";
+            return "button_enabled";
         case BACKGROUND_FOCUSED:
-            return "button";
+            return "button_enabled";
         case BACKGROUND_MOUSEOVER:
-            return "button";
+            return "button_enabled";
         case BACKGROUND_MOUSEOVER_FOCUSED:
-            return "button";
+            return "button_enabled";
         case BACKGROUND_PRESSED:
             return "button_pressed";
         case BACKGROUND_PRESSED_FOCUSED:
             return "button_pressed";
         case BACKGROUND_SELECTED:
-            return "button_selected";
+            return "button_default";
         case BACKGROUND_SELECTED_FOCUSED:
-            return "button_selected";
+            return "button_default";
         case BACKGROUND_PRESSED_SELECTED:
             return "button_pressed";
         case BACKGROUND_PRESSED_SELECTED_FOCUSED:
@@ -126,7 +126,7 @@ public final class ButtonPainter extends AbstractImagePainter {
             return "button_disabled_selected";
         }
         // Catch-all for anything we don't specify.
-        return "button";
+        return "button_enabled";
     }
 
     @Override
