@@ -53,29 +53,29 @@ public final class ComboBoxArrowButtonPainter extends AbstractImagePainter {
     protected String getImageName(int state) {
         switch (state) {
         case BACKGROUND_DISABLED_EDITABLE:
-            return "combo_box_button_background_disabled";
+            return "combo_box_editable_button_disabled";
         case BACKGROUND_ENABLED_EDITABLE:
-            return "combo_box_button_background";
+            return "combo_box_editable_button_enabled";
         case BACKGROUND_MOUSEOVER_EDITABLE:
-            return "combo_box_button_background";
+            return "combo_box_editable_button_enabled";
         case BACKGROUND_PRESSED_EDITABLE:
-            return "combo_box_button_background_pressed";
+            return "combo_box_editable_button_pressed";
         case BACKGROUND_SELECTED_EDITABLE:
-            return "combo_box_button_background_pressed";
+            return "combo_box_editable_button_pressed";
         case FOREGROUND_ENABLED:
-            return "combo_box_arrows";
+            return "combo_box_arrows_enabled";
         case FOREGROUND_MOUSEOVER:
-            return "combo_box_arrows";
+            return "combo_box_arrows_enabled";
         case FOREGROUND_DISABLED:
             return "combo_box_arrows_disabled";
         case FOREGROUND_PRESSED:
-            return "combo_box_arrows";
+            return "combo_box_arrows_enabled";
         case FOREGROUND_SELECTED:
-            return "combo_box_arrows";
+            return "combo_box_arrows_enabled";
         case FOREGROUND_EDITABLE:
-            return "combo_box_arrow_dropdown";
+            return "combo_box_editable_arrow_enabled";
         case FOREGROUND_EDITABLE_DISABLED:
-            return "combo_box_arrow_dropdown_disabled";
+            return "combo_box_editable_arrow_disabled";
         }
         return null;
     }

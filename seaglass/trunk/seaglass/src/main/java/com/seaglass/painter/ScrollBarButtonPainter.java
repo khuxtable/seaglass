@@ -53,16 +53,16 @@ public final class ScrollBarButtonPainter extends AbstractImagePainter {
         String rightName = null;
         switch (state) {
         case FOREGROUND_ENABLED:
-            leftName = "h_scroll_left_apart";
-            rightName = "h_scroll_right_apart";
+            leftName = "h_scroll_left_apart_enabled";
+            rightName = "h_scroll_right_apart_enabled";
             break;
         case FOREGROUND_DISABLED:
-            leftName = "h_scroll_left_apart";
-            rightName = "h_scroll_right_apart";
+            leftName = "h_scroll_left_apart_enabled";
+            rightName = "h_scroll_right_apart_enabled";
             break;
         case FOREGROUND_MOUSEOVER:
-            leftName = "h_scroll_left_apart";
-            rightName = "h_scroll_right_apart";
+            leftName = "h_scroll_left_apart_enabled";
+            rightName = "h_scroll_right_apart_enabled";
             break;
         case FOREGROUND_PRESSED:
             leftName = "h_scroll_left_apart_pressed";

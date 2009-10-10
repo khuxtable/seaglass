@@ -55,10 +55,10 @@ public final class CheckBoxPainter extends AbstractImagePainter {
         //been painted gets its own KEY and paint method.
         switch(state) {
             case ICON_DISABLED: return "check_box_disabled";
-            case ICON_ENABLED: return "check_box";
-            case ICON_FOCUSED: return "check_box";
-            case ICON_MOUSEOVER: return "check_box";
-            case ICON_MOUSEOVER_FOCUSED: return "check_box";
+            case ICON_ENABLED: return "check_box_enabled";
+            case ICON_FOCUSED: return "check_box_enabled";
+            case ICON_MOUSEOVER: return "check_box_enabled";
+            case ICON_MOUSEOVER_FOCUSED: return "check_box_enabled";
             case ICON_PRESSED: return "check_box_pressed";
             case ICON_PRESSED_FOCUSED: return "check_box_pressed";
             case ICON_SELECTED: return "check_box_selected";

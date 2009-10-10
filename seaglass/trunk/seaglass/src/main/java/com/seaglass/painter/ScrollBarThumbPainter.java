@@ -43,9 +43,11 @@ public final class ScrollBarThumbPainter extends AbstractImagePainter {
         case BACKGROUND_DISABLED:
             return "h_scroll_thumb_disabled";
         case BACKGROUND_ENABLED:
-            return "h_scroll_thumb";
+            return "h_scroll_thumb_enabled";
+        case BACKGROUND_FOCUSED:
+            return "h_scroll_thumb_enabled";
         case BACKGROUND_MOUSEOVER:
-            return "h_scroll_thumb";
+            return "h_scroll_thumb_enabled";
         case BACKGROUND_PRESSED:
             return "h_scroll_thumb_pressed";
         }

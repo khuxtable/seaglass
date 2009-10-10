@@ -38,13 +38,13 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractImagePainter
         case BACKGROUND_DISABLED:
             return "combo_box_textfield_disabled";
         case BACKGROUND_ENABLED:
-            return "spinner_textfield_enabled";
+            return "spinner_text_field_enabled";
         case BACKGROUND_FOCUSED:
-            return "spinner_textfield_enabled";
+            return "spinner_text_field_enabled";
         case BACKGROUND_SELECTED:
-            return "combo_box_textfield_selected";
+            return "spinner_text_field_enabled";
         case BACKGROUND_SELECTED_FOCUSED:
-            return "combo_box_textfield_selected";
+            return "spinner_text_field_enabled";
         }
         return null;
     }

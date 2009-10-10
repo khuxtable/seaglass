@@ -56,13 +56,13 @@ public final class RadioButtonPainter extends AbstractImagePainter {
         case ICON_DISABLED:
             return "radio_button_disabled";
         case ICON_ENABLED:
-            return "radio_button";
+            return "radio_button_enabled";
         case ICON_FOCUSED:
-            return "radio_button";
+            return "radio_button_enabled";
         case ICON_MOUSEOVER:
-            return "radio_button";
+            return "radio_button_enabled";
         case ICON_MOUSEOVER_FOCUSED:
-            return "radio_button";
+            return "radio_button_enabled";
         case ICON_PRESSED:
             return "radio_button_pressed";
         case ICON_PRESSED_FOCUSED:

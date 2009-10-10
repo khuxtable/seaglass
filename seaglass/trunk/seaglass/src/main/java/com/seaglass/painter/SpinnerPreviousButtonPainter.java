@@ -43,20 +43,20 @@ public final class SpinnerPreviousButtonPainter extends AbstractImagePainter {
 
     protected String getImageName(int state) {
         switch (state) {
-            case BACKGROUND_DISABLED: return "spinner_prev_button";
-            case BACKGROUND_ENABLED: return "spinner_prev_button";
-            case BACKGROUND_FOCUSED: return "spinner_prev_button";
-            case BACKGROUND_MOUSEOVER_FOCUSED: return "spinner_prev_button";
-            case BACKGROUND_PRESSED_FOCUSED: return "spinner_prev_button";
-            case BACKGROUND_MOUSEOVER: return "spinner_prev_button";
-            case BACKGROUND_PRESSED: return "spinner_prev_button";
-            case FOREGROUND_DISABLED: return "spinner_prev_button_arrow";
-            case FOREGROUND_ENABLED: return "spinner_prev_button_arrow";
-            case FOREGROUND_FOCUSED: return "spinner_prev_button_arrow";
-            case FOREGROUND_MOUSEOVER_FOCUSED: return "spinner_prev_button_arrow";
-            case FOREGROUND_PRESSED_FOCUSED: return "spinner_prev_button_arrow";
-            case FOREGROUND_MOUSEOVER: return "spinner_prev_button_arrow";
-            case FOREGROUND_PRESSED: return "spinner_prev_button_arrow";
+            case BACKGROUND_DISABLED: return "spinner_button_down_disabled";
+            case BACKGROUND_ENABLED: return "spinner_button_down_enabled";
+            case BACKGROUND_FOCUSED: return "spinner_button_down_enabled";
+            case BACKGROUND_MOUSEOVER_FOCUSED: return "spinner_button_down_enabled";
+            case BACKGROUND_PRESSED_FOCUSED: return "spinner_button_down_pressed";
+            case BACKGROUND_MOUSEOVER: return "spinner_button_down_enabled";
+            case BACKGROUND_PRESSED: return "spinner_button_down_pressed";
+            case FOREGROUND_DISABLED: return "spinner_arrow_down_disabled";
+            case FOREGROUND_ENABLED: return "spinner_arrow_down_enabled";
+            case FOREGROUND_FOCUSED: return "spinner_arrow_down_enabled";
+            case FOREGROUND_MOUSEOVER_FOCUSED: return "spinner_arrow_down_enabled";
+            case FOREGROUND_PRESSED_FOCUSED: return "spinner_arrow_down_enabled";
+            case FOREGROUND_MOUSEOVER: return "spinner_arrow_down_enabled";
+            case FOREGROUND_PRESSED: return "spinner_arrow_down_enabled";
         }
         return null;
     }

@@ -52,10 +52,10 @@ public final class ComboBoxPainter extends AbstractImagePainter {
         switch(state) {
             case BACKGROUND_DISABLED: return "combo_box_disabled";
             case BACKGROUND_DISABLED_PRESSED: return "combo_box_disabled";
-            case BACKGROUND_ENABLED: return "combo_box";
-            case BACKGROUND_FOCUSED: return "combo_box";
+            case BACKGROUND_ENABLED: return "combo_box_enabled";
+            case BACKGROUND_FOCUSED: return "combo_box_enabled";
             case BACKGROUND_MOUSEOVER_FOCUSED: return "combo_box";
-            case BACKGROUND_MOUSEOVER: return "combo_box";
+            case BACKGROUND_MOUSEOVER: return "combo_box_enabled";
             case BACKGROUND_PRESSED_FOCUSED: return "combo_box_pressed";
             case BACKGROUND_PRESSED: return "combo_box_pressed";
             case BACKGROUND_ENABLED_SELECTED: return "combo_box_pressed";
