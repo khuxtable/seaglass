@@ -78,6 +78,7 @@ import com.seaglass.painter.SpinnerFormattedTextFieldPainter;
 import com.seaglass.painter.SpinnerNextButtonPainter;
 import com.seaglass.painter.SpinnerPreviousButtonPainter;
 import com.seaglass.painter.SplitPaneDividerPainter;
+import com.seaglass.painter.TableHeaderPainter;
 import com.seaglass.painter.TableHeaderRendererPainter;
 import com.seaglass.painter.TitlePaneCloseButtonPainter;
 import com.seaglass.painter.TitlePaneIconifyButtonPainter;
@@ -388,8 +389,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             defineSplitPanes(uiDefaults);
 
-            eliminateMouseOverBehavior(uiDefaults);
-
             if (!PlatformUtils.isMac()) {
                 defineTitlePaneButtons(uiDefaults);
             }
@@ -625,7 +624,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineButtons(UIDefaults d) {
         // Initialize Button
-        d.put("Button.States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Default");
+        d.put("Button.States", "Enabled,Pressed,Disabled,Focused,Selected,Default");
         d.put("Button[Default].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
             ButtonPainter.BACKGROUND_DEFAULT, new Insets(7, 7, 7, 7), new Dimension(86, 28), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
@@ -655,9 +654,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
 
         // Initialize ToggleButton
-        d.put("ToggleButton[Selected].textForeground", new ColorUIResource(255, 255, 255));
-        d.put("ToggleButton[Focused+Selected].textForeground", new ColorUIResource(255, 255, 255));
-        d.put("ToggleButton[Disabled+Selected].textForeground", new ColorUIResource(255, 255, 255));
+        d.put("ToggleButton.States", "Enabled,Pressed,Disabled,Focused,Selected");
+        d.put("ToggleButton[Selected].textForeground", Color.black);
+        d.put("Button[Default+Pressed].textForeground", Color.black);
+        d.put("ToggleButton[Focused+Selected].textForeground", Color.black);
+        d.put("ToggleButton[Disabled+Selected].textForeground", Color.black);
         d.put("ToggleButton[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ButtonPainter",
             ButtonPainter.BACKGROUND_DISABLED, new Insets(7, 7, 7, 7), new Dimension(86, 28), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
@@ -690,6 +691,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
 
         // Initialize CheckBox
+        d.put("CheckBox.States", "Enabled,Pressed,Disabled,Focused,Selected");
         d.put("CheckBox.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("CheckBox[Disabled].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
             CheckBoxPainter.ICON_DISABLED, new Insets(5, 5, 5, 5), new Dimension(16, 19), false,
@@ -699,12 +701,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("CheckBox[Focused].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
             CheckBoxPainter.ICON_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(16, 19), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("CheckBox[MouseOver].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
-            CheckBoxPainter.ICON_MOUSEOVER, new Insets(5, 5, 5, 5), new Dimension(16, 19), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("CheckBox[Focused+MouseOver].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
-            CheckBoxPainter.ICON_MOUSEOVER_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(16, 19), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("CheckBox[Pressed].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
             CheckBoxPainter.ICON_PRESSED, new Insets(5, 5, 5, 5), new Dimension(16, 19), false,
@@ -724,18 +720,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("CheckBox[Focused+Pressed+Selected].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
             CheckBoxPainter.ICON_PRESSED_SELECTED_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(16, 19), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("CheckBox[MouseOver+Selected].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
-            CheckBoxPainter.ICON_MOUSEOVER_SELECTED, new Insets(5, 5, 5, 5), new Dimension(16, 19), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("CheckBox[Focused+MouseOver+Selected].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
-            CheckBoxPainter.ICON_MOUSEOVER_SELECTED_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(16, 19), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("CheckBox[Disabled+Selected].iconPainter", new LazyPainter("com.seaglass.painter.CheckBoxPainter",
             CheckBoxPainter.ICON_DISABLED_SELECTED, new Insets(5, 5, 5, 5), new Dimension(16, 19), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("CheckBox.icon", new SeaGlassIcon("CheckBox", "iconPainter", 16, 19));
 
         // Initialize RadioButton
+        d.put("RadioButton.States", "Enabled,Pressed,Disabled,Focused,Selected");
         d.put("RadioButton.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("RadioButton[Disabled].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
             RadioButtonPainter.ICON_DISABLED, new Insets(5, 5, 5, 5), new Dimension(16, 16), false,
@@ -745,12 +736,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("RadioButton[Focused].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
             RadioButtonPainter.ICON_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(16, 16), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("RadioButton[MouseOver].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
-            RadioButtonPainter.ICON_MOUSEOVER, new Insets(5, 5, 5, 5), new Dimension(16, 16), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("RadioButton[Focused+MouseOver].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
-            RadioButtonPainter.ICON_MOUSEOVER_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(16, 16), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("RadioButton[Pressed].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
             RadioButtonPainter.ICON_PRESSED, new Insets(5, 5, 5, 5), new Dimension(16, 16), false,
@@ -769,12 +754,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("RadioButton[Focused+Pressed+Selected].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
             RadioButtonPainter.ICON_PRESSED_SELECTED_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(16, 16), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("RadioButton[MouseOver+Selected].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
-            RadioButtonPainter.ICON_MOUSEOVER_SELECTED, new Insets(5, 5, 5, 5), new Dimension(16, 16), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("RadioButton[Focused+MouseOver+Selected].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
-            RadioButtonPainter.ICON_MOUSEOVER_SELECTED_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(16, 16), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("RadioButton[Disabled+Selected].iconPainter", new LazyPainter("com.seaglass.painter.RadioButtonPainter",
             RadioButtonPainter.ICON_DISABLED_SELECTED, new Insets(5, 5, 5, 5), new Dimension(16, 16), false,
@@ -795,6 +774,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ComboBox.Editable", new ComboBoxEditableState());
         d.put("ComboBox:\"ComboBox.arrowButton\".Editable", new ComboBoxArrowButtonEditableState());
 
+        d.put("ComboBox.States", "Enabled,Pressed,Selected,Disabled,Focused,Editable");
+
         // Background
         d.put("ComboBox[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ComboBoxPainter",
             ComboBoxPainter.BACKGROUND_DISABLED, new Insets(8, 9, 8, 23), new Dimension(105, 23), false,
@@ -807,12 +788,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox[Focused].backgroundPainter", new LazyPainter("com.seaglass.painter.ComboBoxPainter",
             ComboBoxPainter.BACKGROUND_FOCUSED, new Insets(8, 9, 8, 23), new Dimension(105, 23), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 5.0));
-        d.put("ComboBox[Focused+MouseOver].backgroundPainter", new LazyPainter("com.seaglass.painter.ComboBoxPainter",
-            ComboBoxPainter.BACKGROUND_FOCUSED, new Insets(8, 9, 8, 23), new Dimension(105, 23), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 5.0));
-        d.put("ComboBox[MouseOver].backgroundPainter", new LazyPainter("com.seaglass.painter.ComboBoxPainter",
-            ComboBoxPainter.BACKGROUND_ENABLED, new Insets(8, 9, 8, 23), new Dimension(105, 23), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox[Focused+Pressed].backgroundPainter", new LazyPainter("com.seaglass.painter.ComboBoxPainter",
             ComboBoxPainter.BACKGROUND_PRESSED_FOCUSED, new Insets(8, 9, 8, 23), new Dimension(105, 23), false,
@@ -832,23 +807,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ComboBox[Editable+Focused].backgroundPainter", new LazyPainter("com.seaglass.painter.ComboBoxPainter",
             ComboBoxPainter.BACKGROUND_FOCUSED_EDITABLE, new Insets(5, 5, 5, 5), new Dimension(105, 23), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 5.0));
-        d.put("ComboBox[Editable+MouseOver].backgroundPainter", new LazyPainter("com.seaglass.painter.ComboBoxPainter",
-            ComboBoxPainter.BACKGROUND_ENABLED_EDITABLE, new Insets(0, 0, 0, 0), new Dimension(1, 1), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox[Editable+Pressed].backgroundPainter", new LazyPainter("com.seaglass.painter.ComboBoxPainter",
             ComboBoxPainter.BACKGROUND_PRESSED_EDITABLE, new Insets(0, 0, 0, 0), new Dimension(1, 1), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 5.0));
 
         // Editable arrow
+        d.put("ComboBox:\"ComboBox.arrowButton\".States", "Enabled,Pressed,Disabled,Editable");
         d.put("ComboBox:\"ComboBox.arrowButton\"[Disabled+Editable].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.BACKGROUND_DISABLED_EDITABLE, new Insets(
                 8, 1, 8, 8), new Dimension(21, 23), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[Editable+Enabled].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.BACKGROUND_ENABLED_EDITABLE, new Insets(
-                8, 1, 8, 8), new Dimension(21, 23), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
-            Double.POSITIVE_INFINITY, 5.0));
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Editable+MouseOver].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.BACKGROUND_ENABLED_EDITABLE, new Insets(
                 8, 1, 8, 8), new Dimension(21, 23), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
@@ -862,31 +831,27 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[Enabled].foregroundPainter", new LazyPainter(
             "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_ENABLED,
-            new Insets(1, 1, 1, 1), new Dimension(23, 6), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
-            Double.POSITIVE_INFINITY, 5.0));
-        d.put("ComboBox:\"ComboBox.arrowButton\"[MouseOver].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_ENABLED,
-            new Insets(1, 1, 1, 1), new Dimension(23, 6), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            new Insets(0, 0, 0, 0), new Dimension(10, 5), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[Disabled].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_DISABLED, new Insets(1, 1, 1,
-                1), new Dimension(23, 6), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_DISABLED, new Insets(0, 0, 0,
+                0), new Dimension(10, 5), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[Pressed].foregroundPainter", new LazyPainter(
             "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_PRESSED,
-            new Insets(1, 1, 1, 1), new Dimension(23, 6), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            new Insets(0, 0, 0, 0), new Dimension(10, 5), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[Selected].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_SELECTED, new Insets(1, 1, 1,
-                1), new Dimension(23, 6), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_SELECTED, new Insets(0, 0, 0,
+                0), new Dimension(10, 5), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[Editable].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_EDITABLE, new Insets(1, 1, 1,
-                1), new Dimension(24, 19), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_EDITABLE, new Insets(0, 0, 0,
+                0), new Dimension(6, 8), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
         d.put("ComboBox:\"ComboBox.arrowButton\"[Editable+Disabled].foregroundPainter", new LazyPainter(
             "com.seaglass.painter.ComboBoxArrowButtonPainter", ComboBoxArrowButtonPainter.FOREGROUND_EDITABLE_DISABLED, new Insets(
-                1, 1, 1, 1), new Dimension(24, 19), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+                0, 0, 0, 0), new Dimension(6, 8), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, 5.0));
 
         // Textfield
@@ -911,45 +876,51 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineSpinners(UIDefaults d) {
+        d.put("Spinner:Panel:\"Spinner.formattedTextField\".contentMargins", new InsetsUIResource(3, 6, 2, 6));
+
         d.put("Spinner:Panel:\"Spinner.formattedTextField\"[Disabled].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerFormattedTextFieldPainter", SpinnerFormattedTextFieldPainter.BACKGROUND_DISABLED,
-            new Insets(3, 3, 3, 1), new Dimension(64, 21), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            new Insets(3, 3, 3, 1), new Dimension(29, 21), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("Spinner:Panel:\"Spinner.formattedTextField\"[Enabled].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerFormattedTextFieldPainter", SpinnerFormattedTextFieldPainter.BACKGROUND_ENABLED,
-            new Insets(3, 3, 3, 1), new Dimension(64, 21), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            new Insets(3, 3, 3, 1), new Dimension(29, 21), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("Spinner:Panel:\"Spinner.formattedTextField\"[Focused].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerFormattedTextFieldPainter", SpinnerFormattedTextFieldPainter.BACKGROUND_FOCUSED,
-            new Insets(3, 3, 3, 1), new Dimension(64, 21), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            new Insets(3, 3, 3, 1), new Dimension(29, 21), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("Spinner:Panel:\"Spinner.formattedTextField\"[Selected].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerFormattedTextFieldPainter", SpinnerFormattedTextFieldPainter.BACKGROUND_SELECTED,
-            new Insets(3, 3, 3, 1), new Dimension(64, 21), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            new Insets(3, 3, 3, 1), new Dimension(29, 21), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("Spinner:Panel:\"Spinner.formattedTextField\"[Focused+Selected].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerFormattedTextFieldPainter", SpinnerFormattedTextFieldPainter.BACKGROUND_SELECTED_FOCUSED,
-            new Insets(3, 3, 3, 1), new Dimension(64, 21), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            new Insets(3, 3, 3, 1), new Dimension(29, 21), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
 
-        d.put("Spinner:\"Spinner.previousButton\".size", new Integer(23));
+        d.put("Spinner:\"Spinner.previousButton\".size", new Integer(21));
         d.put("Spinner:\"Spinner.previousButton\"[Disabled].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_DISABLED, new Insets(3, 3,
-                4, 4), new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_DISABLED, new Insets(0, 0,
+                0, 0), new Dimension(6, 5), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES,
+            Double.POSITIVE_INFINITY, 1.0));
         d.put("Spinner:\"Spinner.previousButton\"[Enabled].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_ENABLED, new Insets(3, 3,
-                4, 4), new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_ENABLED, new Insets(0, 0,
+                0, 0), new Dimension(6, 5), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES,
+            Double.POSITIVE_INFINITY, 1.0));
         d.put("Spinner:\"Spinner.previousButton\"[Focused].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_FOCUSED, new Insets(3, 3,
-                4, 4), new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("Spinner:\"Spinner.previousButton\"[Focused+MouseOver].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_MOUSEOVER_FOCUSED,
-            new Insets(3, 3, 4, 4), new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0,
-            1.0));
-        d.put("Spinner:\"Spinner.previousButton\"[Focused+Pressed].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_PRESSED_FOCUSED,
-            new Insets(3, 3, 4, 4), new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0,
-            1.0));
+            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_FOCUSED, new Insets(0, 0,
+                0, 0), new Dimension(6, 5), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        d
+            .put("Spinner:\"Spinner.previousButton\"[Focused+MouseOver].backgroundPainter", new LazyPainter(
+                "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_MOUSEOVER_FOCUSED,
+                new Insets(0, 0, 0, 0), new Dimension(6, 5), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0,
+                1.0));
+        d
+            .put("Spinner:\"Spinner.previousButton\"[Focused+Pressed].backgroundPainter", new LazyPainter(
+                "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_PRESSED_FOCUSED,
+                new Insets(0, 0, 0, 0), new Dimension(6, 5), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0,
+                1.0));
         d.put("Spinner:\"Spinner.previousButton\"[MouseOver].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_MOUSEOVER, new Insets(3,
                 3, 4, 4), new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
@@ -957,72 +928,84 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.BACKGROUND_PRESSED, new Insets(3, 3,
                 4, 4), new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("Spinner:\"Spinner.previousButton\"[Disabled].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_DISABLED, new Insets(3, 3,
-                4, 4), new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_DISABLED, new Insets(0, 0,
+                0, 0), new Dimension(6, 5), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 5.0));
         d.put("Spinner:\"Spinner.previousButton\"[Enabled].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_ENABLED, new Insets(3, 3,
-                4, 4), new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_ENABLED, new Insets(0, 0,
+                0, 0), new Dimension(6, 5), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 5.0));
         d.put("Spinner:\"Spinner.previousButton\"[Focused].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_FOCUSED, new Insets(3, 3,
-                4, 4), new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("Spinner:\"Spinner.previousButton\"[Focused+MouseOver].foregroundPainter",
-            new LazyPainter("com.seaglass.painter.SpinnerPreviousButtonPainter",
-                SpinnerPreviousButtonPainter.FOREGROUND_MOUSEOVER_FOCUSED, new Insets(3, 3, 4, 4), new Dimension(21, 11), true,
-                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("Spinner:\"Spinner.previousButton\"[Focused+Pressed].foregroundPainter",
-            new LazyPainter("com.seaglass.painter.SpinnerPreviousButtonPainter",
-                SpinnerPreviousButtonPainter.FOREGROUND_PRESSED_FOCUSED, new Insets(3, 3, 4, 4), new Dimension(21, 11), true,
-                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_FOCUSED, new Insets(0, 0,
+                0, 0), new Dimension(6, 5), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 5.0));
+        d.put("Spinner:\"Spinner.previousButton\"[Focused+MouseOver].foregroundPainter", new LazyPainter(
+            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_MOUSEOVER_FOCUSED,
+            new Insets(0, 0, 0, 0), new Dimension(6, 5), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 5.0));
+        d.put("Spinner:\"Spinner.previousButton\"[Focused+Pressed].foregroundPainter", new LazyPainter(
+            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_PRESSED_FOCUSED,
+            new Insets(0, 0, 0, 0), new Dimension(6, 5), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 5.0));
         d.put("Spinner:\"Spinner.previousButton\"[MouseOver].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_MOUSEOVER, new Insets(3,
-                3, 4, 4), new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_MOUSEOVER, new Insets(0,
+                0, 0, 0), new Dimension(6, 5), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 5.0));
         d.put("Spinner:\"Spinner.previousButton\"[Pressed].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_PRESSED, new Insets(3, 3,
-                4, 4), new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerPreviousButtonPainter", SpinnerPreviousButtonPainter.FOREGROUND_PRESSED, new Insets(0, 0,
+                0, 0), new Dimension(6, 5), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 5.0));
 
-        d.put("Spinner:\"Spinner.nextButton\".size", new Integer(23));
+        d.put("Spinner:\"Spinner.nextButton\".size", new Integer(21));
         d.put("Spinner:\"Spinner.nextButton\"[Disabled].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.BACKGROUND_DISABLED, new Insets(3, 1, 1, 4),
-            new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            new Dimension(6, 4), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("Spinner:\"Spinner.nextButton\"[Enabled].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.BACKGROUND_ENABLED, new Insets(3, 1, 1, 4),
-            new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            new Dimension(20, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("Spinner:\"Spinner.nextButton\"[Focused].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.BACKGROUND_FOCUSED, new Insets(3, 1, 1, 4),
-            new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            new Dimension(20, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("Spinner:\"Spinner.nextButton\"[Focused+MouseOver].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.BACKGROUND_MOUSEOVER_FOCUSED, new Insets(3,
-                1, 1, 4), new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+                1, 1, 4), new Dimension(20, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("Spinner:\"Spinner.nextButton\"[Focused+Pressed].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.BACKGROUND_PRESSED_FOCUSED, new Insets(3, 1,
-                1, 4), new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+                1, 4), new Dimension(20, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("Spinner:\"Spinner.nextButton\"[MouseOver].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.BACKGROUND_MOUSEOVER, new Insets(3, 1, 1, 4),
-            new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            new Dimension(20, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("Spinner:\"Spinner.nextButton\"[Pressed].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.BACKGROUND_PRESSED, new Insets(3, 1, 1, 4),
-            new Dimension(21, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            new Dimension(20, 11), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("Spinner:\"Spinner.nextButton\"[Disabled].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_DISABLED, new Insets(3, 1, 1, 4),
-            new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_DISABLED, new Insets(0, 0, 0, 0),
+            new Dimension(6, 4), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            5.0));
         d.put("Spinner:\"Spinner.nextButton\"[Enabled].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_ENABLED, new Insets(3, 1, 1, 4),
-            new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_ENABLED, new Insets(0, 0, 0, 0),
+            new Dimension(6, 4), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            5.0));
         d.put("Spinner:\"Spinner.nextButton\"[Focused].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_FOCUSED, new Insets(3, 1, 1, 4),
-            new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_FOCUSED, new Insets(0, 0, 0, 0),
+            new Dimension(6, 4), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            5.0));
         d.put("Spinner:\"Spinner.nextButton\"[Focused+MouseOver].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_MOUSEOVER_FOCUSED, new Insets(3,
-                1, 1, 4), new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_MOUSEOVER_FOCUSED, new Insets(0,
+                0, 0, 0), new Dimension(6, 4), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 5.0));
         d.put("Spinner:\"Spinner.nextButton\"[Focused+Pressed].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_PRESSED_FOCUSED, new Insets(3, 1,
-                1, 4), new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_PRESSED_FOCUSED, new Insets(0, 0,
+                0, 0), new Dimension(6, 4), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, 5.0));
         d.put("Spinner:\"Spinner.nextButton\"[MouseOver].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_MOUSEOVER, new Insets(3, 1, 1, 4),
-            new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_MOUSEOVER, new Insets(0, 0, 0, 0),
+            new Dimension(6, 4), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            5.0));
         d.put("Spinner:\"Spinner.nextButton\"[Pressed].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_PRESSED, new Insets(3, 1, 1, 4),
-            new Dimension(21, 11), true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            "com.seaglass.painter.SpinnerNextButtonPainter", SpinnerNextButtonPainter.FOREGROUND_PRESSED, new Insets(0, 0, 0, 0),
+            new Dimension(6, 4), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            5.0));
     }
 
     /**
@@ -1033,36 +1016,47 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineTables(UIDefaults d) {
         d.put("Table.background", new ColorUIResource(255, 255, 255));
-        d.put("Table.alternateRowColor", new Color(220, 233, 239));
+        d.put("Table.alternateRowColor", new Color(235, 245, 252));
         d.put("TableHeader:\"TableHeader.renderer\".Sorted", new TableHeaderRendererSortedState());
+        d.put("Table[Enabled+Selected].textBackground", new Color(97, 129, 165));
+        d.put("Table[Disabled+Selected].textBackground", new Color(97, 129, 165));
+
+        d.put("TableHeader[Enabled].ascendingSortIconPainter", new LazyPainter("com.seaglass.painter.TableHeaderPainter",
+            TableHeaderPainter.ASCENDINGSORTICON_ENABLED, new Insets(0, 0, 0, 2), new Dimension(8, 7), false,
+            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        d.put("Table.ascendingSortIcon", new SeaGlassIcon("TableHeader", "ascendingSortIconPainter", 8, 7));
+        d.put("TableHeader[Enabled].descendingSortIconPainter", new LazyPainter("com.seaglass.painter.TableHeaderPainter",
+            TableHeaderPainter.DESCENDINGSORTICON_ENABLED, new Insets(0, 0, 0, 0), new Dimension(8, 7), false,
+            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        d.put("Table.descendingSortIcon", new SeaGlassIcon("TableHeader", "descendingSortIconPainter", 8, 7));
 
         d.put("TableHeader:\"TableHeader.renderer\"[Disabled].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_DISABLED, new Insets(3, 3, 3,
-                3), new Dimension(84, 26), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+                3), new Dimension(26, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("TableHeader:\"TableHeader.renderer\"[Enabled].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_ENABLED,
-            new Insets(3, 3, 3, 3), new Dimension(84, 26), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            new Insets(3, 3, 3, 3), new Dimension(26, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Focused].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_ENABLED_FOCUSED, new Insets(3,
-                3, 3, 3), new Dimension(84, 26), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+                3, 3, 3), new Dimension(26, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("TableHeader:\"TableHeader.renderer\"[Pressed].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_PRESSED,
-            new Insets(3, 3, 3, 3), new Dimension(84, 26), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            new Insets(3, 3, 3, 3), new Dimension(26, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Sorted].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_ENABLED_SORTED, new Insets(3,
-                3, 3, 3), new Dimension(84, 26), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+                3, 3, 3), new Dimension(26, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Focused+Sorted].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_ENABLED_FOCUSED_SORTED,
-            new Insets(3, 3, 3, 3), new Dimension(84, 26), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+            new Insets(3, 3, 3, 3), new Dimension(26, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
         d.put("TableHeader:\"TableHeader.renderer\"[Disabled+Sorted].backgroundPainter", new LazyPainter(
             "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_DISABLED_SORTED, new Insets(3,
-                3, 3, 3), new Dimension(84, 26), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
+                3, 3, 3), new Dimension(26, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
     }
 
@@ -1078,21 +1072,22 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ScrollBar:\"ScrollBar.button\".size", new Integer(20));
 
         // Buttons
+        d.put("ScrollBar:\"ScrollBar.button\".States", "Enabled,Pressed,Disabled,Focused");
         d.put("ScrollBar:\"ScrollBar.button\"[Enabled].foregroundPainter", new LazyPainter(
             "com.seaglass.painter.ScrollBarButtonPainter", ScrollBarButtonPainter.FOREGROUND_ENABLED, new Insets(1, 1, 1, 1),
             new Dimension(20, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("ScrollBar:\"ScrollBar.button\"[Disabled].foregroundPainter", new LazyPainter(
             "com.seaglass.painter.ScrollBarButtonPainter", ScrollBarButtonPainter.FOREGROUND_DISABLED, new Insets(1, 1, 1, 1),
             new Dimension(20, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("ScrollBar:\"ScrollBar.button\"[MouseOver].foregroundPainter", new LazyPainter(
-            "com.seaglass.painter.ScrollBarButtonPainter", ScrollBarButtonPainter.FOREGROUND_MOUSEOVER, new Insets(1, 1, 1, 1),
-            new Dimension(20, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
         d.put("ScrollBar:\"ScrollBar.button\"[Pressed].foregroundPainter", new LazyPainter(
             "com.seaglass.painter.ScrollBarButtonPainter", ScrollBarButtonPainter.FOREGROUND_PRESSED, new Insets(1, 1, 1, 1),
             new Dimension(20, 15), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
 
         // Thumb
-        d.put("ScrollBar:ScrollBarThumb.States", "Disabled,Enabled,Focused,MouseOver,Pressed");
+        // Seems to be a bug somewhere where MouseOver is always delivered even
+        // when we don't want it, but if it's not specified nothing at all is
+        // painted.
+        d.put("ScrollBar:ScrollBarThumb.States", "Enabled,Pressed,MouseOver,Disabled");
         d.put("ScrollBar:ScrollBarThumb[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ScrollBarThumbPainter",
             ScrollBarThumbPainter.BACKGROUND_DISABLED, new Insets(0, 8, 0, 8), new Dimension(82, 14), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0));
@@ -1100,12 +1095,16 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             ScrollBarThumbPainter.BACKGROUND_ENABLED, new Insets(0, 8, 0, 8), new Dimension(82, 14), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0));
         d.put("ScrollBar:ScrollBarThumb[MouseOver].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_MOUSEOVER, new Insets(0, 8, 0, 8),
+            "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_ENABLED, new Insets(0, 8, 0, 8),
             new Dimension(82, 14), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
             2.0));
         d.put("ScrollBar:ScrollBarThumb[Pressed].backgroundPainter", new LazyPainter("com.seaglass.painter.ScrollBarThumbPainter",
             ScrollBarThumbPainter.BACKGROUND_PRESSED, new Insets(0, 8, 0, 8), new Dimension(82, 14), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0));
+        d.put("ScrollBar:ScrollBarThumb[MouseOver+Pressed].backgroundPainter", new LazyPainter(
+            "com.seaglass.painter.ScrollBarThumbPainter", ScrollBarThumbPainter.BACKGROUND_PRESSED, new Insets(0, 8, 0, 8),
+            new Dimension(82, 14), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+            2.0));
 
         // Track
         d.put("ScrollBar:ScrollBarTrack[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ScrollBarTrackPainter",
@@ -1376,125 +1375,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 new SeaGlassIcon(
                     "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[Enabled+WindowMaximized+WindowNotFocused]",
                     "backgroundPainter", 19, 18));
-    }
-
-    private void eliminateMouseOverBehavior(UIDefaults d) {
-        // Kill MouseOver on Button.
-        d.put("Button[Default+MouseOver].backgroundPainter", null);
-        d.put("Button[Default+Focused+MouseOver].backgroundPainter", null);
-        d.put("Button[MouseOver].backgroundPainter", null);
-        d.put("Button[Focused+MouseOver].backgroundPainter", null);
-
-        // Kill MouseOver on ToggleButton.
-        d.put("ToggleButton[MouseOver].backgroundPainter", null);
-        d.put("ToggleButton[Focused+MouseOver].backgroundPainter", null);
-        d.put("ToggleButton[MouseOver+Selected].backgroundPainter", null);
-        d.put("ToggleButton[Focused+MouseOver+Selected].backgroundPainter", null);
-
-        // Initialize RadioButton
-        d.put("RadioButton[MouseOver].iconPainter", null);
-        d.put("RadioButton[Focused+MouseOver].iconPainter", null);
-        d.put("RadioButton[MouseOver+Selected].iconPainter", null);
-        d.put("RadioButton[Focused+MouseOver+Selected].iconPainter", null);
-
-        // Initialize CheckBox
-        d.put("CheckBox[MouseOver].iconPainter", null);
-        d.put("CheckBox[Focused+MouseOver].iconPainter", null);
-        d.put("CheckBox[MouseOver+Selected].iconPainter", null);
-        d.put("CheckBox[Focused+MouseOver+Selected].iconPainter", null);
-
-        // Initialize ComboBox
-        d.put("ComboBox[Editable+MouseOver].backgroundPainter", null);
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Editable+MouseOver].backgroundPainter", null);
-        d.put("ComboBox:\"ComboBox.arrowButton\"[MouseOver].foregroundPainter", null);
-
-        // Initialize InternalFrame
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"[MouseOver].iconPainter", null);
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"[MouseOver+WindowNotFocused].iconPainter",
-            null);
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"[MouseOver].backgroundPainter", null);
-        d
-            .put(
-                "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"[MouseOver+WindowNotFocused].backgroundPainter",
-                null);
-        d
-            .put(
-                "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[MouseOver+WindowMaximized].backgroundPainter",
-                null);
-        d
-            .put(
-                "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[MouseOver+WindowMaximized+WindowNotFocused].backgroundPainter",
-                null);
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[MouseOver].backgroundPainter", null);
-        d
-            .put(
-                "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"[MouseOver+WindowNotFocused].backgroundPainter",
-                null);
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\"[MouseOver].backgroundPainter", null);
-        d
-            .put(
-                "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\"[MouseOver+WindowNotFocused].backgroundPainter",
-                null);
-
-        // Initialize MenuItem
-        d.put("MenuItem[MouseOver].textForeground", null);
-        d.put("MenuItem[MouseOver].backgroundPainter", null);
-        d.put("MenuItem:MenuItemAccelerator[MouseOver].textForeground", null);
-
-        // Initialize RadioButtonMenuItem
-        d.put("RadioButtonMenuItem[MouseOver].textForeground", null);
-        d.put("RadioButtonMenuItem[MouseOver].backgroundPainter", null);
-        d.put("RadioButtonMenuItem[MouseOver+Selected].textForeground", null);
-        d.put("RadioButtonMenuItem[MouseOver+Selected].backgroundPainter", null);
-        d.put("RadioButtonMenuItem[MouseOver+Selected].checkIconPainter", null);
-        d.put("RadioButtonMenuItem:MenuItemAccelerator[MouseOver].textForeground", null);
-
-        // Initialize CheckBoxMenuItem
-        d.put("CheckBoxMenuItem[MouseOver].textForeground", null);
-        d.put("CheckBoxMenuItem[MouseOver].backgroundPainter", null);
-        d.put("CheckBoxMenuItem[MouseOver+Selected].textForeground", null);
-        d.put("CheckBoxMenuItem[MouseOver+Selected].backgroundPainter", null);
-        d.put("CheckBoxMenuItem[MouseOver+Selected].checkIconPainter", null);
-        d.put("CheckBoxMenuItem:MenuItemAccelerator[MouseOver].textForeground", null);
-
-        // Initialize Menu
-        d.put("Menu:MenuItemAccelerator[MouseOver].textForeground", null);
-
-        // Initialize ScrollBar
-        d.put("ScrollBar:\"ScrollBar.button\"[MouseOver].foregroundPainter", null);
-
-        // Initialize Slider
-        d.put("Slider:SliderThumb[Focused+MouseOver].backgroundPainter", null);
-        d.put("Slider:SliderThumb[MouseOver].backgroundPainter", d.get("Slider:SliderThumb[Enabled].backgroundPainter"));
-        d.put("Slider:SliderThumb[ArrowShape+MouseOver].backgroundPainter", null);
-        d.put("Slider:SliderThumb[ArrowShape+Focused+MouseOver].backgroundPainter", null);
-
-        // Initialize Spinner
-        d.put("Spinner:\"Spinner.previousButton\"[Focused+MouseOver].backgroundPainter", null);
-        d.put("Spinner:\"Spinner.previousButton\"[MouseOver].backgroundPainter", null);
-        d.put("Spinner:\"Spinner.previousButton\"[Focused+MouseOver].foregroundPainter", null);
-        d.put("Spinner:\"Spinner.previousButton\"[MouseOver].foregroundPainter", null);
-        d.put("Spinner:\"Spinner.nextButton\"[Focused+MouseOver].backgroundPainter", null);
-        d.put("Spinner:\"Spinner.nextButton\"[MouseOver].backgroundPainter", null);
-        d.put("Spinner:\"Spinner.nextButton\"[Focused+MouseOver].foregroundPainter", null);
-        d.put("Spinner:\"Spinner.nextButton\"[MouseOver].foregroundPainter", null);
-
-        // Initialize TabbedPane
-        d.put("TabbedPane:TabbedPaneTab[Enabled+MouseOver].backgroundPainter", null);
-        d.put("TabbedPane:TabbedPaneTab[MouseOver+Selected].backgroundPainter", null);
-        d.put("TabbedPane:TabbedPaneTab[Focused+MouseOver+Selected].backgroundPainter", null);
-        d.put("TabbedPane:TabbedPaneTabArea[Enabled+MouseOver].backgroundPainter", null);
-
-        // Initialize TableHeader
-        d.put("TableHeader:\"TableHeader.renderer\"[MouseOver].backgroundPainter", null);
-
-        // Initialize ToolBar
-        d.put("ToolBar:Button[MouseOver].backgroundPainter", null);
-        d.put("ToolBar:Button[Focused+MouseOver].backgroundPainter", null);
-        d.put("ToolBar:ToggleButton[MouseOver].backgroundPainter", null);
-        d.put("ToolBar:ToggleButton[Focused+MouseOver].backgroundPainter", null);
-        d.put("ToolBar:ToggleButton[MouseOver+Selected].backgroundPainter", null);
-        d.put("ToolBar:ToggleButton[Focused+MouseOver+Selected].backgroundPainter", null);
     }
 
     /**
