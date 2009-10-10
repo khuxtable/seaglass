@@ -1021,6 +1021,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("Table[Enabled+Selected].textBackground", new Color(97, 129, 165));
         d.put("Table[Disabled+Selected].textBackground", new Color(97, 129, 165));
 
+        d.put("TableHeader.font", defaultFont.deriveFont(11.0f));
         d.put("TableHeader[Enabled].ascendingSortIconPainter", new LazyPainter("com.seaglass.painter.TableHeaderPainter",
             TableHeaderPainter.ASCENDINGSORTICON_ENABLED, new Insets(0, 0, 0, 2), new Dimension(8, 7), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
