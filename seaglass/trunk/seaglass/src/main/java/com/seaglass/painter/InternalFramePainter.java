@@ -32,9 +32,9 @@ public final class InternalFramePainter extends AbstractImagePainter {
     protected String getImageName(int state) {
         switch (state) {
         case BACKGROUND_ENABLED:
-            return "internalframe_background";
+            return "internal_frame_background_enabled";
         case BACKGROUND_ENABLED_WINDOWFOCUSED:
-            return "internalframe_background_focused";
+            return "internal_frame_background_focused";
         }
         return null;
     }
