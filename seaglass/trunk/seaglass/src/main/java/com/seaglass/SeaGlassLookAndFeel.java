@@ -68,7 +68,6 @@ import com.seaglass.painter.CheckBoxPainter;
 import com.seaglass.painter.ComboBoxArrowButtonPainter;
 import com.seaglass.painter.ComboBoxPainter;
 import com.seaglass.painter.ComboBoxTextFieldPainter;
-import com.seaglass.painter.FileChooserBackgroundPainter;
 import com.seaglass.painter.InternalFramePainter;
 import com.seaglass.painter.RadioButtonPainter;
 import com.seaglass.painter.ScrollBarButtonPainter;
@@ -230,7 +229,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         if (r == Region.ARROW_BUTTON || r == Region.BUTTON || r == Region.TOGGLE_BUTTON || r == Region.RADIO_BUTTON
                 || r == Region.CHECK_BOX || r == Region.LABEL || r == Region.COMBO_BOX || r == Region.POPUP_MENU
                 || r == Region.POPUP_MENU_SEPARATOR || r == Region.SCROLL_BAR || r == Region.SCROLL_BAR_THUMB
-                || r == Region.SCROLL_BAR_TRACK || r == Region.SPLIT_PANE || r == Region.SPLIT_PANE_DIVIDER) {
+                || r == Region.SCROLL_BAR_TRACK || r == Region.SPLIT_PANE || r == Region.SPLIT_PANE_DIVIDER || r == Region.VIEWPORT
+                || r == Region.TABLE) {
             return true;
         } else if (!PlatformUtils.isMac()
                 && (r == Region.COLOR_CHOOSER || r == Region.FILE_CHOOSER || r == Region.INTERNAL_FRAME
@@ -372,7 +372,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "RootPaneUI");
             useOurUI(uiDefaults, "ScrollBarUI");
             useOurUI(uiDefaults, "ScrollPaneUI");
+            useOurUI(uiDefaults, "TableUI");
             useOurUI(uiDefaults, "ToggleButtonUI");
+            useOurUI(uiDefaults, "ViewportUI");
 
             // Set base colors.
             defineBaseColors(uiDefaults);
@@ -454,15 +456,22 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // d.put("control", new ColorUIResource(246, 244, 240));
         d.put("control", new ColorUIResource(248, 248, 248));
 
-        d.put("FileChooser[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.FileChooserBackgroundPainter",
-            FileChooserBackgroundPainter.BACKGROUND_ENABLED, new Insets(0, 0, 0, 0), new Dimension(100, 30), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
-        d.put("FileChooser[Enabled+Focused].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.FileChooserBackgroundPainter", FileChooserBackgroundPainter.BACKGROUND_ENABLED, new Insets(0, 0,
-                0, 0), new Dimension(100, 30), false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
-        d.put("FileChooser[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.FileChooserBackgroundPainter",
-            FileChooserBackgroundPainter.BACKGROUND_ENABLED, new Insets(0, 0, 0, 0), new Dimension(100, 30), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
+        // d.put("FileChooser[Enabled].backgroundPainter", new
+        // LazyPainter("com.seaglass.painter.FileChooserBackgroundPainter",
+        // FileChooserBackgroundPainter.BACKGROUND_ENABLED, new Insets(0, 0, 0,
+        // 0), new Dimension(100, 30), false,
+        // AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
+        // d.put("FileChooser[Enabled+Focused].backgroundPainter", new
+        // LazyPainter(
+        // "com.seaglass.painter.FileChooserBackgroundPainter",
+        // FileChooserBackgroundPainter.BACKGROUND_ENABLED, new Insets(0, 0,
+        // 0, 0), new Dimension(100, 30), false,
+        // AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
+        // d.put("FileChooser[Disabled].backgroundPainter", new
+        // LazyPainter("com.seaglass.painter.FileChooserBackgroundPainter",
+        // FileChooserBackgroundPainter.BACKGROUND_ENABLED, new Insets(0, 0, 0,
+        // 0), new Dimension(100, 30), false,
+        // AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
 
     }
 
@@ -1161,6 +1170,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineTitlePaneButtons(UIDefaults d) {
+        d.put("InternalFrame.States", "Enabled,WindowFocused");
+
         d.put("InternalFrame:InternalFrameTitlePane.WindowFocused", new TitlePaneWindowFocusedState());
         d.put("InternalFrame.WindowFocused", new InternalFrameWindowFocusedState());
         d.put("InternalFrame[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.InternalFramePainter",
