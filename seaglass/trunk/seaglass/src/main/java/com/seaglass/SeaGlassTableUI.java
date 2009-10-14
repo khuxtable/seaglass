@@ -55,6 +55,8 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import com.seaglass.util.TableHeaderUtils;
+import com.seaglass.util.TableUtils;
 import com.seaglass.util.ViewportPainter;
 
 import sun.swing.plaf.synth.SynthUI;
@@ -173,6 +175,11 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             if (d != null) {
                 table.setIntercellSpacing(d);
             }
+
+            // Make header column extend the width of the viewport (if there is
+            // a viewport).
+            TableHeaderUtils.makeHeaderFillEmptySpace(table);
+//            TableUtils.makeStriped(table, alternateColor);
 
             if (oldStyle != null) {
                 uninstallKeyboardActions();
