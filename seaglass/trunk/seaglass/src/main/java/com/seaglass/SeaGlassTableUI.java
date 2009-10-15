@@ -21,6 +21,7 @@ package com.seaglass;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -32,6 +33,8 @@ import java.text.Format;
 import java.text.NumberFormat;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
+import javax.swing.CellRendererPane;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -40,6 +43,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.LookAndFeel;
+import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
@@ -55,9 +59,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import com.seaglass.util.TableHeaderUtils;
 import com.seaglass.util.TableUtils;
 import com.seaglass.util.ViewportPainter;
+import com.seaglass.util.WindowUtils;
 
 import sun.swing.plaf.synth.SynthUI;
 
@@ -69,27 +73,35 @@ import sun.swing.plaf.synth.SynthUI;
  * @see javax.swing.plaf.synth.SynthTableUI
  */
 public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyChangeListener, ViewportPainter {
+
+    private static final CellRendererPane CELL_RENDER_PANE                       = new CellRendererPane();
+
+    private static final Color            TABLE_GRID_COLOR                       = new Color(0xd9d9d9);
+    private static final Color            SELECTION_ACTIVE_BOTTOM_BORDER_COLOR   = new Color(125, 170, 234);
+    private static final Color            SELECTION_INACTIVE_BOTTOM_BORDER_COLOR = new Color(224, 224, 224);
+    private static final Color            TRANSPARENT_COLOR                      = new Color(0, 0, 0, 0);
+
     //
     // Instance Variables
     //
 
-    private SynthStyle        style;
+    private SynthStyle                    style;
 
-    private boolean           useTableColors;
-    private boolean           useUIBorder;
+    private boolean                       useTableColors;
+    private boolean                       useUIBorder;
     // The background color to use for cells for alternate cells.
-    private Color             alternateColor;
+    private Color                         alternateColor;
 
     // TableCellRenderer installed on the JTable at the time we're installed,
     // cached so that we can reinstall them at uninstallUI time.
-    private TableCellRenderer dateRenderer;
-    private TableCellRenderer numberRenderer;
-    private TableCellRenderer doubleRender;
-    private TableCellRenderer floatRenderer;
-    private TableCellRenderer iconRenderer;
-    private TableCellRenderer imageIconRenderer;
-    private TableCellRenderer booleanRenderer;
-    private TableCellRenderer objectRenderer;
+    private TableCellRenderer             dateRenderer;
+    private TableCellRenderer             numberRenderer;
+    private TableCellRenderer             doubleRender;
+    private TableCellRenderer             floatRenderer;
+    private TableCellRenderer             iconRenderer;
+    private TableCellRenderer             imageIconRenderer;
+    private TableCellRenderer             booleanRenderer;
+    private TableCellRenderer             objectRenderer;
 
     //
     // The installation/uninstall procedures and support
@@ -116,6 +128,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         imageIconRenderer = installRendererIfPossible(ImageIcon.class, null);
         booleanRenderer = installRendererIfPossible(Boolean.class, new SynthBooleanTableCellRenderer());
         objectRenderer = installRendererIfPossible(Object.class, new SynthTableCellRenderer());
+
         updateStyle(table);
     }
 
@@ -176,10 +189,23 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 table.setIntercellSpacing(d);
             }
 
+            table.remove(rendererPane);
+            rendererPane = createCustomCellRendererPane();
+            table.add(rendererPane);
+
+            // TODO save defaults.
+
+            table.setOpaque(false);
+            table.setGridColor(TABLE_GRID_COLOR);
+            table.setIntercellSpacing(new Dimension(0, 0));
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+            table.setShowHorizontalLines(false);
+
             // Make header column extend the width of the viewport (if there is
             // a viewport).
-            TableHeaderUtils.makeHeaderFillEmptySpace(table);
-//            TableUtils.makeStriped(table, alternateColor);
+            table.getTableHeader().setBorder(createTableHeaderEmptyColumnPainter(table));
+            TableUtils.makeStriped(table, alternateColor);
 
             if (oldStyle != null) {
                 uninstallKeyboardActions();
@@ -713,6 +739,75 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         if (SeaGlassLookAndFeel.shouldUpdateStyle(event)) {
             updateStyle((JTable) event.getSource());
         }
+    }
+
+    private Border getRowBorder() {
+        return BorderFactory.createEmptyBorder(0, 5, 0, 5);
+    }
+
+    private Border getSelectedRowBorder() {
+        return BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, getSelectedRowBottomHighlight()),
+            BorderFactory.createEmptyBorder(1, 5, 0, 5));
+    }
+
+    private Color getSelectedRowBottomHighlight() {
+        return WindowUtils.isParentWindowFocused(table) ? SELECTION_ACTIVE_BOTTOM_BORDER_COLOR
+                : SELECTION_INACTIVE_BOTTOM_BORDER_COLOR;
+    }
+
+    /**
+     * Creates a {@link Border} that paints any empty space to the right of the
+     * last column header in the given {@link JTable}'s {@link JTableHeader}.
+     */
+    private static Border createTableHeaderEmptyColumnPainter(final JTable table) {
+        return new AbstractBorder() {
+            @Override
+            public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+                // if this JTableHeader is parented in a JViewport, then paint
+                // the table header background to the right of the last column
+                // if neccessary.
+                JViewport viewport = (JViewport) table.getParent();
+                if (viewport != null && table.getWidth() < viewport.getWidth()) {
+                    int startX = table.getWidth();
+                    int emptyColumnWidth = viewport.getWidth() - table.getWidth();
+
+                    TableCellRenderer renderer = table.getTableHeader().getDefaultRenderer();
+                    Component component = renderer.getTableCellRendererComponent(table, "", false, false, -1, -1);
+
+                    component.setBounds(0, 0, emptyColumnWidth, table.getTableHeader().getHeight());
+
+                    ((JComponent) component).setOpaque(false);
+                    CELL_RENDER_PANE.paintComponent(g, component, null, startX, 0, emptyColumnWidth + 1, table.getTableHeader()
+                        .getHeight(), true);
+                }
+            }
+        };
+    }
+
+    /**
+     * Creates a custom {@link CellRendererPane} that sets the renderer
+     * component to be non-opqaque if the associated row isn't selected. This
+     * custom {@code CellRendererPane} is needed because a table UI delegate has
+     * no prepare renderer like {@link JTable} has.
+     */
+    private CellRendererPane createCustomCellRendererPane() {
+        return new CellRendererPane() {
+            @Override
+            public void paintComponent(Graphics graphics, Component component, Container container, int x, int y, int w, int h,
+                boolean shouldValidate) {
+
+                int rowAtPoint = table.rowAtPoint(new Point(x, y));
+                boolean isSelected = table.isRowSelected(rowAtPoint);
+                if (component instanceof JComponent) {
+                    JComponent jComponent = (JComponent) component;
+                    jComponent.setOpaque(isSelected);
+                    jComponent.setBorder(isSelected ? getSelectedRowBorder() : getRowBorder());
+                    jComponent.setBackground(isSelected ? jComponent.getBackground() : TRANSPARENT_COLOR);
+                }
+
+                super.paintComponent(graphics, component, container, x, y, w, h, shouldValidate);
+            }
+        };
     }
 
     private class SynthBooleanTableCellRenderer extends JCheckBox implements TableCellRenderer {
