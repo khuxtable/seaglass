@@ -31,7 +31,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.SynthContext;
 
-import com.sun.java.swing.Painter;
+import com.seaglass.painter.Painter;
 
 import sun.swing.plaf.synth.SynthIcon;
 
