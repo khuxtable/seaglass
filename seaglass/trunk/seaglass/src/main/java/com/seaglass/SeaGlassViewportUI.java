@@ -149,7 +149,7 @@ public class SeaGlassViewportUI extends ViewportUI implements PropertyChangeList
             Component view = viewport.getView();
             Object ui = (view == null) ? null : invokeGetter(view, "getUI", null);
             if (ui instanceof ViewportPainter) {
-                ((ViewportPainter) ui).paintViewport(g, viewport);
+                ((ViewportPainter) ui).paintViewport(context, g, viewport);
             } else {
                 if (viewport.getView() != null) {
                     g.setColor(viewport.getView().getBackground());
