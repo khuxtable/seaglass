@@ -36,17 +36,17 @@ public final class TextFieldPainter extends AbstractImagePainter {
     protected String getImageName(int state) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return "textfield_disabled";
+            return "text_field_disabled";
         case BACKGROUND_ENABLED:
             return "textfield";
         case BACKGROUND_SELECTED:
             return "textfield";
         case BORDER_DISABLED:
-            return "textfield_border_disabled";
+            return "text_field_border_disabled";
         case BORDER_FOCUSED:
-            return "textfield_border_focused";
+            return "text_field_border_focused";
         case BORDER_ENABLED:
-            return "textfield_border";
+            return "text_field_border";
         }
         return null;
     }
