@@ -26,7 +26,7 @@ import java.awt.Graphics2D;
  * interface will be called during the painting process of the given {@code
  * objectToPaint}.
  */
-public interface Painter<T> {
+public interface Painter<T> extends com.sun.java.swing.Painter<T> {
 
     /**
      * Renders to the given {@link Graphics2D}. The supplied graphics context
