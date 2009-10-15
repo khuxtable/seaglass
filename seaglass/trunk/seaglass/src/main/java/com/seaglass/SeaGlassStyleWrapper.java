@@ -21,6 +21,7 @@ package com.seaglass;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 
 import javax.swing.JComponent;
@@ -33,8 +34,8 @@ import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.plaf.synth.SynthPainter;
 import javax.swing.plaf.synth.SynthStyle;
 
+import com.seaglass.painter.Painter;
 import com.seaglass.util.SeaGlassGraphicsUtils;
-import com.sun.java.swing.Painter;
 import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 
 import sun.swing.plaf.synth.SynthUI;
@@ -273,7 +274,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
         if (!(style instanceof NimbusStyle)) {
             return null;
         }
-        return ((NimbusStyle) style).getBackgroundPainter(ctx);
+        return new PainterWrapper(((NimbusStyle) style).getBackgroundPainter(ctx));
     }
 
     /**
@@ -291,7 +292,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
         if (!(style instanceof NimbusStyle)) {
             return null;
         }
-        return ((NimbusStyle) style).getForegroundPainter(ctx);
+        return new PainterWrapper(((NimbusStyle) style).getForegroundPainter(ctx));
     }
 
     /**
@@ -309,6 +310,21 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
         if (!(style instanceof NimbusStyle)) {
             return null;
         }
-        return ((NimbusStyle) style).getBorderPainter(ctx);
+        return new PainterWrapper(((NimbusStyle) style).getBorderPainter(ctx));
+    }
+
+    /**
+     * Wrap the sun Painter class with our own.
+     */
+    public class PainterWrapper implements Painter {
+        private com.sun.java.swing.Painter painter;
+
+        public PainterWrapper(com.sun.java.swing.Painter painter) {
+            this.painter = painter;
+        }
+
+        public void paint(Graphics2D g, Object object, int width, int height) {
+            painter.paint(g, object, width, height);
+        }
     }
 }
