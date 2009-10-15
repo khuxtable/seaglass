@@ -39,11 +39,10 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.plaf.UIResource;
 
+import com.seaglass.SeaGlassLookAndFeel;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglass.util.ImageCache;
 import com.seaglass.util.ImageScalingHelper;
-import com.sun.java.swing.Painter;
-import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 /**
  * Convenient base class for defining Painter instances for rendering a region
@@ -373,8 +372,8 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      *         uiDefault color changes.
      */
     protected final Color decodeColor(String key, float hOffset, float sOffset, float bOffset, int aOffset) {
-        if (UIManager.getLookAndFeel() instanceof NimbusLookAndFeel) {
-            NimbusLookAndFeel laf = (NimbusLookAndFeel) UIManager.getLookAndFeel();
+        if (UIManager.getLookAndFeel() instanceof SeaGlassLookAndFeel) {
+            SeaGlassLookAndFeel laf = (SeaGlassLookAndFeel) UIManager.getLookAndFeel();
             return laf.getDerivedColor(key, hOffset, sOffset, bOffset, aOffset, true);
         } else {
             // can not give a right answer as painter should not be used outside
