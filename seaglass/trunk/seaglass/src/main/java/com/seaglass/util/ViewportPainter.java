@@ -23,9 +23,11 @@ import java.awt.Graphics;
 
 import javax.swing.JViewport;
 
+import com.seaglass.SeaGlassContext;
+
 /**
  * Interface implemented by UI delegates that paint onto a JViewport.
  */
 public interface ViewportPainter {
-    public void paintViewport(Graphics g, JViewport c);
+    public void paintViewport(SeaGlassContext context, Graphics g, JViewport c);
 }

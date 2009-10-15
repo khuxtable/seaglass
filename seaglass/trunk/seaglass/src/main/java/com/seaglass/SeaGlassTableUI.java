@@ -40,11 +40,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.LookAndFeel;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicTableUI;
@@ -59,7 +64,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import com.seaglass.util.TableUtils;
 import com.seaglass.util.ViewportPainter;
 import com.seaglass.util.WindowUtils;
 
@@ -76,7 +80,6 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
 
     private static final CellRendererPane CELL_RENDER_PANE                       = new CellRendererPane();
 
-    private static final Color            TABLE_GRID_COLOR                       = new Color(0xd9d9d9);
     private static final Color            SELECTION_ACTIVE_BOTTOM_BORDER_COLOR   = new Color(125, 170, 234);
     private static final Color            SELECTION_INACTIVE_BOTTOM_BORDER_COLOR = new Color(224, 224, 224);
     private static final Color            TRANSPARENT_COLOR                      = new Color(0, 0, 0, 0);
@@ -145,6 +148,10 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         SynthStyle oldStyle = style;
         style = SeaGlassLookAndFeel.updateStyle(context, this);
         if (style != oldStyle) {
+            table.remove(rendererPane);
+            rendererPane = createCustomCellRendererPane();
+            table.add(rendererPane);
+
             context.setComponentState(ENABLED | SELECTED);
 
             Color sbg = table.getSelectionBackground();
@@ -189,23 +196,16 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 table.setIntercellSpacing(d);
             }
 
-            table.remove(rendererPane);
-            rendererPane = createCustomCellRendererPane();
-            table.add(rendererPane);
-
-            // TODO save defaults.
-
             table.setOpaque(false);
-            table.setGridColor(TABLE_GRID_COLOR);
-            table.setIntercellSpacing(new Dimension(0, 0));
-            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-            table.setShowHorizontalLines(false);
+            if (alternateColor != null) {
+                table.setShowHorizontalLines(false);
+            }
 
             // Make header column extend the width of the viewport (if there is
             // a viewport).
             table.getTableHeader().setBorder(createTableHeaderEmptyColumnPainter(table));
-            TableUtils.makeStriped(table, alternateColor);
+            setViewPortListeners(table);
 
             if (oldStyle != null) {
                 uninstallKeyboardActions();
@@ -290,15 +290,13 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         Rectangle clip = g.getClipBounds();
 
         Rectangle bounds = table.getBounds();
-        // account for the fact that the graphics has already been translated
-        // into the table's bounds
+        // Account for the fact that the graphics has already been translated
+        // into the table's bounds.
         bounds.x = bounds.y = 0;
 
-        if (table.getRowCount() <= 0 || table.getColumnCount() <= 0 ||
-        // this check prevents us from painting the entire table
-                // when the clip doesn't intersect our bounds at all
-                !bounds.intersects(clip)) {
-
+        // This check prevents us from painting the entire table when the clip
+        // doesn't intersect our bounds at all.
+        if (table.getRowCount() <= 0 || table.getColumnCount() <= 0 || !bounds.intersects(clip)) {
             paintDropLines(context, g);
             return;
         }
@@ -341,7 +339,12 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         }
 
         // Paint the grid.
-        paintGrid(context, g, rMin, rMax, cMin, cMax);
+        if (!(table.getParent() instanceof JViewport)
+                || (table.getParent() != null && !(table.getParent().getParent() instanceof JScrollPane))) {
+            // FIXME We need to not repaint the entire table any time something changes.
+            // paintGrid(context, g, rMin, rMax, cMin, cMax);
+            paintStripesAndGrid(context, g, table, table.getWidth(), table.getHeight(), 0);
+        }
 
         // Paint the cells.
         paintCells(context, g, rMin, rMax, cMin, cMax);
@@ -349,43 +352,30 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         paintDropLines(context, g);
     }
 
-    public void paintViewport(Graphics g, JViewport c) {
-        Dimension vs = c.getSize();
-        Dimension ts = table.getSize();
-        Point p = table.getLocation();
+    public void paintViewport(SeaGlassContext context, Graphics g, JViewport c) {
+        paintStripesAndGrid(context, g, c, c.getWidth(), c.getHeight(), table.getLocation().y);
+    }
+
+    public void paintStripesAndGrid(SeaGlassContext context, Graphics g, JComponent c, int width, int height, int top) {
         int rh = table.getRowHeight();
         int n = table.getRowCount();
-        int row = Math.abs(p.y / rh);
-        int th = n * rh - row * rh;
+        int row = Math.abs(top / rh);
+
+        // Paint the background, including stripes if requested.
         if (alternateColor != null) {
-            // Fill the viewport with alternate color 1
+            // Fill the viewport with background color.
             g.setColor(table.getBackground());
-            g.fillRect(0, 0, c.getWidth(), c.getHeight());
+            g.fillRect(0, 0, width, height);
 
             // Now check if we need to paint some stripes
             g.setColor(alternateColor);
 
-            // Paint empty rows at the right to fill the viewport
-            if (ts.width < vs.width) {
-                for (int y = p.y + row * rh, ymax = Math.min(th, vs.height); y < ymax; y += rh) {
-                    if (row % 2 == 0) {
-                        g.fillRect(0, y, vs.width, rh);
-                    }
-                    row++;
+            // Paint table rows to fill the viewport.
+            for (int y = top + row * rh, ymax = height; y < ymax; y += rh) {
+                if (row % 2 == 0) {
+                    g.fillRect(0, y, width, rh);
                 }
-            }
-
-            // Paint empty rows at the bottom to fill the viewport
-            if (th < vs.height) {
-                row = n;
-                int y = th;
-                while (y < vs.height) {
-                    if (row % 2 == 0) {
-                        g.fillRect(0, y, vs.width, rh);
-                    }
-                    y += rh;
-                    row++;
-                }
+                row++;
             }
         } else {
             // Fill the viewport with the background color of the table
@@ -393,37 +383,30 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             g.fillRect(0, 0, c.getWidth(), c.getHeight());
         }
 
+        SynthGraphicsUtils synthG = context.getStyle().getGraphicsUtils(context);
+
         // Paint the horizontal grid lines
         if (table.getShowHorizontalLines()) {
             g.setColor(table.getGridColor());
-            if (ts.width < vs.width) {
-                row = Math.abs(p.y / rh);
-                int y = p.y + row * rh + rh - 1;
-                while (y < th) {
-                    g.drawLine(0, y, vs.width, y);
-                    y += rh;
-                }
-            }
-            if (th < vs.height) {
-                int y = th + rh - 1;
-                while (y < vs.height) {
-                    g.drawLine(0, y, vs.width, y);
-                    y += rh;
-                }
+            row = Math.abs(top / rh);
+            int y = top + row * rh + rh - 1;
+            while (y < height) {
+                synthG.drawLine(context, "Table.grid", g, 0, y, width, y);
+                y += rh;
             }
         }
 
         // Paint the vertical grid lines
-        if (th < vs.height && table.getShowVerticalLines()) {
+        if (table.getShowVerticalLines()) {
             g.setColor(table.getGridColor());
             TableColumnModel cm = table.getColumnModel();
             n = cm.getColumnCount();
-            int y = th;
-            int x = table.getX() - 1;
+            int y = top + row * rh;;
+            int x = -1;
             for (int i = 0; i < n; i++) {
                 TableColumn col = cm.getColumn(i);
                 x += col.getWidth();
-                g.drawLine(x, y, x, vs.height);
+                synthG.drawLine(context, "Table.grid", g, x, y, x, height);
             }
         }
     }
@@ -724,13 +707,6 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         } else {
             TableCellRenderer renderer = table.getCellRenderer(row, column);
             Component component = table.prepareRenderer(renderer, row, column);
-            Color b = component.getBackground();
-            if ((b == null || b instanceof UIResource || component instanceof SynthBooleanTableCellRenderer)
-                    && !table.isCellSelected(row, column)) {
-                if (alternateColor != null && row % 2 == 0) {
-                    component.setBackground(alternateColor);
-                }
-            }
             rendererPane.paintComponent(g, component, table, cellRect.x, cellRect.y, cellRect.width, cellRect.height, true);
         }
     }
@@ -779,6 +755,73 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                     ((JComponent) component).setOpaque(false);
                     CELL_RENDER_PANE.paintComponent(g, component, null, startX, 0, emptyColumnWidth + 1, table.getTableHeader()
                         .getHeight(), true);
+                }
+            }
+        };
+    }
+
+    /**
+     * Adds striping to the background of the given {@link JTable}. The actual
+     * striping is installed on the containing {@link JScrollPane}'s
+     * {@link JViewport}, so if this table is not added to a {@code JScrollPane}
+     * , then no stripes will be painted. This method can be called before the
+     * given table is added to a scroll pane, though, as a
+     * {@link PropertyChangeListener} will be installed to handle "ancestor"
+     * changes.
+     * 
+     * @param table
+     *            the table to paint row stripes for.
+     */
+    public static void setViewPortListeners(JTable table) {
+        table.addPropertyChangeListener("ancestor", createAncestorPropertyChangeListener(table));
+        // Install a listener to cause the whole table to repaint when a column
+        // is resized. We do this because the extended grid lines may need to be
+        // repainted. This could be cleaned up, but for now, it works fine.
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).addPropertyChangeListener(createAncestorPropertyChangeListener(table));
+            table.getColumnModel().addColumnModelListener(createTableColumnModelListener(table));
+        }
+    }
+
+    private static TableColumnModelListener createTableColumnModelListener(final JTable table) {
+        return new TableColumnModelListener() {
+            public void columnAdded(TableColumnModelEvent e) {
+                if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane) {
+                    table.getParent().repaint();
+                }
+            }
+
+            public void columnMarginChanged(ChangeEvent e) {
+                if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane) {
+                    table.getParent().repaint();
+                }
+            }
+
+            public void columnMoved(TableColumnModelEvent e) {
+                if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane) {
+                    table.getParent().repaint();
+                }
+            }
+
+            public void columnRemoved(TableColumnModelEvent e) {
+                if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane) {
+                    table.getParent().repaint();
+                }
+            }
+
+            public void columnSelectionChanged(ListSelectionEvent e) {
+                if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane) {
+                    table.getParent().repaint();
+                }
+            }
+        };
+    }
+
+    private static PropertyChangeListener createAncestorPropertyChangeListener(final JTable table) {
+        return new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent event) {
+                if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane) {
+                    table.getParent().repaint();
                 }
             }
         };
