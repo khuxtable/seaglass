@@ -73,12 +73,14 @@ import com.seaglass.painter.RadioButtonPainter;
 import com.seaglass.painter.ScrollBarButtonPainter;
 import com.seaglass.painter.ScrollBarThumbPainter;
 import com.seaglass.painter.ScrollBarTrackPainter;
+import com.seaglass.painter.ScrollPanePainter;
 import com.seaglass.painter.SpinnerFormattedTextFieldPainter;
 import com.seaglass.painter.SpinnerNextButtonPainter;
 import com.seaglass.painter.SpinnerPreviousButtonPainter;
 import com.seaglass.painter.SplitPaneDividerPainter;
 import com.seaglass.painter.TableHeaderPainter;
 import com.seaglass.painter.TableHeaderRendererPainter;
+import com.seaglass.painter.TextFieldPainter;
 import com.seaglass.painter.TitlePaneCloseButtonPainter;
 import com.seaglass.painter.TitlePaneIconifyButtonPainter;
 import com.seaglass.painter.TitlePaneMaximizeButtonPainter;
@@ -98,6 +100,11 @@ import com.seaglass.state.TitlePaneMaximizeButtonWindowMaximizedState;
 import com.seaglass.state.TitlePaneMaximizeButtonWindowNotFocusedState;
 import com.seaglass.state.TitlePaneMenuButtonWindowNotFocusedState;
 import com.seaglass.state.TitlePaneWindowFocusedState;
+import com.seaglass.state.ToolBarEastState;
+import com.seaglass.state.ToolBarNorthState;
+import com.seaglass.state.ToolBarSouthState;
+import com.seaglass.state.ToolBarWestState;
+import com.seaglass.util.MacKeybindings;
 import com.seaglass.util.PlatformUtils;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 import com.sun.java.swing.plaf.nimbus.NimbusStyle;
@@ -200,13 +207,18 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             @Override
             public SynthStyle getStyle(JComponent c, Region r) {
                 if (isSupportedBySeaGlass(c, r)) {
-                    return getSeaGlassStyle(c, r);
+                    SynthStyle style = getSeaGlassStyle(c, r);
+                    if (!(style instanceof SeaGlassStyle)) {
+                        // System.out.println("Got non seaglassstyle, style = "
+                        // + style);
+                        // System.out.println("    r = " + r + ", c = " + c);
+                    }
+                    return style;
                 } else {
                     SynthStyle style = nimbusFactory.getStyle(c, r);
                     if (style instanceof NimbusStyle) {
                         return style;// new SeaGlassStyleWrapper(style);
                     } else {
-                        // Why are toolbars getting here?
                         return style;
                     }
                 }
@@ -227,15 +239,18 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private boolean isSupportedBySeaGlass(JComponent c, Region r) {
         if (r == Region.ARROW_BUTTON || r == Region.BUTTON || r == Region.TOGGLE_BUTTON || r == Region.RADIO_BUTTON
-                || r == Region.CHECK_BOX || r == Region.LABEL || r == Region.COMBO_BOX || r == Region.POPUP_MENU
-                || r == Region.POPUP_MENU_SEPARATOR || r == Region.SCROLL_BAR || r == Region.SCROLL_BAR_THUMB
-                || r == Region.SCROLL_BAR_TRACK || r == Region.SPLIT_PANE || r == Region.SPLIT_PANE_DIVIDER || r == Region.VIEWPORT
-                || r == Region.TABLE) {
+                || r == Region.CHECK_BOX || r == Region.LABEL || r == Region.COMBO_BOX || r == Region.PANEL
+                || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR || r == Region.SCROLL_BAR
+                || r == Region.SCROLL_BAR_THUMB || r == Region.SCROLL_BAR_TRACK || r == Region.SCROLL_PANE
+                || r == Region.SPLIT_PANE || r == Region.SPLIT_PANE_DIVIDER || r == Region.VIEWPORT || r == Region.TABLE
+                || r == Region.TABLE_HEADER || r == Region.FORMATTED_TEXT_FIELD || r == Region.TEXT_FIELD || r == Region.SPINNER) {
             return true;
         } else if (!PlatformUtils.isMac()
                 && (r == Region.COLOR_CHOOSER || r == Region.FILE_CHOOSER || r == Region.INTERNAL_FRAME
                         || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.MENU_BAR || r == Region.MENU
-                        || r == Region.MENU_ITEM_ACCELERATOR || r == Region.MENU_ITEM || r == Region.RADIO_BUTTON_MENU_ITEM || r == Region.CHECK_BOX_MENU_ITEM)) {
+                        || r == Region.MENU_ITEM_ACCELERATOR || r == Region.MENU_ITEM || r == Region.RADIO_BUTTON_MENU_ITEM
+                        || r == Region.CHECK_BOX_MENU_ITEM || r == Region.TOOL_BAR || r == Region.TOOL_BAR_SEPARATOR
+                        || r == Region.TOOL_BAR_CONTENT || r == Region.TOOL_BAR_DRAG_WINDOW)) {
             return true;
         }
         return false;
@@ -354,10 +369,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         if (uiDefaults == null) {
             uiDefaults = super.getDefaults();
 
-            // Install Keybindings. We'll take care of Mac OS X in
-            // defineAquaSettings, below.
+            // Install Keybindings for the operating system.
             if (PlatformUtils.isWindows()) {
                 WindowsKeybindings.installKeybindings(uiDefaults);
+            } else if (PlatformUtils.isMac()) {
+                MacKeybindings.installKeybindings(uiDefaults);
             } else {
                 GTKKeybindings.installKeybindings(uiDefaults);
             }
@@ -365,7 +381,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             // Set the default font.
             defineDefaultFont(uiDefaults);
 
-            // Override the root pane and scroll pane behavior.
+            // Override some of the Synth UI delegates with copied and modified
+            // versions.
             useOurUI(uiDefaults, "ButtonUI");
             useOurUI(uiDefaults, "ComboBoxUI");
             useOurUI(uiDefaults, "LabelUI");
@@ -373,6 +390,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "ScrollBarUI");
             useOurUI(uiDefaults, "ScrollPaneUI");
             useOurUI(uiDefaults, "TableUI");
+            useOurUI(uiDefaults, "TableHeaderUI");
             useOurUI(uiDefaults, "ToggleButtonUI");
             useOurUI(uiDefaults, "ViewportUI");
 
@@ -390,6 +408,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             defineScrollBars(uiDefaults);
 
             defineSplitPanes(uiDefaults);
+
+            defineTextControls(uiDefaults);
 
             if (!PlatformUtils.isMac()) {
                 defineTitlePaneButtons(uiDefaults);
@@ -489,25 +509,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             LookAndFeel aqua = (LookAndFeel) lnfClass.newInstance();
             UIDefaults aquaDefaults = aqua.getDefaults();
 
-            // Use Mac key bindings. Nimbus uses Windows keybindings on
-            // Windows and GTK on anything else. We should use Aqua's
-            // bindings on Mac.
-            d.put("ComboBox.ancestorInputMap", aquaDefaults.get("ComboBox.ancestorInputMap"));
-            d.put("ComboBox.editorInputMap", aquaDefaults.get("ComboBox.editorInputMap"));
-            d.put("FormattedTextField.focusInputMap", aquaDefaults.get("FormattedTextField.focusInputMap"));
-            d.put("PasswordField.focusInputMap", aquaDefaults.get("PasswordField.focusInputMap"));
-            d.put("Spinner.ancestorInputMap", aquaDefaults.get("Spinner.ancestorInputMap"));
-            d.put("Spinner.focusInputMap", aquaDefaults.get("Spinner.focusInputMap"));
-            d.put("TabbedPane.focusInputMap", aquaDefaults.get("TabbedPane.focusInputMap"));
-            d.put("TabbedPane.ancestorInputMap", aquaDefaults.get("TabbedPane.ancestorInputMap"));
-            d.put("TabbedPane.wrap.focusInputMap", aquaDefaults.get("TabbedPane.wrap.focusInputMap"));
-            d.put("TabbedPane.wrap.ancestorInputMap", aquaDefaults.get("TabbedPane.wrap.ancestorInputMap"));
-            d.put("TabbedPane.scroll.focusInputMap", aquaDefaults.get("TabbedPane.scroll.focusInputMap"));
-            d.put("TabbedPane.scroll.ancestorInputMap", aquaDefaults.get("TabbedPane.scroll.ancestorInputMap"));
-            d.put("TextArea.focusInputMap", aquaDefaults.get("TextArea.focusInputMap"));
-            d.put("TextField.focusInputMap", aquaDefaults.get("TextField.focusInputMap"));
-            d.put("TextPane.focusInputMap", aquaDefaults.get("TextPane.focusInputMap"));
-
             // Use Aqua for any menu UI classes.
             d.put("MenuBarUI", aquaDefaults.get("MenuBarUI"));
             d.put("MenuUI", aquaDefaults.get("MenuUI"));
@@ -545,6 +546,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineToolBars(UIDefaults d) {
+        d.put("ToolBar.North", new ToolBarNorthState());
+        d.put("ToolBar.East", new ToolBarEastState());
+        d.put("ToolBar.West", new ToolBarWestState());
+        d.put("ToolBar.South", new ToolBarSouthState());
+
         d.put("ToolBar[North].borderPainter",
             new LazyPainter("com.seaglass.painter.ToolBarPainter", ToolBarPainter.BORDER_NORTH, new Insets(0, 0, 1, 0),
                 new Dimension(30, 30), false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
@@ -623,6 +629,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             "com.seaglass.painter.ToolBarToggleButtonPainter", ToolBarToggleButtonPainter.BACKGROUND_DISABLED_SELECTED, new Insets(
                 5, 5, 5, 5), new Dimension(104, 34), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, 2.0,
             Double.POSITIVE_INFINITY));
+
+        uiDefaults.put("ToolBarSeparator[Enabled].backgroundPainter", null);
     }
 
     /**
@@ -1068,6 +1076,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             "com.seaglass.painter.TableHeaderRendererPainter", TableHeaderRendererPainter.BACKGROUND_DISABLED_SORTED, new Insets(3,
                 3, 3, 3), new Dimension(26, 16), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+
+        // Store Table ScrollPane Corner Component
+        uiDefaults.put("Table.scrollPaneCornerComponent", TableScrollPaneCorner.class);
     }
 
     /**
@@ -1123,6 +1134,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ScrollBar:ScrollBarTrack[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.ScrollBarTrackPainter",
             ScrollBarTrackPainter.BACKGROUND_ENABLED, new Insets(0, 0, 0, 0), new Dimension(19, 15), false,
             AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+
+        // Define ScrollPane border painters.
+        d.put("ScrollPane[Enabled+Focused].borderPainter", new LazyPainter("com.seaglass.painter.ScrollPanePainter", ScrollPanePainter.BORDER_ENABLED_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("ScrollPane[Enabled].borderPainter", new LazyPainter("com.seaglass.painter.ScrollPanePainter", ScrollPanePainter.BORDER_ENABLED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
     }
 
     /**
@@ -1161,6 +1176,72 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             "com.seaglass.painter.SplitPaneDividerPainter", SplitPaneDividerPainter.FOREGROUND_ENABLED_VERTICAL, new Insets(5, 0,
                 5, 0), new Dimension(10, 38), true, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
             Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+    }
+
+    private void defineTextControls(UIDefaults d) {
+
+        // Initialize TextField
+        d.put("TextField.contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put("TextField[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BACKGROUND_DISABLED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("TextField[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BACKGROUND_ENABLED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("TextField[Selected].backgroundPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BACKGROUND_SELECTED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("TextField[Disabled].borderPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BORDER_DISABLED, new Insets(5, 3, 3, 3), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("TextField[Focused].borderPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BORDER_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("TextField[Enabled].borderPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BORDER_ENABLED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+
+        // Initialize TextField
+        d.put("TextField.contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put("FormattedTextField[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BACKGROUND_DISABLED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("FormattedTextField[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BACKGROUND_ENABLED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("FormattedTextField[Selected].backgroundPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BACKGROUND_SELECTED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("FormattedTextField[Disabled].borderPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BORDER_DISABLED, new Insets(5, 3, 3, 3), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("FormattedTextField[Focused].borderPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BORDER_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("FormattedTextField[Enabled].borderPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BORDER_ENABLED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+
+        // Initialize PasswordField
+        d.put("PasswordField.contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put("PasswordField[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BACKGROUND_DISABLED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("PasswordField[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BACKGROUND_ENABLED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("PasswordField[Selected].backgroundPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BACKGROUND_SELECTED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("PasswordField[Disabled].borderPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BORDER_DISABLED, new Insets(5, 3, 3, 3), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("PasswordField[Focused].borderPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BORDER_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("PasswordField[Enabled].borderPainter", new LazyPainter("com.seaglass.painter.TextFieldPainter",
+            TextFieldPainter.BORDER_ENABLED, new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
     }
 
     /**
