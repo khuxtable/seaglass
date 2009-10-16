@@ -19,12 +19,16 @@
  */
 package com.seaglass;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.beans.PropertyChangeEvent;
@@ -40,12 +44,19 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicScrollPaneUI;
+import javax.swing.plaf.synth.SynthContext;
+import javax.swing.plaf.synth.SynthLookAndFeel;
+import javax.swing.plaf.synth.SynthStyle;
+import javax.swing.text.JTextComponent;
+
+import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassScrollPaneUI implementation.
@@ -55,27 +66,30 @@ import javax.swing.plaf.basic.BasicScrollPaneUI;
  * 
  * @see javax.swing.plaf.basic.BasicScrollPaneUI
  */
-public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements ScrollPaneConstants {
-    private MouseWheelListener     mouseScrollListener;
+public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyChangeListener, ScrollPaneConstants, SynthUI {
+    private MouseWheelListener       mouseScrollListener;
+    private SynthStyle               style;
+    private boolean                  viewportViewHasFocus = false;
+    private ViewportViewFocusHandler viewportViewFocusHandler;
 
     /**
      * PropertyChangeListener installed on the vertical scrollbar.
      */
-    private PropertyChangeListener vsbPropertyChangeListener;
+    private PropertyChangeListener   vsbPropertyChangeListener;
 
     /**
      * PropertyChangeListener installed on the horizontal scrollbar.
      */
-    private PropertyChangeListener hsbPropertyChangeListener;
+    private PropertyChangeListener   hsbPropertyChangeListener;
 
-    private Handler                handler;
+    private Handler                  handler;
 
     /**
      * State flag that shows whether setValue() was called from a user program
      * before the value of "extent" was set in right-to-left component
      * orientation.
      */
-    private boolean                setValueCalled = false;
+    private boolean                  setValueCalled       = false;
 
     public static ComponentUI createUI(JComponent x) {
         return new SeaGlassScrollPaneUI();
@@ -91,6 +105,36 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements ScrollPan
             scrollpane.setViewportBorder(vpBorder);
         }
         LookAndFeel.installProperty(scrollpane, "opaque", Boolean.TRUE);
+        updateStyle(scrollpane);
+    }
+
+    protected void uninstallDefaults(JScrollPane c) {
+        SeaGlassContext context = getContext(c, ENABLED);
+
+        style.uninstallDefaults(context);
+        context.dispose();
+
+        if (scrollpane.getViewportBorder() instanceof UIResource) {
+            scrollpane.setViewportBorder(null);
+        }
+    }
+
+    private void updateStyle(JScrollPane c) {
+        SeaGlassContext context = getContext(c, ENABLED);
+        SynthStyle oldStyle = style;
+
+        style = SeaGlassLookAndFeel.updateStyle(context, this);
+        if (style != oldStyle) {
+            Border vpBorder = scrollpane.getViewportBorder();
+            if ((vpBorder == null) || (vpBorder instanceof UIResource)) {
+                scrollpane.setViewportBorder(new ViewportBorder(context));
+            }
+            if (oldStyle != null) {
+                uninstallKeyboardActions(c);
+                installKeyboardActions(c);
+            }
+        }
+        context.dispose();
     }
 
     protected void installListeners(JScrollPane c) {
@@ -121,6 +165,17 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements ScrollPan
 
         mouseScrollListener = createMouseWheelListener();
         scrollpane.addMouseWheelListener(mouseScrollListener);
+
+        // From SynthScrollPaneUI.
+        c.addPropertyChangeListener(this);
+        if (UIManager.getBoolean("ScrollPane.useChildTextComponentFocus")) {
+            viewportViewFocusHandler = new ViewportViewFocusHandler();
+            c.getViewport().addContainerListener(viewportViewFocusHandler);
+            Component view = c.getViewport().getView();
+            if (view instanceof JTextComponent) {
+                view.addFocusListener(viewportViewFocusHandler);
+            }
+        }
     }
 
     protected void uninstallListeners(JComponent c) {
@@ -152,15 +207,66 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements ScrollPan
         spPropertyChangeListener = null;
         mouseScrollListener = null;
         handler = null;
+
+        // From SynthScrollPaneUI.
+        c.removePropertyChangeListener(this);
+        if (viewportViewFocusHandler != null) {
+            viewport.removeContainerListener(viewportViewFocusHandler);
+            if (viewport.getView() != null) {
+                viewport.getView().removeFocusListener(viewportViewFocusHandler);
+            }
+            viewportViewFocusHandler = null;
+        }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
+    public SeaGlassContext getContext(JComponent c) {
+        return getContext(c, getComponentState(c));
+    }
+
+    private SeaGlassContext getContext(JComponent c, int state) {
+        return SeaGlassContext.getContext(SeaGlassContext.class, c, SynthLookAndFeel.getRegion(c), style, state);
+    }
+
+    private int getComponentState(JComponent c) {
+        int baseState = SeaGlassLookAndFeel.getComponentState(c);
+        if (viewportViewFocusHandler != null && viewportViewHasFocus) {
+            baseState = baseState | FOCUSED;
+        }
+        return baseState;
+    }
+
+    public void propertyChange(PropertyChangeEvent e) {
+        if (SeaGlassLookAndFeel.shouldUpdateStyle(e)) {
+            updateStyle(scrollpane);
+        }
+    }
+
+    public void update(Graphics g, JComponent c) {
+        SeaGlassContext context = getContext(c);
+
+        SeaGlassLookAndFeel.update(context, g);
+        context.getPainter().paintScrollPaneBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
+        paint(context, g);
+        context.dispose();
+    }
+
     public void paint(Graphics g, JComponent c) {
-        g.setColor(new Color(231, 239, 243));
-        g.fillRect(c.getX(), c.getY(), c.getWidth(), c.getHeight());
+        SeaGlassContext context = getContext(c);
+
+        paint(context, g);
+        context.dispose();
+    }
+
+    protected void paint(SynthContext context, Graphics g) {
+        Border vpBorder = scrollpane.getViewportBorder();
+        if (vpBorder != null) {
+            Rectangle r = scrollpane.getViewportBorderBounds();
+            vpBorder.paintBorder(scrollpane, g, r.x, r.y, r.width, r.height);
+        }
+    }
+
+    public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
+        ((SeaGlassContext) context).getPainter().paintScrollPaneBorder(context, g, x, y, w, h);
     }
 
     private Handler getHandler() {
@@ -803,6 +909,77 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements ScrollPan
                     viewport.setViewPosition(p);
                 }
             }
+        }
+    }
+
+    private class ViewportBorder extends AbstractBorder implements UIResource {
+        private Insets insets;
+
+        ViewportBorder(SeaGlassContext context) {
+            this.insets = (Insets) context.getStyle().get(context, "ScrollPane.viewportBorderInsets");
+            if (this.insets == null) {
+                this.insets = SeaGlassLookAndFeel.EMPTY_UIRESOURCE_INSETS;
+            }
+        }
+
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            JComponent jc = (JComponent) c;
+            SeaGlassContext context = getContext(jc);
+            SynthStyle style = context.getStyle();
+            if (style == null) {
+                assert false : "SynthBorder is being used outside after the " + " UI has been uninstalled";
+                return;
+            }
+            context.getPainter().paintViewportBorder(context, g, x, y, width, height);
+            context.dispose();
+        }
+
+        public Insets getBorderInsets(Component c) {
+            return getBorderInsets(c, null);
+        }
+
+        public Insets getBorderInsets(Component c, Insets insets) {
+            if (insets == null) {
+                return new Insets(this.insets.top, this.insets.left, this.insets.bottom, this.insets.right);
+            }
+            insets.top = this.insets.top;
+            insets.bottom = this.insets.bottom;
+            insets.left = this.insets.left;
+            insets.right = this.insets.left;
+            return insets;
+        }
+
+        public boolean isBorderOpaque() {
+            return false;
+        }
+    }
+
+    /**
+     * Handle keeping track of the viewport's view's focus
+     */
+    private class ViewportViewFocusHandler implements ContainerListener, FocusListener {
+        public void componentAdded(ContainerEvent e) {
+            if (e.getChild() instanceof JTextComponent) {
+                e.getChild().addFocusListener(this);
+                viewportViewHasFocus = e.getChild().isFocusOwner();
+                scrollpane.repaint();
+            }
+        }
+
+        public void componentRemoved(ContainerEvent e) {
+            if (e.getChild() instanceof JTextComponent) {
+                e.getChild().removeFocusListener(this);
+            }
+        }
+
+        public void focusGained(FocusEvent e) {
+            viewportViewHasFocus = true;
+            scrollpane.repaint();
+        }
+
+        public void focusLost(FocusEvent e) {
+            viewportViewHasFocus = false;
+            scrollpane.repaint();
         }
     }
 }
