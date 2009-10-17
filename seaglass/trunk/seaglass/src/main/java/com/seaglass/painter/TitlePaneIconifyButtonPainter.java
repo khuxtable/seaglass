@@ -44,19 +44,19 @@ public final class TitlePaneIconifyButtonPainter extends AbstractImagePainter {
     protected String getImageName(int state) {
         switch (state) {
         case BACKGROUND_ENABLED:
-            return "titlepane_iconifybutton";
+            return "window_minimize_enabled";
         case BACKGROUND_DISABLED:
-            return "titlepane_iconifybutton_disabled";
+            return "window_minimize_enabled";
         case BACKGROUND_MOUSEOVER:
-            return "titlepane_iconifybutton";
+            return "window_minimize_hover";
         case BACKGROUND_PRESSED:
-            return "titlepane_iconifybutton_pressed";
+            return "window_minimize_pressed";
         case BACKGROUND_ENABLED_WINDOWNOTFOCUSED:
-            return "titlepane_iconifybutton_notfocused";
+            return "window_minimize_enabled";
         case BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED:
-            return "titlepane_iconifybutton_notfocused";
+            return "window_minimize_hover";
         case BACKGROUND_PRESSED_WINDOWNOTFOCUSED:
-            return "titlepane_iconifybutton_notfocused";
+            return "window_minimize_pressed";
         }
         return null;
     }

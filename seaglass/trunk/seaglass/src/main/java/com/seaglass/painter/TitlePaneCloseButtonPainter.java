@@ -30,11 +30,12 @@ public final class TitlePaneCloseButtonPainter extends AbstractImagePainter {
     // to determine which region/state is being painted by that instance.
     public static final int BACKGROUND_DISABLED                  = 1;
     public static final int BACKGROUND_ENABLED                   = 2;
-    public static final int BACKGROUND_MODIFIED                  = 3;
-    public static final int BACKGROUND_PRESSED                   = 4;
-    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED  = 5;
-    public static final int BACKGROUND_MODIFIED_WINDOWNOTFOCUSED = 6;
-    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED  = 7;
+    public static final int BACKGROUND_MOUSEOVER                 = 3;
+    public static final int BACKGROUND_MODIFIED                  = 4;
+    public static final int BACKGROUND_PRESSED                   = 5;
+    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED  = 6;
+    public static final int BACKGROUND_MODIFIED_WINDOWNOTFOCUSED = 7;
+    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED  = 8;
 
     public TitlePaneCloseButtonPainter(PaintContext ctx, int state) {
         super(ctx, state);
@@ -43,19 +44,21 @@ public final class TitlePaneCloseButtonPainter extends AbstractImagePainter {
     protected String getImageName(int state) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return "titlepane_closebutton_disabled";
+            return "window_close_enabled";
         case BACKGROUND_ENABLED:
-            return "titlepane_closebutton";
+            return "window_close_enabled";
+        case BACKGROUND_MOUSEOVER:
+            return "window_close_hover";
         case BACKGROUND_MODIFIED:
-            return "titlepane_closebutton_modified";
+            return "window_close_modified";
         case BACKGROUND_PRESSED:
-            return "titlepane_closebutton_pressed";
+            return "window_close_pressed";
         case BACKGROUND_ENABLED_WINDOWNOTFOCUSED:
-            return "titlepane_closebutton_notfocused";
+            return "window_close_enabled";
         case BACKGROUND_MODIFIED_WINDOWNOTFOCUSED:
-            return "titlepane_closebutton_notfocused_modified";
+            return "window_close_modified";
         case BACKGROUND_PRESSED_WINDOWNOTFOCUSED:
-            return "titlepane_closebutton_notfocused";
+            return "window_close_pressed";
         }
         return null;
     }
