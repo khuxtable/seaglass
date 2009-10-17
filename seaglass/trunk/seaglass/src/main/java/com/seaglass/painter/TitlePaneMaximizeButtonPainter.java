@@ -49,20 +49,20 @@ public final class TitlePaneMaximizeButtonPainter extends AbstractImagePainter {
 
     protected String getImageName(int state) {
         switch(state) {
-            case BACKGROUND_DISABLED_WINDOWMAXIMIZED: return "titlepane_restorebutton_disabled";
-            case BACKGROUND_ENABLED_WINDOWMAXIMIZED: return "titlepane_restorebutton";
-            case BACKGROUND_MOUSEOVER_WINDOWMAXIMIZED: return "titlepane_restorebutton";
-            case BACKGROUND_PRESSED_WINDOWMAXIMIZED: return "titlepane_restorebutton_pressed";
-            case BACKGROUND_ENABLED_WINDOWNOTFOCUSED_WINDOWMAXIMIZED: return "titlepane_restorebutton_notfocused";
-            case BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED_WINDOWMAXIMIZED: return "titlepane_restorebutton_notfocused";
-            case BACKGROUND_PRESSED_WINDOWNOTFOCUSED_WINDOWMAXIMIZED: return "titlepane_restorebutton_notfocused";
-            case BACKGROUND_DISABLED: return "titlepane_maximizebutton_disabled";
-            case BACKGROUND_ENABLED: return "titlepane_maximizebutton";
-            case BACKGROUND_MOUSEOVER: return "titlepane_maximizebutton";
-            case BACKGROUND_PRESSED: return "titlepane_maximizebutton_pressed";
-            case BACKGROUND_ENABLED_WINDOWNOTFOCUSED: return "titlepane_maximizebutton_notfocused";
-            case BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED: return "titlepane_maximizebutton_notfocused";
-            case BACKGROUND_PRESSED_WINDOWNOTFOCUSED: return "titlepane_maximizebutton_notfocused";
+            case BACKGROUND_DISABLED_WINDOWMAXIMIZED: return "window_restore_enabled";
+            case BACKGROUND_ENABLED_WINDOWMAXIMIZED: return "window_restore_enabled";
+            case BACKGROUND_MOUSEOVER_WINDOWMAXIMIZED: return "window_restore_hover";
+            case BACKGROUND_PRESSED_WINDOWMAXIMIZED: return "window_restore_pressed";
+            case BACKGROUND_ENABLED_WINDOWNOTFOCUSED_WINDOWMAXIMIZED: return "window_restore_enabled";
+            case BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED_WINDOWMAXIMIZED: return "window_restore_hover";
+            case BACKGROUND_PRESSED_WINDOWNOTFOCUSED_WINDOWMAXIMIZED: return "window_restore_pressed";
+            case BACKGROUND_DISABLED: return "window_maximize_enabled";
+            case BACKGROUND_ENABLED: return "window_maximize_enabled";
+            case BACKGROUND_MOUSEOVER: return "window_maximize_hover";
+            case BACKGROUND_PRESSED: return "window_maximize_pressed";
+            case BACKGROUND_ENABLED_WINDOWNOTFOCUSED: return "window_maximize_enabled";
+            case BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED: return "window_maximize_hover";
+            case BACKGROUND_PRESSED_WINDOWNOTFOCUSED: return "window_maximize_pressed";
         }
         return null;
     }
