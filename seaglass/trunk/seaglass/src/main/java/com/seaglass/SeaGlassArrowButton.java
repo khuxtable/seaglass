@@ -83,14 +83,17 @@ public class SeaGlassArrowButton extends JButton implements SwingConstants, UIRe
             context.getPainter().paintArrowButtonBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
         }
 
+        @SuppressWarnings("unused")
         public void paintBorder(SeaGlassContext context, Graphics g, int x, int y, int w, int h) {
             context.getPainter().paintArrowButtonBorder(context, g, x, y, w, h);
         }
 
+        @SuppressWarnings("unused")
         public Dimension getMinimumSize() {
             return new Dimension(5, 5);
         }
 
+        @SuppressWarnings("unused")
         public Dimension getMaximumSize() {
             return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         }
