@@ -273,7 +273,6 @@ public class SeaGlassDesktopPaneUI extends BasicDesktopPaneUI implements Propert
 
         public void componentAdded(ContainerEvent e) {
             if (e.getChild() instanceof JInternalFrame) {
-                JDesktopPane desktop = (JDesktopPane) e.getSource();
                 JInternalFrame f = (JInternalFrame) e.getChild();
                 JInternalFrame.JDesktopIcon desktopIcon = f.getDesktopIcon();
                 for (Component comp : getComponents()) {
@@ -325,16 +324,12 @@ public class SeaGlassDesktopPaneUI extends BasicDesktopPaneUI implements Propert
         }
 
         public void iconifyFrame(JInternalFrame f) {
-            JInternalFrame.JDesktopIcon desktopIcon;
             Container c = f.getParent();
-            JDesktopPane d = f.getDesktopPane();
             boolean findNext = f.isSelected();
 
             if (c == null) {
                 return;
             }
-
-            desktopIcon = f.getDesktopIcon();
 
             if (!f.isMaximum()) {
                 f.setNormalBounds(f.getBounds());
