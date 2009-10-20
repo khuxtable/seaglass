@@ -543,7 +543,10 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
      * <I>setGridColor</I>. Paints vertical lines if
      * <code>getShowVerticalLines()</code> returns true and paints horizontal
      * lines if <code>getShowHorizontalLines()</code> returns true.
+     * 
+     * TODO See if we want to remove this method.
      */
+    @SuppressWarnings("unused")
     private void paintGrid(SeaGlassContext context, Graphics g, int rMin, int rMax, int cMin, int cMax) {
         g.setColor(table.getGridColor());
 
