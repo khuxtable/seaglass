@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.component;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -29,6 +29,7 @@ import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.UIResource;
 
+import com.seaglass.SeaGlassContext;
 import com.seaglass.ui.SeaGlassButtonUI;
 
 /**

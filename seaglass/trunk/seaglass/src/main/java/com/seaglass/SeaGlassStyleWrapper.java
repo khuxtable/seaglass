@@ -34,6 +34,7 @@ import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.plaf.synth.SynthPainter;
 import javax.swing.plaf.synth.SynthStyle;
 
+import com.seaglass.component.SeaGlassBorder;
 import com.seaglass.painter.Painter;
 import com.seaglass.util.SeaGlassGraphicsUtils;
 import com.sun.java.swing.plaf.nimbus.NimbusStyle;

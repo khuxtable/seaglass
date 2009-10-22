@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.component;
 
 import java.awt.Component;
 import java.awt.Cursor;
@@ -33,6 +33,8 @@ import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.plaf.synth.Region;
 
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
 import com.seaglass.ui.SeaGlassSplitPaneUI;
 
 import sun.swing.DefaultLookup;
