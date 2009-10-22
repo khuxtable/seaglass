@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.ui;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -53,6 +53,12 @@ import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.plaf.synth.SynthContext;
+
+import com.seaglass.SeaGlassArrowButton;
+import com.seaglass.SeaGlassComboPopup;
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.SeaGlassStyle;
 
 import sun.swing.plaf.synth.SynthUI;
 

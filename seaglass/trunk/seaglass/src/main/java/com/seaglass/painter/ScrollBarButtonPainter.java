@@ -25,7 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 
-import com.seaglass.SeaGlassScrollBarUI;
+import com.seaglass.ui.SeaGlassScrollBarUI;
 
 /**
  * ScrollBarButtonPainter implementation.

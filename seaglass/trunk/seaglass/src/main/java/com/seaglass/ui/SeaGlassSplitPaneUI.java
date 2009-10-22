@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.ui;
 
 import java.awt.Canvas;
 import java.awt.Component;
@@ -41,6 +41,10 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.plaf.synth.Region;
 import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthStyle;
+
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.SeaGlassSplitPaneDivider;
 
 import sun.swing.plaf.synth.SynthUI;
 
@@ -206,7 +210,7 @@ public class SeaGlassSplitPaneUI extends BasicSplitPaneUI implements PropertyCha
         return SeaGlassLookAndFeel.getComponentState(c);
     }
 
-    SeaGlassContext getContext(JComponent c, Region region) {
+    public SeaGlassContext getContext(JComponent c, Region region) {
         return getContext(c, region, getComponentState(c, region));
     }
 

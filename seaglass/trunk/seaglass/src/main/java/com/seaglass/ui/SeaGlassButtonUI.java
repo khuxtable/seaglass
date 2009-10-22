@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.ui;
 
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -45,6 +45,9 @@ import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.text.View;
+
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
 
 import sun.swing.plaf.synth.SynthUI;
 
@@ -74,7 +77,7 @@ public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeLis
         b.addPropertyChangeListener(this);
     }
 
-    void updateStyle(AbstractButton b) {
+    public void updateStyle(AbstractButton b) {
         SeaGlassContext context = getContext(b, SynthConstants.ENABLED);
         SynthStyle oldStyle = style;
         style = SeaGlassLookAndFeel.updateStyle(context, this);

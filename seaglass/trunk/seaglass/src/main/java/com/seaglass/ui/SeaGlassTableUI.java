@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.ui;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -64,6 +64,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import com.seaglass.SeaGlassBorder;
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
 import com.seaglass.util.ViewportPainter;
 import com.seaglass.util.WindowUtils;
 

@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.ui;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -55,6 +55,9 @@ import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.text.JTextComponent;
+
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
 
 import sun.swing.plaf.synth.SynthUI;
 

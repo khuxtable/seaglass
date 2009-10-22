@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.ui;
 
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -36,6 +36,10 @@ import javax.swing.plaf.synth.ColorType;
 import javax.swing.plaf.synth.SynthConstants;
 import javax.swing.plaf.synth.SynthContext;
 import javax.swing.text.View;
+
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.SeaGlassStyle;
 
 import sun.swing.plaf.synth.SynthUI;
 

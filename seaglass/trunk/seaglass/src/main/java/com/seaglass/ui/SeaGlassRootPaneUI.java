@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.ui;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -45,6 +45,7 @@ import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicRootPaneUI;
 
+import com.seaglass.SeaGlassTitlePane;
 import com.seaglass.util.PlatformUtils;
 
 /**
@@ -178,7 +179,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI {
      * Installs the appropriate <code>Border</code> onto the
      * <code>JRootPane</code>.
      */
-    void installBorder(JRootPane root) {
+    public void installBorder(JRootPane root) {
         int style = root.getWindowDecorationStyle();
 
         if (style == JRootPane.NONE) {

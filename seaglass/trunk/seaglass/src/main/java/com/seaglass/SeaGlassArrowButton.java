@@ -29,6 +29,8 @@ import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.UIResource;
 
+import com.seaglass.ui.SeaGlassButtonUI;
+
 /**
  * JButton object that draws a scaled Arrow in one of the cardinal directions.
  * 
@@ -79,6 +81,7 @@ public class SeaGlassArrowButton extends JButton implements SwingConstants, UIRe
                 button.getDirection());
         }
 
+        @SuppressWarnings("all")
         void paintBackground(SeaGlassContext context, Graphics g, JComponent c) {
             context.getPainter().paintArrowButtonBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
         }
