@@ -64,9 +64,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import com.seaglass.SeaGlassBorder;
 import com.seaglass.SeaGlassContext;
 import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.component.SeaGlassBorder;
 import com.seaglass.util.ViewportPainter;
 import com.seaglass.util.WindowUtils;
 

@@ -38,9 +38,9 @@ import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
-import com.seaglass.SeaGlassBorder;
 import com.seaglass.SeaGlassContext;
 import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.component.SeaGlassBorder;
 
 import sun.swing.plaf.synth.SynthUI;
 import sun.swing.table.DefaultTableCellHeaderRenderer;

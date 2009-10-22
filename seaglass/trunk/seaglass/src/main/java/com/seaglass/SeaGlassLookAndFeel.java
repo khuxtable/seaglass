@@ -62,6 +62,7 @@ import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.plaf.synth.SynthStyleFactory;
 
+import com.seaglass.component.TableScrollPaneCorner;
 import com.seaglass.painter.AbstractRegionPainter;
 import com.seaglass.painter.ArrowButtonPainter;
 import com.seaglass.painter.ButtonPainter;

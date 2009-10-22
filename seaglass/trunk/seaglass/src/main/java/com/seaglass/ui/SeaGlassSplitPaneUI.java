@@ -44,7 +44,7 @@ import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglass.SeaGlassContext;
 import com.seaglass.SeaGlassLookAndFeel;
-import com.seaglass.SeaGlassSplitPaneDivider;
+import com.seaglass.component.SeaGlassSplitPaneDivider;
 
 import sun.swing.plaf.synth.SynthUI;
 

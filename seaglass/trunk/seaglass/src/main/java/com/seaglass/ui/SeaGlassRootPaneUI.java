@@ -45,7 +45,7 @@ import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicRootPaneUI;
 
-import com.seaglass.SeaGlassTitlePane;
+import com.seaglass.component.SeaGlassTitlePane;
 import com.seaglass.util.PlatformUtils;
 
 /**

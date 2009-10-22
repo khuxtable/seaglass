@@ -41,9 +41,9 @@ import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.plaf.synth.SynthStyle;
 
-import com.seaglass.SeaGlassArrowButton;
 import com.seaglass.SeaGlassContext;
 import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.component.SeaGlassArrowButton;
 
 import sun.swing.plaf.synth.SynthUI;
 

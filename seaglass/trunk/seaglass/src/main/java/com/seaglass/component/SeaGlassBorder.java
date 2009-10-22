@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.component;
 
 import java.awt.Component;
 import java.awt.Graphics;
@@ -31,6 +31,10 @@ import javax.swing.border.AbstractBorder;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.Region;
 import javax.swing.text.JTextComponent;
+
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.SeaGlassStyle;
 
 import sun.swing.plaf.synth.SynthUI;
 

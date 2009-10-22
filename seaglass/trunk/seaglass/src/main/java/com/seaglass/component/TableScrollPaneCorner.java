@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.component;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

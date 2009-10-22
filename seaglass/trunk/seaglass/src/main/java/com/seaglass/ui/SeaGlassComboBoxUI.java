@@ -54,11 +54,11 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.plaf.synth.SynthContext;
 
-import com.seaglass.SeaGlassArrowButton;
-import com.seaglass.SeaGlassComboPopup;
 import com.seaglass.SeaGlassContext;
 import com.seaglass.SeaGlassLookAndFeel;
 import com.seaglass.SeaGlassStyle;
+import com.seaglass.component.SeaGlassArrowButton;
+import com.seaglass.component.SeaGlassComboPopup;
 
 import sun.swing.plaf.synth.SynthUI;
 
