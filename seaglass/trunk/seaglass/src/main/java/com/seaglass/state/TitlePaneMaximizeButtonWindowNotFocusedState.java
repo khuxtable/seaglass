@@ -24,7 +24,6 @@ import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 
-import com.seaglass.State;
 
 /**
  */

@@ -53,6 +53,7 @@ import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglass.component.SeaGlassBorder;
 import com.seaglass.painter.Painter;
+import com.seaglass.state.State;
 
 import sun.awt.AppContext;
 import sun.swing.plaf.synth.SynthUI;

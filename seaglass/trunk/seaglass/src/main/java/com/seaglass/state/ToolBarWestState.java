@@ -25,7 +25,6 @@ import javax.swing.JComponent;
 import javax.swing.JToolBar;
 
 import com.seaglass.SeaGlassLookAndFeel;
-import com.seaglass.State;
 
 /**
  */

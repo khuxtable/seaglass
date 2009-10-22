@@ -22,7 +22,6 @@ package com.seaglass.state;
 import javax.swing.JComponent;
 import javax.swing.JSplitPane;
 
-import com.seaglass.State;
 
 /**
  */
