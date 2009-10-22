@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.ui;
 
 import java.awt.Component;
 import java.awt.Graphics;
@@ -37,6 +37,10 @@ import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
+
+import com.seaglass.SeaGlassBorder;
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
 
 import sun.swing.plaf.synth.SynthUI;
 import sun.swing.table.DefaultTableCellHeaderRenderer;

@@ -73,7 +73,7 @@ public class SeaGlassContext extends SynthContext {
         contextMap = new HashMap();
     }
 
-    static SeaGlassContext getContext(Class type, JComponent component, Region region, SynthStyle style, int state) {
+    public static SeaGlassContext getContext(Class type, JComponent component, Region region, SynthStyle style, int state) {
         SeaGlassContext context = null;
 
         synchronized (contextMap) {
@@ -187,7 +187,7 @@ public class SeaGlassContext extends SynthContext {
     }
 
     @SuppressWarnings("all")
-    void setComponentState(int state) {
+    public void setComponentState(int state) {
         this.state = state;
     }
 

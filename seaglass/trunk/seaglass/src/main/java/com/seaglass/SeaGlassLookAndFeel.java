@@ -136,7 +136,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in a handful of places where we need an empty Insets.
      */
-    static final Insets                  EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
+    public static final Insets           EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
 
     /**
      * The map of SynthStyles. This map is keyed by Region. Each Region maps to
@@ -171,16 +171,16 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private Font                         defaultFont;
 
     // Set the package name.
-    private static final String          PACKAGE_PREFIX          = "com.seaglass.SeaGlass";
+    private static final String          PACKAGE_PREFIX          = "com.seaglass.ui.SeaGlass";
 
     private UIDefaults                   uiDefaults              = null;
 
     private SynthStyleFactory            nimbusFactory;
 
     // Refer to setSelectedUI
-    static ComponentUI                   selectedUI;
+    public static ComponentUI            selectedUI;
     // Refer to setSelectedUI
-    static int                           selectedUIState;
+    public static int                    selectedUIState;
 
     public SeaGlassLookAndFeel() {
         super();
@@ -2245,7 +2245,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * 
      * @return newStyle
      */
-    static SynthStyle updateStyle(SeaGlassContext context, SynthUI ui) {
+    public static SynthStyle updateStyle(SeaGlassContext context, SynthUI ui) {
         // Need to use SynthLookAndFeel because Nimbus overrides getStyle to
         // return NimbusStyle, which we can't use.
         SeaGlassStyle newStyle = (SeaGlassStyle) SynthLookAndFeel.getStyle(context.getComponent(), context.getRegion());
@@ -2369,7 +2369,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * state as set by this method is returned. This provides a way for labels
      * to have a state other than selected.
      */
-    static void setSelectedUI(ComponentUI uix, boolean selected, boolean focused, boolean enabled, boolean rollover) {
+    public static void setSelectedUI(ComponentUI uix, boolean selected, boolean focused, boolean enabled, boolean rollover) {
         selectedUI = uix;
         selectedUIState = 0;
         if (selected) {
@@ -2395,7 +2395,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Clears out the selected UI that was last set in setSelectedUI.
      */
-    static void resetSelectedUI() {
+    public static void resetSelectedUI() {
         selectedUI = null;
     }
 }

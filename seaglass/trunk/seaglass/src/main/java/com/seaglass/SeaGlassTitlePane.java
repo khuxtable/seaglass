@@ -60,6 +60,7 @@ import javax.swing.plaf.synth.SynthLookAndFeel;
 
 import com.seaglass.painter.Painter;
 import com.seaglass.painter.TitleBarPainter;
+import com.seaglass.ui.SeaGlassRootPaneUI;
 import com.seaglass.util.PlatformUtils;
 import com.seaglass.util.SeaGlassUtils;
 import com.seaglass.util.WindowUtils;

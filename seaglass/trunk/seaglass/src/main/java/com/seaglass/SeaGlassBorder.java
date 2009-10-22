@@ -42,16 +42,16 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.play.synth.SynthBorder
  */
-class SeaGlassBorder extends AbstractBorder implements UIResource {
+public class SeaGlassBorder extends AbstractBorder implements UIResource {
     private SynthUI ui;
     private Insets  insets;
 
-    SeaGlassBorder(SynthUI ui, Insets insets) {
+    public SeaGlassBorder(SynthUI ui, Insets insets) {
         this.ui = ui;
         this.insets = insets;
     }
 
-    SeaGlassBorder(SynthUI ui) {
+    public SeaGlassBorder(SynthUI ui) {
         this(ui, null);
     }
 

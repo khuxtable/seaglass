@@ -42,7 +42,7 @@ import javax.swing.plaf.basic.BasicComboPopup;
  * @see javax.swing.plaf.synth.SynthComboPopup
  * @see ch.randelshofer.quaqua.QuaquaComboPopup
  */
-class SeaGlassComboPopup extends BasicComboPopup {
+public class SeaGlassComboPopup extends BasicComboPopup {
 
     private static final int LEFT_SHIFT  = 5;
 

@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.ui;
 
 import java.awt.Graphics;
 import java.beans.PropertyChangeEvent;
@@ -30,6 +30,10 @@ import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicPopupMenuUI;
 import javax.swing.plaf.basic.DefaultMenuLayout;
 import javax.swing.plaf.synth.SynthContext;
+
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.SeaGlassStyle;
 
 import sun.swing.plaf.synth.SynthUI;
 

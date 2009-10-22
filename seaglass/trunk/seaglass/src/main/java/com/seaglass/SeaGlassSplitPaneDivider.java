@@ -33,6 +33,8 @@ import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.plaf.synth.Region;
 
+import com.seaglass.ui.SeaGlassSplitPaneUI;
+
 import sun.swing.DefaultLookup;
 
 /**
