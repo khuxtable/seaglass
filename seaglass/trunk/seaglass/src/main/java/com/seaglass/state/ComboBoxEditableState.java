@@ -22,7 +22,6 @@ package com.seaglass.state;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-import com.seaglass.State;
 
 /**
  */

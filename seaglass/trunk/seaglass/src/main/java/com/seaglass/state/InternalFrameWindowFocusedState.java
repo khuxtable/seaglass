@@ -9,7 +9,6 @@ package com.seaglass.state;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 
-import com.seaglass.State;
 
 /**
  */

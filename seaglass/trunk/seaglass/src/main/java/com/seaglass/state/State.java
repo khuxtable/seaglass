@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglass.state;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -85,13 +85,13 @@ import javax.swing.plaf.synth.SynthConstants;
  */
 public abstract class State<T extends JComponent> {
     static final Map<String, StandardState> standardStates = new HashMap<String, StandardState>(7);
-    static final State                      Enabled        = new StandardState(SynthConstants.ENABLED);
-    static final State                      MouseOver      = new StandardState(SynthConstants.MOUSE_OVER);
-    static final State                      Pressed        = new StandardState(SynthConstants.PRESSED);
-    static final State                      Disabled       = new StandardState(SynthConstants.DISABLED);
-    static final State                      Focused        = new StandardState(SynthConstants.FOCUSED);
-    static final State                      Selected       = new StandardState(SynthConstants.SELECTED);
-    static final State                      Default        = new StandardState(SynthConstants.DEFAULT);
+    public static final State               Enabled        = new StandardState(SynthConstants.ENABLED);
+    public static final State               MouseOver      = new StandardState(SynthConstants.MOUSE_OVER);
+    public static final State               Pressed        = new StandardState(SynthConstants.PRESSED);
+    public static final State               Disabled       = new StandardState(SynthConstants.DISABLED);
+    public static final State               Focused        = new StandardState(SynthConstants.FOCUSED);
+    public static final State               Selected       = new StandardState(SynthConstants.SELECTED);
+    public static final State               Default        = new StandardState(SynthConstants.DEFAULT);
 
     private String                          name;
 
@@ -153,7 +153,7 @@ public abstract class State<T extends JComponent> {
      * call isInState(c) (since it is not needed for standard states).</li>
      * </ul>
      */
-    boolean isInState(T c, int s) {
+    public boolean isInState(T c, int s) {
         return isInState(c);
     }
 
@@ -182,19 +182,19 @@ public abstract class State<T extends JComponent> {
      */
     protected abstract boolean isInState(T c);
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    static boolean isStandardStateName(String name) {
+    public static boolean isStandardStateName(String name) {
         return standardStates.containsKey(name);
     }
 
-    static StandardState getStandardState(String name) {
+    public static StandardState getStandardState(String name) {
         return standardStates.get(name);
     }
 
-    static final class StandardState extends State<JComponent> {
+    public static final class StandardState extends State<JComponent> {
         private int state;
 
         private StandardState(int state) {
@@ -207,7 +207,7 @@ public abstract class State<T extends JComponent> {
             return state;
         }
 
-        boolean isInState(JComponent c, int s) {
+        public boolean isInState(JComponent c, int s) {
             return (s & state) == state;
         }
 
