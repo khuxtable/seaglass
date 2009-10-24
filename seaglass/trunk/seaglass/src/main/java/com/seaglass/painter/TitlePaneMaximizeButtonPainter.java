@@ -23,25 +23,13 @@ package com.seaglass.painter;
  * Title pane maximize/minimize button (aka "toggleButton") painter.
  */
 public final class TitlePaneMaximizeButtonPainter extends AbstractImagePainter {
-    // package private integers representing the available states that
-    // this painter will paint. These are used when creating a new instance
-    // of
-    // InternalFrameInternalFrameTitlePaneInternalFrameTitlePaneMaximizeButtonPainter
-    // to determine which region/state is being painted by that instance.
-    public static final int BACKGROUND_DISABLED_WINDOWMAXIMIZED                   = 1;
-    public static final int BACKGROUND_ENABLED_WINDOWMAXIMIZED                    = 2;
-    public static final int BACKGROUND_MOUSEOVER_WINDOWMAXIMIZED                  = 3;
-    public static final int BACKGROUND_PRESSED_WINDOWMAXIMIZED                    = 4;
-    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED_WINDOWMAXIMIZED   = 5;
-    public static final int BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED_WINDOWMAXIMIZED = 6;
-    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED_WINDOWMAXIMIZED   = 7;
-    public static final int BACKGROUND_DISABLED                                   = 8;
-    public static final int BACKGROUND_ENABLED                                    = 9;
-    public static final int BACKGROUND_MOUSEOVER                                  = 10;
-    public static final int BACKGROUND_PRESSED                                    = 11;
-    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED                   = 12;
-    public static final int BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED                 = 13;
-    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED                   = 14;
+    public static final int BACKGROUND_DISABLED                                   = 1;
+    public static final int BACKGROUND_ENABLED                                    = 2;
+    public static final int BACKGROUND_MOUSEOVER                                  = 3;
+    public static final int BACKGROUND_PRESSED                                    = 4;
+    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED                   = 5;
+    public static final int BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED                 = 6;
+    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED                   = 7;
 
     public TitlePaneMaximizeButtonPainter(PaintContext ctx, int state) {
         super(ctx, state);
@@ -49,13 +37,6 @@ public final class TitlePaneMaximizeButtonPainter extends AbstractImagePainter {
 
     protected String getImageName(int state) {
         switch(state) {
-            case BACKGROUND_DISABLED_WINDOWMAXIMIZED: return "window_restore_enabled";
-            case BACKGROUND_ENABLED_WINDOWMAXIMIZED: return "window_restore_enabled";
-            case BACKGROUND_MOUSEOVER_WINDOWMAXIMIZED: return "window_restore_hover";
-            case BACKGROUND_PRESSED_WINDOWMAXIMIZED: return "window_restore_pressed";
-            case BACKGROUND_ENABLED_WINDOWNOTFOCUSED_WINDOWMAXIMIZED: return "window_restore_enabled";
-            case BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED_WINDOWMAXIMIZED: return "window_restore_hover";
-            case BACKGROUND_PRESSED_WINDOWNOTFOCUSED_WINDOWMAXIMIZED: return "window_restore_pressed";
             case BACKGROUND_DISABLED: return "window_maximize_enabled";
             case BACKGROUND_ENABLED: return "window_maximize_enabled";
             case BACKGROUND_MOUSEOVER: return "window_maximize_hover";
