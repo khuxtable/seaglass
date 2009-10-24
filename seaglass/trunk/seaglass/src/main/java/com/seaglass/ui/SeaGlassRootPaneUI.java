@@ -19,12 +19,14 @@
  */
 package com.seaglass.ui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.LayoutManager2;
@@ -37,6 +39,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JRootPane;
 import javax.swing.LookAndFeel;
@@ -44,16 +47,21 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicRootPaneUI;
+import javax.swing.plaf.synth.SynthContext;
+import javax.swing.plaf.synth.SynthStyle;
 
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
 import com.seaglass.component.SeaGlassTitlePane;
-import com.seaglass.util.PlatformUtils;
+
+import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassRootPaneUI implementation.
  * 
  * @author Kathryn Huxtable
  */
-public class SeaGlassRootPaneUI extends BasicRootPaneUI {
+public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
 
     /**
      * Keys to lookup borders in defaults table.
@@ -78,6 +86,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI {
      * Region from edges that dragging is active from.
      */
     private static final int      BORDER_DRAG_THICKNESS = 5;
+
+    private SynthStyle            style;
 
     /**
      * Window the <code>JRootPane</code> is in.
@@ -129,6 +139,18 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI {
         return new SeaGlassRootPaneUI();
     }
 
+    public SeaGlassContext getContext(JComponent c) {
+        return getContext(c, getComponentState(c));
+    }
+
+    private SeaGlassContext getContext(JComponent c, int state) {
+        return SeaGlassContext.getContext(SeaGlassContext.class, c, SeaGlassLookAndFeel.getRegion(c), style, state);
+    }
+
+    private int getComponentState(JComponent c) {
+        return SeaGlassLookAndFeel.getComponentState(c);
+    }
+
     /**
      * Invokes supers implementation of <code>installUI</code> to install the
      * necessary state onto the passed in <code>JRootPane</code> to render the
@@ -145,12 +167,13 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         root = (JRootPane) c;
-        if (PlatformUtils.isMac()) {
-            root.putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
-        }
         int style = root.getWindowDecorationStyle();
-        if (style != JRootPane.NONE) {
+        if (c.getParent() != null && c.getParent() instanceof JFrame && style != JRootPane.NONE) {
             installClientDecorations(root);
+        }
+        if (c.getParent() instanceof JFrame) {
+            c.setOpaque(false);
+            c.getParent().setBackground(new Color(0, 0, 0, 0));
         }
     }
 
@@ -173,6 +196,23 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI {
         layoutManager = null;
         mouseInputListener = null;
         root = null;
+    }
+
+    protected void installDefaults(JRootPane c) {
+        updateStyle(c);
+    }
+
+    private void updateStyle(JComponent c) {
+        SeaGlassContext context = getContext(c, ENABLED);
+        SynthStyle oldStyle = style;
+        style = SeaGlassLookAndFeel.updateStyle(context, this);
+        if (style != oldStyle) {
+            if (oldStyle != null) {
+                uninstallKeyboardActions((JRootPane) c);
+                installKeyboardActions((JRootPane) c);
+            }
+        }
+        context.dispose();
     }
 
     /**
@@ -370,6 +410,29 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI {
         return root;
     }
 
+    public void update(Graphics g, JComponent c) {
+        SeaGlassContext context = getContext(c);
+
+        SeaGlassLookAndFeel.update(context, g);
+        context.getPainter().paintRootPaneBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
+        paint(context, g);
+        context.dispose();
+    }
+
+    public void paint(Graphics g, JComponent c) {
+        SeaGlassContext context = getContext(c);
+
+        paint(context, g);
+        context.dispose();
+    }
+
+    protected void paint(SynthContext context, Graphics g) {
+    }
+
+    public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
+        ((SeaGlassContext) context).getPainter().paintRootPaneBorder(context, g, x, y, w, h);
+    }
+
     /**
      * Invoked when a property changes. <code>AqvavitRootPaneUI</code> is
      * primarily interested in events originating from the
@@ -405,7 +468,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI {
             // simpler. AqvavitTitlePane also assumes it will be recreated if
             // the decoration style changes.
             uninstallClientDecorations(root);
-            if (style != JRootPane.NONE) {
+            if (root.getParent() != null && root.getParent() instanceof JFrame && style != JRootPane.NONE) {
                 installClientDecorations(root);
             }
         } else if (propertyName.equals("ancestor")) {
@@ -624,8 +687,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI {
             }
             if (root.getJMenuBar() != null) {
                 Dimension mbd = root.getJMenuBar().getPreferredSize();
-                root.getJMenuBar().setBounds(0, 0/*nextY*/, w, mbd.height);
-                //nextY += mbd.height;
+                root.getJMenuBar().setBounds(0, 0/* nextY */, w, mbd.height);
+                // nextY += mbd.height;
             }
             if (root.getContentPane() != null) {
                 /* Dimension cpd = */root.getContentPane().getPreferredSize();

@@ -28,6 +28,7 @@ import java.awt.FontMetrics;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -72,11 +73,12 @@ import sun.swing.SwingUtilities2;
  * <p>
  * This class assumes it will be created with a particular window decoration
  * style, and that if the style changes, a new one will be created.
- *
+ * 
  * @author Kathryn Huxtable
  */
 public class SeaGlassTitlePane extends JComponent {
     private static final Color     DEFAULT_EMPHASIS_COLOR = new Color(255, 255, 255, 110);
+    private static final Color     TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
     private static final Border    handyEmptyBorder       = new EmptyBorder(0, 0, 0, 0);
     private static final int       IMAGE_HEIGHT           = 16;
     private static final int       IMAGE_WIDTH            = 16;
@@ -427,6 +429,8 @@ public class SeaGlassTitlePane extends JComponent {
 
         button.setFocusPainted(false);
         button.setFocusable(false);
+        button.setMargin(new Insets(0, 0, 0, 0));
+//        button.setBackground(TRANSPARENT_COLOR);
         button.addMouseListener(rolloverListener);
 
         button.setUI((ButtonUI) SynthLookAndFeel.createUI(button));
@@ -665,7 +669,7 @@ public class SeaGlassTitlePane extends JComponent {
             }
         }
 
-        backgroundPainter.paint((Graphics2D) g, this, getWidth(), getHeight());
+//        backgroundPainter.paint((Graphics2D) g, this, getWidth(), getHeight());
 
         int xOffset = leftToRight ? 5 : width - 5;
 
