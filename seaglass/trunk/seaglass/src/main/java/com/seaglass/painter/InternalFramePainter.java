@@ -29,19 +29,19 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
-
 /**
  */
 public final class InternalFramePainter extends AbstractRegionPainter {
-    public static final int BACKGROUND_ENABLED = 1;
-    public static final int BACKGROUND_ENABLED_WINDOWFOCUSED = 2;
+    public static final int  BACKGROUND_ENABLED               = 1;
+    public static final int  BACKGROUND_ENABLED_WINDOWFOCUSED = 2;
+    public static final int  BACKGROUND_ENABLED_NOFRAME       = 3;
 
-    private int state;
-    private PaintContext ctx;
+    private int              state;
+    private PaintContext     ctx;
 
-    private Path2D path = new Path2D.Float();
-    private Rectangle2D rect = new Rectangle2D.Float(0, 0, 0, 0);
-    private RoundRectangle2D roundRect = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
+    private Path2D           path                             = new Path2D.Float();
+    private Rectangle2D      rect                             = new Rectangle2D.Float(0, 0, 0, 0);
+    private RoundRectangle2D roundRect                        = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
 
     private Color color1 = decodeColor("nimbusBase", 0.032459438f, -0.53637654f, 0.043137252f, 0);
     private Color color2 = decodeColor("nimbusBlueGrey", 0.004273474f, -0.039488062f, -0.027450979f, 0);
