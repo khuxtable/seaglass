@@ -19,7 +19,6 @@
  */
 package com.seaglass.component;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -76,55 +75,46 @@ import sun.swing.plaf.synth.SynthUI;
  */
 public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthUI, PropertyChangeListener {
     // Basic
-    protected JMenuBar               menuBar;
-    protected JButton                iconButton;
-    protected JButton                maxButton;
-    protected JButton                closeButton;
+    private JButton             iconButton;
+    private JButton             maxButton;
+    private JButton             closeButton;
 
-    protected JMenu                  windowMenu;
-    protected JInternalFrame         frame;
+    private JMenu               windowMenu;
+    private JInternalFrame      frame;
 
-    protected Color                  selectedTitleColor;
-    protected Color                  selectedTextColor;
-    protected Color                  notSelectedTitleColor;
-    protected Color                  notSelectedTextColor;
+    private Icon                maxIcon;
+    private Icon                minIcon;
+    private Icon                iconIcon;
+    private Icon                closeIcon;
 
-    protected Icon                   maxIcon;
-    protected Icon                   minIcon;
-    protected Icon                   iconIcon;
-    protected Icon                   closeIcon;
+    private Action              closeAction;
+    private Action              maximizeAction;
+    private Action              iconifyAction;
+    private Action              restoreAction;
+    private Action              moveAction;
+    private Action              sizeAction;
 
-    protected PropertyChangeListener propertyChangeListener;
+    private static final String CLOSE_CMD    = UIManager.getString("InternalFrameTitlePane.closeButtonText");
+    private static final String ICONIFY_CMD  = UIManager.getString("InternalFrameTitlePane.minimizeButtonText");
+    private static final String RESTORE_CMD  = UIManager.getString("InternalFrameTitlePane.restoreButtonText");
+    private static final String MAXIMIZE_CMD = UIManager.getString("InternalFrameTitlePane.maximizeButtonText");
+    private static final String MOVE_CMD     = UIManager.getString("InternalFrameTitlePane.moveButtonText");
+    private static final String SIZE_CMD     = UIManager.getString("InternalFrameTitlePane.sizeButtonText");
 
-    protected Action                 closeAction;
-    protected Action                 maximizeAction;
-    protected Action                 iconifyAction;
-    protected Action                 restoreAction;
-    protected Action                 moveAction;
-    protected Action                 sizeAction;
-
-    protected static final String    CLOSE_CMD    = UIManager.getString("InternalFrameTitlePane.closeButtonText");
-    protected static final String    ICONIFY_CMD  = UIManager.getString("InternalFrameTitlePane.minimizeButtonText");
-    protected static final String    RESTORE_CMD  = UIManager.getString("InternalFrameTitlePane.restoreButtonText");
-    protected static final String    MAXIMIZE_CMD = UIManager.getString("InternalFrameTitlePane.maximizeButtonText");
-    protected static final String    MOVE_CMD     = UIManager.getString("InternalFrameTitlePane.moveButtonText");
-    protected static final String    SIZE_CMD     = UIManager.getString("InternalFrameTitlePane.sizeButtonText");
-
-    private String                   closeButtonToolTip;
-    private String                   iconButtonToolTip;
-    private String                   restoreButtonToolTip;
-    private String                   maxButtonToolTip;
-    private Handler                  handler;
+    private String              closeButtonToolTip;
+    private String              iconButtonToolTip;
+    private String              restoreButtonToolTip;
+    private String              maxButtonToolTip;
 
     // Synth
-    protected JPopupMenu             systemPopupMenu;
-    protected JButton                menuButton;
+    private JPopupMenu          systemPopupMenu;
+    private JButton             menuButton;
 
-    private SynthStyle               style;
-    private int                      titleSpacing;
-    private int                      buttonSpacing;
+    private SynthStyle          style;
+    private int                 titleSpacing;
+    private int                 buttonSpacing;
     // Alignment for the title, one of SwingConstants.(LEADING|TRAILING|CENTER)
-    private int                      titleAlignment;
+    private int                 titleAlignment;
 
     public SeaGlassInternalFrameTitlePane(JInternalFrame f) {
         frame = f;
@@ -152,7 +142,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         return SeaGlassLookAndFeel.getComponentState(c);
     }
 
-    protected void installTitlePane() {
+    private void installTitlePane() {
         installDefaults();
         installListeners();
 
@@ -167,7 +157,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         addSubComponents();
     }
 
-    protected void addSubComponents() {
+    private void addSubComponents() {
         menuButton.setName("InternalFrameTitlePane.menuButton");
         iconButton.setName("InternalFrameTitlePane.iconifyButton");
         maxButton.setName("InternalFrameTitlePane.maximizeButton");
@@ -179,7 +169,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         add(closeButton);
     }
 
-    protected void createActions() {
+    private void createActions() {
         maximizeAction = new MaximizeAction();
         iconifyAction = new IconifyAction();
         closeAction = new CloseAction();
@@ -196,25 +186,13 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     }
 
     protected void installListeners() {
-        // Basic
-        if (propertyChangeListener == null) {
-            propertyChangeListener = createPropertyChangeListener();
-        }
-        frame.addPropertyChangeListener(propertyChangeListener);
-
-        // Synth
         frame.addPropertyChangeListener(this);
         addPropertyChangeListener(this);
     }
 
     protected void uninstallListeners() {
-        // Synth
         frame.removePropertyChangeListener(this);
         removePropertyChangeListener(this);
-
-        // Basic
-        frame.removePropertyChangeListener(propertyChangeListener);
-        handler = null;
     }
 
     private void updateStyle(JComponent c) {
@@ -242,17 +220,13 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         context.dispose();
     }
 
-    protected void installDefaults() {
+    private void installDefaults() {
         // Basic
         maxIcon = UIManager.getIcon("InternalFrame.maximizeIcon");
         minIcon = UIManager.getIcon("InternalFrame.minimizeIcon");
         iconIcon = UIManager.getIcon("InternalFrame.iconifyIcon");
         closeIcon = UIManager.getIcon("InternalFrame.closeIcon");
 
-        selectedTitleColor = UIManager.getColor("InternalFrame.activeTitleBackground");
-        selectedTextColor = UIManager.getColor("InternalFrame.activeTitleForeground");
-        notSelectedTitleColor = UIManager.getColor("InternalFrame.inactiveTitleBackground");
-        notSelectedTextColor = UIManager.getColor("InternalFrame.inactiveTitleForeground");
         setFont(UIManager.getFont("InternalFrame.titleFont"));
         closeButtonToolTip = UIManager.getString("InternalFrame.closeButtonToolTip");
         iconButtonToolTip = UIManager.getString("InternalFrame.iconButtonToolTip");
@@ -263,7 +237,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         updateStyle(this);
     }
 
-    protected void uninstallDefaults() {
+    public void uninstallDefaults() {
         // Synth
         SeaGlassContext context = getContext(this, ENABLED);
         style.uninstallDefaults(context);
@@ -278,7 +252,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         // Basic
     }
 
-    protected void createButtons() {
+    private void createButtons() {
         iconButton = new NoFocusButton("InternalFrameTitlePane.iconifyButtonAccessibleName", "InternalFrameTitlePane.iconifyButtonOpacity");
         iconButton.addActionListener(iconifyAction);
         if (iconButtonToolTip != null && iconButtonToolTip.length() != 0) {
@@ -297,7 +271,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         setButtonIcons();
     }
 
-    protected void setButtonIcons() {
+    private void setButtonIcons() {
         if (frame.isIcon()) {
             if (minIcon != null) {
                 iconButton.setIcon(minIcon);
@@ -346,7 +320,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     private static class JPopupMenuUIResource extends JPopupMenu implements UIResource {
     }
 
-    protected void assembleSystemMenu() {
+    private void assembleSystemMenu() {
         systemPopupMenu = new JPopupMenuUIResource();
         addSystemMenuItems(systemPopupMenu);
         enableActions();
@@ -374,7 +348,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         setInheritsPopupMenu(true);
     }
 
-    protected void addSystemMenuItems(JPopupMenu menu) {
+    private void addSystemMenuItems(JPopupMenu menu) {
         // PENDING: this should all be localizable!
         JMenuItem mi = (JMenuItem) menu.add(restoreAction);
         mi.setMnemonic('R');
@@ -391,17 +365,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         mi.setMnemonic('C');
     }
 
-    protected JMenu createSystemMenu() {
-        return new JMenu("    ");
-    }
-
-    protected JMenuBar createSystemMenuBar() {
-        menuBar = new SystemMenuBar();
-        menuBar.setBorderPainted(false);
-        return menuBar;
-    }
-
-    protected void showSystemMenu() {
+    private void showSystemMenu() {
         Insets insets = frame.getInsets();
         if (!frame.isIcon()) {
             systemPopupMenu.show(frame, insets.left, getY() + getHeight());
@@ -420,7 +384,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         context.dispose();
     }
 
-    protected void paint(SeaGlassContext context, Graphics g) {
+    private void paint(SeaGlassContext context, Graphics g) {
         String title = frame.getTitle();
 
         if (title != null) {
@@ -479,7 +443,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         }
     }
 
-    protected String getTitle(String text, FontMetrics fm, int availTextWidth) {
+    private String getTitle(String text, FontMetrics fm, int availTextWidth) {
         return SwingUtilities2.clipStringIfNecessary(frame, fm, text, availTextWidth);
     }
 
@@ -487,7 +451,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         ((SeaGlassContext) context).getPainter().paintInternalFrameTitlePaneBorder(context, g, x, y, w, h);
     }
 
-    protected LayoutManager createLayout() {
+    private LayoutManager createLayout() {
         SeaGlassContext context = getContext(this);
         LayoutManager lm = (LayoutManager) style.get(context, "InternalFrameTitlePane.titlePaneLayout");
         context.dispose();
@@ -505,6 +469,44 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
                 updateMenuIcon();
             }
         }
+
+        // Basic (from Handler inner class)
+        String prop = (String) evt.getPropertyName();
+
+        if (prop == JInternalFrame.IS_SELECTED_PROPERTY) {
+            repaint();
+            return;
+        }
+
+        if (prop == JInternalFrame.IS_ICON_PROPERTY || prop == JInternalFrame.IS_MAXIMUM_PROPERTY) {
+            setButtonIcons();
+            enableActions();
+            return;
+        }
+
+        if ("closable" == prop) {
+            if ((Boolean) evt.getNewValue() == Boolean.TRUE) {
+                add(closeButton);
+            } else {
+                remove(closeButton);
+            }
+        } else if ("maximizable" == prop) {
+            if ((Boolean) evt.getNewValue() == Boolean.TRUE) {
+                add(maxButton);
+            } else {
+                remove(maxButton);
+            }
+        } else if ("iconable" == prop) {
+            if ((Boolean) evt.getNewValue() == Boolean.TRUE) {
+                add(iconButton);
+            } else {
+                remove(iconButton);
+            }
+        }
+        enableActions();
+
+        revalidate();
+        repaint();
     }
 
     /**
@@ -547,7 +549,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         frame.dispatchEvent(e);
     }
 
-    protected void enableActions() {
+    private void enableActions() {
         restoreAction.setEnabled(frame.isMaximum() || frame.isIcon());
         maximizeAction.setEnabled((frame.isMaximizable() && !frame.isMaximum() && !frame.isIcon())
                 || (frame.isMaximizable() && frame.isIcon()));
@@ -555,17 +557,6 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         closeAction.setEnabled(frame.isClosable());
         sizeAction.setEnabled(false);
         moveAction.setEnabled(false);
-    }
-
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
-        }
-        return handler;
-    }
-
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
     }
 
     class SeaGlassTitlePaneLayout implements LayoutManager {
@@ -698,194 +689,8 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
 
     // Basic
 
-    private class Handler implements LayoutManager, PropertyChangeListener {
-        //
-        // PropertyChangeListener
-        //
-        public void propertyChange(PropertyChangeEvent evt) {
-            String prop = (String) evt.getPropertyName();
-
-            if (prop == JInternalFrame.IS_SELECTED_PROPERTY) {
-                repaint();
-                return;
-            }
-
-            if (prop == JInternalFrame.IS_ICON_PROPERTY || prop == JInternalFrame.IS_MAXIMUM_PROPERTY) {
-                setButtonIcons();
-                enableActions();
-                return;
-            }
-
-            if ("closable" == prop) {
-                if ((Boolean) evt.getNewValue() == Boolean.TRUE) {
-                    add(closeButton);
-                } else {
-                    remove(closeButton);
-                }
-            } else if ("maximizable" == prop) {
-                if ((Boolean) evt.getNewValue() == Boolean.TRUE) {
-                    add(maxButton);
-                } else {
-                    remove(maxButton);
-                }
-            } else if ("iconable" == prop) {
-                if ((Boolean) evt.getNewValue() == Boolean.TRUE) {
-                    add(iconButton);
-                } else {
-                    remove(iconButton);
-                }
-            }
-            enableActions();
-
-            revalidate();
-            repaint();
-        }
-
-        //
-        // LayoutManager
-        //
-        public void addLayoutComponent(String name, Component c) {
-        }
-
-        public void removeLayoutComponent(Component c) {
-        }
-
-        public Dimension preferredLayoutSize(Container c) {
-            return minimumLayoutSize(c);
-        }
-
-        public Dimension minimumLayoutSize(Container c) {
-            // Calculate width.
-            int width = 22;
-
-            if (frame.isClosable()) {
-                width += 19;
-            }
-            if (frame.isMaximizable()) {
-                width += 19;
-            }
-            if (frame.isIconifiable()) {
-                width += 19;
-            }
-
-            FontMetrics fm = frame.getFontMetrics(getFont());
-            String frameTitle = frame.getTitle();
-            int title_w = frameTitle != null ? SwingUtilities2.stringWidth(frame, fm, frameTitle) : 0;
-            int title_length = frameTitle != null ? frameTitle.length() : 0;
-
-            // Leave room for three characters in the title.
-            if (title_length > 3) {
-                int subtitle_w = SwingUtilities2.stringWidth(frame, fm, frameTitle.substring(0, 3) + "...");
-                width += (title_w < subtitle_w) ? title_w : subtitle_w;
-            } else {
-                width += title_w;
-            }
-
-            // Calculate height.
-            Icon icon = frame.getFrameIcon();
-            int fontHeight = fm.getHeight();
-            fontHeight += 2;
-            int iconHeight = 0;
-            if (icon != null) {
-                // SystemMenuBar forces the icon to be 16x16 or less.
-                iconHeight = Math.min(icon.getIconHeight(), 16);
-            }
-            iconHeight += 2;
-
-            int height = Math.max(fontHeight, iconHeight);
-
-            Dimension dim = new Dimension(width, height);
-
-            // Take into account the border insets if any.
-            if (getBorder() != null) {
-                Insets insets = getBorder().getBorderInsets(c);
-                dim.height += insets.top + insets.bottom;
-                dim.width += insets.left + insets.right;
-            }
-            return dim;
-        }
-
-        public void layoutContainer(Container c) {
-            boolean leftToRight = isLeftToRight(frame);
-
-            int w = getWidth();
-            int h = getHeight();
-            int x;
-
-            int buttonHeight = closeButton.getIcon().getIconHeight();
-
-            Icon icon = frame.getFrameIcon();
-            int iconHeight = 0;
-            if (icon != null) {
-                iconHeight = icon.getIconHeight();
-            }
-            x = (leftToRight) ? 2 : w - 16 - 2;
-            menuBar.setBounds(x, (h - iconHeight) / 2, 16, 16);
-
-            x = (leftToRight) ? w - 16 - 2 : 2;
-
-            if (frame.isClosable()) {
-                closeButton.setBounds(x, (h - buttonHeight) / 2, 16, 14);
-                x += (leftToRight) ? -(16 + 2) : 16 + 2;
-            }
-
-            if (frame.isMaximizable()) {
-                maxButton.setBounds(x, (h - buttonHeight) / 2, 16, 14);
-                x += (leftToRight) ? -(16 + 2) : 16 + 2;
-            }
-
-            if (frame.isIconifiable()) {
-                iconButton.setBounds(x, (h - buttonHeight) / 2, 16, 14);
-            }
-        }
-    }
-
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <Foo>.
-     */
-    public class PropertyChangeHandler implements PropertyChangeListener {
-        // NOTE: This class exists only for backward compatability. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void propertyChange(PropertyChangeEvent evt) {
-            getHandler().propertyChange(evt);
-        }
-    }
-
-    /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <Foo>.
-     */
-    public class TitlePaneLayout implements LayoutManager {
-        // NOTE: This class exists only for backward compatability. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void addLayoutComponent(String name, Component c) {
-            getHandler().addLayoutComponent(name, c);
-        }
-
-        public void removeLayoutComponent(Component c) {
-            getHandler().removeLayoutComponent(c);
-        }
-
-        public Dimension preferredLayoutSize(Container c) {
-            return getHandler().preferredLayoutSize(c);
-        }
-
-        public Dimension minimumLayoutSize(Container c) {
-            return getHandler().minimumLayoutSize(c);
-        }
-
-        public void layoutContainer(Container c) {
-            getHandler().layoutContainer(c);
-        }
-    }
-
-    /**
-     * This class should be treated as a &quot;protected&quot; inner class.
+     * This class should be treated as a &quot;private&quot; inner class.
      * Instantiate it only within subclasses of <Foo>.
      */
     public class CloseAction extends AbstractAction {
@@ -901,7 +706,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     } // end CloseAction
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
+     * This class should be treated as a &quot;private&quot; inner class.
      * Instantiate it only within subclasses of <Foo>.
      */
     public class MaximizeAction extends AbstractAction {
@@ -932,7 +737,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
+     * This class should be treated as a &quot;private&quot; inner class.
      * Instantiate it only within subclasses of <Foo>.
      */
     public class IconifyAction extends AbstractAction {
@@ -958,7 +763,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     } // end IconifyAction
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
+     * This class should be treated as a &quot;private&quot; inner class.
      * Instantiate it only within subclasses of <Foo>.
      */
     public class RestoreAction extends AbstractAction {
@@ -987,7 +792,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
+     * This class should be treated as a &quot;private&quot; inner class.
      * Instantiate it only within subclasses of <Foo>.
      */
     public class MoveAction extends AbstractAction {
@@ -1020,7 +825,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
+     * This class should be treated as a &quot;private&quot; inner class.
      * Instantiate it only within subclasses of <Foo>.
      */
     public class SizeAction extends AbstractAction {
@@ -1034,7 +839,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     } // end SizeAction
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
+     * This class should be treated as a &quot;private&quot; inner class.
      * Instantiate it only within subclasses of <Foo>.
      */
     public class SystemMenuBar extends JMenuBar {
@@ -1095,12 +900,4 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
             return ac;
         }
     }; // end NoFocusButton
-
-    /*
-     * Convenience function for determining ComponentOrientation. Helps us avoid
-     * having Munge directives throughout the code.
-     */
-    private static boolean isLeftToRight(Component c) {
-        return c.getComponentOrientation().isLeftToRight();
-    }
 }
