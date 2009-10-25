@@ -953,6 +953,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Set the multiplicity of states for the Close button.
         d.put(prefix + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowMaximized");
         d.put(prefix + ".WindowNotFocused", new TitlePaneCloseButtonWindowNotFocusedState());
+        d.put(prefix + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
         d.put(prefix + "[Disabled].backgroundPainter", new LazyPainter(painter, TitlePaneCloseButtonPainter.BACKGROUND_DISABLED, insets,
             size, false, mode, 1.0, 1.0));
@@ -985,6 +986,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(prefix + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowMinimized");
         d.put(prefix + ".WindowNotFocused", new TitlePaneIconifyButtonWindowNotFocusedState());
         d.put(prefix + ".WindowMinimized", new TitlePaneIconifyButtonWindowMinimizedState());
+        d.put(prefix + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
         // Set the iconify button states.
         d.put(prefix + "[Enabled].backgroundPainter", new LazyPainter(painter, TitlePaneIconifyButtonPainter.BACKGROUND_ENABLED, insets,
@@ -1033,6 +1035,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         d.put(prefix + ".WindowNotFocused", new TitlePaneMaximizeButtonWindowNotFocusedState());
         d.put(prefix + ".WindowMaximized", new TitlePaneMaximizeButtonWindowMaximizedState());
+        d.put(prefix + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
         // Set the maximize button states.
         d.put(prefix + "[Disabled].backgroundPainter", new LazyPainter(painter, TitlePaneMaximizeButtonPainter.BACKGROUND_DISABLED, insets,
@@ -1080,6 +1083,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         CacheMode mode = AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES;
 
         d.put(prefix + ".WindowNotFocused", new TitlePaneMenuButtonWindowNotFocusedState());
+        d.put(prefix + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
         // Set the states for the Menu button.
         d.put(prefix + "[Enabled].iconPainter", new LazyPainter(painter, TitlePaneMenuButtonPainter.ICON_ENABLED, insets, size, false,
