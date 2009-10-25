@@ -48,12 +48,14 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.ColorType;
 import javax.swing.plaf.synth.SynthContext;
+import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.plaf.synth.SynthPainter;
 import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglass.component.SeaGlassBorder;
 import com.seaglass.painter.Painter;
 import com.seaglass.state.State;
+import com.seaglass.util.SeaGlassGraphicsUtils;
 
 import sun.awt.AppContext;
 import sun.swing.plaf.synth.SynthUI;
@@ -63,12 +65,12 @@ import sun.swing.plaf.synth.SynthUI;
  */
 public class SeaGlassStyle extends SynthStyle {
     /* Keys and scales for large/small/mini components, based on Apples sizes */
-    public static final String                    LARGE_KEY        = "large";
-    public static final String                    SMALL_KEY        = "small";
-    public static final String                    MINI_KEY         = "mini";
-    public static final double                    LARGE_SCALE      = 1.15;
-    public static final double                    SMALL_SCALE      = 0.857;
-    public static final double                    MINI_SCALE       = 0.714;
+    public static final String                    LARGE_KEY         = "large";
+    public static final String                    SMALL_KEY         = "small";
+    public static final String                    MINI_KEY          = "mini";
+    public static final double                    LARGE_SCALE       = 1.15;
+    public static final double                    SMALL_SCALE       = 0.857;
+    public static final double                    MINI_SCALE        = 0.714;
 
     /**
      * Special constant used for performance reasons during the get() method. If
@@ -77,7 +79,7 @@ public class SeaGlassStyle extends SynthStyle {
      * subsequent lookups it will simply extract NULL, see it, and return null
      * rather than continuing the lookup procedure.
      */
-    private static final Object                   NULL             = '\0';
+    private static final Object                   NULL              = '\0';
     /**
      * <p>
      * The Color to return from getColorForState if it would otherwise have
@@ -93,21 +95,26 @@ public class SeaGlassStyle extends SynthStyle {
      * that a ColorUIResource is always returned from getColorForState.
      * </p>
      */
-    private static final Color                    DEFAULT_COLOR    = new ColorUIResource(Color.BLACK);
+    private static final Color                    DEFAULT_COLOR     = new ColorUIResource(Color.BLACK);
 
     /**
      * Simple Comparator for ordering the RuntimeStates according to their rank.
      */
-    private static final Comparator<RuntimeState> STATE_COMPARATOR = new Comparator<RuntimeState>() {
-                                                                       public int compare(RuntimeState a, RuntimeState b) {
-                                                                           return a.state - b.state;
-                                                                       }
-                                                                   };
+    private static final Comparator<RuntimeState> STATE_COMPARATOR  = new Comparator<RuntimeState>() {
+                                                                        public int compare(RuntimeState a, RuntimeState b) {
+                                                                            return a.state - b.state;
+                                                                        }
+                                                                    };
 
     /**
-     * The prefix for the component or region that this SeaGlassStyle represents.
-     * This prefix is used to lookup state in the UIManager. It should be
-     * something like Button or Slider.Thumb or "MyButton" or
+     * Shared SynthGraphics.
+     */
+    private static final SynthGraphicsUtils       SEAGLASS_GRAPHICS = new SeaGlassGraphicsUtils();
+
+    /**
+     * The prefix for the component or region that this SeaGlassStyle
+     * represents. This prefix is used to lookup state in the UIManager. It
+     * should be something like Button or Slider.Thumb or "MyButton" or
      * ComboBox."ComboBox.arrowButton" or "MyComboBox"."ComboBox.arrowButton"
      */
     private String                                prefix;
@@ -131,12 +138,13 @@ public class SeaGlassStyle extends SynthStyle {
      * A temporary CacheKey used to perform lookups. This pattern avoids
      * creating useless garbage keys, or concatenating strings, etc.
      */
-    private CacheKey                              tmpKey           = new CacheKey("", 0);
+    private CacheKey                              tmpKey            = new CacheKey("", 0);
 
     /**
-     * Some SeaGlassStyles are created for a specific component only. In SeaGlass,
-     * this happens whenever the component has as a client property a UIDefaults
-     * which overrides (or supplements) those defaults found in UIManager.
+     * Some SeaGlassStyles are created for a specific component only. In
+     * SeaGlass, this happens whenever the component has as a client property a
+     * UIDefaults which overrides (or supplements) those defaults found in
+     * UIManager.
      */
     private JComponent                            component;
 
@@ -160,6 +168,17 @@ public class SeaGlassStyle extends SynthStyle {
         this.component = c;
         this.prefix = prefix;
         this.painter = new SeaGlassSynthPainterImpl(this);
+    }
+
+    /**
+     * Returns the <code>SynthGraphicUtils</code> for the specified context.
+     * 
+     * @param context
+     *            SynthContext identifying requester
+     * @return SynthGraphicsUtils
+     */
+    public SynthGraphicsUtils getGraphicsUtils(SynthContext context) {
+        return SEAGLASS_GRAPHICS;
     }
 
     public void installDefaults(SeaGlassContext context, SynthUI ui) {
@@ -203,8 +222,8 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * Called by SeaGlassLookAndFeel when the look and feel is being uninstalled.
-     * Performs general cleanup of any app-context specific data.
+     * Called by SeaGlassLookAndFeel when the look and feel is being
+     * uninstalled. Performs general cleanup of any app-context specific data.
      */
     static void uninitialize() {
         // get the appcontext that we've stored data in
@@ -250,8 +269,7 @@ public class SeaGlassStyle extends SynthStyle {
 
         // fetch the defaults from the app context. If null, then create and
         // store the compiled defaults
-        Map<String, TreeMap<String, Object>> compiledDefaults = (Map<String, TreeMap<String, Object>>) ctx
-            .get("SeaGlassStyle.defaults");
+        Map<String, TreeMap<String, Object>> compiledDefaults = (Map<String, TreeMap<String, Object>>) ctx.get("SeaGlassStyle.defaults");
 
         if (compiledDefaults == null) {
             // the entire UIDefaults tables are parsed and compiled into
@@ -297,7 +315,8 @@ public class SeaGlassStyle extends SynthStyle {
 
         TreeMap<String, Object> defaults = compiledDefaults.get(prefix);
 
-        // inspect the client properties for the key "SeaGlass.Overrides". If the
+        // inspect the client properties for the key "SeaGlass.Overrides". If
+        // the
         // value is an instance of UIDefaults, then these defaults are used
         // in place of, or in addition to, the defaults in UIManager.
         if (component != null) {
