@@ -247,7 +247,6 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     }
 
     private void setButtonIcons() {
-        if (false) return;
         if (frame.isIcon()) {
             if (minIcon != null) {
                 iconButton.setIcon(minIcon);
