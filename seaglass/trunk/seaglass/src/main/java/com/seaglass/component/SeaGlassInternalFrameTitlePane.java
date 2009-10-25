@@ -79,11 +79,6 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     private JMenu               windowMenu;
     private JInternalFrame      frame;
 
-    private Icon                maxIcon;
-    private Icon                minIcon;
-    private Icon                iconIcon;
-    private Icon                closeIcon;
-
     private Action              closeAction;
     private Action              maximizeAction;
     private Action              iconifyAction;
@@ -218,10 +213,6 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         SynthStyle oldStyle = style;
         style = SeaGlassLookAndFeel.updateStyle(context, this);
         if (style != oldStyle) {
-            maxIcon = style.getIcon(context, "InternalFrameTitlePane.maximizeIcon");
-            minIcon = style.getIcon(context, "InternalFrameTitlePane.minimizeIcon");
-            iconIcon = style.getIcon(context, "InternalFrameTitlePane.iconifyIcon");
-            closeIcon = style.getIcon(context, "InternalFrameTitlePane.closeIcon");
             titleSpacing = style.getInt(context, "InternalFrameTitlePane.titleSpacing", 2);
         }
         context.dispose();
@@ -243,52 +234,31 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
             closeButton.setToolTipText(closeButtonToolTip);
         }
 
-        setButtonIcons();
+        setButtonTooltips();
     }
 
-    private void setButtonIcons() {
+    private void setButtonTooltips() {
         if (frame.isIcon()) {
-            if (minIcon != null) {
-                iconButton.setIcon(minIcon);
-            }
             if (restoreButtonToolTip != null && restoreButtonToolTip.length() != 0) {
                 iconButton.setToolTipText(restoreButtonToolTip);
-            }
-            if (maxIcon != null) {
-                maxButton.setIcon(maxIcon);
             }
             if (maxButtonToolTip != null && maxButtonToolTip.length() != 0) {
                 maxButton.setToolTipText(maxButtonToolTip);
             }
         } else if (frame.isMaximum()) {
-            if (iconIcon != null) {
-                iconButton.setIcon(iconIcon);
-            }
             if (iconButtonToolTip != null && iconButtonToolTip.length() != 0) {
                 iconButton.setToolTipText(iconButtonToolTip);
-            }
-            if (minIcon != null) {
-                maxButton.setIcon(minIcon);
             }
             if (restoreButtonToolTip != null && restoreButtonToolTip.length() != 0) {
                 maxButton.setToolTipText(restoreButtonToolTip);
             }
         } else {
-            if (iconIcon != null) {
-                iconButton.setIcon(iconIcon);
-            }
             if (iconButtonToolTip != null && iconButtonToolTip.length() != 0) {
                 iconButton.setToolTipText(iconButtonToolTip);
-            }
-            if (maxIcon != null) {
-                maxButton.setIcon(maxIcon);
             }
             if (maxButtonToolTip != null && maxButtonToolTip.length() != 0) {
                 maxButton.setToolTipText(maxButtonToolTip);
             }
-        }
-        if (closeIcon != null) {
-            closeButton.setIcon(closeIcon);
         }
     }
 
@@ -443,7 +413,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         }
 
         if (prop == JInternalFrame.IS_ICON_PROPERTY || prop == JInternalFrame.IS_MAXIMUM_PROPERTY) {
-            setButtonIcons();
+            setButtonTooltips();
             enableActions();
             return;
         }
