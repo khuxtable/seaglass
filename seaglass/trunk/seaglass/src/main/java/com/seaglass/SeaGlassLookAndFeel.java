@@ -400,6 +400,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "LabelUI");
             if (!PlatformUtils.isMac()) {
                 useOurUI(uiDefaults, "InternalFrameUI");
+                useOurUI(uiDefaults, "DesktopIconUI");
                 useOurUI(uiDefaults, "RootPaneUI");
             }
             useOurUI(uiDefaults, "ScrollBarUI");
@@ -952,8 +953,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Set the multiplicity of states for the Close button.
         d.put(prefix + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowMaximized");
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\".WindowNotFocused",
-            new TitlePaneCloseButtonWindowNotFocusedState());
+        d.put(prefix + ".WindowNotFocused", new TitlePaneCloseButtonWindowNotFocusedState());
 
         d.put(prefix + "[Disabled].backgroundPainter", new LazyPainter(painter, TitlePaneCloseButtonPainter.BACKGROUND_DISABLED, insets,
             size, false, mode, 1.0, 1.0));
@@ -970,7 +970,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(prefix + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
             TitlePaneCloseButtonPainter.BACKGROUND_PRESSED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
 
-        d.put("InternalFrameTitlePane.closeIcon", new SeaGlassIcon(prefix, "backgroundPainter", size.width, size.height));
+//        d.put("InternalFrameTitlePane.closeIcon", new SeaGlassIcon("gibberish", "backgroundPainter", size.width, size.height));
     }
 
     /**
@@ -997,7 +997,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             TitlePaneIconifyButtonPainter.BACKGROUND_PRESSED_WINDOWNOTFOCUSED, new Insets(0, 0, 0, 0), new Dimension(26, 18), false,
             AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
 
-        d.put("InternalFrameTitlePane.iconifyIcon", new SeaGlassIcon("gibberish", "backgroundPainter", 26, 18));
+//        d.put("InternalFrameTitlePane.iconifyIcon", new SeaGlassIcon("gibberish", "backgroundPainter", 26, 18));
     }
 
     /**
@@ -1031,7 +1031,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Set the maximize/restore button.
         // d.put("InternalFrameTitlePane.maximizeIcon", new SeaGlassIcon(prefix,
         // "backgroundPainter", 25, 18));
-        d.put("InternalFrameTitlePane.maximizeIcon", new SeaGlassIcon("gibberish", "backgroundPainter", 25, 18));
+//        d.put("InternalFrameTitlePane.maximizeIcon", new SeaGlassIcon("gibberish", "backgroundPainter", 25, 18));
     }
 
     /**
@@ -1070,7 +1070,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Set the minimize button.
         // d.put("InternalFrameTitlePane.minimizeIcon", new SeaGlassIcon(prefix
         // + "[Enabled+WindowMaximized]", "backgroundPainter", 25, 18));
-        d.put("InternalFrameTitlePane.minimizeIcon", new SeaGlassIcon("gibberish", "backgroundPainter", 25, 18));
+//        d.put("InternalFrameTitlePane.minimizeIcon", new SeaGlassIcon("gibberish", "backgroundPainter", 25, 18));
     }
 
     /**
