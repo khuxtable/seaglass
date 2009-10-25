@@ -94,7 +94,6 @@ import com.seaglass.painter.TitlePaneCloseButtonPainter;
 import com.seaglass.painter.TitlePaneIconifyButtonPainter;
 import com.seaglass.painter.TitlePaneMaximizeButtonPainter;
 import com.seaglass.painter.TitlePaneMenuButtonPainter;
-import com.seaglass.painter.TitlePaneMinimizeButtonPainter;
 import com.seaglass.painter.ToolBarButtonPainter;
 import com.seaglass.painter.ToolBarPainter;
 import com.seaglass.painter.ToolBarToggleButtonPainter;
@@ -107,6 +106,7 @@ import com.seaglass.state.SplitPaneDividerVerticalState;
 import com.seaglass.state.SplitPaneVerticalState;
 import com.seaglass.state.TableHeaderRendererSortedState;
 import com.seaglass.state.TitlePaneCloseButtonWindowNotFocusedState;
+import com.seaglass.state.TitlePaneIconifyButtonWindowMinimizedState;
 import com.seaglass.state.TitlePaneIconifyButtonWindowNotFocusedState;
 import com.seaglass.state.TitlePaneMaximizeButtonWindowMaximizedState;
 import com.seaglass.state.TitlePaneMaximizeButtonWindowNotFocusedState;
@@ -434,7 +434,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 defineInternalFrameCloseButtons(uiDefaults);
                 defineInternalFrameIconifyButtons(uiDefaults);
                 defineInternalFrameMaximizeButton(uiDefaults);
-                defineInternalFrameMinimizeButton(uiDefaults);
                 uiDefaults.put("MenuBar[Enabled].backgroundPainter", null);
             }
 
@@ -970,7 +969,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(prefix + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
             TitlePaneCloseButtonPainter.BACKGROUND_PRESSED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
 
-//        d.put("InternalFrameTitlePane.closeIcon", new SeaGlassIcon("gibberish", "backgroundPainter", size.width, size.height));
+        d.put(prefix + ".icon", new SeaGlassIcon(prefix, "iconPainter", size.width, size.height));
     }
 
     /**
@@ -979,25 +978,47 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void defineInternalFrameIconifyButtons(UIDefaults d) {
         String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"";
         String painter = "com.seaglass.painter.TitlePaneIconifyButtonPainter";
+        Insets insets = new Insets(0, 0, 0, 0);
+        Dimension size = new Dimension(26, 18);
+        CacheMode mode = AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES;
 
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\".WindowNotFocused",
-            new TitlePaneIconifyButtonWindowNotFocusedState());
+        d.put(prefix + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowMinimized");
+        d.put(prefix + ".WindowNotFocused", new TitlePaneIconifyButtonWindowNotFocusedState());
+        d.put(prefix + ".WindowMinimized", new TitlePaneIconifyButtonWindowMinimizedState());
 
-        // Set the iconify button
-        d.put(prefix + "[Enabled].backgroundPainter", new LazyPainter(painter, TitlePaneIconifyButtonPainter.BACKGROUND_ENABLED,
-            new Insets(0, 0, 0, 0), new Dimension(26, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put(prefix + "[Disabled].backgroundPainter", new LazyPainter(painter, TitlePaneIconifyButtonPainter.BACKGROUND_DISABLED,
-            new Insets(0, 0, 0, 0), new Dimension(26, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put(prefix + "[Pressed].backgroundPainter", new LazyPainter(painter, TitlePaneIconifyButtonPainter.BACKGROUND_PRESSED,
-            new Insets(0, 0, 0, 0), new Dimension(26, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        // Set the iconify button states.
+        d.put(prefix + "[Enabled].backgroundPainter", new LazyPainter(painter, TitlePaneIconifyButtonPainter.BACKGROUND_ENABLED, insets,
+            size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[Disabled].backgroundPainter", new LazyPainter(painter, TitlePaneIconifyButtonPainter.BACKGROUND_DISABLED, insets,
+            size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[MouseOver].backgroundPainter", new LazyPainter(painter, TitlePaneIconifyButtonPainter.BACKGROUND_MOUSEOVER,
+            insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[Pressed].backgroundPainter", new LazyPainter(painter, TitlePaneIconifyButtonPainter.BACKGROUND_PRESSED, insets,
+            size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
-            TitlePaneIconifyButtonPainter.BACKGROUND_ENABLED_WINDOWNOTFOCUSED, new Insets(0, 0, 0, 0), new Dimension(26, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneIconifyButtonPainter.BACKGROUND_ENABLED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[MouseOver+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
+            TitlePaneIconifyButtonPainter.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
-            TitlePaneIconifyButtonPainter.BACKGROUND_PRESSED_WINDOWNOTFOCUSED, new Insets(0, 0, 0, 0), new Dimension(26, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneIconifyButtonPainter.BACKGROUND_PRESSED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
 
-//        d.put("InternalFrameTitlePane.iconifyIcon", new SeaGlassIcon("gibberish", "backgroundPainter", 26, 18));
+        // Set the restore button states.
+        d.put(prefix + "[Disabled+WindowMinimized].backgroundPainter", new LazyPainter(painter,
+            TitlePaneIconifyButtonPainter.BACKGROUND_MINIMIZED_DISABLED, insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[Enabled+WindowMinimized].backgroundPainter", new LazyPainter(painter,
+            TitlePaneIconifyButtonPainter.BACKGROUND_MINIMIZED_ENABLED, insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[MouseOver+WindowMinimized].backgroundPainter", new LazyPainter(painter,
+            TitlePaneIconifyButtonPainter.BACKGROUND_MINIMIZED_MOUSEOVER, insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[Pressed+WindowMinimized].backgroundPainter", new LazyPainter(painter,
+            TitlePaneIconifyButtonPainter.BACKGROUND_MINIMIZED_PRESSED, insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[Enabled+WindowMinimized+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
+            TitlePaneIconifyButtonPainter.BACKGROUND_MINIMIZED_ENABLED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[MouseOver+WindowMinimized+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
+            TitlePaneIconifyButtonPainter.BACKGROUND_MINIMIZED_MOUSEOVER_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[Pressed+WindowMinimized+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
+            TitlePaneIconifyButtonPainter.BACKGROUND_MINIMIZED_PRESSED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
+        
+        d.put(prefix + ".icon", new SeaGlassIcon(prefix, "iconPainter", size.width, size.height));
     }
 
     /**
@@ -1006,105 +1027,77 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void defineInternalFrameMaximizeButton(UIDefaults d) {
         String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"";
         String painter = "com.seaglass.painter.TitlePaneMaximizeButtonPainter";
+        Insets insets = new Insets(0, 0, 0, 0);
+        Dimension size = new Dimension(25, 18);
+        CacheMode mode = AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES;
 
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\".WindowNotFocused",
-            new TitlePaneMaximizeButtonWindowNotFocusedState());
+        d.put(prefix + ".WindowNotFocused", new TitlePaneMaximizeButtonWindowNotFocusedState());
+        d.put(prefix + ".WindowMaximized", new TitlePaneMaximizeButtonWindowMaximizedState());
 
-        d.put(prefix + "[Disabled].backgroundPainter", new LazyPainter(painter, TitlePaneMaximizeButtonPainter.BACKGROUND_DISABLED,
-            new Insets(0, 0, 0, 0), new Dimension(25, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put(prefix + "[Enabled].backgroundPainter", new LazyPainter(painter, TitlePaneMaximizeButtonPainter.BACKGROUND_ENABLED,
-            new Insets(0, 0, 0, 0), new Dimension(25, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        // Set the maximize button states.
+        d.put(prefix + "[Disabled].backgroundPainter", new LazyPainter(painter, TitlePaneMaximizeButtonPainter.BACKGROUND_DISABLED, insets,
+            size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[Enabled].backgroundPainter", new LazyPainter(painter, TitlePaneMaximizeButtonPainter.BACKGROUND_ENABLED, insets,
+            size, false, mode, 1.0, 1.0));
         d.put(prefix + "[MouseOver].backgroundPainter", new LazyPainter(painter, TitlePaneMaximizeButtonPainter.BACKGROUND_MOUSEOVER,
-            new Insets(0, 0, 0, 0), new Dimension(25, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put(prefix + "[Pressed].backgroundPainter", new LazyPainter(painter, TitlePaneMaximizeButtonPainter.BACKGROUND_PRESSED,
-            new Insets(0, 0, 0, 0), new Dimension(25, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[Pressed].backgroundPainter", new LazyPainter(painter, TitlePaneMaximizeButtonPainter.BACKGROUND_PRESSED, insets,
+            size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
-            TitlePaneMaximizeButtonPainter.BACKGROUND_ENABLED_WINDOWNOTFOCUSED, new Insets(0, 0, 0, 0), new Dimension(25, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneMaximizeButtonPainter.BACKGROUND_ENABLED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
         d.put(prefix + "[MouseOver+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
-            TitlePaneMaximizeButtonPainter.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED, new Insets(0, 0, 0, 0), new Dimension(25, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneMaximizeButtonPainter.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
-            TitlePaneMaximizeButtonPainter.BACKGROUND_PRESSED_WINDOWNOTFOCUSED, new Insets(0, 0, 0, 0), new Dimension(25, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneMaximizeButtonPainter.BACKGROUND_PRESSED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
 
-        // Set the maximize/restore button.
-        // d.put("InternalFrameTitlePane.maximizeIcon", new SeaGlassIcon(prefix,
-        // "backgroundPainter", 25, 18));
-//        d.put("InternalFrameTitlePane.maximizeIcon", new SeaGlassIcon("gibberish", "backgroundPainter", 25, 18));
-    }
-
-    /**
-     * @param d
-     */
-    private void defineInternalFrameMinimizeButton(UIDefaults d) {
-        String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"";
-        String painter = "com.seaglass.painter.TitlePaneMinimizeButtonPainter";
-
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\".WindowMaximized",
-            new TitlePaneMaximizeButtonWindowMaximizedState());
-
-        // Set the minimize button
+        // Set the restore button states.
         d.put(prefix + "[Disabled+WindowMaximized].backgroundPainter", new LazyPainter(painter,
-            TitlePaneMinimizeButtonPainter.BACKGROUND_DISABLED, new Insets(0, 0, 0, 0), new Dimension(25, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneMaximizeButtonPainter.BACKGROUND_MAXIMIZED_DISABLED, insets, size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Enabled+WindowMaximized].backgroundPainter", new LazyPainter(painter,
-            TitlePaneMinimizeButtonPainter.BACKGROUND_ENABLED, new Insets(0, 0, 0, 0), new Dimension(25, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneMaximizeButtonPainter.BACKGROUND_MAXIMIZED_ENABLED, insets, size, false, mode, 1.0, 1.0));
         d.put(prefix + "[MouseOver+WindowMaximized].backgroundPainter", new LazyPainter(painter,
-            TitlePaneMinimizeButtonPainter.BACKGROUND_MOUSEOVER, new Insets(0, 0, 0, 0), new Dimension(25, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneMaximizeButtonPainter.BACKGROUND_MAXIMIZED_MOUSEOVER, insets, size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Pressed+WindowMaximized].backgroundPainter", new LazyPainter(painter,
-            TitlePaneMinimizeButtonPainter.BACKGROUND_PRESSED, new Insets(0, 0, 0, 0), new Dimension(25, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneMaximizeButtonPainter.BACKGROUND_MAXIMIZED_PRESSED, insets, size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Enabled+WindowMaximized+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
-            TitlePaneMinimizeButtonPainter.BACKGROUND_ENABLED_WINDOWNOTFOCUSED, new Insets(0, 0, 0, 0), new Dimension(25, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneMaximizeButtonPainter.BACKGROUND_MAXIMIZED_ENABLED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
         d.put(prefix + "[MouseOver+WindowMaximized+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
-            TitlePaneMinimizeButtonPainter.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED, new Insets(0, 0, 0, 0), new Dimension(25, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneMaximizeButtonPainter.BACKGROUND_MAXIMIZED_MOUSEOVER_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Pressed+WindowMaximized+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
-            TitlePaneMinimizeButtonPainter.BACKGROUND_PRESSED_WINDOWNOTFOCUSED, new Insets(0, 0, 0, 0), new Dimension(25, 18), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+            TitlePaneMaximizeButtonPainter.BACKGROUND_MAXIMIZED_PRESSED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
 
-        // Set the minimize button.
-        // d.put("InternalFrameTitlePane.minimizeIcon", new SeaGlassIcon(prefix
-        // + "[Enabled+WindowMaximized]", "backgroundPainter", 25, 18));
-//        d.put("InternalFrameTitlePane.minimizeIcon", new SeaGlassIcon("gibberish", "backgroundPainter", 25, 18));
+        d.put(prefix + ".icon", new SeaGlassIcon(prefix, "iconPainter", size.width, size.height));
     }
 
     /**
      * @param d
      */
     private void defineInternalFrameMenus(UIDefaults d) {
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\".WindowNotFocused",
-            new TitlePaneMenuButtonWindowNotFocusedState());
+        String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"";
+        String painter = "com.seaglass.painter.TitlePaneMenuButtonPainter";
+        Insets insets = new Insets(0, 0, 0, 0);
+        Dimension size = new Dimension(19, 18);
+        CacheMode mode = AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES;
+
+        d.put(prefix + ".WindowNotFocused", new TitlePaneMenuButtonWindowNotFocusedState());
 
         // Set the states for the Menu button.
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"[Enabled].iconPainter", new LazyPainter(
-            "com.seaglass.painter.TitlePaneMenuButtonPainter", TitlePaneMenuButtonPainter.ICON_ENABLED, new Insets(0, 0, 0, 0),
-            new Dimension(19, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"[Disabled].iconPainter", new LazyPainter(
-            "com.seaglass.painter.TitlePaneMenuButtonPainter", TitlePaneMenuButtonPainter.ICON_DISABLED, new Insets(0, 0, 0, 0),
-            new Dimension(19, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"[MouseOver].iconPainter", new LazyPainter(
-            "com.seaglass.painter.TitlePaneMenuButtonPainter", TitlePaneMenuButtonPainter.ICON_MOUSEOVER, new Insets(0, 0, 0, 0),
-            new Dimension(19, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"[Pressed].iconPainter", new LazyPainter(
-            "com.seaglass.painter.TitlePaneMenuButtonPainter", TitlePaneMenuButtonPainter.ICON_PRESSED, new Insets(0, 0, 0, 0),
-            new Dimension(19, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"[Enabled+WindowNotFocused].iconPainter",
-            new LazyPainter("com.seaglass.painter.TitlePaneMenuButtonPainter", TitlePaneMenuButtonPainter.ICON_ENABLED_WINDOWNOTFOCUSED,
-                new Insets(0, 0, 0, 0), new Dimension(19, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"[MouseOver+WindowNotFocused].iconPainter",
-            new LazyPainter("com.seaglass.painter.TitlePaneMenuButtonPainter", TitlePaneMenuButtonPainter.ICON_MOUSEOVER_WINDOWNOTFOCUSED,
-                new Insets(0, 0, 0, 0), new Dimension(19, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"[Pressed+WindowNotFocused].iconPainter",
-            new LazyPainter("com.seaglass.painter.TitlePaneMenuButtonPainter", TitlePaneMenuButtonPainter.ICON_PRESSED_WINDOWNOTFOCUSED,
-                new Insets(0, 0, 0, 0), new Dimension(19, 18), false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        d.put(prefix + "[Enabled].iconPainter", new LazyPainter(painter, TitlePaneMenuButtonPainter.ICON_ENABLED, insets, size, false,
+            mode, 1.0, 1.0));
+        d.put(prefix + "[Disabled].iconPainter", new LazyPainter(painter, TitlePaneMenuButtonPainter.ICON_DISABLED, insets, size, false,
+            mode, 1.0, 1.0));
+        d.put(prefix + "[MouseOver].iconPainter", new LazyPainter(painter, TitlePaneMenuButtonPainter.ICON_MOUSEOVER, insets, size, false,
+            mode, 1.0, 1.0));
+        d.put(prefix + "[Pressed].iconPainter", new LazyPainter(painter, TitlePaneMenuButtonPainter.ICON_PRESSED, insets, size, false,
+            mode, 1.0, 1.0));
+        d.put(prefix + "[Enabled+WindowNotFocused].iconPainter", new LazyPainter(painter,
+            TitlePaneMenuButtonPainter.ICON_ENABLED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[MouseOver+WindowNotFocused].iconPainter", new LazyPainter(painter,
+            TitlePaneMenuButtonPainter.ICON_MOUSEOVER_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[Pressed+WindowNotFocused].iconPainter", new LazyPainter(painter,
+            TitlePaneMenuButtonPainter.ICON_PRESSED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
 
-        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\".icon", new SeaGlassIcon(
-            "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"", "iconPainter", 19, 18));
+        d.put(prefix + ".icon", new SeaGlassIcon(prefix, "iconPainter", size.width, size.height));
     }
 
     private void defineLists(UIDefaults d) {
