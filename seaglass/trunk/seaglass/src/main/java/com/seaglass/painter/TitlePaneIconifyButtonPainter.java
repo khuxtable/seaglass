@@ -23,18 +23,21 @@ package com.seaglass.painter;
  * Title pane iconify button painter implementation.
  */
 public final class TitlePaneIconifyButtonPainter extends AbstractImagePainter {
-    // package private integers representing the available states that
-    // this painter will paint. These are used when creating a new instance
-    // of
-    // InternalFrameInternalFrameTitlePaneInternalFrameTitlePaneIconifyButtonPainter
-    // to determine which region/state is being painted by that instance.
-    public static final int BACKGROUND_ENABLED                    = 1;
-    public static final int BACKGROUND_DISABLED                   = 2;
-    public static final int BACKGROUND_MOUSEOVER                  = 3;
-    public static final int BACKGROUND_PRESSED                    = 4;
-    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED   = 5;
-    public static final int BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED = 6;
-    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED   = 7;
+    public static final int BACKGROUND_ENABLED                              = 1;
+    public static final int BACKGROUND_DISABLED                             = 2;
+    public static final int BACKGROUND_MOUSEOVER                            = 3;
+    public static final int BACKGROUND_PRESSED                              = 4;
+    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED             = 5;
+    public static final int BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED           = 6;
+    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED             = 7;
+
+    public static final int BACKGROUND_MINIMIZED_DISABLED                   = 11;
+    public static final int BACKGROUND_MINIMIZED_ENABLED                    = 12;
+    public static final int BACKGROUND_MINIMIZED_MOUSEOVER                  = 13;
+    public static final int BACKGROUND_MINIMIZED_PRESSED                    = 14;
+    public static final int BACKGROUND_MINIMIZED_ENABLED_WINDOWNOTFOCUSED   = 15;
+    public static final int BACKGROUND_MINIMIZED_MOUSEOVER_WINDOWNOTFOCUSED = 16;
+    public static final int BACKGROUND_MINIMIZED_PRESSED_WINDOWNOTFOCUSED   = 17;
 
     public TitlePaneIconifyButtonPainter(PaintContext ctx, int state) {
         super(ctx, state);
@@ -57,6 +60,21 @@ public final class TitlePaneIconifyButtonPainter extends AbstractImagePainter {
             return "window_minimize_hover";
         case BACKGROUND_PRESSED_WINDOWNOTFOCUSED:
             return "window_minimize_pressed";
+
+        case BACKGROUND_MINIMIZED_DISABLED:
+            return "window_restore_enabled";
+        case BACKGROUND_MINIMIZED_ENABLED:
+            return "window_restore_enabled";
+        case BACKGROUND_MINIMIZED_MOUSEOVER:
+            return "window_restore_hover";
+        case BACKGROUND_MINIMIZED_PRESSED:
+            return "window_restore_pressed";
+        case BACKGROUND_MINIMIZED_ENABLED_WINDOWNOTFOCUSED:
+            return "window_restore_enabled";
+        case BACKGROUND_MINIMIZED_MOUSEOVER_WINDOWNOTFOCUSED:
+            return "window_restore_hover";
+        case BACKGROUND_MINIMIZED_PRESSED_WINDOWNOTFOCUSED:
+            return "window_restore_pressed";
         }
         return null;
     }
