@@ -52,7 +52,6 @@ import javax.swing.UIManager;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.plaf.ActionMapUIResource;
 import javax.swing.plaf.UIResource;
-import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.synth.ColorType;
 import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthGraphicsUtils;
@@ -203,7 +202,6 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     }
 
     public void uninstallDefaults() {
-        // Synth
         SeaGlassContext context = getContext(this, ENABLED);
         style.uninstallDefaults(context);
         context.dispose();
@@ -213,8 +211,6 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
             // Release link to systemMenu from the JInternalFrame
             di.setComponentPopupMenu(null);
         }
-
-        // Basic
     }
 
     private void updateStyle(JComponent c) {
@@ -232,16 +228,16 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     }
 
     private void createButtons() {
-        iconButton = new NoFocusButton("InternalFrameTitlePane.iconifyButtonAccessibleName", "InternalFrameTitlePane.iconifyButtonOpacity");
+        iconButton = new NoFocusButton("InternalFrameTitlePane.iconifyButtonAccessibleName");
         iconButton.addActionListener(iconifyAction);
         if (iconButtonToolTip != null && iconButtonToolTip.length() != 0) {
             iconButton.setToolTipText(iconButtonToolTip);
         }
 
-        maxButton = new NoFocusButton("InternalFrameTitlePane.maximizeButtonAccessibleName", "InternalFrameTitlePane.maximizeButtonOpacity");
+        maxButton = new NoFocusButton("InternalFrameTitlePane.maximizeButtonAccessibleName");
         maxButton.addActionListener(maximizeAction);
 
-        closeButton = new NoFocusButton("InternalFrameTitlePane.closeButtonAccessibleName", "InternalFrameTitlePane.closeButtonOpacity");
+        closeButton = new NoFocusButton("InternalFrameTitlePane.closeButtonAccessibleName");
         closeButton.addActionListener(closeAction);
         if (closeButtonToolTip != null && closeButtonToolTip.length() != 0) {
             closeButton.setToolTipText(closeButtonToolTip);
@@ -304,7 +300,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         systemPopupMenu = new JPopupMenuUIResource();
         addSystemMenuItems(systemPopupMenu);
         enableActions();
-        menuButton = createNoFocusButton();
+        menuButton = new NoFocusButton("InternalFrameTitlePane.menuButtonAccessibleName");
         updateMenuIcon();
         menuButton.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -647,17 +643,9 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         }
     }
 
-    private JButton createNoFocusButton() {
-        JButton button = new JButton();
-        button.setFocusable(false);
-        button.setMargin(new Insets(0, 0, 0, 0));
-        return button;
-    }
-
-    //
-    // Basic
-    //
-
+    /**
+     * Handles closing internal frame.
+     */
     private class CloseAction extends AbstractAction {
         public CloseAction() {
             super(CLOSE_CMD);
@@ -670,6 +658,9 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         }
     }
 
+    /**
+     * Handles maximizing/restoring internal frame.
+     */
     private class MaximizeAction extends AbstractAction {
         public MaximizeAction() {
             super(MAXIMIZE_CMD);
@@ -697,6 +688,9 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         }
     }
 
+    /**
+     * Handles iconifying/uniconifying internal frame.
+     */
     private class IconifyAction extends AbstractAction {
         public IconifyAction() {
             super(ICONIFY_CMD);
@@ -719,6 +713,9 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         }
     }
 
+    /**
+     * Restores internal frame to regular state.
+     */
     private class RestoreAction extends AbstractAction {
         public RestoreAction() {
             super(RESTORE_CMD);
@@ -744,6 +741,9 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         }
     }
 
+    /**
+     * Handles moving internal frame.
+     */
     private class MoveAction extends AbstractAction {
         public MoveAction() {
             super(MOVE_CMD);
@@ -773,6 +773,9 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         }
     }
 
+    /**
+     * Handles resizing internal frame.
+     */
     private class SizeAction extends AbstractAction {
         public SizeAction() {
             super(SIZE_CMD);
@@ -783,19 +786,17 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         }
     }
 
+    /**
+     * Window decoration button class.
+     */
     private class NoFocusButton extends JButton {
         private String uiKey;
 
-        public NoFocusButton(String uiKey, String opacityKey) {
+        public NoFocusButton(String uiKey) {
             setFocusPainted(false);
             setMargin(new Insets(0, 0, 0, 0));
-//            setSize(new Dimension(25, 18));
+            setFocusable(false);
             this.uiKey = uiKey;
-
-            Object opacity = UIManager.get(opacityKey);
-            if (opacity instanceof Boolean) {
-                setOpaque(((Boolean) opacity).booleanValue());
-            }
         }
 
         public boolean isFocusTraversable() {
@@ -803,7 +804,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         }
 
         public void requestFocus() {
-        };
+        }
 
         public AccessibleContext getAccessibleContext() {
             AccessibleContext ac = super.getAccessibleContext();
