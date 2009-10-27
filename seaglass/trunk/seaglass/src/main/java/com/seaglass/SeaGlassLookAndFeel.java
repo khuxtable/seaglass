@@ -62,6 +62,7 @@ import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.plaf.synth.SynthStyleFactory;
 
+import com.seaglass.component.SeaGlassTitlePane;
 import com.seaglass.component.TableScrollPaneCorner;
 import com.seaglass.painter.AbstractRegionPainter;
 import com.seaglass.painter.ArrowButtonPainter;
@@ -105,6 +106,7 @@ import com.seaglass.state.RootPaneNoFrameState;
 import com.seaglass.state.SplitPaneDividerVerticalState;
 import com.seaglass.state.SplitPaneVerticalState;
 import com.seaglass.state.TableHeaderRendererSortedState;
+import com.seaglass.state.TitlePaneCloseButtonWindowModifiedState;
 import com.seaglass.state.TitlePaneCloseButtonWindowNotFocusedState;
 import com.seaglass.state.TitlePaneIconifyButtonWindowMinimizedState;
 import com.seaglass.state.TitlePaneIconifyButtonWindowNotFocusedState;
@@ -144,6 +146,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * Used in a handful of places where we need an empty Insets.
      */
     public static final Insets           EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
+
+    public static final JInternalFrame   FAKE_INTERNAL_FRAME     = new JInternalFrame();
 
     /**
      * The map of SynthStyles. This map is keyed by Region. Each Region maps to
@@ -951,8 +955,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         CacheMode mode = AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES;
 
         // Set the multiplicity of states for the Close button.
-        d.put(prefix + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowMaximized");
+        d.put(prefix + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowModified");
         d.put(prefix + ".WindowNotFocused", new TitlePaneCloseButtonWindowNotFocusedState());
+        d.put(prefix + ".WindowModified", new TitlePaneCloseButtonWindowModifiedState());
         d.put(prefix + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
         d.put(prefix + "[Disabled].backgroundPainter", new LazyPainter(painter, TitlePaneCloseButtonPainter.BACKGROUND_DISABLED, insets,
@@ -961,6 +966,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(painter, TitlePaneCloseButtonPainter.BACKGROUND_MOUSEOVER,
             insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[Enabled+MouseOver+WindowModified].backgroundPainter", new LazyPainter(painter,
+            TitlePaneCloseButtonPainter.BACKGROUND_MODIFIED_MOUSEOVER, insets, size, false, mode, 1.0, 1.0));
+        d.put(prefix + "[Enabled+WindowModified].backgroundPainter", new LazyPainter(painter,
+            TitlePaneCloseButtonPainter.BACKGROUND_MODIFIED, insets, size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Pressed].backgroundPainter", new LazyPainter(painter, TitlePaneCloseButtonPainter.BACKGROUND_PRESSED, insets,
             size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
@@ -1019,7 +1028,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             TitlePaneIconifyButtonPainter.BACKGROUND_MINIMIZED_MOUSEOVER_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
         d.put(prefix + "[Pressed+WindowMinimized+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
             TitlePaneIconifyButtonPainter.BACKGROUND_MINIMIZED_PRESSED_WINDOWNOTFOCUSED, insets, size, false, mode, 1.0, 1.0));
-        
+
         d.put(prefix + ".icon", new SeaGlassIcon(prefix, "iconPainter", size.width, size.height));
     }
 
@@ -1151,7 +1160,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         }
 
         d.put("RootPane.States", "Enabled,WindowFocused,NoFrame");
-        d.put("RootPane.contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put("RootPane.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("RootPane.opaque", Boolean.FALSE);
         d.put("RootPane.NoFrame", new RootPaneNoFrameState());
 
@@ -1898,7 +1907,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         if (c == null || r == null) {
             throw new IllegalArgumentException("Neither comp nor r may be null");
         }
-
         // if there are no lazy styles registered for the region r, then return
         // the default style
         List<LazyStyle> styles = styleMap.get(r);
@@ -2085,6 +2093,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                     if (r == Region.INTERNAL_FRAME_TITLE_PANE && parent != null && parent instanceof JInternalFrame.JDesktopIcon) {
                         JInternalFrame.JDesktopIcon icon = (JInternalFrame.JDesktopIcon) parent;
                         parent = icon.getInternalFrame();
+                    } else if (r == Region.INTERNAL_FRAME_TITLE_PANE && c instanceof SeaGlassTitlePane) {
+                        // Also special case the title pane. Its parent is the
+                        // layered pane and hasn't yet been assigned, but we
+                        // want it to behave as if its parent is an internal
+                        // frame.
+                        parent = FAKE_INTERNAL_FRAME;
                     }
                     // it was the name of a region. So far, so good. Recurse.
                     return matches(parent, partIndex - 1);
