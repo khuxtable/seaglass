@@ -111,7 +111,6 @@ public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeLis
                 uninstallKeyboardActions(b);
                 installKeyboardActions(b);
             }
-
         }
         context.dispose();
     }
@@ -235,7 +234,6 @@ public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeLis
 
     public void paint(Graphics g, JComponent c) {
         SeaGlassContext context = getContext(c);
-
         paint(context, g);
         context.dispose();
     }
@@ -392,9 +390,9 @@ public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeLis
         }
         AbstractButton b = (AbstractButton) c;
         SeaGlassContext ss = getContext(c);
-        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMinimumSize(ss, ss.getStyle().getFont(ss), b.getText(),
-            getSizingIcon(b), b.getHorizontalAlignment(), b.getVerticalAlignment(), b.getHorizontalTextPosition(),
-            b.getVerticalTextPosition(), b.getIconTextGap(), b.getDisplayedMnemonicIndex());
+        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMinimumSize(ss, ss.getStyle().getFont(ss), b.getText(), getSizingIcon(b),
+            b.getHorizontalAlignment(), b.getVerticalAlignment(), b.getHorizontalTextPosition(), b.getVerticalTextPosition(),
+            b.getIconTextGap(), b.getDisplayedMnemonicIndex());
 
         ss.dispose();
         return size;
@@ -408,9 +406,9 @@ public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeLis
         SeaGlassContext ss = getContext(c);
         SynthStyle style2 = ss.getStyle();
         SynthGraphicsUtils graphicsUtils = style2.getGraphicsUtils(ss);
-        Dimension size = graphicsUtils.getPreferredSize(ss, style2.getFont(ss), b.getText(),
-            getSizingIcon(b), b.getHorizontalAlignment(), b.getVerticalAlignment(), b.getHorizontalTextPosition(),
-            b.getVerticalTextPosition(), b.getIconTextGap(), b.getDisplayedMnemonicIndex());
+        Dimension size = graphicsUtils.getPreferredSize(ss, style2.getFont(ss), b.getText(), getSizingIcon(b), b.getHorizontalAlignment(),
+            b.getVerticalAlignment(), b.getHorizontalTextPosition(), b.getVerticalTextPosition(), b.getIconTextGap(), b
+                .getDisplayedMnemonicIndex());
 
         ss.dispose();
         return size;
@@ -423,9 +421,9 @@ public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeLis
 
         AbstractButton b = (AbstractButton) c;
         SeaGlassContext ss = getContext(c);
-        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMaximumSize(ss, ss.getStyle().getFont(ss), b.getText(),
-            getSizingIcon(b), b.getHorizontalAlignment(), b.getVerticalAlignment(), b.getHorizontalTextPosition(),
-            b.getVerticalTextPosition(), b.getIconTextGap(), b.getDisplayedMnemonicIndex());
+        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMaximumSize(ss, ss.getStyle().getFont(ss), b.getText(), getSizingIcon(b),
+            b.getHorizontalAlignment(), b.getVerticalAlignment(), b.getHorizontalTextPosition(), b.getVerticalTextPosition(),
+            b.getIconTextGap(), b.getDisplayedMnemonicIndex());
 
         ss.dispose();
         return size;
