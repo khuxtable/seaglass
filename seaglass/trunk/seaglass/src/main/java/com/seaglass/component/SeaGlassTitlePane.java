@@ -19,54 +19,48 @@
  */
 package com.seaglass.component;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Frame;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.LayoutManager;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.accessibility.AccessibleContext;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.Icon;
+import javax.swing.ActionMap;
+import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JRootPane;
-import javax.swing.SwingUtilities;
+import javax.swing.RootPaneContainer;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.ButtonUI;
+import javax.swing.plaf.ActionMapUIResource;
 import javax.swing.plaf.UIResource;
-import javax.swing.plaf.synth.SynthLookAndFeel;
+import javax.swing.plaf.synth.ColorType;
+import javax.swing.plaf.synth.SynthContext;
+import javax.swing.plaf.synth.SynthGraphicsUtils;
+import javax.swing.plaf.synth.SynthStyle;
 
-import com.seaglass.painter.Painter;
-import com.seaglass.painter.TitleBarPainter;
+import com.seaglass.SeaGlassContext;
+import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.ui.SeaGlassButtonUI;
 import com.seaglass.ui.SeaGlassRootPaneUI;
-import com.seaglass.util.PlatformUtils;
-import com.seaglass.util.SeaGlassUtils;
-import com.seaglass.util.WindowUtils;
 
 import sun.swing.SwingUtilities2;
+import sun.swing.plaf.synth.SynthUI;
 
 /**
  * Class that manages a JLF awt.Window-descendant class's title bar.
@@ -76,443 +70,444 @@ import sun.swing.SwingUtilities2;
  * 
  * @author Kathryn Huxtable
  */
-public class SeaGlassTitlePane extends JComponent {
-    private static final Color     DEFAULT_EMPHASIS_COLOR = new Color(255, 255, 255, 110);
-    private static final Color     TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
-    private static final Border    handyEmptyBorder       = new EmptyBorder(0, 0, 0, 0);
-    private static final int       IMAGE_HEIGHT           = 16;
-    private static final int       IMAGE_WIDTH            = 16;
+public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyChangeListener {
+    // Basic
+    private JButton             iconButton;
+    private JButton             maxButton;
+    private JButton             closeButton;
 
-    /**
-     * PropertyChangeListener added to the JRootPane.
-     */
-    private PropertyChangeListener propertyChangeListener;
+    private JMenu               windowMenu;
+    private JRootPane           rootPane;
+    private RootPaneContainer   rootParent;
 
-    /**
-     * Listener installed on buttons to listen for rollover changes.
-     */
-    private RolloverListener       rolloverListener       = new RolloverListener();
+    private Action              closeAction;
+    private Action              maximizeAction;
+    private Action              iconifyAction;
+    private Action              restoreAction;
+    private Action              moveAction;
+    private Action              sizeAction;
 
-    /**
-     * Action used to close the Window.
-     */
-    private Action                 closeAction;
+    private static final String CLOSE_CMD    = UIManager.getString("InternalFrameTitlePane.closeButtonText");
+    private static final String ICONIFY_CMD  = UIManager.getString("InternalFrameTitlePane.minimizeButtonText");
+    private static final String RESTORE_CMD  = UIManager.getString("InternalFrameTitlePane.restoreButtonText");
+    private static final String MAXIMIZE_CMD = UIManager.getString("InternalFrameTitlePane.maximizeButtonText");
+    private static final String MOVE_CMD     = UIManager.getString("InternalFrameTitlePane.moveButtonText");
+    private static final String SIZE_CMD     = UIManager.getString("InternalFrameTitlePane.sizeButtonText");
 
-    /**
-     * Action used to iconify the Frame.
-     */
-    private Action                 iconifyAction;
+    private String              closeButtonToolTip;
+    private String              iconButtonToolTip;
+    private String              restoreButtonToolTip;
+    private String              maxButtonToolTip;
 
-    /**
-     * Action to restore the Frame size.
-     */
-    private Action                 restoreAction;
+    private int                 state        = -1;
+    private SeaGlassRootPaneUI  rootPaneUI;
 
-    /**
-     * Action to restore the Frame size.
-     */
-    private Action                 maximizeAction;
+    // Synth
+    private SynthStyle          style;
+    private int                 titleSpacing;
 
-    /**
-     * Button used to maximize or restore the Frame.
-     */
-    private JButton                toggleButton;
-
-    /**
-     * Button used to maximize or restore the Frame.
-     */
-    private JButton                iconifyButton;
-
-    /**
-     * Button used to maximize or restore the Frame.
-     */
-    private JButton                closeButton;
-
-    private Icon                   closeIcon;
-    private Icon                   closeIconModified;
-    private Icon                   closeIconUnfocused;
-    private Icon                   closeIconUnfocusedModified;
-
-    private Icon                   iconifyIcon;
-    private Icon                   iconifyIconUnfocused;
-
-    /**
-     * Icon used for toggleButton when window is normal size.
-     */
-    private Icon                   maximizeIcon;
-    private Icon                   maximizeIconUnfocused;
-
-    /**
-     * Icon used for toggleButton when window is maximized.
-     */
-    private Icon                   minimizeIcon;
-    private Icon                   minimizeIconUnfocused;
-
-    /**
-     * Listens for changes in the state of the Window listener to update the
-     * state of the widgets.
-     */
-    private WindowListener         windowListener;
-
-    /**
-     * Window we're currently in.
-     */
-    private Window                 window;
-
-    /**
-     * Listens for changes in the property indicating that the document has been
-     * modified. This is installed on the rootPane.
-     */
-    private PropertyChangeListener documentModifiedListener;
-
-    /**
-     * JRootPane rendering for.
-     */
-    private JRootPane              rootPane;
-
-    // private int buttonsWidth;
-
-    /**
-     * Buffered Frame.state property. As state isn't bound, this is kept to
-     * determine when to avoid updating widgets.
-     */
-    private int                    state;
-
-    /**
-     * AqvavitRootPaneUI that created us.
-     */
-    private SeaGlassRootPaneUI     rootPaneUI;
-
-    // Colors
-    private Color                  inactiveForeground     = UIManager.getColor("textInactiveText");
-    private Color                  activeForeground       = null;
-    private Painter<Component>     backgroundPainter      = null;
-
-    public SeaGlassTitlePane(JRootPane root, SeaGlassRootPaneUI ui) {
-        this.rootPane = root;
-        rootPaneUI = ui;
-
-        state = -1;
-
-        installSubcomponents();
-        determineColors();
-        installDefaults();
-
-        setLayout(createLayout());
-        WindowUtils.installJComponentRepainterOnWindowFocusChanged(this);
+    public SeaGlassTitlePane(JRootPane rootPane, SeaGlassRootPaneUI ui) {
+        this.rootPane = rootPane;
+        this.rootPaneUI = ui;
+        rootParent = (RootPaneContainer) rootPane.getParent();
+        installTitlePane();
     }
-
-    /**
-     * Uninstalls the necessary state.
-     */
-    // private void uninstall() {
-    // uninstallListeners();
-    // window = null;
-    // removeAll();
-    // }
-    /**
-     * Installs the necessary listeners.
-     */
-    private void installListeners() {
-        documentModifiedListener = createDocumentModifiedListener();
-        rootPane.addPropertyChangeListener(documentModifiedListener);
-        if (window != null) {
-            windowListener = createWindowListener();
-            window.addWindowListener(windowListener);
-            propertyChangeListener = createWindowPropertyChangeListener();
-            window.addPropertyChangeListener(propertyChangeListener);
-        }
-    }
-
-    /**
-     * Uninstalls the necessary listeners.
-     */
-    private void uninstallListeners() {
-        if (window != null) {
-            window.removeWindowListener(windowListener);
-            window.removePropertyChangeListener(propertyChangeListener);
-        }
-        rootPane.removePropertyChangeListener(documentModifiedListener);
-    }
-
-    /**
-     * Returns the <code>WindowListener</code> to add to the <code>Window</code>
-     * .
-     */
-    private WindowListener createWindowListener() {
-        return new WindowHandler();
-    }
-
-    /**
-     * Returns the <code>PropertyChangeListener</code> to install on the
-     * <code>Window</code>.
-     */
-    private PropertyChangeListener createWindowPropertyChangeListener() {
-        return new PropertyChangeHandler();
-    }
-
-    /**
-     * Returns the <code>PropertyChangeListener</code> to install on the
-     * <code>rootPane</code>.
-     */
-    private PropertyChangeListener createDocumentModifiedListener() {
-        return new DocumentModifiedListener();
-    }
-
-    /**
-     * Returns the <code>JRootPane</code> this was created for.
-     */
+    
     public JRootPane getRootPane() {
         return rootPane;
     }
 
-    /**
-     * Returns the decoration style of the <code>JRootPane</code>.
-     */
-    private int getWindowDecorationStyle() {
-        return getRootPane().getWindowDecorationStyle();
+    public String getUIClassID() {
+        return "InternalFrameTitlePaneUI";
     }
 
-    public void addNotify() {
-        super.addNotify();
+    public SeaGlassContext getContext(JComponent c) {
+        return getContext(c, getComponentState(c));
+    }
 
-        uninstallListeners();
+    public SeaGlassContext getContext(JComponent c, int state) {
+        return SeaGlassContext.getContext(SeaGlassContext.class, c, SeaGlassLookAndFeel.getRegion(c), style, state);
+    }
 
-        window = SwingUtilities.getWindowAncestor(this);
-        if (window != null) {
-            if (window instanceof Frame) {
-                setState(((Frame) window).getExtendedState());
-            } else {
-                setState(0);
+    private int getComponentState(JComponent c) {
+        if (rootParent != null) {
+            if (isParentSelected()) {
+                return SELECTED;
             }
-            setActive(window.isActive());
-            installListeners();
+        }
+        return SeaGlassLookAndFeel.getComponentState(c);
+    }
+
+    private boolean isParentSelected() {
+        if (rootParent instanceof JFrame) {
+            return ((JFrame) rootParent).isActive();
+        } else if (rootParent instanceof JDialog) {
+            return ((JDialog) rootParent).isActive();
+        } else {
+            return true;
         }
     }
 
-    public void removeNotify() {
-        super.removeNotify();
-
-        uninstallListeners();
-        window = null;
-    }
-
-    /**
-     * Adds any sub-Components contained in the <code>AqvavitTitlePane</code>.
-     */
-    private void installSubcomponents() {
-        int decorationStyle = getWindowDecorationStyle();
-        if (decorationStyle == JRootPane.FRAME) {
-            createActions();
-            createButtons();
-            add(iconifyButton);
-            add(toggleButton);
-            add(closeButton);
-        } else if (decorationStyle == JRootPane.PLAIN_DIALOG || decorationStyle == JRootPane.INFORMATION_DIALOG
-                || decorationStyle == JRootPane.ERROR_DIALOG || decorationStyle == JRootPane.COLOR_CHOOSER_DIALOG
-                || decorationStyle == JRootPane.FILE_CHOOSER_DIALOG || decorationStyle == JRootPane.QUESTION_DIALOG
-                || decorationStyle == JRootPane.WARNING_DIALOG) {
-            createActions();
-            createButtons();
-            add(closeButton);
+    private boolean isParentIcon() {
+        if (rootParent instanceof JFrame) {
+            return (((JFrame) rootParent).getExtendedState() & Frame.ICONIFIED) != 0;
+        } else {
+            return false;
         }
     }
 
-    /**
-     * Determines the Colors to draw with.
-     */
-    private void determineColors() {
-        backgroundPainter = new TitleBarPainter();
-
-        switch (getWindowDecorationStyle()) {
-        case JRootPane.FRAME:
-            activeForeground = UIManager.getColor("textForeground");
-            break;
-        case JRootPane.ERROR_DIALOG:
-            activeForeground = UIManager.getColor("OptionPane.errorDialog.titlePane.foreground");
-            break;
-        case JRootPane.QUESTION_DIALOG:
-        case JRootPane.COLOR_CHOOSER_DIALOG:
-        case JRootPane.FILE_CHOOSER_DIALOG:
-            activeForeground = UIManager.getColor("OptionPane.questionDialog.titlePane.foreground");
-            break;
-        case JRootPane.WARNING_DIALOG:
-            activeForeground = UIManager.getColor("OptionPane.warningDialog.titlePane.foreground");
-            break;
-        case JRootPane.PLAIN_DIALOG:
-        case JRootPane.INFORMATION_DIALOG:
-        default:
-            activeForeground = UIManager.getColor("activeCaptionText");
-            break;
+    private boolean isParentMaximum() {
+        if (rootParent instanceof JFrame) {
+            return (((JFrame) rootParent).getExtendedState() & Frame.MAXIMIZED_BOTH) != 0;
+        } else {
+            return false;
         }
     }
 
-    /**
-     * Installs the fonts and necessary properties on the AqvavitTitlePane.
-     */
+    private boolean isParentLeftToRight() {
+        if (rootParent instanceof JFrame) {
+            return SeaGlassLookAndFeel.isLeftToRight((JFrame) rootParent);
+        } else if (rootParent instanceof JDialog) {
+            return SeaGlassLookAndFeel.isLeftToRight((JDialog) rootParent);
+        } else {
+            return false;
+        }
+    }
+
+    private void doParentDefaultCloseAction() {
+        ((Window) rootParent).dispatchEvent(new WindowEvent((Window) rootParent, WindowEvent.WINDOW_CLOSING));
+    }
+
+    private void setParentIcon(boolean iconify) {
+        if (rootParent instanceof JFrame) {
+            JFrame frame = (JFrame) rootParent;
+            int state = frame.getExtendedState();
+            ((JFrame) rootParent).setExtendedState(iconify ? state | Frame.ICONIFIED : state & ~Frame.ICONIFIED);
+        }
+    }
+
+    private void setParentMaximum(boolean maximize) {
+        if (rootParent instanceof JFrame) {
+            JFrame frame = (JFrame) rootParent;
+            int state = frame.getExtendedState();
+            frame.setExtendedState(maximize ? state | Frame.MAXIMIZED_BOTH : state & ~Frame.MAXIMIZED_BOTH);
+        }
+    }
+
+    private void addParentPropertyChangeListener(PropertyChangeListener listener) {
+        if (rootParent instanceof JFrame) {
+            ((JFrame) rootParent).addPropertyChangeListener(listener);
+        } else if (rootParent instanceof JDialog) {
+            ((JDialog) rootParent).addPropertyChangeListener(listener);
+        }
+    }
+
+    private void removeParentPropertyChangeListener(PropertyChangeListener listener) {
+        if (rootParent instanceof JFrame) {
+            ((JFrame) rootParent).removePropertyChangeListener(listener);
+        } else if (rootParent instanceof JDialog) {
+            ((JDialog) rootParent).removePropertyChangeListener(listener);
+        }
+    }
+
+    private boolean isParentClosable() {
+        return true;
+    }
+
+    private boolean isParentIconifiable() {
+        return true;
+    }
+
+    private boolean isParentMaximizable() {
+        return true;
+    }
+
+    private void installTitlePane() {
+        installDefaults();
+        installListeners();
+
+        createActions();
+        enableActions();
+        createActionMap();
+
+        setLayout(createLayout());
+
+        createButtons();
+        addSubComponents();
+    }
+
+    private void addSubComponents() {
+        iconButton.setName("InternalFrameTitlePane.iconifyButton");
+        maxButton.setName("InternalFrameTitlePane.maximizeButton");
+        closeButton.setName("InternalFrameTitlePane.closeButton");
+
+        add(iconButton);
+        add(maxButton);
+        add(closeButton);
+    }
+
+    private void createActions() {
+        maximizeAction = new MaximizeAction();
+        iconifyAction = new IconifyAction();
+        closeAction = new CloseAction();
+        restoreAction = new RestoreAction();
+        moveAction = new MoveAction();
+        sizeAction = new SizeAction();
+    }
+
+    ActionMap createActionMap() {
+        ActionMap map = new ActionMapUIResource();
+        map.put("showSystemMenu", new ShowSystemMenuAction(true));
+        map.put("hideSystemMenu", new ShowSystemMenuAction(false));
+        return map;
+    }
+
+    protected void installListeners() {
+        addParentPropertyChangeListener(this);
+        addParentPropertyChangeListener(this);
+    }
+
+    protected void uninstallListeners() {
+        removeParentPropertyChangeListener(this);
+        removeParentPropertyChangeListener(this);
+    }
+
     private void installDefaults() {
-        setFont(UIManager.getFont("InternalFrame.titleFont", getLocale()));
+        // Basic
+        setFont(UIManager.getFont("InternalFrame.titleFont"));
+        closeButtonToolTip = UIManager.getString("InternalFrame.closeButtonToolTip");
+        iconButtonToolTip = UIManager.getString("InternalFrame.iconButtonToolTip");
+        restoreButtonToolTip = UIManager.getString("InternalFrame.restoreButtonToolTip");
+        maxButtonToolTip = UIManager.getString("InternalFrame.maxButtonToolTip");
+
+        // Synth
+        updateStyle(this);
     }
 
-    /**
-     * Uninstalls any previously installed UI values.
-     */
-    // private void uninstallDefaults() {
-    // }
-    /**
-     * Closes the Window.
-     */
-    private void close() {
-        Window window = getWindow();
+    public void uninstallDefaults() {
+        SeaGlassContext context = getContext(this, ENABLED);
+        style.uninstallDefaults(context);
+        context.dispose();
+        style = null;
+    }
 
-        if (window != null) {
-            window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+    private void updateStyle(JComponent c) {
+        SeaGlassContext context = getContext(this, ENABLED);
+        SynthStyle oldStyle = style;
+        style = SeaGlassLookAndFeel.updateStyle(context, this);
+        if (style != oldStyle) {
+            titleSpacing = style.getInt(context, "InternalFrameTitlePane.titleSpacing", 2);
+        }
+
+        context.dispose();
+    }
+
+    private void createButtons() {
+        iconButton = new NoFocusButton("InternalFrameTitlePane.iconifyButtonAccessibleName");
+        iconButton.addActionListener(iconifyAction);
+        if (iconButtonToolTip != null && iconButtonToolTip.length() != 0) {
+            iconButton.setToolTipText(iconButtonToolTip);
+        }
+
+        maxButton = new NoFocusButton("InternalFrameTitlePane.maximizeButtonAccessibleName");
+        maxButton.addActionListener(maximizeAction);
+
+        closeButton = new NoFocusButton("InternalFrameTitlePane.closeButtonAccessibleName");
+        closeButton.addActionListener(closeAction);
+        if (closeButtonToolTip != null && closeButtonToolTip.length() != 0) {
+            closeButton.setToolTipText(closeButtonToolTip);
+        }
+
+        setButtonTooltips();
+    }
+
+    private void setButtonTooltips() {
+        if (isParentIcon()) {
+            if (restoreButtonToolTip != null && restoreButtonToolTip.length() != 0) {
+                iconButton.setToolTipText(restoreButtonToolTip);
+            }
+            if (maxButtonToolTip != null && maxButtonToolTip.length() != 0) {
+                maxButton.setToolTipText(maxButtonToolTip);
+            }
+        } else if (isParentMaximum()) {
+            if (iconButtonToolTip != null && iconButtonToolTip.length() != 0) {
+                iconButton.setToolTipText(iconButtonToolTip);
+            }
+            if (restoreButtonToolTip != null && restoreButtonToolTip.length() != 0) {
+                maxButton.setToolTipText(restoreButtonToolTip);
+            }
+        } else {
+            if (iconButtonToolTip != null && iconButtonToolTip.length() != 0) {
+                iconButton.setToolTipText(iconButtonToolTip);
+            }
+            if (maxButtonToolTip != null && maxButtonToolTip.length() != 0) {
+                maxButton.setToolTipText(maxButtonToolTip);
+            }
+        }
+    }
+
+    // SeaGlassInternalFrameTitlePane has no UI, we'll invoke paint on it.
+    public void paintComponent(Graphics g) {
+        SeaGlassContext context = getContext(this);
+        SeaGlassLookAndFeel.update(context, g);
+        context.getPainter().paintInternalFrameTitlePaneBackground(context, g, 0, 0, getWidth(), getHeight());
+        paint(context, g);
+        context.dispose();
+    }
+
+    private void paint(SeaGlassContext context, Graphics g) {
+        String title = getTitle();
+
+        if (title != null) {
+            SynthStyle style = context.getStyle();
+
+            g.setColor(style.getColor(context, ColorType.TEXT_FOREGROUND));
+            g.setFont(style.getFont(context));
+
+            // Center text vertically.
+            FontMetrics fm = SwingUtilities2.getFontMetrics(rootPane, g);
+            int baseline = (getHeight() + fm.getAscent() - fm.getLeading() - fm.getDescent()) / 2;
+            JButton lastButton = null;
+            if (isParentIconifiable()) {
+                lastButton = iconButton;
+            } else if (isParentMaximizable()) {
+                lastButton = maxButton;
+            } else if (isParentClosable()) {
+                lastButton = closeButton;
+            }
+            int maxX;
+            int minX;
+            boolean ltr = isParentLeftToRight();
+            if (ltr) {
+                if (lastButton != null) {
+                    maxX = lastButton.getX() - titleSpacing;
+                } else {
+                    maxX = getParentWidth() - getParentInsets().right - titleSpacing;
+                }
+                minX = titleSpacing;
+            } else {
+                if (lastButton != null) {
+                    minX = lastButton.getX() + lastButton.getWidth() + titleSpacing;
+                } else {
+                    minX = getParentInsets().left + titleSpacing;
+                }
+                maxX = -titleSpacing;
+            }
+            String clippedTitle = getTitle(title, fm, maxX - minX);
+            if (clippedTitle == title) {
+                int width = style.getGraphicsUtils(context).computeStringWidth(context, g.getFont(), fm, title);
+                minX = Math.max(minX, (getWidth() - width) / 2);
+                minX = Math.min(maxX - width, minX);
+            }
+            style.getGraphicsUtils(context).paintText(context, g, clippedTitle, minX, baseline - fm.getAscent(), -1);
         }
     }
 
     /**
-     * Iconifies the Frame.
+     * Returns the String to display as the title.
      */
-    private void iconify() {
-        Frame frame = getFrame();
-        if (frame != null) {
-            frame.setExtendedState(state | Frame.ICONIFIED);
+    private String getTitle() {
+        if (rootParent instanceof JFrame) {
+            return ((JFrame) rootParent).getTitle();
+        } else if (rootParent instanceof JDialog) {
+            return ((JDialog) rootParent).getTitle();
         }
+        return null;
     }
 
-    /**
-     * Maximizes the Frame.
-     */
-    private void maximize() {
-        Frame frame = getFrame();
-        if (frame != null) {
-            frame.setExtendedState(state | Frame.MAXIMIZED_BOTH);
+    private Insets getParentInsets() {
+        if (rootParent instanceof JApplet) {
+            return ((JApplet) rootParent).getInsets();
         }
+        return ((Window) rootParent).getInsets();
     }
 
-    /**
-     * Restores the Frame size.
-     */
-    private void restore() {
-        Frame frame = getFrame();
+    private int getParentWidth() {
+        if (rootParent instanceof JApplet) {
+            return ((JApplet) rootParent).getWidth();
+        }
+        return ((Window) rootParent).getWidth();
+    }
 
-        if (frame == null) {
+    private String getTitle(String text, FontMetrics fm, int availTextWidth) {
+        return SwingUtilities2.clipStringIfNecessary(rootPane, fm, text, availTextWidth);
+    }
+
+    public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
+        ((SeaGlassContext) context).getPainter().paintInternalFrameTitlePaneBorder(context, g, x, y, w, h);
+    }
+
+    private LayoutManager createLayout() {
+        SeaGlassContext context = getContext(this);
+        LayoutManager lm = (LayoutManager) style.get(context, "InternalFrameTitlePane.titlePaneLayout");
+        context.dispose();
+        return (lm != null) ? lm : new SeaGlassTitlePaneLayout();
+    }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getSource() == this) {
+            if (SeaGlassLookAndFeel.shouldUpdateStyle(evt)) {
+                updateStyle(this);
+            }
+        }
+
+        // Basic (from Handler inner class)
+        String prop = (String) evt.getPropertyName();
+
+        if (prop == JInternalFrame.IS_SELECTED_PROPERTY) {
+            repaint();
             return;
         }
 
-        if ((state & Frame.ICONIFIED) != 0) {
-            frame.setExtendedState(state & ~Frame.ICONIFIED);
-        } else {
-            frame.setExtendedState(state & ~Frame.MAXIMIZED_BOTH);
+        // Frame.state isn't currently bound.
+        if ("resizable".equals(prop) || "state".equals(prop)) {
+            Frame frame = (JFrame) rootParent;
+
+            if (frame != null) {
+                setState(frame.getExtendedState(), true);
+            }
+            if ("resizable".equals(prop)) {
+                getRootPane().repaint();
+            }
+        } else if ("title".equals(prop)) {
+            repaint();
+        } else if ("componentOrientation" == prop) {
+            revalidate();
+            repaint();
+        } else if ("iconImage" == prop) {
+            revalidate();
+            repaint();
         }
-    }
 
-    /**
-     * Create the <code>Action</code>s that get associated with the buttons and
-     * menu items.
-     */
-    private void createActions() {
-        closeAction = new CloseAction();
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            iconifyAction = new IconifyAction();
-            restoreAction = new RestoreAction();
-            maximizeAction = new MaximizeAction();
+        if (prop == JInternalFrame.IS_ICON_PROPERTY || prop == JInternalFrame.IS_MAXIMUM_PROPERTY) {
+            setButtonTooltips();
+            enableActions();
+            return;
         }
-    }
 
-    /**
-     * Returns a <code>JButton</code> appropriate for placement on the
-     * TitlePane.
-     */
-    private JButton createTitleButton() {
-        JButton button = new JButton();
-
-        button.setFocusPainted(false);
-        button.setFocusable(false);
-        button.setMargin(new Insets(0, 0, 0, 0));
-//        button.setBackground(TRANSPARENT_COLOR);
-        button.addMouseListener(rolloverListener);
-
-        button.setUI((ButtonUI) SynthLookAndFeel.createUI(button));
-        return button;
-    }
-
-    /**
-     * Creates the Buttons that will be placed on the TitlePane.
-     */
-    private void createButtons() {
-        closeButton = createTitleButton();
-        closeButton.setAction(closeAction);
-        closeButton.setName("TitlePane.closeButton");
-
-        closeIcon = UIManager.getIcon("TitlePane.closeIcon");
-        closeIconModified = UIManager.getIcon("TitlePane.closeIconModified");
-        closeIconUnfocused = UIManager.getIcon("TitlePane.closeIconUnfocused");
-        closeIconUnfocusedModified = UIManager.getIcon("TitlePane.closeIconUnfocusedModified");
-
-        closeButton.setText(null);
-        closeButton.putClientProperty("paintActive", Boolean.TRUE);
-        closeButton.setBorder(handyEmptyBorder);
-        closeButton.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, "Close");
-        closeButton.setIcon(closeIcon);
-
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            maximizeIcon = UIManager.getIcon("TitlePane.maximizeIcon");
-            minimizeIcon = UIManager.getIcon("TitlePane.minimizeIcon");
-            maximizeIconUnfocused = UIManager.getIcon("TitlePane.maximizeIconUnfocused");
-            minimizeIconUnfocused = UIManager.getIcon("TitlePane.minimizeIconUnfocused");
-
-            iconifyIcon = UIManager.getIcon("TitlePane.iconifyIcon");
-            iconifyIconUnfocused = UIManager.getIcon("TitlePane.iconifyIconUnfocused");
-
-            iconifyButton = createTitleButton();
-            iconifyButton.setAction(iconifyAction);
-            iconifyButton.setName("InternalFrameTitlePane.iconifyButton");
-            iconifyButton.setText(null);
-            iconifyButton.putClientProperty("paintActive", Boolean.TRUE);
-            iconifyButton.setBorder(handyEmptyBorder);
-            iconifyButton.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, "Iconify");
-            iconifyButton.setIcon(iconifyIcon);
-
-            toggleButton = createTitleButton();
-            toggleButton.setAction(restoreAction);
-            toggleButton.putClientProperty("paintActive", Boolean.TRUE);
-            toggleButton.setName("InternalFrameTitlePane.maximizeButton");
-            toggleButton.setBorder(handyEmptyBorder);
-            toggleButton.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, "Maximize");
-            toggleButton.setIcon(maximizeIcon);
+        if ("closable" == prop) {
+            if ((Boolean) evt.getNewValue() == Boolean.TRUE) {
+                add(closeButton);
+            } else {
+                remove(closeButton);
+            }
+        } else if ("maximizable" == prop) {
+            if ((Boolean) evt.getNewValue() == Boolean.TRUE) {
+                add(maxButton);
+            } else {
+                remove(maxButton);
+            }
+        } else if ("iconable" == prop) {
+            if ((Boolean) evt.getNewValue() == Boolean.TRUE) {
+                add(iconButton);
+            } else {
+                remove(iconButton);
+            }
         }
-    }
+        enableActions();
 
-    /**
-     * Returns the <code>LayoutManager</code> that should be installed on the
-     * <code>AqvavitTitlePane</code>.
-     */
-    private LayoutManager createLayout() {
-        return new TitlePaneLayout();
-    }
-
-    /**
-     * Updates state dependant upon the Window's active state.
-     */
-    private void setActive(boolean isActive) {
-        Boolean activeB = isActive ? Boolean.TRUE : Boolean.FALSE;
-
-        closeButton.putClientProperty("paintActive", activeB);
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            iconifyButton.putClientProperty("paintActive", activeB);
-            toggleButton.putClientProperty("paintActive", activeB);
-        }
-        // Repaint the whole thing as the Borders that are used have
-        // different colors for active vs inactive
-        getRootPane().repaint();
-    }
-
-    /**
-     * Sets the state of the Window.
-     */
-    private void setState(int state) {
-        setState(state, false);
+        revalidate();
+        repaint();
     }
 
     /**
@@ -520,19 +515,19 @@ public class SeaGlassTitlePane extends JComponent {
      * and the state has not changed, this will update anyway.
      */
     private void setState(int state, boolean updateRegardless) {
-        Window w = getWindow();
+        Window w = (Window) rootParent;
 
-        if (w != null && getWindowDecorationStyle() == JRootPane.FRAME) {
+        if (w != null && rootPane.getWindowDecorationStyle() == JRootPane.FRAME) {
             if (this.state == state && !updateRegardless) {
                 return;
             }
-            Frame frame = getFrame();
+            Frame frame = (JFrame) rootParent;
 
             if (frame != null) {
                 JRootPane rootPane = getRootPane();
 
-                if (((state & Frame.MAXIMIZED_BOTH) != 0)
-                        && (rootPane.getBorder() == null || (rootPane.getBorder() instanceof UIResource)) && frame.isShowing()) {
+                if (((state & Frame.MAXIMIZED_BOTH) != 0) && (rootPane.getBorder() == null || (rootPane.getBorder() instanceof UIResource))
+                        && frame.isShowing()) {
                     rootPane.setBorder(null);
                 } else if ((state & Frame.MAXIMIZED_BOTH) == 0) {
                     // This is a croak, if state becomes bound, this can
@@ -541,37 +536,38 @@ public class SeaGlassTitlePane extends JComponent {
                 }
                 if (frame.isResizable()) {
                     if ((state & Frame.MAXIMIZED_BOTH) != 0) {
-                        updateToggleButton(restoreAction, minimizeIcon);
+                        // updateToggleButton(restoreAction, minimizeIcon);
                         maximizeAction.setEnabled(false);
                         restoreAction.setEnabled(true);
                     } else {
-                        updateToggleButton(maximizeAction, maximizeIcon);
+                        // updateToggleButton(maximizeAction, maximizeIcon);
                         maximizeAction.setEnabled(true);
                         restoreAction.setEnabled(false);
                     }
-                    if (toggleButton.getParent() == null || iconifyButton.getParent() == null) {
-                        add(toggleButton);
-                        add(iconifyButton);
-                        revalidate();
-                        repaint();
-                    }
-                    toggleButton.setText(null);
+                    // if (toggleButton.getParent() == null ||
+                    // iconifyButton.getParent() == null) {
+                    // add(toggleButton);
+                    // add(iconifyButton);
+                    // revalidate();
+                    // repaint();
+                    // }
+                    // toggleButton.setText(null);
                 } else {
                     maximizeAction.setEnabled(false);
                     restoreAction.setEnabled(false);
-                    if (toggleButton.getParent() != null) {
-                        remove(toggleButton);
-                        revalidate();
-                        repaint();
-                    }
+                    // if (toggleButton.getParent() != null) {
+                    // remove(toggleButton);
+                    // revalidate();
+                    // repaint();
+                    // }
                 }
             } else {
                 // Not contained in a Frame
                 maximizeAction.setEnabled(false);
                 restoreAction.setEnabled(false);
                 iconifyAction.setEnabled(false);
-                remove(toggleButton);
-                remove(iconifyButton);
+                // remove(toggleButton);
+                // remove(iconifyButton);
                 revalidate();
                 repaint();
             }
@@ -580,223 +576,17 @@ public class SeaGlassTitlePane extends JComponent {
         }
     }
 
-    /**
-     * Updates the toggle button to contain the Icon <code>icon</code>, and
-     * Action <code>action</code>.
-     */
-    private void updateToggleButton(Action action, Icon icon) {
-        toggleButton.setAction(action);
-        toggleButton.setIcon(icon);
-        toggleButton.setText(null);
-        toggleButton.repaint();
+    private void enableActions() {
+        restoreAction.setEnabled(isParentMaximum() || isParentIcon());
+        maximizeAction.setEnabled((isParentMaximizable() && !isParentMaximum() && !isParentIcon())
+                || (isParentMaximizable() && isParentIcon()));
+        iconifyAction.setEnabled(isParentIconifiable() && !isParentIcon());
+        closeAction.setEnabled(isParentClosable());
+        sizeAction.setEnabled(false);
+        moveAction.setEnabled(false);
     }
 
-    /**
-     * Returns the Frame rendering in. This will return null if the
-     * <code>JRootPane</code> is not contained in a <code>Frame</code>.
-     */
-    private Frame getFrame() {
-        Window window = getWindow();
-
-        if (window instanceof Frame) {
-            return (Frame) window;
-        }
-        return null;
-    }
-
-    /**
-     * Returns the <code>Window</code> the <code>JRootPane</code> is contained
-     * in. This will return null if there is no parent ancestor of the
-     * <code>JRootPane</code>.
-     */
-    private Window getWindow() {
-        return window;
-    }
-
-    /**
-     * Returns the String to display as the title.
-     */
-    private String getTitle() {
-        Window w = getWindow();
-
-        if (w instanceof Frame) {
-            return ((Frame) w).getTitle();
-        } else if (w instanceof Dialog) {
-            return ((Dialog) w).getTitle();
-        }
-        return null;
-    }
-
-    /**
-     * Renders the TitlePane.
-     */
-    public void paintComponent(Graphics g) {
-        // As state isn't bound, we need a convenience place to check
-        // if it has changed. Changing the state typically changes the
-        if (getFrame() != null) {
-            setState(getFrame().getExtendedState());
-        }
-        JRootPane rootPane = getRootPane();
-        Window window = getWindow();
-        boolean leftToRight = (window == null) ? rootPane.getComponentOrientation().isLeftToRight() : window
-            .getComponentOrientation().isLeftToRight();
-        boolean isSelected = (window == null) ? true : window.isActive();
-        int width = getWidth();
-        int height = getHeight();
-
-        Color foreground;
-
-        boolean isModified = rootPane.getClientProperty("Window.documentModified") == Boolean.TRUE;
-        if (isSelected) {
-            foreground = activeForeground;
-            closeButton.setIcon(isModified ? closeIconModified : closeIcon);
-            iconifyButton.setIcon(iconifyIcon);
-            Icon icon = toggleButton.getIcon();
-            if (icon == minimizeIconUnfocused) {
-                toggleButton.setIcon(minimizeIcon);
-            } else if (icon == maximizeIconUnfocused) {
-                toggleButton.setIcon(maximizeIcon);
-            }
-        } else {
-            foreground = inactiveForeground;
-            closeButton.setIcon(isModified ? closeIconUnfocusedModified : closeIconUnfocused);
-            iconifyButton.setIcon(iconifyIconUnfocused);
-            Icon icon = toggleButton.getIcon();
-            if (icon == minimizeIcon) {
-                toggleButton.setIcon(minimizeIconUnfocused);
-            } else if (icon == maximizeIcon) {
-                toggleButton.setIcon(maximizeIconUnfocused);
-            }
-        }
-
-//        backgroundPainter.paint((Graphics2D) g, this, getWidth(), getHeight());
-
-        int xOffset = leftToRight ? 5 : width - 5;
-
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            xOffset += leftToRight ? 5 : -5;
-        }
-
-        if (PlatformUtils.isMac()) {
-            if (toggleButton != null && toggleButton.getParent() != null) {
-                Rectangle toggleRect = toggleButton.getBounds();
-                xOffset += toggleRect.x + toggleRect.width + 5;
-            }
-        }
-
-        if (!PlatformUtils.isMac()) {
-            JMenuBar menuBar = getRootPane().getJMenuBar();
-            if (menuBar != null) {
-                for (int i = 0, size = menuBar.getMenuCount(); i < size; i++) {
-                    JMenu menu = menuBar.getMenu(i);
-                    if (menu.isOpaque()) {
-                        menu.setOpaque(false);
-                    }
-                }
-                menuBar.paintComponents(g);
-            }
-        }
-
-        String theTitle = getTitle();
-        if (theTitle != null) {
-            FontMetrics fm = SwingUtilities2.getFontMetrics(rootPane, g);
-
-            g.setColor(foreground);
-
-            int yOffset = ((height - fm.getHeight()) / 2) + fm.getAscent();
-
-            Rectangle rect = new Rectangle(0, 0, 0, 0);
-            if (!PlatformUtils.isMac()) {
-                if (iconifyButton != null && iconifyButton.getParent() != null) {
-                    rect = iconifyButton.getBounds();
-                }
-            }
-            int titleW;
-
-            if (leftToRight) {
-                if (rect.x == 0) {
-                    rect.x = window.getWidth() - window.getInsets().right - 2;
-                }
-                titleW = rect.x - xOffset - 4;
-                theTitle = SwingUtilities2.clipStringIfNecessary(rootPane, fm, theTitle, titleW);
-            } else {
-                titleW = xOffset - rect.x - rect.width - 4;
-                theTitle = SwingUtilities2.clipStringIfNecessary(rootPane, fm, theTitle, titleW);
-                xOffset -= SwingUtilities2.stringWidth(rootPane, fm, theTitle);
-            }
-            int titleLength = SwingUtilities2.stringWidth(rootPane, fm, theTitle);
-            if (leftToRight) {
-                xOffset = (width - titleLength) / 2;
-            } else {
-                xOffset -= (titleW - titleLength) / 2;
-            }
-
-            SeaGlassUtils.drawEmphasizedString(g, foreground, DEFAULT_EMPHASIS_COLOR, theTitle, xOffset, yOffset);
-            xOffset += leftToRight ? titleLength + 5 : -5;
-        }
-    }
-
-    /**
-     * Actions used to <code>close</code> the <code>Window</code>.
-     */
-    private class CloseAction extends AbstractAction {
-        private static final long serialVersionUID = 8870978129941197734L;
-
-        public CloseAction() {
-            super(UIManager.getString("AqvavitTitlePane.closeTitle", getLocale()));
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            close();
-        }
-    }
-
-    /**
-     * Actions used to <code>iconfiy</code> the <code>Frame</code>.
-     */
-    private class IconifyAction extends AbstractAction {
-        private static final long serialVersionUID = -6117899153104799133L;
-
-        public IconifyAction() {
-            super(UIManager.getString("AqvavitTitlePane.iconifyTitle", getLocale()));
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            iconify();
-        }
-    }
-
-    /**
-     * Actions used to <code>restore</code> the <code>Frame</code>.
-     */
-    private class RestoreAction extends AbstractAction {
-        private static final long serialVersionUID = 3012880765729186316L;
-
-        public RestoreAction() {
-            super(UIManager.getString("AqvavitTitlePane.restoreTitle", getLocale()));
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            restore();
-        }
-    }
-
-    /**
-     * Actions used to <code>restore</code> the <code>Frame</code>.
-     */
-    private class MaximizeAction extends AbstractAction {
-        private static final long serialVersionUID = -8151657853606875012L;
-
-        public MaximizeAction() {
-            super(UIManager.getString("AqvavitTitlePane.maximizeTitle", getLocale()));
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            maximize();
-        }
-    }
-
-    private class TitlePaneLayout implements LayoutManager {
+    class SeaGlassTitlePaneLayout implements LayoutManager {
         public void addLayoutComponent(String name, Component c) {
         }
 
@@ -804,197 +594,256 @@ public class SeaGlassTitlePane extends JComponent {
         }
 
         public Dimension preferredLayoutSize(Container c) {
-            int height = computeHeight();
-            return new Dimension(height, height);
+            return minimumLayoutSize(c);
         }
 
         public Dimension minimumLayoutSize(Container c) {
-            return preferredLayoutSize(c);
-        }
+            SeaGlassContext context = getContext(SeaGlassTitlePane.this);
+            int width = 0;
+            int height = 0;
 
-        private int computeHeight() {
-            FontMetrics fm = rootPane.getFontMetrics(getFont());
-            int fontHeight = fm.getHeight();
-            fontHeight += 7;
-            int iconHeight = 0;
-            if (getWindowDecorationStyle() == JRootPane.FRAME) {
-                iconHeight = IMAGE_HEIGHT;
+            int buttonCount = 0;
+            Dimension pref;
+
+            if (isParentClosable()) {
+                pref = closeButton.getPreferredSize();
+                width += pref.width;
+                height = Math.max(pref.height, height);
+                buttonCount++;
+            }
+            if (isParentMaximizable()) {
+                pref = maxButton.getPreferredSize();
+                width += pref.width;
+                height = Math.max(pref.height, height);
+                buttonCount++;
+            }
+            if (isParentIconifiable()) {
+                pref = iconButton.getPreferredSize();
+                width += pref.width;
+                height = Math.max(pref.height, height);
+                buttonCount++;
             }
 
-            int finalHeight = Math.max(fontHeight, iconHeight);
-            return finalHeight;
+            FontMetrics fm = getFontMetrics(getFont());
+            SynthGraphicsUtils graphicsUtils = context.getStyle().getGraphicsUtils(context);
+            String frameTitle = getTitle();
+            int title_w = frameTitle != null ? graphicsUtils.computeStringWidth(context, fm.getFont(), fm, frameTitle) : 0;
+            int title_length = frameTitle != null ? frameTitle.length() : 0;
+
+            // Leave room for three characters in the title.
+            if (title_length > 3) {
+                int subtitle_w = graphicsUtils.computeStringWidth(context, fm.getFont(), fm, frameTitle.substring(0, 3) + "...");
+                width += (title_w < subtitle_w) ? title_w : subtitle_w;
+            } else {
+                width += title_w;
+            }
+
+            height = Math.max(fm.getHeight() + 6, height);
+
+            width += titleSpacing + titleSpacing;
+
+            Insets insets = getInsets();
+            height += insets.top + insets.bottom;
+            width += insets.left + insets.right;
+            context.dispose();
+            return new Dimension(width, height);
+        }
+
+        private int center(Component c, Insets insets, int x, boolean trailing) {
+            Dimension pref = c.getPreferredSize();
+            int width = pref.width;
+            if (c instanceof JButton && ((JButton) c).getIcon() != null) {
+                width = ((JButton) c).getIcon().getIconWidth();
+            }
+            if (trailing) {
+                x -= width;
+            }
+            int y = 0;
+            c.setBounds(x, y, pref.width, pref.height);
+            if (pref.width > 0) {
+                if (!trailing) {
+                    return x + width;
+                }
+            }
+            return x;
         }
 
         public void layoutContainer(Container c) {
-            boolean leftToRight = (window == null) ? getRootPane().getComponentOrientation().isLeftToRight() : window
-                .getComponentOrientation().isLeftToRight();
+            Insets insets = c.getInsets();
 
-            int w = getWidth();
-            int x;
-            int y = 3;
-            int spacing;
-            int buttonHeight;
-            int buttonWidth;
-
-            if (closeButton != null && closeButton.getIcon() != null) {
-                buttonHeight = closeButton.getIcon().getIconHeight();
-                buttonWidth = closeButton.getIcon().getIconWidth();
-            } else {
-                buttonHeight = IMAGE_HEIGHT;
-                buttonWidth = IMAGE_WIDTH;
-            }
-
-            // assumes all buttons have the same dimensions
-            // these dimensions include the borders
-
-            if (PlatformUtils.isMac()) {
-                x = leftToRight ? 0 : w;
-                spacing = 7;
-                x += leftToRight ? spacing : -spacing - buttonWidth;
-                spacing = 5;
-                if (closeButton != null) {
-                    closeButton.setBounds(x, y, buttonWidth, buttonHeight);
-                    x += leftToRight ? spacing + buttonWidth : -spacing - buttonWidth;
+            if (isParentLeftToRight()) {
+                int x = getWidth() - insets.right;
+                if (isParentClosable()) {
+                    x = center(closeButton, insets, x, true);
                 }
-
-                if (getWindowDecorationStyle() == JRootPane.FRAME) {
-                    if (iconifyButton != null && iconifyButton.getParent() != null) {
-                        iconifyButton.setBounds(x, y, buttonWidth, buttonHeight);
-                        x += leftToRight ? spacing + buttonWidth : -spacing - buttonWidth;
-                    }
-
-                    if (Toolkit.getDefaultToolkit().isFrameStateSupported(Frame.MAXIMIZED_BOTH)) {
-                        if (toggleButton.getParent() != null) {
-                            toggleButton.setBounds(x, y, buttonWidth, buttonHeight);
-                        }
-                    }
+                if (isParentMaximizable()) {
+                    x = center(maxButton, insets, x, true);
+                }
+                if (isParentIconifiable()) {
+                    x = center(iconButton, insets, x, true);
                 }
             } else {
-                // spacing = 5;
-                // x = leftToRight ? spacing : w - buttonWidth - spacing;
-                // if (menuBar != null) {
-                // menuBar.setBounds(x, 0/*y*/, buttonWidth, buttonHeight);
-                // }
-
-                x = leftToRight ? w : 0;
-                spacing = 4;
-                x += leftToRight ? -spacing - buttonWidth : spacing;
-                if (closeButton != null) {
-                    closeButton.setBounds(x, y, buttonWidth, buttonHeight);
-                    x += leftToRight ? -spacing - buttonWidth : spacing + buttonWidth;
+                int x = insets.left;
+                if (isParentClosable()) {
+                    x = center(closeButton, insets, x, false);
                 }
-
-                if (getWindowDecorationStyle() == JRootPane.FRAME) {
-                    if (Toolkit.getDefaultToolkit().isFrameStateSupported(Frame.MAXIMIZED_BOTH)) {
-                        if (toggleButton.getParent() != null) {
-                            toggleButton.setBounds(x, y, buttonWidth, buttonHeight);
-                            x += leftToRight ? -spacing - buttonWidth : spacing + buttonWidth;
-                        }
-                    }
-
-                    if (iconifyButton != null && iconifyButton.getParent() != null) {
-                        iconifyButton.setBounds(x, y, buttonWidth, buttonHeight);
-                    }
+                if (isParentMaximizable()) {
+                    x = center(maxButton, insets, x, false);
+                }
+                if (isParentIconifiable()) {
+                    x = center(iconButton, insets, x, false);
                 }
             }
         }
     }
 
     /**
-     * PropertyChangeListener installed on the Window. Updates the necessary
-     * state as the state of the Window changes.
+     * Handles closing internal frame.
      */
-    private class PropertyChangeHandler implements PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent pce) {
-            String name = pce.getPropertyName();
+    private class CloseAction extends AbstractAction {
+        public CloseAction() {
+            super(CLOSE_CMD);
+        }
 
-            // Frame.state isn't currently bound.
-            if ("resizable".equals(name) || "state".equals(name)) {
-                Frame frame = getFrame();
+        public void actionPerformed(ActionEvent e) {
+            if (isParentClosable()) {
+                doParentDefaultCloseAction();
+            }
+        }
+    }
 
-                if (frame != null) {
-                    setState(frame.getExtendedState(), true);
+    /**
+     * Handles maximizing/restoring internal frame.
+     */
+    private class MaximizeAction extends AbstractAction {
+        public MaximizeAction() {
+            super(MAXIMIZE_CMD);
+        }
+
+        public void actionPerformed(ActionEvent evt) {
+            if (isParentMaximizable()) {
+                if (isParentMaximum() && isParentIcon()) {
+                    setParentIcon(false);
+                } else if (!isParentMaximum()) {
+                    setParentMaximum(true);
+                } else {
+                    setParentMaximum(false);
                 }
-                if ("resizable".equals(name)) {
-                    getRootPane().repaint();
+            }
+        }
+    }
+
+    /**
+     * Handles iconifying/uniconifying internal frame.
+     */
+    private class IconifyAction extends AbstractAction {
+        public IconifyAction() {
+            super(ICONIFY_CMD);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            if (isParentIconifiable()) {
+                if (!isParentIcon()) {
+                    setParentIcon(true);
+                } else {
+                    setParentIcon(false);
                 }
-            } else if ("title".equals(name)) {
-                repaint();
-            } else if ("componentOrientation" == name) {
-                revalidate();
-                repaint();
-            } else if ("iconImage" == name) {
-                revalidate();
-                repaint();
             }
         }
     }
 
     /**
-     * Installed on window decoration buttons to listen for the mouse entering
-     * or leaving and to repaint the three buttons. This is used to display the
-     * interior symbols or not. We'd use a check against rollover, but that
-     * doesn't work if the buttons aren't enabled. Neither does this, however.
+     * Restores internal frame to regular state.
      */
-    private class RolloverListener extends MouseAdapter {
-
-        /**
-         * {@inheritDoc}
-         */
-        public void mouseEntered(MouseEvent e) {
-            closeButton.getModel().setRollover(true);
-            if (getWindowDecorationStyle() == JRootPane.FRAME) {
-                iconifyButton.getModel().setRollover(true);
-                toggleButton.getModel().setRollover(true);
-            }
+    private class RestoreAction extends AbstractAction {
+        public RestoreAction() {
+            super(RESTORE_CMD);
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        public void mouseExited(MouseEvent e) {
-            closeButton.getModel().setRollover(false);
-            if (getWindowDecorationStyle() == JRootPane.FRAME) {
-                iconifyButton.getModel().setRollover(false);
-                toggleButton.getModel().setRollover(false);
+        public void actionPerformed(ActionEvent evt) {
+            if (isParentMaximizable() && isParentMaximum() && isParentIcon()) {
+                setParentIcon(false);
+            } else if (isParentMaximizable() && isParentMaximum()) {
+                setParentMaximum(false);
+            } else if (isParentIconifiable() && isParentIcon()) {
+                setParentIcon(false);
             }
         }
     }
 
     /**
-     * WindowListener installed on the Window, updates the state as necessary.
+     * Handles moving internal frame.
      */
-    private class WindowHandler extends WindowAdapter {
-        public void windowActivated(WindowEvent ev) {
-            setActive(true);
+    private class MoveAction extends AbstractAction {
+        public MoveAction() {
+            super(MOVE_CMD);
         }
 
-        public void windowDeactivated(WindowEvent ev) {
-            setActive(false);
+        public void actionPerformed(ActionEvent e) {
+            // This action is currently undefined
         }
     }
 
     /**
-     * Listener to update the document changed indicator.
+     * Handles showing and hiding the system menu.
      */
-    private class DocumentModifiedListener implements PropertyChangeListener {
+    private class ShowSystemMenuAction extends AbstractAction {
+        private boolean show; // whether to show the menu
 
-        /**
-         * Boolean.TRUE if the window has been modified.
-         */
-        private static final String WINDOW_DOCUMENT_MODIFIED = "Window.documentModified";
+        public ShowSystemMenuAction(boolean show) {
+            this.show = show;
+        }
 
-        /**
-         * {@inheritDoc}
-         */
-        public void propertyChange(PropertyChangeEvent e) {
-            if (closeButton != null && WINDOW_DOCUMENT_MODIFIED.equals(e.getPropertyName())) {
-                boolean isModified = e.getNewValue() == Boolean.TRUE;
-                Icon icon = isModified ? closeIconModified : closeIcon;
-                closeButton.setIcon(icon);
-                closeButton.revalidate();
-                closeButton.repaint();
+        public void actionPerformed(ActionEvent e) {
+            if (show) {
+                windowMenu.doClick();
+            } else {
+                windowMenu.setVisible(false);
             }
+        }
+    }
+
+    /**
+     * Handles resizing internal frame.
+     */
+    private class SizeAction extends AbstractAction {
+        public SizeAction() {
+            super(SIZE_CMD);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            // This action is currently undefined
+        }
+    }
+
+    /**
+     * Window decoration button class.
+     */
+    private class NoFocusButton extends JButton {
+        private String uiKey;
+
+        public NoFocusButton(String uiKey) {
+            setFocusPainted(false);
+            setMargin(new Insets(0, 0, 0, 0));
+            setFocusable(false);
+            this.uiKey = uiKey;
+            setUI(SeaGlassButtonUI.createUI(this));
+        }
+
+        public boolean isFocusTraversable() {
+            return false;
+        }
+
+        public void requestFocus() {
+        }
+
+        public AccessibleContext getAccessibleContext() {
+            AccessibleContext ac = super.getAccessibleContext();
+            if (uiKey != null) {
+                ac.setAccessibleName(UIManager.getString(uiKey));
+                uiKey = null;
+            }
+            return ac;
         }
     }
 }
