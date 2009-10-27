@@ -20,10 +20,12 @@
 package com.seaglass.state;
 
 import java.awt.Component;
+import java.awt.Frame;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-
+import javax.swing.RootPaneContainer;
 
 /**
  */
@@ -35,12 +37,14 @@ public class TitlePaneMaximizeButtonWindowMaximizedState extends State {
     protected boolean isInState(JComponent c) {
         Component parent = c;
         while (parent.getParent() != null) {
-            if (parent instanceof JInternalFrame) {
+            if (parent instanceof RootPaneContainer) {
                 break;
             }
             parent = parent.getParent();
         }
-        if (parent instanceof JInternalFrame) {
+        if (parent instanceof JFrame) {
+            return (((JFrame) parent).getExtendedState() & Frame.MAXIMIZED_BOTH) != 0;
+        } else if (parent instanceof JInternalFrame) {
             return ((JInternalFrame) parent).isMaximum();
         }
         return false;
