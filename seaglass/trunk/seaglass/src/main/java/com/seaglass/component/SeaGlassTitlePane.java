@@ -71,6 +71,8 @@ import sun.swing.plaf.synth.SynthUI;
  * @author Kathryn Huxtable
  */
 public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyChangeListener {
+    private static final String WINDOW_DOCUMENT_MODIFIED = "Window.documentModified";
+
     // Basic
     private JButton             iconButton;
     private JButton             maxButton;
@@ -87,19 +89,19 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     private Action              moveAction;
     private Action              sizeAction;
 
-    private static final String CLOSE_CMD    = UIManager.getString("InternalFrameTitlePane.closeButtonText");
-    private static final String ICONIFY_CMD  = UIManager.getString("InternalFrameTitlePane.minimizeButtonText");
-    private static final String RESTORE_CMD  = UIManager.getString("InternalFrameTitlePane.restoreButtonText");
-    private static final String MAXIMIZE_CMD = UIManager.getString("InternalFrameTitlePane.maximizeButtonText");
-    private static final String MOVE_CMD     = UIManager.getString("InternalFrameTitlePane.moveButtonText");
-    private static final String SIZE_CMD     = UIManager.getString("InternalFrameTitlePane.sizeButtonText");
+    private static final String CLOSE_CMD                = UIManager.getString("InternalFrameTitlePane.closeButtonText");
+    private static final String ICONIFY_CMD              = UIManager.getString("InternalFrameTitlePane.minimizeButtonText");
+    private static final String RESTORE_CMD              = UIManager.getString("InternalFrameTitlePane.restoreButtonText");
+    private static final String MAXIMIZE_CMD             = UIManager.getString("InternalFrameTitlePane.maximizeButtonText");
+    private static final String MOVE_CMD                 = UIManager.getString("InternalFrameTitlePane.moveButtonText");
+    private static final String SIZE_CMD                 = UIManager.getString("InternalFrameTitlePane.sizeButtonText");
 
     private String              closeButtonToolTip;
     private String              iconButtonToolTip;
     private String              restoreButtonToolTip;
     private String              maxButtonToolTip;
 
-    private int                 state        = -1;
+    private int                 state                    = -1;
     private SeaGlassRootPaneUI  rootPaneUI;
 
     // Synth
@@ -112,7 +114,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
         rootParent = (RootPaneContainer) rootPane.getParent();
         installTitlePane();
     }
-    
+
     public JRootPane getRootPane() {
         return rootPane;
     }
@@ -200,6 +202,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
         } else if (rootParent instanceof JDialog) {
             ((JDialog) rootParent).addPropertyChangeListener(listener);
         }
+        rootPane.addPropertyChangeListener(listener);
     }
 
     private void removeParentPropertyChangeListener(PropertyChangeListener listener) {
@@ -263,7 +266,6 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     }
 
     protected void installListeners() {
-        addParentPropertyChangeListener(this);
         addParentPropertyChangeListener(this);
     }
 
@@ -453,6 +455,12 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
 
         // Basic (from Handler inner class)
         String prop = (String) evt.getPropertyName();
+
+        if (closeButton != null && WINDOW_DOCUMENT_MODIFIED.equals(prop)) {
+            closeButton.revalidate();
+            closeButton.repaint();
+            return;
+        }
 
         if (prop == JInternalFrame.IS_SELECTED_PROPERTY) {
             repaint();
@@ -729,6 +737,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                 } else {
                     setParentMaximum(false);
                 }
+                setButtonTooltips();
             }
         }
     }
@@ -749,6 +758,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                     setParentIcon(false);
                 }
             }
+            setButtonTooltips();
         }
     }
 
@@ -768,6 +778,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
             } else if (isParentIconifiable() && isParentIcon()) {
                 setParentIcon(false);
             }
+            setButtonTooltips();
         }
     }
 
