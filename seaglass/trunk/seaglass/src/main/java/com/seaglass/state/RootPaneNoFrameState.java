@@ -25,6 +25,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JRootPane;
 
 /**
  */
@@ -35,6 +36,7 @@ public class RootPaneNoFrameState extends State {
 
     protected boolean isInState(JComponent c) {
         Component parent = c.getParent();
+        if (true) return ((JRootPane) c).getWindowDecorationStyle() == JRootPane.NONE;
         if (parent instanceof JFrame) return true;
         if (parent instanceof JInternalFrame) return true;
         if (parent instanceof JDialog) return true;
