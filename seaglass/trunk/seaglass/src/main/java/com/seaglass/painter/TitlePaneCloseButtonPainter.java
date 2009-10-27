@@ -23,19 +23,15 @@ package com.seaglass.painter;
  * Title pane close button implementation.
  */
 public final class TitlePaneCloseButtonPainter extends AbstractImagePainter {
-    // package private integers representing the available states that
-    // this painter will paint. These are used when creating a new instance
-    // of
-    // InternalFrameInternalFrameTitlePaneInternalFrameTitlePaneCloseButtonPainter
-    // to determine which region/state is being painted by that instance.
     public static final int BACKGROUND_DISABLED                  = 1;
     public static final int BACKGROUND_ENABLED                   = 2;
     public static final int BACKGROUND_MOUSEOVER                 = 3;
     public static final int BACKGROUND_MODIFIED                  = 4;
-    public static final int BACKGROUND_PRESSED                   = 5;
-    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED  = 6;
-    public static final int BACKGROUND_MODIFIED_WINDOWNOTFOCUSED = 7;
-    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED  = 8;
+    public static final int BACKGROUND_MODIFIED_MOUSEOVER        = 5;
+    public static final int BACKGROUND_PRESSED                   = 6;
+    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED  = 7;
+    public static final int BACKGROUND_MODIFIED_WINDOWNOTFOCUSED = 8;
+    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED  = 9;
 
     public TitlePaneCloseButtonPainter(PaintContext ctx, int state) {
         super(ctx, state);
@@ -51,6 +47,8 @@ public final class TitlePaneCloseButtonPainter extends AbstractImagePainter {
             return "window_close_hover";
         case BACKGROUND_MODIFIED:
             return "window_close_modified";
+        case BACKGROUND_MODIFIED_MOUSEOVER:
+            return "window_close_hover_modified";
         case BACKGROUND_PRESSED:
             return "window_close_pressed";
         case BACKGROUND_ENABLED_WINDOWNOTFOCUSED:
