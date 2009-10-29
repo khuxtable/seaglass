@@ -646,7 +646,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                 width += title_w;
             }
 
-            height = Math.max(fm.getHeight() + 6, height);
+            height = Math.max(fm.getHeight(), height);
 
             width += titleSpacing + titleSpacing;
 
