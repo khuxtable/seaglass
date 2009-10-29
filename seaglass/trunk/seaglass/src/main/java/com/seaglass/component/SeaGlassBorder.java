@@ -64,7 +64,7 @@ public class SeaGlassBorder extends AbstractBorder implements UIResource {
         SeaGlassContext context = (SeaGlassContext) ui.getContext(jc);
         SeaGlassStyle style = (SeaGlassStyle) context.getStyle();
         if (style == null) {
-            assert false : "SeaGlassBorder is being used outside after the UI " + "has been uninstalled";
+            assert false : "SeaGlassBorder is being used outside after the UI has been uninstalled";
             return;
         }
         ui.paintBorder(context, g, x, y, width, height);
