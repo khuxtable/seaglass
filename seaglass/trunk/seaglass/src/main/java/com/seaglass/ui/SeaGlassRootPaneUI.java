@@ -39,6 +39,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JRootPane;
@@ -52,6 +53,7 @@ import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglass.SeaGlassContext;
 import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.component.SeaGlassBorder;
 import com.seaglass.component.SeaGlassTitlePane;
 
 import sun.swing.plaf.synth.SynthUI;
@@ -63,70 +65,58 @@ import sun.swing.plaf.synth.SynthUI;
  */
 public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
 
-    /**
-     * Keys to lookup borders in defaults table.
-     */
-    private static final String[] borderKeys            = new String[] {
-        null,
-        "RootPane.frameBorder",
-        "RootPane.plainDialogBorder",
-        "RootPane.informationDialogBorder",
-        "RootPane.errorDialogBorder",
-        "RootPane.colorChooserDialogBorder",
-        "RootPane.fileChooserDialogBorder",
-        "RootPane.questionDialogBorder",
-        "RootPane.warningDialogBorder",                };
+    private static final Color TRANSPARENT_COLOR     = new Color(0, 0, 0, 0);
 
     /**
      * The amount of space (in pixels) that the cursor is changed on.
      */
-    private static final int      CORNER_DRAG_WIDTH     = 16;
+    private static final int   CORNER_DRAG_WIDTH     = 16;
 
     /**
      * Region from edges that dragging is active from.
      */
-    private static final int      BORDER_DRAG_THICKNESS = 5;
+    private static final int   BORDER_DRAG_THICKNESS = 5;
 
-    private SynthStyle            style;
+    private SynthStyle         style;
 
     /**
      * Window the <code>JRootPane</code> is in.
      */
-    private Window                window;
+    private Window             window;
 
     /**
      * <code>JComponent</code> providing window decorations. This will be null
      * if not providing window decorations.
      */
-    private JComponent            titlePane;
+    private JComponent         titlePane;
 
     /**
      * <code>MouseInputListener</code> that is added to the parent
      * <code>Window</code> the <code>JRootPane</code> is contained in.
      */
-    private MouseInputListener    mouseInputListener;
+    private MouseInputListener mouseInputListener;
 
     /**
      * The <code>LayoutManager</code> that is set on the <code>JRootPane</code>.
      */
-    private LayoutManager         layoutManager;
+    private LayoutManager      layoutManager;
 
     /**
      * <code>LayoutManager</code> of the <code>JRootPane</code> before we
      * replaced it.
      */
-    private LayoutManager         savedOldLayout;
+    private LayoutManager      savedOldLayout;
 
     /**
      * <code>JRootPane</code> providing the look and feel for.
      */
-    private JRootPane             root;
+    private JRootPane          root;
 
     /**
      * <code>Cursor</code> used to track the cursor set by the user. This is
      * initially <code>Cursor.DEFAULT_CURSOR</code>.
      */
-    private Cursor                lastCursor            = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+    private Cursor             lastCursor            = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 
     /**
      * Creates a UI for a <code>JRootPane</code>.
@@ -172,8 +162,9 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             installClientDecorations(root);
         }
         if (c.getParent() instanceof JFrame) {
-            c.setOpaque(false);
+            // c.setOpaque(false);
             c.getParent().setBackground(new Color(0, 0, 0, 0));
+            ((JRootPane) c).setWindowDecorationStyle(JRootPane.FRAME);
         }
     }
 
@@ -225,7 +216,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         if (style == JRootPane.NONE) {
             LookAndFeel.uninstallBorder(root);
         } else {
-            LookAndFeel.installBorder(root, borderKeys[style]);
+            root.setBorder(new SeaGlassBorder(this, new Insets(0, 6, 6, 6)));
         }
     }
 
@@ -302,6 +293,17 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
      */
     private void installClientDecorations(JRootPane root) {
         installBorder(root);
+        if (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog) {
+            // root.setOpaque(false);
+            // Why does the following line lead to window dragging across the
+            // *entire* window?
+            // root.getParent().setBackground(TRANSPARENT_COLOR);
+            // root.getLayeredPane().setOpaque(false);
+            root.getLayeredPane().setBackground(TRANSPARENT_COLOR);
+            // ((JComponent)
+            // root.getContentPane()).setBorder(BorderFactory.createEmptyBorder(0,
+            // 6, 6, 6));
+        }
 
         JComponent titlePane = createTitlePane(root);
 
@@ -364,7 +366,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
      * <code>JRootPane</code>.
      */
     private LayoutManager createLayoutManager() {
-        return new AqvavitRootLayout();
+        return new SeaGlassRootLayout();
     }
 
     /**
@@ -486,7 +488,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
      */
     // NOTE: Ideally this would extends JRootPane.RootLayout, but that
     // would force this to be non-static.
-    private static class AqvavitRootLayout implements LayoutManager2 {
+    private static class SeaGlassRootLayout implements LayoutManager2 {
         /**
          * Returns the amount of space the layout would like to have.
          * 
@@ -534,8 +536,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
                 }
             }
 
-            return new Dimension(Math.max(Math.max(cpWidth, mbWidth), tpWidth) + i.left + i.right, cpHeight + mbHeight + tpWidth
-                    + i.top + i.bottom);
+            return new Dimension(Math.max(Math.max(cpWidth, mbWidth), tpWidth) + i.left + i.right, cpHeight + mbHeight + tpWidth + i.top
+                    + i.bottom);
         }
 
         /**
@@ -584,8 +586,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
                 }
             }
 
-            return new Dimension(Math.max(Math.max(cpWidth, mbWidth), tpWidth) + i.left + i.right, cpHeight + mbHeight + tpWidth
-                    + i.top + i.bottom);
+            return new Dimension(Math.max(Math.max(cpWidth, mbWidth), tpWidth) + i.left + i.right, cpHeight + mbHeight + tpWidth + i.top
+                    + i.bottom);
         }
 
         /**
@@ -688,6 +690,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             if (root.getJMenuBar() != null) {
                 Dimension mbd = root.getJMenuBar().getPreferredSize();
                 root.getJMenuBar().setBounds(0, 0/* nextY */, w, mbd.height);
+                root.getJMenuBar().setOpaque(false);
+                root.getJMenuBar().setBackground(TRANSPARENT_COLOR);
                 // nextY += mbd.height;
             }
             if (root.getContentPane() != null) {
@@ -809,9 +813,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             int frameState = (f != null) ? f.getExtendedState() : 0;
 
             if (getTitlePane() != null && getTitlePane().contains(convertedDragWindowOffset)) {
-                if ((f != null && ((frameState & Frame.MAXIMIZED_BOTH) == 0) || (d != null))
-                        && dragWindowOffset.y >= BORDER_DRAG_THICKNESS && dragWindowOffset.x >= BORDER_DRAG_THICKNESS
-                        && dragWindowOffset.x < w.getWidth() - BORDER_DRAG_THICKNESS) {
+                if ((f != null && ((frameState & Frame.MAXIMIZED_BOTH) == 0) || (d != null)) && dragWindowOffset.y >= BORDER_DRAG_THICKNESS
+                        && dragWindowOffset.x >= BORDER_DRAG_THICKNESS && dragWindowOffset.x < w.getWidth() - BORDER_DRAG_THICKNESS) {
                     isMovingWindow = true;
                     dragOffsetX = dragWindowOffset.x;
                     dragOffsetY = dragWindowOffset.y;
