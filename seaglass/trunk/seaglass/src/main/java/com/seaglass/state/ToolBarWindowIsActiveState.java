@@ -45,6 +45,7 @@ public class ToolBarWindowIsActiveState extends State {
         } else if (parent instanceof JFrame) {
             return ((JFrame) parent).isActive();
         }
-        return false;
+        // Default to true.
+        return true;
     }
 }
