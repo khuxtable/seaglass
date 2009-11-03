@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: ComboBoxArrowButtonEditableState.java 273 2009-10-22 23:21:17Z kathryn@kathrynhuxtable.org $
+ * $Id$
  */
 package com.seaglass.state;
 
