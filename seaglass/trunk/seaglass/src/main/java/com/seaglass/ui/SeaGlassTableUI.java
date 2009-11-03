@@ -67,7 +67,7 @@ import javax.swing.table.TableColumnModel;
 import com.seaglass.SeaGlassContext;
 import com.seaglass.SeaGlassLookAndFeel;
 import com.seaglass.component.SeaGlassBorder;
-import com.seaglass.util.ViewportPainter;
+import com.seaglass.painter.ViewportPainter;
 import com.seaglass.util.WindowUtils;
 
 import sun.swing.plaf.synth.SynthUI;

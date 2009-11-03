@@ -162,7 +162,6 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             installClientDecorations(root);
         }
         if (c.getParent() instanceof JFrame) {
-            // c.setOpaque(false);
             c.getParent().setBackground(new Color(0, 0, 0, 0));
             ((JRootPane) c).setWindowDecorationStyle(JRootPane.FRAME);
         }
@@ -216,7 +215,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         if (style == JRootPane.NONE) {
             LookAndFeel.uninstallBorder(root);
         } else {
-            root.setBorder(new SeaGlassBorder(this, new Insets(0, 6, 6, 6)));
+            root.setBorder(new SeaGlassBorder(this, new Insets(0, 5, 5, 5)));
         }
     }
 
@@ -294,15 +293,10 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     private void installClientDecorations(JRootPane root) {
         installBorder(root);
         if (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog) {
-            // root.setOpaque(false);
-            // Why does the following line lead to window dragging across the
-            // *entire* window?
-            // root.getParent().setBackground(TRANSPARENT_COLOR);
-            // root.getLayeredPane().setOpaque(false);
-            root.getLayeredPane().setBackground(TRANSPARENT_COLOR);
-            // ((JComponent)
-            // root.getContentPane()).setBorder(BorderFactory.createEmptyBorder(0,
-            // 6, 6, 6));
+//            root.setOpaque(false);
+//            root.getParent().setBackground(TRANSPARENT_COLOR);
+//            root.getLayeredPane().setOpaque(false);
+//            root.getLayeredPane().setBackground(TRANSPARENT_COLOR);
         }
 
         JComponent titlePane = createTitlePane(root);
