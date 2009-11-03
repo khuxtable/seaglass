@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: SeaGlassRootPaneUI.java 272 2009-10-22 23:16:03Z kathryn@kathrynhuxtable.org $
+ * $Id$
  */
 package com.seaglass.component;
 
