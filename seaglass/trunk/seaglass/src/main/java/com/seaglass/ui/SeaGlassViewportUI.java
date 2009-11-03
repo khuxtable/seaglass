@@ -37,7 +37,7 @@ import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglass.SeaGlassContext;
 import com.seaglass.SeaGlassLookAndFeel;
-import com.seaglass.util.ViewportPainter;
+import com.seaglass.painter.ViewportPainter;
 
 import sun.swing.plaf.synth.SynthUI;
 
