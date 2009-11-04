@@ -20,9 +20,9 @@
 package com.seaglass.state;
 
 import java.awt.Component;
+import java.awt.Window;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
 /**
@@ -35,15 +35,15 @@ public class ToolBarWindowIsActiveState extends State {
     protected boolean isInState(JComponent c) {
         Component parent = c;
         while (parent.getParent() != null) {
-            if (parent instanceof JInternalFrame || parent instanceof JFrame) {
+            if (parent instanceof JInternalFrame || parent instanceof Window) {
                 break;
             }
             parent = parent.getParent();
         }
         if (parent instanceof JInternalFrame) {
             return ((JInternalFrame) parent).isSelected();
-        } else if (parent instanceof JFrame) {
-            return ((JFrame) parent).isActive();
+        } else if (parent instanceof Window) {
+            return ((Window) parent).isFocused();
         }
         // Default to true.
         return true;
