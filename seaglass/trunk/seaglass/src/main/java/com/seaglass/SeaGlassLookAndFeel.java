@@ -118,6 +118,7 @@ import com.seaglass.state.ToolBarEastState;
 import com.seaglass.state.ToolBarNorthState;
 import com.seaglass.state.ToolBarSouthState;
 import com.seaglass.state.ToolBarWestState;
+import com.seaglass.state.ToolBarWindowIsActiveState;
 import com.seaglass.util.MacKeybindings;
 import com.seaglass.util.PlatformUtils;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -225,9 +226,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 if (isSupportedBySeaGlass(c, r)) {
                     SynthStyle style = getSeaGlassStyle(c, r);
                     if (!(style instanceof SeaGlassStyle)) {
-                        // System.out.println("Got non seaglassstyle, style = "
-                        // + style);
-                        // System.out.println("    r = " + r + ", c = " + c);
+                        style = new SeaGlassStyleWrapper(style);
                     }
                     return style;
                 } else {
@@ -259,13 +258,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR || r == Region.SCROLL_BAR || r == Region.SCROLL_BAR_THUMB
                 || r == Region.SCROLL_BAR_TRACK || r == Region.SCROLL_PANE || r == Region.SPLIT_PANE || r == Region.SPLIT_PANE_DIVIDER
                 || r == Region.VIEWPORT || r == Region.TABLE || r == Region.TABLE_HEADER || r == Region.FORMATTED_TEXT_FIELD
-                || r == Region.TEXT_FIELD || r == Region.SPINNER || r == Region.TOOL_BAR) {
+                || r == Region.TEXT_FIELD || r == Region.SPINNER || r == Region.TOOL_BAR || r == Region.TOOL_BAR_CONTENT
+                || r == Region.TOOL_BAR_DRAG_WINDOW) {
             return true;
         }
         if (!PlatformUtils.isMac()
                 && (r == Region.COLOR_CHOOSER || r == Region.FILE_CHOOSER || r == Region.DESKTOP_ICON || r == Region.INTERNAL_FRAME
-                        || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.ROOT_PANE || r == Region.TOOL_BAR
-                        || r == Region.TOOL_BAR_SEPARATOR || r == Region.TOOL_BAR_CONTENT || r == Region.TOOL_BAR_DRAG_WINDOW)) {
+                        || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.ROOT_PANE)) {
             return true;
         }
         return false;
@@ -311,6 +310,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             register(Region.DESKTOP_ICON, "DesktopIcon");
         }
         register(Region.TOOL_BAR, "ToolBar");
+        register(Region.TOOL_BAR_CONTENT, "ToolBar");
+        register(Region.TOOL_BAR_DRAG_WINDOW, "ToolBar");
         register(Region.TOOL_BAR_SEPARATOR, "ToolBarSeparator");
         register(Region.DESKTOP_PANE, "DesktopPane");
         register(Region.LABEL, "Label");
@@ -413,6 +414,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "TableUI");
             useOurUI(uiDefaults, "TableHeaderUI");
             useOurUI(uiDefaults, "ToggleButtonUI");
+            useOurUI(uiDefaults, "ToolBarUI");
             useOurUI(uiDefaults, "ViewportUI");
 
             defineBaseColors(uiDefaults);
@@ -441,9 +443,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 uiDefaults.put("MenuBar[Enabled].backgroundPainter", null);
             }
 
-            if (PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
-                defineToolBars(uiDefaults);
-            }
+            defineToolBars(uiDefaults);
 
             if (!PlatformUtils.isMac()) {
                 // If we're not on a Mac, draw our own title bar.
@@ -544,7 +544,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             // If the Mac paint doesn't exist, use Aqua to paint a
             // unified toolbar.
-            if (!PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
+            if (false && !PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
                 d.put("ToolBarUI", aquaDefaults.get("ToolBarUI"));
                 d.put("ToolBar.border", aquaDefaults.get("ToolBar.border"));
                 d.put("ToolBar.background", aquaDefaults.get("ToolBar.background"));
@@ -570,22 +570,27 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineToolBars(UIDefaults d) {
+        String c = "com.seaglass.painter.ToolBarPainter";
+
+        d.put("ToolBar.contentMargins", new InsetsUIResource(2, 2, 2, 2));
+        d.put("ToolBar.opaque", Boolean.TRUE);
+        d.put("ToolBar.States", "North,East,West,South,WindowIsActive");
         d.put("ToolBar.North", new ToolBarNorthState());
         d.put("ToolBar.East", new ToolBarEastState());
         d.put("ToolBar.West", new ToolBarWestState());
         d.put("ToolBar.South", new ToolBarSouthState());
+        d.put("ToolBar.WindowIsActive", new ToolBarWindowIsActiveState());
 
-        d.put("ToolBar[North].borderPainter", new LazyPainter("com.seaglass.painter.ToolBarPainter", ToolBarPainter.BORDER_NORTH,
-            new Insets(0, 0, 1, 0), new Dimension(30, 30), false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
-        d.put("ToolBar[South].borderPainter", new LazyPainter("com.seaglass.painter.ToolBarPainter", ToolBarPainter.BORDER_SOUTH,
-            new Insets(1, 0, 0, 0), new Dimension(30, 30), false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
-        d.put("ToolBar[East].borderPainter", new LazyPainter("com.seaglass.painter.ToolBarPainter", ToolBarPainter.BORDER_EAST, new Insets(
-            1, 0, 0, 0), new Dimension(30, 30), false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
-        d.put("ToolBar[West].borderPainter", new LazyPainter("com.seaglass.painter.ToolBarPainter", ToolBarPainter.BORDER_WEST, new Insets(
-            0, 0, 1, 0), new Dimension(30, 30), false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0));
-        d.put("ToolBar[Enabled].handleIconPainter", new LazyPainter("com.seaglass.painter.ToolBarPainter",
-            ToolBarPainter.HANDLEICON_ENABLED, new Insets(5, 5, 5, 5), new Dimension(11, 38), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, 2.0, Double.POSITIVE_INFINITY));
+        d.put("ToolBar[North].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH));
+        d.put("ToolBar[South].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH));
+        d.put("ToolBar[East].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST));
+        d.put("ToolBar[West].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST));
+        d.put("ToolBar[North+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH_ENABLED));
+        d.put("ToolBar[South+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH_ENABLED));
+        d.put("ToolBar[East+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST_ENABLED));
+        d.put("ToolBar[West+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST_ENABLED));
+        d.put("ToolBar[Enabled].handleIconPainter", new LazyPainter(c, ToolBarPainter.Which.HANDLEICON_ENABLED));
+        d.put("ToolBar.handleIcon", new SeaGlassIcon("ToolBar", "handleIconPainter", 11, 38));
 
         d.put("ToolBar:Button[Focused].backgroundPainter", new LazyPainter("com.seaglass.painter.ToolBarButtonPainter",
             ToolBarButtonPainter.BACKGROUND_FOCUSED, new Insets(5, 5, 5, 5), new Dimension(104, 33), false,
@@ -929,17 +934,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineInternalFrames(UIDefaults d) {
+        String c = "com.seaglass.painter.InternalFramePainter";
+
         d.put("InternalFrame.States", "Enabled,WindowFocused");
 
         d.put("InternalFrameTitlePane.buttonSpacing", 0);
         d.put("InternalFrame:InternalFrameTitlePane.WindowFocused", new TitlePaneWindowFocusedState());
         d.put("InternalFrame.WindowFocused", new InternalFrameWindowFocusedState());
-        d.put("InternalFrame[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.InternalFramePainter",
-            InternalFramePainter.BACKGROUND_ENABLED, new Insets(25, 6, 6, 6), new Dimension(25, 36), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("InternalFrame[Enabled+WindowFocused].backgroundPainter", new LazyPainter("com.seaglass.painter.InternalFramePainter",
-            InternalFramePainter.BACKGROUND_ENABLED_WINDOWFOCUSED, new Insets(25, 6, 6, 6), new Dimension(25, 36), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+
+        d.put("InternalFrame[Enabled].backgroundPainter", new LazyPainter(c, InternalFramePainter.Which.BACKGROUND_ENABLED));
+        d.put("InternalFrame[Enabled+WindowFocused].backgroundPainter", new LazyPainter(c,
+            InternalFramePainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
 
         d.put("InternalFrame:InternalFrameTitlePane[Enabled].textForeground", new Color(0, 0, 0));
     }
@@ -1159,20 +1164,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             return;
         }
 
+        String c = "com.seaglass.painter.InternalFramePainter";
+
         d.put("RootPane.States", "Enabled,WindowFocused,NoFrame");
         d.put("RootPane.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("RootPane.opaque", Boolean.FALSE);
         d.put("RootPane.NoFrame", new RootPaneNoFrameState());
 
-        d.put("RootPane[Enabled+NoFrame].backgroundPainter", new LazyPainter("com.seaglass.painter.InternalFramePainter",
-            InternalFramePainter.BACKGROUND_ENABLED_NOFRAME, new Insets(25, 6, 6, 6), new Dimension(25, 36), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("RootPane[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.InternalFramePainter",
-            InternalFramePainter.BACKGROUND_ENABLED, new Insets(25, 6, 6, 6), new Dimension(25, 36), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("RootPane[Enabled+WindowFocused].backgroundPainter", new LazyPainter("com.seaglass.painter.InternalFramePainter",
-            InternalFramePainter.BACKGROUND_ENABLED_WINDOWFOCUSED, new Insets(25, 6, 6, 6), new Dimension(25, 36), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        d.put("RootPane[Enabled+NoFrame].backgroundPainter", new LazyPainter(c, InternalFramePainter.Which.BACKGROUND_ENABLED_NOFRAME));
+        d.put("RootPane[Enabled].backgroundPainter", new LazyPainter(c, InternalFramePainter.Which.BACKGROUND_ENABLED));
+        d.put("RootPane[Enabled+WindowFocused].backgroundPainter", new LazyPainter(c,
+            InternalFramePainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
     }
 
     /**
@@ -1777,18 +1779,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private static final class LazyPainter implements UIDefaults.LazyValue {
         private int                                which;
+        private Enum                               what;
         private AbstractRegionPainter.PaintContext ctx;
         private String                             className;
 
-        @SuppressWarnings("unused")
-        LazyPainter(String className, int which, Insets insets, Dimension canvasSize, boolean inverted) {
+        LazyPainter(String className, Enum what) {
             if (className == null) {
                 throw new IllegalArgumentException("The className must be specified");
             }
 
             this.className = className;
-            this.which = which;
-            this.ctx = new AbstractRegionPainter.PaintContext(insets, canvasSize, inverted);
+            this.which = -1;
+            this.what = what;
+            this.ctx = null;
         }
 
         LazyPainter(String className, int which, Insets insets, Dimension canvasSize, boolean inverted,
@@ -1817,11 +1820,24 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 }
 
                 c = Class.forName(className, true, (ClassLoader) cl);
-                Constructor constructor = c.getConstructor(AbstractRegionPainter.PaintContext.class, int.class);
-                if (constructor == null) {
-                    throw new NullPointerException("Failed to find the constructor for the class: " + className);
+                if (which == -1) {
+                    // Find inner class for state.
+                    Class stateClass = Class.forName(className + "$Which", false, (ClassLoader) cl);
+                    if (stateClass == null) {
+                        throw new NullPointerException("Failed to find the constructor for the class: " + className + ".Which");
+                    }
+                    Constructor constructor = c.getConstructor(stateClass);
+                    if (constructor == null) {
+                        throw new NullPointerException("Failed to find the constructor for the class: " + className);
+                    }
+                    return constructor.newInstance(what);
+                } else {
+                    Constructor constructor = c.getConstructor(AbstractRegionPainter.PaintContext.class, int.class);
+                    if (constructor == null) {
+                        throw new NullPointerException("Failed to find the constructor for the class: " + className);
+                    }
+                    return constructor.newInstance(ctx, which);
                 }
-                return constructor.newInstance(ctx, which);
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -2186,8 +2202,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @return newStyle
      */
     public static SynthStyle updateStyle(SeaGlassContext context, SynthUI ui) {
-        // Need to use SynthLookAndFeel because Nimbus overrides getStyle to
-        // return NimbusStyle, which we can't use.
         SeaGlassStyle newStyle = (SeaGlassStyle) SynthLookAndFeel.getStyle(context.getComponent(), context.getRegion());
         SynthStyle oldStyle = context.getStyle();
 
