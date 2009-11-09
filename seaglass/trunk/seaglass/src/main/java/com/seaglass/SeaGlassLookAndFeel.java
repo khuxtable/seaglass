@@ -28,7 +28,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
@@ -64,7 +63,6 @@ import javax.swing.plaf.synth.SynthStyleFactory;
 
 import com.seaglass.component.SeaGlassTitlePane;
 import com.seaglass.component.TableScrollPaneCorner;
-import com.seaglass.painter.AbstractRegionPainter;
 import com.seaglass.painter.ArrowButtonPainter;
 import com.seaglass.painter.ButtonPainter;
 import com.seaglass.painter.CheckBoxPainter;
@@ -630,12 +628,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @param d
      */
     private void defineArrowButtons(UIDefaults d) {
-        d.put("ArrowButton[Disabled].foregroundPainter", new LazyPainter("com.seaglass.painter.ArrowButtonPainter",
-            ArrowButtonPainter.FOREGROUND_DISABLED, new Insets(0, 0, 0, 0), new Dimension(10, 10), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
-        d.put("ArrowButton[Enabled].foregroundPainter", new LazyPainter("com.seaglass.painter.ArrowButtonPainter",
-            ArrowButtonPainter.FOREGROUND_ENABLED, new Insets(0, 0, 0, 0), new Dimension(10, 10), false,
-            AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0));
+        String c = "com.seaglass.painter.ArrowButtonPainter";
+        String p = "ArrowButton";
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_DISABLED));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_ENABLED));
     }
 
     /**
@@ -1064,57 +1060,28 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
     private void defineTabbedPanes(UIDefaults d) {
         d.put("tabbedPaneTabBase", new Color(90, 120, 200));
-        d.put("TabbedPane:TabbedPaneTab[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.TabbedPaneTabPainter",
-            TabbedPaneTabPainter.BACKGROUND_ENABLED, new Insets(7, 7, 1, 7), new Dimension(44, 20), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTab[Enabled+MouseOver].backgroundPainter", new LazyPainter("com.seaglass.painter.TabbedPaneTabPainter",
-            TabbedPaneTabPainter.BACKGROUND_ENABLED_MOUSEOVER, new Insets(7, 7, 1, 7), new Dimension(44, 20), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTab[Enabled+Pressed].backgroundPainter", new LazyPainter("com.seaglass.painter.TabbedPaneTabPainter",
-            TabbedPaneTabPainter.BACKGROUND_ENABLED_PRESSED, new Insets(7, 6, 1, 7), new Dimension(44, 20), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTab[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.TabbedPaneTabPainter",
-            TabbedPaneTabPainter.BACKGROUND_DISABLED, new Insets(6, 7, 1, 7), new Dimension(44, 20), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTab[Disabled+Selected].backgroundPainter", new LazyPainter("com.seaglass.painter.TabbedPaneTabPainter",
-            TabbedPaneTabPainter.BACKGROUND_SELECTED_DISABLED, new Insets(7, 7, 0, 7), new Dimension(44, 20), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTab[Selected].backgroundPainter", new LazyPainter("com.seaglass.painter.TabbedPaneTabPainter",
-            TabbedPaneTabPainter.BACKGROUND_SELECTED, new Insets(7, 7, 0, 7), new Dimension(44, 20), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTab[MouseOver+Selected].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.TabbedPaneTabPainter", TabbedPaneTabPainter.BACKGROUND_SELECTED_MOUSEOVER, new Insets(7, 9, 0, 9),
-            new Dimension(44, 20), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
-            Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTab[Pressed+Selected].backgroundPainter", new LazyPainter("com.seaglass.painter.TabbedPaneTabPainter",
-            TabbedPaneTabPainter.BACKGROUND_SELECTED_PRESSED, new Insets(7, 9, 0, 9), new Dimension(44, 20), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTab[Focused+Selected].backgroundPainter", new LazyPainter("com.seaglass.painter.TabbedPaneTabPainter",
-            TabbedPaneTabPainter.BACKGROUND_SELECTED_FOCUSED, new Insets(7, 7, 3, 7), new Dimension(44, 20), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTab[Focused+MouseOver+Selected].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.TabbedPaneTabPainter", TabbedPaneTabPainter.BACKGROUND_SELECTED_MOUSEOVER_FOCUSED,
-            new Insets(7, 9, 3, 9), new Dimension(44, 20), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
-            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTab[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.TabbedPaneTabPainter", TabbedPaneTabPainter.BACKGROUND_SELECTED_PRESSED_FOCUSED, new Insets(7, 9, 3, 9),
-            new Dimension(44, 20), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
-            Double.POSITIVE_INFINITY));
+        String c = "com.seaglass.painter.TabbedPaneTabPainter";
+        String p = "TabbedPane:TabbedPaneTab";
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED_MOUSEOVER));
+        d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED_PRESSED));
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Disabled+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_DISABLED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[MouseOver+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
+        d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_PRESSED));
+        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+        d.put(p + "[Focused+MouseOver+Selected].backgroundPainter", new LazyPainter(c,
+            TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_MOUSEOVER_FOCUSED));
+        d.put(p + "[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c,
+            TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_PRESSED_FOCUSED));
 
-        d.put("TabbedPane:TabbedPaneTabArea[Enabled].backgroundPainter", new LazyPainter("com.seaglass.painter.TabbedPaneTabAreaPainter",
-            TabbedPaneTabAreaPainter.BACKGROUND_ENABLED, new Insets(0, 5, 6, 5), new Dimension(5, 24), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTabArea[Disabled].backgroundPainter", new LazyPainter("com.seaglass.painter.TabbedPaneTabAreaPainter",
-            TabbedPaneTabAreaPainter.BACKGROUND_DISABLED, new Insets(0, 5, 6, 5), new Dimension(5, 24), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTabArea[Enabled+MouseOver].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.TabbedPaneTabAreaPainter", TabbedPaneTabAreaPainter.BACKGROUND_ENABLED_MOUSEOVER, new Insets(0, 5, 6, 5),
-            new Dimension(5, 24), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
-            Double.POSITIVE_INFINITY));
-        d.put("TabbedPane:TabbedPaneTabArea[Enabled+Pressed].backgroundPainter", new LazyPainter(
-            "com.seaglass.painter.TabbedPaneTabAreaPainter", TabbedPaneTabAreaPainter.BACKGROUND_ENABLED_PRESSED, new Insets(0, 5, 6, 5),
-            new Dimension(5, 24), false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
-            Double.POSITIVE_INFINITY));
+        p = "TabbedPane:TabbedPaneTabArea";
+        c = "com.seaglass.painter.TabbedPaneTabAreaPainter";
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_MOUSEOVER));
+        d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_PRESSED));
     }
 
     /**
@@ -1454,31 +1421,16 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * proper class and invoke its constructor.
      */
     private static final class LazyPainter implements UIDefaults.LazyValue {
-        private int                                which;
-        private Enum                               what;
-        private AbstractRegionPainter.PaintContext ctx;
-        private String                             className;
+        private Enum   which;
+        private String className;
 
-        LazyPainter(String className, Enum what) {
-            if (className == null) {
-                throw new IllegalArgumentException("The className must be specified");
-            }
-
-            this.className = className;
-            this.which = -1;
-            this.what = what;
-            this.ctx = null;
-        }
-
-        LazyPainter(String className, int which, Insets insets, Dimension canvasSize, boolean inverted,
-            AbstractRegionPainter.PaintContext.CacheMode cacheMode, double maxH, double maxV) {
+        LazyPainter(String className, Enum which) {
             if (className == null) {
                 throw new IllegalArgumentException("The className must be specified");
             }
 
             this.className = className;
             this.which = which;
-            this.ctx = new AbstractRegionPainter.PaintContext(insets, canvasSize, inverted, cacheMode, maxH, maxV);
         }
 
         @SuppressWarnings("unchecked")
@@ -1496,24 +1448,16 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 }
 
                 c = Class.forName(className, true, (ClassLoader) cl);
-                if (which == -1) {
-                    // Find inner class for state.
-                    Class stateClass = Class.forName(className + "$Which", false, (ClassLoader) cl);
-                    if (stateClass == null) {
-                        throw new NullPointerException("Failed to find the constructor for the class: " + className + ".Which");
-                    }
-                    Constructor constructor = c.getConstructor(stateClass);
-                    if (constructor == null) {
-                        throw new NullPointerException("Failed to find the constructor for the class: " + className);
-                    }
-                    return constructor.newInstance(what);
-                } else {
-                    Constructor constructor = c.getConstructor(AbstractRegionPainter.PaintContext.class, int.class);
-                    if (constructor == null) {
-                        throw new NullPointerException("Failed to find the constructor for the class: " + className);
-                    }
-                    return constructor.newInstance(ctx, which);
+                // Find inner class for state.
+                Class stateClass = Class.forName(className + "$Which", false, (ClassLoader) cl);
+                if (stateClass == null) {
+                    throw new NullPointerException("Failed to find the constructor for the class: " + className + ".Which");
                 }
+                Constructor constructor = c.getConstructor(stateClass);
+                if (constructor == null) {
+                    throw new NullPointerException("Failed to find the constructor for the class: " + className);
+                }
+                return constructor.newInstance(which);
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;

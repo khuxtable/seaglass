@@ -20,30 +20,40 @@
 package com.seaglass.painter;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.geom.Path2D;
 
 import javax.swing.JComponent;
 
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  */
 public final class ArrowButtonPainter extends AbstractRegionPainter {
-    public static final int BACKGROUND_ENABLED  = 1;
-    public static final int FOREGROUND_DISABLED = 2;
-    public static final int FOREGROUND_ENABLED  = 3;
+    public static enum Which {
+        BACKGROUND_ENABLED, FOREGROUND_DISABLED, FOREGROUND_ENABLED,
+    }
 
-    private int             state;
-    private PaintContext    ctx;
+    private static final Insets    insets    = new Insets(0, 0, 0, 0);
+    private static final Dimension dimension = new Dimension(10, 10);
+    private static final CacheMode cacheMode = CacheMode.FIXED_SIZES;
+    private static final Double    maxH      = 1.0;
+    private static final Double    maxV      = 1.0;
 
-    private Path2D          path                = new Path2D.Float();
+    private Which        state;
+    private PaintContext ctx;
 
-    private Color           disabledColor       = new Color(167, 171, 178);
-    private Color           enabledColor        = Color.black;
+    private Path2D       path          = new Path2D.Float();
 
-    public ArrowButtonPainter(PaintContext ctx, int state) {
+    private Color        disabledColor = new Color(167, 171, 178);
+    private Color        enabledColor  = Color.black;
+
+    public ArrowButtonPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = ctx;
+        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
