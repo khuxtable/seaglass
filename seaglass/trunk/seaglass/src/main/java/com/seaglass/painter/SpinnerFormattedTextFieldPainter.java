@@ -19,21 +19,31 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  * SpinnerFormattedTextFieldPainter implementation.
  */
-public final class SpinnerFormattedTextFieldPainter extends AbstractImagePainter {
-    public static final int BACKGROUND_DISABLED         = 1;
-    public static final int BACKGROUND_ENABLED          = 2;
-    public static final int BACKGROUND_SELECTED         = 3;
-    public static final int BACKGROUND_FOCUSED          = 4;
-    public static final int BACKGROUND_SELECTED_FOCUSED = 5;
-
-    public SpinnerFormattedTextFieldPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+public final class SpinnerFormattedTextFieldPainter extends AbstractImagePainter<SpinnerFormattedTextFieldPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED, BACKGROUND_FOCUSED, BACKGROUND_SELECTED_FOCUSED,
     }
 
-    protected String getImageName(int state) {
+    private static final Insets    insets    = new Insets(3, 3, 3, 1);
+    private static final Dimension dimension = new Dimension(29, 21);
+    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH      = Double.POSITIVE_INFINITY;
+    private static final Double    maxV      = Double.POSITIVE_INFINITY;
+
+    public SpinnerFormattedTextFieldPainter(Which state) {
+        super(state);
+        setPaintContext(new PaintContext(insets, dimension, false, cacheMode, maxH, maxV));
+    }
+
+    protected String getImageName(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
             return "combo_box_textfield_disabled";

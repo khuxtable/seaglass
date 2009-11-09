@@ -19,55 +19,79 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
  * CheckBoxPainter implementation.
  */
-public final class CheckBoxPainter extends AbstractImagePainter {
-    //package private integers representing the available states that
-    //this painter will paint. These are used when creating a new instance
-    //of CheckBoxPainter to determine which region/state is being painted
-    //by that instance.
-    public static final int BACKGROUND_DISABLED = 1;
-    public static final int BACKGROUND_ENABLED = 2;
-    public static final int ICON_DISABLED = 3;
-    public static final int ICON_ENABLED = 4;
-    public static final int ICON_FOCUSED = 5;
-    public static final int ICON_MOUSEOVER = 6;
-    public static final int ICON_MOUSEOVER_FOCUSED = 7;
-    public static final int ICON_PRESSED = 8;
-    public static final int ICON_PRESSED_FOCUSED = 9;
-    public static final int ICON_SELECTED = 10;
-    public static final int ICON_SELECTED_FOCUSED = 11;
-    public static final int ICON_PRESSED_SELECTED = 12;
-    public static final int ICON_PRESSED_SELECTED_FOCUSED = 13;
-    public static final int ICON_MOUSEOVER_SELECTED = 14;
-    public static final int ICON_MOUSEOVER_SELECTED_FOCUSED = 15;
-    public static final int ICON_DISABLED_SELECTED = 16;
+public final class CheckBoxPainter extends AbstractImagePainter<CheckBoxPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED,
+        BACKGROUND_ENABLED,
+        ICON_DISABLED,
+        ICON_ENABLED,
+        ICON_FOCUSED,
+        ICON_MOUSEOVER,
+        ICON_MOUSEOVER_FOCUSED,
+        ICON_PRESSED,
+        ICON_PRESSED_FOCUSED,
+        ICON_SELECTED,
+        ICON_SELECTED_FOCUSED,
+        ICON_PRESSED_SELECTED,
+        ICON_PRESSED_SELECTED_FOCUSED,
+        ICON_MOUSEOVER_SELECTED,
+        ICON_MOUSEOVER_SELECTED_FOCUSED,
+        ICON_DISABLED_SELECTED,
+    }
 
-    public CheckBoxPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+    private static final Insets    insets    = new Insets(5, 5, 5, 5);
+    private static final Dimension dimension = new Dimension(16, 9);
+    private static final CacheMode cacheMode = CacheMode.FIXED_SIZES;
+    private static final Double    maxH      = 1.0;
+    private static final Double    maxV      = 1.0;
+
+    public CheckBoxPainter(Which state) {
+        super(state);
+        PaintContext ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        setPaintContext(ctx);
     }
 
     @Override
-    protected String getImageName(int state) {
-        //generate this entire method. Each state/bg/fg/border combo that has
-        //been painted gets its own KEY and paint method.
-        switch(state) {
-            case ICON_DISABLED: return "check_box_disabled";
-            case ICON_ENABLED: return "check_box_enabled";
-            case ICON_FOCUSED: return "check_box_enabled";
-            case ICON_MOUSEOVER: return "check_box_enabled";
-            case ICON_MOUSEOVER_FOCUSED: return "check_box_enabled";
-            case ICON_PRESSED: return "check_box_pressed";
-            case ICON_PRESSED_FOCUSED: return "check_box_pressed";
-            case ICON_SELECTED: return "check_box_selected";
-            case ICON_SELECTED_FOCUSED: return "check_box_selected";
-            case ICON_PRESSED_SELECTED: return "check_box_selected_pressed";
-            case ICON_PRESSED_SELECTED_FOCUSED: return "check_box_selected_pressed";
-            case ICON_MOUSEOVER_SELECTED: return "check_box_selected";
-            case ICON_MOUSEOVER_SELECTED_FOCUSED: return "check_box_selected";
-            case ICON_DISABLED_SELECTED: return "check_box_disabled_selected";
+    protected String getImageName(Which state) {
+        // generate this entire method. Each state/bg/fg/border combo that has
+        // been painted gets its own KEY and paint method.
+        switch (state) {
+        case ICON_DISABLED:
+            return "check_box_disabled";
+        case ICON_ENABLED:
+            return "check_box_enabled";
+        case ICON_FOCUSED:
+            return "check_box_enabled";
+        case ICON_MOUSEOVER:
+            return "check_box_enabled";
+        case ICON_MOUSEOVER_FOCUSED:
+            return "check_box_enabled";
+        case ICON_PRESSED:
+            return "check_box_pressed";
+        case ICON_PRESSED_FOCUSED:
+            return "check_box_pressed";
+        case ICON_SELECTED:
+            return "check_box_selected";
+        case ICON_SELECTED_FOCUSED:
+            return "check_box_selected";
+        case ICON_PRESSED_SELECTED:
+            return "check_box_selected_pressed";
+        case ICON_PRESSED_SELECTED_FOCUSED:
+            return "check_box_selected_pressed";
+        case ICON_MOUSEOVER_SELECTED:
+            return "check_box_selected";
+        case ICON_MOUSEOVER_SELECTED_FOCUSED:
+            return "check_box_selected";
+        case ICON_DISABLED_SELECTED:
+            return "check_box_disabled_selected";
         }
         return null;
     }

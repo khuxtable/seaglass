@@ -19,33 +19,50 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
  */
-public final class TextAreaPainter extends AbstractImagePainter {
-    public static final int BACKGROUND_DISABLED = 1;
-    public static final int BACKGROUND_ENABLED = 2;
-    public static final int BACKGROUND_DISABLED_NOTINSCROLLPANE = 3;
-    public static final int BACKGROUND_ENABLED_NOTINSCROLLPANE = 4;
-    public static final int BACKGROUND_SELECTED = 5;
-    public static final int BORDER_DISABLED_NOTINSCROLLPANE = 6;
-    public static final int BORDER_FOCUSED_NOTINSCROLLPANE = 7;
-    public static final int BORDER_ENABLED_NOTINSCROLLPANE = 8;
-
-    public TextAreaPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+public final class TextAreaPainter extends AbstractImagePainter<TextAreaPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED,
+        BACKGROUND_ENABLED,
+        BACKGROUND_DISABLED_NOTINSCROLLPANE,
+        BACKGROUND_ENABLED_NOTINSCROLLPANE,
+        BACKGROUND_SELECTED,
+        BORDER_DISABLED_NOTINSCROLLPANE,
+        BORDER_FOCUSED_NOTINSCROLLPANE,
+        BORDER_ENABLED_NOTINSCROLLPANE,
     }
 
-    protected String getImageName(int state) {
-        switch(state) {
-            case BACKGROUND_DISABLED: return "textarea_disabled";
-            case BACKGROUND_ENABLED: return "textarea";
-            case BACKGROUND_DISABLED_NOTINSCROLLPANE: return "textarea_disabled_notinscroll";
-            case BACKGROUND_ENABLED_NOTINSCROLLPANE: return "textarea_notinscroll";
-            case BACKGROUND_SELECTED: return "textarea_selected";
-            case BORDER_DISABLED_NOTINSCROLLPANE: return "textarea_border_disabled_notinscroll";
-            case BORDER_FOCUSED_NOTINSCROLLPANE: return "textarea_border_focused_notinscroll";
-            case BORDER_ENABLED_NOTINSCROLLPANE: return "textarea_border_notinscroll";
+    public TextAreaPainter(Which state) {
+        super(state);
+        // FIXME These are not properly assigned.
+        setPaintContext(new PaintContext(new Insets(3, 3, 3, 3), new Dimension(26, 16), false, CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+    }
+
+    protected String getImageName(Which state) {
+        switch (state) {
+        case BACKGROUND_DISABLED:
+            return "textarea_disabled";
+        case BACKGROUND_ENABLED:
+            return "textarea";
+        case BACKGROUND_DISABLED_NOTINSCROLLPANE:
+            return "textarea_disabled_notinscroll";
+        case BACKGROUND_ENABLED_NOTINSCROLLPANE:
+            return "textarea_notinscroll";
+        case BACKGROUND_SELECTED:
+            return "textarea_selected";
+        case BORDER_DISABLED_NOTINSCROLLPANE:
+            return "textarea_border_disabled_notinscroll";
+        case BORDER_FOCUSED_NOTINSCROLLPANE:
+            return "textarea_border_focused_notinscroll";
+        case BORDER_ENABLED_NOTINSCROLLPANE:
+            return "textarea_border_notinscroll";
         }
         return null;
     }

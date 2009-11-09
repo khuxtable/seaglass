@@ -19,38 +19,65 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  * ComboBoxArrowButtonPainter implementation.
  */
-public final class ComboBoxArrowButtonPainter extends AbstractImagePainter {
-    // package private integers representing the available states that
-    // this painter will paint. These are used when creating a new instance
-    // of ComboBoxArrowButtonPainter to determine which region/state is being
-    // painted
-    // by that instance.
-    public static final int BACKGROUND_DISABLED           = 1;
-    public static final int BACKGROUND_ENABLED            = 2;
-    public static final int BACKGROUND_ENABLED_MOUSEOVER  = 3;
-    public static final int BACKGROUND_ENABLED_PRESSED    = 4;
-    public static final int BACKGROUND_DISABLED_EDITABLE  = 5;
-    public static final int BACKGROUND_ENABLED_EDITABLE   = 6;
-    public static final int BACKGROUND_MOUSEOVER_EDITABLE = 7;
-    public static final int BACKGROUND_PRESSED_EDITABLE   = 8;
-    public static final int BACKGROUND_SELECTED_EDITABLE  = 9;
-    public static final int FOREGROUND_ENABLED            = 10;
-    public static final int FOREGROUND_MOUSEOVER          = 11;
-    public static final int FOREGROUND_DISABLED           = 12;
-    public static final int FOREGROUND_PRESSED            = 13;
-    public static final int FOREGROUND_SELECTED           = 14;
-    public static final int FOREGROUND_EDITABLE           = 15;
-    public static final int FOREGROUND_EDITABLE_DISABLED  = 16;
+public final class ComboBoxArrowButtonPainter extends AbstractImagePainter<ComboBoxArrowButtonPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED,
+        BACKGROUND_ENABLED,
+        BACKGROUND_ENABLED_MOUSEOVER,
+        BACKGROUND_ENABLED_PRESSED,
+        BACKGROUND_DISABLED_EDITABLE,
+        BACKGROUND_ENABLED_EDITABLE,
+        BACKGROUND_MOUSEOVER_EDITABLE,
+        BACKGROUND_PRESSED_EDITABLE,
+        BACKGROUND_SELECTED_EDITABLE,
+        FOREGROUND_ENABLED,
+        FOREGROUND_MOUSEOVER,
+        FOREGROUND_DISABLED,
+        FOREGROUND_PRESSED,
+        FOREGROUND_SELECTED,
+        FOREGROUND_EDITABLE,
+        FOREGROUND_EDITABLE_DISABLED,
+    }
 
-    public ComboBoxArrowButtonPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+    private static final Insets    bgInsets            = new Insets(8, 1, 8, 8);
+    private static final Dimension bgDimension         = new Dimension(21, 23);
+    private static final CacheMode cacheMode           = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH                = Double.POSITIVE_INFINITY;
+    private static final Double    maxV                = 5.0;
+
+    private static final Insets    fgInsets            = new Insets(0, 0, 0, 0);
+    private static final Dimension fgDimension         = new Dimension(10, 5);
+
+    private static final Dimension fgEditableDimension = new Dimension(6, 8);
+
+    public ComboBoxArrowButtonPainter(Which state) {
+        super(state);
+        Insets ins = bgInsets;
+        Dimension dim = bgDimension;
+        boolean inverted = false;
+        if (state == Which.FOREGROUND_ENABLED || state == Which.FOREGROUND_DISABLED || state == Which.FOREGROUND_PRESSED
+                || state == Which.FOREGROUND_SELECTED) {
+            ins = fgInsets;
+            dim = fgDimension;
+            inverted = true;
+        } else if (state == Which.FOREGROUND_EDITABLE || state == Which.FOREGROUND_EDITABLE_DISABLED) {
+            ins = fgInsets;
+            dim = fgEditableDimension;
+            inverted = true;
+        }
+        setPaintContext(new PaintContext(ins, dim, inverted, cacheMode, maxH, maxV));
     }
 
     @Override
-    protected String getImageName(int state) {
+    protected String getImageName(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED_EDITABLE:
             return "combo_box_editable_button_disabled";

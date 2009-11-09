@@ -20,7 +20,9 @@
 package com.seaglass.painter;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
@@ -28,27 +30,37 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  */
 public final class DesktopIconPainter extends AbstractRegionPainter {
-    public static final int  BACKGROUND_ENABLED = 1;
+    public static enum Which {
+        BACKGROUND_ENABLED
+    }
 
-    private int              state;
-    private PaintContext     ctx;
+    private Which                  state;
+    private PaintContext           ctx;
 
-    private Rectangle2D      rect               = new Rectangle2D.Float(0, 0, 0, 0);
-    private RoundRectangle2D roundRect          = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
+    private Rectangle2D            rect      = new Rectangle2D.Float(0, 0, 0, 0);
+    private RoundRectangle2D       roundRect = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
 
-    private Color            color1             = decodeColor("nimbusBase", 0.02551502f, -0.47885156f, -0.34901965f, 0);
-    private Color            color2             = decodeColor("nimbusBlueGrey", -0.027777791f, -0.102261856f, 0.20392156f, 0);
-    private Color            color3             = decodeColor("nimbusBlueGrey", 0.0f, -0.0682728f, 0.09019607f, 0);
-    private Color            color4             = decodeColor("nimbusBlueGrey", -0.01111114f, -0.088974595f, 0.16470587f, 0);
-    private Color            color5             = decodeColor("nimbusBlueGrey", 0.0f, -0.029445238f, -0.019607842f, 0);
+    private Color                  color1    = decodeColor("nimbusBase", 0.02551502f, -0.47885156f, -0.34901965f, 0);
+    private Color                  color2    = decodeColor("nimbusBlueGrey", -0.027777791f, -0.102261856f, 0.20392156f, 0);
+    private Color                  color3    = decodeColor("nimbusBlueGrey", 0.0f, -0.0682728f, 0.09019607f, 0);
+    private Color                  color4    = decodeColor("nimbusBlueGrey", -0.01111114f, -0.088974595f, 0.16470587f, 0);
+    private Color                  color5    = decodeColor("nimbusBlueGrey", 0.0f, -0.029445238f, -0.019607842f, 0);
 
-    public DesktopIconPainter(PaintContext ctx, int state) {
+    private static final Insets    insets    = new Insets(5, 5, 5, 5);
+    private static final Dimension dimension = new Dimension(28, 26);
+    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH      = Double.POSITIVE_INFINITY;
+    private static final Double    maxV      = Double.POSITIVE_INFINITY;
+
+    public DesktopIconPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = ctx;
+        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {

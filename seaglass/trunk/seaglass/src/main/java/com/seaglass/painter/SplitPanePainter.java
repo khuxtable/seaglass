@@ -19,20 +19,33 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 
 import javax.swing.JComponent;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
  */
 public final class SplitPanePainter extends AbstractRegionPainter {
-    static final int     BACKGROUND_ENABLED = 1;
+    public static enum Which {
+        BACKGROUND_ENABLED
+    }
 
-    private PaintContext ctx;
+    // Constants for the PaintContext.
+    private static final Insets    insets    = new Insets(0, 0, 0, 0);
+    private static final Dimension dimension = new Dimension(20, 20);
+    private static final CacheMode cacheMode = PaintContext.CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH      = Double.POSITIVE_INFINITY;
+    private static final Double    maxV      = Double.POSITIVE_INFINITY;
 
-    public SplitPanePainter(PaintContext ctx, int state) {
+    private PaintContext           ctx;
+
+    public SplitPanePainter(Which state) {
         super();
-        this.ctx = ctx;
+        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {

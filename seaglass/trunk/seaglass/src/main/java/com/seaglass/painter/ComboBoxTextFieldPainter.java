@@ -19,29 +19,39 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
  * ComboBoxTextFieldPainter implementation.
  */
-public final class ComboBoxTextFieldPainter extends AbstractImagePainter {
-    //package private integers representing the available states that
-    //this painter will paint. These are used when creating a new instance
-    //of ComboBoxTextFieldPainter to determine which region/state is being painted
-    //by that instance.
-    public static final int BACKGROUND_DISABLED = 1;
-    public static final int BACKGROUND_ENABLED = 2;
-    public static final int BACKGROUND_SELECTED = 3;
+public final class ComboBoxTextFieldPainter extends AbstractImagePainter<ComboBoxTextFieldPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED,
+    }
 
-    public ComboBoxTextFieldPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+    private static final Insets    insets    = new Insets(3, 3, 3, 1);
+    private static final Dimension dimension = new Dimension(64, 23);
+    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH      = Double.POSITIVE_INFINITY;
+    private static final Double    maxV      = 2.0;
+
+    public ComboBoxTextFieldPainter(Which state) {
+        super(state);
+        setPaintContext(new PaintContext(insets, dimension, false, cacheMode, maxH, maxV));
     }
 
     @Override
-    protected String getImageName(int state) {
-        switch(state) {
-            case BACKGROUND_DISABLED: return "combo_box_textfield_disabled";
-            case BACKGROUND_ENABLED: return "combo_box_textfield_enabled";
-            case BACKGROUND_SELECTED: return "combo_box_textfield_selected";
+    protected String getImageName(Which state) {
+        switch (state) {
+        case BACKGROUND_DISABLED:
+            return "combo_box_textfield_disabled";
+        case BACKGROUND_ENABLED:
+            return "combo_box_textfield_enabled";
+        case BACKGROUND_SELECTED:
+            return "combo_box_textfield_selected";
         }
         return null;
     }

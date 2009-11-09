@@ -19,47 +19,69 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  * ToolBarToggleButtonPainter implementation.
  */
-public final class ToolBarToggleButtonPainter extends AbstractImagePainter {
-    // package private integers representing the available states that
-    // this painter will paint. These are used when creating a new instance
-    // of ToolBarToggleButtonPainter to determine which region/state is being
-    // painted
-    // by that instance.
-    public static final int BACKGROUND_ENABLED                    = 1;
-    public static final int BACKGROUND_FOCUSED                    = 2;
-    public static final int BACKGROUND_MOUSEOVER                  = 3;
-    public static final int BACKGROUND_MOUSEOVER_FOCUSED          = 4;
-    public static final int BACKGROUND_PRESSED                    = 5;
-    public static final int BACKGROUND_PRESSED_FOCUSED            = 6;
-    public static final int BACKGROUND_SELECTED                   = 7;
-    public static final int BACKGROUND_SELECTED_FOCUSED           = 8;
-    public static final int BACKGROUND_PRESSED_SELECTED           = 9;
-    public static final int BACKGROUND_PRESSED_SELECTED_FOCUSED   = 10;
-    public static final int BACKGROUND_MOUSEOVER_SELECTED         = 11;
-    public static final int BACKGROUND_MOUSEOVER_SELECTED_FOCUSED = 12;
-    public static final int BACKGROUND_DISABLED_SELECTED          = 13;
-
-    public ToolBarToggleButtonPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+public final class ToolBarToggleButtonPainter extends AbstractImagePainter<ToolBarToggleButtonPainter.Which> {
+    public static enum Which {
+        BACKGROUND_ENABLED,
+        BACKGROUND_FOCUSED,
+        BACKGROUND_MOUSEOVER,
+        BACKGROUND_MOUSEOVER_FOCUSED,
+        BACKGROUND_PRESSED,
+        BACKGROUND_PRESSED_FOCUSED,
+        BACKGROUND_SELECTED,
+        BACKGROUND_SELECTED_FOCUSED,
+        BACKGROUND_PRESSED_SELECTED,
+        BACKGROUND_PRESSED_SELECTED_FOCUSED,
+        BACKGROUND_MOUSEOVER_SELECTED,
+        BACKGROUND_MOUSEOVER_SELECTED_FOCUSED,
+        BACKGROUND_DISABLED_SELECTED,
     }
 
-    protected String getImageName(int state) {
+    private static final Insets    insets    = new Insets(5, 5, 5, 5);
+    private static final Dimension dimension = new Dimension(104, 34);
+    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH      = 2.0;
+    private static final Double    maxV      = Double.POSITIVE_INFINITY;
+
+    public ToolBarToggleButtonPainter(Which state) {
+        super(state);
+        PaintContext ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        setPaintContext(ctx);
+    }
+
+    protected String getImageName(Which state) {
         switch (state) {
-            case BACKGROUND_FOCUSED: return "toolbar_button_focused";
-            case BACKGROUND_MOUSEOVER: return "empty_image";
-            case BACKGROUND_MOUSEOVER_FOCUSED: return "toolbar_button_focused";
-            case BACKGROUND_PRESSED: return "toolbar_button_pressed";
-            case BACKGROUND_PRESSED_FOCUSED: return "toolbar_button_focused_pressed";
-            case BACKGROUND_SELECTED: return "toolbar_button_selected";
-            case BACKGROUND_SELECTED_FOCUSED: return "toolbar_button_selected_focused";
-            case BACKGROUND_PRESSED_SELECTED: return "toolbar_button_selected";
-            case BACKGROUND_PRESSED_SELECTED_FOCUSED: return "toolbar_button_selected_focused";
-            case BACKGROUND_MOUSEOVER_SELECTED: return "toolbar_button_selected";
-            case BACKGROUND_MOUSEOVER_SELECTED_FOCUSED: return "toolbar_button_selected_focused";
-            case BACKGROUND_DISABLED_SELECTED: return "toolbar_button_selected";
+        case BACKGROUND_FOCUSED:
+            return "toolbar_button_focused";
+        case BACKGROUND_MOUSEOVER:
+            return "empty_image";
+        case BACKGROUND_MOUSEOVER_FOCUSED:
+            return "toolbar_button_focused";
+        case BACKGROUND_PRESSED:
+            return "toolbar_button_pressed";
+        case BACKGROUND_PRESSED_FOCUSED:
+            return "toolbar_button_focused_pressed";
+        case BACKGROUND_SELECTED:
+            return "toolbar_button_selected";
+        case BACKGROUND_SELECTED_FOCUSED:
+            return "toolbar_button_selected_focused";
+        case BACKGROUND_PRESSED_SELECTED:
+            return "toolbar_button_selected";
+        case BACKGROUND_PRESSED_SELECTED_FOCUSED:
+            return "toolbar_button_selected_focused";
+        case BACKGROUND_MOUSEOVER_SELECTED:
+            return "toolbar_button_selected";
+        case BACKGROUND_MOUSEOVER_SELECTED_FOCUSED:
+            return "toolbar_button_selected_focused";
+        case BACKGROUND_DISABLED_SELECTED:
+            return "toolbar_button_selected";
         }
         return null;
     }

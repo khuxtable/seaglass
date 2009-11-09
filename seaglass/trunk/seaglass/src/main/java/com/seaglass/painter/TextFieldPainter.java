@@ -19,21 +19,31 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
 /**
  */
-public final class TextFieldPainter extends AbstractImagePainter {
-    public static final int BACKGROUND_DISABLED = 1;
-    public static final int BACKGROUND_ENABLED  = 2;
-    public static final int BACKGROUND_SELECTED = 3;
-    public static final int BORDER_DISABLED     = 4;
-    public static final int BORDER_FOCUSED      = 5;
-    public static final int BORDER_ENABLED      = 6;
-
-    public TextFieldPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+public final class TextFieldPainter extends AbstractImagePainter<TextFieldPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED, BORDER_DISABLED, BORDER_FOCUSED, BORDER_ENABLED,
     }
 
-    protected String getImageName(int state) {
+    public TextFieldPainter(Which state) {
+        super(state);
+        switch (state) {
+        case BORDER_DISABLED:
+            setPaintContext(new PaintContext(new Insets(5, 3, 3, 3), new Dimension(122, 24), false,
+                AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+            break;
+        default:
+            setPaintContext(new PaintContext(new Insets(5, 5, 5, 5), new Dimension(122, 24), false,
+                AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+            break;
+        }
+    }
+
+    protected String getImageName(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
             return "text_field_disabled";

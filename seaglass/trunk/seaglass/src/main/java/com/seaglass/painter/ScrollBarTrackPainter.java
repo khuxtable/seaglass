@@ -19,22 +19,31 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  * ScrollBarTrackPainter implementation.
  */
-public final class ScrollBarTrackPainter extends AbstractImagePainter {
-    // package private integers representing the available states that
-    // this painter will paint. These are used when creating a new instance
-    // of ScrollBarTrackPainter to determine which region/state is being painted
-    // by that instance.
-    public static final int BACKGROUND_DISABLED = 1;
-    public static final int BACKGROUND_ENABLED  = 2;
-
-    public ScrollBarTrackPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+public final class ScrollBarTrackPainter extends AbstractImagePainter<ScrollBarTrackPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
-    protected String getImageName(int state) {
+    private static final Insets    insets    = new Insets(0, 0, 0, 0);
+    private static final Dimension dimension = new Dimension(19, 15);
+    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH      = Double.POSITIVE_INFINITY;
+    private static final Double    maxV      = 2.0;
+
+    public ScrollBarTrackPainter(Which state) {
+        super(state);
+        setPaintContext(new PaintContext(insets, dimension, false, cacheMode, maxH, maxV));
+    }
+
+    protected String getImageName(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
             return "h_scroll_track_disabled";

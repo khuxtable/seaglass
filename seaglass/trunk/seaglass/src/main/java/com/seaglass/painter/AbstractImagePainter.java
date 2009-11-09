@@ -30,7 +30,7 @@ import javax.swing.JComponent;
  * 
  * @author Kathryn Huxtable
  */
-public abstract class AbstractImagePainter extends AbstractRegionPainter {
+public abstract class AbstractImagePainter<E> extends AbstractRegionPainter {
 
     private static final String IMAGE_DIR = "/com/seaglass/resources/images";
 
@@ -38,9 +38,9 @@ public abstract class AbstractImagePainter extends AbstractRegionPainter {
 
     protected ImageIcon         image;
 
-    public AbstractImagePainter(PaintContext ctx, int state) {
+    public AbstractImagePainter(E state) {
         super();
-        this.ctx = ctx;
+        this.ctx = null;
         String imageName = getImageName(state);
         if (imageName == null) {
             throw new RuntimeException("No file was found for the state " + state);
@@ -58,7 +58,7 @@ public abstract class AbstractImagePainter extends AbstractRegionPainter {
         return new ImageIcon(AbstractImagePainter.class.getResource(imagePath.toString()));
     }
 
-    protected abstract String getImageName(int state);
+    protected abstract String getImageName(E state);
 
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
@@ -73,5 +73,9 @@ public abstract class AbstractImagePainter extends AbstractRegionPainter {
     @Override
     protected final PaintContext getPaintContext() {
         return ctx;
+    }
+    
+    protected final void setPaintContext(PaintContext ctx) {
+        this.ctx = ctx;
     }
 }
