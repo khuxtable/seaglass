@@ -19,32 +19,40 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  * Title pane iconify button painter implementation.
  */
-public final class TitlePaneIconifyButtonPainter extends AbstractImagePainter {
-    public static final int BACKGROUND_ENABLED                              = 1;
-    public static final int BACKGROUND_DISABLED                             = 2;
-    public static final int BACKGROUND_MOUSEOVER                            = 3;
-    public static final int BACKGROUND_PRESSED                              = 4;
-    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED             = 5;
-    public static final int BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED           = 6;
-    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED             = 7;
+public final class TitlePaneIconifyButtonPainter extends AbstractImagePainter<TitlePaneIconifyButtonPainter.Which> {
+    public static enum Which {
+        BACKGROUND_ENABLED,
+        BACKGROUND_DISABLED,
+        BACKGROUND_MOUSEOVER,
+        BACKGROUND_PRESSED,
+        BACKGROUND_ENABLED_WINDOWNOTFOCUSED,
+        BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED,
+        BACKGROUND_PRESSED_WINDOWNOTFOCUSED,
 
-    public static final int BACKGROUND_MINIMIZED_DISABLED                   = 11;
-    public static final int BACKGROUND_MINIMIZED_ENABLED                    = 12;
-    public static final int BACKGROUND_MINIMIZED_MOUSEOVER                  = 13;
-    public static final int BACKGROUND_MINIMIZED_PRESSED                    = 14;
-    public static final int BACKGROUND_MINIMIZED_ENABLED_WINDOWNOTFOCUSED   = 15;
-    public static final int BACKGROUND_MINIMIZED_MOUSEOVER_WINDOWNOTFOCUSED = 16;
-    public static final int BACKGROUND_MINIMIZED_PRESSED_WINDOWNOTFOCUSED   = 17;
+        BACKGROUND_MINIMIZED_DISABLED,
+        BACKGROUND_MINIMIZED_ENABLED,
+        BACKGROUND_MINIMIZED_MOUSEOVER,
+        BACKGROUND_MINIMIZED_PRESSED,
+        BACKGROUND_MINIMIZED_ENABLED_WINDOWNOTFOCUSED,
+        BACKGROUND_MINIMIZED_MOUSEOVER_WINDOWNOTFOCUSED,
+        BACKGROUND_MINIMIZED_PRESSED_WINDOWNOTFOCUSED,
+    }
 
-    public TitlePaneIconifyButtonPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+    public TitlePaneIconifyButtonPainter(Which state) {
+        super(state);
+        setPaintContext(new PaintContext(new Insets(0, 0, 0, 0), new Dimension(26, 18), false, CacheMode.FIXED_SIZES, 1.0, 1.0));
     }
 
     @Override
-    protected String getImageName(int state) {
+    protected String getImageName(Which state) {
         switch (state) {
         case BACKGROUND_ENABLED:
             return "window_minimize_enabled";

@@ -20,12 +20,16 @@
 package com.seaglass.painter;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
  * PopupMenuPainter implementation.
@@ -33,22 +37,30 @@ import javax.swing.JComponent;
  * Based on Nimbus's implementation.
  */
 public final class PopupMenuPainter extends AbstractRegionPainter {
-    public static final int BACKGROUND_DISABLED = 1;
-    public static final int BACKGROUND_ENABLED  = 2;
+    public static enum Which {
+        BACKGROUND_DISABLED, BACKGROUND_ENABLED
+    }
 
-    private int             state;
-    private PaintContext    ctx;
+    private Which                  state;
+    private PaintContext           ctx;
 
-    private Rectangle2D     rect                = new Rectangle2D.Float(0, 0, 0, 0);
+    private Rectangle2D            rect      = new Rectangle2D.Float(0, 0, 0, 0);
 
-    private Color           color1              = decodeColor("nimbusBlueGrey", -0.6111111f, -0.110526316f, -0.39607844f, 0);
-    private Color           color2              = decodeColor("nimbusBase", 0.0f, -0.6357143f, 0.45098037f, 0);
-    private Color           color3              = decodeColor("nimbusBase", 0.021348298f, -0.6150531f, 0.39999998f, 0);
+    private Color                  color1    = decodeColor("nimbusBlueGrey", -0.6111111f, -0.110526316f, -0.39607844f, 0);
+    private Color                  color2    = decodeColor("nimbusBase", 0.0f, -0.6357143f, 0.45098037f, 0);
+    private Color                  color3    = decodeColor("nimbusBase", 0.021348298f, -0.6150531f, 0.39999998f, 0);
 
-    public PopupMenuPainter(PaintContext ctx, int state) {
+    // FIXME These are not assigned properly.
+    private static final Insets    insets    = new Insets(7, 7, 7, 7);
+    private static final Dimension dimension = new Dimension(86, 28);
+    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH      = Double.POSITIVE_INFINITY;
+    private static final Double    maxV      = Double.POSITIVE_INFINITY;
+
+    public PopupMenuPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = ctx;
+        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {

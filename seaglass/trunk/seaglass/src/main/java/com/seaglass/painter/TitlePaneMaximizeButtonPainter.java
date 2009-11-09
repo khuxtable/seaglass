@@ -19,31 +19,39 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  * Title pane maximize/minimize button (aka "toggleButton") painter.
  */
-public final class TitlePaneMaximizeButtonPainter extends AbstractImagePainter {
-    public static final int BACKGROUND_DISABLED                             = 1;
-    public static final int BACKGROUND_ENABLED                              = 2;
-    public static final int BACKGROUND_MOUSEOVER                            = 3;
-    public static final int BACKGROUND_PRESSED                              = 4;
-    public static final int BACKGROUND_ENABLED_WINDOWNOTFOCUSED             = 5;
-    public static final int BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED           = 6;
-    public static final int BACKGROUND_PRESSED_WINDOWNOTFOCUSED             = 7;
+public final class TitlePaneMaximizeButtonPainter extends AbstractImagePainter<TitlePaneMaximizeButtonPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED,
+        BACKGROUND_ENABLED,
+        BACKGROUND_MOUSEOVER,
+        BACKGROUND_PRESSED,
+        BACKGROUND_ENABLED_WINDOWNOTFOCUSED,
+        BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED,
+        BACKGROUND_PRESSED_WINDOWNOTFOCUSED,
 
-    public static final int BACKGROUND_MAXIMIZED_DISABLED                   = 11;
-    public static final int BACKGROUND_MAXIMIZED_ENABLED                    = 12;
-    public static final int BACKGROUND_MAXIMIZED_MOUSEOVER                  = 13;
-    public static final int BACKGROUND_MAXIMIZED_PRESSED                    = 14;
-    public static final int BACKGROUND_MAXIMIZED_ENABLED_WINDOWNOTFOCUSED   = 15;
-    public static final int BACKGROUND_MAXIMIZED_MOUSEOVER_WINDOWNOTFOCUSED = 16;
-    public static final int BACKGROUND_MAXIMIZED_PRESSED_WINDOWNOTFOCUSED   = 17;
-
-    public TitlePaneMaximizeButtonPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+        BACKGROUND_MAXIMIZED_DISABLED,
+        BACKGROUND_MAXIMIZED_ENABLED,
+        BACKGROUND_MAXIMIZED_MOUSEOVER,
+        BACKGROUND_MAXIMIZED_PRESSED,
+        BACKGROUND_MAXIMIZED_ENABLED_WINDOWNOTFOCUSED,
+        BACKGROUND_MAXIMIZED_MOUSEOVER_WINDOWNOTFOCUSED,
+        BACKGROUND_MAXIMIZED_PRESSED_WINDOWNOTFOCUSED,
     }
 
-    protected String getImageName(int state) {
+    public TitlePaneMaximizeButtonPainter(Which state) {
+        super(state);
+        setPaintContext(new PaintContext(new Insets(0, 0, 0, 0), new Dimension(25, 18), false, CacheMode.FIXED_SIZES, 1.0, 1.0));
+    }
+
+    protected String getImageName(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
             return "window_maximize_enabled";

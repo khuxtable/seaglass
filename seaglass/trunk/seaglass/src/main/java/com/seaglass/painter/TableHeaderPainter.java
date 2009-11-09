@@ -19,17 +19,28 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  */
-public final class TableHeaderPainter extends AbstractImagePainter {
-    public static final int ASCENDINGSORTICON_ENABLED  = 1;
-    public static final int DESCENDINGSORTICON_ENABLED = 2;
-
-    public TableHeaderPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+public final class TableHeaderPainter extends AbstractImagePainter<TableHeaderPainter.Which> {
+    public static enum Which {
+        ASCENDINGSORTICON_ENABLED, DESCENDINGSORTICON_ENABLED
     }
 
-    protected String getImageName(int state) {
+    public TableHeaderPainter(Which state) {
+        super(state);
+        if (state == Which.ASCENDINGSORTICON_ENABLED) {
+            setPaintContext(new PaintContext(new Insets(0, 0, 0, 2), new Dimension(8, 7), false, CacheMode.FIXED_SIZES, 1.0, 1.0));
+        } else {
+            setPaintContext(new PaintContext(new Insets(0, 0, 0, 0), new Dimension(8, 7), false, CacheMode.FIXED_SIZES, 1.0, 1.0));
+        }
+    }
+
+    protected String getImageName(Which state) {
         switch (state) {
         case ASCENDINGSORTICON_ENABLED:
             return "table_header_sort_ascending_enabled";

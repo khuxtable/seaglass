@@ -19,51 +19,85 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
  * ComboBoxPainter implementation.
  */
-public final class ComboBoxPainter extends AbstractImagePainter {
-    //package private integers representing the available states that
-    //this painter will paint. These are used when creating a new instance
-    //of ComboBoxPainter to determine which region/state is being painted
-    //by that instance.
-    public static final int BACKGROUND_DISABLED = 1;
-    public static final int BACKGROUND_DISABLED_PRESSED = 2;
-    public static final int BACKGROUND_ENABLED = 3;
-    public static final int BACKGROUND_FOCUSED = 4;
-    public static final int BACKGROUND_MOUSEOVER_FOCUSED = 5;
-    public static final int BACKGROUND_MOUSEOVER = 6;
-    public static final int BACKGROUND_PRESSED_FOCUSED = 7;
-    public static final int BACKGROUND_PRESSED = 8;
-    public static final int BACKGROUND_ENABLED_SELECTED = 9;
-    public static final int BACKGROUND_DISABLED_EDITABLE = 10;
-    public static final int BACKGROUND_ENABLED_EDITABLE = 11;
-    public static final int BACKGROUND_FOCUSED_EDITABLE = 12;
-    public static final int BACKGROUND_MOUSEOVER_EDITABLE = 13;
-    public static final int BACKGROUND_PRESSED_EDITABLE = 14;
+public final class ComboBoxPainter extends AbstractImagePainter<ComboBoxPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED,
+        BACKGROUND_DISABLED_PRESSED,
+        BACKGROUND_ENABLED,
+        BACKGROUND_FOCUSED,
+        BACKGROUND_MOUSEOVER_FOCUSED,
+        BACKGROUND_MOUSEOVER,
+        BACKGROUND_PRESSED_FOCUSED,
+        BACKGROUND_PRESSED,
+        BACKGROUND_ENABLED_SELECTED,
+        BACKGROUND_DISABLED_EDITABLE,
+        BACKGROUND_ENABLED_EDITABLE,
+        BACKGROUND_FOCUSED_EDITABLE,
+        BACKGROUND_MOUSEOVER_EDITABLE,
+        BACKGROUND_PRESSED_EDITABLE,
+    }
 
-    public ComboBoxPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+    private static final Insets    insets            = new Insets(8, 9, 8, 23);
+    private static final Dimension dimension         = new Dimension(105, 23);
+    private static final CacheMode cacheMode         = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH              = Double.POSITIVE_INFINITY;
+    private static final Double    maxV              = 5.0;
+
+    private static final Insets    editableInsets    = new Insets(0, 0, 0, 0);
+    private static final Dimension editableDimension = new Dimension(1, 1);
+    private static final Insets    focusInsets       = new Insets(5, 5, 5, 5);
+
+    public ComboBoxPainter(Which state) {
+        super(state);
+        if (state == Which.BACKGROUND_DISABLED_EDITABLE || state == Which.BACKGROUND_ENABLED_EDITABLE
+                || state == Which.BACKGROUND_PRESSED_EDITABLE) {
+            setPaintContext(new PaintContext(editableInsets, editableDimension, false, cacheMode, maxH, maxV));
+        } else if (state == Which.BACKGROUND_FOCUSED_EDITABLE) {
+            setPaintContext(new PaintContext(focusInsets, dimension, false, cacheMode, maxH, maxV));
+        } else {
+            setPaintContext(new PaintContext(insets, dimension, false, cacheMode, maxH, maxV));
+        }
     }
 
     @Override
-    protected String getImageName(int state) {
-        switch(state) {
-            case BACKGROUND_DISABLED: return "combo_box_disabled";
-            case BACKGROUND_DISABLED_PRESSED: return "combo_box_disabled";
-            case BACKGROUND_ENABLED: return "combo_box_enabled";
-            case BACKGROUND_FOCUSED: return "combo_box_enabled";
-            case BACKGROUND_MOUSEOVER_FOCUSED: return "combo_box";
-            case BACKGROUND_MOUSEOVER: return "combo_box_enabled";
-            case BACKGROUND_PRESSED_FOCUSED: return "combo_box_pressed";
-            case BACKGROUND_PRESSED: return "combo_box_pressed";
-            case BACKGROUND_ENABLED_SELECTED: return "combo_box_pressed";
-            case BACKGROUND_DISABLED_EDITABLE: return "empty_image";
-            case BACKGROUND_ENABLED_EDITABLE: return "empty_image";
-            case BACKGROUND_FOCUSED_EDITABLE: return "combo_box_focused_editable";
-            case BACKGROUND_MOUSEOVER_EDITABLE: return "empty_image";
-            case BACKGROUND_PRESSED_EDITABLE: return "empty_image";
+    protected String getImageName(Which state) {
+        switch (state) {
+        case BACKGROUND_DISABLED:
+            return "combo_box_disabled";
+        case BACKGROUND_DISABLED_PRESSED:
+            return "combo_box_disabled";
+        case BACKGROUND_ENABLED:
+            return "combo_box_enabled";
+        case BACKGROUND_FOCUSED:
+            return "combo_box_enabled";
+        case BACKGROUND_MOUSEOVER_FOCUSED:
+            return "combo_box";
+        case BACKGROUND_MOUSEOVER:
+            return "combo_box_enabled";
+        case BACKGROUND_PRESSED_FOCUSED:
+            return "combo_box_pressed";
+        case BACKGROUND_PRESSED:
+            return "combo_box_pressed";
+        case BACKGROUND_ENABLED_SELECTED:
+            return "combo_box_pressed";
+        case BACKGROUND_DISABLED_EDITABLE:
+            return "empty_image";
+        case BACKGROUND_ENABLED_EDITABLE:
+            return "empty_image";
+        case BACKGROUND_FOCUSED_EDITABLE:
+            return "combo_box_focused_editable";
+        case BACKGROUND_MOUSEOVER_EDITABLE:
+            return "empty_image";
+        case BACKGROUND_PRESSED_EDITABLE:
+            return "empty_image";
         }
         return null;
     }

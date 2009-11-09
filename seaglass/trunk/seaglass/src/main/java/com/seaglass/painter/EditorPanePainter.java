@@ -19,18 +19,31 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  */
-public final class EditorPanePainter extends AbstractImagePainter {
-    public static final int BACKGROUND_DISABLED = 1;
-    public static final int BACKGROUND_ENABLED  = 2;
-    public static final int BACKGROUND_SELECTED = 3;
-
-    public EditorPanePainter(PaintContext ctx, int state) {
-        super(ctx, state);
+public final class EditorPanePainter extends AbstractImagePainter<EditorPanePainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED,
     }
 
-    protected String getImageName(int state) {
+    // FIXME These are not assigned properly.
+    private static final Insets    insets    = new Insets(7, 7, 7, 7);
+    private static final Dimension dimension = new Dimension(86, 28);
+    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH      = Double.POSITIVE_INFINITY;
+    private static final Double    maxV      = Double.POSITIVE_INFINITY;
+
+    public EditorPanePainter(Which state) {
+        super(state);
+        setPaintContext(new PaintContext(insets, dimension, false, cacheMode, maxH, maxV));
+    }
+
+    protected String getImageName(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
             return "editorpane_disabled";

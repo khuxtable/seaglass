@@ -19,38 +19,51 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  * Paint table headers.
  */
-public final class TableHeaderRendererPainter extends AbstractImagePainter {
-    //package private integers representing the available states that
-    //this painter will paint. These are used when creating a new instance
-    //of TableHeaderRendererPainter to determine which region/state is being painted
-    //by that instance.
-    public static final int BACKGROUND_DISABLED = 1;
-    public static final int BACKGROUND_ENABLED = 2;
-    public static final int BACKGROUND_ENABLED_FOCUSED = 3;
-    public static final int BACKGROUND_MOUSEOVER = 4;
-    public static final int BACKGROUND_PRESSED = 5;
-    public static final int BACKGROUND_ENABLED_SORTED = 6;
-    public static final int BACKGROUND_ENABLED_FOCUSED_SORTED = 7;
-    public static final int BACKGROUND_DISABLED_SORTED = 8;
+public final class TableHeaderRendererPainter extends AbstractImagePainter<TableHeaderRendererPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED,
+        BACKGROUND_ENABLED,
+        BACKGROUND_ENABLED_FOCUSED,
+        BACKGROUND_MOUSEOVER,
+        BACKGROUND_PRESSED,
+        BACKGROUND_ENABLED_SORTED,
+        BACKGROUND_ENABLED_FOCUSED_SORTED,
+        BACKGROUND_DISABLED_SORTED,
+    }
 
-    public TableHeaderRendererPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+    public TableHeaderRendererPainter(Which state) {
+        super(state);
+        setPaintContext(new PaintContext(new Insets(3, 3, 3, 3), new Dimension(26, 16), false, CacheMode.NINE_SQUARE_SCALE,
+            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
     }
 
     @Override
-    protected String getImageName(int state) {
-        switch(state) {
-            case BACKGROUND_DISABLED: return "table_header_disabled";
-            case BACKGROUND_ENABLED: return "table_header_enabled";
-            case BACKGROUND_ENABLED_FOCUSED: return "table_header_enabled";
-            case BACKGROUND_MOUSEOVER: return "table_header_enabled";
-            case BACKGROUND_PRESSED: return "table_header_pressed";
-            case BACKGROUND_ENABLED_SORTED: return "table_header_sorted";
-            case BACKGROUND_ENABLED_FOCUSED_SORTED: return "table_header_sorted";
-            case BACKGROUND_DISABLED_SORTED: return "table_header_disabled_sorted";
+    protected String getImageName(Which state) {
+        switch (state) {
+        case BACKGROUND_DISABLED:
+            return "table_header_disabled";
+        case BACKGROUND_ENABLED:
+            return "table_header_enabled";
+        case BACKGROUND_ENABLED_FOCUSED:
+            return "table_header_enabled";
+        case BACKGROUND_MOUSEOVER:
+            return "table_header_enabled";
+        case BACKGROUND_PRESSED:
+            return "table_header_pressed";
+        case BACKGROUND_ENABLED_SORTED:
+            return "table_header_sorted";
+        case BACKGROUND_ENABLED_FOCUSED_SORTED:
+            return "table_header_sorted";
+        case BACKGROUND_DISABLED_SORTED:
+            return "table_header_disabled_sorted";
         }
         return null;
     }

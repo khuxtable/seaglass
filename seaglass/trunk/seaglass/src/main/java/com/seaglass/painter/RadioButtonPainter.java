@@ -19,37 +19,48 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  * RadioButtonPainter implementation.
  */
-public final class RadioButtonPainter extends AbstractImagePainter {
-    // package private integers representing the available states that
-    // this painter will paint. These are used when creating a new instance
-    // of RadioButtonPainter to determine which region/state is being painted
-    // by that instance.
-    public static final int BACKGROUND_DISABLED             = 1;
-    public static final int BACKGROUND_ENABLED              = 2;
-    public static final int ICON_DISABLED                   = 3;
-    public static final int ICON_ENABLED                    = 4;
-    public static final int ICON_FOCUSED                    = 5;
-    public static final int ICON_MOUSEOVER                  = 6;
-    public static final int ICON_MOUSEOVER_FOCUSED          = 7;
-    public static final int ICON_PRESSED                    = 8;
-    public static final int ICON_PRESSED_FOCUSED            = 9;
-    public static final int ICON_SELECTED                   = 10;
-    public static final int ICON_SELECTED_FOCUSED           = 11;
-    public static final int ICON_PRESSED_SELECTED           = 12;
-    public static final int ICON_PRESSED_SELECTED_FOCUSED   = 13;
-    public static final int ICON_MOUSEOVER_SELECTED         = 14;
-    public static final int ICON_MOUSEOVER_SELECTED_FOCUSED = 15;
-    public static final int ICON_DISABLED_SELECTED          = 16;
+public final class RadioButtonPainter extends AbstractImagePainter<RadioButtonPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DISABLED,
+        BACKGROUND_ENABLED,
+        ICON_DISABLED,
+        ICON_ENABLED,
+        ICON_FOCUSED,
+        ICON_MOUSEOVER,
+        ICON_MOUSEOVER_FOCUSED,
+        ICON_PRESSED,
+        ICON_PRESSED_FOCUSED,
+        ICON_SELECTED,
+        ICON_SELECTED_FOCUSED,
+        ICON_PRESSED_SELECTED,
+        ICON_PRESSED_SELECTED_FOCUSED,
+        ICON_MOUSEOVER_SELECTED,
+        ICON_MOUSEOVER_SELECTED_FOCUSED,
+        ICON_DISABLED_SELECTED,
+    }
 
-    public RadioButtonPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+    private static final Insets    insets    = new Insets(5, 5, 5, 5);
+    private static final Dimension dimension = new Dimension(16, 16);
+    private static final CacheMode cacheMode = CacheMode.FIXED_SIZES;
+    private static final Double    maxH      = 1.0;
+    private static final Double    maxV      = 1.0;
+
+    public RadioButtonPainter(Which state) {
+        super(state);
+        PaintContext ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        setPaintContext(ctx);
     }
 
     @Override
-    protected String getImageName(int state) {
+    protected String getImageName(Which state) {
         // generate this entire method. Each state/bg/fg/border combo that has
         // been painted gets its own KEY and paint method.
         switch (state) {

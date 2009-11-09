@@ -19,10 +19,14 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
  * Button painter. This paints both regular and toggle buttons because they look
@@ -30,33 +34,37 @@ import javax.swing.JComponent;
  * 
  * @author Kathryn Huxtable
  */
-public final class ButtonPainter extends AbstractImagePainter {
+public final class ButtonPainter extends AbstractImagePainter<ButtonPainter.Which> {
+    public static enum Which {
+        BACKGROUND_DEFAULT,
+        BACKGROUND_DEFAULT_FOCUSED,
+        BACKGROUND_MOUSEOVER_DEFAULT,
+        BACKGROUND_MOUSEOVER_DEFAULT_FOCUSED,
+        BACKGROUND_PRESSED_DEFAULT,
+        BACKGROUND_PRESSED_DEFAULT_FOCUSED,
+        BACKGROUND_DISABLED,
+        BACKGROUND_ENABLED,
+        BACKGROUND_FOCUSED,
+        BACKGROUND_MOUSEOVER,
+        BACKGROUND_MOUSEOVER_FOCUSED,
+        BACKGROUND_PRESSED,
+        BACKGROUND_PRESSED_FOCUSED,
+        BACKGROUND_SELECTED,
+        BACKGROUND_SELECTED_FOCUSED,
+        BACKGROUND_PRESSED_SELECTED,
+        BACKGROUND_PRESSED_SELECTED_FOCUSED,
+        BACKGROUND_DISABLED_SELECTED
+    };
 
-    // Integers representing the available states that this painter will paint.
-    // These are used when creating a new instance of ButtonPainter to determine
-    // which region/state is being painted by that instance.
-    public static final int BACKGROUND_DEFAULT                   = 1;
-    public static final int BACKGROUND_DEFAULT_FOCUSED           = 2;
-    public static final int BACKGROUND_MOUSEOVER_DEFAULT         = 3;
-    public static final int BACKGROUND_MOUSEOVER_DEFAULT_FOCUSED = 4;
-    public static final int BACKGROUND_PRESSED_DEFAULT           = 5;
-    public static final int BACKGROUND_PRESSED_DEFAULT_FOCUSED   = 6;
-    public static final int BACKGROUND_DISABLED                  = 7;
-    public static final int BACKGROUND_ENABLED                   = 8;
-    public static final int BACKGROUND_FOCUSED                   = 9;
-    public static final int BACKGROUND_MOUSEOVER                 = 10;
-    public static final int BACKGROUND_MOUSEOVER_FOCUSED         = 11;
-    public static final int BACKGROUND_PRESSED                   = 12;
-    public static final int BACKGROUND_PRESSED_FOCUSED           = 13;
-    public static final int BACKGROUND_SELECTED                  = 14;
-    public static final int BACKGROUND_SELECTED_FOCUSED          = 15;
-    public static final int BACKGROUND_PRESSED_SELECTED          = 16;
-    public static final int BACKGROUND_PRESSED_SELECTED_FOCUSED  = 17;
-    public static final int BACKGROUND_DISABLED_SELECTED         = 18;
+    private static final Insets    insets    = new Insets(7, 7, 7, 7);
+    private static final Dimension dimension = new Dimension(86, 28);
+    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH      = Double.POSITIVE_INFINITY;
+    private static final Double    maxV      = Double.POSITIVE_INFINITY;
 
-    private ImageIcon       segmentedFirst;
-    private ImageIcon       segmentedMiddle;
-    private ImageIcon       segmentedLast;
+    private ImageIcon              segmentedFirst;
+    private ImageIcon              segmentedMiddle;
+    private ImageIcon              segmentedLast;
 
     /**
      * Create a new ButtonPainter.
@@ -66,11 +74,12 @@ public final class ButtonPainter extends AbstractImagePainter {
      * @param state
      *            the state of the button to be painted.
      */
-    public ButtonPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+    public ButtonPainter(Which state) {
+        super(state);
+        setPaintContext(new PaintContext(insets, dimension, false, cacheMode, maxH, maxV));
     }
 
-    protected String getImageName(int state) {
+    protected String getImageName(Which state) {
         String name = getInternalImageName(state);
 
         try {
@@ -86,7 +95,7 @@ public final class ButtonPainter extends AbstractImagePainter {
         return name;
     }
 
-    private String getInternalImageName(int state) {
+    private String getInternalImageName(Which state) {
         switch (state) {
         case BACKGROUND_DEFAULT:
             return "button_default";

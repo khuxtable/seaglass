@@ -20,8 +20,10 @@
 package com.seaglass.painter;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
@@ -29,6 +31,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglass.util.PlatformUtils;
 
 /**
@@ -40,43 +43,58 @@ import com.seaglass.util.PlatformUtils;
  * @author Modified by Kathryn Huxtable for SeaGlass
  */
 public class ToolBarPainter extends AbstractRegionPainter {
-    final boolean           IS_MAC_OSX                     = PlatformUtils.isMac();
+    final boolean IS_MAC_OSX = PlatformUtils.isMac();
 
-    public static final int BORDER_NORTH                   = 1;
-    public static final int BORDER_SOUTH                   = 2;
-    public static final int BORDER_EAST                    = 3;
-    public static final int BORDER_WEST                    = 4;
-    public static final int BORDER_NORTH_ENABLED           = 6;
-    public static final int BORDER_SOUTH_ENABLED           = 7;
-    public static final int BORDER_EAST_ENABLED            = 8;
-    public static final int BORDER_WEST_ENABLED            = 9;
-    public static final int HANDLEICON_ENABLED             = 10;
+    public static enum Which {
+        BORDER_NORTH,
+        BORDER_SOUTH,
+        BORDER_EAST,
+        BORDER_WEST,
+        BORDER_NORTH_ENABLED,
+        BORDER_SOUTH_ENABLED,
+        BORDER_EAST_ENABLED,
+        BORDER_WEST_ENABLED,
+        HANDLEICON_ENABLED
+    };
+
+    private static final Insets    insets                         = new Insets(0, 0, 0, 0);
+    private static final Dimension dimension                      = new Dimension(30, 30);
+    private static final CacheMode cacheMode                      = CacheMode.NO_CACHING;
+    private static final Double    maxH                           = 1.0;
+    private static final Double    maxV                           = 1.0;
+
+    private static final Insets    handleInsets                   = new Insets(5, 5, 5, 5);
+    private static final Dimension handleDimension                = new Dimension(11, 38);
+    private static final CacheMode handleCacheMode                = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    handleMaxH                     = 2.0;
+    private static final Double    handleMaxV                     = Double.POSITIVE_INFINITY;
 
     // For non-Mac use Snow Leopard colors because it has the same Gamma
     // correction.
-    private Color           ACTIVE_TOP_GRADIENT_COLOR      = IS_MAC_OSX ? new Color(0xbcbcbc) : new Color(0xc4c4c4);
-    private Color           ACTIVE_BOTTOM_GRADIENT_COLOR   = IS_MAC_OSX ? new Color(0x9a9a9a) : new Color(0xb2b2b2);
-    private Color           INACTIVE_TOP_GRADIENT_COLOR    = IS_MAC_OSX ? new Color(0xe4e4e4) : new Color(0xe7e7e7);
-    private Color           INACTIVE_BOTTOM_GRADIENT_COLOR = IS_MAC_OSX ? new Color(0xd1d1d1) : new Color(0xdfdfdf);
+    private Color                  ACTIVE_TOP_GRADIENT_COLOR      = IS_MAC_OSX ? new Color(0xbcbcbc) : new Color(0xc4c4c4);
+    private Color                  ACTIVE_BOTTOM_GRADIENT_COLOR   = IS_MAC_OSX ? new Color(0x9a9a9a) : new Color(0xb2b2b2);
+    private Color                  INACTIVE_TOP_GRADIENT_COLOR    = IS_MAC_OSX ? new Color(0xe4e4e4) : new Color(0xe7e7e7);
+    private Color                  INACTIVE_BOTTOM_GRADIENT_COLOR = IS_MAC_OSX ? new Color(0xd1d1d1) : new Color(0xdfdfdf);
+
+    private Color                  topColor;
+    private Color                  bottomColor;
 
     // Refers to one of the static final ints above
-    private int             state;
-    private PaintContext    ctx;
+    private Which                  state;
+    private PaintContext           ctx;
 
-    public ToolBarPainter(PaintContext ctx, int state) {
+    public ToolBarPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = ctx;
-    }
-
-    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        if (state == HANDLEICON_ENABLED) {
-            painthandleIconEnabled(g);
-            return;
+        if (state == Which.HANDLEICON_ENABLED) {
+            this.ctx = new PaintContext(handleInsets, handleDimension, false, handleCacheMode, handleMaxH, handleMaxV);
+        } else {
+            this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
         }
-        
-        Color topColor = null;
-        Color bottomColor = null;
+
+        topColor = null;
+        bottomColor = null;
+
         switch (state) {
         case BORDER_NORTH:
         case BORDER_SOUTH:
@@ -93,6 +111,16 @@ public class ToolBarPainter extends AbstractRegionPainter {
             bottomColor = ACTIVE_BOTTOM_GRADIENT_COLOR;
             break;
         }
+    }
+
+    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
+        if (state == Which.HANDLEICON_ENABLED) {
+            painthandleIconEnabled(g);
+            return;
+        }
+
+        // System.out.println("Painting toolbar for state " + state + ": " +
+        // width + ", " + height);
 
         GradientPaint paint = null;
         switch (state) {
@@ -114,6 +142,8 @@ public class ToolBarPainter extends AbstractRegionPainter {
             break;
         }
 
+        // g.setClip(0, 0, width, height);
+        System.out.println("clip = " + g.getClip());
         g.setPaint(paint);
         g.fillRect(0, 0, width, height);
     }

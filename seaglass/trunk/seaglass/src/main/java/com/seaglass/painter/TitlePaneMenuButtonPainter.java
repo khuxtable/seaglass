@@ -19,22 +19,30 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  */
-public final class TitlePaneMenuButtonPainter extends AbstractImagePainter {
-    public static final int ICON_ENABLED                    = 1;
-    public static final int ICON_DISABLED                   = 2;
-    public static final int ICON_MOUSEOVER                  = 3;
-    public static final int ICON_PRESSED                    = 4;
-    public static final int ICON_ENABLED_WINDOWNOTFOCUSED   = 5;
-    public static final int ICON_MOUSEOVER_WINDOWNOTFOCUSED = 6;
-    public static final int ICON_PRESSED_WINDOWNOTFOCUSED   = 7;
-
-    public TitlePaneMenuButtonPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+public final class TitlePaneMenuButtonPainter extends AbstractImagePainter<TitlePaneMenuButtonPainter.Which> {
+    public static enum Which {
+        ICON_ENABLED,
+        ICON_DISABLED,
+        ICON_MOUSEOVER,
+        ICON_PRESSED,
+        ICON_ENABLED_WINDOWNOTFOCUSED,
+        ICON_MOUSEOVER_WINDOWNOTFOCUSED,
+        ICON_PRESSED_WINDOWNOTFOCUSED,
     }
 
-    protected String getImageName(int state) {
+    public TitlePaneMenuButtonPainter(Which state) {
+        super(state);
+        setPaintContext(new PaintContext(new Insets(0, 0, 0, 0), new Dimension(19, 18), false, CacheMode.FIXED_SIZES, 1.0, 1.0));
+    }
+
+    protected String getImageName(Which state) {
         switch (state) {
         case ICON_ENABLED:
             return "menubutton";

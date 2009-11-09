@@ -20,10 +20,14 @@
 package com.seaglass.painter;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
  * PopupMenuSeparatorPainter implementation.
@@ -31,19 +35,28 @@ import javax.swing.JComponent;
  * Based on Nimbus's PopupMenuSepatorPainter.
  */
 public final class PopupMenuSeparatorPainter extends AbstractRegionPainter {
-    public static final int BACKGROUND_ENABLED = 1;
+    public static enum Which {
+        BACKGROUND_ENABLED
+    }
 
-    private int             state;
-    private PaintContext    ctx;
+    private Which                  state;
+    private PaintContext           ctx;
 
-    private Rectangle2D     rect               = new Rectangle2D.Float(0, 0, 0, 0);
+    private Rectangle2D            rect      = new Rectangle2D.Float(0, 0, 0, 0);
 
-    private Color           color1             = decodeColor("nimbusBlueGrey", -0.008547008f, -0.03830409f, -0.039215684f, 0);
+    private Color                  color1    = decodeColor("nimbusBlueGrey", -0.008547008f, -0.03830409f, -0.039215684f, 0);
 
-    public PopupMenuSeparatorPainter(PaintContext ctx, int state) {
+    // FIXME These are not assigned properly.
+    private static final Insets    insets    = new Insets(7, 7, 7, 7);
+    private static final Dimension dimension = new Dimension(86, 28);
+    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH      = Double.POSITIVE_INFINITY;
+    private static final Double    maxV      = Double.POSITIVE_INFINITY;
+
+    public PopupMenuSeparatorPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = ctx;
+        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
     }
 
     @Override

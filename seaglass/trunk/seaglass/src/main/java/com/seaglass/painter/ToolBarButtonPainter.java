@@ -19,26 +19,37 @@
  */
 package com.seaglass.painter;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
 /**
  * ToolBarButtonPainter implementation.
  */
-public final class ToolBarButtonPainter extends AbstractImagePainter {
-    // package private integers representing the available states that
-    // this painter will paint. These are used when creating a new instance
-    // of ToolBarButtonPainter to determine which region/state is being painted
-    // by that instance.
-    public static final int BACKGROUND_ENABLED           = 1;
-    public static final int BACKGROUND_FOCUSED           = 2;
-    public static final int BACKGROUND_MOUSEOVER         = 3;
-    public static final int BACKGROUND_MOUSEOVER_FOCUSED = 4;
-    public static final int BACKGROUND_PRESSED           = 5;
-    public static final int BACKGROUND_PRESSED_FOCUSED   = 6;
-
-    public ToolBarButtonPainter(PaintContext ctx, int state) {
-        super(ctx, state);
+public final class ToolBarButtonPainter extends AbstractImagePainter<ToolBarButtonPainter.Which> {
+    public static enum Which {
+        BACKGROUND_ENABLED,
+        BACKGROUND_FOCUSED,
+        BACKGROUND_MOUSEOVER,
+        BACKGROUND_MOUSEOVER_FOCUSED,
+        BACKGROUND_PRESSED,
+        BACKGROUND_PRESSED_FOCUSED,
     }
 
-    protected String getImageName(int state) {
+    private static final Insets    insets    = new Insets(5, 5, 5, 5);
+    private static final Dimension dimension = new Dimension(104, 33);
+    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH      = 2.0;
+    private static final Double    maxV      = Double.POSITIVE_INFINITY;
+
+    public ToolBarButtonPainter(Which state) {
+        super(state);
+        PaintContext ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        setPaintContext(ctx);
+    }
+
+    protected String getImageName(Which state) {
         switch (state) {
         case BACKGROUND_FOCUSED:
             return "toolbar_button_focused";
