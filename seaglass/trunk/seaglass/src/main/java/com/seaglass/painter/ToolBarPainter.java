@@ -119,9 +119,6 @@ public class ToolBarPainter extends AbstractRegionPainter {
             return;
         }
 
-        // System.out.println("Painting toolbar for state " + state + ": " +
-        // width + ", " + height);
-
         GradientPaint paint = null;
         switch (state) {
         case BORDER_NORTH:
@@ -142,8 +139,6 @@ public class ToolBarPainter extends AbstractRegionPainter {
             break;
         }
 
-        // g.setClip(0, 0, width, height);
-        System.out.println("clip = " + g.getClip());
         g.setPaint(paint);
         g.fillRect(0, 0, width, height);
     }
