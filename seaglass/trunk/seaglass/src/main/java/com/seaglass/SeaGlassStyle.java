@@ -996,8 +996,7 @@ public class SeaGlassStyle extends SynthStyle {
         // check for the SeaGlass.State client property
         // Performance NOTE: getClientProperty ends up inside a synchronized
         // block, so there is some potential for performance issues here,
-        // however
-        // I'm not certain that there is one on a modern VM.
+        // however I'm not certain that there is one on a modern VM.
         Object property = c.getClientProperty("SeaGlass.State");
         if (property != null) {
             String stateNames = property.toString();
@@ -1065,9 +1064,10 @@ public class SeaGlassStyle extends SynthStyle {
      * Synth.
      * </p>
      * 
-     * @param ctx
+     * @param states
      * @param lastState
      *            a 1 element array, allowing me to do pass-by-reference.
+     * @param xstate
      * @return
      */
     private RuntimeState getNextState(RuntimeState[] states, int[] lastState, int xstate) {
