@@ -36,6 +36,9 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JComponent;
@@ -118,6 +121,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
      */
     private Cursor             lastCursor            = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 
+    private WindowListener     windowListener;
+
     /**
      * Creates a UI for a <code>JRootPane</code>.
      * 
@@ -160,10 +165,6 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         int style = root.getWindowDecorationStyle();
         if (c.getParent() != null && c.getParent() instanceof JFrame && style != JRootPane.NONE) {
             installClientDecorations(root);
-        }
-        if (c.getParent() instanceof JFrame) {
-            c.getParent().setBackground(new Color(0, 0, 0, 0));
-            ((JRootPane) c).setWindowDecorationStyle(JRootPane.FRAME);
         }
     }
 
@@ -249,7 +250,28 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             }
             window.addMouseListener(mouseInputListener);
             window.addMouseMotionListener(mouseInputListener);
+            if (windowListener == null) {
+                windowListener = createFocusListener();
+                window.addWindowListener(windowListener);
+            }
         }
+    }
+
+    /**
+     * @return
+     */
+    private WindowListener createFocusListener() {
+        return new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                root.repaint();
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+                root.repaint();
+            }
+        };
     }
 
     /**
@@ -293,10 +315,10 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     private void installClientDecorations(JRootPane root) {
         installBorder(root);
         if (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog) {
-//            root.setOpaque(false);
-//            root.getParent().setBackground(TRANSPARENT_COLOR);
-//            root.getLayeredPane().setOpaque(false);
-//            root.getLayeredPane().setBackground(TRANSPARENT_COLOR);
+            // root.setOpaque(false);
+            // root.getParent().setBackground(TRANSPARENT_COLOR);
+            // root.getLayeredPane().setOpaque(false);
+            // root.getLayeredPane().setBackground(TRANSPARENT_COLOR);
         }
 
         JComponent titlePane = createTitlePane(root);
