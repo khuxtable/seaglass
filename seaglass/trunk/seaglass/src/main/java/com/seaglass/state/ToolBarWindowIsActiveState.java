@@ -43,7 +43,7 @@ public class ToolBarWindowIsActiveState extends State {
         if (parent instanceof JInternalFrame) {
             return ((JInternalFrame) parent).isSelected();
         } else if (parent instanceof Window) {
-            return ((Window) parent).isFocused();
+            return ((Window) parent).isActive();
         }
         // Default to true.
         return true;
