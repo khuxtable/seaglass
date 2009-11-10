@@ -100,6 +100,7 @@ import com.seaglass.state.ComboBoxArrowButtonEditableState;
 import com.seaglass.state.ComboBoxEditableState;
 import com.seaglass.state.InternalFrameWindowFocusedState;
 import com.seaglass.state.RootPaneNoFrameState;
+import com.seaglass.state.RootPaneWindowFocusedState;
 import com.seaglass.state.SplitPaneDividerVerticalState;
 import com.seaglass.state.SplitPaneVerticalState;
 import com.seaglass.state.TableHeaderRendererSortedState;
@@ -995,6 +996,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("RootPane.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("RootPane.opaque", Boolean.FALSE);
         d.put("RootPane.NoFrame", new RootPaneNoFrameState());
+        d.put("RootPane.WindowFocused", new RootPaneWindowFocusedState());
 
         d.put("RootPane[Enabled+NoFrame].backgroundPainter", new LazyPainter(c, InternalFramePainter.Which.BACKGROUND_ENABLED_NOFRAME));
         d.put("RootPane[Enabled].backgroundPainter", new LazyPainter(c, InternalFramePainter.Which.BACKGROUND_ENABLED));
