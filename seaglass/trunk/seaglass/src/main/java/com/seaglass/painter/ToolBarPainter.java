@@ -24,10 +24,7 @@ import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.Paint;
-import java.awt.Shape;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -147,72 +144,19 @@ public class ToolBarPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private Path2D      path   = new Path2D.Float();
-    private Rectangle2D rect   = new Rectangle2D.Float(0, 0, 0, 0);
+    private Path2D path  = new Path2D.Float();
 
-    private Color       color2 = decodeColor("nimbusBlueGrey", 0.0f, -0.110526316f, 0.25490195f, 0);
-    private Color       color3 = decodeColor("nimbusBlueGrey", -0.006944418f, -0.07399663f, 0.11372548f, 0);
-    private Color       color4 = decodeColor("nimbusBorder", 0.0f, -0.029675633f, 0.109803915f, 0);
-    private Color       color5 = decodeColor("nimbusBlueGrey", -0.008547008f, -0.03494492f, -0.07058823f, 0);
+    private Color  color = new Color(25, 25, 25, 200);
 
     private void painthandleIconEnabled(Graphics2D g) {
-        rect = decodeRect3();
-        g.setPaint(decodeGradient1(rect));
-        g.fill(rect);
-        rect = decodeRect4();
-        g.setPaint(color4);
-        g.fill(rect);
-        path = decodePath1();
-        g.setPaint(color5);
-        g.fill(path);
-        path = decodePath2();
-        g.setPaint(color5);
-        g.fill(path);
-    }
-
-    private Rectangle2D decodeRect3() {
-        rect.setRect(decodeX(0.0f), // x
-            decodeY(0.0f), // y
-            decodeX(2.8f) - decodeX(0.0f), // width
-            decodeY(3.0f) - decodeY(0.0f)); // height
-        return rect;
-    }
-
-    private Rectangle2D decodeRect4() {
-        rect.setRect(decodeX(2.8f), // x
-            decodeY(0.0f), // y
-            decodeX(3.0f) - decodeX(2.8f), // width
-            decodeY(3.0f) - decodeY(0.0f)); // height
-        return rect;
-    }
-
-    private Path2D decodePath1() {
         path.reset();
-        path.moveTo(decodeX(0.0f), decodeY(0.0f));
-        path.lineTo(decodeX(0.0f), decodeY(0.4f));
-        path.lineTo(decodeX(0.4f), decodeY(0.0f));
-        path.lineTo(decodeX(0.0f), decodeY(0.0f));
+        path.moveTo(decodeX(0.75f), decodeY(0.5f));
+        path.lineTo(decodeX(0.75f), decodeY(2.5f));
+        path.lineTo(decodeX(1.25f), decodeY(2.5f));
+        path.lineTo(decodeX(1.25f), decodeY(0.5f));
         path.closePath();
-        return path;
-    }
 
-    private Path2D decodePath2() {
-        path.reset();
-        path.moveTo(decodeX(0.0f), decodeY(3.0f));
-        path.lineTo(decodeX(0.0f), decodeY(2.6f));
-        path.lineTo(decodeX(0.4f), decodeY(3.0f));
-        path.lineTo(decodeX(0.0f), decodeY(3.0f));
-        path.closePath();
-        return path;
-    }
-
-    private Paint decodeGradient1(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.0f * w) + x, (0.5f * h) + y, (1.0f * w) + x, (0.5f * h) + y, new float[] { 0.0f, 0.5f, 1.0f },
-            new Color[] { color2, decodeColor(color2, color3, 0.5f), color3 });
+        g.setColor(color);
+        g.draw(path);
     }
 }
