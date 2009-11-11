@@ -120,19 +120,19 @@ public class ToolBarPainter extends AbstractRegionPainter {
         switch (state) {
         case BORDER_NORTH:
         case BORDER_NORTH_ENABLED:
-            paint = new GradientPaint(0, 1, topColor, 0, height, bottomColor);
+            paint = new GradientPaint(0, 0, topColor, 0, height, bottomColor);
             break;
         case BORDER_SOUTH:
         case BORDER_SOUTH_ENABLED:
-            paint = new GradientPaint(0, 1, topColor, 0, height, bottomColor);
+            paint = new GradientPaint(0, 0, topColor, 0, height, bottomColor);
             break;
         case BORDER_EAST:
         case BORDER_EAST_ENABLED:
-            paint = new GradientPaint(1, 0, topColor, width, 0, bottomColor);
+            paint = new GradientPaint(0, 0, topColor, width, 0, bottomColor);
             break;
         case BORDER_WEST:
         case BORDER_WEST_ENABLED:
-            paint = new GradientPaint(1, 0, topColor, width, 0, bottomColor);
+            paint = new GradientPaint(0, 0, topColor, width, 0, bottomColor);
             break;
         }
 
