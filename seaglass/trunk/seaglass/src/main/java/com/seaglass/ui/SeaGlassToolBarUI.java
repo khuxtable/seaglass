@@ -42,6 +42,7 @@ import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglass.SeaGlassContext;
 import com.seaglass.SeaGlassLookAndFeel;
+import com.seaglass.util.WindowUtils;
 
 import sun.swing.plaf.synth.SynthIcon;
 import sun.swing.plaf.synth.SynthUI;
@@ -75,6 +76,8 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
     protected void installListeners() {
         super.installListeners();
         toolBar.addPropertyChangeListener(this);
+
+        WindowUtils.installJComponentRepainterOnWindowFocusChanged(toolBar);
     }
 
     @Override
