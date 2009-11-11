@@ -256,13 +256,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR || r == Region.SCROLL_BAR || r == Region.SCROLL_BAR_THUMB
                 || r == Region.SCROLL_BAR_TRACK || r == Region.SCROLL_PANE || r == Region.SPLIT_PANE || r == Region.SPLIT_PANE_DIVIDER
                 || r == Region.VIEWPORT || r == Region.TABLE || r == Region.TABLE_HEADER || r == Region.FORMATTED_TEXT_FIELD
-                || r == Region.TEXT_FIELD || r == Region.SPINNER || r == Region.TOOL_BAR || r == Region.TOOL_BAR_CONTENT
-                || r == Region.TOOL_BAR_DRAG_WINDOW) {
+                || r == Region.TEXT_FIELD || r == Region.SPINNER) {
             return true;
         }
         if (!PlatformUtils.isMac()
                 && (r == Region.COLOR_CHOOSER || r == Region.FILE_CHOOSER || r == Region.DESKTOP_ICON || r == Region.INTERNAL_FRAME
-                        || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.ROOT_PANE)) {
+                        || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.ROOT_PANE || r == Region.TOOL_BAR
+                        || r == Region.TOOL_BAR_CONTENT || r == Region.TOOL_BAR_DRAG_WINDOW)) {
             return true;
         }
         return false;
@@ -412,7 +412,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "TableUI");
             useOurUI(uiDefaults, "TableHeaderUI");
             useOurUI(uiDefaults, "ToggleButtonUI");
-            useOurUI(uiDefaults, "ToolBarUI");
+            if (!PlatformUtils.isMac()) {
+                useOurUI(uiDefaults, "ToolBarUI");
+            }
             useOurUI(uiDefaults, "ViewportUI");
 
             defineBaseColors(uiDefaults);
@@ -439,6 +441,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 defineInternalFrameIconifyButtons(uiDefaults);
                 defineInternalFrameMaximizeButton(uiDefaults);
                 uiDefaults.put("MenuBar[Enabled].backgroundPainter", null);
+                uiDefaults.put("MenuBar[Enabled].borderPainter", null);
             }
 
             defineToolBars(uiDefaults);
@@ -542,7 +545,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             // If the Mac paint doesn't exist, use Aqua to paint a
             // unified toolbar.
-            if (false && !PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
+            if (!PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
                 d.put("ToolBarUI", aquaDefaults.get("ToolBarUI"));
                 d.put("ToolBar.border", aquaDefaults.get("ToolBar.border"));
                 d.put("ToolBar.background", aquaDefaults.get("ToolBar.background"));
@@ -569,6 +572,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineToolBars(UIDefaults d) {
         String c = "com.seaglass.painter.ToolBarPainter";
+        if (!PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
+            return;
+        }
 
         d.put("ToolBar.contentMargins", new InsetsUIResource(2, 2, 2, 2));
         d.put("ToolBar.opaque", Boolean.TRUE);
@@ -579,16 +585,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ToolBar.South", new ToolBarSouthState());
         d.put("ToolBar.WindowIsActive", new ToolBarWindowIsActiveState());
 
-        d.put("ToolBar[North].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH));
-        d.put("ToolBar[South].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH));
-        d.put("ToolBar[East].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST));
-        d.put("ToolBar[West].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST));
-        d.put("ToolBar[North+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH_ENABLED));
-        d.put("ToolBar[South+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH_ENABLED));
-        d.put("ToolBar[East+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST_ENABLED));
-        d.put("ToolBar[West+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST_ENABLED));
-        d.put("ToolBar[Enabled].handleIconPainter", new LazyPainter(c, ToolBarPainter.Which.HANDLEICON_ENABLED));
-        d.put("ToolBar.handleIcon", new SeaGlassIcon("ToolBar", "handleIconPainter", 11, 38));
+        if (PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
+
+            d.put("ToolBar[North].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH));
+            d.put("ToolBar[South].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH));
+            d.put("ToolBar[East].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST));
+            d.put("ToolBar[West].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST));
+            d.put("ToolBar[North+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH_ENABLED));
+            d.put("ToolBar[South+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH_ENABLED));
+            d.put("ToolBar[East+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST_ENABLED));
+            d.put("ToolBar[West+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST_ENABLED));
+            d.put("ToolBar[Enabled].handleIconPainter", new LazyPainter(c, ToolBarPainter.Which.HANDLEICON_ENABLED));
+            d.put("ToolBar.handleIcon", new SeaGlassIcon("ToolBar", "handleIconPainter", 11, 38));
+        }
 
         c = "com.seaglass.painter.ToolBarButtonPainter";
         d.put("ToolBar:Button[Focused].backgroundPainter", new LazyPainter(c, ToolBarButtonPainter.Which.BACKGROUND_FOCUSED));
