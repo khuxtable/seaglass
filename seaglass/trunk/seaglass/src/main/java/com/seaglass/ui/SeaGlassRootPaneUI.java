@@ -58,6 +58,7 @@ import com.seaglass.SeaGlassContext;
 import com.seaglass.SeaGlassLookAndFeel;
 import com.seaglass.component.SeaGlassBorder;
 import com.seaglass.component.SeaGlassTitlePane;
+import com.seaglass.util.PlatformUtils;
 
 import sun.swing.plaf.synth.SynthUI;
 
@@ -162,6 +163,12 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         root = (JRootPane) c;
+        if (PlatformUtils.isMac()) {
+            if (root.isValid()) {
+                throw new IllegalArgumentException("This method only works if the given JRootPane has not yet been realized.");
+            }
+            root.putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
+        }
         int style = root.getWindowDecorationStyle();
         if (c.getParent() != null && c.getParent() instanceof JFrame && style != JRootPane.NONE) {
             installClientDecorations(root);
