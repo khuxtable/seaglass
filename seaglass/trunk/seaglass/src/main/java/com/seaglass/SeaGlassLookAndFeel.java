@@ -253,16 +253,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private boolean isSupportedBySeaGlass(JComponent c, Region r) {
         if (r == Region.ARROW_BUTTON || r == Region.BUTTON || r == Region.TOGGLE_BUTTON || r == Region.RADIO_BUTTON
                 || r == Region.CHECK_BOX || r == Region.LABEL || r == Region.COMBO_BOX || r == Region.DESKTOP_PANE || r == Region.PANEL
-                || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR || r == Region.SCROLL_BAR || r == Region.SCROLL_BAR_THUMB
-                || r == Region.SCROLL_BAR_TRACK || r == Region.SCROLL_PANE || r == Region.SPLIT_PANE || r == Region.SPLIT_PANE_DIVIDER
-                || r == Region.VIEWPORT || r == Region.TABLE || r == Region.TABLE_HEADER || r == Region.FORMATTED_TEXT_FIELD
-                || r == Region.TEXT_FIELD || r == Region.SPINNER) {
+                || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR || r == Region.ROOT_PANE || r == Region.SCROLL_BAR
+                || r == Region.SCROLL_BAR_THUMB || r == Region.SCROLL_BAR_TRACK || r == Region.SCROLL_PANE || r == Region.SPLIT_PANE
+                || r == Region.SPLIT_PANE_DIVIDER || r == Region.VIEWPORT || r == Region.TABLE || r == Region.TABLE_HEADER
+                || r == Region.FORMATTED_TEXT_FIELD || r == Region.TEXT_FIELD || r == Region.SPINNER) {
             return true;
         }
         if (!PlatformUtils.isMac()
                 && (r == Region.COLOR_CHOOSER || r == Region.FILE_CHOOSER || r == Region.DESKTOP_ICON || r == Region.INTERNAL_FRAME
-                        || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.ROOT_PANE || r == Region.TOOL_BAR
-                        || r == Region.TOOL_BAR_CONTENT || r == Region.TOOL_BAR_DRAG_WINDOW)) {
+                        || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.TOOL_BAR || r == Region.TOOL_BAR_CONTENT || r == Region.TOOL_BAR_DRAG_WINDOW)) {
             return true;
         }
         return false;
@@ -404,8 +403,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             if (!PlatformUtils.isMac()) {
                 useOurUI(uiDefaults, "InternalFrameUI");
                 useOurUI(uiDefaults, "DesktopIconUI");
-                useOurUI(uiDefaults, "RootPaneUI");
             }
+            useOurUI(uiDefaults, "RootPaneUI");
             useOurUI(uiDefaults, "ScrollBarUI");
             useOurUI(uiDefaults, "ScrollPaneUI");
             useOurUI(uiDefaults, "SplitPaneUI");
@@ -526,8 +525,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             d.put("Desktop.background", aquaDefaults.getColor("Desktop.background"));
             d.put("InternalFrame.activeTitleForeground", aquaDefaults.getColor("InternalFrame.activeTitleForeground"));
             d.put("InternalFrame.inactiveTitleForeground", aquaDefaults.getColor("InternalFrame.inactiveTitleForeground"));
-
-            d.put("RootPaneUI", aquaDefaults.get("RootPaneUI"));
 
             // Use Aqua for any menu UI classes.
             d.put("MenuBarUI", aquaDefaults.get("MenuBarUI"));
