@@ -49,7 +49,7 @@ public final class ComboBoxPainter extends AbstractImagePainter<ComboBoxPainter.
     private static final Dimension dimension         = new Dimension(105, 23);
     private static final CacheMode cacheMode         = CacheMode.NINE_SQUARE_SCALE;
     private static final Double    maxH              = Double.POSITIVE_INFINITY;
-    private static final Double    maxV              = 5.0;
+    private static final Double    maxV              = Double.POSITIVE_INFINITY;
 
     private static final Insets    editableInsets    = new Insets(0, 0, 0, 0);
     private static final Dimension editableDimension = new Dimension(1, 1);
