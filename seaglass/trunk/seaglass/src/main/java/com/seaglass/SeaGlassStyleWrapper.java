@@ -118,7 +118,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
     }
 
     /**
-     * @InheritDoc Overridden to cause this style to populate itself with data
+     * @inheritDoc Overridden to cause this style to populate itself with data
      *             from UIDefaults, if necessary.
      */
     @Override
@@ -129,7 +129,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
     }
 
     /**
-     * @InheritDoc Overridden to cause this style to populate itself with data
+     * @inheritDoc Overridden to cause this style to populate itself with data
      *             from UIDefaults, if necessary.
      */
     @Override
@@ -138,7 +138,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
     }
 
     /**
-     * @InheritDoc <p>
+     * @inheritDoc <p>
      *             Overridden to cause this style to populate itself with data
      *             from UIDefaults, if necessary.
      *             </p>
@@ -164,7 +164,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
     }
 
     /**
-     * @InheritDoc Overridden to cause this style to populate itself with data
+     * @inheritDoc Overridden to cause this style to populate itself with data
      *             from UIDefaults, if necessary. If a value named "font" is not
      *             found in UIDefaults, then the "defaultFont" font in
      *             UIDefaults will be returned instead.
@@ -191,7 +191,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
     }
 
     /**
-     * @InheritDoc Returns the SynthPainter for this style, which ends up
+     * @inheritDoc Returns the SynthPainter for this style, which ends up
      *             delegating to the Painters installed in this style.
      */
     @Override
@@ -200,7 +200,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
     }
 
     /**
-     * @InheritDoc Overridden to cause this style to populate itself with data
+     * @inheritDoc Overridden to cause this style to populate itself with data
      *             from UIDefaults, if necessary. If opacity is not specified in
      *             UI defaults, then it defaults to being non-opaque.
      */
@@ -210,7 +210,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
     }
 
     /**
-     * @InheritDoc <p>
+     * @inheritDoc <p>
      *             Overridden to cause this style to populate itself with data
      *             from UIDefaults, if necessary.
      *             </p>
