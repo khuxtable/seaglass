@@ -181,7 +181,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private Font                         defaultFont;
 
     // Set the package name.
-    private static final String          PACKAGE_PREFIX          = "com.seaglass.ui.SeaGlass";
+    private static final String          PACKAGE_PREFIX          = SeaGlassLookAndFeel.class.getPackage().getName() + ".ui.SeaGlass";
 
     private UIDefaults                   uiDefaults              = null;
 
@@ -583,7 +583,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ToolBar.WindowIsActive", new ToolBarWindowIsActiveState());
 
         if (PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
-
             d.put("ToolBar[North].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH));
             d.put("ToolBar[South].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH));
             d.put("ToolBar[East].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST));
