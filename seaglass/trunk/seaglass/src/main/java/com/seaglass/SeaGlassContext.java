@@ -58,9 +58,16 @@ public class SeaGlassContext extends SynthContext {
                                                         }
                                                     };
 
+    // Fake items are created because there's no public empty constructor for
+    // SynthContext and we need a way to determine when our own empty
+    // constructor was called. We pass these to SynthContext's constructor and
+    // then test for them later.
+
     private static final JButton      fakeComponent = FAKE_BUTTON;
     private static Region             fakeRegion    = Region.BUTTON;
     private static SynthStyle         fakeStyle     = new SeaGlassStyle(null, null);
+
+    // From SynthContext.
 
     private static final Map          contextMap;
 
