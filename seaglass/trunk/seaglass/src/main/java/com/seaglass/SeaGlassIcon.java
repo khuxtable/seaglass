@@ -56,7 +56,18 @@ public class SeaGlassIcon extends SynthIcon {
     }
 
     /**
-     * {@inheritDoc}
+     * Paints the icon at the specified location.
+     * 
+     * @param context
+     *            Identifies hosting region, may be null.
+     * @param x
+     *            x location to paint to
+     * @param y
+     *            y location to paint to
+     * @param w
+     *            Width of the region to paint to, may be 0
+     * @param h
+     *            Height of the region to paint to, may be 0
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -160,7 +171,10 @@ public class SeaGlassIcon extends SynthIcon {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the icon's width. This is a cover methods for
+     * <code>getIconWidth(null)</code>.
+     * 
+     * @return an int specifying the fixed width of the icon.
      */
     @Override
     public int getIconWidth(SynthContext context) {
@@ -181,6 +195,12 @@ public class SeaGlassIcon extends SynthIcon {
         }
     }
 
+    /**
+     * Returns the icon's height. This is a cover method for
+     * <code>getIconHeight(null)</code>.
+     * 
+     * @return an int specifying the fixed height of the icon.
+     */
     @Override
     public int getIconHeight(SynthContext context) {
         if (context == null) {
