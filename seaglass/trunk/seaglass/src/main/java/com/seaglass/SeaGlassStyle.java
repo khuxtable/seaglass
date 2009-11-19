@@ -196,8 +196,10 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * @inheritDoc Overridden to cause this style to populate itself with data
-     *             from UIDefaults, if necessary.
+     * {@inheritDoc}
+     * 
+     * Overridden to cause this style to populate itself with data from
+     * UIDefaults, if necessary.
      */
     public void installDefaults(SynthContext ctx) {
         validate();
@@ -583,8 +585,10 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * @inheritDoc Overridden to cause this style to populate itself with data
-     *             from UIDefaults, if necessary.
+     * {@inheritDoc}
+     * 
+     * Overridden to cause this style to populate itself with data from
+     * UIDefaults, if necessary.
      */
     @Override
     public Insets getInsets(SynthContext ctx, Insets in) {
@@ -628,25 +632,27 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * @inheritDoc <p>
-     *             Overridden to cause this style to populate itself with data
-     *             from UIDefaults, if necessary.
-     *             </p>
+     * {@inheritDoc}
      * 
-     *             <p>
-     *             In addition, SeaGlassStyle handles ColorTypes slightly
-     *             differently from Synth.
-     *             </p>
-     *             <ul>
-     *             <li>ColorType.BACKGROUND will equate to the color stored in
-     *             UIDefaults named "background".</li>
-     *             <li>ColorType.TEXT_BACKGROUND will equate to the color stored
-     *             in UIDefaults named "textBackground".</li>
-     *             <li>ColorType.FOREGROUND will equate to the color stored in
-     *             UIDefaults named "textForeground".</li>
-     *             <li>ColorType.TEXT_FOREGROUND will equate to the color stored
-     *             in UIDefaults named "textForeground".</li>
-     *             </ul>
+     * <p>
+     * Overridden to cause this style to populate itself with data from
+     * UIDefaults, if necessary.
+     * </p>
+     * 
+     * <p>
+     * In addition, SeaGlassStyle handles ColorTypes slightly differently from
+     * Synth.
+     * </p>
+     * <ul>
+     * <li>ColorType.BACKGROUND will equate to the color stored in UIDefaults
+     * named "background".</li>
+     * <li>ColorType.TEXT_BACKGROUND will equate to the color stored in
+     * UIDefaults named "textBackground".</li>
+     * <li>ColorType.FOREGROUND will equate to the color stored in UIDefaults
+     * named "textForeground".</li>
+     * <li>ColorType.TEXT_FOREGROUND will equate to the color stored in
+     * UIDefaults named "textForeground".</li>
+     * </ul>
      */
     @Override
     protected Color getColorForState(SynthContext ctx, ColorType type) {
@@ -675,10 +681,12 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * @inheritDoc Overridden to cause this style to populate itself with data
-     *             from UIDefaults, if necessary. If a value named "font" is not
-     *             found in UIDefaults, then the "defaultFont" font in
-     *             UIDefaults will be returned instead.
+     * {@inheritDoc}
+     * 
+     * Overridden to cause this style to populate itself with data from
+     * UIDefaults, if necessary. If a value named "font" is not found in
+     * UIDefaults, then the "defaultFont" font in UIDefaults will be returned
+     * instead.
      */
     @Override
     protected Font getFontForState(SynthContext ctx) {
@@ -702,8 +710,10 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * @inheritDoc Returns the SynthPainter for this style, which ends up
-     *             delegating to the Painters installed in this style.
+     * {@inheritDoc}
+     * 
+     * Returns the SynthPainter for this style, which ends up delegating to the
+     * Painters installed in this style.
      */
     @Override
     public SynthPainter getPainter(SynthContext ctx) {
@@ -711,9 +721,11 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * @inheritDoc Overridden to cause this style to populate itself with data
-     *             from UIDefaults, if necessary. If opacity is not specified in
-     *             UI defaults, then it defaults to being non-opaque.
+     * {@inheritDoc}
+     * 
+     * Overridden to cause this style to populate itself with data from
+     * UIDefaults, if necessary. If opacity is not specified in UI defaults,
+     * then it defaults to being non-opaque.
      */
     @Override
     public boolean isOpaque(SynthContext ctx) {
@@ -726,46 +738,46 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * @inheritDoc <p>
-     *             Overridden to cause this style to populate itself with data
-     *             from UIDefaults, if necessary.
-     *             </p>
+     * {@inheritDoc}
      * 
-     *             <p>
-     *             Properties in UIDefaults may be specified in a chained
-     *             manner. For example:
+     * <p>
+     * Overridden to cause this style to populate itself with data from
+     * UIDefaults, if necessary.
+     * </p>
      * 
-     *             <pre>
+     * <p>
+     * Properties in UIDefaults may be specified in a chained manner. For
+     * example:
+     * 
+     * <pre>
      * background
      * Button.opacity
      * Button.Enabled.foreground
      * Button.Enabled+Selected.background
      * </pre>
      * 
-     *             </p>
+     * </p>
      * 
-     *             <p>
-     *             In this example, suppose you were in the Enabled+Selected
-     *             state and searched for "foreground". In this case, we first
-     *             check for Button.Enabled+Selected.foreground, but no such
-     *             color exists. We then fall back to the next valid state, in
-     *             this case, Button.Enabled.foreground, and have a match. So we
-     *             return it.
-     *             </p>
+     * <p>
+     * In this example, suppose you were in the Enabled+Selected state and
+     * searched for "foreground". In this case, we first check for
+     * Button.Enabled+Selected.foreground, but no such color exists. We then
+     * fall back to the next valid state, in this case,
+     * Button.Enabled.foreground, and have a match. So we return it.
+     * </p>
      * 
-     *             <p>
-     *             Again, if we were in the state Enabled and looked for
-     *             "background", we wouldn't find it in Button.Enabled, or in
-     *             Button, but would at the top level in UIManager. So we return
-     *             that value.
-     *             </p>
+     * <p>
+     * Again, if we were in the state Enabled and looked for "background", we
+     * wouldn't find it in Button.Enabled, or in Button, but would at the top
+     * level in UIManager. So we return that value.
+     * </p>
      * 
-     *             <p>
-     *             One special note: the "key" passed to this method could be of
-     *             the form "background" or "Button.background" where "Button"
-     *             equals the prefix passed to the SeaGlassStyle constructor. In
-     *             either case, it looks for "background".
-     *             </p>
+     * <p>
+     * One special note: the "key" passed to this method could be of the form
+     * "background" or "Button.background" where "Button" equals the prefix
+     * passed to the SeaGlassStyle constructor. In either case, it looks for
+     * "background".
+     * </p>
      * 
      * @param ctx
      * @param key
