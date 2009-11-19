@@ -102,6 +102,15 @@ public class PlatformUtils {
     }
 
     /**
+     * True if this JVM is running on Mac OS X 10.6, Snow Leopard.
+     * 
+     * @return true if this JVM is running on Mac OS X 10.6, Snow Leopard.
+     */
+    public static boolean isSnowLeopard() {
+        return isMac() && getOsVersion().startsWith("10.6");
+    }
+
+    /**
      * {@code true} if the Unified Tool Bar, Preference Tool Bar or Bottom Bar
      * backgrounds should be manually painted in code, rather than letting Mac
      * OS X do the painting. This will always return true on platforms other
