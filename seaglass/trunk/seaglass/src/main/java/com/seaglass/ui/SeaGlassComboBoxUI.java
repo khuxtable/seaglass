@@ -131,9 +131,8 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
     }
 
     /**
-     * @inheritDoc Overridden to ensure that ButtonHandler is created prior to
-     *             any of the other installXXX methods, since several of them
-     *             reference buttonHandler.
+     * Overridden to ensure that ButtonHandler is created prior to any of the
+     * other installXXX methods, since several of them reference buttonHandler.
      */
     @Override
     public void installUI(JComponent c) {
@@ -437,8 +436,8 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
                 setBackground(list.getSelectionBackground());
                 setForeground(list.getSelectionForeground());
                 if (!useListColors) {
-                    SeaGlassLookAndFeel.setSelectedUI((SeaGlassLabelUI) SeaGlassLookAndFeel.getUIOfType(getUI(),
-                        SeaGlassLabelUI.class), isSelected, cellHasFocus, list.isEnabled(), false);
+                    SeaGlassLookAndFeel.setSelectedUI((SeaGlassLabelUI) SeaGlassLookAndFeel.getUIOfType(getUI(), SeaGlassLabelUI.class),
+                        isSelected, cellHasFocus, list.isEnabled(), false);
                 }
             } else {
                 setBackground(list.getBackground());
@@ -712,13 +711,15 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         // ------------------------------------------------------------------
 
         /**
-         * @inheritDoc Ensures that the combo box is repainted when the popup is
-         *             closed. This avoids a bug where clicking off the combo
-         *             wasn't causing a repaint, and thus the combo box still
-         *             looked pressed even when it was not.
+         * {@inheritDoc}
          * 
-         *             This bug was only noticed when acting as a button, but
-         *             may be generally present. If so, remove the if() block
+         * Ensures that the combo box is repainted when the popup is closed.
+         * This avoids a bug where clicking off the combo wasn't causing a
+         * repaint, and thus the combo box still looked pressed even when it was
+         * not.
+         * 
+         * This bug was only noticed when acting as a button, but may be
+         * generally present. If so, remove the if() block
          */
         public void popupMenuCanceled(PopupMenuEvent e) {
             if (shouldActLikeButton() || pressedWhenPopupVisible) {
