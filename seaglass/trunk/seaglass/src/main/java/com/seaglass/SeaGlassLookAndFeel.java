@@ -44,8 +44,10 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JRootPane;
 import javax.swing.JToolBar;
 import javax.swing.LookAndFeel;
 import javax.swing.UIDefaults;
@@ -211,7 +213,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
-     * {@inheritDoc}
+     * Called by UIManager when this look and feel is installed.
      */
     @Override
     public void initialize() {
@@ -268,7 +270,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
-     * {@inheritDoc}
+     * Called by UIManager when this look and feel is uninstalled.
      */
     @Override
     public void uninitialize() {
@@ -375,7 +377,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
-     * @inheritDoc
+     * Returns the defaults for this SynthLookAndFeel.
      */
     @Override
     public UIDefaults getDefaults() {
@@ -1323,21 +1325,37 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns false, SeaGlassLookAndFeel is not a native look and feel.
+     * 
+     * @return false
      */
     public boolean isNativeLookAndFeel() {
         return false;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns true, SeaGlassLookAndFeel is always supported.
+     * 
+     * @return true.
      */
     public boolean isSupportedLookAndFeel() {
         return true;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns {@code true} if the <code>LookAndFeel</code> returned
+     * <code>RootPaneUI</code> instances support providing {@code Window}
+     * decorations in a <code>JRootPane</code>.
+     * <p>
+     * Sea Glass returns {@code false} on a Macintosh, {@code true} otherwise.
+     * 
+     * @return {@code true} if the {@code RootPaneUI} instances created by this
+     *         look and feel support client side decorations. This will be the
+     *         case on a non-Macintosh operating system.
+     * 
+     * @see JDialog#setDefaultLookAndFeelDecorated
+     * @see JFrame#setDefaultLookAndFeelDecorated
+     * @see JRootPane#setWindowDecorationStyle
      */
     public boolean getSupportsWindowDecorations() {
         if (PlatformUtils.isMac()) {
