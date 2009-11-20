@@ -69,8 +69,6 @@ public final class ButtonPainter extends AbstractImagePainter<ButtonPainter.Whic
     /**
      * Create a new ButtonPainter.
      * 
-     * @param ctx
-     *            the PaintContext to be used.
      * @param state
      *            the state of the button to be painted.
      */
