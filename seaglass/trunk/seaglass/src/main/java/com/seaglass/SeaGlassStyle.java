@@ -196,10 +196,15 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * {@inheritDoc}
-     * 
+     * Installs the necessary state from this Style on the
+     * <code>JComponent</code> from <code>context</code>.
+     * <p>
      * Overridden to cause this style to populate itself with data from
      * UIDefaults, if necessary.
+     * </p>
+     * 
+     * @param context
+     *            SynthContext identifying component to install properties to.
      */
     public void installDefaults(SynthContext ctx) {
         validate();
@@ -585,10 +590,17 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * {@inheritDoc}
-     * 
+     * Returns the Insets that are used to calculate sizing information.
+     * <p>
      * Overridden to cause this style to populate itself with data from
      * UIDefaults, if necessary.
+     * </p>
+     * 
+     * @param context
+     *            SynthContext identifying requester
+     * @param insets
+     *            Insets to place return value in.
+     * @return Sizing Insets.
      */
     @Override
     public Insets getInsets(SynthContext ctx, Insets in) {
@@ -632,7 +644,8 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the color for the specified state. This should NOT call any
+     * methods on the <code>JComponent</code>.
      * 
      * <p>
      * Overridden to cause this style to populate itself with data from
@@ -653,6 +666,13 @@ public class SeaGlassStyle extends SynthStyle {
      * <li>ColorType.TEXT_FOREGROUND will equate to the color stored in
      * UIDefaults named "textForeground".</li>
      * </ul>
+     * </p>
+     * 
+     * @param context
+     *            SynthContext identifying requester
+     * @param type
+     *            Type of color being requested.
+     * @return Color to render with
      */
     @Override
     protected Color getColorForState(SynthContext ctx, ColorType type) {
@@ -681,12 +701,18 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * {@inheritDoc}
-     * 
+     * Returns the font for the specified state. This should NOT call any method
+     * on the <code>JComponent</code>.
+     * <p>
      * Overridden to cause this style to populate itself with data from
      * UIDefaults, if necessary. If a value named "font" is not found in
      * UIDefaults, then the "defaultFont" font in UIDefaults will be returned
      * instead.
+     * </p>
+     * 
+     * @param context
+     *            SynthContext identifying requester
+     * @return Font to render with
      */
     @Override
     protected Font getFontForState(SynthContext ctx) {
@@ -710,10 +736,13 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the <code>SynthPainter</code> that will be used for painting.
+     * This ends up delegating to the Painters installed in this style. It may
+     * return null;
      * 
-     * Returns the SynthPainter for this style, which ends up delegating to the
-     * Painters installed in this style.
+     * @param context
+     *            SynthContext identifying requester
+     * @return SynthPainter to use
      */
     @Override
     public SynthPainter getPainter(SynthContext ctx) {
@@ -721,11 +750,17 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns true if the region is opaque.
      * 
+     * <p>
      * Overridden to cause this style to populate itself with data from
      * UIDefaults, if necessary. If opacity is not specified in UI defaults,
      * then it defaults to being non-opaque.
+     * </p>
+     * 
+     * @param context
+     *            SynthContext identifying requester
+     * @return true if region is opaque.
      */
     @Override
     public boolean isOpaque(SynthContext ctx) {
@@ -738,7 +773,7 @@ public class SeaGlassStyle extends SynthStyle {
     }
 
     /**
-     * {@inheritDoc}
+     * Getter for a region specific style property.
      * 
      * <p>
      * Overridden to cause this style to populate itself with data from
@@ -780,8 +815,10 @@ public class SeaGlassStyle extends SynthStyle {
      * </p>
      * 
      * @param ctx
+     *            SynthContext identifying requester
      * @param key
-     *            must not be null
+     *            Property being requested. Must not be null.
+     * @return Value of the named property *
      */
     @Override
     public Object get(SynthContext ctx, Object key) {
