@@ -623,12 +623,15 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         // ------------------------------------------------------------------
 
         /**
-         * {@inheritDoc}
+         * Indicates if the button is pressed.
          * 
-         * Ensures that isPressed() will return true if the combo is pressed, or
-         * the arrowButton is pressed, <em>or</em> if the combo popup is
-         * visible. This is the case because a combo box looks pressed when the
-         * popup is visible, and so should the arrow button.
+         * @return <code>true</code> if the button is pressed
+         * 
+         *         Ensures that isPressed() will return true if the combo is
+         *         pressed, or the arrowButton is pressed, <em>or</em> if the
+         *         combo popup is visible. This is the case because a combo box
+         *         looks pressed when the popup is visible, and so should the
+         *         arrow button.
          */
         @Override
         public boolean isPressed() {
@@ -637,12 +640,16 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         }
 
         /**
-         * {@inheritDoc}
+         * Indicates partial commitment towards triggering the button.
          * 
-         * Ensures that the armed state is in sync with the pressed state if
-         * shouldActLikeButton is true. Without this method, the arrow button
-         * will not look pressed when the popup is open, regardless of the
-         * result of isPressed() alone.
+         * @return <code>true</code> if the button is armed, and ready to be
+         *         triggered
+         * @see javax.swing.ButtonModel#setArmed
+         * 
+         *      Ensures that the armed state is in sync with the pressed state
+         *      if shouldActLikeButton is true. Without this method, the arrow
+         *      button will not look pressed when the popup is open, regardless
+         *      of the result of isPressed() alone.
          */
         @Override
         public boolean isArmed() {
@@ -651,10 +658,12 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         }
 
         /**
-         * {@inheritDoc}
+         * Indicates that the mouse is over the button.
          * 
-         * Ensures that isRollover() will return true if the combo is rolled
-         * over, or the arrowButton is rolled over.
+         * @return <code>true</code> if the mouse is over the button
+         * 
+         *         Ensures that isRollover() will return true if the combo is
+         *         rolled over, or the arrowButton is rolled over.
          */
         @Override
         public boolean isRollover() {
@@ -662,9 +671,13 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         }
 
         /**
-         * {@inheritDoc}
+         * Sets the button to pressed or unpressed.
          * 
-         * Forwards pressed states to the internal "pressed" field
+         * @param b
+         *            whether or not the button should be pressed
+         * @see javax.swing.ButtonModel#isPressed
+         * 
+         *      Forwards pressed states to the internal "pressed" field
          */
         @Override
         public void setPressed(boolean b) {
@@ -673,9 +686,13 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         }
 
         /**
-         * {@inheritDoc}
+         * Sets or clears the button's rollover state
          * 
-         * Forwards rollover states to the internal "over" field
+         * @param b
+         *            whether or not the button is in the rollover state
+         * @see javax.swing.ButtonModel#isRollover
+         * 
+         *      Forwards rollover states to the internal "over" field
          */
         @Override
         public void setRollover(boolean b) {
@@ -711,7 +728,7 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         // ------------------------------------------------------------------
 
         /**
-         * {@inheritDoc}
+         * This method is called when the popup menu is canceled
          * 
          * Ensures that the combo box is repainted when the popup is closed.
          * This avoids a bug where clicking off the combo wasn't causing a
