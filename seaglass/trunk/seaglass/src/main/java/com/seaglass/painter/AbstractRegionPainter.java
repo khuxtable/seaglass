@@ -157,7 +157,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public final void paint(Graphics2D g, JComponent c, int w, int h) {
         // don't render if the width/height are too small
