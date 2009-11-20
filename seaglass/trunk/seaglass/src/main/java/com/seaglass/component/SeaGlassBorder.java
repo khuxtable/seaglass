@@ -44,7 +44,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * Based on SynthBorder by Scott Violet.
  * 
- * @see javax.swing.play.synth.SynthBorder
+ * @see javax.swing.plaf.synth.SynthBorder
  */
 public class SeaGlassBorder extends AbstractBorder implements UIResource {
     private SynthUI ui;
