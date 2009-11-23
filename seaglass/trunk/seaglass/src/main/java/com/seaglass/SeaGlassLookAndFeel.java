@@ -101,8 +101,11 @@ import com.seaglass.painter.ToolBarToggleButtonPainter;
 import com.seaglass.state.ComboBoxArrowButtonEditableState;
 import com.seaglass.state.ComboBoxEditableState;
 import com.seaglass.state.InternalFrameWindowFocusedState;
+import com.seaglass.state.ProgressBarFinishedState;
+import com.seaglass.state.ProgressBarIndeterminateState;
 import com.seaglass.state.RootPaneNoFrameState;
 import com.seaglass.state.RootPaneWindowFocusedState;
+import com.seaglass.state.SliderArrowShapeState;
 import com.seaglass.state.SplitPaneDividerVerticalState;
 import com.seaglass.state.SplitPaneVerticalState;
 import com.seaglass.state.TableHeaderRendererSortedState;
@@ -258,7 +261,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR || r == Region.ROOT_PANE || r == Region.SCROLL_BAR
                 || r == Region.SCROLL_BAR_THUMB || r == Region.SCROLL_BAR_TRACK || r == Region.SCROLL_PANE || r == Region.SPLIT_PANE
                 || r == Region.SPLIT_PANE_DIVIDER || r == Region.VIEWPORT || r == Region.TABLE || r == Region.TABLE_HEADER
-                || r == Region.FORMATTED_TEXT_FIELD || r == Region.TEXT_FIELD || r == Region.SPINNER) {
+                || r == Region.FORMATTED_TEXT_FIELD || r == Region.TEXT_FIELD || r == Region.SPINNER || r == Region.SLIDER
+                || r == Region.SLIDER_THUMB || r == Region.SLIDER_TRACK || r == Region.PROGRESS_BAR) {
             return true;
         }
         if (!PlatformUtils.isMac()
@@ -409,6 +413,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "RootPaneUI");
             useOurUI(uiDefaults, "ScrollBarUI");
             useOurUI(uiDefaults, "ScrollPaneUI");
+            useOurUI(uiDefaults, "SliderUI");
             useOurUI(uiDefaults, "SplitPaneUI");
             useOurUI(uiDefaults, "TableUI");
             useOurUI(uiDefaults, "TableHeaderUI");
@@ -972,21 +977,25 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void defineProgressBars(UIDefaults d) {
         d.put("progressBarAmber", new Color(242, 138, 85));
 
+        d.put("ProgressBar.Indeterminate", new ProgressBarIndeterminateState());
+        d.put("ProgressBar.Finished", new ProgressBarFinishedState());
+
         String c = "com.seaglass.painter.ProgressBarPainter";
         d.put("ProgressBar[Enabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_ENABLED));
         d.put("ProgressBar[Disabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_DISABLED));
         d.put("ProgressBar[Enabled].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED));
         d.put("ProgressBar[Enabled+Finished].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED_FINISHED));
-        d.put("ProgressBar[Enabled+Indeterminate].progressPadding", new Integer(3));
+        d.put("ProgressBar[Enabled+Indeterminate].progressPadding", new Integer(0));
         d.put("ProgressBar[Enabled+Indeterminate].foregroundPainter", new LazyPainter(c,
             ProgressBarPainter.Which.FOREGROUND_ENABLED_INDETERMINATE));
         d.put("ProgressBar[Disabled].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_DISABLED));
         d
             .put("ProgressBar[Disabled+Finished].foregroundPainter", new LazyPainter(c,
                 ProgressBarPainter.Which.FOREGROUND_DISABLED_FINISHED));
-        d.put("ProgressBar[Disabled+Indeterminate].progressPadding", new Integer(3));
+        d.put("ProgressBar[Disabled+Indeterminate].progressPadding", new Integer(0));
         d.put("ProgressBar[Disabled+Indeterminate].foregroundPainter", new LazyPainter(c,
             ProgressBarPainter.Which.FOREGROUND_DISABLED_INDETERMINATE));
+        d.put("ProgressBar.tileWidth", 24);
     }
 
     /**
@@ -1179,8 +1188,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     private void defineSliders(UIDefaults d) {
-        d.put("sliderBase", new Color(70, 100, 160));
         d.put("sliderBlueGrey", d.get("nimbusBlueGrey"));
+
+        d.put("Slider.ArrowShape", new SliderArrowShapeState());
+        d.put("Slider:SliderThumb.ArrowShape", new SliderArrowShapeState());
+        d.put("Slider:SliderTrack.ArrowShape", new SliderArrowShapeState());
+        d.put("Slider.thumbWidth", new Integer(15));
+        d.put("Slider.thumbHeight", new Integer(20));
+        d.put("Slider.trackBorder", new Integer(0));
 
         String c = "com.seaglass.painter.SliderThumbPainter";
         d.put("Slider:SliderThumb[Disabled].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_DISABLED));
