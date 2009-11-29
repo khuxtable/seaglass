@@ -410,6 +410,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 useOurUI(uiDefaults, "InternalFrameUI");
                 useOurUI(uiDefaults, "DesktopIconUI");
             }
+            useOurUI(uiDefaults, "ProgressBarUI");
             useOurUI(uiDefaults, "RootPaneUI");
             useOurUI(uiDefaults, "ScrollBarUI");
             useOurUI(uiDefaults, "ScrollPaneUI");
@@ -981,21 +982,23 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ProgressBar.Finished", new ProgressBarFinishedState());
 
         String c = "com.seaglass.painter.ProgressBarPainter";
+        d.put("ProgressBar.progressPadding", new Integer(3));
+        d.put("ProgressBar.trackThickness", new Integer(19));
+        d.put("ProgressBar.arcSize", new Integer(9));
+        d.put("ProgressBar.progressRightInset", new Integer(2));
+        d.put("ProgressBar.tileWidth", new Integer(24));
         d.put("ProgressBar[Enabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_ENABLED));
         d.put("ProgressBar[Disabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_DISABLED));
         d.put("ProgressBar[Enabled].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED));
         d.put("ProgressBar[Enabled+Finished].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED_FINISHED));
-        d.put("ProgressBar[Enabled+Indeterminate].progressPadding", new Integer(0));
         d.put("ProgressBar[Enabled+Indeterminate].foregroundPainter", new LazyPainter(c,
             ProgressBarPainter.Which.FOREGROUND_ENABLED_INDETERMINATE));
         d.put("ProgressBar[Disabled].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_DISABLED));
         d
             .put("ProgressBar[Disabled+Finished].foregroundPainter", new LazyPainter(c,
                 ProgressBarPainter.Which.FOREGROUND_DISABLED_FINISHED));
-        d.put("ProgressBar[Disabled+Indeterminate].progressPadding", new Integer(0));
         d.put("ProgressBar[Disabled+Indeterminate].foregroundPainter", new LazyPainter(c,
             ProgressBarPainter.Which.FOREGROUND_DISABLED_INDETERMINATE));
-        d.put("ProgressBar.tileWidth", 24);
     }
 
     /**
