@@ -20,11 +20,7 @@
 package com.seaglass.painter;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.geom.RoundRectangle2D;
-
-import javax.swing.JComponent;
 
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
@@ -42,32 +38,39 @@ public final class ProgressBarPainter extends AbstractImagePainter<ProgressBarPa
         FOREGROUND_DISABLED_INDETERMINATE,
     }
 
-    // FIXME These are not assigned properly.
-    private static final Insets    insets                   = new Insets(6, 6, 8, 6);
-    private static final Dimension dimension                = new Dimension(34, 17);
+    private static final Insets    bgInsets                 = new Insets(8, 8, 8, 8);
+    private static final Dimension bgDimension              = new Dimension(19, 19);
+    private static final Insets    fgInsets                 = new Insets(0, 0, 0, 2);
+    private static final Dimension fgDimension              = new Dimension(24, 13);
+    private static final Insets    fgIndeterminateInsets    = new Insets(0, 0, 0, 0);
+    private static final Dimension fgIndeterminateDimension = new Dimension(24, 13);
     private static final CacheMode cacheMode                = CacheMode.NINE_SQUARE_SCALE;
     private static final Double    maxH                     = Double.POSITIVE_INFINITY;
     private static final Double    maxV                     = Double.POSITIVE_INFINITY;
 
-    private static final Insets    fgInsets                 = new Insets(1, 0, 3, 2);
-    private static final Dimension fgDimension              = new Dimension(24, 17);
-    private static final Insets    fgIndeterminateInsets    = new Insets(1, 0, 3, 0);
-    private static final Dimension fgIndeterminateDimension = new Dimension(24, 17);
-
-    private RoundRectangle2D       roundRect                = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
-
-    private Which                  state;
-
     public ProgressBarPainter(Which state) {
         super(state);
-        this.state = state;
-        if (state == Which.BACKGROUND_ENABLED || state == Which.BACKGROUND_DISABLED) {
-            setPaintContext(new PaintContext(insets, dimension, false, cacheMode, maxH, maxV));
-        } else if (state == Which.FOREGROUND_DISABLED_INDETERMINATE || state == Which.FOREGROUND_ENABLED_INDETERMINATE) {
-            setPaintContext(new PaintContext(fgIndeterminateInsets, fgIndeterminateDimension, false, cacheMode, maxH, maxV));
-        } else {
-            setPaintContext(new PaintContext(fgInsets, fgDimension, false, cacheMode, maxH, maxV));
+
+        Insets insets;
+        Dimension dimension;
+        switch (state) {
+        case BACKGROUND_ENABLED:
+        case BACKGROUND_DISABLED:
+            insets = bgInsets;
+            dimension = bgDimension;
+            break;
+        case FOREGROUND_ENABLED_INDETERMINATE:
+        case FOREGROUND_DISABLED_INDETERMINATE:
+            insets = fgIndeterminateInsets;
+            dimension = fgIndeterminateDimension;
+            break;
+        default:
+            insets = fgInsets;
+            dimension = fgDimension;
+            break;
         }
+
+        setPaintContext(new PaintContext(insets, dimension, false, cacheMode, maxH, maxV));
     }
 
     protected String getImageName(Which state) {
@@ -90,19 +93,5 @@ public final class ProgressBarPainter extends AbstractImagePainter<ProgressBarPa
             return "progress_bar_indeterminate";
         }
         return null;
-    }
-
-    @Override
-    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        if (state != Which.BACKGROUND_ENABLED && state != Which.BACKGROUND_DISABLED) {
-            roundRect = decodeRoundClip(width, height);
-            // g.setClip(roundRect);
-        }
-        image.paintIcon(c, g, 0, 0);
-    }
-
-    private RoundRectangle2D decodeRoundClip(int width, int height) {
-        roundRect.setRoundRect(0, 1, 24, 13, 13f, 13f);
-        return roundRect;
     }
 }
