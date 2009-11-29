@@ -1320,7 +1320,7 @@ class SeaGlassSynthPainterImpl extends SynthPainter {
      * Paints the foreground of a progress bar. is responsible for providing an
      * indication of the progress of the progress bar.
      * 
-     * @param context
+     * @param ctx
      *            SynthContext identifying the <code>JComponent</code> and
      *            <code>Region</code> to paint to
      * @param g
@@ -1337,8 +1337,27 @@ class SeaGlassSynthPainterImpl extends SynthPainter {
      *            one of <code>JProgressBar.HORIZONTAL</code> or
      *            <code>JProgressBar.VERTICAL</code>
      */
-    public void paintProgressBarForeground(SynthContext context, Graphics g, int x, int y, int w, int h, int orientation) {
-        paintForeground(context, g, x, y, w, h, orientation);
+    public void paintProgressBarForeground(SynthContext ctx, Graphics g, int x, int y, int w, int h, int orientation) {
+        Component c = ctx.getComponent();
+        boolean ltr = c.getComponentOrientation().isLeftToRight();
+        if (orientation == SwingConstants.VERTICAL) {
+            // We always draw from bottom to top, regardless of the
+            // left-to-right orientation.
+            AffineTransform transform = new AffineTransform();
+            transform.translate(x, y);
+            transform.rotate(Math.toRadians(-90));
+            paintForeground(ctx, g, 0, 0, h, w, transform);
+        } else if (orientation == SwingConstants.HORIZONTAL && ltr) {
+            paintForeground(ctx, g, x, y, w, h, null);
+        } else {
+            // Horizontal and right-to-left orientation.
+            // Flip the drawing so that any border on the progress bar is
+            // painted at the left end.
+            AffineTransform transform = new AffineTransform();
+            transform.translate(x + w, 0);
+            transform.scale(-1, 1);
+            paintForeground(ctx, g, 0, y, w, h, transform);
+        }
     }
 
     /**
@@ -2515,8 +2534,7 @@ class SeaGlassSynthPainterImpl extends SynthPainter {
      *            , or <code>JTabbedPane.RIGHT</code>
      * @since 1.6
      */
-    public void paintTabbedPaneTabBackground(SynthContext context, Graphics g, int x, int y, int w, int h, int tabIndex,
-        int orientation) {
+    public void paintTabbedPaneTabBackground(SynthContext context, Graphics g, int x, int y, int w, int h, int tabIndex, int orientation) {
         if (orientation == JTabbedPane.LEFT) {
             AffineTransform transform = new AffineTransform();
             transform.scale(-1, 1);
