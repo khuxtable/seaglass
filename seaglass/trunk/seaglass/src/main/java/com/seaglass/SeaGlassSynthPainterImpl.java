@@ -3350,7 +3350,7 @@ class SeaGlassSynthPainterImpl extends SynthPainter {
      *            Height of the area to paint to
      */
     public void paintTreeCellFocus(SynthContext context, Graphics g, int x, int y, int w, int h) {
-        // TODO
+        // TODO Paint tree cell focus.
     }
 
     /**
