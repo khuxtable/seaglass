@@ -32,6 +32,7 @@ import javax.swing.JComponent;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * Nimbus's TabbedPaneTabAreaPainter.
  */
 public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
     public static enum Which {
