@@ -28,6 +28,8 @@ import javax.swing.JComponent;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * SpinnerPainter implementation. Does nothing, since everything is done by the
+ * other painters.
  */
 public final class SpinnerPainter extends AbstractRegionPainter {
     public static enum Which {
