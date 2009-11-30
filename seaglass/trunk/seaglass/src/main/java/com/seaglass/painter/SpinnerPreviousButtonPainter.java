@@ -25,6 +25,7 @@ import java.awt.Insets;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * SpinnerPreviousButtonPainter implementation.
  */
 public final class SpinnerPreviousButtonPainter extends AbstractImagePainter<SpinnerPreviousButtonPainter.Which> {
     public static enum Which {
