@@ -46,7 +46,7 @@ public class SeaGlassComboPopup extends BasicComboPopup {
 
     private static final int LEFT_SHIFT  = 5;
 
-    private static Border    LIST_BORDER = new LineBorder(Color.BLACK, 1);
+    private static Border    LIST_BORDER = new LineBorder(new Color(0xbbbbbb), 1);
 
     public SeaGlassComboPopup(JComboBox combo) {
         super(combo);
