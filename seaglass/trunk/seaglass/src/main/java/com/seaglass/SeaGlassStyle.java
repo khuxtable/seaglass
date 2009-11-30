@@ -61,7 +61,101 @@ import sun.awt.AppContext;
 import sun.swing.plaf.synth.SynthUI;
 
 /**
- * @author Kathryn Huxtable
+ * <p>
+ * A SynthStyle implementation used by SeaGlass. Each Region that has been
+ * registered with the SeaGlassLookAndFeel will have an associated
+ * SeaGlassStyle. Third party components that are registered with the
+ * SeaGlassLookAndFeel will therefore be handed a SeaGlassStyle from the look
+ * and feel from the #getStyle(JComponent, Region) method.
+ * </p>
+ * 
+ * <p>
+ * Based on NimbusStyle by Richard Bair and Jasper Potts. Reimplemented because
+ * too much is package local.
+ * </p>
+ * 
+ * <p>
+ * This class properly reads and retrieves values placed in the UIDefaults
+ * according to the standard SeaGlass/Nimbus naming conventions. It will create
+ * and retrieve painters, fonts, colors, and other data stored there.
+ * </p>
+ * 
+ * <p>
+ * SeaGlassStyle also supports the ability to override settings on a per
+ * component basis. SeaGlassStyle checks the component's client property map for
+ * "SeaGlass.Overrides". If the value associated with this key is an instance of
+ * UIDefaults, then the values in that defaults table will override the standard
+ * SeaGlass defaults in UIManager, but for that component instance only.
+ * </p>
+ * 
+ * <p>
+ * Optionally, you may specify the client property
+ * "SeaGlass.Overrides.InheritDefaults". If true, this client property indicates
+ * that the defaults located in UIManager should first be read, and then
+ * replaced with defaults located in the component client properties. If false,
+ * then only the defaults located in the component client property map will be
+ * used. If not specified, it is assumed to be true.
+ * </p>
+ * 
+ * <p>
+ * You must specify "SeaGlass.Overrides" for
+ * "SeaGlass.Overrides.InheritDefaults" to have any effect. "SeaGlass.Overrides"
+ * indicates whether there are any overrides, while
+ * "SeaGlass.Overrides.InheritDefaults" indicates whether those overrides should
+ * first be initialized with the defaults from UIManager.
+ * </p>
+ * 
+ * <p>
+ * The SeaGlassStyle is reloaded whenever a property change event is fired for a
+ * component for "SeaGlass.Overrides" or "SeaGlass.Overrides.InheritDefaults".
+ * So for example, setting a new UIDefaults on a component would cause the style
+ * to be reloaded.
+ * </p>
+ * 
+ * <p>
+ * The values are only read out of UIManager once, and then cached. If you need
+ * to read the values again (for example, if the UI is being reloaded), then
+ * discard this SeaGlassStyle and read a new one from SeaGlassLookAndFeel using
+ * SeaGlassLookAndFeel.getStyle.
+ * </p>
+ * 
+ * <p>
+ * The primary API of interest in this class for 3rd party component authors are
+ * the three methods which retrieve painters: #getBackgroundPainter,
+ * #getForegroundPainter, and #getBorderPainter.
+ * </p>
+ * 
+ * <p>
+ * SeaGlassStyle allows you to specify custom states, or modify the order of
+ * states. Synth (and thus Nimbus and SeaGlass) has the concept of a "state".
+ * For example, a JButton might be in the "MOUSE_OVER" state, or the "ENABLED"
+ * state, or the "DISABLED" state. These are all "standard" states which are
+ * defined in synth, and which apply to all synth Regions.
+ * </p>
+ * 
+ * <p>
+ * Sometimes, however, you need to have a custom state. For example, you want
+ * JButton to render differently if it's parent is a JToolbar. In SeaGlass, you
+ * specify these custom states by including a special key in UIDefaults. The
+ * following UIDefaults entries define three states for this button:
+ * </p>
+ * 
+ * <pre>
+ * <code>
+ *     JButton.States = Enabled, Disabled, Toolbar
+ *     JButton[Enabled].backgroundPainter = somePainter
+ *     JButton[Disabled].background = BLUE
+ *     JButton[Toolbar].backgroundPainter = someOtherPaint
+ * </code>
+ * </pre>
+ * 
+ * <p>
+ * As you can see, the <code>JButton.States</code> entry lists the states that
+ * the JButton style will support. You then specify the settings for each state.
+ * If you do not specify the <code>JButton.States</code> entry, then the
+ * standard Synth states will be assumed. If you specify the entry but the list
+ * of states is empty or null, then the standard synth states will be assumed.
+ * </p>
  */
 public class SeaGlassStyle extends SynthStyle {
     /* Keys and scales for large/small/mini components, based on Apples sizes */
