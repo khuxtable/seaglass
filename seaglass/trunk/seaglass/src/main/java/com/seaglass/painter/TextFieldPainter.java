@@ -23,6 +23,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 
 /**
+ * TextFieldPainter implementation.
  */
 public final class TextFieldPainter extends AbstractImagePainter<TextFieldPainter.Which> {
     public static enum Which {
