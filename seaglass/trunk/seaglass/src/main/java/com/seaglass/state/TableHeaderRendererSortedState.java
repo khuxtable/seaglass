@@ -21,15 +21,15 @@ package com.seaglass.state;
 
 import javax.swing.JComponent;
 
-
 /**
+ * Is the table column sorted?
  */
 public class TableHeaderRendererSortedState extends State {
     public TableHeaderRendererSortedState() {
         super("Sorted");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         String sortOrder = (String) c.getClientProperty("Table.sortOrder");
         return sortOrder != null && ("ASCENDING".equals(sortOrder) || "DESCENDING".equals(sortOrder));
     }

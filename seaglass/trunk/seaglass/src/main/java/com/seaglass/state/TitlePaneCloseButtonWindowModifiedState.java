@@ -25,6 +25,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 /**
+ * Is the window modified?
  */
 public class TitlePaneCloseButtonWindowModifiedState extends State {
     public TitlePaneCloseButtonWindowModifiedState() {
@@ -33,7 +34,7 @@ public class TitlePaneCloseButtonWindowModifiedState extends State {
 
     private static final String WINDOW_DOCUMENT_MODIFIED = "Window.documentModified";
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         Component parent = c;
         while (parent.getParent() != null) {
             if (parent instanceof JFrame) {

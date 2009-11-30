@@ -27,13 +27,14 @@ import javax.swing.JToolBar;
 import com.seaglass.SeaGlassLookAndFeel;
 
 /**
+ * Is the toolbar on the (right) west side?
  */
 public class ToolBarWestState extends State {
     public ToolBarWestState() {
         super("West");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         JToolBar toolbar = (JToolBar)c;
         return SeaGlassLookAndFeel.resolveToolbarConstraint(toolbar) == BorderLayout.WEST;
     }

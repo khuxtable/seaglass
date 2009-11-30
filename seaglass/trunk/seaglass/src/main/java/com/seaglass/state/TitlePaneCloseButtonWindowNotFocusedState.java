@@ -24,15 +24,15 @@ import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 
-
 /**
+ * Is the window for this close button not focused?
  */
 public class TitlePaneCloseButtonWindowNotFocusedState extends State {
     public TitlePaneCloseButtonWindowNotFocusedState() {
         super("WindowNotFocused");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         Component parent = c;
         while (parent.getParent() != null) {
             if (parent instanceof JInternalFrame) {

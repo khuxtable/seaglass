@@ -9,15 +9,15 @@ package com.seaglass.state;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 
-
 /**
+ * Is internal frame's window in focused state?
  */
 public class InternalFrameWindowFocusedState extends State {
     public InternalFrameWindowFocusedState() {
         super("WindowFocused");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         return c instanceof JInternalFrame && ((JInternalFrame) c).isSelected();
     }
 }

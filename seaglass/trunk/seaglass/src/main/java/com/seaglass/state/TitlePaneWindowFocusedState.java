@@ -22,15 +22,15 @@ package com.seaglass.state;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 
-
 /**
+ * Is the window for this title pane focused?
  */
 public class TitlePaneWindowFocusedState extends State {
     public TitlePaneWindowFocusedState() {
         super("WindowFocused");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         return c instanceof JInternalFrame && ((JInternalFrame) c).isSelected();
     }
 }

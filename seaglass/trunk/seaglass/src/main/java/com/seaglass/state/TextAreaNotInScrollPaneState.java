@@ -21,8 +21,8 @@ package com.seaglass.state;
 
 import javax.swing.JComponent;
 
-
 /**
+ * Is the text area not in a scroll pane?
  */
 public class TextAreaNotInScrollPaneState extends State {
     public TextAreaNotInScrollPaneState() {

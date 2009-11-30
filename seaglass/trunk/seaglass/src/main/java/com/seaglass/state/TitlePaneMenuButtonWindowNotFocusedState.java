@@ -24,15 +24,15 @@ import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 
-
 /**
+ * Is the window for this menu button not focused?
  */
 public class TitlePaneMenuButtonWindowNotFocusedState extends State {
     public TitlePaneMenuButtonWindowNotFocusedState() {
         super("WindowNotFocused");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         Component parent = c;
         while (parent.getParent() != null) {
             if (parent instanceof JInternalFrame) {

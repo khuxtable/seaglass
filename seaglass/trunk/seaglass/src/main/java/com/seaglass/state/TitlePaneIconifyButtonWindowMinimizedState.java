@@ -26,13 +26,14 @@ import javax.swing.JInternalFrame;
 import javax.swing.JInternalFrame.JDesktopIcon;
 
 /**
+ * Is the window for this iconify button in minimized state?
  */
 public class TitlePaneIconifyButtonWindowMinimizedState extends State {
     public TitlePaneIconifyButtonWindowMinimizedState() {
         super("WindowMinimized");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         Component parent = c;
         while (parent.getParent() != null) {
             if (parent instanceof JInternalFrame || parent instanceof JDesktopIcon) {

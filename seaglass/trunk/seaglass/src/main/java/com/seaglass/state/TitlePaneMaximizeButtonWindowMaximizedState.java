@@ -28,13 +28,14 @@ import javax.swing.JInternalFrame;
 import javax.swing.RootPaneContainer;
 
 /**
+ * Is the window for this maximize button in maximized state?
  */
 public class TitlePaneMaximizeButtonWindowMaximizedState extends State {
     public TitlePaneMaximizeButtonWindowMaximizedState() {
         super("WindowMaximized");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         Component parent = c;
         while (parent.getParent() != null) {
             if (parent instanceof RootPaneContainer) {

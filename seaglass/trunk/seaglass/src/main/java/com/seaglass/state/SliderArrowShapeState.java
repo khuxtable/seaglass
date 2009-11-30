@@ -23,13 +23,14 @@ import javax.swing.JComponent;
 import javax.swing.JSlider;
 
 /**
+ * Do we use the arrow shape for a slider? We do if snap-to-ticks is set for the
+ * slider. Otherwise we use the round shape.
  */
 public class SliderArrowShapeState extends State {
     public SliderArrowShapeState() {
         super("ArrowShape");
     }
 
-    @Override
     public boolean isInState(JComponent c) {
         return ((JSlider) c).getSnapToTicks();
     }
