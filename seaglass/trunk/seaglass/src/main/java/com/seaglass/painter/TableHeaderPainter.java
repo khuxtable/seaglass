@@ -25,6 +25,7 @@ import java.awt.Insets;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * TableHeaderPainter implementation.
  */
 public final class TableHeaderPainter extends AbstractImagePainter<TableHeaderPainter.Which> {
     public static enum Which {
