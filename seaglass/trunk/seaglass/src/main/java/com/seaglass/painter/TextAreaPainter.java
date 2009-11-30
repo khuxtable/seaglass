@@ -40,9 +40,18 @@ public final class TextAreaPainter extends AbstractImagePainter<TextAreaPainter.
 
     public TextAreaPainter(Which state) {
         super(state);
-        // FIXME These are not properly assigned.
-        setPaintContext(new PaintContext(new Insets(3, 3, 3, 3), new Dimension(26, 16), false, CacheMode.NINE_SQUARE_SCALE,
-            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+        switch (state) {
+        case BORDER_DISABLED_NOTINSCROLLPANE:
+        case BORDER_FOCUSED_NOTINSCROLLPANE:
+        case BORDER_ENABLED_NOTINSCROLLPANE:
+            setPaintContext(new PaintContext(new Insets(5, 3, 3, 3), new Dimension(122, 24), false, CacheMode.NINE_SQUARE_SCALE,
+                Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+            break;
+        default:
+            setPaintContext(new PaintContext(new Insets(3, 3, 3, 3), new Dimension(122, 24), false, CacheMode.NINE_SQUARE_SCALE,
+                Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+            break;
+        }
     }
 
     protected String getImageName(Which state) {
