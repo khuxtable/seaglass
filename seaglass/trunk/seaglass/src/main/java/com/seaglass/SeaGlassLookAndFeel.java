@@ -270,6 +270,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                         || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.TOOL_BAR || r == Region.TOOL_BAR_CONTENT || r == Region.TOOL_BAR_DRAG_WINDOW)) {
             return true;
         }
+
+        /*
+         * Non-SeaGlass regions
+         * 
+         * Region.CHECK_BOX_MENU_ITEM Region.EDITOR_PANE Region.LIST Region.MENU
+         * Region.MENU_BAR Region.MENU_ITEM Region.MENU_ITEM_ACCELERATOR
+         * Region.OPTION_PANE Region.PASSWORD_FIELD
+         * Region.RADIO_BUTTON_MENU_ITEM Region.SEPARATOR Region.TABBED_PANE
+         * Region.TABBED_PANE_TAB Region.TABBED_PANE_TAB_AREA
+         * Region.TABBED_PANE_CONTENT Region.TEXT_AREA Region.TEXT_PANE
+         * Region.TOOL_TIP Region.TOOL_BAR_SEPARATOR Region.TREE
+         * Region.TREE_CELL
+         */
         return false;
     }
 
@@ -729,9 +742,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineComboBoxes(UIDefaults d) {
-        d.put("seaglassComboBoxBase", new ColorUIResource(61, 95, 140));
-        d.put("seaglassComboBoxBlueGrey", new ColorUIResource(175, 207, 232));
-
         d.put("ComboBox.Editable", new ComboBoxEditableState());
         d.put("ComboBox:\"ComboBox.arrowButton\".Editable", new ComboBoxArrowButtonEditableState());
 
@@ -754,6 +764,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Editable arrow
         c = "com.seaglass.painter.ComboBoxArrowButtonPainter";
+        d.put("ComboBox:\"ComboBox.arrowButton\".size", new Integer(22));
         d.put("ComboBox:\"ComboBox.arrowButton\".States", "Enabled,Pressed,Disabled,Editable");
         d.put("ComboBox:\"ComboBox.arrowButton\"[Disabled+Editable].backgroundPainter", new LazyPainter(c,
             ComboBoxArrowButtonPainter.Which.BACKGROUND_DISABLED_EDITABLE));
@@ -784,6 +795,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             ComboBoxTextFieldPainter.Which.BACKGROUND_ENABLED));
         d.put("ComboBox:\"ComboBox.textField\"[Selected].backgroundPainter", new LazyPainter(c,
             ComboBoxTextFieldPainter.Which.BACKGROUND_SELECTED));
+
+        d.put("ComboBox:\"ComboBox.listRenderer\".contentMargins", new InsetsUIResource(2, 10, 2, 10));
     }
 
     /**
@@ -1042,7 +1055,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         c = "com.seaglass.painter.SpinnerPreviousButtonPainter";
         p = "Spinner:\"Spinner.previousButton\"";
-        d.put(p + ".size", new Integer(21));
+        d.put(p + ".size", new Integer(20));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_FOCUSED));
@@ -1062,7 +1075,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         c = "com.seaglass.painter.SpinnerNextButtonPainter";
         p = "Spinner:\"Spinner.nextButton\"";
-        d.put(p + ".size", new Integer(21));
+        d.put(p + ".size", new Integer(20));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_FOCUSED));
