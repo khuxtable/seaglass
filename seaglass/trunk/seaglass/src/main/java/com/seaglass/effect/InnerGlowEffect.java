@@ -11,8 +11,7 @@ import java.awt.Color;
 /**
  * InnerGlowEffect
  * 
- * @author Created by Jasper Potts (Jun 21, 2007)
- * @version 1.0
+ * Based on Nimbus's InnerGlowEffect by Jasper Potts. This was package local.
  */
 public class InnerGlowEffect extends InnerShadowEffect {
     public InnerGlowEffect() {

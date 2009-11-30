@@ -21,6 +21,11 @@ package com.seaglass.effect;
 
 import java.awt.Color;
 
+/**
+ * Customized Nimbus's drop shadow effect for SeaGlass.
+ * 
+ * @author Kathryn Huxtable
+ */
 public class SeaGlassDropShadowEffect extends DropShadowEffect {
 
     public SeaGlassDropShadowEffect() {

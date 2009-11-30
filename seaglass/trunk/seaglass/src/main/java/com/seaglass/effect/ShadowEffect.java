@@ -11,8 +11,7 @@ import java.awt.Color;
 /**
  * ShadowEffect - base class with all the standard properties for shadow effects
  * 
- * @author Created by Jasper Potts (Jun 18, 2007)
- * @version 1.0
+ * Based on Nimbus's ShadowEffect by Jasper Potts. This was package local.
  */
 public abstract class ShadowEffect extends Effect {
     protected Color color    = Color.BLACK;
