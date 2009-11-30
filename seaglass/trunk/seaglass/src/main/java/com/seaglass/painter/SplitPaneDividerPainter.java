@@ -33,6 +33,7 @@ import javax.swing.JComponent;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * Nimbus's SplitPaneDividerPainter.
  */
 public final class SplitPaneDividerPainter extends AbstractRegionPainter {
     public static enum Which {
