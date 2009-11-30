@@ -30,6 +30,7 @@ import javax.swing.JComponent;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * Nimbus's ArrowButtonPainter class.
  */
 public final class ArrowButtonPainter extends AbstractRegionPainter {
     public static enum Which {
