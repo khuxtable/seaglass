@@ -128,7 +128,6 @@ import com.seaglass.state.ToolBarWindowIsActiveState;
 import com.seaglass.util.MacKeybindings;
 import com.seaglass.util.PlatformUtils;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
-import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 
 import sun.swing.plaf.GTKKeybindings;
 import sun.swing.plaf.WindowsKeybindings;
@@ -237,11 +236,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                     return style;
                 } else {
                     SynthStyle style = nimbusFactory.getStyle(c, r);
-                    if (style instanceof NimbusStyle) {
-                        return style;// new SeaGlassStyleWrapper(style);
-                    } else {
-                        return style;
-                    }
+                    return style;
                 }
             }
         });
@@ -1903,7 +1898,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @return newStyle
      */
     public static SynthStyle updateStyle(SeaGlassContext context, SynthUI ui) {
-        SeaGlassStyle newStyle = (SeaGlassStyle) SynthLookAndFeel.getStyle(context.getComponent(), context.getRegion());
+        SynthStyle newStyle = SynthLookAndFeel.getStyle(context.getComponent(), context.getRegion());
         SynthStyle oldStyle = context.getStyle();
 
         if (newStyle != oldStyle) {
@@ -1911,7 +1906,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 oldStyle.uninstallDefaults(context);
             }
             context.setStyle(newStyle);
-            newStyle.installDefaults(context, ui);
+            ((SeaGlassStyle) newStyle).installDefaults(context, ui);
         }
         return newStyle;
     }
