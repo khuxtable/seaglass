@@ -15,8 +15,8 @@ import java.util.Arrays;
  * DropShadowEffect - This effect currently only works with ARGB type buffered
  * images.
  * 
- * @author Created by Jasper Potts (Jun 18, 2007)
- * @version 1.0
+ * Copied from Nimbus's DropShadowEffect by Jasper Potts. This was package
+ * local.
  */
 public class DropShadowEffect extends ShadowEffect {
 
@@ -93,9 +93,9 @@ public class DropShadowEffect extends ShadowEffect {
         // blur
         float[] kernel = EffectUtils.createGaussianKernel(size);
         EffectUtils.blur(tmpBuf1, tmpBuf2, tmpW, tmpH, kernel, size); // horizontal
-                                                                      // pass
+        // pass
         EffectUtils.blur(tmpBuf2, tmpBuf1, tmpH, tmpW, kernel, size);// vertical
-                                                                     // pass
+        // pass
         // rescale
         float spread = Math.min(1 / (1 - (0.01f * this.spread)), 255);
         for (int i = 0; i < tmpBuf1.length; i++) {

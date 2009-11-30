@@ -15,8 +15,7 @@ import java.util.Arrays;
  * InnerShadowEffect - This effect currently only works with ARGB type buffered
  * images.
  *
- * @author Created by Jasper Potts (Jun 18, 2007)
- * @version 1.0
+ * Based on Nimbus's InnerShadowEffect by Jasper Potts. This was package local.
  */
 public class InnerShadowEffect extends ShadowEffect {
 

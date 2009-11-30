@@ -13,11 +13,10 @@ import java.awt.image.WritableRaster;
 import java.util.Arrays;
 
 /**
- * DropShadowEffect - This effect currently only works with ARGB type buffered
+ * FocusEffect - This effect currently only works with ARGB type buffered
  * images.
  *
- * @author Created by Jasper Potts (Jun 18, 2007)
- * @version 1.0
+ * Based on Nimbus's DropShadowEffect by Jasper Potts.
  */
 public class FocusEffect extends ShadowEffect {
     

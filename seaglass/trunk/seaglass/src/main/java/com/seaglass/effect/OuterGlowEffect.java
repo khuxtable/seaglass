@@ -9,10 +9,9 @@ package com.seaglass.effect;
 import java.awt.Color;
 
 /**
- * InnerGlowEffect
+ * OuterGlowEffect
  * 
- * @author Created by Jasper Potts (Jun 21, 2007)
- * @version 1.0
+ * Based on Nimbus's OuterGlowEffect by Jasper Potts. This was package local.
  */
 public class OuterGlowEffect extends DropShadowEffect {
     public OuterGlowEffect() {

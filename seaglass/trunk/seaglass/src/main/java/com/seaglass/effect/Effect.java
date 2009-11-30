@@ -25,8 +25,7 @@ import sun.awt.AppContext;
 /**
  * Effect
  * 
- * @author Created by Jasper Potts (Jun 18, 2007)
- * @version 1.0
+ * Copied from Nimbus's Effect by Jasper Potts. This was package local.
  */
 public abstract class Effect {
     public enum EffectType {
