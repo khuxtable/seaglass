@@ -49,6 +49,7 @@ import com.seaglass.util.ImageScalingHelper;
  * or component in Sea Glass.
  * 
  * Based on Nimbus's AbstractRegionPainter by Jasper Potts and Richard Bair.
+ * This was package local.
  * 
  * @see com.sun.java.swing.plaf.nimbus.AbstractRegionPainter
  */
@@ -795,8 +796,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
                 // if the buffer is null (hasn't been created), or isn't the
                 // right size, or has lost its contents,
                 // then recreate the buffer
-                if (buffer == null || buffer.getWidth() != w || buffer.getHeight() != h
-                        || bufferStatus == VolatileImage.IMAGE_INCOMPATIBLE) {
+                if (buffer == null || buffer.getWidth() != w || buffer.getHeight() != h || bufferStatus == VolatileImage.IMAGE_INCOMPATIBLE) {
                     // clear any resources related to the old back buffer
                     if (buffer != null) {
                         buffer.flush();
