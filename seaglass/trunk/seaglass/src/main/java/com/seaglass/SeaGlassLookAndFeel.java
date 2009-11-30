@@ -259,35 +259,24 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *         component/region combo, <code>false</code> otherwise.
      */
     private boolean isSupportedBySeaGlass(JComponent c, Region r) {
-        if (r == Region.ARROW_BUTTON || r == Region.BUTTON || r == Region.TOGGLE_BUTTON || r == Region.RADIO_BUTTON
-                || r == Region.CHECK_BOX || r == Region.LABEL || r == Region.COMBO_BOX || r == Region.DESKTOP_PANE || r == Region.PANEL
-                || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR || r == Region.ROOT_PANE || r == Region.SCROLL_BAR
-                || r == Region.SCROLL_BAR_THUMB || r == Region.SCROLL_BAR_TRACK || r == Region.SCROLL_PANE || r == Region.SPLIT_PANE
-                || r == Region.SPLIT_PANE_DIVIDER || r == Region.VIEWPORT || r == Region.TABLE || r == Region.TABLE_HEADER
-                || r == Region.FORMATTED_TEXT_FIELD || r == Region.TEXT_FIELD || r == Region.EDITOR_PANE || r == Region.TEXT_AREA
-                || r == Region.TEXT_PANE || r == Region.SPINNER || r == Region.SLIDER || r == Region.SLIDER_THUMB
-                || r == Region.SLIDER_TRACK || r == Region.PROGRESS_BAR) {
-            return true;
-        }
-        if (!PlatformUtils.isMac()
-                && (r == Region.COLOR_CHOOSER || r == Region.FILE_CHOOSER || r == Region.DESKTOP_ICON || r == Region.INTERNAL_FRAME
-                        || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.TOOL_BAR || r == Region.TOOL_BAR_CONTENT || r == Region.TOOL_BAR_DRAG_WINDOW)) {
-            return true;
+        if (r == Region.CHECK_BOX_MENU_ITEM || r == Region.LIST || r == Region.MENU || r == Region.MENU_BAR || r == Region.MENU_ITEM
+                || r == Region.MENU_ITEM_ACCELERATOR || r == Region.OPTION_PANE || r == Region.PASSWORD_FIELD
+                || r == Region.RADIO_BUTTON_MENU_ITEM || r == Region.SEPARATOR || r == Region.TABBED_PANE || r == Region.TABBED_PANE_TAB
+                || r == Region.TABBED_PANE_TAB_AREA || r == Region.TABBED_PANE_CONTENT || r == Region.TOOL_TIP
+                || r == Region.TOOL_BAR_SEPARATOR || r == Region.TREE || r == Region.TREE_CELL) {
+
+            return false;
         }
 
-        /*
-         * Non-SeaGlass regions
-         * 
-         * Region.CHECK_BOX_MENU_ITEM Region.EDITOR_PANE Region.LIST Region.MENU
-         * Region.MENU_BAR Region.MENU_ITEM Region.MENU_ITEM_ACCELERATOR
-         * Region.OPTION_PANE Region.PASSWORD_FIELD
-         * Region.RADIO_BUTTON_MENU_ITEM Region.SEPARATOR Region.TABBED_PANE
-         * Region.TABBED_PANE_TAB Region.TABBED_PANE_TAB_AREA
-         * Region.TABBED_PANE_CONTENT Region.TEXT_AREA Region.TEXT_PANE
-         * Region.TOOL_TIP Region.TOOL_BAR_SEPARATOR Region.TREE
-         * Region.TREE_CELL
-         */
-        return false;
+        if (PlatformUtils.isMac()) {
+            if (r == Region.COLOR_CHOOSER || r == Region.DESKTOP_ICON || r == Region.FILE_CHOOSER || r == Region.INTERNAL_FRAME
+                    || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.TOOL_BAR || r == Region.TOOL_BAR_CONTENT
+                    || r == Region.TOOL_BAR_DRAG_WINDOW) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -1321,9 +1310,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("TextArea[Enabled].backgroundPainter", new LazyPainter(c, TextAreaPainter.Which.BACKGROUND_ENABLED));
         d.put("TextArea[Disabled+NotInScrollPane].backgroundPainter", new LazyPainter(c,
             TextAreaPainter.Which.BACKGROUND_DISABLED_NOTINSCROLLPANE));
-        d.put("TextArea[Enabled+NotInScrollPane].backgroundPainter", new LazyPainter(c, TextAreaPainter.Which.BACKGROUND_ENABLED_NOTINSCROLLPANE));
+        d.put("TextArea[Enabled+NotInScrollPane].backgroundPainter", new LazyPainter(c,
+            TextAreaPainter.Which.BACKGROUND_ENABLED_NOTINSCROLLPANE));
         d.put("TextArea[Selected].backgroundPainter", new LazyPainter(c, TextAreaPainter.Which.BACKGROUND_SELECTED));
-        d.put("TextArea[Disabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextAreaPainter.Which.BORDER_DISABLED_NOTINSCROLLPANE));
+        d
+            .put("TextArea[Disabled+NotInScrollPane].borderPainter", new LazyPainter(c,
+                TextAreaPainter.Which.BORDER_DISABLED_NOTINSCROLLPANE));
         d.put("TextArea[Focused+NotInScrollPane].borderPainter", new LazyPainter(c, TextAreaPainter.Which.BORDER_FOCUSED_NOTINSCROLLPANE));
         d.put("TextArea[Enabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextAreaPainter.Which.BORDER_ENABLED_NOTINSCROLLPANE));
 
