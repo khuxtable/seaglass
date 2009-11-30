@@ -44,10 +44,10 @@ import com.seaglass.painter.Painter;
  * @see com.sun.java.swing.plaf.nimbus.SynthPainterImpl
  */
 @SuppressWarnings("unchecked")
-class SeaGlassSynthPainterImpl extends SynthPainter {
+public class SeaGlassSynthPainterImpl extends SynthPainter {
     private SeaGlassStyle style;
 
-    SeaGlassSynthPainterImpl(SeaGlassStyle style) {
+    public SeaGlassSynthPainterImpl(SeaGlassStyle style) {
         this.style = style;
     }
 
