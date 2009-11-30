@@ -38,7 +38,8 @@ import sun.swing.plaf.synth.SynthIcon;
 /**
  * An icon that delegates to a painter.
  * 
- * Based on NimbusIcon by Richard Bair
+ * Based on NimbusIcon by Richard Bair. Reimplemented because too much is
+ * package local.
  * 
  * @see com.sun.java.swing.plaf.nimbus.NimbusIcon
  */
