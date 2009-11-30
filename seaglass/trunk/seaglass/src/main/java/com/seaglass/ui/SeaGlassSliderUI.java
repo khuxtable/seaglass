@@ -76,6 +76,7 @@ public class SeaGlassSliderUI extends BasicSliderUI implements PropertyChangeLis
     private Dimension         lastSize   = null;
 
     private int               trackHeight;
+    private int               trackHeightHack;
     private int               trackBorder;
     private int               thumbWidth;
     private int               thumbHeight;
@@ -145,6 +146,8 @@ public class SeaGlassSliderUI extends BasicSliderUI implements PropertyChangeLis
             thumbWidth = style.getInt(context, "Slider.thumbWidth", 30);
 
             thumbHeight = style.getInt(context, "Slider.thumbHeight", 14);
+            
+            trackHeightHack = style.getInt(context, "Slider.trackHeight", 5);
 
             // handle scaling for sizeVarients for special case components. The
             // key "JComponent.sizeVariant" scales for large/small/mini
@@ -154,12 +157,15 @@ public class SeaGlassSliderUI extends BasicSliderUI implements PropertyChangeLis
                 if ("large".equals(scaleKey)) {
                     thumbWidth *= 1.15;
                     thumbHeight *= 1.15;
+                    trackHeightHack = 7;
                 } else if ("small".equals(scaleKey)) {
                     thumbWidth *= 0.857;
                     thumbHeight *= 0.857;
+                    trackHeightHack = 3;
                 } else if ("mini".equals(scaleKey)) {
                     thumbWidth *= 0.784;
                     thumbHeight *= 0.784;
+                    trackHeightHack = 1;
                 }
             }
 
@@ -799,11 +805,11 @@ public class SeaGlassSliderUI extends BasicSliderUI implements PropertyChangeLis
         int height = trackBounds.height;
         int width = trackBounds.width;
         if (orientation == JSlider.HORIZONTAL) {
-            y += height / 8;
-            height = (height * 3) / 4;
+            height = Math.min(height, trackHeightHack);
+            y += (trackBounds.height - height) / 2;
         } else {
-            x += width / 8;
-            width = (width * 3) / 4;
+            width = Math.min(width, trackHeightHack);
+            x += (trackBounds.width - width) / 2;
         }
         context.getPainter().paintSliderTrackBackground(context, g, x, y, width, height, orientation);
         context.getPainter().paintSliderTrackBorder(context, g, trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height,

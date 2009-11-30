@@ -1191,7 +1191,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     private void defineSliders(UIDefaults d) {
-        d.put("sliderBlueGrey", d.get("nimbusBlueGrey"));
+//        d.put("sliderBlueGrey", d.get("nimbusBlueGrey"));
+        d.put("sliderBlueGrey", new Color(0xced7e9));
 
         d.put("Slider.ArrowShape", new SliderArrowShapeState());
         d.put("Slider:SliderThumb.ArrowShape", new SliderArrowShapeState());
@@ -1199,6 +1200,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("Slider.thumbWidth", new Integer(15));
         d.put("Slider.thumbHeight", new Integer(20));
         d.put("Slider.trackBorder", new Integer(0));
+        d.put("Slider.trackHeight", new Integer(5));
 
         String c = "com.seaglass.painter.SliderThumbPainter";
         d.put("Slider:SliderThumb[Disabled].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_DISABLED));
