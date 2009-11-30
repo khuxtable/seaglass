@@ -26,7 +26,7 @@ import java.awt.Insets;
 /**
  * ImageScalingHelper
  * 
- * Based on Nimbus's ImageScalingHelper by Jasper Potts.
+ * Based on Nimbus's ImageScalingHelper by Jasper Potts. This was package local.
  * 
  * @see com.sun.java.swing.plaf.nimbus.ImageScalingHelper
  */
@@ -110,8 +110,8 @@ public class ImageScalingHelper {
      *            specified will not be painted, for example PAINT_ALL |
      *            PAINT_CENTER paints everything but the center.
      */
-    public static void paint(Graphics g, int x, int y, int w, int h, Image image, Insets sInsets, Insets dInsets,
-        PaintType paintType, int mask) {
+    public static void paint(Graphics g, int x, int y, int w, int h, Image image, Insets sInsets, Insets dInsets, PaintType paintType,
+        int mask) {
         if (image == null || image.getWidth(null) <= 0 || image.getHeight(null) <= 0) {
             return;
         }
@@ -135,8 +135,9 @@ public class ImageScalingHelper {
                 for (int xCounter = x, maxX = x + w; xCounter < maxX; xCounter += (iw - lastIX), lastIX = 0) {
                     int dx2 = Math.min(maxX, xCounter + iw - lastIX);
                     int dy2 = Math.min(maxY, yCounter + ih - lastIY);
-                    g.drawImage(image, xCounter, yCounter, dx2, dy2, lastIX, lastIY, lastIX + dx2 - xCounter, lastIY + dy2
-                            - yCounter, null);
+                    g
+                        .drawImage(image, xCounter, yCounter, dx2, dy2, lastIX, lastIY, lastIX + dx2 - xCounter, lastIY + dy2 - yCounter,
+                            null);
                 }
             }
         } else {
@@ -232,8 +233,8 @@ public class ImageScalingHelper {
      *            Used if the image is not stretched. If true it indicates the
      *            image should be tiled along the x axis.
      */
-    private static void drawChunk(Image image, Graphics g, boolean stretch, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1,
-        int sx2, int sy2, boolean xDirection) {
+    private static void drawChunk(Image image, Graphics g, boolean stretch, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2,
+        int sy2, boolean xDirection) {
         if (dx2 - dx1 <= 0 || dy2 - dy1 <= 0 || sx2 - sx1 <= 0 || sy2 - sy1 <= 0) {
             // Bogus location, nothing to paint
             return;
