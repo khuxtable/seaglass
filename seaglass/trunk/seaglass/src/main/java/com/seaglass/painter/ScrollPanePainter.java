@@ -31,6 +31,7 @@ import javax.swing.JComponent;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * Nimbus's ScrollPanePainter.
  */
 public final class ScrollPanePainter extends AbstractRegionPainter {
     public static enum Which {
