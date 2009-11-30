@@ -28,6 +28,8 @@ import javax.swing.JComponent;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * SplitPanePainter implementation. Does nothing because the work is done by the
+ * divider painter.
  */
 public final class SplitPanePainter extends AbstractRegionPainter {
     public static enum Which {
