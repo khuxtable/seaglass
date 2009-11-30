@@ -24,15 +24,15 @@ import java.awt.Component;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-
 /**
+ * Is Combo Box in editable state. Called from Arrow Button.
  */
 public class ComboBoxArrowButtonEditableState extends State {
     public ComboBoxArrowButtonEditableState() {
         super("Editable");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         Component parent = c.getParent();
         return parent instanceof JComboBox && ((JComboBox) parent).isEditable();
     }

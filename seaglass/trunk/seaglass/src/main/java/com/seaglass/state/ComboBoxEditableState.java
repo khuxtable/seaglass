@@ -22,15 +22,15 @@ package com.seaglass.state;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-
 /**
+ * Is Combo Box in editable state. Called from Combo Box.
  */
 public class ComboBoxEditableState extends State {
     public ComboBoxEditableState() {
         super("Editable");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         return ((JComboBox) c).isEditable();
     }
 }

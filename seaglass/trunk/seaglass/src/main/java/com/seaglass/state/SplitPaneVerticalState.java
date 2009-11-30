@@ -22,15 +22,15 @@ package com.seaglass.state;
 import javax.swing.JComponent;
 import javax.swing.JSplitPane;
 
-
 /**
+ * Is split pane vertical?
  */
 public class SplitPaneVerticalState extends State {
     public SplitPaneVerticalState() {
         super("Vertical");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         return c instanceof JSplitPane && (((JSplitPane) c).getOrientation() == 1);
     }
 }

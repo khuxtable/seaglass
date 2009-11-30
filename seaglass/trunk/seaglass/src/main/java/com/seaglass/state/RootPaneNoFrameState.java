@@ -28,13 +28,14 @@ import javax.swing.JInternalFrame;
 import javax.swing.JRootPane;
 
 /**
+ * Does root pane have a frame?
  */
 public class RootPaneNoFrameState extends State {
     public RootPaneNoFrameState() {
         super("Frame");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         Component parent = c.getParent();
         if (true) return ((JRootPane) c).getWindowDecorationStyle() == JRootPane.NONE;
         if (parent instanceof JFrame) return true;

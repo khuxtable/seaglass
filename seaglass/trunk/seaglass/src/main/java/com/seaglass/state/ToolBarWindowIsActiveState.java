@@ -26,13 +26,14 @@ import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 
 /**
+ * Is the window for this toolbar active?
  */
 public class ToolBarWindowIsActiveState extends State {
     public ToolBarWindowIsActiveState() {
         super("WindowIsActive");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         Component parent = c;
         while (parent.getParent() != null) {
             if (parent instanceof JInternalFrame || parent instanceof Window) {

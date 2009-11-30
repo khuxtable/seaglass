@@ -23,13 +23,13 @@ import javax.swing.JComponent;
 import javax.swing.JProgressBar;
 
 /**
+ * Is progress bar indeterminate?
  */
 public class ProgressBarIndeterminateState extends State {
     public ProgressBarIndeterminateState() {
         super("Indeterminate");
     }
 
-    @Override
     public boolean isInState(JComponent c) {
         return ((JProgressBar) c).isIndeterminate();
     }

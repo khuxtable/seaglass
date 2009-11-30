@@ -23,13 +23,13 @@ import javax.swing.JComponent;
 import javax.swing.JProgressBar;
 
 /**
+ * Is progress bar in finished state?
  */
 public class ProgressBarFinishedState extends State {
     public ProgressBarFinishedState() {
         super("Finished");
     }
 
-    @Override
     public boolean isInState(JComponent c) {
         return ((JProgressBar) c).getPercentComplete() == 1.0;
     }

@@ -78,7 +78,7 @@ import javax.swing.plaf.synth.SynthConstants;
  * </pre>
  * 
  * <p>
- * Based on Nimbus's State class.
+ * Based on Nimbus's State class, which has too much package local stuff.
  * </p>
  * 
  * @see com.sun.java.swing.plaf.nimbus.State
@@ -180,7 +180,7 @@ public abstract class State<T extends JComponent> {
      * @return true if <code>c</code> is in the custom state represented by this
      *         <code>State</code> instance
      */
-    protected abstract boolean isInState(T c);
+    public abstract boolean isInState(T c);
 
     public String getName() {
         return name;
@@ -211,7 +211,7 @@ public abstract class State<T extends JComponent> {
             return (s & state) == state;
         }
 
-        protected boolean isInState(JComponent c) {
+        public boolean isInState(JComponent c) {
             throw new AssertionError("This method should never be called");
         }
 

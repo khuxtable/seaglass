@@ -11,15 +11,15 @@ import java.awt.Window;
 
 import javax.swing.JComponent;
 
-
 /**
+ * Is root pane's window in focused state?
  */
 public class RootPaneWindowFocusedState extends State {
     public RootPaneWindowFocusedState() {
         super("WindowFocused");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         Component parent = c;
         while (parent.getParent() != null) {
             if (parent instanceof Window) {
