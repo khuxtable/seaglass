@@ -25,6 +25,7 @@ import java.awt.Insets;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * TextAreaPainter implementation.
  */
 public final class TextAreaPainter extends AbstractImagePainter<TextAreaPainter.Which> {
     public static enum Which {
