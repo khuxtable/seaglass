@@ -31,9 +31,8 @@ public final class EditorPanePainter extends AbstractImagePainter<EditorPanePain
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED,
     }
 
-    // FIXME These are not assigned properly.
-    private static final Insets    insets    = new Insets(7, 7, 7, 7);
-    private static final Dimension dimension = new Dimension(86, 28);
+    private static final Insets    insets    = new Insets(0, 0, 0, 0);
+    private static final Dimension dimension = new Dimension(100, 30);
     private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
     private static final Double    maxH      = Double.POSITIVE_INFINITY;
     private static final Double    maxV      = Double.POSITIVE_INFINITY;
