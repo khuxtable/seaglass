@@ -995,6 +995,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ProgressBar.Finished", new ProgressBarFinishedState());
 
         String c = "com.seaglass.painter.ProgressBarPainter";
+        d.put("ProgressBar.cycleTime", 500);
         d.put("ProgressBar.progressPadding", new Integer(3));
         d.put("ProgressBar.trackThickness", new Integer(19));
         d.put("ProgressBar.arcSize", new Integer(9));
