@@ -27,6 +27,8 @@ import java.awt.Graphics2D;
 import com.seaglass.util.WindowUtils;
 
 /**
+ * TitleBarPainter implementation.
+ * 
  * @author Ken Orr
  */
 public class TitleBarPainter implements Painter<Component> {
