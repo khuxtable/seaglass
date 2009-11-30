@@ -260,10 +260,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private boolean isSupportedBySeaGlass(JComponent c, Region r) {
         if (r == Region.CHECK_BOX_MENU_ITEM || r == Region.LIST || r == Region.MENU || r == Region.MENU_BAR || r == Region.MENU_ITEM
-                || r == Region.MENU_ITEM_ACCELERATOR || r == Region.OPTION_PANE || r == Region.PASSWORD_FIELD
-                || r == Region.RADIO_BUTTON_MENU_ITEM || r == Region.SEPARATOR || r == Region.TABBED_PANE || r == Region.TABBED_PANE_TAB
-                || r == Region.TABBED_PANE_TAB_AREA || r == Region.TABBED_PANE_CONTENT || r == Region.TOOL_TIP
-                || r == Region.TOOL_BAR_SEPARATOR || r == Region.TREE || r == Region.TREE_CELL) {
+                || r == Region.MENU_ITEM_ACCELERATOR || r == Region.OPTION_PANE || r == Region.RADIO_BUTTON_MENU_ITEM
+                || r == Region.SEPARATOR || r == Region.TABBED_PANE || r == Region.TABBED_PANE_TAB || r == Region.TABBED_PANE_TAB_AREA
+                || r == Region.TABBED_PANE_CONTENT || r == Region.TOOL_TIP || r == Region.TOOL_BAR_SEPARATOR || r == Region.TREE
+                || r == Region.TREE_CELL) {
 
             return false;
         }
