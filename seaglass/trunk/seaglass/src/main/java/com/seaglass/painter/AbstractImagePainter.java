@@ -38,6 +38,12 @@ public abstract class AbstractImagePainter<E> extends AbstractRegionPainter {
 
     protected ImageIcon         image;
 
+    /**
+     * Create a new AbstractImagePainter for the specified state.
+     * 
+     * @param state
+     *            the state to paint.
+     */
     public AbstractImagePainter(E state) {
         super();
         this.ctx = null;
@@ -49,6 +55,13 @@ public abstract class AbstractImagePainter<E> extends AbstractRegionPainter {
         image = getImage(imageName);
     }
 
+    /**
+     * Load the image based on the simple name.
+     * 
+     * @param imageName
+     *            the simple image name.
+     * @return an ImageIcon to draw.
+     */
     protected ImageIcon getImage(String imageName) {
         StringBuilder imagePath = new StringBuilder(IMAGE_DIR);
         imagePath.append('/');
@@ -58,9 +71,15 @@ public abstract class AbstractImagePainter<E> extends AbstractRegionPainter {
         return new ImageIcon(AbstractImagePainter.class.getResource(imagePath.toString()));
     }
 
+    /**
+     * Override this to provide the image file name for a given state.
+     * 
+     * @param state
+     *            the state to draw
+     * @return the simple image name.
+     */
     protected abstract String getImageName(E state);
 
-    @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         image.paintIcon(c, g, 0, 0);
     }
@@ -70,11 +89,10 @@ public abstract class AbstractImagePainter<E> extends AbstractRegionPainter {
         return extendedCacheKeys;
     }
 
-    @Override
     protected final PaintContext getPaintContext() {
         return ctx;
     }
-    
+
     protected final void setPaintContext(PaintContext ctx) {
         this.ctx = ctx;
     }
