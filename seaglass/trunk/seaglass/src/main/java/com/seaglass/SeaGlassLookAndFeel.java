@@ -73,6 +73,7 @@ import com.seaglass.painter.ComboBoxPainter;
 import com.seaglass.painter.ComboBoxTextFieldPainter;
 import com.seaglass.painter.DesktopIconPainter;
 import com.seaglass.painter.DesktopPanePainter;
+import com.seaglass.painter.EditorPanePainter;
 import com.seaglass.painter.InternalFramePainter;
 import com.seaglass.painter.ProgressBarPainter;
 import com.seaglass.painter.RadioButtonPainter;
@@ -90,6 +91,7 @@ import com.seaglass.painter.TabbedPaneTabAreaPainter;
 import com.seaglass.painter.TabbedPaneTabPainter;
 import com.seaglass.painter.TableHeaderPainter;
 import com.seaglass.painter.TableHeaderRendererPainter;
+import com.seaglass.painter.TextAreaPainter;
 import com.seaglass.painter.TextFieldPainter;
 import com.seaglass.painter.TitlePaneCloseButtonPainter;
 import com.seaglass.painter.TitlePaneIconifyButtonPainter;
@@ -109,6 +111,7 @@ import com.seaglass.state.SliderArrowShapeState;
 import com.seaglass.state.SplitPaneDividerVerticalState;
 import com.seaglass.state.SplitPaneVerticalState;
 import com.seaglass.state.TableHeaderRendererSortedState;
+import com.seaglass.state.TextAreaNotInScrollPaneState;
 import com.seaglass.state.TitlePaneCloseButtonWindowModifiedState;
 import com.seaglass.state.TitlePaneCloseButtonWindowNotFocusedState;
 import com.seaglass.state.TitlePaneIconifyButtonWindowMinimizedState;
@@ -261,8 +264,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 || r == Region.POPUP_MENU || r == Region.POPUP_MENU_SEPARATOR || r == Region.ROOT_PANE || r == Region.SCROLL_BAR
                 || r == Region.SCROLL_BAR_THUMB || r == Region.SCROLL_BAR_TRACK || r == Region.SCROLL_PANE || r == Region.SPLIT_PANE
                 || r == Region.SPLIT_PANE_DIVIDER || r == Region.VIEWPORT || r == Region.TABLE || r == Region.TABLE_HEADER
-                || r == Region.FORMATTED_TEXT_FIELD || r == Region.TEXT_FIELD || r == Region.SPINNER || r == Region.SLIDER
-                || r == Region.SLIDER_THUMB || r == Region.SLIDER_TRACK || r == Region.PROGRESS_BAR) {
+                || r == Region.FORMATTED_TEXT_FIELD || r == Region.TEXT_FIELD || r == Region.EDITOR_PANE || r == Region.TEXT_AREA
+                || r == Region.TEXT_PANE || r == Region.SPINNER || r == Region.SLIDER || r == Region.SLIDER_THUMB
+                || r == Region.SLIDER_TRACK || r == Region.PROGRESS_BAR) {
             return true;
         }
         if (!PlatformUtils.isMac()
@@ -989,8 +993,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     private void defineProgressBars(UIDefaults d) {
-        d.put("progressBarAmber", new Color(242, 138, 85));
-
         d.put("ProgressBar.Indeterminate", new ProgressBarIndeterminateState());
         d.put("ProgressBar.Finished", new ProgressBarFinishedState());
 
@@ -1292,8 +1294,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("TextField[Focused].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_FOCUSED));
         d.put("TextField[Enabled].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_ENABLED));
 
-        // Initialize TextField
-        d.put("TextField.contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        // Initialize FormattedTextField
+        d.put("FormattedTextField.contentMargins", new InsetsUIResource(6, 6, 6, 6));
         d.put("FormattedTextField[Disabled].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_DISABLED));
         d.put("FormattedTextField[Enabled].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_ENABLED));
         d.put("FormattedTextField[Selected].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_SELECTED));
@@ -1309,6 +1311,36 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("PasswordField[Disabled].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_DISABLED));
         d.put("PasswordField[Focused].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_FOCUSED));
         d.put("PasswordField[Enabled].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_ENABLED));
+
+        // Initialize TextArea
+        c = "com.seaglass.painter.TextAreaPainter";
+        d.put("TextArea.contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put("TextArea.States", "Enabled,MouseOver,Pressed,Selected,Disabled,Focused,NotInScrollPane");
+        d.put("TextArea.NotInScrollPane", new TextAreaNotInScrollPaneState());
+        d.put("TextArea[Disabled].backgroundPainter", new LazyPainter(c, TextAreaPainter.Which.BACKGROUND_DISABLED));
+        d.put("TextArea[Enabled].backgroundPainter", new LazyPainter(c, TextAreaPainter.Which.BACKGROUND_ENABLED));
+        d.put("TextArea[Disabled+NotInScrollPane].backgroundPainter", new LazyPainter(c,
+            TextAreaPainter.Which.BACKGROUND_DISABLED_NOTINSCROLLPANE));
+        d.put("TextArea[Enabled+NotInScrollPane].backgroundPainter", new LazyPainter(c, TextAreaPainter.Which.BACKGROUND_ENABLED_NOTINSCROLLPANE));
+        d.put("TextArea[Selected].backgroundPainter", new LazyPainter(c, TextAreaPainter.Which.BACKGROUND_SELECTED));
+        d.put("TextArea[Disabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextAreaPainter.Which.BORDER_DISABLED_NOTINSCROLLPANE));
+        d.put("TextArea[Focused+NotInScrollPane].borderPainter", new LazyPainter(c, TextAreaPainter.Which.BORDER_FOCUSED_NOTINSCROLLPANE));
+        d.put("TextArea[Enabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextAreaPainter.Which.BORDER_ENABLED_NOTINSCROLLPANE));
+
+        // Initialize TextPane
+        c = "com.seaglass.painter.EditorPanePainter";
+        d.put("TextPane.contentMargins", new InsetsUIResource(4, 6, 4, 6));
+        d.put("TextPane.opaque", Boolean.TRUE);
+        d.put("TextPane[Disabled].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_DISABLED));
+        d.put("TextPane[Enabled].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_ENABLED));
+        d.put("TextPane[Selected].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_SELECTED));
+
+        // Initialize EditorPane
+        d.put("EditorPane.contentMargins", new InsetsUIResource(4, 6, 4, 6));
+        d.put("EditorPane.opaque", Boolean.TRUE);
+        d.put("EditorPane[Disabled].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_DISABLED));
+        d.put("EditorPane[Enabled].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_ENABLED));
+        d.put("EditorPane[Selected].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_SELECTED));
     }
 
     private void defineTrees(UIDefaults d) {
