@@ -29,7 +29,7 @@ public class TextAreaNotInScrollPaneState extends State {
         super("NotInScrollPane");
     }
 
-    protected boolean isInState(JComponent c) {
+    public boolean isInState(JComponent c) {
         return !(c.getParent() instanceof javax.swing.JViewport);
     }
 }
