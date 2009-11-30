@@ -42,7 +42,9 @@ import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 import sun.swing.plaf.synth.SynthUI;
 
 /**
- * A SynthStyle implementation used by SeaGlass.
+ * A SynthStyle implementation used by SeaGlass. This just wraps a SynthStyle
+ * with a SeaGlass style in order to get at some SynthStyle methods that are
+ * package local.
  * 
  * @see javax.swing.plaf.synth.SynthStyle
  */
@@ -103,6 +105,10 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
         return SEAGLASS_GRAPHICS;
     }
 
+    /**
+     * Re-implements SynthStyle.installDefaults(SynthContext, SynthUI) because
+     * it's package local.
+     */
     public void installDefaults(SeaGlassContext context, SynthUI ui) {
         // Special case the Border as this will likely change when the LAF
         // can have more control over this.
