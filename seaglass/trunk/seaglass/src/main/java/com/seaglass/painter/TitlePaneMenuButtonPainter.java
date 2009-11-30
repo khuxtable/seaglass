@@ -25,6 +25,7 @@ import java.awt.Insets;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * Title pane menu button painter implementation.
  */
 public final class TitlePaneMenuButtonPainter extends AbstractImagePainter<TitlePaneMenuButtonPainter.Which> {
     public static enum Which {
