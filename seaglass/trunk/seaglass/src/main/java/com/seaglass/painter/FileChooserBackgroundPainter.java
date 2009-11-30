@@ -30,6 +30,7 @@ import javax.swing.JComponent;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * Nimbus's FileChooserBackgroundPainter.
  */
 public final class FileChooserBackgroundPainter extends AbstractRegionPainter {
     public static enum Which {
