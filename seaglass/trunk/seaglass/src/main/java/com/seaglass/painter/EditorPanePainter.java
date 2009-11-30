@@ -25,6 +25,7 @@ import java.awt.Insets;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * EditorPanePainter implementation.
  */
 public final class EditorPanePainter extends AbstractImagePainter<EditorPanePainter.Which> {
     public static enum Which {
