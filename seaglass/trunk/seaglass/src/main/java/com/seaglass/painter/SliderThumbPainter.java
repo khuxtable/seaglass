@@ -25,6 +25,7 @@ import java.awt.Insets;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * SliderThumbPainter implementation.
  */
 public final class SliderThumbPainter extends AbstractImagePainter<SliderThumbPainter.Which> {
     public static enum Which {
