@@ -25,6 +25,7 @@ import java.awt.Insets;
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
+ * ProgressBarPainter implementation.
  */
 public final class ProgressBarPainter extends AbstractImagePainter<ProgressBarPainter.Which> {
     public static enum Which {
