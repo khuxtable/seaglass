@@ -49,9 +49,9 @@ public final class TextFieldPainter extends AbstractImagePainter<TextFieldPainte
         case BACKGROUND_DISABLED:
             return "text_field_disabled";
         case BACKGROUND_ENABLED:
-            return "textfield";
+            return "text_field";
         case BACKGROUND_SELECTED:
-            return "textfield";
+            return "text_field";
         case BORDER_DISABLED:
             return "text_field_border_disabled";
         case BORDER_FOCUSED:
