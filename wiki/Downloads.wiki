@@ -1,6 +1,6 @@
 = Downloads =
 
-Download SeaGlass.
+Download the Sea Glass Look and Feel.
 
 
 = Versions =
