@@ -10,6 +10,8 @@
 
 		<menu name="Sea Glass">
 			<item name="Introduction" href="index.html" collapse="none" />
+			<item collapse="true" name="Google Code" href="http://seaglass.googlecode.com" />
+			<item collapse="true" name="Downloads" href="http://code.google.com/p/seaglass/wiki/Downloads" />
 		</menu>
 
 		<!-- <menu name="Generated Information" ref="reports"/> -->
