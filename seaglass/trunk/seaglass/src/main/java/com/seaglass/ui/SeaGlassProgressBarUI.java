@@ -19,17 +19,22 @@
  */
 package com.seaglass.ui;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Shape;
+import java.awt.RenderingHints;
+import java.awt.Transparency;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -221,8 +226,14 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
             width = Math.min(width, trackThickness);
             x += (width - trackThickness) / 2;
         }
+        int xTrack = x;
+        int yTrack = y;
+        int wTrack = width;
+        int hTrack = height;
         x += pBarInsets.left + progressPadding;
         y += pBarInsets.top + progressPadding;
+        System.out.println("x = " + x + ", xTrack = " + xTrack);
+        System.out.println("y = " + y + ", yTrack = " + yTrack);
         width -= pBarInsets.left + pBarInsets.right + progressPadding + progressPadding;
         height -= pBarInsets.top + pBarInsets.bottom + progressPadding + progressPadding;
 
@@ -241,12 +252,57 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
             }
         }
 
-        // if tiling and indeterminate, then paint the progress bar foreground a
-        // bit wider than it should be. Shift as needed to ensure that there is
-        // an animated effect
-        Shape clip = g.getClip();
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.clip(new RoundRectangle2D.Float(x, y, width, height, arcSize, arcSize));
+        // Create a translucent intermediate image in which we can perform soft
+        // clipping.
+        GraphicsConfiguration gc = ((Graphics2D) g).getDeviceConfiguration();
+        BufferedImage img = gc.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+        Graphics2D g2d = img.createGraphics();
+
+        // Clear the image so all pixels have zero alpha
+        g2d.setComposite(AlphaComposite.Clear);
+        g2d.fillRect(0, 0, width, height);
+
+        // Render our clip shape into the image. Enable antialiasing to achieve
+        // a soft clipping effect.
+        g2d.setComposite(AlphaComposite.Src);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(Color.WHITE);
+        g2d.fill(new RoundRectangle2D.Double(0, 0, width, height, arcSize, arcSize));
+
+        // Use SrcAtop, which effectively uses the alpha value as a coverage
+        // value for each pixel stored in the destination. At the edges, the
+        // antialiasing of the rounded rectangle gives us the desired soft
+        // clipping effect.
+        g2d.setComposite(AlphaComposite.SrcAtop);
+
+        // We need to redraw the background, otherwise the interior is
+        // completely white.
+        context.getPainter().paintProgressBarBackground(context, g2d, xTrack - x, yTrack - y, wTrack, hTrack, pBar.getOrientation());
+        paintProgress(context, g2d, width, height, size, isFinished);
+
+        // Dispose of the image graphics and copy our intermediate image to the
+        // main graphics.
+        g2d.dispose();
+        g.drawImage(img, x, y, null);
+
+        if (pBar.isStringPainted()) {
+            paintText(context, g, pBar.getString());
+        }
+    }
+
+    /**
+     * Paint the actual internal progress bar.
+     * 
+     * @param context
+     * @param g2d
+     * @param width
+     * @param height
+     * @param size
+     * @param isFinished
+     */
+    private void paintProgress(SeaGlassContext context, Graphics2D g2d, int width, int height, int size, boolean isFinished) {
+        JProgressBar pBar = (JProgressBar) context.getComponent();
+
         if (tileWhenIndeterminate && pBar.isIndeterminate()) {
             double percentComplete = (double) getAnimationIndex() / (double) getFrameCount();
             int offset = (int) (percentComplete * tileWidth);
@@ -256,39 +312,34 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
                     offset = tileWidth - offset;
                 }
                 // paint each tile horizontally
-                for (int i = x - tileWidth + offset; i <= width; i += tileWidth) {
-                    context.getPainter().paintProgressBarForeground(context, g2d, i, y, tileWidth, height, pBar.getOrientation());
+                for (int i = -tileWidth + offset; i <= width; i += tileWidth) {
+                    context.getPainter().paintProgressBarForeground(context, g2d, i, 0, tileWidth, height, pBar.getOrientation());
                 }
             } else { // JProgressBar.VERTICAL
                 // paint each tile vertically
-                for (int i = y - offset; i < height + tileWidth; i += tileWidth) {
-                    context.getPainter().paintProgressBarForeground(context, g2d, x, i, width, tileWidth, pBar.getOrientation());
+                for (int i = -offset; i < height + tileWidth; i += tileWidth) {
+                    context.getPainter().paintProgressBarForeground(context, g2d, 0, i, width, tileWidth, pBar.getOrientation());
                 }
             }
         } else {
             if (pBar.getOrientation() == JProgressBar.HORIZONTAL) {
-                int start = x;
+                int start = 0;
                 if (isFinished) {
                     size = width + progressRightInset;
                 } else if (!SeaGlassLookAndFeel.isLeftToRight(pBar)) {
-                    start = x + (width - size);
+                    start = width - size;
                     size = width - size;
                 }
-                context.getPainter().paintProgressBarForeground(context, g2d, start, y, size, height, pBar.getOrientation());
+                context.getPainter().paintProgressBarForeground(context, g2d, start, 0, size, height, pBar.getOrientation());
             } else {
                 // When the progress bar is vertical we always paint from bottom
                 // to top, not matter what the component orientation is.
-                int start = y + height;
+                int start = height;
                 if (isFinished) {
                     size = height + progressRightInset;
                 }
-                context.getPainter().paintProgressBarForeground(context, g2d, x, start, width, size, pBar.getOrientation());
+                context.getPainter().paintProgressBarForeground(context, g2d, 0, start, width, size, pBar.getOrientation());
             }
-        }
-        g.setClip(clip);
-
-        if (pBar.isStringPainted()) {
-            paintText(context, g, pBar.getString());
         }
     }
 
