@@ -1,13 +1,9 @@
-#Downloads page
-
 = Downloads =
 
-Add your content here.
+Download SeaGlass.
 
 
-= Details =
+= Versions =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+|| Version || Link ||
+|| 0.0.4-Snapshot || http://code.google.com/p/seaglass/source/browse/repo/com/seaglass/seaglass/0.0.4-SNAPSHOT/seaglass-0.0.4-20091202.223716-1.jar ||
