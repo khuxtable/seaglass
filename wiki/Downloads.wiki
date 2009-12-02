@@ -6,4 +6,4 @@ Download SeaGlass.
 = Versions =
 
 || Version || Link ||
-|| 0.0.4-Snapshot || http://seaglass.google.com/svn/repo/com/seaglass/seaglass/0.0.4-SNAPSHOT/seaglass-0.0.4-20091202.223716-1.jar ||
+|| 0.0.4-Snapshot || http://seaglass.googlecode.com/svn/repo/com/seaglass/seaglass/0.0.4-SNAPSHOT/seaglass-0.0.4-20091202.223716-1.jar ||
