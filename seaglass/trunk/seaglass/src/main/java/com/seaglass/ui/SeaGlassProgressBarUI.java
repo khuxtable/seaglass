@@ -63,14 +63,18 @@ import sun.swing.plaf.synth.SynthUI;
 public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI, PropertyChangeListener {
     private SynthStyle style;
     private int        progressPadding;
-    private boolean    rotateText;           // added for Nimbus LAF
+    private boolean    rotateText;                  // added for Nimbus LAF
     private boolean    paintOutsideClip;
     private int        trackThickness;
     private int        arcSize;
     private int        progressRightInset;
-    private boolean    tileWhenIndeterminate; // whether to tile indeterminate
+    private boolean    tileWhenIndeterminate;       // whether to tile
+    // indeterminate
     // painting
-    private int        tileWidth;            // the width of each tile
+    private int        tileWidth;                   // the width of each tile
+
+    private Rectangle  boundsRect = new Rectangle();
+    private Rectangle  savedRect  = new Rectangle();
 
     public static ComponentUI createUI(JComponent x) {
         return new SeaGlassProgressBarUI();
@@ -182,24 +186,29 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         }
     }
 
+    private Rectangle calcBounds(JProgressBar pBar) {
+        boundsRect.x = 0;
+        boundsRect.y = 0;
+        boundsRect.width = pBar.getWidth();
+        boundsRect.height = pBar.getHeight();
+        if (pBar.getOrientation() == JProgressBar.HORIZONTAL) {
+            boundsRect.height = Math.min(boundsRect.height, trackThickness);
+            boundsRect.y += (boundsRect.height - trackThickness) / 2;
+        } else {
+            boundsRect.width = Math.min(boundsRect.width, trackThickness);
+            boundsRect.x += (boundsRect.width - trackThickness) / 2;
+        }
+        return boundsRect;
+    }
+
     @Override
     public void update(Graphics g, JComponent c) {
         SeaGlassContext context = getContext(c);
 
         SeaGlassLookAndFeel.update(context, g);
         JProgressBar pBar = (JProgressBar) c;
-        int x = 0;
-        int y = 0;
-        int width = c.getWidth();
-        int height = c.getHeight();
-        if (pBar.getOrientation() == JProgressBar.HORIZONTAL) {
-            height = Math.min(height, trackThickness);
-            y += (height - trackThickness) / 2;
-        } else {
-            width = Math.min(width, trackThickness);
-            x += (width - trackThickness) / 2;
-        }
-        context.getPainter().paintProgressBarBackground(context, g, x, y, width, height, pBar.getOrientation());
+        Rectangle bounds = calcBounds(pBar);
+        context.getPainter().paintProgressBarBackground(context, g, bounds.x, bounds.y, bounds.width, bounds.height, pBar.getOrientation());
         paint(context, g);
         context.dispose();
     }
@@ -215,27 +224,14 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
     protected void paint(SeaGlassContext context, Graphics g) {
         JProgressBar pBar = (JProgressBar) context.getComponent();
         Insets pBarInsets = pBar.getInsets();
-        int x = 0;
-        int y = 0;
-        int width = pBar.getWidth();
-        int height = pBar.getHeight();
-        if (pBar.getOrientation() == JProgressBar.HORIZONTAL) {
-            height = Math.min(height, trackThickness);
-            y += (height - trackThickness) / 2;
-        } else {
-            width = Math.min(width, trackThickness);
-            x += (width - trackThickness) / 2;
-        }
-        int xTrack = x;
-        int yTrack = y;
-        int wTrack = width;
-        int hTrack = height;
-        x += pBarInsets.left + progressPadding;
-        y += pBarInsets.top + progressPadding;
-        System.out.println("x = " + x + ", xTrack = " + xTrack);
-        System.out.println("y = " + y + ", yTrack = " + yTrack);
-        width -= pBarInsets.left + pBarInsets.right + progressPadding + progressPadding;
-        height -= pBarInsets.top + pBarInsets.bottom + progressPadding + progressPadding;
+        Rectangle bounds = calcBounds(pBar);
+        // Save away the track bounds.
+        savedRect.setBounds(bounds);
+        // Subtract out any insets for the progress indicator.
+        bounds.x += pBarInsets.left + progressPadding;
+        bounds.y += pBarInsets.top + progressPadding;
+        bounds.width -= pBarInsets.left + pBarInsets.right + progressPadding + progressPadding;
+        bounds.height -= pBarInsets.top + pBarInsets.bottom + progressPadding + progressPadding;
 
         int size = 0;
         boolean isFinished = false;
@@ -245,9 +241,9 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
                 isFinished = true;
             } else if (percentComplete > 0.0) {
                 if (pBar.getOrientation() == JProgressBar.HORIZONTAL) {
-                    size = (int) (percentComplete * width);
+                    size = (int) (percentComplete * bounds.width);
                 } else { // JProgressBar.VERTICAL
-                    size = (int) (percentComplete * height);
+                    size = (int) (percentComplete * bounds.height);
                 }
             }
         }
@@ -255,19 +251,19 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         // Create a translucent intermediate image in which we can perform soft
         // clipping.
         GraphicsConfiguration gc = ((Graphics2D) g).getDeviceConfiguration();
-        BufferedImage img = gc.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+        BufferedImage img = gc.createCompatibleImage(bounds.width, bounds.height, Transparency.TRANSLUCENT);
         Graphics2D g2d = img.createGraphics();
 
         // Clear the image so all pixels have zero alpha
         g2d.setComposite(AlphaComposite.Clear);
-        g2d.fillRect(0, 0, width, height);
+        g2d.fillRect(0, 0, bounds.width, bounds.height);
 
         // Render our clip shape into the image. Enable antialiasing to achieve
         // a soft clipping effect.
         g2d.setComposite(AlphaComposite.Src);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.WHITE);
-        g2d.fill(new RoundRectangle2D.Double(0, 0, width, height, arcSize, arcSize));
+        g2d.fill(new RoundRectangle2D.Double(0, 0, bounds.width, bounds.height, arcSize, arcSize));
 
         // Use SrcAtop, which effectively uses the alpha value as a coverage
         // value for each pixel stored in the destination. At the edges, the
@@ -277,13 +273,14 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
 
         // We need to redraw the background, otherwise the interior is
         // completely white.
-        context.getPainter().paintProgressBarBackground(context, g2d, xTrack - x, yTrack - y, wTrack, hTrack, pBar.getOrientation());
-        paintProgress(context, g2d, width, height, size, isFinished);
+        context.getPainter().paintProgressBarBackground(context, g2d, savedRect.x - bounds.x, savedRect.y - bounds.y, savedRect.width,
+            savedRect.height, pBar.getOrientation());
+        paintProgressIndicator(context, g2d, bounds.width, bounds.height, size, isFinished);
 
         // Dispose of the image graphics and copy our intermediate image to the
         // main graphics.
         g2d.dispose();
-        g.drawImage(img, x, y, null);
+        g.drawImage(img, bounds.x, bounds.y, null);
 
         if (pBar.isStringPainted()) {
             paintText(context, g, pBar.getString());
@@ -300,12 +297,12 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
      * @param size
      * @param isFinished
      */
-    private void paintProgress(SeaGlassContext context, Graphics2D g2d, int width, int height, int size, boolean isFinished) {
+    private void paintProgressIndicator(SeaGlassContext context, Graphics2D g2d, int width, int height, int size, boolean isFinished) {
         JProgressBar pBar = (JProgressBar) context.getComponent();
 
         if (tileWhenIndeterminate && pBar.isIndeterminate()) {
-            double percentComplete = (double) getAnimationIndex() / (double) getFrameCount();
-            int offset = (int) (percentComplete * tileWidth);
+            double offsetFraction = (double) getAnimationIndex() / (double) getFrameCount();
+            int offset = (int) (offsetFraction * tileWidth);
             if (pBar.getOrientation() == JProgressBar.HORIZONTAL) {
                 // If we're right-to-left, flip the direction of animation.
                 if (!SeaGlassLookAndFeel.isLeftToRight(pBar)) {
@@ -315,7 +312,7 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
                 for (int i = -tileWidth + offset; i <= width; i += tileWidth) {
                     context.getPainter().paintProgressBarForeground(context, g2d, i, 0, tileWidth, height, pBar.getOrientation());
                 }
-            } else { // JProgressBar.VERTICAL
+            } else {
                 // paint each tile vertically
                 for (int i = -offset; i < height + tileWidth; i += tileWidth) {
                     context.getPainter().paintProgressBarForeground(context, g2d, 0, i, width, tileWidth, pBar.getOrientation());
@@ -328,7 +325,6 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
                     size = width + progressRightInset;
                 } else if (!SeaGlassLookAndFeel.isLeftToRight(pBar)) {
                     start = width - size;
-                    size = width - size;
                 }
                 context.getPainter().paintProgressBarForeground(context, g2d, start, 0, size, height, pBar.getOrientation());
             } else {
