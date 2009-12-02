@@ -70,6 +70,13 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<extensions>
+			<extension>
+				<groupId>org.jvnet.wagon-svn</groupId>
+				<artifactId>wagon-svn</artifactId>
+				<version>1.9</version>
+			</extension>
+		</extensions>
 	</build>
 	<dependencies>
 		<dependency>
@@ -81,9 +88,8 @@
 	</dependencies>
 	<distributionManagement>
 		<repository>
-			<id>personal_inhouse</id>
-			<name>Kathryn Huxtable Repository</name>
-			<url>scpexe://shell.sonic.net/home/k/kathryn5/public_html/projects/repository</url>
+			<id>googlecode</id>
+			<url>svn:https://seaglass.googlecode.com/svn/repo</url>
 		</repository>
 		<site>
 			<id>personal_website</id>
@@ -166,6 +172,13 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	<repositories>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2/</url>
+		</repository>
+	</repositories>
 	<scm>
 		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</connection>
 		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</developerConnection>
