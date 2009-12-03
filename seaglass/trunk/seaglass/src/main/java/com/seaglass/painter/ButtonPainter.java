@@ -310,13 +310,13 @@ public final class ButtonPainter extends AbstractRegionPainter {
     private Path2D decodeRoundMain(SegmentStatus segmentStatus) {
         switch (segmentStatus) {
         case FIRST:
-            setFirstRoundRect(2d, 2d, 84d, 24d, 3d, 3d);
+            setFirstRoundRect(2d, 2d, 83d, 24d, 3d, 3d);
             break;
         case MIDDLE:
-            setRect(1d, 2d, 85d, 24d);
+            setRect(0d, 2d, 85d, 24d);
             break;
         case LAST:
-            setLastRoundRect(1d, 2d, 83d, 24d, 3d, 3d);
+            setLastRoundRect(0d, 2d, 84d, 24d, 3d, 3d);
             break;
         default:
             setRoundRect(2d, 2d, 82d, 24d, 3d, 3d);
