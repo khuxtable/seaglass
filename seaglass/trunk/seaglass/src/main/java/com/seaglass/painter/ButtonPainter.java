@@ -44,7 +44,7 @@ import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
  * 
  * @author Kathryn Huxtable
  */
-public final class ButtonPainter extends AbstractImagePainter<ButtonPainter.Which> {
+public final class ButtonPainter extends AbstractRegionPainter {
     public static enum Which {
         BACKGROUND_DEFAULT,
         BACKGROUND_DEFAULT_FOCUSED,
@@ -138,6 +138,8 @@ public final class ButtonPainter extends AbstractImagePainter<ButtonPainter.Whic
     private boolean                focused;
     private Effect                 dropShadow                         = new SeaGlassDropShadowEffect();
 
+    private PaintContext           ctx;
+
     /**
      * Create a new ButtonPainter.
      * 
@@ -145,7 +147,7 @@ public final class ButtonPainter extends AbstractImagePainter<ButtonPainter.Whic
      *            the state of the button to be painted.
      */
     public ButtonPainter(Which state) {
-        super(state);
+        super();
         this.state = state;
         switch (state) {
         case BACKGROUND_DEFAULT_FOCUSED:
@@ -162,69 +164,19 @@ public final class ButtonPainter extends AbstractImagePainter<ButtonPainter.Whic
             focused = false;
             break;
         }
-        setPaintContext(new PaintContext(insets, dimension, false, cacheMode, maxH, maxV));
+
+        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
     }
 
-    protected String getImageName(Which state) {
-        String name = getInternalImageName(state);
-
-        try {
-            segmentedFirst = getImage(name + "_segmented_first");
-            segmentedMiddle = getImage(name + "_segmented_middle");
-            segmentedLast = getImage(name + "_segmented_last");
-        } catch (Exception e) {
-            segmentedFirst = getImage(name);
-            segmentedMiddle = segmentedFirst;
-            segmentedLast = segmentedFirst;
-        }
-
-        return name;
+    protected Object[] getExtendedCacheKeys(JComponent c) {
+        Object[] extendedCacheKeys = new Object[] {};
+        return extendedCacheKeys;
     }
 
-    private String getInternalImageName(Which state) {
-        switch (state) {
-        case BACKGROUND_DEFAULT:
-            return "button_default";
-        case BACKGROUND_DEFAULT_FOCUSED:
-            return "button_default";
-        case BACKGROUND_MOUSEOVER_DEFAULT:
-            return "button_default";
-        case BACKGROUND_MOUSEOVER_DEFAULT_FOCUSED:
-            return "button_default";
-        case BACKGROUND_PRESSED_DEFAULT:
-            return "button_default_pressed";
-        case BACKGROUND_PRESSED_DEFAULT_FOCUSED:
-            return "button_default_pressed";
-        case BACKGROUND_DISABLED:
-            return "button_disabled";
-        case BACKGROUND_ENABLED:
-            return "button_enabled";
-        case BACKGROUND_FOCUSED:
-            return "button_enabled";
-        case BACKGROUND_MOUSEOVER:
-            return "button_enabled";
-        case BACKGROUND_MOUSEOVER_FOCUSED:
-            return "button_enabled";
-        case BACKGROUND_PRESSED:
-            return "button_pressed";
-        case BACKGROUND_PRESSED_FOCUSED:
-            return "button_pressed";
-        case BACKGROUND_SELECTED:
-            return "button_default";
-        case BACKGROUND_SELECTED_FOCUSED:
-            return "button_default";
-        case BACKGROUND_PRESSED_SELECTED:
-            return "button_pressed";
-        case BACKGROUND_PRESSED_SELECTED_FOCUSED:
-            return "button_pressed";
-        case BACKGROUND_DISABLED_SELECTED:
-            return "button_disabled_selected";
-        }
-        // Catch-all for anything we don't specify.
-        return "button_enabled";
+    protected final PaintContext getPaintContext() {
+        return ctx;
     }
 
-    @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         if ("segmented".equals(c.getClientProperty("JButton.buttonType"))) {
             String position = (String) c.getClientProperty("JButton.segmentPosition");
