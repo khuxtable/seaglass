@@ -19,7 +19,7 @@ If you are using Maven, you may include the following in your `pom.xml' file:
     <dependency>
         <groupId>com.seaglass</groupId>
         <artifactId>seaglass</artifactId>
-        <version>0.0.4-0091203.184452-2</version>
+        <version>0.0.4-SNAPSHOT</version>
     </dependency>
 </dependencies>
 }}}
