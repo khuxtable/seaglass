@@ -142,7 +142,7 @@ public abstract class Effect {
             // Determine the type of transparency of the new buffered image
             int transparency = Transparency.OPAQUE;
             if (hasAlpha) {
-                transparency = Transparency.BITMASK;
+                transparency = Transparency.TRANSLUCENT;
             }
 
             // Create the buffered image
