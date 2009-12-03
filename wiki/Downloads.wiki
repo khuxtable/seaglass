@@ -2,6 +2,8 @@
 
 Download the Sea Glass Look and Feel.
 
+== Maven ==
+
 If you are using Maven, you may include the following in your `pom.xml' file:
 
 {{{
@@ -22,7 +24,7 @@ If you are using Maven, you may include the following in your `pom.xml' file:
 </dependencies>
 }}}
 
-= Versions =
+== Simple Download ==
 
 || Version || Link ||
 || 0.0.4 || [http://seaglass.googlecode.com/svn/repo/com/seaglass/seaglass/0.0.4-SNAPSHOT/seaglass-0.0.4-0091203.184452-2.jar Snapshot from 2009/12/03 18:44:52 2] ||
