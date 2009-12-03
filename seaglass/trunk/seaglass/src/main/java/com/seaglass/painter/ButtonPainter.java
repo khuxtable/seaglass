@@ -26,11 +26,10 @@ import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import com.seaglass.effect.DropShadowEffect;
@@ -64,6 +63,10 @@ public final class ButtonPainter extends AbstractRegionPainter {
         BACKGROUND_PRESSED_SELECTED,
         BACKGROUND_PRESSED_SELECTED_FOCUSED,
         BACKGROUND_DISABLED_SELECTED
+    };
+
+    private enum SegmentStatus {
+        NONE, FIRST, MIDDLE, LAST
     };
 
     private static final Insets    insets                             = new Insets(7, 7, 7, 7);
@@ -129,11 +132,8 @@ public final class ButtonPainter extends AbstractRegionPainter {
     private final Color            disabledSelectedBackgroundTop      = new Color(0x8AAFE0);
     private final Color            disabledSelectedBackgroundBottom   = new Color(0x5785BF);
 
-    private RoundRectangle2D       roundRect                          = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
+    private Path2D                 path                               = new Path2D.Double();
 
-    private ImageIcon              segmentedFirst;
-    private ImageIcon              segmentedMiddle;
-    private ImageIcon              segmentedLast;
     private Which                  state;
     private boolean                focused;
     private Effect                 dropShadow                         = new SeaGlassDropShadowEffect();
@@ -178,17 +178,16 @@ public final class ButtonPainter extends AbstractRegionPainter {
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        if ("segmented".equals(c.getClientProperty("JButton.buttonType"))) {
+        SegmentStatus segmentStatus = SegmentStatus.NONE;
+        Object buttonType = c.getClientProperty("JButton.buttonType");
+        if ("segmented".equals(buttonType) || "segmentedTextured".equals(buttonType)) {
             String position = (String) c.getClientProperty("JButton.segmentPosition");
             if ("first".equals(position)) {
-                segmentedFirst.paintIcon(c, g, 0, 0);
-                return;
+                segmentStatus = SegmentStatus.FIRST;
             } else if ("middle".equals(position)) {
-                segmentedMiddle.paintIcon(c, g, 0, 0);
-                return;
+                segmentStatus = SegmentStatus.MIDDLE;
             } else if ("last".equals(position)) {
-                segmentedLast.paintIcon(c, g, 0, 0);
-                return;
+                segmentStatus = SegmentStatus.LAST;
             }
         }
 
@@ -199,36 +198,37 @@ public final class ButtonPainter extends AbstractRegionPainter {
         case BACKGROUND_MOUSEOVER_DEFAULT_FOCUSED:
         case BACKGROUND_SELECTED:
         case BACKGROUND_SELECTED_FOCUSED:
-            drawButton(g, c, width, height, defaultBackgroundTop, defaultBackgroundBottom, defaultColor, defaultLowerShineTop,
-                defaultLowerShineBottom, defaultLowerShineMidpoint, defaultUpperShineTop, defaultUpperShineBottom);
+            drawButton(g, c, width, height, segmentStatus, defaultBackgroundTop, defaultBackgroundBottom, defaultColor,
+                defaultLowerShineTop, defaultLowerShineBottom, defaultLowerShineMidpoint, defaultUpperShineTop, defaultUpperShineBottom);
             break;
         case BACKGROUND_PRESSED_DEFAULT:
         case BACKGROUND_PRESSED_DEFAULT_FOCUSED:
-            drawButton(g, c, width, height, pressedDefaultBackgroundTop, pressedDefaultBackgroundBottom, pressedDefaultColor,
-                pressedDefaultLowerShineTop, pressedDefaultLowerShineBottom, pressedDefaultLowerShineMidpoint, pressedDefaultUpperShineTop,
-                pressedDefaultUpperShineBottom);
+            drawButton(g, c, width, height, segmentStatus, pressedDefaultBackgroundTop, pressedDefaultBackgroundBottom,
+                pressedDefaultColor, pressedDefaultLowerShineTop, pressedDefaultLowerShineBottom, pressedDefaultLowerShineMidpoint,
+                pressedDefaultUpperShineTop, pressedDefaultUpperShineBottom);
             break;
         case BACKGROUND_DISABLED:
-            drawButton(g, c, width, height, disabledBackgroundTop, disabledBackgroundBottom, disabledColor, disabledLowerShineTop,
-                disabledLowerShineBottom, disabledLowerShineMidpoint, disabledUpperShineTop, disabledUpperShineBottom);
+            drawButton(g, c, width, height, segmentStatus, disabledBackgroundTop, disabledBackgroundBottom, disabledColor,
+                disabledLowerShineTop, disabledLowerShineBottom, disabledLowerShineMidpoint, disabledUpperShineTop,
+                disabledUpperShineBottom);
             break;
         case BACKGROUND_ENABLED:
         case BACKGROUND_FOCUSED:
         case BACKGROUND_MOUSEOVER:
         case BACKGROUND_MOUSEOVER_FOCUSED:
-            drawButton(g, c, width, height, enabledBackgroundTop, enabledBackgroundBottom, enabledColor, enabledLowerShineTop,
-                enabledLowerShineBottom, enabledLowerShineMidpoint, enabledUpperShineTop, enabledUpperShineBottom);
+            drawButton(g, c, width, height, segmentStatus, enabledBackgroundTop, enabledBackgroundBottom, enabledColor,
+                enabledLowerShineTop, enabledLowerShineBottom, enabledLowerShineMidpoint, enabledUpperShineTop, enabledUpperShineBottom);
             break;
         case BACKGROUND_PRESSED:
         case BACKGROUND_PRESSED_FOCUSED:
         case BACKGROUND_PRESSED_SELECTED:
         case BACKGROUND_PRESSED_SELECTED_FOCUSED:
-            drawButton(g, c, width, height, pressedBackgroundTop, pressedBackgroundBottom, pressedColor, pressedLowerShineTop,
-                pressedLowerShineBottom, pressedLowerShineMidpoint, pressedUpperShineTop, pressedUpperShineBottom);
+            drawButton(g, c, width, height, segmentStatus, pressedBackgroundTop, pressedBackgroundBottom, pressedColor,
+                pressedLowerShineTop, pressedLowerShineBottom, pressedLowerShineMidpoint, pressedUpperShineTop, pressedUpperShineBottom);
             break;
         case BACKGROUND_DISABLED_SELECTED:
-            drawButton(g, c, width, height, disabledSelectedBackgroundTop, disabledSelectedBackgroundBottom, disabledSelectedColor,
-                disabledSelectedLowerShineTop, disabledSelectedLowerShineBottom, disabledSelectedLowerShineMidpoint,
+            drawButton(g, c, width, height, segmentStatus, disabledSelectedBackgroundTop, disabledSelectedBackgroundBottom,
+                disabledSelectedColor, disabledSelectedLowerShineTop, disabledSelectedLowerShineBottom, disabledSelectedLowerShineMidpoint,
                 disabledSelectedUpperShineTop, disabledSelectedUpperShineBottom);
             break;
         }
@@ -237,26 +237,27 @@ public final class ButtonPainter extends AbstractRegionPainter {
     /*
      * Draw a button.
      */
-    private void drawButton(Graphics2D g, JComponent c, int width, int height, Color backgroundTop, Color backgroundBottom,
-        Color mainColor, Color lowerShineTop, Color lowerShineBottom, float lowerShineMidpoint, Color upperShineTop, Color upperShineBottom) {
+    private void drawButton(Graphics2D g, JComponent c, int width, int height, SegmentStatus segmentStatus, Color backgroundTop,
+        Color backgroundBottom, Color mainColor, Color lowerShineTop, Color lowerShineBottom, float lowerShineMidpoint,
+        Color upperShineTop, Color upperShineBottom) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        roundRect = decodeRoundBackground();
-        g.drawImage(createDropShadowImage(roundRect), 0, 0, null);
-        g.setPaint(decodeGradientBackground(roundRect, backgroundTop, backgroundBottom));
-        g.fill(roundRect);
+        path = decodeRoundBackground(segmentStatus);
+        g.drawImage(createDropShadowImage(path), 0, 0, null);
+        g.setPaint(decodeGradientBackground(path, backgroundTop, backgroundBottom));
+        g.fill(path);
         if (focused) {
-            roundRect = decodeRoundFocus();
+            path = decodeRoundFocus(segmentStatus);
             g.setColor(colorFocus);
-            g.fill(roundRect);
+            g.fill(path);
         }
-        roundRect = decodeRoundMain();
+        path = decodeRoundMain(segmentStatus);
         g.setColor(mainColor);
-        g.fill(roundRect);
-        g.setPaint(decodeGradientBottomShine(roundRect, lowerShineTop, lowerShineBottom, lowerShineMidpoint));
-        g.fill(roundRect);
-        g.setPaint(decodeGradientTopShine(roundRect, upperShineTop, upperShineBottom));
-        g.fill(roundRect);
+        g.fill(path);
+        g.setPaint(decodeGradientBottomShine(path, lowerShineTop, lowerShineBottom, lowerShineMidpoint));
+        g.fill(path);
+        g.setPaint(decodeGradientTopShine(path, upperShineTop, upperShineBottom));
+        g.fill(path);
     }
 
     /**
@@ -270,19 +271,110 @@ public final class ButtonPainter extends AbstractRegionPainter {
         return dropShadow.applyEffect(bimage, null, dimension.width, dimension.height);
     }
 
-    private RoundRectangle2D decodeRoundFocus() {
-        roundRect.setRoundRect(0, 0, 86, 28, 9.5f, 9.5f);
-        return roundRect;
+    private Path2D decodeRoundFocus(SegmentStatus segmentStatus) {
+        switch (segmentStatus) {
+        case FIRST:
+            setFirstRoundRect(0d, 0d, 86d, 28d, 4.75d, 4.75d);
+            break;
+        case MIDDLE:
+            setRect(0d, 0d, 86d, 28d);
+            break;
+        case LAST:
+            setLastRoundRect(0d, 0d, 86d, 28d, 4.75d, 4.75d);
+            break;
+        default:
+            setRoundRect(0d, 0d, 86d, 28d, 4.75d, 4.75d);
+            break;
+        }
+        return path;
     }
 
-    private RoundRectangle2D decodeRoundBackground() {
-        roundRect.setRoundRect(1, 1, 84, 26, 8f, 8f);
-        return roundRect;
+    private Path2D decodeRoundBackground(SegmentStatus segmentStatus) {
+        switch (segmentStatus) {
+        case FIRST:
+            setFirstRoundRect(1d, 1d, 85d, 26d, 4d, 4d);
+            break;
+        case MIDDLE:
+            setRect(0d, 1d, 86d, 26d);
+            break;
+        case LAST:
+            setLastRoundRect(0d, 1d, 85d, 26d, 4d, 4d);
+            break;
+        default:
+            setRoundRect(1d, 1d, 84d, 26d, 4d, 4d);
+            break;
+        }
+        return path;
     }
 
-    private RoundRectangle2D decodeRoundMain() {
-        roundRect.setRoundRect(2, 2, 82, 24, 6f, 6f);
-        return roundRect;
+    private Path2D decodeRoundMain(SegmentStatus segmentStatus) {
+        switch (segmentStatus) {
+        case FIRST:
+            setFirstRoundRect(2d, 2d, 84d, 24d, 3d, 3d);
+            break;
+        case MIDDLE:
+            setRect(1d, 2d, 85d, 24d);
+            break;
+        case LAST:
+            setLastRoundRect(1d, 2d, 83d, 24d, 3d, 3d);
+            break;
+        default:
+            setRoundRect(2d, 2d, 82d, 24d, 3d, 3d);
+            break;
+        }
+        return path;
+    }
+
+    private void setRoundRect(Double left, Double top, Double width, Double height, Double arcW, Double arcH) {
+        Double bottom = top + height;
+        Double right = left + width;
+        path.reset();
+        path.moveTo(left + arcW, top);
+        path.quadTo(left, top, left, top + arcH);
+        path.lineTo(left, bottom - arcH);
+        path.quadTo(left, bottom, left + arcW, bottom);
+        path.lineTo(right - arcW, bottom);
+        path.quadTo(right, bottom, right, bottom - arcH);
+        path.lineTo(right, top + arcH);
+        path.quadTo(right, top, right - arcW, top);
+        path.closePath();
+    }
+
+    private void setFirstRoundRect(Double left, Double top, Double width, Double height, Double arcW, Double arcH) {
+        Double bottom = top + height;
+        Double right = left + width;
+        path.reset();
+        path.moveTo(left + arcW, top);
+        path.quadTo(left, top, left, top + arcH);
+        path.lineTo(left, bottom - arcH);
+        path.quadTo(left, bottom, left + arcW, bottom);
+        path.lineTo(right, bottom);
+        path.lineTo(right, top);
+        path.closePath();
+    }
+
+    private void setLastRoundRect(Double left, Double top, Double width, Double height, Double arcW, Double arcH) {
+        Double bottom = top + height;
+        Double right = left + width;
+        path.reset();
+        path.moveTo(left, top);
+        path.lineTo(left, bottom);
+        path.lineTo(right - arcW, bottom);
+        path.quadTo(right, bottom, right, bottom - arcH);
+        path.lineTo(right, top + arcH);
+        path.quadTo(right, top, right - arcW, top);
+        path.closePath();
+    }
+
+    private void setRect(Double left, Double top, Double width, Double height) {
+        Double bottom = top + height;
+        Double right = left + width;
+        path.reset();
+        path.moveTo(left, top);
+        path.lineTo(left, bottom);
+        path.lineTo(right, bottom);
+        path.lineTo(right, top);
+        path.closePath();
     }
 
     /**
