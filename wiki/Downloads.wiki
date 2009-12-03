@@ -2,8 +2,27 @@
 
 Download the Sea Glass Look and Feel.
 
+If you are using Maven, you may include the following in your `pom.xml' file:
+
+{{{
+<repositories>
+    <repository>
+        <id>seaglass</id>
+        <name>Sea Glass Look and Feel Repository</name>
+        <url>http://seaglass.googlecode.com/svn/repo</url>
+    </repository>
+</repositories>
+...
+<dependencies>
+    <dependency>
+        <groupId>com.seaglass</groupId>
+        <artifactId>seaglass</artifactId>
+        <version>0.0.4-0091203.184452-2</version>
+    </dependency>
+</dependencies>
+}}}
 
 = Versions =
 
 || Version || Link ||
-|| 0.0.4 || [http://seaglass.googlecode.com/svn/repo/com/seaglass/seaglass/0.0.4-SNAPSHOT/seaglass-0.0.4-20091202.223716-1.jar Snapshot from 2009/12/02 22:37:16 1] ||
+|| 0.0.4 || [http://seaglass.googlecode.com/svn/repo/com/seaglass/seaglass/0.0.4-SNAPSHOT/seaglass-0.0.4-0091203.184452-2.jar Snapshot from 2009/12/03 18:44:52 2] ||
