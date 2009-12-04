@@ -108,28 +108,28 @@ public final class ButtonPainter extends AbstractRegionPainter {
     private final ButtonVariants   textured    = new ButtonVariants(
                                                // Enabled
                                                    new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true),
-                                                       new Color(0x00f7fcff, true), new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2),
-                                                       new Color(0x88ade0), new Color(0x5785bf)),
+                                                       new Color(0, true), new Color(0, true), 0.5f, new Color(0xbbbbbb),
+                                                       new Color(0x555555), new Color(0x4c4c4c)),
                                                    // Enabled+Pressed
-                                                   new ButtonStateColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true),
-                                                       new Color(0x00A8D9FC, true), new Color(0xffb4d9ee, true), 0.4f, new Color(0x134D8C),
-                                                       new Color(0x4F7BBF), new Color(0x3F76BF)),
+                                                   new ButtonStateColors(new Color(0, true), new Color(0, true),
+                                                       new Color(0x00888888, true), new Color(0xffcccccc, true), 0.5f, new Color(0x777777),
+                                                       new Color(0x555555), new Color(0x4c4c4c)),
                                                    // Default
-                                                   new ButtonStateColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true),
-                                                       new Color(0x00A8D9FC, true), new Color(0xffC0E8FF, true), 0.4f, new Color(0x276FB2),
-                                                       new Color(0x4F7BBF), new Color(0x3F76BF)),
+                                                   new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true),
+                                                       new Color(0, true), new Color(0, true), 0.5f, new Color(0x999999),
+                                                       new Color(0x555555), new Color(0x4c4c4c)),
                                                    // Default+Pressed
-                                                   new ButtonStateColors(new Color(0xc0eeeeee, true), new Color(0x00eeeeee, true),
-                                                       new Color(0x00A8D9FC, true), new Color(0xffB4D9EE, true), 0.4f, new Color(0x134D8C),
-                                                       new Color(0x4F7BBF), new Color(0x3F76BF)),
+                                                   new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true),
+                                                       new Color(0, true), new Color(0, true), 0.5f, new Color(0x777777),
+                                                       new Color(0x555555), new Color(0x4c4c4c)),
                                                    // Disabled
-                                                   new ButtonStateColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true),
-                                                       new Color(0x00A8D9FC, true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xeeeeee),
-                                                       new Color(0x8AAFE0), new Color(0x5785BF)),
+                                                   new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true),
+                                                       new Color(0, true), new Color(0, true), 0.5f, new Color(0xbbbbbb),
+                                                       new Color(0x555555), new Color(0x4c4c4c)),
                                                    // Disabled+Selected
-                                                   new ButtonStateColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true),
-                                                       new Color(0x00A8D9FC, true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xaaaaaa),
-                                                       new Color(0x8AAFE0), new Color(0x5785BF)));
+                                                   new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true),
+                                                       new Color(0, true), new Color(0, true), 0.5f, new Color(0xaaaaaa),
+                                                       new Color(0x555555), new Color(0x4c4c4c)));
 
     private Path2D                 path        = new Path2D.Double();
 
@@ -249,7 +249,7 @@ public final class ButtonPainter extends AbstractRegionPainter {
         if (focused) {
             path = decodeRoundFocus(segmentStatus);
             g.setColor(colorFocus);
-            g.setStroke(new BasicStroke(1f));
+            g.setStroke(new BasicStroke(1.5f));
             g.draw(path);
         }
     }
@@ -266,54 +266,57 @@ public final class ButtonPainter extends AbstractRegionPainter {
     }
 
     private Path2D decodeRoundFocus(SegmentStatus segmentStatus) {
+        double arcSize = 5.25d;
         switch (segmentStatus) {
         case FIRST:
-            setFirstRoundRect(0d, 0d, 86d, 28d, 5d, 5d);
+            setFirstRoundRect(0d, 0d, 85d, 27d, arcSize, arcSize);
             break;
         case MIDDLE:
-            setRect(0d, 0d, 86d, 28d);
+            setRect(0d, 0d, 85d, 27d);
             break;
         case LAST:
-            setLastRoundRect(0d, 0d, 86d, 28d, 5d, 5d);
+            setLastRoundRect(0d, 0d, 85d, 27d, arcSize, arcSize);
             break;
         default:
-            setRoundRect(0d, 0d, 86d, 28d, 5d, 5d);
+            setRoundRect(0d, 0d, 85d, 27d, arcSize, arcSize);
             break;
         }
         return path;
     }
 
     private Path2D decodeRoundBackground(SegmentStatus segmentStatus) {
+        double arcSize = 4d;
         switch (segmentStatus) {
         case FIRST:
-            setFirstRoundRect(1d, 1d, 85d, 26d, 4d, 4d);
+            setFirstRoundRect(1d, 1d, 85d, 26d, arcSize, arcSize);
             break;
         case MIDDLE:
             setRect(0d, 1d, 86d, 26d);
             break;
         case LAST:
-            setLastRoundRect(0d, 1d, 85d, 26d, 4d, 4d);
+            setLastRoundRect(0d, 1d, 85d, 26d, arcSize, arcSize);
             break;
         default:
-            setRoundRect(1d, 1d, 84d, 26d, 4d, 4d);
+            setRoundRect(1d, 1d, 84d, 26d, arcSize, arcSize);
             break;
         }
         return path;
     }
 
     private Path2D decodeRoundMain(SegmentStatus segmentStatus) {
+        double arcSize = 3d;
         switch (segmentStatus) {
         case FIRST:
-            setFirstRoundRect(2d, 2d, 83d, 24d, 3d, 3d);
+            setFirstRoundRect(2d, 2d, 83d, 24d, arcSize, arcSize);
             break;
         case MIDDLE:
             setRect(0d, 2d, 85d, 24d);
             break;
         case LAST:
-            setLastRoundRect(0d, 2d, 84d, 24d, 3d, 3d);
+            setLastRoundRect(0d, 2d, 84d, 24d, arcSize, arcSize);
             break;
         default:
-            setRoundRect(2d, 2d, 82d, 24d, 3d, 3d);
+            setRoundRect(2d, 2d, 82d, 24d, arcSize, arcSize);
             break;
         }
         return path;
