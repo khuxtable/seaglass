@@ -19,7 +19,7 @@ If you are using Maven, you may include the following in your `pom.xml' file:
     <dependency>
         <groupId>com.seaglass</groupId>
         <artifactId>seaglass</artifactId>
-        <version>0.0.4-SNAPSHOT</version>
+        <version>0.1</version>
     </dependency>
 </dependencies>
 }}}
@@ -27,4 +27,4 @@ If you are using Maven, you may include the following in your `pom.xml' file:
 == Simple Download ==
 
 || Version || Link ||
-|| 0.0.4 || [http://seaglass.googlecode.com/svn/repo/com/seaglass/seaglass/0.0.4-SNAPSHOT/seaglass-0.0.4-0091203.184452-2.jar Snapshot from 2009/12/03 18:44:52 2] ||
+|| 0.1 || [http://seaglass.googlecode.com/svn/repo/com/seaglass/seaglass/0.1/seaglass-0.1.jar seaglass-0.1.jar] ||
