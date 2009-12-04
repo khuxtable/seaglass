@@ -19,6 +19,7 @@
  */
 package com.seaglass.painter;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -69,74 +70,72 @@ public final class ButtonPainter extends AbstractRegionPainter {
         NONE, FIRST, MIDDLE, LAST
     };
 
-    private static final Insets    insets                             = new Insets(7, 7, 7, 7);
-    private static final Dimension dimension                          = new Dimension(86, 29);
-    private static final CacheMode cacheMode                          = CacheMode.NINE_SQUARE_SCALE;
-    private static final Double    maxH                               = Double.POSITIVE_INFINITY;
-    private static final Double    maxV                               = Double.POSITIVE_INFINITY;
+    private static final Insets    insets      = new Insets(7, 7, 7, 7);
+    private static final Dimension dimension   = new Dimension(86, 29);
+    private static final CacheMode cacheMode   = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH        = Double.POSITIVE_INFINITY;
+    private static final Double    maxV        = Double.POSITIVE_INFINITY;
 
-    private final Color            colorShadow                        = new Color(0x000000);
-    private final Color            colorFocus                         = new Color(0x79a0cf);
+    private final Color            colorShadow = new Color(0x000000);
+    private final Color            colorFocus  = new Color(0x79a0cf);
 
-    private final Color            enabledUpperShineTop               = new Color(0xf3ffffff, true);
-    private final Color            enabledUpperShineBottom            = new Color(0x00ffffff, true);
-    private final Color            enabledLowerShineTop               = new Color(0x00f7fcff, true);
-    private final Color            enabledLowerShineBottom            = new Color(0xffffffff, true);
-    private final float            enabledLowerShineMidpoint          = 0.5f;
-    private final Color            enabledColor                       = new Color(0xa8d2f2);
-    private final Color            enabledBackgroundTop               = new Color(0x88ade0);
-    private final Color            enabledBackgroundBottom            = new Color(0x5785bf);
+    private final ButtonVariants   normal      = new ButtonVariants(
+                                               // Enabled
+                                                   new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true),
+                                                       new Color(0x00f7fcff, true), new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2),
+                                                       new Color(0x88ade0), new Color(0x5785bf)),
+                                                   // Enabled+Pressed
+                                                   new ButtonStateColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true),
+                                                       new Color(0x00A8D9FC, true), new Color(0xffb4d9ee, true), 0.4f, new Color(0x134D8C),
+                                                       new Color(0x4F7BBF), new Color(0x3F76BF)),
+                                                   // Default
+                                                   new ButtonStateColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true),
+                                                       new Color(0x00A8D9FC, true), new Color(0xffC0E8FF, true), 0.4f, new Color(0x276FB2),
+                                                       new Color(0x4F7BBF), new Color(0x3F76BF)),
+                                                   // Default+Pressed
+                                                   new ButtonStateColors(new Color(0xc0eeeeee, true), new Color(0x00eeeeee, true),
+                                                       new Color(0x00A8D9FC, true), new Color(0xffB4D9EE, true), 0.4f, new Color(0x134D8C),
+                                                       new Color(0x4F7BBF), new Color(0x3F76BF)),
+                                                   // Disabled
+                                                   new ButtonStateColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true),
+                                                       new Color(0x00A8D9FC, true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xeeeeee),
+                                                       new Color(0x8AAFE0), new Color(0x5785BF)),
+                                                   // Disabled+Selected
+                                                   new ButtonStateColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true),
+                                                       new Color(0x00A8D9FC, true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xaaaaaa),
+                                                       new Color(0x8AAFE0), new Color(0x5785BF)));
 
-    private final Color            pressedUpperShineTop               = new Color(0xb3eeeeee, true);
-    private final Color            pressedUpperShineBottom            = new Color(0x00ffffff, true);
-    private final Color            pressedLowerShineTop               = new Color(0x00A8D9FC, true);
-    private final Color            pressedLowerShineBottom            = new Color(0xffb4d9ee, true);
-    private final float            pressedLowerShineMidpoint          = 0.4f;
-    private final Color            pressedColor                       = new Color(0x134D8C);
-    private final Color            pressedBackgroundTop               = new Color(0x4F7BBF);
-    private final Color            pressedBackgroundBottom            = new Color(0x3F76BF);
+    private final ButtonVariants   textured    = new ButtonVariants(
+                                               // Enabled
+                                                   new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true),
+                                                       new Color(0x00f7fcff, true), new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2),
+                                                       new Color(0x88ade0), new Color(0x5785bf)),
+                                                   // Enabled+Pressed
+                                                   new ButtonStateColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true),
+                                                       new Color(0x00A8D9FC, true), new Color(0xffb4d9ee, true), 0.4f, new Color(0x134D8C),
+                                                       new Color(0x4F7BBF), new Color(0x3F76BF)),
+                                                   // Default
+                                                   new ButtonStateColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true),
+                                                       new Color(0x00A8D9FC, true), new Color(0xffC0E8FF, true), 0.4f, new Color(0x276FB2),
+                                                       new Color(0x4F7BBF), new Color(0x3F76BF)),
+                                                   // Default+Pressed
+                                                   new ButtonStateColors(new Color(0xc0eeeeee, true), new Color(0x00eeeeee, true),
+                                                       new Color(0x00A8D9FC, true), new Color(0xffB4D9EE, true), 0.4f, new Color(0x134D8C),
+                                                       new Color(0x4F7BBF), new Color(0x3F76BF)),
+                                                   // Disabled
+                                                   new ButtonStateColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true),
+                                                       new Color(0x00A8D9FC, true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xeeeeee),
+                                                       new Color(0x8AAFE0), new Color(0x5785BF)),
+                                                   // Disabled+Selected
+                                                   new ButtonStateColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true),
+                                                       new Color(0x00A8D9FC, true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xaaaaaa),
+                                                       new Color(0x8AAFE0), new Color(0x5785BF)));
 
-    private final Color            defaultUpperShineTop               = new Color(0xc0ffffff, true);
-    private final Color            defaultUpperShineBottom            = new Color(0x00eeeeee, true);
-    private final Color            defaultLowerShineTop               = new Color(0x00A8D9FC, true);
-    private final Color            defaultLowerShineBottom            = new Color(0xffC0E8FF, true);
-    private final float            defaultLowerShineMidpoint          = 0.4f;
-    private final Color            defaultColor                       = new Color(0x276FB2);
-    private final Color            defaultBackgroundTop               = new Color(0x4F7BBF);
-    private final Color            defaultBackgroundBottom            = new Color(0x3F76BF);
-
-    private final Color            pressedDefaultUpperShineTop        = new Color(0xc0eeeeee, true);
-    private final Color            pressedDefaultUpperShineBottom     = new Color(0x00eeeeee, true);
-    private final Color            pressedDefaultLowerShineTop        = new Color(0x00A8D9FC, true);
-    private final Color            pressedDefaultLowerShineBottom     = new Color(0xffB4D9EE, true);
-    private final float            pressedDefaultLowerShineMidpoint   = 0.4f;
-    private final Color            pressedDefaultColor                = new Color(0x134D8C);
-    private final Color            pressedDefaultBackgroundTop        = new Color(0x4F7BBF);
-    private final Color            pressedDefaultBackgroundBottom     = new Color(0x3F76BF);
-
-    private final Color            disabledUpperShineTop              = new Color(0xc0F4F8FB, true);
-    private final Color            disabledUpperShineBottom           = new Color(0x00ffffff, true);
-    private final Color            disabledLowerShineTop              = new Color(0x00A8D9FC, true);
-    private final Color            disabledLowerShineBottom           = new Color(0xffF7FCFF, true);
-    private final float            disabledLowerShineMidpoint         = 0.4f;
-    private final Color            disabledColor                      = new Color(0xeeeeee);
-    private final Color            disabledBackgroundTop              = new Color(0x8AAFE0);
-    private final Color            disabledBackgroundBottom           = new Color(0x5785BF);
-
-    private final Color            disabledSelectedUpperShineTop      = new Color(0xc0F4F8FB, true);
-    private final Color            disabledSelectedUpperShineBottom   = new Color(0x00ffffff, true);
-    private final Color            disabledSelectedLowerShineTop      = new Color(0x00A8D9FC, true);
-    private final Color            disabledSelectedLowerShineBottom   = new Color(0xffF7FCFF, true);
-    private final float            disabledSelectedLowerShineMidpoint = 0.4f;
-    private final Color            disabledSelectedColor              = new Color(0xaaaaaa);
-    private final Color            disabledSelectedBackgroundTop      = new Color(0x8AAFE0);
-    private final Color            disabledSelectedBackgroundBottom   = new Color(0x5785BF);
-
-    private Path2D                 path                               = new Path2D.Double();
+    private Path2D                 path        = new Path2D.Double();
 
     private Which                  state;
     private boolean                focused;
-    private Effect                 dropShadow                         = new SeaGlassDropShadowEffect();
+    private Effect                 dropShadow  = new SeaGlassDropShadowEffect();
 
     private PaintContext           ctx;
 
@@ -178,9 +177,14 @@ public final class ButtonPainter extends AbstractRegionPainter {
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        SegmentStatus segmentStatus = SegmentStatus.NONE;
         Object buttonType = c.getClientProperty("JButton.buttonType");
-        if ("segmented".equals(buttonType) || "segmentedTextured".equals(buttonType)) {
+        ButtonVariants buttonVariants = normal;
+        if ("segmentedTextured".equals(buttonType)) {
+            buttonVariants = textured;
+        }
+
+        SegmentStatus segmentStatus = SegmentStatus.NONE;
+        if (buttonType != null && buttonType instanceof String && ((String) buttonType).startsWith("segmented")) {
             String position = (String) c.getClientProperty("JButton.segmentPosition");
             if ("first".equals(position)) {
                 segmentStatus = SegmentStatus.FIRST;
@@ -198,38 +202,29 @@ public final class ButtonPainter extends AbstractRegionPainter {
         case BACKGROUND_MOUSEOVER_DEFAULT_FOCUSED:
         case BACKGROUND_SELECTED:
         case BACKGROUND_SELECTED_FOCUSED:
-            drawButton(g, c, width, height, segmentStatus, defaultBackgroundTop, defaultBackgroundBottom, defaultColor,
-                defaultLowerShineTop, defaultLowerShineBottom, defaultLowerShineMidpoint, defaultUpperShineTop, defaultUpperShineBottom);
+            drawButton(g, c, width, height, segmentStatus, buttonVariants.defaultButton);
             break;
         case BACKGROUND_PRESSED_DEFAULT:
         case BACKGROUND_PRESSED_DEFAULT_FOCUSED:
-            drawButton(g, c, width, height, segmentStatus, pressedDefaultBackgroundTop, pressedDefaultBackgroundBottom,
-                pressedDefaultColor, pressedDefaultLowerShineTop, pressedDefaultLowerShineBottom, pressedDefaultLowerShineMidpoint,
-                pressedDefaultUpperShineTop, pressedDefaultUpperShineBottom);
+            drawButton(g, c, width, height, segmentStatus, buttonVariants.defaultPressed);
             break;
         case BACKGROUND_DISABLED:
-            drawButton(g, c, width, height, segmentStatus, disabledBackgroundTop, disabledBackgroundBottom, disabledColor,
-                disabledLowerShineTop, disabledLowerShineBottom, disabledLowerShineMidpoint, disabledUpperShineTop,
-                disabledUpperShineBottom);
+            drawButton(g, c, width, height, segmentStatus, buttonVariants.disabled);
             break;
         case BACKGROUND_ENABLED:
         case BACKGROUND_FOCUSED:
         case BACKGROUND_MOUSEOVER:
         case BACKGROUND_MOUSEOVER_FOCUSED:
-            drawButton(g, c, width, height, segmentStatus, enabledBackgroundTop, enabledBackgroundBottom, enabledColor,
-                enabledLowerShineTop, enabledLowerShineBottom, enabledLowerShineMidpoint, enabledUpperShineTop, enabledUpperShineBottom);
+            drawButton(g, c, width, height, segmentStatus, buttonVariants.enabled);
             break;
         case BACKGROUND_PRESSED:
         case BACKGROUND_PRESSED_FOCUSED:
         case BACKGROUND_PRESSED_SELECTED:
         case BACKGROUND_PRESSED_SELECTED_FOCUSED:
-            drawButton(g, c, width, height, segmentStatus, pressedBackgroundTop, pressedBackgroundBottom, pressedColor,
-                pressedLowerShineTop, pressedLowerShineBottom, pressedLowerShineMidpoint, pressedUpperShineTop, pressedUpperShineBottom);
+            drawButton(g, c, width, height, segmentStatus, buttonVariants.enabledPressed);
             break;
         case BACKGROUND_DISABLED_SELECTED:
-            drawButton(g, c, width, height, segmentStatus, disabledSelectedBackgroundTop, disabledSelectedBackgroundBottom,
-                disabledSelectedColor, disabledSelectedLowerShineTop, disabledSelectedLowerShineBottom, disabledSelectedLowerShineMidpoint,
-                disabledSelectedUpperShineTop, disabledSelectedUpperShineBottom);
+            drawButton(g, c, width, height, segmentStatus, buttonVariants.disabledSelected);
             break;
         }
     }
@@ -237,27 +232,26 @@ public final class ButtonPainter extends AbstractRegionPainter {
     /*
      * Draw a button.
      */
-    private void drawButton(Graphics2D g, JComponent c, int width, int height, SegmentStatus segmentStatus, Color backgroundTop,
-        Color backgroundBottom, Color mainColor, Color lowerShineTop, Color lowerShineBottom, float lowerShineMidpoint,
-        Color upperShineTop, Color upperShineBottom) {
+    private void drawButton(Graphics2D g, JComponent c, int width, int height, SegmentStatus segmentStatus, ButtonStateColors bsc) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         path = decodeRoundBackground(segmentStatus);
         g.drawImage(createDropShadowImage(path), 0, 0, null);
-        g.setPaint(decodeGradientBackground(path, backgroundTop, backgroundBottom));
+        g.setPaint(decodeGradientBackground(path, bsc.backgroundTop, bsc.backgroundBottom));
+        g.fill(path);
+        path = decodeRoundMain(segmentStatus);
+        g.setColor(bsc.color);
+        g.fill(path);
+        g.setPaint(decodeGradientBottomShine(path, bsc.lowerShineTop, bsc.lowerShineBottom, bsc.lowerShineMidpoint));
+        g.fill(path);
+        g.setPaint(decodeGradientTopShine(path, bsc.upperShineTop, bsc.upperShineBottom));
         g.fill(path);
         if (focused) {
             path = decodeRoundFocus(segmentStatus);
             g.setColor(colorFocus);
-            g.fill(path);
+            g.setStroke(new BasicStroke(1f));
+            g.draw(path);
         }
-        path = decodeRoundMain(segmentStatus);
-        g.setColor(mainColor);
-        g.fill(path);
-        g.setPaint(decodeGradientBottomShine(path, lowerShineTop, lowerShineBottom, lowerShineMidpoint));
-        g.fill(path);
-        g.setPaint(decodeGradientTopShine(path, upperShineTop, upperShineBottom));
-        g.fill(path);
     }
 
     /**
@@ -274,16 +268,16 @@ public final class ButtonPainter extends AbstractRegionPainter {
     private Path2D decodeRoundFocus(SegmentStatus segmentStatus) {
         switch (segmentStatus) {
         case FIRST:
-            setFirstRoundRect(0d, 0d, 86d, 28d, 4.75d, 4.75d);
+            setFirstRoundRect(0d, 0d, 86d, 28d, 5d, 5d);
             break;
         case MIDDLE:
             setRect(0d, 0d, 86d, 28d);
             break;
         case LAST:
-            setLastRoundRect(0d, 0d, 86d, 28d, 4.75d, 4.75d);
+            setLastRoundRect(0d, 0d, 86d, 28d, 5d, 5d);
             break;
         default:
-            setRoundRect(0d, 0d, 86d, 28d, 4.75d, 4.75d);
+            setRoundRect(0d, 0d, 86d, 28d, 5d, 5d);
             break;
         }
         return path;
@@ -430,5 +424,49 @@ public final class ButtonPainter extends AbstractRegionPainter {
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
         return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
+    }
+
+    private class ButtonVariants {
+
+        public ButtonStateColors enabled;
+        public ButtonStateColors enabledPressed;
+        public ButtonStateColors defaultButton;
+        public ButtonStateColors defaultPressed;
+        public ButtonStateColors disabled;
+        public ButtonStateColors disabledSelected;
+
+        public ButtonVariants(ButtonStateColors enabled, ButtonStateColors enabledPressed, ButtonStateColors defaultButton,
+            ButtonStateColors defaultPressed, ButtonStateColors disabled, ButtonStateColors disabledSelected) {
+            this.enabled = enabled;
+            this.enabledPressed = enabledPressed;
+            this.defaultButton = defaultButton;
+            this.defaultPressed = defaultPressed;
+            this.disabled = disabled;
+            this.disabledSelected = disabledSelected;
+        }
+    }
+
+    private class ButtonStateColors {
+
+        public Color upperShineTop;
+        public Color upperShineBottom;
+        public Color lowerShineTop;
+        public Color lowerShineBottom;
+        public float lowerShineMidpoint;
+        public Color color;
+        public Color backgroundTop;
+        public Color backgroundBottom;
+
+        public ButtonStateColors(Color upperShineTop, Color upperShineBottom, Color lowerShineTop, Color lowerShineBottom,
+            float lowerShineMidpoint, Color color, Color backgroundTop, Color backgroundBottom) {
+            this.upperShineTop = upperShineTop;
+            this.upperShineBottom = upperShineBottom;
+            this.lowerShineTop = lowerShineTop;
+            this.lowerShineBottom = lowerShineBottom;
+            this.lowerShineMidpoint = lowerShineMidpoint;
+            this.color = color;
+            this.backgroundTop = backgroundTop;
+            this.backgroundBottom = backgroundBottom;
+        }
     }
 }
