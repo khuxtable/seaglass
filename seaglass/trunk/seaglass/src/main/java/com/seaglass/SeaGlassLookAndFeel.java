@@ -659,7 +659,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         String c = "com.seaglass.painter.ButtonPainter";
 
         // Initialize Button
-        d.put("Button.States", "Enabled,Pressed,Disabled,Focused,Selected,Default");
+        d.put("Button.States", "Enabled,Pressed,Disabled,Focused,Default");
         d.put("Button[Default].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DEFAULT));
         d.put("Button[Default+Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DEFAULT_FOCUSED));
         d.put("Button[Default+Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_DEFAULT));
