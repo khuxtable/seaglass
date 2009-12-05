@@ -26,6 +26,7 @@ import java.awt.Insets;
 import javax.swing.JComponent;
 
 import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglass.painter.button.ButtonVariantPainter;
 import com.seaglass.painter.button.SegmentedButtonPainter;
 import com.seaglass.painter.button.TexturedButtonPainter;
 
@@ -63,8 +64,8 @@ public final class ButtonPainter extends AbstractRegionPainter {
 
     private PaintContext           ctx;
 
-    private SegmentedButtonPainter standard;
-    private SegmentedButtonPainter textured;
+    private ButtonVariantPainter   standard;
+    private ButtonVariantPainter   textured;
 
     /**
      * Create a new ButtonPainter.
@@ -104,12 +105,16 @@ public final class ButtonPainter extends AbstractRegionPainter {
     }
 
     /**
+     * Determine the button painter variant from the component's client
+     * property.
+     * 
      * @param c
-     * @return
+     *            the component.
+     * @return the button painter variant.
      */
-    private SegmentedButtonPainter getButtonPainter(JComponent c) {
+    private ButtonVariantPainter getButtonPainter(JComponent c) {
         Object buttonType = c.getClientProperty("JButton.buttonType");
-        SegmentedButtonPainter button = standard;
+        ButtonVariantPainter button = standard;
         if ("textured".equals(buttonType) || "segmentedTextured".equals(buttonType)) {
             button = textured;
         }
