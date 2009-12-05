@@ -55,6 +55,7 @@ public abstract class ButtonVariantPainter extends AbstractRegionPainter {
         super();
         this.state = state;
         this.ctx = ctx;
+        this.dimension = dimension;
 
         switch (state) {
         case BACKGROUND_DEFAULT_FOCUSED:
