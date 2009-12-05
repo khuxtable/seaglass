@@ -35,7 +35,6 @@ import javax.swing.JComponent;
 import com.seaglass.effect.DropShadowEffect;
 import com.seaglass.effect.Effect;
 import com.seaglass.effect.SeaGlassDropShadowEffect;
-import com.seaglass.painter.AbstractRegionPainter;
 import com.seaglass.painter.ButtonPainter.Which;
 
 /**
@@ -44,17 +43,17 @@ import com.seaglass.painter.ButtonPainter.Which;
  * 
  * @author Kathryn Huxtable
  */
-public class SegmentedButtonPainter extends AbstractRegionPainter {
+public class SegmentedButtonPainter extends ButtonVariantPainter {
 
-    private enum SegmentStatus {
+    enum SegmentStatus {
         NONE, FIRST, MIDDLE, LAST
     };
 
     private final Color      colorShadow = new Color(0x000000);
-    private final Color      colorFocus  = new Color(0x79a0cf);
+    final Color              colorFocus  = new Color(0x79a0cf);
     private Effect           dropShadow  = new SeaGlassDropShadowEffect();
 
-    private Path2D           path        = new Path2D.Double();
+    Path2D                   path        = new Path2D.Double();
 
     public ButtonStateColors enabled;
     public ButtonStateColors enabledPressed;
@@ -62,11 +61,6 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
     public ButtonStateColors defaultPressed;
     public ButtonStateColors disabled;
     public ButtonStateColors disabledSelected;
-
-    private Which            state;
-    private boolean          focused;
-    private PaintContext     ctx;
-    private Dimension        dimension;
 
     /**
      * Create a segmented button painter.
@@ -79,22 +73,7 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
      *            the button dimensions for scaling.
      */
     public SegmentedButtonPainter(Which state, PaintContext ctx, Dimension dimension) {
-        this.state = state;
-        this.ctx = ctx;
-
-        switch (state) {
-        case BACKGROUND_DEFAULT_FOCUSED:
-        case BACKGROUND_PRESSED_DEFAULT_FOCUSED:
-        case BACKGROUND_FOCUSED:
-        case BACKGROUND_PRESSED_FOCUSED:
-        case BACKGROUND_SELECTED_FOCUSED:
-        case BACKGROUND_PRESSED_SELECTED_FOCUSED:
-            focused = true;
-            break;
-        default:
-            focused = false;
-            break;
-        }
+        super(state, ctx, dimension);
 
         // Set the default colors.
         setEnabled(new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true), new Color(
@@ -135,8 +114,8 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
         this.disabledSelected = disabledSelected;
     }
 
-    /*
-     * Paint a button.
+    /**
+     * {@inheritDoc}
      */
     public void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
 
@@ -164,19 +143,12 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
         }
     }
 
-    protected Object[] getExtendedCacheKeys(JComponent c) {
-        Object[] extendedCacheKeys = new Object[] {};
-        return extendedCacheKeys;
-    }
-
-    protected final PaintContext getPaintContext() {
-        return ctx;
-    }
-
     /**
-     * @return
+     * Get the button colors for the state.
+     * 
+     * @return the button color set.
      */
-    private ButtonStateColors getButtonColors() {
+    ButtonStateColors getButtonColors() {
         switch (state) {
         case BACKGROUND_DEFAULT:
         case BACKGROUND_DEFAULT_FOCUSED:
@@ -209,10 +181,13 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
     }
 
     /**
+     * Get the segment status (if any) from the component's client properties.
+     * 
      * @param c
-     * @return
+     *            the component.
+     * @return the segment status.
      */
-    private SegmentStatus getSegmentStatus(JComponent c) {
+    SegmentStatus getSegmentStatus(JComponent c) {
         Object buttonType = c.getClientProperty("JButton.buttonType");
         SegmentStatus segmentStatus = SegmentStatus.NONE;
         if (buttonType != null && buttonType instanceof String && ((String) buttonType).startsWith("segmented")) {
@@ -229,9 +204,12 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
     }
 
     /**
-     * @param g
+     * Create a drop shadow image.
+     * 
+     * @param s
+     *            the shape to use as the shade.
      */
-    private BufferedImage createDropShadowImage(Shape s) {
+    BufferedImage createDropShadowImage(Shape s) {
         BufferedImage bimage = DropShadowEffect.createBufferedImage(dimension.width, dimension.height, true);
         Graphics2D gbi = bimage.createGraphics();
         gbi.setColor(colorShadow);
@@ -239,7 +217,7 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
         return dropShadow.applyEffect(bimage, null, dimension.width, dimension.height);
     }
 
-    private Path2D decodeFocus(SegmentStatus segmentStatus) {
+    Path2D decodeFocus(SegmentStatus segmentStatus) {
         double arcSize = 5.25d;
         double x = 0d;
         double y = 0d;
@@ -262,7 +240,7 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
         return path;
     }
 
-    private Path2D decodeBorder(SegmentStatus segmentStatus) {
+    Path2D decodeBorder(SegmentStatus segmentStatus) {
         double arcSize = 4d;
         double x = 1d;
         double y = 1d;
@@ -285,7 +263,7 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
         return path;
     }
 
-    private Path2D decodeInterior(SegmentStatus segmentStatus) {
+    Path2D decodeInterior(SegmentStatus segmentStatus) {
         double arcSize = 3d;
         double x = 2d;
         double y = 2d;
@@ -369,7 +347,7 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
      * @param color2
      * @return
      */
-    private Paint decodeGradientBackground(Shape s, Color color1, Color color2) {
+    Paint decodeGradientBackground(Shape s, Color color1, Color color2) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
@@ -385,7 +363,7 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
      * @param color2
      * @param midpoint
      */
-    private Paint decodeGradientBottomShine(Shape s, Color color1, Color color2, float midpoint) {
+    Paint decodeGradientBottomShine(Shape s, Color color1, Color color2, float midpoint) {
         Color midColor = new Color(deriveARGB(color1, color2, midpoint) & 0xFFFFFF, true);
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
@@ -406,7 +384,7 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
      * @param color2
      * @return
      */
-    private Paint decodeGradientTopShine(Shape s, Color color1, Color color2) {
+    Paint decodeGradientTopShine(Shape s, Color color1, Color color2) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
@@ -415,6 +393,9 @@ public class SegmentedButtonPainter extends AbstractRegionPainter {
         return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
     }
 
+    /**
+     * A set of colors to use for the button.
+     */
     public class ButtonStateColors {
 
         public Color upperShineTop;
