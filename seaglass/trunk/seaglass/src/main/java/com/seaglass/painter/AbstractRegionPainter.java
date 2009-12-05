@@ -413,7 +413,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      *            color 1 and 1.0 is color 2;
      * @return the ARGB value for a new color based on this derivation
      */
-    static int deriveARGB(Color color1, Color color2, float midPoint) {
+    public static int deriveARGB(Color color1, Color color2, float midPoint) {
         int r = color1.getRed() + (int) ((color2.getRed() - color1.getRed()) * midPoint + 0.5f);
         int g = color1.getGreen() + (int) ((color2.getGreen() - color1.getGreen()) * midPoint + 0.5f);
         int b = color1.getBlue() + (int) ((color2.getBlue() - color1.getBlue()) * midPoint + 0.5f);
