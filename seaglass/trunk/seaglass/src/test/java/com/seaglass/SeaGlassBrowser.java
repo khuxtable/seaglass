@@ -52,10 +52,10 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 
-import com.seaglass.SeaGlassLookAndFeel;
-import com.seaglass.painter.AbstractRegionPainter;
-import com.seaglass.painter.AbstractRegionPainter.PaintContext;
-import com.seaglass.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.painter.AbstractRegionPainter;
+import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext;
+import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.sun.java.swing.Painter;
 
 /**
