@@ -24,6 +24,8 @@ import java.awt.Graphics2D;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+
 /**
  * An abstraction of an image painter, using AbstractRegionPainter and an image
  * resource.
@@ -31,8 +33,6 @@ import javax.swing.JComponent;
  * @author Kathryn Huxtable
  */
 public abstract class AbstractImagePainter<E> extends AbstractRegionPainter {
-
-    private static final String IMAGE_DIR = "/com/seaglasslookandfeel/resources/images";
 
     private PaintContext        ctx;
 
@@ -63,7 +63,7 @@ public abstract class AbstractImagePainter<E> extends AbstractRegionPainter {
      * @return an ImageIcon to draw.
      */
     protected ImageIcon getImage(String imageName) {
-        StringBuilder imagePath = new StringBuilder(IMAGE_DIR);
+        StringBuilder imagePath = new StringBuilder(SeaGlassLookAndFeel.getImageDirectory());
         imagePath.append('/');
         imagePath.append(imageName);
         imagePath.append(".png");

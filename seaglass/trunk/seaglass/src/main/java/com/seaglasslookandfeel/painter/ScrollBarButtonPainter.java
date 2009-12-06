@@ -27,6 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.ui.SeaGlassScrollBarUI;
 
@@ -72,7 +73,8 @@ public final class ScrollBarButtonPainter extends AbstractImagePainter<ScrollBar
             leftName = "h_scroll_left_apart_pressed";
             rightName = "h_scroll_right_apart_pressed";
         }
-        rightImage = new ImageIcon(ScrollBarButtonPainter.class.getResource("/com/seaglasslookandfeel/resources/images/" + rightName + ".png"));
+        rightImage = new ImageIcon(ScrollBarButtonPainter.class.getResource(SeaGlassLookAndFeel.getImageDirectory() + "/" + rightName
+                + ".png"));
         return leftName;
     }
 
