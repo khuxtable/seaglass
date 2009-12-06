@@ -187,8 +187,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private Font                         defaultFont;
 
-    // Set the package name.
-    private static final String          PACKAGE_PREFIX          = SeaGlassLookAndFeel.class.getPackage().getName() + ".ui.SeaGlass";
+    // Set the image directory name based on the root package.
+    private static final String          IMAGE_DIRECTORY         = "/"
+                                                                         + SeaGlassLookAndFeel.class.getPackage().getName().replaceAll(
+                                                                             "\\.", "/") + "/resources/images";
+
+    // Set the package name for UI delegates based on the root package.
+    private static final String          UI_PACKAGE_PREFIX       = SeaGlassLookAndFeel.class.getPackage().getName() + ".ui.SeaGlass";
 
     private UIDefaults                   uiDefaults              = null;
 
@@ -281,6 +286,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     public void uninitialize() {
         JFrame.setDefaultLookAndFeelDecorated(false);
         super.uninitialize();
+    }
+
+    public static String getImageDirectory() {
+        return IMAGE_DIRECTORY;
     }
 
     /**
@@ -469,7 +478,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     private void useOurUI(UIDefaults d, String uiName) {
-        d.put(uiName, PACKAGE_PREFIX + uiName);
+        d.put(uiName, UI_PACKAGE_PREFIX + uiName);
     }
 
     /**
@@ -1191,7 +1200,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     private void defineSliders(UIDefaults d) {
-//        d.put("sliderBlueGrey", d.get("nimbusBlueGrey"));
+        // d.put("sliderBlueGrey", d.get("nimbusBlueGrey"));
         d.put("sliderBlueGrey", new Color(0xced7e9));
 
         d.put("Slider.ArrowShape", new SliderArrowShapeState());
