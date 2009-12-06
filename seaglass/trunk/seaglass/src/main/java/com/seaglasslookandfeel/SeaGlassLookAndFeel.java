@@ -187,13 +187,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private Font                         defaultFont;
 
+    // Use this in IMAGE_DIRECTORY and UI_PACKAGE_PREFIX.
+    private static final String          PACKAGE_DIRECTORY       = SeaGlassLookAndFeel.class.getPackage().getName();
+
     // Set the image directory name based on the root package.
-    private static final String          IMAGE_DIRECTORY         = "/"
-                                                                         + SeaGlassLookAndFeel.class.getPackage().getName().replaceAll(
-                                                                             "\\.", "/") + "/resources/images";
+    private static final String          IMAGE_DIRECTORY         = "/" + PACKAGE_DIRECTORY.replaceAll("\\.", "/") + "/resources/images";
 
     // Set the package name for UI delegates based on the root package.
-    private static final String          UI_PACKAGE_PREFIX       = SeaGlassLookAndFeel.class.getPackage().getName() + ".ui.SeaGlass";
+    private static final String          UI_PACKAGE_PREFIX       = PACKAGE_DIRECTORY + ".ui.SeaGlass";
 
     private UIDefaults                   uiDefaults              = null;
 
