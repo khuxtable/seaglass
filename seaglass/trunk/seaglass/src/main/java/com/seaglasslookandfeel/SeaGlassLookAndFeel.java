@@ -153,6 +153,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     public static final Insets           EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
 
+    /**
+     * Used to make title pane act like its parent is an internal frame for
+     * style determination.
+     */
     public static final JInternalFrame   FAKE_INTERNAL_FRAME     = new JInternalFrame();
 
     /**
@@ -187,13 +191,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private Font                         defaultFont;
 
-    // Use this in IMAGE_DIRECTORY and UI_PACKAGE_PREFIX.
+    /**
+     * Used in IMAGE_DIRECTORY and UI_PACKAGE_PREFIX.
+     */
     private static final String          PACKAGE_DIRECTORY       = SeaGlassLookAndFeel.class.getPackage().getName();
 
-    // Set the image directory name based on the root package.
+    /**
+     * Set the image directory name based on the root package.
+     */
     private static final String          IMAGE_DIRECTORY         = "/" + PACKAGE_DIRECTORY.replaceAll("\\.", "/") + "/resources/images";
 
-    // Set the package name for UI delegates based on the root package.
+    /**
+     * Set the package name for UI delegates based on the root package.
+     */
     private static final String          UI_PACKAGE_PREFIX       = PACKAGE_DIRECTORY + ".ui.SeaGlass";
 
     private UIDefaults                   uiDefaults              = null;
@@ -205,6 +215,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     // Refer to setSelectedUI
     public static int                    selectedUIState;
 
+    /**
+     * Create a new Sea Glass Look and Feel instance.
+     */
     public SeaGlassLookAndFeel() {
         super();
 
@@ -289,6 +302,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         super.uninitialize();
     }
 
+    /**
+     * Retrieve the directory containing images.
+     * 
+     * @return a String containing the resource path to the directory containing
+     *         the images.
+     */
     public static String getImageDirectory() {
         return IMAGE_DIRECTORY;
     }
@@ -504,6 +523,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         return font;
     }
 
+    /**
+     * Initialize the base font.
+     * 
+     * @param d
+     *            the UI defaults map.
+     */
     private void defineDefaultFont(UIDefaults d) {
         d.put("defaultFont", defaultFont);
     }
@@ -650,7 +675,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
+     * Initialize the arrow button settings.
+     * 
      * @param d
+     *            the UI defaults map.
      */
     private void defineArrowButtons(UIDefaults d) {
         String c = "com.seaglasslookandfeel.painter.ArrowButtonPainter";
@@ -838,7 +866,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
+     * Initialize the internal frame close button settings.
+     * 
      * @param d
+     *            the UI defaults map.
      */
     private void defineInternalFrameCloseButtons(UIDefaults d) {
         String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\"";
@@ -870,7 +901,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
+     * Initialize the internal frame iconify button settings.
+     * 
      * @param d
+     *            the UI defaults map.
      */
     private void defineInternalFrameIconifyButtons(UIDefaults d) {
         String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"";
@@ -913,7 +947,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
+     * Initialize the internal frame maximize button settings.
+     * 
      * @param d
+     *            the UI defaults map.
      */
     private void defineInternalFrameMaximizeButton(UIDefaults d) {
         String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"";
@@ -955,7 +992,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
+     * Initialize the internal frame menu settings.
+     * 
      * @param d
+     *            the UI defaults map.
      */
     private void defineInternalFrameMenus(UIDefaults d) {
         String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"";
@@ -979,6 +1019,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(prefix + ".icon", new SeaGlassIcon(prefix, "iconPainter", 19, 18));
     }
 
+    /**
+     * Initialize the list settings.
+     * 
+     * @param d
+     *            the UI defaults map.
+     */
     private void defineLists(UIDefaults d) {
         d.put("List.background", d.get("control"));
         d.put("List[Selected].textForeground", Color.WHITE);
@@ -986,6 +1032,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("List[Disabled+Selected].textBackground", Color.WHITE);
     }
 
+    /**
+     * Initialize the progress bar settings.
+     * 
+     * @param d
+     *            the UI defaults map.
+     */
     private void defineProgressBars(UIDefaults d) {
         d.put("ProgressBar.Indeterminate", new ProgressBarIndeterminateState());
         d.put("ProgressBar.Finished", new ProgressBarFinishedState());
@@ -1012,7 +1064,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
+     * Initialize the root pane settings.
+     * 
      * @param d
+     *            the UI defaults map.
      */
     private void defineRootPanes(UIDefaults d) {
         if (PlatformUtils.isMac()) {
@@ -1089,6 +1144,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED));
     }
 
+    /**
+     * Initialize the tabbed pane settings.
+     * 
+     * @param d
+     *            the UI defaults map.
+     */
     private void defineTabbedPanes(UIDefaults d) {
         d.put("tabbedPaneTabBase", new Color(90, 120, 200));
         String c = "com.seaglasslookandfeel.painter.TabbedPaneTabPainter";
@@ -1200,6 +1261,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ScrollPane[Enabled].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED));
     }
 
+    /**
+     * Initialize the slider settings.
+     * 
+     * @param d
+     *            the UI defaults map.
+     */
     private void defineSliders(UIDefaults d) {
         // d.put("sliderBlueGrey", d.get("nimbusBlueGrey"));
         d.put("sliderBlueGrey", new Color(0xced7e9));
@@ -1278,6 +1345,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             SplitPaneDividerPainter.Which.FOREGROUND_ENABLED_VERTICAL));
     }
 
+    /**
+     * Initialize the settings for text controls.
+     * 
+     * @param d
+     *            the UI defaults map.
+     */
     private void defineTextControls(UIDefaults d) {
 
         // Initialize TextField
@@ -1342,6 +1415,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("EditorPane[Selected].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_SELECTED));
     }
 
+    /**
+     * Initialize the tree settings.
+     * 
+     * @param d
+     *            the UI defaults map.
+     */
     private void defineTrees(UIDefaults d) {
         d.put("\"Tree.cellEditor\".background", Color.WHITE);
         d.put("\"Tree.cellEditor\"[Disabled].textForeground", new Color(200, 200, 200));
