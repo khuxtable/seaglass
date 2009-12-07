@@ -1,6 +1,12 @@
+#summary Downloading or Maven access instructions
+
 = Downloads =
 
 Download the Sea Glass Look and Feel.
+
+Note that between versions 0.1 and 0.1.1 nothing changed except the base package name,
+which has changed from `com.seaglass` to `com.seaglasslookandfeel`, because the domain
+seaglass.com is owned by a company that sells actual sea glass.
 
 == Maven ==
 
