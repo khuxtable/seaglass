@@ -4,7 +4,7 @@
 	<groupId>com.seaglasslookandfeel</groupId>
 	<artifactId>seaglasslookandfeel</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.1</version>
+	<version>0.1.2-SNAPSHOT</version>
 	<name>Sea Glass Look and Feel</name>
 	<description>A Java cross-platform look and feel for JRE 1.5 and later.
 	This is developed from Synth, and is based on forms seen in sea glass,
@@ -172,6 +172,7 @@
 			</plugin>
 		</plugins>
 	</reporting>
+<!--
 	<repositories>
 		<repository>
 			<id>maven2-repository.dev.java.net</id>
@@ -179,6 +180,7 @@
 			<url>http://download.java.net/maven/2/</url>
 		</repository>
 	</repositories>
+-->
 	<scm>
 		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</connection>
 		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</developerConnection>
