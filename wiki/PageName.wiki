@@ -1,0 +1,13 @@
+#summary Usage instructions
+
+= Usage =
+
+To use the Sea Glass Look and Feel, include the following in your application before creating any controls:
+
+{{{
+        try {
+            UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+}}}
