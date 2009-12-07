@@ -28,3 +28,4 @@ If you are using Maven, you may include the following in your `pom.xml' file:
 
 || Version || Link ||
 || 0.1.1 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.1/seaglasslookandfeel-0.1.1.jar seaglasslookandfeel-0.1.1.jar] ||
+|| 0.1 || [http://seaglass.googlecode.com/svn/repo/com/seaglass/seaglass/0.1/seaglass-0.1.jar seaglass-0.1.1.jar] ||
