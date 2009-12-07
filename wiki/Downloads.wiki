@@ -9,7 +9,7 @@ If you are using Maven, you may include the following in your `pom.xml' file:
 {{{
 <repositories>
     <repository>
-        <id>seaglass</id>
+        <id>seaglasslookandfeel</id>
         <name>Sea Glass Look and Feel Repository</name>
         <url>http://seaglass.googlecode.com/svn/repo</url>
     </repository>
@@ -17,9 +17,9 @@ If you are using Maven, you may include the following in your `pom.xml' file:
 ...
 <dependencies>
     <dependency>
-        <groupId>com.seaglass</groupId>
-        <artifactId>seaglass</artifactId>
-        <version>0.1</version>
+        <groupId>com.seaglasslookandfeel</groupId>
+        <artifactId>seaglasslookandfeel</artifactId>
+        <version>0.1.1</version>
     </dependency>
 </dependencies>
 }}}
@@ -27,4 +27,4 @@ If you are using Maven, you may include the following in your `pom.xml' file:
 == Simple Download ==
 
 || Version || Link ||
-|| 0.1 || [http://seaglass.googlecode.com/svn/repo/com/seaglass/seaglass/0.1/seaglass-0.1.jar seaglass-0.1.jar] ||
+|| 0.1.1 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.1/seaglasslookandfeel-0.1.1.jar seaglasslookandfeel-0.1.1.jar] ||
