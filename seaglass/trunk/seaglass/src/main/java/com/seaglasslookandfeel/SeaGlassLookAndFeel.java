@@ -73,7 +73,6 @@ import com.seaglasslookandfeel.painter.ComboBoxPainter;
 import com.seaglasslookandfeel.painter.ComboBoxTextFieldPainter;
 import com.seaglasslookandfeel.painter.DesktopIconPainter;
 import com.seaglasslookandfeel.painter.DesktopPanePainter;
-import com.seaglasslookandfeel.painter.EditorPanePainter;
 import com.seaglasslookandfeel.painter.InternalFramePainter;
 import com.seaglasslookandfeel.painter.ProgressBarPainter;
 import com.seaglasslookandfeel.painter.RadioButtonPainter;
@@ -91,8 +90,7 @@ import com.seaglasslookandfeel.painter.TabbedPaneTabAreaPainter;
 import com.seaglasslookandfeel.painter.TabbedPaneTabPainter;
 import com.seaglasslookandfeel.painter.TableHeaderPainter;
 import com.seaglasslookandfeel.painter.TableHeaderRendererPainter;
-import com.seaglasslookandfeel.painter.TextAreaPainter;
-import com.seaglasslookandfeel.painter.TextFieldPainter;
+import com.seaglasslookandfeel.painter.TextComponentPainter;
 import com.seaglasslookandfeel.painter.TitlePaneCloseButtonPainter;
 import com.seaglasslookandfeel.painter.TitlePaneIconifyButtonPainter;
 import com.seaglasslookandfeel.painter.TitlePaneMaximizeButtonPainter;
@@ -1355,64 +1353,61 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Initialize TextField
         d.put("TextField.contentMargins", new InsetsUIResource(6, 6, 6, 6));
-        String c = "com.seaglasslookandfeel.painter.TextFieldPainter";
-        d.put("TextField[Disabled].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_DISABLED));
-        d.put("TextField[Enabled].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_ENABLED));
-        d.put("TextField[Selected].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_SELECTED));
-        d.put("TextField[Disabled].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_DISABLED));
-        d.put("TextField[Focused].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_FOCUSED));
-        d.put("TextField[Enabled].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_ENABLED));
+        String c = "com.seaglasslookandfeel.painter.TextComponentPainter";
+        d.put("TextField[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
+        d.put("TextField[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
+        d.put("TextField[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        d.put("TextField[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
+        d.put("TextField[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
+        d.put("TextField[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
 
         // Initialize FormattedTextField
         d.put("FormattedTextField.contentMargins", new InsetsUIResource(6, 6, 6, 6));
-        d.put("FormattedTextField[Disabled].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_DISABLED));
-        d.put("FormattedTextField[Enabled].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_ENABLED));
-        d.put("FormattedTextField[Selected].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_SELECTED));
-        d.put("FormattedTextField[Disabled].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_DISABLED));
-        d.put("FormattedTextField[Focused].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_FOCUSED));
-        d.put("FormattedTextField[Enabled].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_ENABLED));
+        d.put("FormattedTextField[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
+        d.put("FormattedTextField[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
+        d.put("FormattedTextField[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        d.put("FormattedTextField[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
+        d.put("FormattedTextField[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
+        d.put("FormattedTextField[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
 
         // Initialize PasswordField
         d.put("PasswordField.contentMargins", new InsetsUIResource(6, 6, 6, 6));
-        d.put("PasswordField[Disabled].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_DISABLED));
-        d.put("PasswordField[Enabled].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_ENABLED));
-        d.put("PasswordField[Selected].backgroundPainter", new LazyPainter(c, TextFieldPainter.Which.BACKGROUND_SELECTED));
-        d.put("PasswordField[Disabled].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_DISABLED));
-        d.put("PasswordField[Focused].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_FOCUSED));
-        d.put("PasswordField[Enabled].borderPainter", new LazyPainter(c, TextFieldPainter.Which.BORDER_ENABLED));
+        d.put("PasswordField[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
+        d.put("PasswordField[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
+        d.put("PasswordField[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        d.put("PasswordField[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
+        d.put("PasswordField[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
+        d.put("PasswordField[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
 
         // Initialize TextArea
-        c = "com.seaglasslookandfeel.painter.TextAreaPainter";
+        // TextArea in scroll pane is visually the same as editor pane.
         d.put("TextArea.contentMargins", new InsetsUIResource(6, 6, 6, 6));
         d.put("TextArea.States", "Enabled,MouseOver,Pressed,Selected,Disabled,Focused,NotInScrollPane");
         d.put("TextArea.NotInScrollPane", new TextAreaNotInScrollPaneState());
-        d.put("TextArea[Disabled].backgroundPainter", new LazyPainter(c, TextAreaPainter.Which.BACKGROUND_DISABLED));
-        d.put("TextArea[Enabled].backgroundPainter", new LazyPainter(c, TextAreaPainter.Which.BACKGROUND_ENABLED));
-        d.put("TextArea[Disabled+NotInScrollPane].backgroundPainter", new LazyPainter(c,
-            TextAreaPainter.Which.BACKGROUND_DISABLED_NOTINSCROLLPANE));
-        d.put("TextArea[Enabled+NotInScrollPane].backgroundPainter", new LazyPainter(c,
-            TextAreaPainter.Which.BACKGROUND_ENABLED_NOTINSCROLLPANE));
-        d.put("TextArea[Selected].backgroundPainter", new LazyPainter(c, TextAreaPainter.Which.BACKGROUND_SELECTED));
-        d
-            .put("TextArea[Disabled+NotInScrollPane].borderPainter", new LazyPainter(c,
-                TextAreaPainter.Which.BORDER_DISABLED_NOTINSCROLLPANE));
-        d.put("TextArea[Focused+NotInScrollPane].borderPainter", new LazyPainter(c, TextAreaPainter.Which.BORDER_FOCUSED_NOTINSCROLLPANE));
-        d.put("TextArea[Enabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextAreaPainter.Which.BORDER_ENABLED_NOTINSCROLLPANE));
+        d.put("TextArea[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
+        d.put("TextArea[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
+        // TextArea not in scroll pane is visually the same as TextField.
+        c = "com.seaglasslookandfeel.painter.TextComponentPainter";
+        d.put("TextArea[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        d.put("TextArea[Disabled+NotInScrollPane].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
+        d.put("TextArea[Enabled+NotInScrollPane].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
+        d.put("TextArea[Disabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
+        d.put("TextArea[Focused+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
+        d.put("TextArea[Enabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
 
         // Initialize TextPane
-        c = "com.seaglasslookandfeel.painter.EditorPanePainter";
         d.put("TextPane.contentMargins", new InsetsUIResource(4, 6, 4, 6));
         d.put("TextPane.opaque", Boolean.TRUE);
-        d.put("TextPane[Disabled].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_DISABLED));
-        d.put("TextPane[Enabled].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_ENABLED));
-        d.put("TextPane[Selected].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_SELECTED));
+        d.put("TextPane[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
+        d.put("TextPane[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
+        d.put("TextPane[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
 
         // Initialize EditorPane
         d.put("EditorPane.contentMargins", new InsetsUIResource(4, 6, 4, 6));
         d.put("EditorPane.opaque", Boolean.TRUE);
-        d.put("EditorPane[Disabled].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_DISABLED));
-        d.put("EditorPane[Enabled].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_ENABLED));
-        d.put("EditorPane[Selected].backgroundPainter", new LazyPainter(c, EditorPanePainter.Which.BACKGROUND_SELECTED));
+        d.put("EditorPane[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
+        d.put("EditorPane[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
+        d.put("EditorPane[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
     }
 
     /**
