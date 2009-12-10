@@ -33,11 +33,18 @@ import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.FocusEffect;
 
 /**
- * TextFieldPainter implementation.
+ * TextComponentPainter implementation.
  */
-public final class TextFieldPainter extends AbstractRegionPainter {
+public final class TextComponentPainter extends AbstractRegionPainter {
     public static enum Which {
-        BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED, BORDER_DISABLED, BORDER_FOCUSED, BORDER_ENABLED,
+        BACKGROUND_DISABLED,
+        BACKGROUND_ENABLED,
+        BACKGROUND_SOLID_DISABLED,
+        BACKGROUND_SOLID_ENABLED,
+        BACKGROUND_SELECTED,
+        BORDER_DISABLED,
+        BORDER_FOCUSED,
+        BORDER_ENABLED,
     }
 
     private static final Color     DISABLED_BORDER = new Color(0xdddddd);
@@ -53,7 +60,7 @@ public final class TextFieldPainter extends AbstractRegionPainter {
     private Which                  state;
     private PaintContext           ctx;
 
-    public TextFieldPainter(Which state) {
+    public TextComponentPainter(Which state) {
         super();
         this.state = state;
         this.ctx = new PaintContext(insets, dimension, false, AbstractRegionPainter.PaintContext.CacheMode.NINE_SQUARE_SCALE,
@@ -70,6 +77,12 @@ public final class TextFieldPainter extends AbstractRegionPainter {
             break;
         case BACKGROUND_ENABLED:
             paintBackgroundEnabled(g, c, width, height);
+            break;
+        case BACKGROUND_SOLID_DISABLED:
+            paintBackgroundSolidDisabled(g, c, width, height);
+            break;
+        case BACKGROUND_SOLID_ENABLED:
+            paintBackgroundSolidEnabled(g, c, width, height);
             break;
         case BACKGROUND_SELECTED:
             paintBackgroundEnabled(g, c, width, height);
@@ -103,6 +116,18 @@ public final class TextFieldPainter extends AbstractRegionPainter {
     private void paintBackgroundEnabled(Graphics2D g, JComponent c, int width, int height) {
         g.setColor(c.getBackground());
         g.fillRect(3, 3, width - 7, height - 7);
+    }
+
+    private void paintBackgroundSolidDisabled(Graphics2D g, JComponent c, int width, int height) {
+        Color color = c.getBackground();
+        color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0x80);
+        g.setColor(color);
+        g.fillRect(0, 0, width, height);
+    }
+
+    private void paintBackgroundSolidEnabled(Graphics2D g, JComponent c, int width, int height) {
+        g.setColor(c.getBackground());
+        g.fillRect(0, 0, width, height);
     }
 
     private void paintBorderDisabled(Graphics2D g, JComponent c, int width, int height) {
