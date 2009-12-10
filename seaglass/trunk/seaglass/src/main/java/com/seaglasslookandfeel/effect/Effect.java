@@ -6,12 +6,15 @@
  */
 package com.seaglasslookandfeel.effect;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.Shape;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
@@ -75,6 +78,27 @@ public abstract class Effect {
      * @return The result of appl
      */
     public abstract BufferedImage applyEffect(BufferedImage src, BufferedImage dst, int w, int h);
+
+    /**
+     * Paint the effect based around a solid shape in the graphics supplied.
+     * 
+     * @param g
+     *            the graphics to paint into.
+     * @param s
+     *            the shape to base the effect around.
+     * @param width
+     *            the width to paint.
+     * @param height
+     *            the height to paint.
+     */
+    public void paint(Graphics2D g, Shape s, int width, int height) {
+        BufferedImage bimage = FocusEffect.createBufferedImage(width, height, true);
+        Graphics2D gbi = bimage.createGraphics();
+        gbi.setColor(Color.white);
+        gbi.fill(s);
+
+        g.drawImage(applyEffect(bimage, null, width, height), 0, 0, null);
+    }
 
     // =================================================================================================================
     // Static data cache
