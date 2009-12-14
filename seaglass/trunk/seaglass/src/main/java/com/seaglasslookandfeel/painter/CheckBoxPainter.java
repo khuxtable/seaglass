@@ -34,16 +34,12 @@ public final class CheckBoxPainter extends AbstractImagePainter<CheckBoxPainter.
         ICON_DISABLED,
         ICON_ENABLED,
         ICON_FOCUSED,
-        ICON_MOUSEOVER,
-        ICON_MOUSEOVER_FOCUSED,
         ICON_PRESSED,
         ICON_PRESSED_FOCUSED,
         ICON_SELECTED,
         ICON_SELECTED_FOCUSED,
         ICON_PRESSED_SELECTED,
         ICON_PRESSED_SELECTED_FOCUSED,
-        ICON_MOUSEOVER_SELECTED,
-        ICON_MOUSEOVER_SELECTED_FOCUSED,
         ICON_DISABLED_SELECTED,
     }
 
@@ -70,10 +66,6 @@ public final class CheckBoxPainter extends AbstractImagePainter<CheckBoxPainter.
             return "check_box_enabled";
         case ICON_FOCUSED:
             return "check_box_enabled";
-        case ICON_MOUSEOVER:
-            return "check_box_enabled";
-        case ICON_MOUSEOVER_FOCUSED:
-            return "check_box_enabled";
         case ICON_PRESSED:
             return "check_box_pressed";
         case ICON_PRESSED_FOCUSED:
@@ -86,10 +78,6 @@ public final class CheckBoxPainter extends AbstractImagePainter<CheckBoxPainter.
             return "check_box_selected_pressed";
         case ICON_PRESSED_SELECTED_FOCUSED:
             return "check_box_selected_pressed";
-        case ICON_MOUSEOVER_SELECTED:
-            return "check_box_selected";
-        case ICON_MOUSEOVER_SELECTED_FOCUSED:
-            return "check_box_selected";
         case ICON_DISABLED_SELECTED:
             return "check_box_disabled_selected";
         }
