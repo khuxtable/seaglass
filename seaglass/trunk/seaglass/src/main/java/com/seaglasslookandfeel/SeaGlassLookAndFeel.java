@@ -206,8 +206,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
     private UIDefaults                   uiDefaults              = null;
 
-    private SynthStyleFactory            nimbusFactory;
-
     // Refer to setSelectedUI
     public static ComponentUI            selectedUI;
     // Refer to setSelectedUI
@@ -240,55 +238,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     @Override
     public void initialize() {
         super.initialize();
-        nimbusFactory = getStyleFactory();
         // create synth style factory
         setStyleFactory(new SynthStyleFactory() {
             @Override
             public SynthStyle getStyle(JComponent c, Region r) {
-                if (isSupportedBySeaGlass(c, r)) {
-                    SynthStyle style = getSeaGlassStyle(c, r);
-                    if (!(style instanceof SeaGlassStyle)) {
-                        style = new SeaGlassStyleWrapper(style);
-                    }
-                    return style;
-                } else {
-                    SynthStyle style = nimbusFactory.getStyle(c, r);
-                    return style;
+                SynthStyle style = getSeaGlassStyle(c, r);
+                if (!(style instanceof SeaGlassStyle)) {
+                    style = new SeaGlassStyleWrapper(style);
                 }
+                return style;
             }
         });
-    }
-
-    /**
-     * As a temporary expedient while we work to get all the components
-     * supported, test to see if this is a component which we do support.
-     * 
-     * @param c
-     *            the component
-     * @param r
-     *            the Synth region
-     * @return <code>true</code> if SeaGlass currently supports the
-     *         component/region combo, <code>false</code> otherwise.
-     */
-    private boolean isSupportedBySeaGlass(JComponent c, Region r) {
-        if (r == Region.CHECK_BOX_MENU_ITEM || r == Region.LIST || r == Region.MENU || r == Region.MENU_BAR || r == Region.MENU_ITEM
-                || r == Region.MENU_ITEM_ACCELERATOR || r == Region.OPTION_PANE || r == Region.RADIO_BUTTON_MENU_ITEM
-                || r == Region.SEPARATOR || r == Region.TABBED_PANE || r == Region.TABBED_PANE_TAB || r == Region.TABBED_PANE_TAB_AREA
-                || r == Region.TABBED_PANE_CONTENT || r == Region.TOOL_TIP || r == Region.TOOL_BAR_SEPARATOR || r == Region.TREE
-                || r == Region.TREE_CELL) {
-
-            return false;
-        }
-
-        if (PlatformUtils.isMac()) {
-            if (r == Region.COLOR_CHOOSER || r == Region.DESKTOP_ICON || r == Region.FILE_CHOOSER || r == Region.INTERNAL_FRAME
-                    || r == Region.INTERNAL_FRAME_TITLE_PANE || r == Region.TOOL_BAR || r == Region.TOOL_BAR_CONTENT
-                    || r == Region.TOOL_BAR_DRAG_WINDOW) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**
