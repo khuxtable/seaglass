@@ -29,21 +29,15 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
  */
 public final class RadioButtonPainter extends AbstractImagePainter<RadioButtonPainter.Which> {
     public static enum Which {
-        BACKGROUND_DISABLED,
-        BACKGROUND_ENABLED,
         ICON_DISABLED,
         ICON_ENABLED,
         ICON_FOCUSED,
-        ICON_MOUSEOVER,
-        ICON_MOUSEOVER_FOCUSED,
         ICON_PRESSED,
         ICON_PRESSED_FOCUSED,
         ICON_SELECTED,
         ICON_SELECTED_FOCUSED,
         ICON_PRESSED_SELECTED,
         ICON_PRESSED_SELECTED_FOCUSED,
-        ICON_MOUSEOVER_SELECTED,
-        ICON_MOUSEOVER_SELECTED_FOCUSED,
         ICON_DISABLED_SELECTED,
     }
 
@@ -70,10 +64,6 @@ public final class RadioButtonPainter extends AbstractImagePainter<RadioButtonPa
             return "radio_button_enabled";
         case ICON_FOCUSED:
             return "radio_button_enabled";
-        case ICON_MOUSEOVER:
-            return "radio_button_enabled";
-        case ICON_MOUSEOVER_FOCUSED:
-            return "radio_button_enabled";
         case ICON_PRESSED:
             return "radio_button_pressed";
         case ICON_PRESSED_FOCUSED:
@@ -86,10 +76,6 @@ public final class RadioButtonPainter extends AbstractImagePainter<RadioButtonPa
             return "radio_button_selected_pressed";
         case ICON_PRESSED_SELECTED_FOCUSED:
             return "radio_button_selected_pressed";
-        case ICON_MOUSEOVER_SELECTED:
-            return "radio_button_selected";
-        case ICON_MOUSEOVER_SELECTED_FOCUSED:
-            return "radio_button_selected";
         case ICON_DISABLED_SELECTED:
             return "radio_button_disabled_selected";
         }
