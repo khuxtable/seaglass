@@ -91,11 +91,32 @@ public abstract class Effect {
      * @param height
      *            the height to paint.
      */
-    public void paint(Graphics2D g, Shape s, int width, int height) {
+    public void fill(Graphics2D g, Shape s, int width, int height) {
         BufferedImage bimage = FocusEffect.createBufferedImage(width, height, true);
         Graphics2D gbi = bimage.createGraphics();
         gbi.setColor(Color.white);
         gbi.fill(s);
+
+        g.drawImage(applyEffect(bimage, null, width, height), 0, 0, null);
+    }
+
+    /**
+     * Paint the effect based around a solid shape in the graphics supplied.
+     * 
+     * @param g
+     *            the graphics to paint into.
+     * @param s
+     *            the shape to base the effect around.
+     * @param width
+     *            the width to paint.
+     * @param height
+     *            the height to paint.
+     */
+    public void draw(Graphics2D g, Shape s, int width, int height) {
+        BufferedImage bimage = FocusEffect.createBufferedImage(width, height, true);
+        Graphics2D gbi = bimage.createGraphics();
+        gbi.setColor(Color.white);
+        gbi.draw(s);
 
         g.drawImage(applyEffect(bimage, null, width, height), 0, 0, null);
     }
