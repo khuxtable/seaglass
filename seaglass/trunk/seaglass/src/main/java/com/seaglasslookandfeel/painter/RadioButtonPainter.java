@@ -56,10 +56,10 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     }
 
     private static final Insets    insets                   = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension                = new Dimension(16, 16);
+    private static final Dimension dimension                = new Dimension(18, 18);
     private static final CacheMode cacheMode                = CacheMode.FIXED_SIZES;
-    private static final Double    maxH                     = 1.0;
-    private static final Double    maxV                     = 1.0;
+    private static final Double    maxH                     = Double.POSITIVE_INFINITY;
+    private static final Double    maxV                     = Double.POSITIVE_INFINITY;
 
     private Which                  state;
     private PaintContext           ctx;
@@ -251,7 +251,7 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     }
 
     private Shape setFocus(int width, int height) {
-        return setCircle(width - 1.0, width, height);
+        return setCircle(width - 1.5, width, height);
     }
 
     private Shape setBorder(int width, int height) {
