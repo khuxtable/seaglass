@@ -45,6 +45,8 @@ public final class ComboBoxPainter extends AbstractImagePainter<ComboBoxPainter.
         BACKGROUND_PRESSED_EDITABLE,
     }
 
+    // Button line color = #4879BF
+
     private static final Insets    insets            = new Insets(8, 9, 8, 23);
     private static final Dimension dimension         = new Dimension(105, 23);
     private static final CacheMode cacheMode         = CacheMode.NINE_SQUARE_SCALE;
