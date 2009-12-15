@@ -19,35 +19,71 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.geom.Path2D;
+
+import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
  * TableHeaderPainter implementation.
  */
-public final class TableHeaderPainter extends AbstractImagePainter<TableHeaderPainter.Which> {
+public final class TableHeaderPainter extends AbstractRegionPainter {
     public static enum Which {
         ASCENDINGSORTICON_ENABLED, DESCENDINGSORTICON_ENABLED
     }
 
+    private Which              state;
+    private PaintContext       ctx;
+
+    private static final Color arrowColor = new Color(0xc02a5481, true);
+
+    private Path2D             path       = new Path2D.Double();
+
     public TableHeaderPainter(Which state) {
-        super(state);
-        if (state == Which.ASCENDINGSORTICON_ENABLED) {
-            setPaintContext(new PaintContext(new Insets(0, 0, 0, 2), new Dimension(8, 7), false, CacheMode.FIXED_SIZES, 1.0, 1.0));
-        } else {
-            setPaintContext(new PaintContext(new Insets(0, 0, 0, 0), new Dimension(8, 7), false, CacheMode.FIXED_SIZES, 1.0, 1.0));
+        super();
+        this.state = state;
+        ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(8, 8), false, CacheMode.FIXED_SIZES, 1.0, 1.0);
+    }
+
+    @Override
+    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
+        switch (state) {
+        case ASCENDINGSORTICON_ENABLED:
+            paintAscending(g);
+            break;
+        case DESCENDINGSORTICON_ENABLED:
+            paintDescending(g);
+            break;
         }
     }
 
-    protected String getImageName(Which state) {
-        switch (state) {
-        case ASCENDINGSORTICON_ENABLED:
-            return "table_header_sort_ascending_enabled";
-        case DESCENDINGSORTICON_ENABLED:
-            return "table_header_sort_descending_enabled";
-        }
-        return null;
+    @Override
+    protected PaintContext getPaintContext() {
+        return ctx;
+    }
+
+    private void paintAscending(Graphics2D g) {
+        g.setColor(arrowColor);
+        path.reset();
+        path.moveTo(4, 1);
+        path.lineTo(7, 7);
+        path.lineTo(1, 7);
+        path.closePath();
+        g.fill(path);
+    }
+
+    private void paintDescending(Graphics2D g) {
+        g.setColor(arrowColor);
+        path.reset();
+        path.moveTo(4, 7);
+        path.lineTo(1, 1);
+        path.lineTo(7, 1);
+        path.closePath();
+        g.fill(path);
     }
 }
