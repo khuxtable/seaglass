@@ -31,15 +31,12 @@ public final class ComboBoxArrowButtonPainter extends AbstractImagePainter<Combo
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_ENABLED,
-        BACKGROUND_ENABLED_MOUSEOVER,
         BACKGROUND_ENABLED_PRESSED,
         BACKGROUND_DISABLED_EDITABLE,
         BACKGROUND_ENABLED_EDITABLE,
-        BACKGROUND_MOUSEOVER_EDITABLE,
         BACKGROUND_PRESSED_EDITABLE,
         BACKGROUND_SELECTED_EDITABLE,
         FOREGROUND_ENABLED,
-        FOREGROUND_MOUSEOVER,
         FOREGROUND_DISABLED,
         FOREGROUND_PRESSED,
         FOREGROUND_SELECTED,
@@ -83,15 +80,11 @@ public final class ComboBoxArrowButtonPainter extends AbstractImagePainter<Combo
             return "combo_box_editable_button_disabled";
         case BACKGROUND_ENABLED_EDITABLE:
             return "combo_box_editable_button_enabled";
-        case BACKGROUND_MOUSEOVER_EDITABLE:
-            return "combo_box_editable_button_enabled";
         case BACKGROUND_PRESSED_EDITABLE:
             return "combo_box_editable_button_pressed";
         case BACKGROUND_SELECTED_EDITABLE:
             return "combo_box_editable_button_pressed";
         case FOREGROUND_ENABLED:
-            return "combo_box_arrows_enabled";
-        case FOREGROUND_MOUSEOVER:
             return "combo_box_arrows_enabled";
         case FOREGROUND_DISABLED:
             return "combo_box_arrows_disabled";
