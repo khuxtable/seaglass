@@ -33,15 +33,12 @@ public final class ComboBoxPainter extends AbstractImagePainter<ComboBoxPainter.
         BACKGROUND_DISABLED_PRESSED,
         BACKGROUND_ENABLED,
         BACKGROUND_FOCUSED,
-        BACKGROUND_MOUSEOVER_FOCUSED,
-        BACKGROUND_MOUSEOVER,
         BACKGROUND_PRESSED_FOCUSED,
         BACKGROUND_PRESSED,
         BACKGROUND_ENABLED_SELECTED,
         BACKGROUND_DISABLED_EDITABLE,
         BACKGROUND_ENABLED_EDITABLE,
         BACKGROUND_FOCUSED_EDITABLE,
-        BACKGROUND_MOUSEOVER_EDITABLE,
         BACKGROUND_PRESSED_EDITABLE,
     }
 
@@ -80,10 +77,6 @@ public final class ComboBoxPainter extends AbstractImagePainter<ComboBoxPainter.
             return "combo_box_enabled";
         case BACKGROUND_FOCUSED:
             return "combo_box_enabled";
-        case BACKGROUND_MOUSEOVER_FOCUSED:
-            return "combo_box";
-        case BACKGROUND_MOUSEOVER:
-            return "combo_box_enabled";
         case BACKGROUND_PRESSED_FOCUSED:
             return "combo_box_pressed";
         case BACKGROUND_PRESSED:
@@ -96,8 +89,6 @@ public final class ComboBoxPainter extends AbstractImagePainter<ComboBoxPainter.
             return "empty_image";
         case BACKGROUND_FOCUSED_EDITABLE:
             return "combo_box_focused_editable";
-        case BACKGROUND_MOUSEOVER_EDITABLE:
-            return "empty_image";
         case BACKGROUND_PRESSED_EDITABLE:
             return "empty_image";
         }
