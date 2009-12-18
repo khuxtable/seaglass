@@ -51,8 +51,10 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         BACKGROUND_PRESSED_EDITABLE,
     }
 
-    private static final Color         OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
-    private static final Color         INNER_FOCUS_COLOR = new Color(0x73a4d1);
+    private static final Color         OUTER_FOCUS_COLOR  = new Color(0x8072a5d2, true);
+    private static final Color         INNER_FOCUS_COLOR  = new Color(0x73a4d1);
+    private final Color                OUTER_SHADOW_COLOR = new Color(0x0a000000, true);
+    private final Color                INNER_SHADOW_COLOR = new Color(0x1c000000, true);
 
     public ButtonStateColors           enabled;
     public ButtonStateColors           pressed;
@@ -60,19 +62,17 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
 
     private ComboBoxArrowButtonPainter buttonPainter;
 
-    // Button line color = #4879BF
+    private static final Insets        insets             = new Insets(8, 9, 8, 23);
+    private static final Dimension     dimension          = new Dimension(105, 23);
+    private static final CacheMode     cacheMode          = CacheMode.FIXED_SIZES;
+    private static final Double        maxH               = Double.POSITIVE_INFINITY;
+    private static final Double        maxV               = Double.POSITIVE_INFINITY;
 
-    private static final Insets        insets            = new Insets(8, 9, 8, 23);
-    private static final Dimension     dimension         = new Dimension(105, 23);
-    private static final CacheMode     cacheMode         = CacheMode.NINE_SQUARE_SCALE;
-    private static final Double        maxH              = Double.POSITIVE_INFINITY;
-    private static final Double        maxV              = Double.POSITIVE_INFINITY;
+    private static final Insets        editableInsets     = new Insets(0, 0, 0, 0);
+    private static final Insets        focusInsets        = new Insets(5, 5, 5, 5);
+    private static final int           buttonWidth        = 21;
 
-    private static final Insets        editableInsets    = new Insets(0, 0, 0, 0);
-    private static final Dimension     editableDimension = new Dimension(1, 1);
-    private static final Insets        focusInsets       = new Insets(5, 5, 5, 5);
-
-    private Path2D                     path              = new Path2D.Double();
+    private Path2D                     path               = new Path2D.Double();
 
     private Which                      state;
     private PaintContext               ctx;
@@ -85,7 +85,7 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         if (state == Which.BACKGROUND_DISABLED_EDITABLE || state == Which.BACKGROUND_ENABLED_EDITABLE
                 || state == Which.BACKGROUND_PRESSED_EDITABLE) {
             editable = true;
-            ctx = new PaintContext(editableInsets, editableDimension, false, cacheMode, maxH, maxV);
+            ctx = new PaintContext(editableInsets, dimension, false, cacheMode, maxH, maxV);
         } else if (state == Which.BACKGROUND_FOCUSED_EDITABLE) {
             editable = true;
             ctx = new PaintContext(focusInsets, dimension, false, cacheMode, maxH, maxV);
@@ -128,9 +128,11 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         switch (state) {
         case BACKGROUND_DISABLED:
         case BACKGROUND_DISABLED_PRESSED:
+            paintDropShadow(g, width, height, true);
             paintDisabled(g, c, width, height);
             break;
         case BACKGROUND_ENABLED:
+            paintDropShadow(g, width, height, true);
             paintEnabled(g, c, width, height);
             break;
         case BACKGROUND_FOCUSED:
@@ -143,10 +145,16 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
             break;
         case BACKGROUND_PRESSED:
         case BACKGROUND_ENABLED_SELECTED:
+            paintDropShadow(g, width, height, true);
             paintPressed(g, c, width, height);
             break;
         case BACKGROUND_FOCUSED_EDITABLE:
             paintFocus(g, c, width, height);
+            break;
+        case BACKGROUND_DISABLED_EDITABLE:
+        case BACKGROUND_ENABLED_EDITABLE:
+        case BACKGROUND_PRESSED_EDITABLE:
+            paintDropShadow(g, width, height, false);
             break;
         }
     }
@@ -157,24 +165,24 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     }
 
     private void paintDisabled(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, disabled);
+        paintButton(g, c, width - buttonWidth, height, disabled);
         Graphics2D g2 = (Graphics2D) g.create();
-        g2.translate(84, 0);
-        buttonPainter.doPaint(g2, c, 21, height, null);
+        g2.translate(width - buttonWidth, 0);
+        buttonPainter.doPaint(g2, c, buttonWidth, height, null);
     }
 
     private void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, enabled);
+        paintButton(g, c, width - buttonWidth, height, enabled);
         Graphics2D g2 = (Graphics2D) g.create();
-        g2.translate(84, 0);
-        buttonPainter.doPaint(g2, c, 21, height, null);
+        g2.translate(width - buttonWidth, 0);
+        buttonPainter.doPaint(g2, c, buttonWidth, height, null);
     }
 
     private void paintPressed(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, pressed);
+        paintButton(g, c, width - buttonWidth, height, pressed);
         Graphics2D g2 = (Graphics2D) g.create();
-        g2.translate(84, 0);
-        buttonPainter.doPaint(g2, c, 21, height, null);
+        g2.translate(width - buttonWidth, 0);
+        buttonPainter.doPaint(g2, c, buttonWidth, height, null);
     }
 
     private void paintButton(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
@@ -201,23 +209,39 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         g.fill(path);
     }
 
-    Path2D decodeBorder(double width, double height) {
+    private void paintDropShadow(Graphics2D g, int width, int height, boolean full) {
+        Shape s = g.getClip();
+        if (full) {
+            g.setClip(0, 0, width, height);
+        } else {
+            g.setClip(width - buttonWidth, 0, buttonWidth, height);
+        }
+        g.setColor(OUTER_SHADOW_COLOR);
+        setPath(1, 2, width - 2, height - 2, 5);
+        g.fill(path);
+        g.setColor(INNER_SHADOW_COLOR);
+        setPath(2, 2, width - 4, height - 3, 5);
+        g.fill(path);
+        g.setClip(s);
+    }
+
+    private Path2D decodeBorder(double width, double height) {
         double arcSize = 4.0;
         double x = 2.0;
         double y = 2.0;
-        width -= 24.0;
-        height -= 5.0;
-        decodeButtonPath(x, y, width + 1, height, arcSize, arcSize);
+        width -= 2.0;
+        height -= 4.0;
+        decodeButtonPath(x, y, width, height, arcSize, arcSize);
         return path;
     }
 
-    Path2D decodeInterior(double width, double height) {
+    private Path2D decodeInterior(double width, double height) {
         double arcSize = 3.0;
         double x = 3.0;
         double y = 3.0;
-        width -= 25.0;
-        height -= 7.0;
-        decodeButtonPath(x, y, width + 1, height, arcSize, arcSize);
+        width -= 3.0;
+        height -= 6.0;
+        decodeButtonPath(x, y, width, height, arcSize, arcSize);
         return path;
     }
 
@@ -235,8 +259,6 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     }
 
     private void setPath(int x, int y, int width, int height, int arc) {
-        width--;
-        height--;
         path.reset();
         if (editable) {
             path.moveTo(x, y);
