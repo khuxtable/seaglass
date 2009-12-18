@@ -44,10 +44,10 @@ public final class ComboBoxTextFieldPainter extends AbstractRegionPainter {
     private static final Color     LIGHTER_SHADOW  = new Color(0xf5f5f5);
 
     private static final Insets    insets          = new Insets(3, 3, 3, 0);
-    private static final Dimension dimension       = new Dimension(64, 23);
-    private static final CacheMode cacheMode       = CacheMode.NINE_SQUARE_SCALE;
+    private static final Dimension dimension       = new Dimension(84, 23);
+    private static final CacheMode cacheMode       = CacheMode.FIXED_SIZES;
     private static final Double    maxH            = Double.POSITIVE_INFINITY;
-    private static final Double    maxV            = 2.0;
+    private static final Double    maxV            = Double.POSITIVE_INFINITY;
 
     private Which                  state;
     private PaintContext           ctx;
@@ -82,40 +82,26 @@ public final class ComboBoxTextFieldPainter extends AbstractRegionPainter {
     }
 
     private void paintDisabled(Graphics2D g, JComponent c, int width, int height) {
-        rect.setBounds(3, 3, width - 3, height - 7);
-        Color color = c.getBackground();
-        color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0x80);
-        g.setColor(color);
-        g.fill(rect);
-
-        paintInternalDropShadow(g, width, height);
-
-        g.setColor(DISABLED_BORDER);
-        setRect(2, 2, width - 2, height - 5);
-        g.draw(path);
+        paintButton(g, c, width, height, DISABLED_BORDER);
     }
 
     private void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
-        rect.setBounds(3, 3, width - 3, height - 7);
-        g.setColor(c.getBackground());
-        g.fill(rect);
-
-        paintInternalDropShadow(g, width, height);
-
-        g.setColor(ENABLED_BORDER);
-        setRect(2, 2, width - 2, height - 5);
-        g.draw(path);
+        paintButton(g, c, width, height, ENABLED_BORDER);
     }
 
     private void paintSelected(Graphics2D g, JComponent c, int width, int height) {
-        rect.setBounds(3, 3, width - 3, height - 7);
+        paintButton(g,  c, width, height, ENABLED_BORDER);
+    }
+
+    private void paintButton(Graphics2D g, JComponent c, int width, int height, Color borderColor) {
+        rect.setBounds(3, 3, width - 3, height - 6);
         g.setColor(c.getBackground());
         g.fill(rect);
 
         paintInternalDropShadow(g, width, height);
 
-        g.setColor(ENABLED_BORDER);
-        setRect(2, 2, width - 2, height - 5);
+        g.setColor(borderColor);
+        setRect(2, 2, width - 2, height - 4);
         g.draw(path);
     }
 
