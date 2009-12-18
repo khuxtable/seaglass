@@ -37,19 +37,19 @@ public final class ArrowButtonPainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED, FOREGROUND_DISABLED, FOREGROUND_ENABLED,
     }
 
-    private static final Insets    insets    = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension = new Dimension(10, 10);
-    private static final CacheMode cacheMode = CacheMode.FIXED_SIZES;
-    private static final Double    maxH      = 1.0;
-    private static final Double    maxV      = 1.0;
+    private static final Insets    insets        = new Insets(0, 0, 0, 0);
+    private static final Dimension dimension     = new Dimension(10, 10);
+    private static final CacheMode cacheMode     = CacheMode.FIXED_SIZES;
+    private static final Double    maxH          = 1.0;
+    private static final Double    maxV          = 1.0;
 
-    private Which        state;
-    private PaintContext ctx;
+    private Which                  state;
+    private PaintContext           ctx;
 
-    private Path2D       path          = new Path2D.Float();
+    private Path2D                 path          = new Path2D.Float();
 
-    private Color        disabledColor = new Color(167, 171, 178);
-    private Color        enabledColor  = Color.black;
+    private Color                  disabledColor = new Color(0x9ba8cf);
+    private Color                  enabledColor  = Color.black;
 
     public ArrowButtonPainter(Which state) {
         super();
