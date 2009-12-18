@@ -62,14 +62,14 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
 
     private static final Insets    bgInsets             = new Insets(4, 1, 4, 4);
     private static final Dimension bgDimension          = new Dimension(21, 23);
-    private static final CacheMode cacheMode            = CacheMode.NINE_SQUARE_SCALE;
-    private static final Double    maxH                 = Double.POSITIVE_INFINITY;
-    private static final Double    maxV                 = 5.0;
+    private static final CacheMode cacheMode            = CacheMode.FIXED_SIZES;
+    private static final Double    maxH                 = 1.0;
+    private static final Double    maxV                 = Double.POSITIVE_INFINITY;
 
     private static final Insets    fgInsets             = new Insets(0, 0, 0, 0);
-    private static final Dimension fgDimension          = new Dimension(10, 5);
+    private static final Dimension fgDimension          = new Dimension(10, 6);
 
-    private static final Dimension fgEditableDimension  = new Dimension(6, 8);
+    private static final Dimension fgEditableDimension  = new Dimension(6, 9);
 
     private Path2D                 path                 = new Path2D.Double();
 
@@ -82,17 +82,26 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         Insets ins = bgInsets;
         Dimension dim = bgDimension;
         boolean inverted = false;
+        CacheMode mode = cacheMode;
+        Double maxH = ComboBoxArrowButtonPainter.maxH;
+        Double maxV = ComboBoxArrowButtonPainter.maxV;
         if (state == Which.FOREGROUND_ENABLED || state == Which.FOREGROUND_DISABLED || state == Which.FOREGROUND_PRESSED
                 || state == Which.FOREGROUND_SELECTED) {
             ins = fgInsets;
             dim = fgDimension;
             inverted = true;
+            mode = CacheMode.NINE_SQUARE_SCALE;
+            maxH = Double.POSITIVE_INFINITY;
+            maxV = 5.0;
         } else if (state == Which.FOREGROUND_EDITABLE || state == Which.FOREGROUND_EDITABLE_DISABLED) {
             ins = fgInsets;
             dim = fgEditableDimension;
             inverted = true;
+            mode = CacheMode.NINE_SQUARE_SCALE;
+            maxH = Double.POSITIVE_INFINITY;
+            maxV = 5.0;
         }
-        ctx = new PaintContext(ins, dim, inverted, cacheMode, maxH, maxV);
+        ctx = new PaintContext(ins, dim, inverted, mode, maxH, maxV);
 
         // Set the default colors.
         setEnabled(new ButtonStateColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true), new Color(
@@ -243,8 +252,8 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         double arcSize = 4.0;
         double x = 0.0;
         double y = 2.0;
-        width -= 3.0;
-        height -= 5.0;
+        width -= 2.0;
+        height -= 4.0;
         decodeButtonPath(x, y, width, height, arcSize, arcSize);
         return path;
     }
@@ -253,8 +262,8 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         double arcSize = 3.0;
         double x = 1.0;
         double y = 3.0;
-        width -= 5.0;
-        height -= 7.0;
+        width -= 4.0;
+        height -= 6.0;
         decodeButtonPath(x, y, width, height, arcSize, arcSize);
         return path;
     }
