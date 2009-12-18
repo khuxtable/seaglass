@@ -19,15 +19,24 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Paint;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
  * ComboBoxArrowButtonPainter implementation.
  */
-public final class ComboBoxArrowButtonPainter extends AbstractImagePainter<ComboBoxArrowButtonPainter.Which> {
+public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_ENABLED,
@@ -44,19 +53,32 @@ public final class ComboBoxArrowButtonPainter extends AbstractImagePainter<Combo
         FOREGROUND_EDITABLE_DISABLED,
     }
 
-    private static final Insets    bgInsets            = new Insets(8, 1, 8, 8);
-    private static final Dimension bgDimension         = new Dimension(21, 23);
-    private static final CacheMode cacheMode           = CacheMode.NINE_SQUARE_SCALE;
-    private static final Double    maxH                = Double.POSITIVE_INFINITY;
-    private static final Double    maxV                = 5.0;
+    private static final Color     ENABLED_ARROW_COLOR  = new Color(0x000000);
+    private static final Color     DISABLED_ARROW_COLOR = new Color(0x9ba8cf);
 
-    private static final Insets    fgInsets            = new Insets(0, 0, 0, 0);
-    private static final Dimension fgDimension         = new Dimension(10, 5);
+    public ButtonStateColors       enabled;
+    public ButtonStateColors       pressed;
+    public ButtonStateColors       disabled;
 
-    private static final Dimension fgEditableDimension = new Dimension(6, 8);
+    private static final Insets    bgInsets             = new Insets(4, 1, 4, 4);
+    private static final Dimension bgDimension          = new Dimension(21, 23);
+    private static final CacheMode cacheMode            = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    maxH                 = Double.POSITIVE_INFINITY;
+    private static final Double    maxV                 = 5.0;
+
+    private static final Insets    fgInsets             = new Insets(0, 0, 0, 0);
+    private static final Dimension fgDimension          = new Dimension(10, 5);
+
+    private static final Dimension fgEditableDimension  = new Dimension(6, 8);
+
+    private Path2D                 path                 = new Path2D.Double();
+
+    private Which                  state;
+    private PaintContext           ctx;
 
     public ComboBoxArrowButtonPainter(Which state) {
-        super(state);
+        super();
+        this.state = state;
         Insets ins = bgInsets;
         Dimension dim = bgDimension;
         boolean inverted = false;
@@ -70,33 +92,265 @@ public final class ComboBoxArrowButtonPainter extends AbstractImagePainter<Combo
             dim = fgEditableDimension;
             inverted = true;
         }
-        setPaintContext(new PaintContext(ins, dim, inverted, cacheMode, maxH, maxV));
+        ctx = new PaintContext(ins, dim, inverted, cacheMode, maxH, maxV);
+
+        // Set the default colors.
+        setEnabled(new ButtonStateColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true), new Color(
+            0xffC0E8FF, true), 0.4f, new Color(0x276FB2), new Color(0x4F7BBF), new Color(0x3F76BF)));
+        setPressed(new ButtonStateColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true), new Color(
+            0xffb4d9ee, true), 0.4f, new Color(0x134D8C), new Color(0x4F7BBF), new Color(0x3F76BF)));
+        setDisabled(new ButtonStateColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true), new Color(
+            0xffF7FCFF, true), 0.4f, new Color(0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF)));
+    }
+
+    public void setEnabled(ButtonStateColors enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setPressed(ButtonStateColors enabledPressed) {
+        this.pressed = enabledPressed;
+    }
+
+    public void setDisabled(ButtonStateColors defaultButton) {
+        this.disabled = defaultButton;
     }
 
     @Override
-    protected String getImageName(Which state) {
+    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_DISABLED_EDITABLE:
-            return "combo_box_editable_button_disabled";
+            paintDisabledEditable(g, c, width, height);
+            break;
         case BACKGROUND_ENABLED_EDITABLE:
-            return "combo_box_editable_button_enabled";
+            paintEnabledEditable(g, c, width, height);
+            break;
         case BACKGROUND_PRESSED_EDITABLE:
-            return "combo_box_editable_button_pressed";
+            paintPressedEditable(g, c, width, height);
+            break;
         case BACKGROUND_SELECTED_EDITABLE:
-            return "combo_box_editable_button_pressed";
+            paintPressedEditable(g, c, width, height);
+            break;
         case FOREGROUND_ENABLED:
-            return "combo_box_arrows_enabled";
+            paintArrowsEnabled(g, c, width, height);
+            break;
         case FOREGROUND_DISABLED:
-            return "combo_box_arrows_disabled";
+            paintArrowsDisabled(g, c, width, height);
+            break;
         case FOREGROUND_PRESSED:
-            return "combo_box_arrows_enabled";
+            paintArrowsEnabled(g, c, width, height);
+            break;
         case FOREGROUND_SELECTED:
-            return "combo_box_arrows_enabled";
+            paintArrowsEnabled(g, c, width, height);
+            break;
         case FOREGROUND_EDITABLE:
-            return "combo_box_editable_arrow_enabled";
+            paintArrowDownEnabled(g, c, width, height);
+            break;
         case FOREGROUND_EDITABLE_DISABLED:
-            return "combo_box_editable_arrow_disabled";
+            paintArrowDownDisabled(g, c, width, height);
+            break;
         }
-        return null;
+    }
+
+    @Override
+    protected PaintContext getPaintContext() {
+        return ctx;
+    }
+
+    private void paintDisabledEditable(Graphics2D g, JComponent c, int width, int height) {
+        paintButton(g, c, width, height, disabled);
+    }
+
+    private void paintEnabledEditable(Graphics2D g, JComponent c, int width, int height) {
+        paintButton(g, c, width, height, enabled);
+    }
+
+    private void paintPressedEditable(Graphics2D g, JComponent c, int width, int height) {
+        paintButton(g, c, width, height, pressed);
+    }
+
+    private void paintButton(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        path = decodeBorder(width, height);
+        g.setPaint(decodeGradientBackground(path, colors.backgroundTop, colors.backgroundBottom));
+        g.fill(path);
+        path = decodeInterior(width, height);
+        g.setColor(colors.mainColor);
+        g.fill(path);
+        g.setPaint(decodeGradientBottomShine(path, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
+        g.fill(path);
+        g.setPaint(decodeGradientTopShine(path, colors.upperShineTop, colors.upperShineBottom));
+        g.fill(path);
+    }
+
+    private void paintArrowsEnabled(Graphics2D g, JComponent c, int width, int height) {
+        g.setColor(ENABLED_ARROW_COLOR);
+
+        path.reset();
+        path.moveTo(3.5, 0.5);
+        path.lineTo(0.5, 2.5);
+        path.lineTo(3.5, 4.5);
+        path.closePath();
+        g.fill(path);
+
+        path.reset();
+        path.moveTo(6.5, 0.5);
+        path.lineTo(9.5, 2.5);
+        path.lineTo(6.5, 4.5);
+        path.closePath();
+        g.fill(path);
+    }
+
+    private void paintArrowsDisabled(Graphics2D g, JComponent c, int width, int height) {
+        g.setColor(DISABLED_ARROW_COLOR);
+
+        path.reset();
+        path.moveTo(3.5, 0.5);
+        path.lineTo(0.5, 2.5);
+        path.lineTo(3.5, 4.5);
+        path.closePath();
+        g.fill(path);
+
+        path.reset();
+        path.moveTo(6.5, 0.5);
+        path.lineTo(9.5, 2.5);
+        path.lineTo(6.5, 4.5);
+        path.closePath();
+        g.fill(path);
+    }
+
+    private void paintArrowDownEnabled(Graphics2D g, JComponent c, int width, int height) {
+        path.reset();
+        path.moveTo(5.2, 1.0);
+        path.lineTo(1.0, 4.0);
+        path.lineTo(5.2, 7.0);
+        path.closePath();
+        g.setColor(ENABLED_ARROW_COLOR);
+        g.fill(path);
+    }
+
+    private void paintArrowDownDisabled(Graphics2D g, JComponent c, int width, int height) {
+        path.reset();
+        path.moveTo(5.2, 1.0);
+        path.lineTo(1.0, 4.0);
+        path.lineTo(5.2, 7.0);
+        path.closePath();
+        g.setColor(DISABLED_ARROW_COLOR);
+        g.fill(path);
+    }
+
+    Path2D decodeBorder(double width, double height) {
+        double arcSize = 4.0;
+        double x = 0.0;
+        double y = 2.0;
+        width -= 3.0;
+        height -= 5.0;
+        decodeButtonPath(x, y, width, height, arcSize, arcSize);
+        return path;
+    }
+
+    Path2D decodeInterior(double width, double height) {
+        double arcSize = 3.0;
+        double x = 1.0;
+        double y = 3.0;
+        width -= 5.0;
+        height -= 7.0;
+        decodeButtonPath(x, y, width, height, arcSize, arcSize);
+        return path;
+    }
+
+    private void decodeButtonPath(Double left, Double top, Double width, Double height, Double arcW, Double arcH) {
+        Double bottom = top + height;
+        Double right = left + width;
+        path.reset();
+        path.moveTo(left, top);
+        path.lineTo(left, bottom);
+        path.lineTo(right - arcW, bottom);
+        path.quadTo(right, bottom, right, bottom - arcH);
+        path.lineTo(right, top + arcH);
+        path.quadTo(right, top, right - arcW, top);
+        path.closePath();
+    }
+
+    /**
+     * Create the gradient for the background of the button. This creates the
+     * border.
+     * 
+     * @param s
+     * @param color1
+     * @param color2
+     * @return
+     */
+    Paint decodeGradientBackground(Shape s, Color color1, Color color2) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
+    }
+
+    /**
+     * Create the gradient for the shine at the bottom of the button.
+     * 
+     * @param color1
+     * @param color2
+     * @param midpoint
+     */
+    Paint decodeGradientBottomShine(Shape s, Color color1, Color color2, float midpoint) {
+        Color midColor = new Color(deriveARGB(color1, color2, midpoint) & 0xFFFFFF, true);
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, midpoint, 1f }, new Color[] {
+            color1,
+            midColor,
+            color2 });
+    }
+
+    /**
+     * Create the gradient for the shine at the top of the button.
+     * 
+     * @param s
+     * @param color1
+     * @param color2
+     * @return
+     */
+    Paint decodeGradientTopShine(Shape s, Color color1, Color color2) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
+    }
+
+    /**
+     * A set of colors to use for the button.
+     */
+    public class ButtonStateColors {
+
+        public Color upperShineTop;
+        public Color upperShineBottom;
+        public Color lowerShineTop;
+        public Color lowerShineBottom;
+        public float lowerShineMidpoint;
+        public Color mainColor;
+        public Color backgroundTop;
+        public Color backgroundBottom;
+
+        public ButtonStateColors(Color upperShineTop, Color upperShineBottom, Color lowerShineTop, Color lowerShineBottom,
+            float lowerShineMidpoint, Color mainColor, Color backgroundTop, Color backgroundBottom) {
+            this.upperShineTop = upperShineTop;
+            this.upperShineBottom = upperShineBottom;
+            this.lowerShineTop = lowerShineTop;
+            this.lowerShineBottom = lowerShineBottom;
+            this.lowerShineMidpoint = lowerShineMidpoint;
+            this.mainColor = mainColor;
+            this.backgroundTop = backgroundTop;
+            this.backgroundBottom = backgroundBottom;
+        }
     }
 }
