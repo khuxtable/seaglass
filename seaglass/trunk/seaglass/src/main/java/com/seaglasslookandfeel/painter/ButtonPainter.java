@@ -58,7 +58,7 @@ public final class ButtonPainter extends AbstractRegionPainter {
 
     private static final Insets    insets    = new Insets(7, 7, 7, 7);
     private static final Dimension dimension = new Dimension(86, 29);
-    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
+    private static final CacheMode cacheMode = CacheMode.FIXED_SIZES;
     private static final Double    maxH      = Double.POSITIVE_INFINITY;
     private static final Double    maxV      = Double.POSITIVE_INFINITY;
 
@@ -78,8 +78,8 @@ public final class ButtonPainter extends AbstractRegionPainter {
 
         ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
 
-        standard = new SegmentedButtonPainter(state, ctx, dimension);
-        textured = new TexturedButtonPainter(state, ctx, dimension);
+        standard = new SegmentedButtonPainter(state, ctx);
+        textured = new TexturedButtonPainter(state, ctx);
     }
 
     /**

@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.painter.button;
 
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
@@ -38,7 +37,6 @@ public abstract class ButtonVariantPainter extends AbstractRegionPainter {
 
     protected Which        state;
     protected PaintContext ctx;
-    protected Dimension    dimension;
     protected boolean      focused;
 
     /**
@@ -48,14 +46,11 @@ public abstract class ButtonVariantPainter extends AbstractRegionPainter {
      *            the button state.
      * @param ctx
      *            the paint context.
-     * @param dimension
-     *            the button dimensions for scaling.
      */
-    public ButtonVariantPainter(Which state, PaintContext ctx, Dimension dimension) {
+    public ButtonVariantPainter(Which state, PaintContext ctx) {
         super();
         this.state = state;
         this.ctx = ctx;
-        this.dimension = dimension;
 
         switch (state) {
         case BACKGROUND_DEFAULT_FOCUSED:
