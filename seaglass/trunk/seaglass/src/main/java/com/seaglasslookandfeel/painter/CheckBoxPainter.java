@@ -290,7 +290,6 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     }
 
     private Shape setRect(Double diameter, int width, int height, int arc) {
-        System.out.println("w = " + width + ", h = " + height);
         Double pos = (width - diameter) / 2.0;
         rect.setRoundRect(pos, pos, diameter, diameter, arc, arc);
         return rect;
