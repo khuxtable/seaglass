@@ -14,8 +14,8 @@ public class SeaGlassLaffyDemo {
             public void run() {
                 // set SeaGlass laf if available
                 try {
-                    UIManager.installLookAndFeel("SeaGlass", "com.seaglass.SeaGlassLookAndFeel");
-                    UIManager.setLookAndFeel("com.seaglass.SeaGlassLookAndFeel");
+                    UIManager.installLookAndFeel("SeaGlass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
+                    UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
                 } catch (Exception e) {
                     System.err.println("Nimbus LAF not available using Ocean.");
                     try {
