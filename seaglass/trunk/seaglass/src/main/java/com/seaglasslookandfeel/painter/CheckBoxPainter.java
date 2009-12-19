@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -67,8 +66,10 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     private boolean                focused;
     private boolean                selected;
 
+    private static final Color     OUTER_FOCUS_COLOR        = new Color(0x8072a5d2, true);
+    private static final Color     INNER_FOCUS_COLOR        = new Color(0x73a4d1);
+
     private final Color            colorShadow              = new Color(0x000000);
-    final Color                    colorFocus               = new Color(0x79a0cf);
     private Effect                 dropShadow               = new SeaGlassDropShadowEffect();
 
     private RoundRectangle2D       rect                     = new RoundRectangle2D.Double();
@@ -138,6 +139,15 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        if (focused) {
+            Shape s = setOuterFocus(width, height);
+            g.setColor(OUTER_FOCUS_COLOR);
+            g.fill(s);
+            s = setInnerFocus(width, height);
+            g.setColor(INNER_FOCUS_COLOR);
+            g.fill(s);
+        }
+
         switch (state) {
         case ICON_DISABLED:
             paintDisabled(g, c, width, height);
@@ -163,12 +173,6 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
             break;
         }
 
-        if (focused) {
-            Shape s = setFocus(width, height);
-            g.setColor(colorFocus);
-            g.setStroke(new BasicStroke(1.5f));
-            g.draw(s);
-        }
         if (selected) {
             if (state == Which.ICON_DISABLED_SELECTED) {
                 paintCheckMark(g, width, height, bulletDisabled1, bulletDisabled2, false);
@@ -216,7 +220,9 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     private void paintTwoLayeredButton(Graphics2D g, int width, int height, Color border1, Color border2, Color internal1, Color internal2,
         Color internal3, Color internal4) {
         Shape s = setBorder(width, height);
-        g.drawImage(createDropShadowImage(s), 0, 0, null);
+        if (!focused) {
+            g.drawImage(createDropShadowImage(s), 0, 0, null);
+        }
         Paint p = setGradient2(s, border1, border2);
         g.setPaint(p);
         g.fill(s);
@@ -229,7 +235,9 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     private void paintFourLayeredButton(Graphics2D g, int width, int height, Color border1, Color border2, Color internalA1,
         Color internalA2, Color internalB1, Color internalB2, Color internalB3, Color internalC) {
         Shape s = setBorder(width, height);
-        g.drawImage(createDropShadowImage(s), 0, 0, null);
+        if (!focused) {
+            g.drawImage(createDropShadowImage(s), 0, 0, null);
+        }
         Paint p = setGradient2(s, border1, border2);
         g.setPaint(p);
         g.fill(s);
@@ -251,16 +259,20 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         g.fill(s);
     }
 
-    private Shape setFocus(int width, int height) {
-        return setRect(width - 1.0, width, height, 7);
+    private Shape setOuterFocus(int width, int height) {
+        return setRect(width - 0.0, width, height, 7);
     }
 
-    private Shape setBorder(int width, int height) {
+    private Shape setInnerFocus(int width, int height) {
         return setRect(width - 2.0, width, height, 6);
     }
 
+    private Shape setBorder(int width, int height) {
+        return setRect(width - 4.0, width, height, 5);
+    }
+
     private Shape setInternal(int width, int height) {
-        return setRect(width - 4.0, width, height, 4);
+        return setRect(width - 6.0, width, height, 4);
     }
 
     /**
@@ -278,13 +290,14 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     }
 
     private Shape setRect(Double diameter, int width, int height, int arc) {
+        System.out.println("w = " + width + ", h = " + height);
         Double pos = (width - diameter) / 2.0;
-        rect.setRoundRect(pos, pos + 2.0 / 19.0 * height, diameter, diameter, arc, arc);
+        rect.setRoundRect(pos, pos + 1.0 / 19.0 * height, diameter, diameter, arc, arc);
         return rect;
     }
 
     private Shape setCheckMark(int width, int height) {
-        double widthMult = width / 16.0;
+        double widthMult = width / 18.0;
         double heightMult = height / 19.0;
         path.reset();
         path.moveTo(5.0 * widthMult, 9.0 * heightMult);
