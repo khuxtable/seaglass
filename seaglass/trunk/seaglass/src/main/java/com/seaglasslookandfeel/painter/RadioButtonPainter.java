@@ -55,7 +55,7 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     }
 
     private static final Insets    insets                   = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension                = new Dimension(20, 20);
+    private static final Dimension dimension                = new Dimension(18, 18);
     private static final CacheMode cacheMode                = CacheMode.FIXED_SIZES;
     private static final Double    maxH                     = Double.POSITIVE_INFINITY;
     private static final Double    maxV                     = Double.POSITIVE_INFINITY;
