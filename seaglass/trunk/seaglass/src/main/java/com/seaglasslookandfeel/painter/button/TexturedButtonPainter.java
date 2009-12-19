@@ -20,7 +20,6 @@
 package com.seaglasslookandfeel.painter.button;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
 
@@ -39,11 +38,9 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
      *            the button state.
      * @param ctx
      *            the paint context.
-     * @param dimension
-     *            the button dimensions for scaling.
      */
-    public TexturedButtonPainter(Which state, PaintContext ctx, Dimension dimension) {
-        super(state, ctx, dimension);
+    public TexturedButtonPainter(Which state, PaintContext ctx) {
+        super(state, ctx);
 
         setEnabled(new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0, true),
             0.5f, new Color(0xbbbbbb), new Color(0x555555), new Color(0x4c4c4c)));
