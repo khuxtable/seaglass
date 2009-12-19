@@ -699,7 +699,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("CheckBox[Pressed+Selected].iconPainter", new LazyPainter(c, CheckBoxPainter.Which.ICON_PRESSED_SELECTED));
         d.put("CheckBox[Focused+Pressed+Selected].iconPainter", new LazyPainter(c, CheckBoxPainter.Which.ICON_PRESSED_SELECTED_FOCUSED));
         d.put("CheckBox[Disabled+Selected].iconPainter", new LazyPainter(c, CheckBoxPainter.Which.ICON_DISABLED_SELECTED));
-        d.put("CheckBox.icon", new SeaGlassIcon("CheckBox", "iconPainter", 16, 19));
+        d.put("CheckBox.icon", new SeaGlassIcon("CheckBox", "iconPainter", 18, 19));
 
         // Initialize RadioButton
         c = "com.seaglasslookandfeel.painter.RadioButtonPainter";
@@ -716,7 +716,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("RadioButton[Focused+Pressed+Selected].iconPainter", new LazyPainter(c,
             RadioButtonPainter.Which.ICON_PRESSED_SELECTED_FOCUSED));
         d.put("RadioButton[Disabled+Selected].iconPainter", new LazyPainter(c, RadioButtonPainter.Which.ICON_DISABLED_SELECTED));
-        d.put("RadioButton.icon", new SeaGlassIcon("RadioButton", "iconPainter", 16, 16));
+        d.put("RadioButton.icon", new SeaGlassIcon("RadioButton", "iconPainter", 18, 18));
     }
 
     /**
