@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -56,7 +55,7 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     }
 
     private static final Insets    insets                   = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension                = new Dimension(18, 18);
+    private static final Dimension dimension                = new Dimension(20, 20);
     private static final CacheMode cacheMode                = CacheMode.FIXED_SIZES;
     private static final Double    maxH                     = Double.POSITIVE_INFINITY;
     private static final Double    maxV                     = Double.POSITIVE_INFINITY;
@@ -65,8 +64,10 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     private PaintContext           ctx;
     private boolean                focused;
 
+    private static final Color     OUTER_FOCUS_COLOR        = new Color(0x8072a5d2, true);
+    private static final Color     INNER_FOCUS_COLOR        = new Color(0x73a4d1);
+
     private final Color            colorShadow              = new Color(0x000000);
-    final Color                    colorFocus               = new Color(0x79a0cf);
     private Effect                 dropShadow               = new SeaGlassDropShadowEffect();
 
     private Ellipse2D              ellipse                  = new Ellipse2D.Double();
@@ -141,6 +142,10 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        if (focused) {
+            paintFocus(g, width, height);
+        }
+
         switch (state) {
         case ICON_DISABLED:
             paintDisabled(g, c, width, height);
@@ -165,13 +170,20 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
             paintDisabledSelected(g, c, width, height);
             break;
         }
+    }
 
-        if (focused) {
-            Shape s = setFocus(width, height);
-            g.setColor(colorFocus);
-            g.setStroke(new BasicStroke(1.5f));
-            g.draw(s);
-        }
+    /**
+     * @param g
+     * @param width
+     * @param height
+     */
+    private void paintFocus(Graphics2D g, int width, int height) {
+        Shape s = setOuterFocus(width, height);
+        g.setColor(OUTER_FOCUS_COLOR);
+        g.fill(s);
+        s = setInnerFocus(width, height);
+        g.setColor(INNER_FOCUS_COLOR);
+        g.fill(s);
     }
 
     @Override
@@ -215,7 +227,9 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     private void paintTwoLayeredButton(Graphics2D g, int width, int height, Color border1, Color border2, Color internal1, Color internal2,
         Color internal3, Color internal4) {
         Shape s = setBorder(width, height);
-        g.drawImage(createDropShadowImage(s), 0, 0, null);
+        if (!focused) {
+            g.drawImage(createDropShadowImage(s), 0, 0, null);
+        }
         Paint p = setGradient2(s, border1, border2);
         g.setPaint(p);
         g.fill(s);
@@ -228,7 +242,9 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     private void paintFourLayeredButton(Graphics2D g, int width, int height, Color border1, Color border2, Color internalA1,
         Color internalA2, Color internalB1, Color internalB2, Color internalB3, Color internalC) {
         Shape s = setBorder(width, height);
-        g.drawImage(createDropShadowImage(s), 0, 0, null);
+        if (!focused) {
+            g.drawImage(createDropShadowImage(s), 0, 0, null);
+        }
         Paint p = setGradient2(s, border1, border2);
         g.setPaint(p);
         g.fill(s);
@@ -250,20 +266,24 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
         g.fill(s);
     }
 
-    private Shape setFocus(int width, int height) {
-        return setCircle(width - 1.5, width, height);
+    private Shape setOuterFocus(int width, int height) {
+        return setCircle(width - 0.0, width, height);
     }
 
-    private Shape setBorder(int width, int height) {
+    private Shape setInnerFocus(int width, int height) {
         return setCircle(width - 2.0, width, height);
     }
 
-    private Shape setInternal(int width, int height) {
+    private Shape setBorder(int width, int height) {
         return setCircle(width - 4.0, width, height);
     }
 
+    private Shape setInternal(int width, int height) {
+        return setCircle(width - 6.0, width, height);
+    }
+
     private Shape setBullet(int width, int height) {
-        return setCircle(width / 4.0, width, height);
+        return setCircle(width / 4.5, width, height);
     }
 
     /**
