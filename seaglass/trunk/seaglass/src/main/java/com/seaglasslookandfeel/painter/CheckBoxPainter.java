@@ -56,7 +56,7 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     }
 
     private static final Insets    insets                   = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension                = new Dimension(18, 19);
+    private static final Dimension dimension                = new Dimension(18, 18);
     private static final CacheMode cacheMode                = CacheMode.FIXED_SIZES;
     private static final Double    maxH                     = 1.0;
     private static final Double    maxV                     = 1.0;
@@ -292,20 +292,20 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     private Shape setRect(Double diameter, int width, int height, int arc) {
         System.out.println("w = " + width + ", h = " + height);
         Double pos = (width - diameter) / 2.0;
-        rect.setRoundRect(pos, pos + 1.0 / 19.0 * height, diameter, diameter, arc, arc);
+        rect.setRoundRect(pos, pos, diameter, diameter, arc, arc);
         return rect;
     }
 
     private Shape setCheckMark(int width, int height) {
         double widthMult = width / 18.0;
-        double heightMult = height / 19.0;
+        double heightMult = height / 18.0;
         path.reset();
-        path.moveTo(5.0 * widthMult, 9.0 * heightMult);
-        path.lineTo(7.0 * widthMult, 9.0 * heightMult);
-        path.lineTo(9.75 * widthMult, 12.0 * heightMult);
-        path.lineTo(14.0 * widthMult, 2.0 * heightMult);
-        path.lineTo(16.0 * widthMult, 2.0 * heightMult);
-        path.lineTo(10.0 * widthMult, 14.0 * heightMult);
+        path.moveTo(5.0 * widthMult, 8.0 * heightMult);
+        path.lineTo(7.0 * widthMult, 8.0 * heightMult);
+        path.lineTo(9.75 * widthMult, 11.0 * heightMult);
+        path.lineTo(14.0 * widthMult, 1.0 * heightMult);
+        path.lineTo(16.0 * widthMult, 1.0 * heightMult);
+        path.lineTo(10.0 * widthMult, 13.0 * heightMult);
         path.closePath();
         return path;
     }
