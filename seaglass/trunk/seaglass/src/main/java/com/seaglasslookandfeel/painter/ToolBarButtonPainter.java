@@ -31,8 +31,6 @@ public final class ToolBarButtonPainter extends AbstractImagePainter<ToolBarButt
     public static enum Which {
         BACKGROUND_ENABLED,
         BACKGROUND_FOCUSED,
-        BACKGROUND_MOUSEOVER,
-        BACKGROUND_MOUSEOVER_FOCUSED,
         BACKGROUND_PRESSED,
         BACKGROUND_PRESSED_FOCUSED,
     }
@@ -52,10 +50,6 @@ public final class ToolBarButtonPainter extends AbstractImagePainter<ToolBarButt
     protected String getImageName(Which state) {
         switch (state) {
         case BACKGROUND_FOCUSED:
-            return "toolbar_button_focused";
-        case BACKGROUND_MOUSEOVER:
-            return "empty_image";
-        case BACKGROUND_MOUSEOVER_FOCUSED:
             return "toolbar_button_focused";
         case BACKGROUND_PRESSED:
             return "toolbar_button_pressed";
