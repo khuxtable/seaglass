@@ -95,7 +95,6 @@ import com.seaglasslookandfeel.painter.TitlePaneCloseButtonPainter;
 import com.seaglasslookandfeel.painter.TitlePaneIconifyButtonPainter;
 import com.seaglasslookandfeel.painter.TitlePaneMaximizeButtonPainter;
 import com.seaglasslookandfeel.painter.TitlePaneMenuButtonPainter;
-import com.seaglasslookandfeel.painter.ToolBarButtonPainter;
 import com.seaglasslookandfeel.painter.ToolBarPainter;
 import com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter;
 import com.seaglasslookandfeel.state.ComboBoxArrowButtonEditableState;
@@ -146,16 +145,18 @@ import sun.swing.plaf.synth.SynthUI;
  * @see com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
  */
 public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
+    private static boolean               USE_OUR_TOOLBAR_EVEN_ON_MAC = true;
+
     /**
      * Used in a handful of places where we need an empty Insets.
      */
-    public static final Insets           EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
+    public static final Insets           EMPTY_UIRESOURCE_INSETS     = new InsetsUIResource(0, 0, 0, 0);
 
     /**
      * Used to make title pane act like its parent is an internal frame for
      * style determination.
      */
-    public static final JInternalFrame   FAKE_INTERNAL_FRAME     = new JInternalFrame();
+    public static final JInternalFrame   FAKE_INTERNAL_FRAME         = new JInternalFrame();
 
     /**
      * The map of SynthStyles. This map is keyed by Region. Each Region maps to
@@ -167,7 +168,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * than one prefix defined for a given region. For example, both Button and
      * "MyButton" might be prefixes assigned to the Region.Button region.
      */
-    private Map<Region, List<LazyStyle>> styleMap                = new HashMap<Region, List<LazyStyle>>();
+    private Map<Region, List<LazyStyle>> styleMap                    = new HashMap<Region, List<LazyStyle>>();
 
     /**
      * A map of regions which have been registered. This mapping is maintained
@@ -175,7 +176,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * This is used in the "matches" method of LazyStyle.
      */
 
-    private Map<String, Region>          registeredRegions       = new HashMap<String, Region>();
+    private Map<String, Region>          registeredRegions           = new HashMap<String, Region>();
 
     /**
      * Our fallback style to avoid NPEs if the proper style cannot be found in
@@ -192,19 +193,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in IMAGE_DIRECTORY and UI_PACKAGE_PREFIX.
      */
-    private static final String          PACKAGE_DIRECTORY       = SeaGlassLookAndFeel.class.getPackage().getName();
+    private static final String          PACKAGE_DIRECTORY           = SeaGlassLookAndFeel.class.getPackage().getName();
 
     /**
      * Set the image directory name based on the root package.
      */
-    private static final String          IMAGE_DIRECTORY         = "/" + PACKAGE_DIRECTORY.replaceAll("\\.", "/") + "/resources/images";
+    private static final String          IMAGE_DIRECTORY             = "/" + PACKAGE_DIRECTORY.replaceAll("\\.", "/") + "/resources/images";
 
     /**
      * Set the package name for UI delegates based on the root package.
      */
-    private static final String          UI_PACKAGE_PREFIX       = PACKAGE_DIRECTORY + ".ui.SeaGlass";
+    private static final String          UI_PACKAGE_PREFIX           = PACKAGE_DIRECTORY + ".ui.SeaGlass";
 
-    private UIDefaults                   uiDefaults              = null;
+    private UIDefaults                   uiDefaults                  = null;
 
     // Refer to setSelectedUI
     public static ComponentUI            selectedUI;
@@ -407,7 +408,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "TableUI");
             useOurUI(uiDefaults, "TableHeaderUI");
             useOurUI(uiDefaults, "ToggleButtonUI");
-            if (!PlatformUtils.isMac()) {
+            if (USE_OUR_TOOLBAR_EVEN_ON_MAC || !PlatformUtils.isMac()) {
                 useOurUI(uiDefaults, "ToolBarUI");
             }
             useOurUI(uiDefaults, "ViewportUI");
@@ -544,7 +545,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             // If the Mac paint doesn't exist, use Aqua to paint a
             // unified toolbar.
-            if (!PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
+            if (!USE_OUR_TOOLBAR_EVEN_ON_MAC && !PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
                 d.put("ToolBarUI", aquaDefaults.get("ToolBarUI"));
                 d.put("ToolBar.border", aquaDefaults.get("ToolBar.border"));
                 d.put("ToolBar.background", aquaDefaults.get("ToolBar.background"));
@@ -571,7 +572,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineToolBars(UIDefaults d) {
         String c = "com.seaglasslookandfeel.painter.ToolBarPainter";
-        if (!PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
+        if (!USE_OUR_TOOLBAR_EVEN_ON_MAC && !PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
             return;
         }
 
@@ -584,25 +585,25 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ToolBar.South", new ToolBarSouthState());
         d.put("ToolBar.WindowIsActive", new ToolBarWindowIsActiveState());
 
-        if (PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
-            d.put("ToolBar[North].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH));
-            d.put("ToolBar[South].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH));
-            d.put("ToolBar[East].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST));
-            d.put("ToolBar[West].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST));
-            d.put("ToolBar[North+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH_ENABLED));
-            d.put("ToolBar[South+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH_ENABLED));
-            d.put("ToolBar[East+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST_ENABLED));
-            d.put("ToolBar[West+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST_ENABLED));
-            d.put("ToolBar[Enabled].handleIconPainter", new LazyPainter(c, ToolBarPainter.Which.HANDLEICON_ENABLED));
-            d.put("ToolBar.handleIcon", new SeaGlassIcon("ToolBar", "handleIconPainter", 11, 38));
-        }
+        d.put("ToolBar[North].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH));
+        d.put("ToolBar[South].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH));
+        d.put("ToolBar[East].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST));
+        d.put("ToolBar[West].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST));
+        d.put("ToolBar[North+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH_ENABLED));
+        d.put("ToolBar[South+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH_ENABLED));
+        d.put("ToolBar[East+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST_ENABLED));
+        d.put("ToolBar[West+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST_ENABLED));
+        d.put("ToolBar[Enabled].handleIconPainter", new LazyPainter(c, ToolBarPainter.Which.HANDLEICON_ENABLED));
+        d.put("ToolBar.handleIcon", new SeaGlassIcon("ToolBar", "handleIconPainter", 11, 38));
 
-        c = "com.seaglasslookandfeel.painter.ToolBarButtonPainter";
+        c = "com.seaglasslookandfeel.painter.ButtonPainter";
         d.put("ToolBar:Button.States", "Enabled,Disabled,Focused,Pressed");
-        d.put("ToolBar:Button[Focused].backgroundPainter", new LazyPainter(c, ToolBarButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put("ToolBar:Button[Pressed].backgroundPainter", new LazyPainter(c, ToolBarButtonPainter.Which.BACKGROUND_PRESSED));
+        d.put("ToolBar:Button[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put("ToolBar:Button[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
+        d.put("ToolBar:Button[Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_FOCUSED));
+        d.put("ToolBar:Button[Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
         d.put("ToolBar:Button[Focused+Pressed].backgroundPainter",
-            new LazyPainter(c, ToolBarButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+            new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
 
         c = "com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter";
         d.put("ToolBar:ToggleButton.States", "Enabled,Disabled,Focused,Pressed,Selected");
