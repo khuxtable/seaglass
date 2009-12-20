@@ -29,6 +29,7 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
 import com.seaglasslookandfeel.painter.button.ButtonVariantPainter;
 import com.seaglasslookandfeel.painter.button.SegmentedButtonPainter;
 import com.seaglasslookandfeel.painter.button.TexturedButtonPainter;
+import com.seaglasslookandfeel.state.ControlInToolBarState;
 
 /**
  * Button painter. This paints both regular and toggle buttons because they look
@@ -56,16 +57,18 @@ public final class ButtonPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED_SELECTED
     };
 
-    private static final Insets    insets    = new Insets(7, 7, 7, 7);
-    private static final Dimension dimension = new Dimension(86, 29);
-    private static final CacheMode cacheMode = CacheMode.FIXED_SIZES;
-    private static final Double    maxH      = Double.POSITIVE_INFINITY;
-    private static final Double    maxV      = Double.POSITIVE_INFINITY;
+    private static final ControlInToolBarState inToolBar = new ControlInToolBarState();
 
-    private PaintContext           ctx;
+    private static final Insets                insets    = new Insets(7, 7, 7, 7);
+    private static final Dimension             dimension = new Dimension(86, 29);
+    private static final CacheMode             cacheMode = CacheMode.FIXED_SIZES;
+    private static final Double                maxH      = Double.POSITIVE_INFINITY;
+    private static final Double                maxV      = Double.POSITIVE_INFINITY;
 
-    private ButtonVariantPainter   standard;
-    private ButtonVariantPainter   textured;
+    private PaintContext                       ctx;
+
+    private ButtonVariantPainter               standard;
+    private ButtonVariantPainter               textured;
 
     /**
      * Create a new ButtonPainter.
@@ -115,7 +118,9 @@ public final class ButtonPainter extends AbstractRegionPainter {
     private ButtonVariantPainter getButtonPainter(JComponent c) {
         Object buttonType = c.getClientProperty("JButton.buttonType");
         ButtonVariantPainter button = standard;
-        if ("textured".equals(buttonType) || "segmentedTextured".equals(buttonType)) {
+        if (inToolBar.isInState(c)) {
+            button = textured;
+        } else if ("textured".equals(buttonType) || "segmentedTextured".equals(buttonType)) {
             button = textured;
         }
         return button;
