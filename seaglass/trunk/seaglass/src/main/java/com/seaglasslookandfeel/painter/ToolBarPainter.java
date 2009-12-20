@@ -40,7 +40,7 @@ import com.seaglasslookandfeel.util.PlatformUtils;
  * @author Modified by Kathryn Huxtable for SeaGlass
  */
 public class ToolBarPainter extends AbstractRegionPainter {
-    final boolean IS_MAC_OSX = PlatformUtils.isMac();
+    final boolean IS_MAC_OSX = PlatformUtils.isMac() && !PlatformUtils.isSnowLeopard();
 
     public static enum Which {
         BORDER_NORTH,
@@ -68,9 +68,9 @@ public class ToolBarPainter extends AbstractRegionPainter {
 
     // For non-Mac use Snow Leopard colors because it has the same Gamma
     // correction.
-    private Color                  ACTIVE_TOP_GRADIENT_COLOR      = IS_MAC_OSX ? new Color(0xbcbcbc) : new Color(0xc4c4c4);
-    private Color                  ACTIVE_BOTTOM_GRADIENT_COLOR   = IS_MAC_OSX ? new Color(0x9a9a9a) : new Color(0xb2b2b2);
-    private Color                  INACTIVE_TOP_GRADIENT_COLOR    = IS_MAC_OSX ? new Color(0xe4e4e4) : new Color(0xd9d9d9);
+    private Color                  ACTIVE_TOP_GRADIENT_COLOR      = IS_MAC_OSX ? new Color(0xbcbcbc) : new Color(0xc9c9c9);
+    private Color                  ACTIVE_BOTTOM_GRADIENT_COLOR   = IS_MAC_OSX ? new Color(0x9a9a9a) : new Color(0xa7a7a7);
+    private Color                  INACTIVE_TOP_GRADIENT_COLOR    = IS_MAC_OSX ? new Color(0xe4e4e4) : new Color(0xe7e7e7);
     private Color                  INACTIVE_BOTTOM_GRADIENT_COLOR = IS_MAC_OSX ? new Color(0xd1d1d1) : new Color(0xd8d8d8);
 
     private Color                  topColor;
