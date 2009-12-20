@@ -19,43 +19,119 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.geom.Path2D;
+
+import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
- * SpinnerFormattedTextFieldPainter implementation.
+ * ComboBoxTextFieldPainter implementation.
  */
-public final class SpinnerFormattedTextFieldPainter extends AbstractImagePainter<SpinnerFormattedTextFieldPainter.Which> {
+public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainter {
     public static enum Which {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED, BACKGROUND_FOCUSED, BACKGROUND_SELECTED_FOCUSED,
     }
 
-    private static final Insets    insets    = new Insets(3, 3, 3, 1);
-    private static final Dimension dimension = new Dimension(29, 21);
-    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
-    private static final Double    maxH      = Double.POSITIVE_INFINITY;
-    private static final Double    maxV      = Double.POSITIVE_INFINITY;
+    private static final Color     OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
+    private static final Color     INNER_FOCUS_COLOR = new Color(0x73a4d1);
+    private static final Color     DISABLED_BORDER   = new Color(0xdddddd);
+    private static final Color     ENABLED_BORDER    = new Color(0xbbbbbb);
+    private static final Color     DARKER_SHADOW     = new Color(0xe1e1e1);
+    private static final Color     LIGHTER_SHADOW    = new Color(0xf5f5f5);
+
+    private static final Insets    insets            = new Insets(3, 3, 3, 0);
+    private static final Dimension dimension         = new Dimension(84, 25);
+    private static final CacheMode cacheMode         = CacheMode.FIXED_SIZES;
+    private static final Double    maxH              = Double.POSITIVE_INFINITY;
+    private static final Double    maxV              = Double.POSITIVE_INFINITY;
+
+    private Which                  state;
+    private PaintContext           ctx;
+    private boolean                focused;
+
+    private Rectangle              rect              = new Rectangle();
+    private Path2D                 path              = new Path2D.Double();
 
     public SpinnerFormattedTextFieldPainter(Which state) {
-        super(state);
-        setPaintContext(new PaintContext(insets, dimension, false, cacheMode, maxH, maxV));
+        super();
+        this.state = state;
+        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        focused = (state == Which.BACKGROUND_FOCUSED || state == Which.BACKGROUND_SELECTED_FOCUSED);
     }
 
-    protected String getImageName(Which state) {
+    @Override
+    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return "combo_box_textfield_disabled";
+            paintDisabled(g, c, width, height);
+            break;
         case BACKGROUND_ENABLED:
-            return "spinner_text_field_enabled";
         case BACKGROUND_FOCUSED:
-            return "spinner_text_field_enabled";
+            paintEnabled(g, c, width, height);
+            break;
         case BACKGROUND_SELECTED:
-            return "spinner_text_field_enabled";
         case BACKGROUND_SELECTED_FOCUSED:
-            return "spinner_text_field_enabled";
+            paintSelected(g, c, width, height);
+            break;
         }
-        return null;
+    }
+
+    @Override
+    protected PaintContext getPaintContext() {
+        return ctx;
+    }
+
+    private void paintDisabled(Graphics2D g, JComponent c, int width, int height) {
+        paintButton(g, c, width, height, DISABLED_BORDER);
+    }
+
+    private void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
+        paintButton(g, c, width, height, ENABLED_BORDER);
+    }
+
+    private void paintSelected(Graphics2D g, JComponent c, int width, int height) {
+        paintButton(g, c, width, height, ENABLED_BORDER);
+    }
+
+    private void paintButton(Graphics2D g, JComponent c, int width, int height, Color borderColor) {
+        if (focused) {
+            rect.setBounds(0, 0, width, height);
+            g.setColor(OUTER_FOCUS_COLOR);
+            g.fill(rect);
+            rect.setBounds(1, 1, width - 1, height - 2);
+            g.setColor(INNER_FOCUS_COLOR);
+            g.fill(rect);
+        }
+
+        rect.setBounds(3, 3, width - 3, height - 6);
+        g.setColor(c.getBackground());
+        g.fill(rect);
+
+        paintInternalDropShadow(g, width, height);
+
+        g.setColor(borderColor);
+        setRect(2, 2, width - 2, height - 4);
+        g.draw(path);
+    }
+
+    private void paintInternalDropShadow(Graphics2D g, int width, int height) {
+        g.setColor(DARKER_SHADOW);
+        g.drawLine(3, 3, width - 1, 3);
+        g.setColor(LIGHTER_SHADOW);
+        g.drawLine(3, 4, width - 1, 4);
+    }
+
+    private void setRect(int x, int y, int width, int height) {
+        path.reset();
+        path.moveTo(x + width - 1, y);
+        path.lineTo(x, y);
+        path.lineTo(x, y + height - 1);
+        path.lineTo(x + width - 1, y + height - 1);
     }
 }
