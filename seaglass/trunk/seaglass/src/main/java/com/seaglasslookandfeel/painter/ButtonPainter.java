@@ -29,6 +29,7 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
 import com.seaglasslookandfeel.painter.button.ButtonVariantPainter;
 import com.seaglasslookandfeel.painter.button.SegmentedButtonPainter;
 import com.seaglasslookandfeel.painter.button.TexturedButtonPainter;
+import com.seaglasslookandfeel.painter.button.TransparentButtonPainter;
 import com.seaglasslookandfeel.state.ControlInToolBarState;
 
 /**
@@ -69,6 +70,7 @@ public final class ButtonPainter extends AbstractRegionPainter {
 
     private ButtonVariantPainter               standard;
     private ButtonVariantPainter               textured;
+    private ButtonVariantPainter               transparent;
 
     /**
      * Create a new ButtonPainter.
@@ -83,6 +85,7 @@ public final class ButtonPainter extends AbstractRegionPainter {
 
         standard = new SegmentedButtonPainter(state, ctx);
         textured = new TexturedButtonPainter(state, ctx);
+        transparent = new TransparentButtonPainter(state, ctx);
     }
 
     /**
@@ -119,7 +122,7 @@ public final class ButtonPainter extends AbstractRegionPainter {
         Object buttonType = c.getClientProperty("JButton.buttonType");
         ButtonVariantPainter button = standard;
         if (inToolBar.isInState(c)) {
-            button = textured;
+            button = transparent;
         } else if ("textured".equals(buttonType) || "segmentedTextured".equals(buttonType)) {
             button = textured;
         }
