@@ -1059,7 +1059,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         c = "com.seaglasslookandfeel.painter.SpinnerPreviousButtonPainter";
         p = "Spinner:\"Spinner.previousButton\"";
-        d.put(p + ".size", new Integer(20));
+        d.put(p + ".size", new Integer(22));
         d.put(p + ".States", "Disabled,Enabled,Focused,Pressed");
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_ENABLED));
@@ -1074,7 +1074,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         c = "com.seaglasslookandfeel.painter.SpinnerNextButtonPainter";
         p = "Spinner:\"Spinner.nextButton\"";
-        d.put(p + ".size", new Integer(20));
+        d.put(p + ".size", new Integer(22));
         d.put(p + ".States", "Disabled,Enabled,Focused,Pressed");
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_ENABLED));
