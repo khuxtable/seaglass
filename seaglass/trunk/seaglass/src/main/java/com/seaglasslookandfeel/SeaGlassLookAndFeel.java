@@ -598,20 +598,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         }
 
         c = "com.seaglasslookandfeel.painter.ToolBarButtonPainter";
+        d.put("ToolBar:Button.States", "Enabled,Disabled,Focused,Pressed");
         d.put("ToolBar:Button[Focused].backgroundPainter", new LazyPainter(c, ToolBarButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put("ToolBar:Button[MouseOver].backgroundPainter", new LazyPainter(c, ToolBarButtonPainter.Which.BACKGROUND_MOUSEOVER));
-        d.put("ToolBar:Button[Focused+MouseOver].backgroundPainter", new LazyPainter(c,
-            ToolBarButtonPainter.Which.BACKGROUND_MOUSEOVER_FOCUSED));
         d.put("ToolBar:Button[Pressed].backgroundPainter", new LazyPainter(c, ToolBarButtonPainter.Which.BACKGROUND_PRESSED));
         d.put("ToolBar:Button[Focused+Pressed].backgroundPainter",
             new LazyPainter(c, ToolBarButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
 
         c = "com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter";
+        d.put("ToolBar:ToggleButton.States", "Enabled,Disabled,Focused,Pressed,Selected");
         d.put("ToolBar:ToggleButton[Focused].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put("ToolBar:ToggleButton[MouseOver].backgroundPainter",
-            new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_MOUSEOVER));
-        d.put("ToolBar:ToggleButton[Focused+MouseOver].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_MOUSEOVER_FOCUSED));
         d.put("ToolBar:ToggleButton[Pressed].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED));
         d.put("ToolBar:ToggleButton[Focused+Pressed].backgroundPainter", new LazyPainter(c,
             ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
@@ -622,10 +617,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
         d.put("ToolBar:ToggleButton[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c,
             ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
-        d.put("ToolBar:ToggleButton[MouseOver+Selected].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_MOUSEOVER_SELECTED));
-        d.put("ToolBar:ToggleButton[Focused+MouseOver+Selected].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_MOUSEOVER_SELECTED_FOCUSED));
         d.put("ToolBar:ToggleButton[Disabled+Selected].backgroundPainter", new LazyPainter(c,
             ToolBarToggleButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
 
@@ -1053,9 +1044,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineSpinners(UIDefaults d) {
+        d.put("Spinner.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("Spinner:\"Spinner.editor\".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+
         String c = "com.seaglasslookandfeel.painter.SpinnerFormattedTextFieldPainter";
         String p = "Spinner:Panel:\"Spinner.formattedTextField\"";
-        d.put(p + ".contentMargins", new InsetsUIResource(3, 6, 2, 6));
+        d.put(p + ".contentMargins", new InsetsUIResource(3, 10, 2, 10));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_FOCUSED));
@@ -1066,39 +1060,31 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         c = "com.seaglasslookandfeel.painter.SpinnerPreviousButtonPainter";
         p = "Spinner:\"Spinner.previousButton\"";
         d.put(p + ".size", new Integer(20));
+        d.put(p + ".States", "Disabled,Enabled,Focused,Pressed");
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put(p + "[Focused+MouseOver].backgroundPainter", new LazyPainter(c,
-            SpinnerPreviousButtonPainter.Which.BACKGROUND_MOUSEOVER_FOCUSED));
         d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
-        d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_FOCUSED));
-        d.put(p + "[Focused+MouseOver].foregroundPainter", new LazyPainter(c,
-            SpinnerPreviousButtonPainter.Which.FOREGROUND_MOUSEOVER_FOCUSED));
         d.put(p + "[Focused+Pressed].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
-        d.put(p + "[MouseOver].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_MOUSEOVER));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED));
 
         c = "com.seaglasslookandfeel.painter.SpinnerNextButtonPainter";
         p = "Spinner:\"Spinner.nextButton\"";
         d.put(p + ".size", new Integer(20));
+        d.put(p + ".States", "Disabled,Enabled,Focused,Pressed");
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put(p + "[Focused+MouseOver].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_MOUSEOVER_FOCUSED));
         d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
-        d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_FOCUSED));
-        d.put(p + "[Focused+MouseOver].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_MOUSEOVER_FOCUSED));
         d.put(p + "[Focused+Pressed].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
-        d.put(p + "[MouseOver].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_MOUSEOVER));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED));
     }
 
