@@ -121,7 +121,7 @@ public final class ButtonPainter extends AbstractRegionPainter {
     private ButtonVariantPainter getButtonPainter(JComponent c) {
         Object buttonType = c.getClientProperty("JButton.buttonType");
         ButtonVariantPainter button = standard;
-        if (inToolBar.isInState(c)) {
+        if (buttonType == null && inToolBar.isInState(c)) {
             button = transparent;
         } else if ("textured".equals(buttonType) || "segmentedTextured".equals(buttonType)) {
             button = textured;
