@@ -290,17 +290,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         register(Region.LABEL, "ComboBox:\"ComboBox.renderer\"");
         register(Region.SCROLL_PANE, "\"ComboBox.scrollPane\"");
         register(Region.FILE_CHOOSER, "FileChooser");
-        if (!PlatformUtils.isMac()) {
-            register(Region.INTERNAL_FRAME_TITLE_PANE, "InternalFrameTitlePane");
-            register(Region.INTERNAL_FRAME, "InternalFrame");
-            register(Region.INTERNAL_FRAME_TITLE_PANE, "InternalFrame:InternalFrameTitlePane");
-            register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"");
-            register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"");
-            register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"");
-            register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\"");
-            register(Region.ROOT_PANE, "RootPane");
-            register(Region.DESKTOP_ICON, "DesktopIcon");
-        }
+        register(Region.INTERNAL_FRAME_TITLE_PANE, "InternalFrameTitlePane");
+        register(Region.INTERNAL_FRAME, "InternalFrame");
+        register(Region.INTERNAL_FRAME_TITLE_PANE, "InternalFrame:InternalFrameTitlePane");
+        register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"");
+        register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"");
+        register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"");
+        register(Region.BUTTON, "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\"");
+        register(Region.ROOT_PANE, "RootPane");
+        register(Region.DESKTOP_ICON, "DesktopIcon");
         register(Region.TOOL_BAR, "ToolBar");
         register(Region.TOOL_BAR_CONTENT, "ToolBar");
         register(Region.TOOL_BAR_DRAG_WINDOW, "ToolBar");
@@ -602,8 +600,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ToolBar:Button[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
         d.put("ToolBar:Button[Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_FOCUSED));
         d.put("ToolBar:Button[Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put("ToolBar:Button[Focused+Pressed].backgroundPainter",
-            new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+        d.put("ToolBar:Button[Focused+Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
 
         c = "com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter";
         d.put("ToolBar:ToggleButton.States", "Enabled,Disabled,Focused,Pressed,Selected");
