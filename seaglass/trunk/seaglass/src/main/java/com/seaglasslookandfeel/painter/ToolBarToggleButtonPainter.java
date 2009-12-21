@@ -49,7 +49,7 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
     }
 
     private static final Color     END_INNER_COLOR      = new Color(0x00000000, true);
-    private static final Color     MID_INNER_COLOR      = new Color(0x20000000, true);
+    private static final Color     MID_INNER_COLOR      = new Color(0x28000000, true);
 
     private static final Color     END_INNER_EDGE_COLOR = new Color(0x00000000, true);
     private static final Color     MID_INNER_EDGE_COLOR = new Color(0x20000000, true);
@@ -122,8 +122,9 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
         float y = (float) bounds.getY();
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 0.5f, 1f }, new Color[] {
+        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 0.35f, 0.65f, 1f }, new Color[] {
             endColor,
+            middleColor,
             middleColor,
             endColor });
     }
