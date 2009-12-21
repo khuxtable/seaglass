@@ -253,13 +253,13 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         height -= 2;
         switch (segmentStatus) {
         case FIRST:
-            decodeFirstSegmentPath(x, y, width, height, arcSize, arcSize);
+            decodeFirstSegmentPath(x, y, width + 1, height, arcSize, arcSize);
             break;
         case MIDDLE:
-            decodeMiddleSegmentPath(x, y, width, height);
+            decodeMiddleSegmentPath(x - 1, y, width + 2, height);
             break;
         case LAST:
-            decodeLastSegmentPath(x, y, width, height, arcSize, arcSize);
+            decodeLastSegmentPath(x - 1, y, width + 1, height, arcSize, arcSize);
             break;
         default:
             decodeDefaultPath(x, y, width, height, arcSize, arcSize);
@@ -279,7 +279,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             decodeFirstSegmentPath(x, y, width + 2, height, arcSize, arcSize);
             break;
         case MIDDLE:
-            decodeMiddleSegmentPath(x - 2, y, width + 5, height);
+            decodeMiddleSegmentPath(x - 2, y, width + 4, height);
             break;
         case LAST:
             decodeLastSegmentPath(x - 2, y, width + 2, height, arcSize, arcSize);
@@ -299,13 +299,13 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         height -= 6;
         switch (segmentStatus) {
         case FIRST:
-            decodeFirstSegmentPath(x, y, width + 3, height, arcSize, arcSize);
+            decodeFirstSegmentPath(x, y, width + 2, height, arcSize, arcSize);
             break;
         case MIDDLE:
-            decodeMiddleSegmentPath(x - 2, y, width + 5, height);
+            decodeMiddleSegmentPath(x - 3, y, width + 5, height);
             break;
         case LAST:
-            decodeLastSegmentPath(x - 2, y, width + 2, height, arcSize, arcSize);
+            decodeLastSegmentPath(x - 3, y, width + 3, height, arcSize, arcSize);
             break;
         default:
             decodeDefaultPath(x, y, width, height, arcSize, arcSize);
