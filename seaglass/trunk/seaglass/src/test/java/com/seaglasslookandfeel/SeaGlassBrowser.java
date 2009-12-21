@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglass;
+package com.seaglasslookandfeel;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
