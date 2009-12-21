@@ -276,13 +276,13 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         height -= 4;
         switch (segmentStatus) {
         case FIRST:
-            decodeFirstSegmentPath(x, y, width + 1, height, arcSize, arcSize);
+            decodeFirstSegmentPath(x, y, width + 2, height, arcSize, arcSize);
             break;
         case MIDDLE:
-            decodeMiddleSegmentPath(x - 1, y, width + 2, height);
+            decodeMiddleSegmentPath(x - 2, y, width + 5, height);
             break;
         case LAST:
-            decodeLastSegmentPath(x - 1, y, width + 1, height, arcSize, arcSize);
+            decodeLastSegmentPath(x - 2, y, width + 2, height, arcSize, arcSize);
             break;
         default:
             decodeDefaultPath(x, y, width, height, arcSize, arcSize);
@@ -299,10 +299,10 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         height -= 6;
         switch (segmentStatus) {
         case FIRST:
-            decodeFirstSegmentPath(x, y, width + 1, height, arcSize, arcSize);
+            decodeFirstSegmentPath(x, y, width + 3, height, arcSize, arcSize);
             break;
         case MIDDLE:
-            decodeMiddleSegmentPath(x - 2, y, width + 3, height);
+            decodeMiddleSegmentPath(x - 2, y, width + 5, height);
             break;
         case LAST:
             decodeLastSegmentPath(x - 2, y, width + 2, height, arcSize, arcSize);
