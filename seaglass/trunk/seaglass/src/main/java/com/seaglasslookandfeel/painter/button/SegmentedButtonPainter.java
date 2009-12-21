@@ -122,8 +122,19 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        if (focused) {
+            path = decodeOuterFocus(segmentStatus, width, height);
+            g.setColor(OUTER_FOCUS_COLOR);
+            g.fill(path);
+            path = decodeInnerFocus(segmentStatus, width, height);
+            g.setColor(INNER_FOCUS_COLOR);
+            g.fill(path);
+        }
+
         path = decodeBorder(segmentStatus, width, height);
-        g.drawImage(createDropShadowImage(path, width, height), 0, 0, null);
+        if (!focused) {
+            g.drawImage(createDropShadowImage(path, width, height), 0, 0, null);
+        }
         g.setPaint(decodeGradientBackground(path, colors.backgroundTop, colors.backgroundBottom));
         g.fill(path);
         path = decodeInterior(segmentStatus, width, height);
@@ -133,14 +144,6 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         g.fill(path);
         g.setPaint(decodeGradientTopShine(path, colors.upperShineTop, colors.upperShineBottom));
         g.fill(path);
-        if (focused) {
-            path = decodeInnerFocus(segmentStatus, width, height);
-            g.setColor(INNER_FOCUS_COLOR);
-            g.draw(path);
-            path = decodeOuterFocus(segmentStatus, width, height);
-            g.setColor(OUTER_FOCUS_COLOR);
-            g.draw(path);
-        }
     }
 
     /**
@@ -225,8 +228,6 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         double arcSize = 6d;
         int x = 0;
         int y = 0;
-        width -= 1;
-        height -= 1;
         switch (segmentStatus) {
         case FIRST:
             decodeFirstSegmentPath(x, y, width, height, arcSize, arcSize);
@@ -248,8 +249,8 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         double arcSize = 5d;
         int x = 1;
         int y = 1;
-        width -= 3;
-        height -= 3;
+        width -= 2;
+        height -= 2;
         switch (segmentStatus) {
         case FIRST:
             decodeFirstSegmentPath(x, y, width, height, arcSize, arcSize);
