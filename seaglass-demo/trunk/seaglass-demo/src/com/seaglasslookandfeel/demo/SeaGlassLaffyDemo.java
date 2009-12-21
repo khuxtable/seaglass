@@ -1,4 +1,4 @@
-package com.seaglass.demo;
+package com.seaglasslookandfeel.demo;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;

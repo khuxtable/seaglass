@@ -1,4 +1,4 @@
-package com.seaglass.demo;
+package com.seaglasslookandfeel.demo;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -15,10 +15,12 @@ import javax.swing.UIManager;
 public class TestButtons {
 
     public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (true) {
+            try {
+                UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -38,7 +40,7 @@ public class TestButtons {
                 panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 FlowLayout layout = new FlowLayout(FlowLayout.CENTER, 0, 0);
                 panel.setLayout(layout);
-                
+
                 panel.add(button1);
                 panel.add(button2);
                 panel.add(button3);
