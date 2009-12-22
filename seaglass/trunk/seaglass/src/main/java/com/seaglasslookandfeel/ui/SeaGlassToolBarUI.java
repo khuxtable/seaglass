@@ -49,7 +49,7 @@ import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassToolBarUI implementation.
- *
+ * 
  * Based on SynthToolBarUI.
  * 
  * @see javax.swing.plaf.synth.SynthToolBarUI
@@ -168,9 +168,17 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
         return SeaGlassLookAndFeel.getComponentState(c);
     }
 
+    private boolean firstTimeKludge = true;
+
     @Override
     public void update(Graphics g, JComponent c) {
         SeaGlassContext context = getContext(c);
+
+        // FIXME Why do we need to do this on the Mac and not on other?
+        if (firstTimeKludge && (context.getComponentState() & ENABLED) != 0) {
+            firstTimeKludge = false;
+            c.repaint();
+        }
 
         SeaGlassLookAndFeel.update(context, g);
         context.getPainter().paintToolBarBackground(context, g, 0, 0, c.getWidth(), c.getHeight(), toolBar.getOrientation());
