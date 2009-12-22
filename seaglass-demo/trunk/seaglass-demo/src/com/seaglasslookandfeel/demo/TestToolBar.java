@@ -54,7 +54,6 @@ public class TestToolBar {
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.setVisible(true);
-                System.out.println("UI is " + button1.getUI().getClass().getName());
             }
         });
     }
