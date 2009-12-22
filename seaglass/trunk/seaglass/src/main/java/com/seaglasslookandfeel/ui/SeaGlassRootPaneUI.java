@@ -59,6 +59,7 @@ import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.component.SeaGlassBorder;
 import com.seaglasslookandfeel.component.SeaGlassTitlePane;
 import com.seaglasslookandfeel.util.PlatformUtils;
+import com.seaglasslookandfeel.util.WindowUtils;
 
 import sun.swing.plaf.synth.SynthUI;
 
@@ -322,10 +323,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     private void installClientDecorations(JRootPane root) {
         installBorder(root);
         if (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog) {
-            // root.setOpaque(false);
-            // root.getParent().setBackground(TRANSPARENT_COLOR);
-            // root.getLayeredPane().setOpaque(false);
-            // root.getLayeredPane().setBackground(TRANSPARENT_COLOR);
+            WindowUtils.makeWindowNonOpaque((Window) root.getParent());
         }
 
         JComponent titlePane = createTitlePane(root);
