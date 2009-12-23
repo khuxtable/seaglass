@@ -29,6 +29,7 @@ import java.awt.RenderingHints;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthGraphicsUtils;
@@ -162,4 +163,17 @@ public class SeaGlassGraphicsUtils extends SynthGraphicsUtils {
         }
     }
 
+    public void drawEmphasizedText(Graphics g, Color foreground, Color emphasis, String s, int x, int y) {
+        drawEmphasizedText(g, foreground, emphasis, s, -1, x, y);
+    }
+
+    public void drawEmphasizedText(Graphics g, Color foreground, Color emphasis, String s, int underlinedIndex, int x, int y) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+        g2d.setColor(emphasis);
+        BasicGraphicsUtils.drawStringUnderlineCharAt(g2d, s, underlinedIndex, x, y + 1);
+        g2d.setColor(foreground);
+        BasicGraphicsUtils.drawStringUnderlineCharAt(g2d, s, underlinedIndex, x, y);
+    }
 }
