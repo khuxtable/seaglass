@@ -37,11 +37,39 @@ public class TestToolBar {
                 mb.add(m2);
                 mb.add(m3);
 
+                JToolBar toolbar1 = makeToolBar(JToolBar.HORIZONTAL);
+                JToolBar toolbar2 = makeToolBar(JToolBar.HORIZONTAL);
+                JToolBar toolbar3 = makeToolBar(JToolBar.VERTICAL);
+                JToolBar toolbar4 = makeToolBar(JToolBar.VERTICAL);
+
+                JFrame frame = new JFrame();
+                //frame.setJMenuBar(mb);
+                frame.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
+                
+                JPanel panel = new JPanel();
+                panel.setBackground(Color.white);
+                panel.add(new JLabel("Hi there!"));
+
+                frame.getContentPane().add(toolbar1, BorderLayout.NORTH);
+                frame.getContentPane().add(toolbar2, BorderLayout.SOUTH);
+                frame.getContentPane().add(toolbar3, BorderLayout.WEST);
+                frame.getContentPane().add(toolbar4, BorderLayout.EAST);
+                frame.add(panel, BorderLayout.CENTER);
+                frame.setSize(600, 600);
+                frame.setLocationRelativeTo(null);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setVisible(true);
+            }
+
+            /**
+             * @return
+             */
+            private JToolBar makeToolBar(int orientation) {
                 JButton button1 = new JButton("Test 1");
                 JToggleButton button2 = new JToggleButton("Test 2");
                 JButton button3 = new JButton("Test 3");
 
-                JToolBar toolbar = new JToolBar();
+                JToolBar toolbar = new JToolBar(orientation);
 
                 JPanel foo = new JPanel();
                 foo.add(button3);
@@ -50,21 +78,7 @@ public class TestToolBar {
                 toolbar.add(button2);
                 toolbar.addSeparator();
                 toolbar.add(foo);
-
-                JFrame frame = new JFrame();
-                frame.setJMenuBar(mb);
-                frame.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
-                
-                JPanel panel = new JPanel();
-                panel.setBackground(Color.white);
-                panel.add(new JLabel("Hi there!"));
-
-                frame.getContentPane().add(toolbar, BorderLayout.PAGE_START);
-                frame.add(panel, BorderLayout.CENTER);
-                frame.setSize(275, 175);
-                frame.setLocationRelativeTo(null);
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frame.setVisible(true);
+                return toolbar;
             }
         });
     }
