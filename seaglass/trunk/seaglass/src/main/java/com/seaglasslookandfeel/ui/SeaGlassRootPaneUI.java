@@ -711,9 +711,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             if (root.getJMenuBar() != null) {
                 boolean menuInTitle = false;
                 Object menuInTitleOption = root.getClientProperty("SeaGlass.JRootPane.MenuInTitle");
-                if ("never".equals(menuInTitleOption)) {
-                    menuInTitle = false;
-                } else if ("always".equals(menuInTitleOption)) {
+                if ("true".equals(menuInTitleOption)) {
                     menuInTitle = true;
                 }
 
