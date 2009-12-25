@@ -40,7 +40,7 @@ import com.seaglasslookandfeel.util.PlatformUtils;
  * @author Modified by Kathryn Huxtable for SeaGlass
  */
 public class ToolBarPainter extends AbstractRegionPainter {
-    final boolean IS_MAC_OSX = PlatformUtils.isMac() && !PlatformUtils.isSnowLeopard();
+    private static final boolean IS_MAC_OSX = PlatformUtils.isMac() && !PlatformUtils.isSnowLeopard();
 
     public static enum Which {
         BORDER_NORTH,
@@ -54,24 +54,29 @@ public class ToolBarPainter extends AbstractRegionPainter {
         HANDLEICON_ENABLED
     };
 
-    private static final Insets    insets                         = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension                      = new Dimension(30, 30);
-    private static final CacheMode cacheMode                      = CacheMode.NO_CACHING;
-    private static final Double    maxH                           = 1.0;
-    private static final Double    maxV                           = 1.0;
+    private static final Insets    insets                  = new Insets(0, 0, 0, 0);
+    private static final Dimension dimension               = new Dimension(30, 30);
+    private static final CacheMode cacheMode               = CacheMode.NO_CACHING;
+    private static final Double    maxH                    = 1.0;
+    private static final Double    maxV                    = 1.0;
 
-    private static final Insets    handleInsets                   = new Insets(5, 5, 5, 5);
-    private static final Dimension handleDimension                = new Dimension(11, 38);
-    private static final CacheMode handleCacheMode                = CacheMode.NINE_SQUARE_SCALE;
-    private static final Double    handleMaxH                     = 2.0;
-    private static final Double    handleMaxV                     = Double.POSITIVE_INFINITY;
+    private static final Insets    handleInsets            = new Insets(5, 5, 5, 5);
+    private static final Dimension handleDimension         = new Dimension(11, 38);
+    private static final CacheMode handleCacheMode         = CacheMode.NINE_SQUARE_SCALE;
+    private static final Double    handleMaxH              = 2.0;
+    private static final Double    handleMaxV              = Double.POSITIVE_INFINITY;
 
     // For non-Mac use Snow Leopard colors because it has the same Gamma
     // correction.
-    private Color                  ACTIVE_TOP_GRADIENT_COLOR      = IS_MAC_OSX ? new Color(0xbcbcbc) : new Color(0xc9c9c9);
-    private Color                  ACTIVE_BOTTOM_GRADIENT_COLOR   = IS_MAC_OSX ? new Color(0x9a9a9a) : new Color(0xa7a7a7);
-    private Color                  INACTIVE_TOP_GRADIENT_COLOR    = IS_MAC_OSX ? new Color(0xe4e4e4) : new Color(0xe7e7e7);
-    private Color                  INACTIVE_BOTTOM_GRADIENT_COLOR = IS_MAC_OSX ? new Color(0xd1d1d1) : new Color(0xd8d8d8);
+    private static final Color     ACTIVE_TOP_COLOR_T      = IS_MAC_OSX ? new Color(0xbcbcbc) : new Color(0xc9c9c9);
+    private static final Color     ACTIVE_TOP_COLOR_B      = IS_MAC_OSX ? new Color(0x9a9a9a) : new Color(0xb7b7b7);
+    private static final Color     INACTIVE_TOP_COLOR_T    = IS_MAC_OSX ? new Color(0xe4e4e4) : new Color(0xe9e9e9);
+    private static final Color     INACTIVE_TOP_COLOR_B    = IS_MAC_OSX ? new Color(0xd1d1d1) : new Color(0xe0e0e0);
+
+    private static final Color     ACTIVE_BOTTOM_COLOR_T   = IS_MAC_OSX ? new Color(0xcccccc) : new Color(0x999999);
+    private static final Color     ACTIVE_BOTTOM_COLOR_B   = IS_MAC_OSX ? new Color(0xa7a7a7) : new Color(0x909090);
+    private static final Color     INACTIVE_BOTTOM_COLOR_T = IS_MAC_OSX ? new Color(0xe9e9e9) : new Color(0xcfcfcf);
+    private static final Color     INACTIVE_BOTTOM_COLOR_B = IS_MAC_OSX ? new Color(0xd8d8d8) : new Color(0xcacaca);
 
     private Color                  topColor;
     private Color                  bottomColor;
@@ -94,18 +99,30 @@ public class ToolBarPainter extends AbstractRegionPainter {
 
         switch (state) {
         case BORDER_NORTH:
+            topColor = INACTIVE_TOP_COLOR_T;
+            bottomColor = INACTIVE_TOP_COLOR_B;
+            break;
         case BORDER_SOUTH:
+            topColor = INACTIVE_BOTTOM_COLOR_T;
+            bottomColor = INACTIVE_BOTTOM_COLOR_B;
+            break;
         case BORDER_EAST:
         case BORDER_WEST:
-            topColor = INACTIVE_TOP_GRADIENT_COLOR;
-            bottomColor = INACTIVE_BOTTOM_GRADIENT_COLOR;
+            topColor = INACTIVE_TOP_COLOR_B;
+            bottomColor = INACTIVE_BOTTOM_COLOR_T;
             break;
         case BORDER_NORTH_ENABLED:
+            topColor = ACTIVE_TOP_COLOR_T;
+            bottomColor = ACTIVE_TOP_COLOR_B;
+            break;
         case BORDER_SOUTH_ENABLED:
+            topColor = ACTIVE_BOTTOM_COLOR_T;
+            bottomColor = ACTIVE_BOTTOM_COLOR_B;
+            break;
         case BORDER_EAST_ENABLED:
         case BORDER_WEST_ENABLED:
-            topColor = ACTIVE_TOP_GRADIENT_COLOR;
-            bottomColor = ACTIVE_BOTTOM_GRADIENT_COLOR;
+            topColor = ACTIVE_TOP_COLOR_B;
+            bottomColor = ACTIVE_BOTTOM_COLOR_T;
             break;
         }
     }
