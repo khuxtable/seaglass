@@ -41,9 +41,9 @@ import com.seaglasslookandfeel.state.ToolBarNorthState;
 import com.seaglasslookandfeel.state.ToolBarSouthState;
 
 /**
- * Nimbus's InternalFramePainter.
+ * Nimbus's FrameAndRootPainter.
  */
-public final class InternalFramePainter extends AbstractRegionPainter {
+public final class FrameAndRootPainter extends AbstractRegionPainter {
     public static enum Which {
         BACKGROUND_ENABLED, BACKGROUND_ENABLED_WINDOWFOCUSED, BACKGROUND_ENABLED_NOFRAME
     };
@@ -80,7 +80,7 @@ public final class InternalFramePainter extends AbstractRegionPainter {
     private Which                         state;
     private PaintContext                  ctx;
 
-    public InternalFramePainter(Which state) {
+    public FrameAndRootPainter(Which state) {
         super();
         this.state = state;
         this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);

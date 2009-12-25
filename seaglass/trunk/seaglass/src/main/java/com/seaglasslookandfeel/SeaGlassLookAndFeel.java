@@ -73,7 +73,7 @@ import com.seaglasslookandfeel.painter.ComboBoxPainter;
 import com.seaglasslookandfeel.painter.ComboBoxTextFieldPainter;
 import com.seaglasslookandfeel.painter.DesktopIconPainter;
 import com.seaglasslookandfeel.painter.DesktopPanePainter;
-import com.seaglasslookandfeel.painter.InternalFramePainter;
+import com.seaglasslookandfeel.painter.FrameAndRootPainter;
 import com.seaglasslookandfeel.painter.ProgressBarPainter;
 import com.seaglasslookandfeel.painter.RadioButtonPainter;
 import com.seaglasslookandfeel.painter.ScrollBarButtonPainter;
@@ -797,7 +797,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineInternalFrames(UIDefaults d) {
-        String c = "com.seaglasslookandfeel.painter.InternalFramePainter";
+        String c = "com.seaglasslookandfeel.painter.FrameAndRootPainter";
 
         d.put("InternalFrame.States", "Enabled,WindowFocused");
 
@@ -805,9 +805,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("InternalFrame:InternalFrameTitlePane.WindowFocused", new TitlePaneWindowFocusedState());
         d.put("InternalFrame.WindowFocused", new InternalFrameWindowFocusedState());
 
-        d.put("InternalFrame[Enabled].backgroundPainter", new LazyPainter(c, InternalFramePainter.Which.BACKGROUND_ENABLED));
+        d.put("InternalFrame[Enabled].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED));
         d.put("InternalFrame[Enabled+WindowFocused].backgroundPainter", new LazyPainter(c,
-            InternalFramePainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
+            FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
 
         d.put("InternalFrame:InternalFrameTitlePane[Enabled].textForeground", new Color(0, 0, 0));
     }
@@ -1021,7 +1021,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             return;
         }
 
-        String c = "com.seaglasslookandfeel.painter.InternalFramePainter";
+        String c = "com.seaglasslookandfeel.painter.FrameAndRootPainter";
 
         d.put("RootPane.States", "Enabled,WindowFocused,NoFrame");
         d.put("RootPane.contentMargins", new InsetsUIResource(0, 0, 0, 0));
@@ -1029,10 +1029,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("RootPane.NoFrame", new RootPaneNoFrameState());
         d.put("RootPane.WindowFocused", new RootPaneWindowFocusedState());
 
-        d.put("RootPane[Enabled+NoFrame].backgroundPainter", new LazyPainter(c, InternalFramePainter.Which.BACKGROUND_ENABLED_NOFRAME));
-        d.put("RootPane[Enabled].backgroundPainter", new LazyPainter(c, InternalFramePainter.Which.BACKGROUND_ENABLED));
+        d.put("RootPane[Enabled+NoFrame].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED_NOFRAME));
+        d.put("RootPane[Enabled].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED));
         d.put("RootPane[Enabled+WindowFocused].backgroundPainter", new LazyPainter(c,
-            InternalFramePainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
+            FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
     }
 
     /**
