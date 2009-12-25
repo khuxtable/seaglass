@@ -36,7 +36,9 @@ import javax.swing.JRootPane;
 import javax.swing.JToolBar;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.state.ToolBarNorthState;
+import com.seaglasslookandfeel.state.ToolBarSouthState;
 
 /**
  * Nimbus's InternalFramePainter.
@@ -46,31 +48,37 @@ public final class InternalFramePainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED, BACKGROUND_ENABLED_WINDOWFOCUSED, BACKGROUND_ENABLED_NOFRAME
     };
 
+    private static final int              TITLE_BAR_HEIGHT        = 25;
+
     // Constants for the PaintContext.
-    private static final Insets            insets                     = new Insets(25, 6, 6, 6);
-    private static final Dimension         dimension                  = new Dimension(25, 36);
-    private static final CacheMode         cacheMode                  = PaintContext.CacheMode.FIXED_SIZES;
-    private static final Double            maxH                       = Double.POSITIVE_INFINITY;
-    private static final Double            maxV                       = Double.POSITIVE_INFINITY;
+    private static final Insets           insets                  = new Insets(25, 6, 6, 6);
+    private static final Dimension        dimension               = new Dimension(25, 36);
+    private static final CacheMode        cacheMode               = PaintContext.CacheMode.FIXED_SIZES;
+    private static final Double           maxH                    = Double.POSITIVE_INFINITY;
+    private static final Double           maxV                    = Double.POSITIVE_INFINITY;
 
-    private static final ToolBarNorthState toolBarNorthState          = new ToolBarNorthState();
+    private static final Color            borderColor             = new Color(0x808080);
 
-    private Which                          state;
-    private PaintContext                   ctx;
+    private static final Color            ACTIVE_TITLE_COLOR_T    = new Color(0xd0d0d0);
+    private static final Color            INACTIVE_TITLE_COLOR_T  = new Color(0xededed);
 
-    private RoundRectangle2D               roundRect                  = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
+    private static final Color            ACTIVE_TOP_COLOR_T      = new Color(0xc9c9c9);
+    private static final Color            ACTIVE_TOP_COLOR_B      = new Color(0xb7b7b7);
+    private static final Color            INACTIVE_TOP_COLOR_T    = new Color(0xe9e9e9);
+    private static final Color            INACTIVE_TOP_COLOR_B    = new Color(0xe0e0e0);
 
-    private Color                          borderColor                = new Color(0x808080);
+    private static final Color            ACTIVE_BOTTOM_COLOR_T   = new Color(0x999999);
+    private static final Color            ACTIVE_BOTTOM_COLOR_B   = new Color(0x909090);
+    private static final Color            INACTIVE_BOTTOM_COLOR_T = new Color(0xcfcfcf);
+    private static final Color            INACTIVE_BOTTOM_COLOR_B = new Color(0xcacaca);
 
-    private Color                          activeTopColor             = new Color(0xececec);
-    private Color                          activeBottomTitleColor     = new Color(0xc9c9c9);
-    private Color                          activeBottomToolbarColor   = new Color(0xa7a7a7);
-    private Color                          activeBottomColor          = new Color(0xa6a6a6);
+    private static final State            toolBarNorthState       = new ToolBarNorthState();
+    private static final State            toolBarSouthState       = new ToolBarSouthState();
 
-    private Color                          inactiveTopColor           = new Color(0xececec);
-    private Color                          inactiveBottomTitleColor   = new Color(0xe7e7e7);
-    private Color                          inactiveBottomToolbarColor = new Color(0xd8d8d8);
-    private Color                          inactiveBottomColor        = new Color(0xd7d7d7);
+    private static final RoundRectangle2D roundRect               = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
+
+    private Which                         state;
+    private PaintContext                  ctx;
 
     public InternalFramePainter(Which state) {
         super();
@@ -94,15 +102,18 @@ public final class InternalFramePainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundEnabled(Graphics2D g, JComponent c, int width, int height) {
-        paintFrame(g, c, width, height, inactiveTopColor, inactiveBottomTitleColor, inactiveBottomToolbarColor, inactiveBottomColor);
+        paintFrame(g, c, width, height, INACTIVE_TITLE_COLOR_T, INACTIVE_TOP_COLOR_T, INACTIVE_TOP_COLOR_B, INACTIVE_BOTTOM_COLOR_T,
+            INACTIVE_BOTTOM_COLOR_B);
     }
 
     private void paintBackgroundEnabledAndWindowFocused(Graphics2D g, JComponent c, int width, int height) {
-        paintFrame(g, c, width, height, activeTopColor, activeBottomTitleColor, activeBottomToolbarColor, activeBottomColor);
+        paintFrame(g, c, width, height, ACTIVE_TITLE_COLOR_T, ACTIVE_TOP_COLOR_T, ACTIVE_TOP_COLOR_B, ACTIVE_BOTTOM_COLOR_T,
+            ACTIVE_BOTTOM_COLOR_B);
     }
 
-    private void paintFrame(Graphics2D g, JComponent c, int width, int height, Color color1, Color color2, Color color3, Color color4) {
-        roundRect.setRoundRect(0, 0, width - 1, height - 1, 8.0f, 8.0f);
+    private void paintFrame(Graphics2D g, JComponent c, int width, int height, Color topColor, Color titleBottomColor,
+        Color topToolBarBottomColor, Color bottomToolBarTopColor, Color bottomColor) {
+        roundRect.setRoundRect(0, 0, width - 1, height - 1, 8.0, 8.0);
         g.setColor(borderColor);
         g.draw(roundRect);
 
@@ -117,32 +128,34 @@ public final class InternalFramePainter extends AbstractRegionPainter {
             mb = root.getJMenuBar();
             cArray = root.getContentPane().getComponents();
         }
-        JToolBar tb = null;
+
+        int topToolBarHeight = 0;
+        int bottomToolBarHeight = 0;
         if (cArray != null) {
             for (Component comp : cArray) {
-                if (comp instanceof JToolBar && toolBarNorthState.isInState((JComponent) comp)) {
-                    tb = (JToolBar) comp;
-                    break;
+                if (comp instanceof JToolBar) {
+                    if (toolBarNorthState.isInState((JComponent) comp)) {
+                        topToolBarHeight = comp.getHeight();
+                    } else if (toolBarSouthState.isInState((JComponent) comp)) {
+                        bottomToolBarHeight = comp.getHeight();
+                    }
                 }
             }
         }
 
-        int titleHeight = 25;
-        if (mb != null) {
+        int titleHeight = TITLE_BAR_HEIGHT;
+        if (mb != null && !"true".equals(c.getClientProperty("SeaGlass.JRootPane.MenuInTitle"))) {
             titleHeight += mb.getHeight();
         }
 
-        int toolBarHeight = 0;
-        if (tb != null) {
-            toolBarHeight = tb.getHeight();
-        }
-
-        roundRect.setRoundRect(1, 1, width - 2, height - 2, 7.0f, 7.0f);
-        g.setPaint(decodeGradient(roundRect, titleHeight, toolBarHeight, color1, color2, color3, color4));
+        roundRect.setRoundRect(1, 1, width - 2, height - 2, 7.0, 7.0);
+        g.setPaint(decodeGradient(roundRect, titleHeight, topToolBarHeight, bottomToolBarHeight, topColor, titleBottomColor,
+            topToolBarBottomColor, bottomToolBarTopColor, bottomColor));
         g.fill(roundRect);
     }
 
-    private Paint decodeGradient(Shape s, int titleHeight, int toolBarHeight, Color color1, Color color2, Color color3, Color color4) {
+    private Paint decodeGradient(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight, Color topColor,
+        Color titleBottomColor, Color topToolBarBottomColor, Color bottomToolBarTopColor, Color bottomColor) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
@@ -151,21 +164,61 @@ public final class InternalFramePainter extends AbstractRegionPainter {
 
         float midX = x + w / 2.0f;
         float titleBottom = titleHeight / h;
-        if (toolBarHeight > 0) {
-            float toolBarBottom = (titleHeight + toolBarHeight) / h;
-            return decodeGradient(midX, y, x + midX, y + h, new float[] {
+        if (titleBottom >= 1.0f) {
+            titleBottom = 1.0f - 0.00004f;
+        }
+
+        float[] midPoints = null;
+        Color[] colors = null;
+        if (topToolBarHeight > 0 && bottomToolBarHeight > 0) {
+            float topToolBarBottom = (titleHeight + topToolBarHeight) / h;
+            if (topToolBarBottom >= 1.0f) {
+                topToolBarBottom = 1.0f - 0.00002f;
+            }
+            float bottomToolBarTop = (h - 2 - bottomToolBarHeight) / h;
+            if (bottomToolBarTop >= 1.0f) {
+                bottomToolBarTop = 1.0f - 0.00002f;
+            }
+
+            midPoints = new float[] {
                 0.0f,
                 titleBottom,
                 titleBottom + 0.00001f,
-                toolBarBottom,
-                toolBarBottom + 0.00001f,
-                1.0f }, new Color[] { color1, color2, color2, color3, color3, color4 });
+                topToolBarBottom,
+                topToolBarBottom + 0.00001f,
+                bottomToolBarTop,
+                bottomToolBarTop + 0.00001f,
+                1.0f };
+            colors = new Color[] {
+                topColor,
+                titleBottomColor,
+                titleBottomColor,
+                topToolBarBottomColor,
+                topToolBarBottomColor,
+                bottomToolBarTopColor,
+                bottomToolBarTopColor,
+                bottomColor };
+        } else if (topToolBarHeight > 0) {
+            float toolBarBottom = (titleHeight + topToolBarHeight) / h;
+            if (toolBarBottom >= 1.0f) {
+                toolBarBottom = 1.0f - 0.00002f;
+            }
+
+            midPoints = new float[] { 0.0f, titleBottom, titleBottom + 0.00001f, toolBarBottom, toolBarBottom + 0.00001f, 1.0f };
+            colors = new Color[] { topColor, titleBottomColor, titleBottomColor, topToolBarBottomColor, topToolBarBottomColor, bottomColor };
+        } else if (bottomToolBarHeight > 0) {
+            float bottomToolBarTop = (h - 2 - bottomToolBarHeight) / h;
+            if (bottomToolBarTop >= 1.0f) {
+                bottomToolBarTop = 1.0f - 0.00002f;
+            }
+
+            midPoints = new float[] { 0.0f, titleBottom, titleBottom + 0.00001f, bottomToolBarTop, bottomToolBarTop + 0.00001f, 1.0f };
+            colors = new Color[] { topColor, titleBottomColor, titleBottomColor, bottomToolBarTopColor, bottomToolBarTopColor, bottomColor };
         } else {
-            return decodeGradient(midX, y, x + midX, y + h, new float[] { 0.0f, titleBottom, titleBottom + 0.00001f, 1.0f }, new Color[] {
-                color1,
-                color2,
-                color2,
-                color4 });
+            midPoints = new float[] { 0.0f, titleBottom, titleBottom + 0.00001f, 1.0f };
+            colors = new Color[] { topColor, titleBottomColor, titleBottomColor, bottomColor };
         }
+
+        return decodeGradient(midX, y, x + midX, y + h, midPoints, colors);
     }
 }
