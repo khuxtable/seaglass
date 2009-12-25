@@ -29,6 +29,8 @@ import java.awt.geom.Path2D;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.state.State;
+import com.seaglasslookandfeel.state.ToolBarHasNorthToolBarState;
 import com.seaglasslookandfeel.util.PlatformUtils;
 
 /**
@@ -78,8 +80,11 @@ public class ToolBarPainter extends AbstractRegionPainter {
     private static final Color     INACTIVE_BOTTOM_COLOR_T = IS_MAC_OSX ? new Color(0xe9e9e9) : new Color(0xcfcfcf);
     private static final Color     INACTIVE_BOTTOM_COLOR_B = IS_MAC_OSX ? new Color(0xd8d8d8) : new Color(0xcacaca);
 
-    private Color                  topColor;
-    private Color                  bottomColor;
+    private static final Color     HANDLE_COLOR            = new Color(0xc8191919, true);
+
+    private static final Path2D    path                    = new Path2D.Float();
+
+    private static final State     hasNorthToolBarState    = new ToolBarHasNorthToolBarState();
 
     // Refers to one of the static final ints above
     private Which                  state;
@@ -93,38 +98,6 @@ public class ToolBarPainter extends AbstractRegionPainter {
         } else {
             this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
         }
-
-        topColor = null;
-        bottomColor = null;
-
-        switch (state) {
-        case BORDER_NORTH:
-            topColor = INACTIVE_TOP_COLOR_T;
-            bottomColor = INACTIVE_TOP_COLOR_B;
-            break;
-        case BORDER_SOUTH:
-            topColor = INACTIVE_BOTTOM_COLOR_T;
-            bottomColor = INACTIVE_BOTTOM_COLOR_B;
-            break;
-        case BORDER_EAST:
-        case BORDER_WEST:
-            topColor = INACTIVE_TOP_COLOR_B;
-            bottomColor = INACTIVE_BOTTOM_COLOR_T;
-            break;
-        case BORDER_NORTH_ENABLED:
-            topColor = ACTIVE_TOP_COLOR_T;
-            bottomColor = ACTIVE_TOP_COLOR_B;
-            break;
-        case BORDER_SOUTH_ENABLED:
-            topColor = ACTIVE_BOTTOM_COLOR_T;
-            bottomColor = ACTIVE_BOTTOM_COLOR_B;
-            break;
-        case BORDER_EAST_ENABLED:
-        case BORDER_WEST_ENABLED:
-            topColor = ACTIVE_TOP_COLOR_B;
-            bottomColor = ACTIVE_BOTTOM_COLOR_T;
-            break;
-        }
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
@@ -133,35 +106,12 @@ public class ToolBarPainter extends AbstractRegionPainter {
             return;
         }
 
-        GradientPaint paint = null;
-        switch (state) {
-        case BORDER_NORTH:
-        case BORDER_NORTH_ENABLED:
-            paint = new GradientPaint(0, 0, topColor, 0, height, bottomColor);
-            break;
-        case BORDER_SOUTH:
-        case BORDER_SOUTH_ENABLED:
-            paint = new GradientPaint(0, 0, topColor, 0, height, bottomColor);
-            break;
-        case BORDER_EAST:
-        case BORDER_EAST_ENABLED:
-        case BORDER_WEST:
-        case BORDER_WEST_ENABLED:
-            paint = new GradientPaint(0, 0, topColor, width, 0, bottomColor);
-            break;
-        }
-
-        g.setPaint(paint);
-        g.fillRect(0, 0, width, height);
+        paintBackground(g, c, width, height);
     }
 
     protected PaintContext getPaintContext() {
         return ctx;
     }
-
-    private Path2D path  = new Path2D.Float();
-
-    private Color  color = new Color(25, 25, 25, 200);
 
     private void painthandleIconEnabled(Graphics2D g) {
         path.reset();
@@ -171,7 +121,74 @@ public class ToolBarPainter extends AbstractRegionPainter {
         path.lineTo(decodeX(1.25f), decodeY(0.5f));
         path.closePath();
 
-        g.setColor(color);
+        g.setColor(HANDLE_COLOR);
         g.draw(path);
+    }
+
+    private void paintBackground(Graphics2D g, JComponent c, int width, int height) {
+        g.setPaint(decodeGradient(state, c, width, height));
+        g.fillRect(0, 0, width, height);
+    }
+
+    private GradientPaint decodeGradient(Which state, JComponent c, int width, int height) {
+        switch (state) {
+        case BORDER_NORTH:
+        case BORDER_NORTH_ENABLED:
+        case BORDER_SOUTH:
+        case BORDER_SOUTH_ENABLED:
+            return new GradientPaint(0, 0, getTopColor(state, null), 0, height, getBottomColor(state));
+        case BORDER_EAST:
+        case BORDER_EAST_ENABLED:
+        case BORDER_WEST:
+        case BORDER_WEST_ENABLED:
+            return new GradientPaint(0, 0, getTopColor(state, c), width, 0, getBottomColor(state));
+        }
+        return null;
+    }
+
+    private Color getTopColor(Which state, JComponent c) {
+        switch (state) {
+        case BORDER_NORTH:
+            return INACTIVE_TOP_COLOR_T;
+        case BORDER_SOUTH:
+            return INACTIVE_BOTTOM_COLOR_T;
+        case BORDER_EAST:
+        case BORDER_WEST:
+            if (hasNorthToolBarState.isInState(c)) {
+                return INACTIVE_TOP_COLOR_B;
+            }
+            return INACTIVE_TOP_COLOR_T;
+        case BORDER_NORTH_ENABLED:
+            return ACTIVE_TOP_COLOR_T;
+        case BORDER_SOUTH_ENABLED:
+            return ACTIVE_BOTTOM_COLOR_T;
+        case BORDER_EAST_ENABLED:
+        case BORDER_WEST_ENABLED:
+            if (hasNorthToolBarState.isInState(c)) {
+                return ACTIVE_TOP_COLOR_B;
+            }
+            return ACTIVE_TOP_COLOR_T;
+        }
+        return ACTIVE_TOP_COLOR_T;
+    }
+
+    private Color getBottomColor(Which state) {
+        switch (state) {
+        case BORDER_NORTH:
+            return INACTIVE_TOP_COLOR_B;
+        case BORDER_SOUTH:
+            return INACTIVE_BOTTOM_COLOR_B;
+        case BORDER_EAST:
+        case BORDER_WEST:
+            return INACTIVE_BOTTOM_COLOR_T;
+        case BORDER_NORTH_ENABLED:
+            return ACTIVE_TOP_COLOR_B;
+        case BORDER_SOUTH_ENABLED:
+            return ACTIVE_BOTTOM_COLOR_B;
+        case BORDER_EAST_ENABLED:
+        case BORDER_WEST_ENABLED:
+            return ACTIVE_BOTTOM_COLOR_T;
+        }
+        return ACTIVE_TOP_COLOR_B;
     }
 }
