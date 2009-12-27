@@ -8,7 +8,7 @@ Note that between versions 0.1 and 0.1.1 nothing changed except the base package
 which has changed from `com.seaglass` to `com.seaglasslookandfeel`, because the domain
 seaglass.com is owned by a company that sells actual sea glass.
 
-See the [http://code.google.com/p/seaglass/w/edit/Usage Usage] page for more information.
+See the [http://code.google.com/p/seaglass/wiki/Usage usage] page for more information.
 
 == Maven ==
 
