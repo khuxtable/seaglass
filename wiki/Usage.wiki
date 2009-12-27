@@ -2,7 +2,7 @@
 
 = Usage =
 
-To use the Sea Glass Look and Feel, you must either include our [http://maven.apache.org Maven] repository in your `[http://maven.apache.org/pom.html pom.xml]` file or download the jar file and include it in your path. See the [http://code.google.com/p/seaglass/wiki/Downloads Downloads] page for more details.
+To use the Sea Glass Look and Feel, you must either include our [http://maven.apache.org Maven] repository in your [http://maven.apache.org/pom.html pom.xml] file or download the jar file and include it in your path. See the [http://code.google.com/p/seaglass/wiki/Downloads Downloads] page for more details.
 
 To enable the Sea Glass Look and Feel, include the following in your application before creating any controls:
 
