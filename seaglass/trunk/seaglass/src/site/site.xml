@@ -1,6 +1,9 @@
 <project name="SeaGlass">
 	<publishDate position="navigation-bottom" format="dd MMM yyyy" />
 	<version position="left" />
+	<bannerRight>
+	   <src>images/logos/SeaGlassLogo.png</src>
+	</bannerRight>
 	<body>
 		<links>
 			<item name="Kenneth Orr" href="http://explodingpixels.wordpress.com" />
