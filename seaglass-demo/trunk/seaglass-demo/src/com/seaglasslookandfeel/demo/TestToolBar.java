@@ -2,6 +2,8 @@ package com.seaglasslookandfeel.demo;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +21,7 @@ public class TestToolBar {
     public static void main(String[] args) {
         if (true) {
             try {
-//                System.setProperty("SeaGlass.Override.os.name", "Windows");
+                // System.setProperty("SeaGlass.Override.os.name", "Windows");
                 UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -28,7 +30,7 @@ public class TestToolBar {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                
+
                 JMenuBar mb = new JMenuBar();
                 JMenu m1 = new JMenu("File");
                 JMenu m2 = new JMenu("Edit");
@@ -37,18 +39,41 @@ public class TestToolBar {
                 mb.add(m2);
                 mb.add(m3);
 
-                JToolBar toolbar1 = makeToolBar(JToolBar.HORIZONTAL);
-                JToolBar toolbar2 = makeToolBar(JToolBar.HORIZONTAL);
-                JToolBar toolbar3 = makeToolBar(JToolBar.VERTICAL);
-                JToolBar toolbar4 = makeToolBar(JToolBar.VERTICAL);
+                JToolBar toolbar1 = makeToolBar("Toolbar1", JToolBar.HORIZONTAL);
+                JToolBar toolbar2 = makeToolBar("Toolbar2", JToolBar.HORIZONTAL);
+                JToolBar toolbar3 = makeToolBar("Toolbar3", JToolBar.VERTICAL);
+                JToolBar toolbar4 = makeToolBar("Toolbar4", JToolBar.VERTICAL);
 
-                JFrame frame = new JFrame();
-                //frame.setJMenuBar(mb);
+                JFrame frame = new JFrame("TestToolBar");
+//                frame.setJMenuBar(mb);
                 frame.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
-                
+
                 JPanel panel = new JPanel();
                 panel.setBackground(Color.white);
                 panel.add(new JLabel("Hi there!"));
+                JButton open = new JButton("Open");
+                panel.add(open);
+                open.addActionListener(new ActionListener() {
+                    JFrame newFrame;
+                    public void actionPerformed(ActionEvent e) {
+                        newFrame = new JFrame("New Window");
+                        JPanel panel = new JPanel();
+                        panel.setBackground(Color.white);
+                        panel.add(new JLabel("Boo!"));
+                        JButton close = new JButton("Close");
+                        close.addActionListener(new ActionListener() {
+                           public void actionPerformed(ActionEvent e) {
+                               newFrame.dispose();
+                           }
+                        });
+                        panel.add(close);
+                        newFrame.add(panel, BorderLayout.CENTER);
+                        newFrame.setSize(300, 200);
+                        newFrame.setLocationRelativeTo(null);
+                        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        newFrame.setVisible(true);
+                    }
+                });
 
                 frame.getContentPane().add(toolbar1, BorderLayout.NORTH);
                 frame.getContentPane().add(toolbar2, BorderLayout.SOUTH);
@@ -57,19 +82,19 @@ public class TestToolBar {
                 frame.add(panel, BorderLayout.CENTER);
                 frame.setSize(600, 600);
                 frame.setLocationRelativeTo(null);
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
             }
 
             /**
              * @return
              */
-            private JToolBar makeToolBar(int orientation) {
+            private JToolBar makeToolBar(String name, int orientation) {
                 JButton button1 = new JButton("Test 1");
                 JToggleButton button2 = new JToggleButton("Test 2");
                 JButton button3 = new JButton("Test 3");
 
-                JToolBar toolbar = new JToolBar(orientation);
+                JToolBar toolbar = new JToolBar(name, orientation);
 
                 JPanel foo = new JPanel();
                 foo.add(button3);
