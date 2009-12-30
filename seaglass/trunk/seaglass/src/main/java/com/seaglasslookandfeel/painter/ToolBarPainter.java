@@ -117,9 +117,8 @@ public class ToolBarPainter extends AbstractRegionPainter {
         path.reset();
         path.moveTo(decodeX(0.75f), decodeY(0.5f));
         path.lineTo(decodeX(0.75f), decodeY(2.5f));
-        path.lineTo(decodeX(1.25f), decodeY(2.5f));
+        path.moveTo(decodeX(1.25f), decodeY(2.5f));
         path.lineTo(decodeX(1.25f), decodeY(0.5f));
-        path.closePath();
 
         g.setColor(HANDLE_COLOR);
         g.draw(path);
