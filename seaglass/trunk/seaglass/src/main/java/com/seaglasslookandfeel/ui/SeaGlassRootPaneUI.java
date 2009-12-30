@@ -58,7 +58,6 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.component.SeaGlassBorder;
 import com.seaglasslookandfeel.component.SeaGlassTitlePane;
-import com.seaglasslookandfeel.util.PlatformUtils;
 import com.seaglasslookandfeel.util.WindowUtils;
 
 import sun.swing.plaf.synth.SynthUI;
@@ -164,12 +163,6 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         root = (JRootPane) c;
-        if (PlatformUtils.isMac()) {
-            if (root.isValid()) {
-                throw new IllegalArgumentException("This method only works if the given JRootPane has not yet been realized.");
-            }
-            root.putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
-        }
         int style = root.getWindowDecorationStyle();
         if (c.getParent() != null && c.getParent() instanceof JFrame && style != JRootPane.NONE) {
             installClientDecorations(root);
@@ -496,11 +489,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             }
         } else if (propertyName.equals("ancestor")) {
             uninstallWindowListeners(root);
-            if (((JRootPane) e.getSource()).getWindowDecorationStyle() != JRootPane.NONE) {
-                installWindowListeners(root, root.getParent());
-            }
+            installWindowListeners(root, root.getParent());
         }
-        return;
     }
 
     /**
