@@ -145,7 +145,6 @@ import sun.swing.plaf.synth.SynthUI;
  * @see com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
  */
 public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
-    private static boolean               USE_OUR_TOOLBAR_EVEN_ON_MAC = true;
 
     /**
      * Used in a handful of places where we need an empty Insets.
@@ -406,9 +405,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "TableUI");
             useOurUI(uiDefaults, "TableHeaderUI");
             useOurUI(uiDefaults, "ToggleButtonUI");
-            if (USE_OUR_TOOLBAR_EVEN_ON_MAC || !PlatformUtils.isMac()) {
-                useOurUI(uiDefaults, "ToolBarUI");
-            }
+            useOurUI(uiDefaults, "ToolBarUI");
             useOurUI(uiDefaults, "ViewportUI");
 
             defineBaseColors(uiDefaults);
@@ -426,6 +423,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             defineTabbedPanes(uiDefaults);
             defineTables(uiDefaults);
             defineTextControls(uiDefaults);
+            defineToolBars(uiDefaults);
             defineTrees(uiDefaults);
 
             if (!PlatformUtils.isMac()) {
@@ -436,11 +434,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 defineInternalFrameMaximizeButton(uiDefaults);
                 uiDefaults.put("MenuBar[Enabled].backgroundPainter", null);
                 uiDefaults.put("MenuBar[Enabled].borderPainter", null);
-            }
 
-            defineToolBars(uiDefaults);
-
-            if (!PlatformUtils.isMac()) {
                 // If we're not on a Mac, draw our own title bar.
                 JFrame.setDefaultLookAndFeelDecorated(true);
             } else {
@@ -535,27 +529,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             d.put("InternalFrameTitlePaneUI", aquaDefaults.get("InternalFrameTitlePaneUI"));
             d.put("DesktopIconUI", aquaDefaults.get("DesktopIconUI"));
             d.put("DesktopPaneUI", aquaDefaults.get("DesktopPaneUI"));
-            // d.put("CheckBoxMenuItemUI",
-            // aquaDefaults.get("CheckBoxMenuItemUI"));
-            // d.put("RadioButtonMenuItemUI",
-            // aquaDefaults.get("RadioButtonMenuItemUI"));
             d.put("PopupMenuUI", aquaDefaults.get("PopupMenuUI"));
-
-            // If the Mac paint doesn't exist, use Aqua to paint a
-            // unified toolbar.
-            if (!USE_OUR_TOOLBAR_EVEN_ON_MAC && !PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
-                d.put("ToolBarUI", aquaDefaults.get("ToolBarUI"));
-                d.put("ToolBar.border", aquaDefaults.get("ToolBar.border"));
-                d.put("ToolBar.background", aquaDefaults.get("ToolBar.background"));
-                d.put("ToolBar.foreground", aquaDefaults.get("ToolBar.foreground"));
-                d.put("ToolBar.font", aquaDefaults.get("ToolBar.font"));
-                d.put("ToolBar.dockingBackground", aquaDefaults.get("ToolBar.dockingBackground"));
-                d.put("ToolBar.floatingBackground", aquaDefaults.get("ToolBar.floatingBackground"));
-                d.put("ToolBar.dockingForeground", aquaDefaults.get("ToolBar.dockingForeground"));
-                d.put("ToolBar.floatingForeground", aquaDefaults.get("ToolBar.floatingForeground"));
-                d.put("ToolBar.rolloverBorder", aquaDefaults.get("ToolBar.rolloverBorder"));
-                d.put("ToolBar.nonrolloverBorder", aquaDefaults.get("ToolBar.nonrolloverBorder"));
-            }
         } catch (Exception e) {
             // TODO Should we do something with this exception?
             e.printStackTrace();
@@ -570,9 +544,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineToolBars(UIDefaults d) {
         String c = "com.seaglasslookandfeel.painter.ToolBarPainter";
-        if (!USE_OUR_TOOLBAR_EVEN_ON_MAC && !PlatformUtils.shouldManuallyPaintTexturedWindowBackground()) {
-            return;
-        }
 
         d.put("ToolBar.contentMargins", new InsetsUIResource(2, 2, 2, 2));
         d.put("ToolBar.opaque", Boolean.TRUE);
@@ -1017,10 +988,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineRootPanes(UIDefaults d) {
-        if (PlatformUtils.isMac()) {
-            return;
-        }
-
         String c = "com.seaglasslookandfeel.painter.FrameAndRootPainter";
 
         d.put("RootPane.States", "Enabled,WindowFocused,NoFrame");
@@ -1439,10 +1406,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @see JRootPane#setWindowDecorationStyle
      */
     public boolean getSupportsWindowDecorations() {
-        if (PlatformUtils.isMac()) {
-            return false;
-        }
-        return true;
+        return !PlatformUtils.isMac();
     }
 
     /**
