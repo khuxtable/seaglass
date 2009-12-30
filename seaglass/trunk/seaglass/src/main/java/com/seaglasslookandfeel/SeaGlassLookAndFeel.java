@@ -437,6 +437,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
                 // If we're not on a Mac, draw our own title bar.
                 JFrame.setDefaultLookAndFeelDecorated(true);
+                JDialog.setDefaultLookAndFeelDecorated(true);
             } else {
                 // If we're on a Mac, use the screen menu bar.
                 System.setProperty("apple.laf.useScreenMenuBar", "true");
