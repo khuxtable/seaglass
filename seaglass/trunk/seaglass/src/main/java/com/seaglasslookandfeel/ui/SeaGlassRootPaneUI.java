@@ -164,7 +164,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         super.installUI(c);
         root = (JRootPane) c;
         int style = root.getWindowDecorationStyle();
-        if (c.getParent() != null && c.getParent() instanceof JFrame && style != JRootPane.NONE) {
+        if (c.getParent() != null && (c.getParent() instanceof JFrame || c.getParent() instanceof JDialog) && style != JRootPane.NONE) {
             installClientDecorations(root);
         }
     }
@@ -484,7 +484,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             // simpler. AqvavitTitlePane also assumes it will be recreated if
             // the decoration style changes.
             uninstallClientDecorations(root);
-            if (root.getParent() != null && root.getParent() instanceof JFrame && style != JRootPane.NONE) {
+            if (root.getParent() != null && (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog) && style != JRootPane.NONE) {
                 installClientDecorations(root);
             }
         } else if (propertyName.equals("ancestor")) {
