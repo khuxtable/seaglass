@@ -153,6 +153,9 @@ public class SeaGlassBrowser {
                 Object[] defaultKeys = defaults.keySet().toArray();
                 for (Object keyObj : defaultKeys) {
                     String key = keyObj.toString();
+                    if (key.contains("MouseOver")) {
+                        continue;
+                    }
                     boolean matchesComponent = false;
                     componentloop: for (String componentName : NIMBUS_COMPONENTS) {
                         if (key.startsWith(componentName + ".") || key.startsWith(componentName + ":")
