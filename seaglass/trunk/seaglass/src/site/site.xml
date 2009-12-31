@@ -8,13 +8,13 @@
 		<links>
 			<item name="Kenneth Orr" href="http://explodingpixels.wordpress.com" />
 			<item name="Kathryn Huxtable" href="http://www.kathrynhuxtable.org" />
-			<item name="Sea Glass" href="http://seaglass.googlecode.com" />
 		</links>
 
 		<menu name="Sea Glass">
 			<item name="Introduction" href="index.html" collapse="none" />
 			<item collapse="true" name="Google Code" href="http://seaglass.googlecode.com" />
 			<item collapse="true" name="Downloads" href="http://code.google.com/p/seaglass/wiki/Downloads" />
+			<item collapse="true" name="Discussion Group" href="http://groups.google.com/group/sea-glass-look-and-feel" />
 		</menu>
 
 		<!-- <menu name="Generated Information" ref="reports"/> -->

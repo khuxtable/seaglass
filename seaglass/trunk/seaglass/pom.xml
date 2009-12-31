@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.seaglasslookandfeel</groupId>
 	<artifactId>seaglasslookandfeel</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.4-SNAPSHOT</version>
+	<version>0.1.3</version>
 	<name>Sea Glass Look and Feel</name>
 	<description>A Java cross-platform look and feel for JRE 1.5 and later.
 	This is developed from Synth, and is based on forms seen in sea glass,
@@ -37,6 +38,15 @@
 			<timezone>-6</timezone>
 		</developer>
 	</developers>
+	<mailingLists>
+		<mailingList>
+			<name>Discussion List</name>
+			<subscribe>http://groups.google.com/group/sea-glass-look-and-feel</subscribe>
+			<unsubscribe>user-unsubscribe@127.0.0.1</unsubscribe>
+			<post>sea-glass-look-and-feel@googlegroups.com</post>
+			<archive>http://groups.google.com/group/sea-glass-look-and-feel</archive>
+		</mailingList>
+	</mailingLists>
 	<licenses>
 		<license>
 			<name>Apache 2.0</name>
