@@ -46,19 +46,13 @@ public final class TitlePaneMenuButtonPainter extends AbstractImagePainter<Title
     protected String getImageName(Which state) {
         switch (state) {
         case ICON_ENABLED:
-            return "menubutton";
         case ICON_DISABLED:
-            return "menubutton";
         case ICON_MOUSEOVER:
-            return "menubutton";
         case ICON_PRESSED:
-            return "menubutton";
         case ICON_ENABLED_WINDOWNOTFOCUSED:
-            return "menubutton";
         case ICON_MOUSEOVER_WINDOWNOTFOCUSED:
-            return "menubutton";
         case ICON_PRESSED_WINDOWNOTFOCUSED:
-            return "menubutton";
+            return "window_menu_button";
         }
         return null;
     }
