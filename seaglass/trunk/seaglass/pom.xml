@@ -41,8 +41,8 @@
 	<mailingLists>
 		<mailingList>
 			<name>Discussion List</name>
-			<subscribe>http://groups.google.com/group/sea-glass-look-and-feel</subscribe>
-			<unsubscribe>user-unsubscribe@127.0.0.1</unsubscribe>
+			<subscribe>sea-glass-look-and-feel+subscribe@googlegroups.com</subscribe>
+			<unsubscribe>sea-glass-look-and-feel+unsubscribe@googlegroups.com</unsubscribe>
 			<post>sea-glass-look-and-feel@googlegroups.com</post>
 			<archive>http://groups.google.com/group/sea-glass-look-and-feel</archive>
 		</mailingList>

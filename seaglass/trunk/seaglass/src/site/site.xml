@@ -12,9 +12,9 @@
 
 		<menu name="Sea Glass">
 			<item name="Introduction" href="index.html" collapse="none" />
-			<item collapse="true" name="Google Code" href="http://seaglass.googlecode.com" />
-			<item collapse="true" name="Downloads" href="http://code.google.com/p/seaglass/wiki/Downloads" />
 			<item collapse="true" name="Discussion Group" href="http://groups.google.com/group/sea-glass-look-and-feel" />
+            <item collapse="true" name="Google Code" href="http://seaglass.googlecode.com" />
+            <item collapse="true" name="Downloads" href="http://code.google.com/p/seaglass/wiki/Downloads" />
 		</menu>
 
 		<!-- <menu name="Generated Information" ref="reports"/> -->
