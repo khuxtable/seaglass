@@ -56,9 +56,10 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
 
     private static final Insets    insets    = new Insets(0, 0, 0, 0);
     private static final Dimension dimension = new Dimension(19, 15);
-    private static final CacheMode cacheMode = CacheMode.FIXED_SIZES;
+    // FIXME Need a good gradient so that we don't have to draw an image.
+    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
     private static final Double    maxH      = Double.POSITIVE_INFINITY;
-    private static final Double    maxV      = 1.0;
+    private static final Double    maxV      = 2.0;
 
     private PaintContext           ctx;
 
