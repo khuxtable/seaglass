@@ -104,6 +104,7 @@ import com.seaglasslookandfeel.state.ProgressBarFinishedState;
 import com.seaglasslookandfeel.state.ProgressBarIndeterminateState;
 import com.seaglasslookandfeel.state.RootPaneNoFrameState;
 import com.seaglasslookandfeel.state.RootPaneWindowFocusedState;
+import com.seaglasslookandfeel.state.ScrollBarButtonIsIncreaseButtonState;
 import com.seaglasslookandfeel.state.SliderArrowShapeState;
 import com.seaglasslookandfeel.state.SplitPaneDividerVerticalState;
 import com.seaglasslookandfeel.state.SplitPaneVerticalState;
@@ -1139,13 +1140,20 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Buttons
         String c = "com.seaglasslookandfeel.painter.ScrollBarButtonPainter";
-        d.put("ScrollBar:\"ScrollBar.button\".States", "Enabled,Pressed,Disabled,Focused");
+        d.put("ScrollBar:\"ScrollBar.button\".IncreaseButton", new ScrollBarButtonIsIncreaseButtonState());
+        d.put("ScrollBar:\"ScrollBar.button\".States", "Enabled,Pressed,Disabled,IncreaseButton");
         d.put("ScrollBar:\"ScrollBar.button\"[Enabled].foregroundPainter", new LazyPainter(c,
             ScrollBarButtonPainter.Which.FOREGROUND_ENABLED));
         d.put("ScrollBar:\"ScrollBar.button\"[Disabled].foregroundPainter", new LazyPainter(c,
             ScrollBarButtonPainter.Which.FOREGROUND_DISABLED));
         d.put("ScrollBar:\"ScrollBar.button\"[Pressed].foregroundPainter", new LazyPainter(c,
             ScrollBarButtonPainter.Which.FOREGROUND_PRESSED));
+        d.put("ScrollBar:\"ScrollBar.button\"[IncreaseButton+Enabled].foregroundPainter", new LazyPainter(c,
+            ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED));
+        d.put("ScrollBar:\"ScrollBar.button\"[IncreaseButton+Disabled].foregroundPainter", new LazyPainter(c,
+            ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED));
+        d.put("ScrollBar:\"ScrollBar.button\"[IncreaseButton+Pressed].foregroundPainter", new LazyPainter(c,
+            ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED));
 
         // Thumb
         // Seems to be a bug somewhere where MouseOver is always delivered even
