@@ -91,7 +91,6 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
             paintEnabledDecreaseButton(g, c, width, height);
             break;
         case FOREGROUND_PRESSED:
-            System.out.println("Pressed decrease");
             paintPressedDecreaseButton(g, c, width, height);
             break;
         case FOREGROUND_INCREASE_DISABLED:
@@ -101,7 +100,6 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
             paintEnabledIncreaseButton(g, c, width, height);
             break;
         case FOREGROUND_INCREASE_PRESSED:
-            System.out.println("Pressed increase");
             paintPressedIncreaseButton(g, c, width, height);
             break;
         }
