@@ -270,7 +270,7 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
 
     }
     
-    private class MyPath2D extends Path2D.Double {
+    private static class MyPath2D extends Path2D.Double {
         public void pointAt(int x, int y) {
             moveTo(x, y);
             lineTo(x, y);
