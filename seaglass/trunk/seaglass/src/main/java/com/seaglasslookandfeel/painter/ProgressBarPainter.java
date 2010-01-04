@@ -57,6 +57,8 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
 
     private static final Color     shadowColor            = Color.black;
     private static final Effect    dropShadow             = new SeaGlassDropShadowEffect();
+    private static final Color     INNER_SHADOW_COLOR1    = new Color(0x20000000, true);
+    private static final Color     INNER_SHADOW_COLOR2    = new Color(0x10000000, true);
 
     private static final Color     disabledTrack1         = new Color(0x803f76bf, true);
     private static final Color     disabledTrack2         = new Color(0x804076bf, true);
@@ -130,6 +132,7 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
             break;
         case FOREGROUND_DISABLED_FINISHED:
             paintBarDisabled(g, width, height, true);
+            break;
         case FOREGROUND_DISABLED_INDETERMINATE:
             paintIndeterminateDisabled(g, width, height);
             break;
@@ -178,6 +181,13 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         s = decodeTrackInterior(width, height);
         g.setColor(colorInterior);
         g.fill(s);
+
+        s = decodeTrackInternalShadowBorder2(width, height);
+        g.setColor(INNER_SHADOW_COLOR2);
+        g.draw(s);
+        s = decodeTrackInternalShadowBorder1(width, height);
+        g.setColor(INNER_SHADOW_COLOR1);
+        g.draw(s);
     }
 
     private void paintBar(Graphics2D g, int width, int height, boolean isFinished, Color color1, Color color2, Color color3, Color color4,
@@ -194,11 +204,11 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
 
     private void paintIndeterminate(Graphics2D g, int width, int height, Color dark1, Color dark2, Color dark3, Color dark4, Color light1,
         Color light2, Color light3, Color light4) {
-        Shape s = decodeIndeterminateDark(width, height);
-        g.setPaint(decodeBarGradient(s, dark1, dark2, dark3, dark4));
-        g.fill(s);
-        s = decodeIndeterminatePathLight(width, height);
+        Shape s = decodeIndeterminatePathLight(width, height);
         g.setPaint(decodeBarGradient(s, light1, light2, light3, light4));
+        g.fill(s);
+        s = decodeIndeterminateDark(width, height);
+        g.setPaint(decodeBarGradient(s, dark1, dark2, dark3, dark4));
         g.fill(s);
     }
 
@@ -214,6 +224,24 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         gbi.setColor(shadowColor);
         gbi.fill(s);
         return dropShadow.applyEffect(bimage, null, width, height);
+    }
+
+    private Shape decodeTrackInternalShadowBorder1(int width, int height) {
+        path.reset();
+        path.moveTo(4, (height - 5) / 2 - 1);
+        path.quadTo(5, 3, 8, 3);
+        path.lineTo(width - 11, 3);
+        path.quadTo(width - 5, 3, width - 5, (height - 5) / 2 - 1);
+        return path;
+    }
+
+    private Shape decodeTrackInternalShadowBorder2(int width, int height) {
+        path.reset();
+        path.moveTo(4, (height - 5) / 2);
+        path.quadTo(5, 4, 8, 4);
+        path.lineTo(width - 11, 4);
+        path.quadTo(width - 5, 4, width - 5, (height - 5) / 2);
+        return path;
     }
 
     private Shape decodeTrackBorder(int width, int height) {
@@ -232,25 +260,27 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeIndeterminateDark(int width, int height) {
+        double half = width / 2.0;
         path.reset();
         path.moveTo(0, 0);
         path.lineTo(3, 0);
-        path.lineTo(12, 13);
-        path.lineTo(0, 13);
+        path.lineTo(half, height);
+        path.lineTo(0, height);
         path.closePath();
-        path.moveTo(15, 0);
-        path.lineTo(24, 0);
-        path.lineTo(24, 13);
+        path.moveTo(half + 3, 0);
+        path.lineTo(width, 0);
+        path.lineTo(width, height);
         path.closePath();
         return path;
     }
 
     private Shape decodeIndeterminatePathLight(int width, int height) {
+        double half = width / 2.0;
         path.reset();
         path.moveTo(3, 0);
-        path.lineTo(15, 0);
-        path.lineTo(24, 13);
-        path.lineTo(12, 13);
+        path.lineTo(half + 3, 0);
+        path.lineTo(width, height);
+        path.lineTo(half, height);
         path.closePath();
         return path;
     }
