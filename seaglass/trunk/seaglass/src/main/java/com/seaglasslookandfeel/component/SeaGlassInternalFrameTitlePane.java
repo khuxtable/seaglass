@@ -570,7 +570,8 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
             }
             int y = 0;
             if (c == menuButton) {
-                y = insets.top + (getHeight() - insets.top - insets.bottom - pref.height) / 2;
+                // y = insets.top + (getHeight() - insets.top - insets.bottom -
+                // pref.height) / 2;
             }
             c.setBounds(x, y, pref.width, pref.height);
             if (pref.width > 0) {
