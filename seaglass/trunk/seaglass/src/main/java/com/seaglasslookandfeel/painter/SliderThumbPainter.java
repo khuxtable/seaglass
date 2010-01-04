@@ -32,7 +32,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
-import com.seaglasslookandfeel.effect.DropShadowEffect;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
@@ -208,7 +207,7 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
      *            the shape to use as the shade.
      */
     private BufferedImage createDropShadowImage(Shape s) {
-        BufferedImage bimage = DropShadowEffect.createBufferedImage(dimension.width, dimension.height, true);
+        BufferedImage bimage = SeaGlassDropShadowEffect.createBufferedImage(dimension.width, dimension.height, true);
         Graphics2D gbi = bimage.createGraphics();
         gbi.setColor(shadowColor);
         gbi.fill(s);

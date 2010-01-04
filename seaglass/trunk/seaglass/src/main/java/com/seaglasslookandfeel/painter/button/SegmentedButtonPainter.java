@@ -30,7 +30,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
-import com.seaglasslookandfeel.effect.DropShadowEffect;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
@@ -217,7 +216,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
      *            TODO
      */
     BufferedImage createDropShadowImage(Shape s, int width, int height) {
-        BufferedImage bimage = DropShadowEffect.createBufferedImage(width, height, true);
+        BufferedImage bimage = SeaGlassDropShadowEffect.createBufferedImage(width, height, true);
         Graphics2D gbi = bimage.createGraphics();
         gbi.setColor(colorShadow);
         gbi.fill(s);

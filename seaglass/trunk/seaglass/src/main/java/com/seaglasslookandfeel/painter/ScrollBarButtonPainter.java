@@ -169,7 +169,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
      *            TODO
      */
     private BufferedImage createDropShadowImage(Shape s, int width, int height) {
-        BufferedImage bimage = DropShadowEffect.createBufferedImage(width, height, true);
+        BufferedImage bimage = ScrollButtonDropShadowEffect.createBufferedImage(width, height, true);
         Graphics2D gbi = bimage.createGraphics();
         gbi.setColor(colorShadow);
         gbi.fill(s);
