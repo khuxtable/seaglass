@@ -228,22 +228,22 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeContinuousOuterFocus(int width, int height) {
-        ellipse.setFrame(0, 1, 17, 17);
+        ellipse.setFrame(0, 1, width, width);
         return ellipse;
     }
 
     private Shape decodeContinuousInnerFocus(int width, int height) {
-        ellipse.setFrame(1, 2, 15, 15);
+        ellipse.setFrame(1, 2, width - 2, width - 2);
         return ellipse;
     }
 
     private Shape decodeContinuousBorder(int width, int height) {
-        ellipse.setFrame(2, 3, 13, 13);
+        ellipse.setFrame(2, 3, width - 4, width - 4);
         return ellipse;
     }
 
     private Shape decodeContinuousInterior(int width, int height) {
-        ellipse.setFrame(3, 4, 11, 11);
+        ellipse.setFrame(3, 4, width - 6, width - 6);
         return ellipse;
     }
 
