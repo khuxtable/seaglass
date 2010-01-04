@@ -24,8 +24,8 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Paint;
+import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
@@ -40,28 +40,26 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
-    private static final Insets    insets    = new Insets(6, 5, 6, 5);
-    private static final Dimension dimension = new Dimension(23, 17);
-    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
-    private static final Double    maxH      = Double.POSITIVE_INFINITY;
-    private static final Double    maxV      = 2.0;
+    private static final Insets    insets                 = new Insets(0, 0, 0, 0);
+    private static final Dimension dimension              = new Dimension(23, 17);
+    private static final CacheMode cacheMode              = CacheMode.FIXED_SIZES;
+    private static final Double    maxH                   = Double.POSITIVE_INFINITY;
+    private static final Double    maxV                   = 2.0;
 
     private Which                  state;
     private PaintContext           ctx;
 
-    private RoundRectangle2D       roundRect = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
+    private RoundRectangle2D       roundRect              = new RoundRectangle2D.Double();
 
-    private Color                  color1    = decodeColor("sliderBlueGrey", 0.0f, -0.110526316f, 0.25490195f, -245);
-    private Color                  color2    = decodeColor("sliderBlueGrey", 0.0055555105f, -0.061265234f, 0.05098039f, 0);
-    private Color                  color3    = decodeColor("sliderBlueGrey", 0.01010108f, -0.059835073f, 0.10588235f, 0);
-    private Color                  color4    = decodeColor("sliderBlueGrey", -0.01111114f, -0.061982628f, 0.062745094f, 0);
-    private Color                  color5    = decodeColor("sliderBlueGrey", -0.00505054f, -0.058639523f, 0.086274505f, 0);
-    private Color                  color6    = decodeColor("sliderBlueGrey", 0.0f, -0.110526316f, 0.25490195f, -111);
-    private Color                  color7    = decodeColor("sliderBlueGrey", 0.0f, -0.034093194f, -0.12941176f, 0);
-    private Color                  color8    = decodeColor("sliderBlueGrey", 0.01111114f, -0.023821115f, -0.06666666f, 0);
-    private Color                  color9    = decodeColor("sliderBlueGrey", -0.008547008f, -0.03314536f, -0.086274505f, 0);
-    private Color                  color10   = decodeColor("sliderBlueGrey", 0.004273474f, -0.040256046f, -0.019607842f, 0);
-    private Color                  color11   = decodeColor("sliderBlueGrey", 0.0f, -0.03626889f, 0.04705882f, 0);
+    private Color                  disabledBorderTop      = new Color(0x80909090, true);
+    private Color                  disabledBorderBottom   = new Color(0x80b4b4b4, true);
+    private Color                  disabledInteriorTop    = new Color(0x80c4c4c4, true);
+    private Color                  disabledInteriorBottom = new Color(0x80ebebeb, true);
+
+    private Color                  enabledBorderTop       = new Color(0x636363);
+    private Color                  enabledBorderBottom    = new Color(0xaeaeae);
+    private Color                  enabledInteriorTop     = new Color(0xc4c4c4);
+    private Color                  enabledInteriorBottom  = new Color(0xebebeb);
 
     public SliderTrackPainter(Which state) {
         super();
@@ -72,10 +70,10 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            paintBackgroundDisabled(g);
+            paintBackgroundDisabled(g, width, height);
             break;
         case BACKGROUND_ENABLED:
-            paintBackgroundEnabled(g);
+            paintBackgroundEnabled(g, width, height);
             break;
         }
     }
@@ -84,122 +82,39 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintBackgroundDisabled(Graphics2D g) {
-        roundRect = decodeRoundRect1();
-        g.setPaint(color1);
-        g.fill(roundRect);
-        roundRect = decodeRoundRect2();
-        g.setPaint(decodeGradient1(roundRect));
-        g.fill(roundRect);
-        roundRect = decodeRoundRect3();
-        g.setPaint(decodeGradient2(roundRect));
-        g.fill(roundRect);
-
+    private void paintBackgroundDisabled(Graphics2D g, int width, int height) {
+        Shape s = decodeBorder(width, height);
+        g.setPaint(decodeTrackGradient(s, disabledBorderTop, disabledBorderBottom));
+        g.fill(s);
+        s = decodeInterior(width, height);
+        g.setPaint(decodeTrackGradient(s, disabledInteriorTop, disabledInteriorBottom));
+        g.fill(s);
     }
 
-    private void paintBackgroundEnabled(Graphics2D g) {
-        roundRect = decodeRoundRect4();
-        g.setPaint(color6);
-        g.fill(roundRect);
-        roundRect = decodeRoundRect2();
-        g.setPaint(decodeGradient3(roundRect));
-        g.fill(roundRect);
-        roundRect = decodeRoundRect5();
-        g.setPaint(decodeGradient4(roundRect));
-        g.fill(roundRect);
-
+    private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
+        Shape s = decodeBorder(width, height);
+        g.setPaint(decodeTrackGradient(s, enabledBorderTop, enabledBorderBottom));
+        g.fill(s);
+        s = decodeInterior(width, height);
+        g.setPaint(decodeTrackGradient(s, enabledInteriorTop, enabledInteriorBottom));
+        g.fill(s);
     }
 
-    private RoundRectangle2D decodeRoundRect1() {
-        roundRect.setRoundRect(decodeX(0.2f), // x
-            decodeY(1.6f), // y
-            decodeX(2.8f) - decodeX(0.2f), // width
-            decodeY(2.8333333f) - decodeY(1.6f), // height
-            8.705882f, 8.705882f); // rounding
+    private Paint decodeTrackGradient(Shape s, Color color1, Color color2) {
+        Rectangle r = s.getBounds();
+        int x =  r.x + r.width / 2;
+        int y1 = r.y;
+        int y2 = y1 + r.height;
+        return decodeGradient(x, y1, x, y2, new float[] { 0f, 1f }, new Color[] { color1, color2 });
+    }
+
+    private Shape decodeBorder(int width, int height) {
+        roundRect.setRoundRect(0, 0, width, height, height, height);
         return roundRect;
     }
 
-    private RoundRectangle2D decodeRoundRect2() {
-        roundRect.setRoundRect(decodeX(0.0f), // x
-            decodeY(1.0f), // y
-            decodeX(3.0f) - decodeX(0.0f), // width
-            decodeY(2.0f) - decodeY(1.0f), // height
-            4.9411764f, 4.9411764f); // rounding
+    private Shape decodeInterior(int width, int height) {
+        roundRect.setRoundRect(1, 1, width - 2, height - 2, height - 2, height - 2);
         return roundRect;
-    }
-
-    private RoundRectangle2D decodeRoundRect3() {
-        roundRect.setRoundRect(decodeX(0.29411763f), // x
-            decodeY(1.2f), // y
-            decodeX(2.7058823f) - decodeX(0.29411763f), // width
-            decodeY(2.0f) - decodeY(1.2f), // height
-            4.0f, 4.0f); // rounding
-        return roundRect;
-    }
-
-    private RoundRectangle2D decodeRoundRect4() {
-        roundRect.setRoundRect(decodeX(0.2f), // x
-            decodeY(1.6f), // y
-            decodeX(2.8f) - decodeX(0.2f), // width
-            decodeY(2.1666667f) - decodeY(1.6f), // height
-            8.705882f, 8.705882f); // rounding
-        return roundRect;
-    }
-
-    private RoundRectangle2D decodeRoundRect5() {
-        roundRect.setRoundRect(decodeX(0.28823528f), // x
-            decodeY(1.2f), // y
-            decodeX(2.7f) - decodeX(0.28823528f), // width
-            decodeY(2.0f) - decodeY(1.2f), // height
-            4.0f, 4.0f); // rounding
-        return roundRect;
-    }
-
-    private Paint decodeGradient1(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.25f * w) + x, (0.07647059f * h) + y, (0.25f * w) + x, (0.9117647f * h) + y,
-            new float[] { 0.0f, 0.5f, 1.0f }, new Color[] { color2, decodeColor(color2, color3, 0.5f), color3 });
-    }
-
-    private Paint decodeGradient2(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.25f * w) + x, (0.0f * h) + y, (0.25f * w) + x, (1.0f * h) + y, new float[] {
-            0.0f,
-            0.13770053f,
-            0.27540106f,
-            0.63770056f,
-            1.0f }, new Color[] { color4, decodeColor(color4, color5, 0.5f), color5, decodeColor(color5, color3, 0.5f), color3 });
-    }
-
-    private Paint decodeGradient3(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.25f * w) + x, (0.07647059f * h) + y, (0.25f * w) + x, (0.9117647f * h) + y,
-            new float[] { 0.0f, 0.5f, 1.0f }, new Color[] { color7, decodeColor(color7, color8, 0.5f), color8 });
-    }
-
-    private Paint decodeGradient4(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.25f * w) + x, (0.0f * h) + y, (0.25f * w) + x, (1.0f * h) + y, new float[] {
-            0.0f,
-            0.13770053f,
-            0.27540106f,
-            0.4906417f,
-            0.7058824f }, new Color[] { color9, decodeColor(color9, color10, 0.5f), color10, decodeColor(color10, color11, 0.5f), color11 });
     }
 }
