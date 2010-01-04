@@ -966,8 +966,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ProgressBar.cycleTime", 500);
         d.put("ProgressBar.progressPadding", new Integer(3));
         d.put("ProgressBar.trackThickness", new Integer(19));
-        d.put("ProgressBar.arcSize", new Integer(9));
-        d.put("ProgressBar.progressRightInset", new Integer(2));
         d.put("ProgressBar.tileWidth", new Integer(24));
         d.put("ProgressBar[Enabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_ENABLED));
         d.put("ProgressBar[Disabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_DISABLED));

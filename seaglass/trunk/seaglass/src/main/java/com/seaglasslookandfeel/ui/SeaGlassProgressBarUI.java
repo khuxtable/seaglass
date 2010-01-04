@@ -66,8 +66,6 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
     private boolean    rotateText;                  // added for Nimbus LAF
     private boolean    paintOutsideClip;
     private int        trackThickness;
-    private int        arcSize;
-    private int        progressRightInset;
     private boolean    tileWhenIndeterminate;       // whether to tile
     // indeterminate
     // painting
@@ -108,8 +106,6 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         rotateText = style.getBoolean(context, "ProgressBar.rotateText", false);
         tileWhenIndeterminate = style.getBoolean(context, "ProgressBar.tileWhenIndeterminate", false);
         trackThickness = style.getInt(context, "ProgressBar.trackThickness", 19);
-        arcSize = style.getInt(context, "ProgressBar.arcSize", 9);
-        progressRightInset = style.getInt(context, "ProgressBar.progressRightInset", 2);
         tileWidth = style.getInt(context, "ProgressBar.tileWidth", 15);
         // handle scaling for sizeVarients for special case components. The
         // key "JComponent.sizeVariant" scales for large/small/mini
@@ -263,6 +259,7 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         g2d.setComposite(AlphaComposite.Src);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.WHITE);
+        double arcSize = pBar.getOrientation() == JProgressBar.HORIZONTAL ? bounds.height : bounds.width;
         g2d.fill(new RoundRectangle2D.Double(0, 0, bounds.width, bounds.height, arcSize, arcSize));
 
         // Use SrcAtop, which effectively uses the alpha value as a coverage
@@ -322,7 +319,7 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
             if (pBar.getOrientation() == JProgressBar.HORIZONTAL) {
                 int start = 0;
                 if (isFinished) {
-                    size = width + progressRightInset;
+                    size = width;
                 } else if (!SeaGlassLookAndFeel.isLeftToRight(pBar)) {
                     start = width - size;
                 }
@@ -332,7 +329,7 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
                 // to top, not matter what the component orientation is.
                 int start = height;
                 if (isFinished) {
-                    size = height + progressRightInset;
+                    size = height;
                 }
                 context.getPainter().paintProgressBarForeground(context, g2d, 0, start, width, size, pBar.getOrientation());
             }
