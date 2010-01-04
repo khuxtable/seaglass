@@ -30,9 +30,13 @@ import java.awt.Shape;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
+import com.seaglasslookandfeel.effect.DropShadowEffect;
+import com.seaglasslookandfeel.effect.Effect;
+import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
@@ -50,6 +54,9 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         FOREGROUND_DISABLED_FINISHED,
         FOREGROUND_DISABLED_INDETERMINATE,
     }
+
+    private static final Color     shadowColor              = Color.black;
+    private static final Effect    dropShadow               = new SeaGlassDropShadowEffect();
 
     private static final Color     disabledTrack1           = new Color(0x803f76bf, true);
     private static final Color     disabledTrack2           = new Color(0x804076bf, true);
@@ -191,6 +198,7 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = decodeTrackBorder(width, height);
+        g.drawImage(createDropShadowImage(s, width, height), 0, 0, null);
         g.setPaint(decodeTrackGradient(s, color1, color2));
         g.draw(s);
 
@@ -221,6 +229,20 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         g.fill(s);
     }
 
+    /**
+     * Create a drop shadow image.
+     * 
+     * @param s
+     *            the shape to use as the shade.
+     */
+    private BufferedImage createDropShadowImage(Shape s, int width, int height) {
+        BufferedImage bimage = DropShadowEffect.createBufferedImage(width, height, true);
+        Graphics2D gbi = bimage.createGraphics();
+        gbi.setColor(shadowColor);
+        gbi.fill(s);
+        return dropShadow.applyEffect(bimage, null, width, height);
+    }
+
     private Shape decodeTrackBorder(int width, int height) {
         roundRect.setRoundRect(2, 2, width - 5, height - 5, height - 4, height - 4);
         return roundRect;
@@ -249,7 +271,7 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         path.closePath();
         return path;
     }
-    
+
     private Shape decodeIndeterminatePathLight(int width, int height) {
         path.reset();
         path.moveTo(3, 0);
