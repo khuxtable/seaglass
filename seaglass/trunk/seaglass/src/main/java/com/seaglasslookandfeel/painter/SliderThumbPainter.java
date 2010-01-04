@@ -58,25 +58,28 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE,
     }
 
-    private static final ColorSet  disabled    = new ColorSet(new Color(0x8088ade0, true), new Color(0x805785bf, true), new Color(
-                                                   0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8, true), new Color(
-                                                   0x80f5fafd, true));
-    private static final ColorSet  enabled     = new ColorSet(new Color(0x88ade0), new Color(0x5785bf), new Color(0xfbfdfe), new Color(
-                                                   0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd));
-    private static final ColorSet  pressed     = new ColorSet(new Color(0x4f7bbf), new Color(0x3f76bf), new Color(0xacbdd0), new Color(
-                                                   0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4));
+    private static final ColorSet  disabled          = new ColorSet(new Color(0x8088ade0, true), new Color(0x805785bf, true), new Color(
+                                                         0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8, true),
+                                                         new Color(0x80f5fafd, true));
+    private static final ColorSet  enabled           = new ColorSet(new Color(0x88ade0), new Color(0x5785bf), new Color(0xfbfdfe),
+                                                         new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd));
+    private static final ColorSet  pressed           = new ColorSet(new Color(0x4f7bbf), new Color(0x3f76bf), new Color(0xacbdd0),
+                                                         new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4));
 
-    private static final Color     shadowColor = Color.black;
-    private static final Effect    dropShadow  = new SeaGlassDropShadowEffect();
+    private static final Color     OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
+    private static final Color     INNER_FOCUS_COLOR = new Color(0x73a4d1);
 
-    private static final Insets    insets      = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension   = new Dimension(15, 20);
-    private static final CacheMode cacheMode   = CacheMode.FIXED_SIZES;
-    private static final Double    maxH        = 1.0;
-    private static final Double    maxV        = 1.0;
+    private static final Color     shadowColor       = Color.black;
+    private static final Effect    dropShadow        = new SeaGlassDropShadowEffect();
 
-    private Ellipse2D              ellipse     = new Ellipse2D.Double();
-    private Path2D                 path        = new Path2D.Double();
+    private static final Insets    insets            = new Insets(0, 0, 0, 0);
+    private static final Dimension dimension         = new Dimension(17, 20);
+    private static final CacheMode cacheMode         = CacheMode.FIXED_SIZES;
+    private static final Double    maxH              = 1.0;
+    private static final Double    maxV              = 1.0;
+
+    private Ellipse2D              ellipse           = new Ellipse2D.Double();
+    private Path2D                 path              = new Path2D.Double();
 
     private Which                  state;
     private PaintContext           ctx;
@@ -157,7 +160,16 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
     }
 
     private void paintDiscrete(Graphics2D g, JComponent c, int width, int height, boolean focused, ColorSet colors) {
-        Shape s = decodeDiscreteBorder(width, height);
+        Shape s;
+        if (focused) {
+            s = decodeDiscreteOuterFocus(width, height);
+            g.setColor(OUTER_FOCUS_COLOR);
+            g.fill(s);
+            s = decodeDiscreteInnerFocus(width, height);
+            g.setColor(INNER_FOCUS_COLOR);
+            g.fill(s);
+        }
+        s = decodeDiscreteBorder(width, height);
         if (!focused) {
             g.drawImage(createDropShadowImage(s), 0, 0, null);
         }
@@ -169,7 +181,16 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
     }
 
     private void paintContinuous(Graphics2D g, JComponent c, int width, int height, boolean focused, ColorSet colors) {
-        Shape s = decodeContinuousBorder(width, height);
+        Shape s;
+        if (focused) {
+            s = decodeContinuousOuterFocus(width, height);
+            g.setColor(OUTER_FOCUS_COLOR);
+            g.fill(s);
+            s = decodeContinuousInnerFocus(width, height);
+            g.setColor(INNER_FOCUS_COLOR);
+            g.fill(s);
+        }
+        s = decodeContinuousBorder(width, height);
         if (!focused) {
             g.drawImage(createDropShadowImage(s), 0, 0, null);
         }
@@ -206,38 +227,74 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         return decodeGradient(x, r.y, x, r.y + r.height, new float[] { 0f, 1f }, new Color[] { color1, color2 });
     }
 
+    private Shape decodeContinuousOuterFocus(int width, int height) {
+        ellipse.setFrame(0, 1, 17, 17);
+        return ellipse;
+    }
+
+    private Shape decodeContinuousInnerFocus(int width, int height) {
+        ellipse.setFrame(1, 2, 15, 15);
+        return ellipse;
+    }
+
     private Shape decodeContinuousBorder(int width, int height) {
-        ellipse.setFrame(1, 3, 13, 13);
+        ellipse.setFrame(2, 3, 13, 13);
         return ellipse;
     }
 
     private Shape decodeContinuousInterior(int width, int height) {
-        ellipse.setFrame(2, 4, 11, 11);
+        ellipse.setFrame(3, 4, 11, 11);
         return ellipse;
+    }
+
+    private Shape decodeDiscreteOuterFocus(int width, int height) {
+        path.reset();
+        path.moveTo(0, 7);
+        path.quadTo(0, 0, 7, 0);
+        path.lineTo(width - 6, 0);
+        path.quadTo(width - 0, 0, width - 0, 7);
+        path.lineTo(width - 0, height / 2);
+        path.quadTo(width - 3, height - 1, width / 2, height - 0);
+        path.quadTo(3, height - 1, 0, height / 2);
+        path.closePath();
+        return path;
+    }
+
+    private Shape decodeDiscreteInnerFocus(int width, int height) {
+        path.reset();
+        path.moveTo(1, 6);
+        path.quadTo(1, 1, 6, 1);
+        path.lineTo(width - 5, 1);
+        path.quadTo(width - 1, 1, width - 1, 6);
+        path.lineTo(width - 1, height / 2);
+        path.quadTo(width - 4, height - 2, width / 2, height - 1);
+        path.quadTo(4, height - 2, 1, height / 2);
+        path.closePath();
+        return path;
     }
 
     private Shape decodeDiscreteBorder(int width, int height) {
         path.reset();
-        path.moveTo(1, 5);
-        path.quadTo(1, 2, 4, 2);
-        path.lineTo(width - 3, 2);
-        path.quadTo(width - 1, 2, width - 1, 5);
-        path.lineTo(width - 1, height / 2);
-        path.quadTo(width - 4, height - 3, width / 2, height - 2);
-        path.quadTo(4, height - 3, 1, height / 2);
+        path.moveTo(2, 5);
+        path.quadTo(2, 2, 5, 2);
+        path.lineTo(width - 4, 2);
+        path.quadTo(width - 2, 2, width - 2, 5);
+        path.lineTo(width - 2, height / 2);
+        path.quadTo(width - 5, height - 3, width / 2, height - 2);
+        path.quadTo(5, height - 3, 2, height / 2);
         path.closePath();
         return path;
     }
 
     private Shape decodeDiscreteInterior(int width, int height) {
         path.reset();
-        path.moveTo(2, 5);
-        path.quadTo(2, 3, 4, 3);
-        path.lineTo(width - 4, 3);
-        path.quadTo(width - 2, 3, width - 2, 5);
-        path.lineTo(width - 2, height / 2);
-        path.quadTo(width - 5, height - 3, width / 2, height - 3);
-        path.quadTo(5, height - 3, 2, height / 2);
+        path.moveTo(3, 5);
+        path.quadTo(3, 3, 5, 3);
+        path.lineTo(width - 5, 3);
+        path.quadTo(width - 3, 3, width - 3, 5);
+        path.lineTo(width - 3, height / 2);
+        path.quadTo(width - 6, height - 3, width / 2, height - 3);
+        path.quadTo(6, height - 3, 3, height / 2);
         path.closePath();
         return path;
     }

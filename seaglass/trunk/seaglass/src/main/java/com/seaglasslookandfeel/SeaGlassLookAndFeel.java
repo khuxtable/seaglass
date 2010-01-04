@@ -1192,7 +1192,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("Slider.ArrowShape", new SliderArrowShapeState());
         d.put("Slider:SliderThumb.ArrowShape", new SliderArrowShapeState());
         d.put("Slider:SliderTrack.ArrowShape", new SliderArrowShapeState());
-        d.put("Slider.thumbWidth", new Integer(15));
+        d.put("Slider.thumbWidth", new Integer(17));
         d.put("Slider.thumbHeight", new Integer(20));
         d.put("Slider.trackBorder", new Integer(0));
         d.put("Slider.trackHeight", new Integer(5));
