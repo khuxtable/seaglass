@@ -92,7 +92,7 @@ public abstract class Effect {
      *            the height to paint.
      */
     public void fill(Graphics2D g, Shape s, int width, int height) {
-        BufferedImage bimage = FocusEffect.createBufferedImage(width, height, true);
+        BufferedImage bimage = Effect.createBufferedImage(width, height, true);
         Graphics2D gbi = bimage.createGraphics();
         gbi.setColor(Color.white);
         gbi.fill(s);
@@ -113,7 +113,7 @@ public abstract class Effect {
      *            the height to paint.
      */
     public void draw(Graphics2D g, Shape s, int width, int height) {
-        BufferedImage bimage = FocusEffect.createBufferedImage(width, height, true);
+        BufferedImage bimage = Effect.createBufferedImage(width, height, true);
         Graphics2D gbi = bimage.createGraphics();
         gbi.setColor(Color.white);
         gbi.draw(s);
