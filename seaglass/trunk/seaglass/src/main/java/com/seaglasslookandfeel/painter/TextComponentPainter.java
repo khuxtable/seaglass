@@ -31,7 +31,7 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
-import com.seaglasslookandfeel.effect.DropShadowEffect;
+import com.seaglasslookandfeel.component.InternalDropShadowEffect;
 import com.seaglasslookandfeel.effect.Effect;
 
 /**
@@ -56,7 +56,7 @@ public final class TextComponentPainter extends AbstractRegionPainter {
     private static final Color     ENABLED_BORDER         = new Color(0xbbbbbb);
     private static final Color     ENABLED_TOOLBAR_BORDER = new Color(0x888888);
 
-    private static final Effect    dropShadow             = new TextFieldDropShadowEffect();
+    private static final Effect    dropShadow             = new InternalDropShadowEffect();
     private static final Dimension dimension              = new Dimension(90, 30);
     private static final Insets    insets                 = new Insets(5, 3, 3, 3);
 
@@ -222,20 +222,6 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         } else {
             path.moveTo(x0, y0);
             path.lineTo(x2, y0);
-        }
-    }
-
-    /**
-     * Customized Nimbus's drop shadow effect for text fields.
-     */
-    public static class TextFieldDropShadowEffect extends DropShadowEffect {
-
-        public TextFieldDropShadowEffect() {
-            color = new Color(230, 230, 230);
-            angle = 90;
-            distance = 0;
-            size = 3;
-            opacity = 0.35f;
         }
     }
 }
