@@ -33,7 +33,6 @@ import javax.swing.JToolBar;
 
 import com.seaglasslookandfeel.effect.DropShadowEffect;
 import com.seaglasslookandfeel.effect.Effect;
-import com.seaglasslookandfeel.effect.FocusEffect;
 
 /**
  * TextComponentPainter implementation.
@@ -50,12 +49,14 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         BORDER_ENABLED,
     }
 
+    private static final Color     OUTER_FOCUS_COLOR      = new Color(0x8072a5d2, true);
+    private static final Color     INNER_FOCUS_COLOR      = new Color(0x73a4d1);
+
     private static final Color     DISABLED_BORDER        = new Color(0xdddddd);
     private static final Color     ENABLED_BORDER         = new Color(0xbbbbbb);
     private static final Color     ENABLED_TOOLBAR_BORDER = new Color(0x888888);
 
     private static final Effect    dropShadow             = new TextFieldDropShadowEffect();
-    private static final Effect    focusGlow              = new FocusEffect();
     private static final Dimension dimension              = new Dimension(90, 30);
     private static final Insets    insets                 = new Insets(5, 3, 3, 3);
 
@@ -97,10 +98,10 @@ public final class TextComponentPainter extends AbstractRegionPainter {
             paintBorderDisabled(g, c, width, height, searchType);
             break;
         case BORDER_ENABLED:
-            paintBorderEnabled(g, c, width, height, searchType);
+            paintBorderEnabled(g, c, width, height, searchType, false);
             break;
         case BORDER_FOCUSED:
-            paintBorderFocused(g, c, width, height, searchType);
+            paintBorderEnabled(g, c, width, height, searchType, true);
             break;
         }
     }
@@ -147,7 +148,15 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         g.drawRect(2, 2, width - 5, height - 5);
     }
 
-    private void paintBorderEnabled(Graphics2D g, JComponent c, int width, int height, boolean searchType) {
+    private void paintBorderEnabled(Graphics2D g, JComponent c, int width, int height, boolean searchType, boolean focused) {
+        if (focused) {
+            setPath(0, 0, width - 1, height - 1, searchType);
+            g.setColor(OUTER_FOCUS_COLOR);
+            g.draw(path);
+            setPath(1, 1, width - 3, height - 3, searchType);
+            g.setColor(INNER_FOCUS_COLOR);
+            g.draw(path);
+        }
         paintInternalDropShadow(g, width, height, searchType);
         Color color = ENABLED_BORDER;
         for (Container container = c.getParent(); container != null; container = container.getParent()) {
@@ -160,16 +169,6 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         setPath(2, 2, width - 5, height - 5, searchType);
         g.setColor(color);
         g.draw(path);
-    }
-
-    private void paintBorderFocused(Graphics2D g, JComponent c, int width, int height, boolean searchType) {
-        paintBorderEnabled(g, c, width, height, searchType);
-        if (searchType) {
-            setPath(1, 2, width - 3, height - 4, searchType);
-        } else {
-            setPath(2, 2, width - 4, height - 4, searchType);
-        }
-        focusGlow.fill(g, path, width, height);
     }
 
     private void paintInternalDropShadow(Graphics2D g, int width, int height, boolean searchType) {
