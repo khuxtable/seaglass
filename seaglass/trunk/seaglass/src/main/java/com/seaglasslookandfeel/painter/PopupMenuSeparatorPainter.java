@@ -44,26 +44,25 @@ public final class PopupMenuSeparatorPainter extends AbstractRegionPainter {
 
     private Rectangle2D            rect      = new Rectangle2D.Float(0, 0, 0, 0);
 
-    private Color                  color1    = decodeColor("nimbusBlueGrey", -0.008547008f, -0.03830409f, -0.039215684f, 0);
+    private Color                  color1    = new Color(0xdddddd);
 
-    // FIXME These are not assigned properly.
-    private static final Insets    insets    = new Insets(7, 7, 7, 7);
-    private static final Dimension dimension = new Dimension(86, 28);
-    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
-    private static final Double    maxH      = Double.POSITIVE_INFINITY;
-    private static final Double    maxV      = Double.POSITIVE_INFINITY;
+    private static final Insets    insets    = new Insets(1, 1, 1, 1);
+    private static final Dimension dimension = new Dimension(3, 3);
+    private static final CacheMode cacheMode = CacheMode.NO_CACHING;
+    private static final Double    maxH      = 1.0;
+    private static final Double    maxV      = 1.0;
 
     public PopupMenuSeparatorPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(insets, dimension, true, cacheMode, maxH, maxV);
     }
 
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_ENABLED:
-            paintBackgroundEnabled(g);
+            paintBackgroundEnabled(g, width, height);
             break;
         }
     }
@@ -73,18 +72,15 @@ public final class PopupMenuSeparatorPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintBackgroundEnabled(Graphics2D g) {
-        rect = decodeRect1();
+    private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
+        rect = decodeRect1(width, height);
         g.setPaint(color1);
         g.fill(rect);
 
     }
 
-    private Rectangle2D decodeRect1() {
-        rect.setRect(decodeX(0.0f), // x
-            decodeY(1.0f), // y
-            decodeX(3.0f) - decodeX(0.0f), // width
-            decodeY(2.0f) - decodeY(1.0f)); // height
+    private Rectangle2D decodeRect1(int width, int height) {
+        rect.setRect(0, height / 2, width, 1);
         return rect;
     }
 }
