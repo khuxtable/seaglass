@@ -74,6 +74,8 @@ import com.seaglasslookandfeel.painter.ComboBoxTextFieldPainter;
 import com.seaglasslookandfeel.painter.DesktopIconPainter;
 import com.seaglasslookandfeel.painter.DesktopPanePainter;
 import com.seaglasslookandfeel.painter.FrameAndRootPainter;
+import com.seaglasslookandfeel.painter.PopupMenuPainter;
+import com.seaglasslookandfeel.painter.PopupMenuSeparatorPainter;
 import com.seaglasslookandfeel.painter.ProgressBarPainter;
 import com.seaglasslookandfeel.painter.RadioButtonPainter;
 import com.seaglasslookandfeel.painter.ScrollBarButtonPainter;
@@ -391,6 +393,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 useOurUI(uiDefaults, "InternalFrameUI");
                 useOurUI(uiDefaults, "DesktopIconUI");
             }
+            useOurUI(uiDefaults, "PopupMenuUI");
             useOurUI(uiDefaults, "ProgressBarUI");
             useOurUI(uiDefaults, "RootPaneUI");
             useOurUI(uiDefaults, "ScrollBarUI");
@@ -409,6 +412,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             defineComboBoxes(uiDefaults);
             defineDesktopPanes(uiDefaults);
             defineLists(uiDefaults);
+            definePopups(uiDefaults);
             defineProgressBars(uiDefaults);
             defineRootPanes(uiDefaults);
             defineSpinners(uiDefaults);
@@ -520,72 +524,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             // Use Aqua for any menu UI classes.
             d.put("MenuBarUI", aquaDefaults.get("MenuBarUI"));
             d.put("MenuUI", aquaDefaults.get("MenuUI"));
-            d.put("MenuItemUI", aquaDefaults.get("MenuItemUI"));
             d.put("InternalFrameUI", aquaDefaults.get("InternalFrameUI"));
             d.put("InternalFrameTitlePaneUI", aquaDefaults.get("InternalFrameTitlePaneUI"));
             d.put("DesktopIconUI", aquaDefaults.get("DesktopIconUI"));
             d.put("DesktopPaneUI", aquaDefaults.get("DesktopPaneUI"));
-            d.put("PopupMenuUI", aquaDefaults.get("PopupMenuUI"));
         } catch (Exception e) {
             // TODO Should we do something with this exception?
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Initialize the tool bar settings.
-     * 
-     * @param d
-     *            the UI defaults map.
-     */
-    private void defineToolBars(UIDefaults d) {
-        String c = "com.seaglasslookandfeel.painter.ToolBarPainter";
-
-        d.put("ToolBar.contentMargins", new InsetsUIResource(2, 2, 2, 2));
-        d.put("ToolBar.opaque", Boolean.TRUE);
-        d.put("ToolBar.States", "North,East,West,South,WindowIsActive");
-        d.put("ToolBar.North", new ToolBarNorthState());
-        d.put("ToolBar.East", new ToolBarEastState());
-        d.put("ToolBar.West", new ToolBarWestState());
-        d.put("ToolBar.South", new ToolBarSouthState());
-        d.put("ToolBar.WindowIsActive", new ToolBarWindowIsActiveState());
-
-        d.put("ToolBar[North].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH));
-        d.put("ToolBar[South].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH));
-        d.put("ToolBar[East].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST));
-        d.put("ToolBar[West].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST));
-        d.put("ToolBar[North+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH_ENABLED));
-        d.put("ToolBar[South+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH_ENABLED));
-        d.put("ToolBar[East+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST_ENABLED));
-        d.put("ToolBar[West+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST_ENABLED));
-        d.put("ToolBar[Enabled].handleIconPainter", new LazyPainter(c, ToolBarPainter.Which.HANDLEICON_ENABLED));
-        d.put("ToolBar.handleIcon", new SeaGlassIcon("ToolBar", "handleIconPainter", 11, 38));
-
-        c = "com.seaglasslookandfeel.painter.ButtonPainter";
-        d.put("ToolBar:Button.States", "Enabled,Disabled,Focused,Pressed");
-        d.put("ToolBar:Button[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
-        d.put("ToolBar:Button[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
-        d.put("ToolBar:Button[Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put("ToolBar:Button[Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put("ToolBar:Button[Focused+Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
-
-        c = "com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter";
-        d.put("ToolBar:ToggleButton.States", "Enabled,Disabled,Focused,Pressed,Selected");
-        d.put("ToolBar:ToggleButton[Focused].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put("ToolBar:ToggleButton[Pressed].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put("ToolBar:ToggleButton[Focused+Pressed].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
-        d.put("ToolBar:ToggleButton[Selected].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED));
-        d.put("ToolBar:ToggleButton[Focused+Selected].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
-        d.put("ToolBar:ToggleButton[Pressed+Selected].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
-        d.put("ToolBar:ToggleButton[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
-        d.put("ToolBar:ToggleButton[Disabled+Selected].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
-
-        uiDefaults.put("ToolBarSeparator[Enabled].backgroundPainter", null);
     }
 
     /**
@@ -946,6 +892,21 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("List[Disabled+Selected].textBackground", Color.WHITE);
     }
 
+    private void definePopups(UIDefaults d) {
+        d.put("PopupMenu.contentMargins", new InsetsUIResource(6, 1, 6, 1));
+        d.put("PopupMenu.opaque", Boolean.TRUE);
+        d.put("PopupMenu.consumeEventOnClose", Boolean.TRUE);
+        d.put("PopupMenu[Disabled].backgroundPainter", new LazyPainter("com.seaglasslookandfeel.painter.PopupMenuPainter",
+            PopupMenuPainter.Which.BACKGROUND_DISABLED));
+        d.put("PopupMenu[Enabled].backgroundPainter", new LazyPainter("com.seaglasslookandfeel.painter.PopupMenuPainter",
+            PopupMenuPainter.Which.BACKGROUND_ENABLED));
+
+        // Initialize PopupMenuSeparator
+        d.put("PopupMenuSeparator.contentMargins", new InsetsUIResource(1, 0, 2, 0));
+        d.put("PopupMenuSeparator[Enabled].backgroundPainter", new LazyPainter("com.seaglasslookandfeel.painter.PopupMenuSeparatorPainter",
+            PopupMenuSeparatorPainter.Which.BACKGROUND_ENABLED));
+    }
+
     /**
      * Initialize the progress bar settings.
      * 
@@ -994,129 +955,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("RootPane[Enabled].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED));
         d.put("RootPane[Enabled+WindowFocused].backgroundPainter", new LazyPainter(c,
             FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
-    }
-
-    /**
-     * Initialize the spinner UI settings;
-     * 
-     * @param d
-     *            the UI defaults map.
-     */
-    private void defineSpinners(UIDefaults d) {
-        d.put("Spinner.contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put("Spinner:\"Spinner.editor\".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-
-        String c = "com.seaglasslookandfeel.painter.SpinnerFormattedTextFieldPainter";
-        String p = "Spinner:Panel:\"Spinner.formattedTextField\"";
-        d.put(p + ".contentMargins", new InsetsUIResource(3, 10, 2, 10));
-        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_FOCUSED));
-        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_SELECTED));
-        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c,
-            SpinnerFormattedTextFieldPainter.Which.BACKGROUND_SELECTED_FOCUSED));
-
-        c = "com.seaglasslookandfeel.painter.SpinnerPreviousButtonPainter";
-        p = "Spinner:\"Spinner.previousButton\"";
-        d.put(p + ".size", new Integer(22));
-        d.put(p + ".States", "Disabled,Enabled,Focused,Pressed");
-        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
-        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_DISABLED));
-        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_ENABLED));
-        d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_FOCUSED));
-        d.put(p + "[Focused+Pressed].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
-        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED));
-
-        c = "com.seaglasslookandfeel.painter.SpinnerNextButtonPainter";
-        p = "Spinner:\"Spinner.nextButton\"";
-        d.put(p + ".size", new Integer(22));
-        d.put(p + ".States", "Disabled,Enabled,Focused,Pressed");
-        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
-        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_DISABLED));
-        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_ENABLED));
-        d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_FOCUSED));
-        d.put(p + "[Focused+Pressed].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
-        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED));
-    }
-
-    /**
-     * Initialize the tabbed pane settings.
-     * 
-     * @param d
-     *            the UI defaults map.
-     */
-    private void defineTabbedPanes(UIDefaults d) {
-        d.put("tabbedPaneTabBase", new Color(90, 120, 200));
-        String c = "com.seaglasslookandfeel.painter.TabbedPaneTabPainter";
-        String p = "TabbedPane:TabbedPaneTab";
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED_MOUSEOVER));
-        d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED_PRESSED));
-        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Disabled+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_DISABLED));
-        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED));
-        d.put(p + "[MouseOver+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
-        d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_PRESSED));
-        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_FOCUSED));
-        d.put(p + "[Focused+MouseOver+Selected].backgroundPainter", new LazyPainter(c,
-            TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_MOUSEOVER_FOCUSED));
-        d.put(p + "[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c,
-            TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_PRESSED_FOCUSED));
-
-        p = "TabbedPane:TabbedPaneTabArea";
-        c = "com.seaglasslookandfeel.painter.TabbedPaneTabAreaPainter";
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_MOUSEOVER));
-        d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_PRESSED));
-    }
-
-    /**
-     * Initialize the table UI settings.
-     * 
-     * @param d
-     *            the UI defaults map.
-     */
-    private void defineTables(UIDefaults d) {
-        d.put("Table.background", new ColorUIResource(255, 255, 255));
-        d.put("Table.alternateRowColor", new Color(235, 245, 252));
-        d.put("TableHeader:\"TableHeader.renderer\".Sorted", new TableHeaderRendererSortedState());
-        d.put("Table[Enabled+Selected].textBackground", new Color(97, 129, 165));
-        d.put("Table[Disabled+Selected].textBackground", new Color(97, 129, 165));
-
-        String c = "com.seaglasslookandfeel.painter.TableHeaderPainter";
-        d.put("TableHeader.font", defaultFont.deriveFont(11.0f));
-        d.put("TableHeader[Enabled].ascendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.ASCENDINGSORTICON_ENABLED));
-        d.put("Table.ascendingSortIcon", new SeaGlassIcon("TableHeader", "ascendingSortIconPainter", 8, 7));
-        d.put("TableHeader[Enabled].descendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.DESCENDINGSORTICON_ENABLED));
-        d.put("Table.descendingSortIcon", new SeaGlassIcon("TableHeader", "descendingSortIconPainter", 8, 7));
-
-        c = "com.seaglasslookandfeel.painter.TableHeaderRendererPainter";
-        d.put("TableHeader:\"TableHeader.renderer\"[Disabled].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_DISABLED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Enabled].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_ENABLED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Focused].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Pressed].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_PRESSED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Sorted].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_SORTED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Focused+Sorted].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED_SORTED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Disabled+Sorted].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_DISABLED_SORTED));
-
-        // Store Table ScrollPane Corner Component
-        uiDefaults.put("Table.scrollPaneCornerComponent", TableScrollPaneCorner.class);
     }
 
     /**
@@ -1220,6 +1058,57 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
+     * Initialize the spinner UI settings;
+     * 
+     * @param d
+     *            the UI defaults map.
+     */
+    private void defineSpinners(UIDefaults d) {
+        d.put("Spinner.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("Spinner:\"Spinner.editor\".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+
+        String c = "com.seaglasslookandfeel.painter.SpinnerFormattedTextFieldPainter";
+        String p = "Spinner:Panel:\"Spinner.formattedTextField\"";
+        d.put(p + ".contentMargins", new InsetsUIResource(3, 10, 2, 10));
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_FOCUSED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c,
+            SpinnerFormattedTextFieldPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+
+        c = "com.seaglasslookandfeel.painter.SpinnerPreviousButtonPainter";
+        p = "Spinner:\"Spinner.previousButton\"";
+        d.put(p + ".size", new Integer(22));
+        d.put(p + ".States", "Disabled,Enabled,Focused,Pressed");
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_FOCUSED));
+        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_DISABLED));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_ENABLED));
+        d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_FOCUSED));
+        d.put(p + "[Focused+Pressed].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED));
+
+        c = "com.seaglasslookandfeel.painter.SpinnerNextButtonPainter";
+        p = "Spinner:\"Spinner.nextButton\"";
+        d.put(p + ".size", new Integer(22));
+        d.put(p + ".States", "Disabled,Enabled,Focused,Pressed");
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_FOCUSED));
+        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_DISABLED));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_ENABLED));
+        d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_FOCUSED));
+        d.put(p + "[Focused+Pressed].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED));
+    }
+
+    /**
      * Initialize the split pane UI settings.
      * 
      * @param d
@@ -1253,6 +1142,78 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 SplitPaneDividerPainter.Which.FOREGROUND_ENABLED));
         d.put("SplitPane:SplitPaneDivider[Enabled+Vertical].foregroundPainter", new LazyPainter(c,
             SplitPaneDividerPainter.Which.FOREGROUND_ENABLED_VERTICAL));
+    }
+
+    /**
+     * Initialize the tabbed pane settings.
+     * 
+     * @param d
+     *            the UI defaults map.
+     */
+    private void defineTabbedPanes(UIDefaults d) {
+        d.put("tabbedPaneTabBase", new Color(90, 120, 200));
+        String c = "com.seaglasslookandfeel.painter.TabbedPaneTabPainter";
+        String p = "TabbedPane:TabbedPaneTab";
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED_MOUSEOVER));
+        d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED_PRESSED));
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Disabled+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_DISABLED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[MouseOver+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
+        d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_PRESSED));
+        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+        d.put(p + "[Focused+MouseOver+Selected].backgroundPainter", new LazyPainter(c,
+            TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_MOUSEOVER_FOCUSED));
+        d.put(p + "[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c,
+            TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_PRESSED_FOCUSED));
+
+        p = "TabbedPane:TabbedPaneTabArea";
+        c = "com.seaglasslookandfeel.painter.TabbedPaneTabAreaPainter";
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_MOUSEOVER));
+        d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_PRESSED));
+    }
+
+    /**
+     * Initialize the table UI settings.
+     * 
+     * @param d
+     *            the UI defaults map.
+     */
+    private void defineTables(UIDefaults d) {
+        d.put("Table.background", new ColorUIResource(255, 255, 255));
+        d.put("Table.alternateRowColor", new Color(235, 245, 252));
+        d.put("TableHeader:\"TableHeader.renderer\".Sorted", new TableHeaderRendererSortedState());
+        d.put("Table[Enabled+Selected].textBackground", new Color(97, 129, 165));
+        d.put("Table[Disabled+Selected].textBackground", new Color(97, 129, 165));
+
+        String c = "com.seaglasslookandfeel.painter.TableHeaderPainter";
+        d.put("TableHeader.font", defaultFont.deriveFont(11.0f));
+        d.put("TableHeader[Enabled].ascendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.ASCENDINGSORTICON_ENABLED));
+        d.put("Table.ascendingSortIcon", new SeaGlassIcon("TableHeader", "ascendingSortIconPainter", 8, 7));
+        d.put("TableHeader[Enabled].descendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.DESCENDINGSORTICON_ENABLED));
+        d.put("Table.descendingSortIcon", new SeaGlassIcon("TableHeader", "descendingSortIconPainter", 8, 7));
+
+        c = "com.seaglasslookandfeel.painter.TableHeaderRendererPainter";
+        d.put("TableHeader:\"TableHeader.renderer\"[Disabled].backgroundPainter", new LazyPainter(c,
+            TableHeaderRendererPainter.Which.BACKGROUND_DISABLED));
+        d.put("TableHeader:\"TableHeader.renderer\"[Enabled].backgroundPainter", new LazyPainter(c,
+            TableHeaderRendererPainter.Which.BACKGROUND_ENABLED));
+        d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Focused].backgroundPainter", new LazyPainter(c,
+            TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED));
+        d.put("TableHeader:\"TableHeader.renderer\"[Pressed].backgroundPainter", new LazyPainter(c,
+            TableHeaderRendererPainter.Which.BACKGROUND_PRESSED));
+        d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Sorted].backgroundPainter", new LazyPainter(c,
+            TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_SORTED));
+        d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Focused+Sorted].backgroundPainter", new LazyPainter(c,
+            TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED_SORTED));
+        d.put("TableHeader:\"TableHeader.renderer\"[Disabled+Sorted].backgroundPainter", new LazyPainter(c,
+            TableHeaderRendererPainter.Which.BACKGROUND_DISABLED_SORTED));
+
+        // Store Table ScrollPane Corner Component
+        uiDefaults.put("Table.scrollPaneCornerComponent", TableScrollPaneCorner.class);
     }
 
     /**
@@ -1320,6 +1281,62 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("EditorPane[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
         d.put("EditorPane[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
         d.put("EditorPane[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+    }
+
+    /**
+     * Initialize the tool bar settings.
+     * 
+     * @param d
+     *            the UI defaults map.
+     */
+    private void defineToolBars(UIDefaults d) {
+        String c = "com.seaglasslookandfeel.painter.ToolBarPainter";
+
+        d.put("ToolBar.contentMargins", new InsetsUIResource(2, 2, 2, 2));
+        d.put("ToolBar.opaque", Boolean.TRUE);
+        d.put("ToolBar.States", "North,East,West,South,WindowIsActive");
+        d.put("ToolBar.North", new ToolBarNorthState());
+        d.put("ToolBar.East", new ToolBarEastState());
+        d.put("ToolBar.West", new ToolBarWestState());
+        d.put("ToolBar.South", new ToolBarSouthState());
+        d.put("ToolBar.WindowIsActive", new ToolBarWindowIsActiveState());
+
+        d.put("ToolBar[North].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH));
+        d.put("ToolBar[South].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH));
+        d.put("ToolBar[East].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST));
+        d.put("ToolBar[West].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST));
+        d.put("ToolBar[North+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH_ENABLED));
+        d.put("ToolBar[South+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH_ENABLED));
+        d.put("ToolBar[East+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST_ENABLED));
+        d.put("ToolBar[West+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST_ENABLED));
+        d.put("ToolBar[Enabled].handleIconPainter", new LazyPainter(c, ToolBarPainter.Which.HANDLEICON_ENABLED));
+        d.put("ToolBar.handleIcon", new SeaGlassIcon("ToolBar", "handleIconPainter", 11, 38));
+
+        c = "com.seaglasslookandfeel.painter.ButtonPainter";
+        d.put("ToolBar:Button.States", "Enabled,Disabled,Focused,Pressed");
+        d.put("ToolBar:Button[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put("ToolBar:Button[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
+        d.put("ToolBar:Button[Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_FOCUSED));
+        d.put("ToolBar:Button[Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
+        d.put("ToolBar:Button[Focused+Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+
+        c = "com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter";
+        d.put("ToolBar:ToggleButton.States", "Enabled,Disabled,Focused,Pressed,Selected");
+        d.put("ToolBar:ToggleButton[Focused].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_FOCUSED));
+        d.put("ToolBar:ToggleButton[Pressed].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED));
+        d.put("ToolBar:ToggleButton[Focused+Pressed].backgroundPainter", new LazyPainter(c,
+            ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+        d.put("ToolBar:ToggleButton[Selected].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED));
+        d.put("ToolBar:ToggleButton[Focused+Selected].backgroundPainter", new LazyPainter(c,
+            ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+        d.put("ToolBar:ToggleButton[Pressed+Selected].backgroundPainter", new LazyPainter(c,
+            ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
+        d.put("ToolBar:ToggleButton[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c,
+            ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
+        d.put("ToolBar:ToggleButton[Disabled+Selected].backgroundPainter", new LazyPainter(c,
+            ToolBarToggleButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
+
+        uiDefaults.put("ToolBarSeparator[Enabled].backgroundPainter", null);
     }
 
     /**
