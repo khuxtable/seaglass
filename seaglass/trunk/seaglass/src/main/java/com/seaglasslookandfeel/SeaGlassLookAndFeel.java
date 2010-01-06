@@ -150,13 +150,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in a handful of places where we need an empty Insets.
      */
-    public static final Insets           EMPTY_UIRESOURCE_INSETS     = new InsetsUIResource(0, 0, 0, 0);
-
-    /**
-     * Used to make title pane act like its parent is an internal frame for
-     * style determination.
-     */
-    public static final JInternalFrame   FAKE_INTERNAL_FRAME         = new JInternalFrame();
+    public static final Insets           EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
 
     /**
      * The map of SynthStyles. This map is keyed by Region. Each Region maps to
@@ -168,7 +162,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * than one prefix defined for a given region. For example, both Button and
      * "MyButton" might be prefixes assigned to the Region.Button region.
      */
-    private Map<Region, List<LazyStyle>> styleMap                    = new HashMap<Region, List<LazyStyle>>();
+    private Map<Region, List<LazyStyle>> styleMap                = new HashMap<Region, List<LazyStyle>>();
 
     /**
      * A map of regions which have been registered. This mapping is maintained
@@ -176,7 +170,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * This is used in the "matches" method of LazyStyle.
      */
 
-    private Map<String, Region>          registeredRegions           = new HashMap<String, Region>();
+    private Map<String, Region>          registeredRegions       = new HashMap<String, Region>();
 
     /**
      * Our fallback style to avoid NPEs if the proper style cannot be found in
@@ -193,19 +187,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in IMAGE_DIRECTORY and UI_PACKAGE_PREFIX.
      */
-    private static final String          PACKAGE_DIRECTORY           = SeaGlassLookAndFeel.class.getPackage().getName();
+    private static final String          PACKAGE_DIRECTORY       = SeaGlassLookAndFeel.class.getPackage().getName();
 
     /**
      * Set the image directory name based on the root package.
      */
-    private static final String          IMAGE_DIRECTORY             = "/" + PACKAGE_DIRECTORY.replaceAll("\\.", "/") + "/resources/images";
+    private static final String          IMAGE_DIRECTORY         = "/" + PACKAGE_DIRECTORY.replaceAll("\\.", "/") + "/resources/images";
 
     /**
      * Set the package name for UI delegates based on the root package.
      */
-    private static final String          UI_PACKAGE_PREFIX           = PACKAGE_DIRECTORY + ".ui.SeaGlass";
+    private static final String          UI_PACKAGE_PREFIX       = PACKAGE_DIRECTORY + ".ui.SeaGlass";
 
-    private UIDefaults                   uiDefaults                  = null;
+    private UIDefaults                   uiDefaults              = null;
 
     // Refer to setSelectedUI
     public static ComponentUI            selectedUI;
@@ -1811,7 +1805,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                         // layered pane and hasn't yet been assigned, but we
                         // want it to behave as if its parent is an internal
                         // frame.
-                        parent = FAKE_INTERNAL_FRAME;
+                        if (partIndex <= 0
+                                || (parts[partIndex - 1].c != null && parts[partIndex - 1].c.isAssignableFrom(JInternalFrame.class))) {
+                            return true;
+                        }
                     }
                     // it was the name of a region. So far, so good. Recurse.
                     return matches(parent, partIndex - 1);
