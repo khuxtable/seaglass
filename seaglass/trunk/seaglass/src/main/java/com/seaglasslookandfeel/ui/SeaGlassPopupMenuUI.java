@@ -19,12 +19,15 @@
  */
 package com.seaglasslookandfeel.ui;
 
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Window;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicPopupMenuUI;
@@ -34,6 +37,7 @@ import javax.swing.plaf.synth.SynthContext;
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
+import com.seaglasslookandfeel.util.WindowUtils;
 
 import sun.swing.plaf.synth.SynthUI;
 
@@ -71,12 +75,20 @@ public class SeaGlassPopupMenuUI extends BasicPopupMenuUI implements PropertyCha
     public void installDefaults() {
         if (popupMenu.getLayout() == null || popupMenu.getLayout() instanceof UIResource) {
             popupMenu.setLayout(new DefaultMenuLayout(popupMenu, BoxLayout.Y_AXIS));
+            popupMenu.setOpaque(false);
         }
         updateStyle(popupMenu);
     }
 
     private void updateStyle(JComponent c) {
         SeaGlassContext context = getContext(c, ENABLED);
+        Window window = SwingUtilities.getWindowAncestor(popupMenu);
+        if (window != null) {
+            for (Component jc = c; jc != null && (jc instanceof JComponent); jc = jc.getParent()) {
+                ((JComponent) jc).setOpaque(false);
+            }
+            WindowUtils.makeWindowNonOpaque(window);
+        }
         SeaGlassStyle oldStyle = style;
         style = (SeaGlassStyle) SeaGlassLookAndFeel.updateStyle(context, this);
         if (style != oldStyle) {
