@@ -67,6 +67,7 @@ import com.seaglasslookandfeel.component.SeaGlassTitlePane;
 import com.seaglasslookandfeel.component.TableScrollPaneCorner;
 import com.seaglasslookandfeel.painter.ArrowButtonPainter;
 import com.seaglasslookandfeel.painter.ButtonPainter;
+import com.seaglasslookandfeel.painter.CheckBoxMenuItemPainter;
 import com.seaglasslookandfeel.painter.CheckBoxPainter;
 import com.seaglasslookandfeel.painter.ComboBoxArrowButtonPainter;
 import com.seaglasslookandfeel.painter.ComboBoxPainter;
@@ -74,9 +75,11 @@ import com.seaglasslookandfeel.painter.ComboBoxTextFieldPainter;
 import com.seaglasslookandfeel.painter.DesktopIconPainter;
 import com.seaglasslookandfeel.painter.DesktopPanePainter;
 import com.seaglasslookandfeel.painter.FrameAndRootPainter;
+import com.seaglasslookandfeel.painter.MenuItemPainter;
 import com.seaglasslookandfeel.painter.PopupMenuPainter;
 import com.seaglasslookandfeel.painter.PopupMenuSeparatorPainter;
 import com.seaglasslookandfeel.painter.ProgressBarPainter;
+import com.seaglasslookandfeel.painter.RadioButtonMenuItemPainter;
 import com.seaglasslookandfeel.painter.RadioButtonPainter;
 import com.seaglasslookandfeel.painter.ScrollBarButtonPainter;
 import com.seaglasslookandfeel.painter.ScrollBarThumbPainter;
@@ -386,15 +389,18 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             // Override some of the Synth UI delegates with copied and modified
             // versions.
             useOurUI(uiDefaults, "ButtonUI");
+            useOurUI(uiDefaults, "CheckBoxMenuItemUI");
             useOurUI(uiDefaults, "ComboBoxUI");
             useOurUI(uiDefaults, "DesktopPaneUI");
             useOurUI(uiDefaults, "LabelUI");
+            useOurUI(uiDefaults, "MenuItemUI");
             if (!PlatformUtils.isMac()) {
                 useOurUI(uiDefaults, "InternalFrameUI");
                 useOurUI(uiDefaults, "DesktopIconUI");
             }
             useOurUI(uiDefaults, "PopupMenuUI");
             useOurUI(uiDefaults, "ProgressBarUI");
+            useOurUI(uiDefaults, "RadioButtonMenuItemUI");
             useOurUI(uiDefaults, "RootPaneUI");
             useOurUI(uiDefaults, "ScrollBarUI");
             useOurUI(uiDefaults, "ScrollPaneUI");
@@ -412,6 +418,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             defineComboBoxes(uiDefaults);
             defineDesktopPanes(uiDefaults);
             defineLists(uiDefaults);
+            defineMenuItems(uiDefaults);
             definePopups(uiDefaults);
             defineProgressBars(uiDefaults);
             defineRootPanes(uiDefaults);
@@ -890,6 +897,65 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("List[Selected].textForeground", Color.WHITE);
         d.put("List[Selected].textBackground", d.get("nimbusSelection"));
         d.put("List[Disabled+Selected].textBackground", Color.WHITE);
+    }
+
+    private void defineMenuItems(UIDefaults d) {
+
+        // Initialize MenuItem
+        String c = "com.seaglasslookandfeel.painter.MenuItemPainter";
+        String p = "MenuItem";
+        d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
+        d.put(p + ".textIconGap", new Integer(5));
+        d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
+        d.put(p + "[Enabled].textForeground", new Color(35, 35, 36));
+        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+        d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, MenuItemPainter.Which.BACKGROUND_MOUSEOVER));
+        p = "MenuItem:MenuItemAccelerator";
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
+        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+
+        // Initialize CheckBoxMenuItem
+        c = "com.seaglasslookandfeel.painter.CheckBoxMenuItemPainter";
+        p = "CheckBoxMenuItem";
+        d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
+        d.put(p + ".textIconGap", new Integer(5));
+        d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
+        d.put(p + "[Enabled].textForeground", new Color(35, 35, 36));
+        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+        d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, CheckBoxMenuItemPainter.Which.BACKGROUND_MOUSEOVER));
+        d.put(p + "[MouseOver+Selected].textForeground", Color.WHITE);
+        d
+            .put(p + "[MouseOver+Selected].backgroundPainter", new LazyPainter(c,
+                CheckBoxMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
+        d.put(p + "[Disabled+Selected].checkIconPainter", new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_DISABLED_SELECTED));
+        d.put(p + "[Enabled+Selected].checkIconPainter", new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_ENABLED_SELECTED));
+        d.put(p + "[MouseOver+Selected].checkIconPainter", new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_SELECTED_MOUSEOVER));
+        d.put(p + ".checkIcon", new SeaGlassIcon(p, "checkIconPainter", 9, 10));
+        p = "CheckBoxMenuItem:MenuItemAccelerator";
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+
+        // Initialize RadioButtonMenuItem
+        c = "com.seaglasslookandfeel.painter.RadioButtonMenuItemPainter";
+        p = "RadioButtonMenuItem";
+        d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
+        d.put(p + ".textIconGap", new Integer(5));
+        d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
+        d.put(p + "[Enabled].textForeground", new Color(35, 35, 36));
+        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+        d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, RadioButtonMenuItemPainter.Which.BACKGROUND_MOUSEOVER));
+        d.put(p + "[MouseOver+Selected].textForeground", Color.WHITE);
+        d.put(p + "[MouseOver+Selected].backgroundPainter", new LazyPainter(c,
+            RadioButtonMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
+        d.put(p + "[Disabled+Selected].checkIconPainter", new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_DISABLED_SELECTED));
+        d.put(p + "[Enabled+Selected].checkIconPainter", new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_ENABLED_SELECTED));
+        d.put(p + "[MouseOver+Selected].checkIconPainter",
+            new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_SELECTED_MOUSEOVER));
+        d.put(p + ".checkIcon", new SeaGlassIcon(p, "checkIconPainter", 9, 10));
+        p = "RadioButtonMenuItem:MenuItemAccelerator";
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[MouseOver].textForeground", Color.WHITE);
     }
 
     private void definePopups(UIDefaults d) {
