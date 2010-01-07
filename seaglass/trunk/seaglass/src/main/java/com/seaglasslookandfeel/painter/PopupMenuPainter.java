@@ -51,7 +51,7 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
     private Color                  enabledBorderColor    = new Color(0xdddddd);
     private Color                  enabledInteriorColor  = new Color(0xffffff);
 
-    private static final Insets    insets                = new Insets(11, 2, 11, 2);
+    private static final Insets    insets                = new Insets(4, 2, 4, 2);
     private static final Dimension dimension             = new Dimension(220, 313);
     private static final CacheMode cacheMode             = CacheMode.NO_CACHING;
     private static final Double    maxH                  = 1.0;
