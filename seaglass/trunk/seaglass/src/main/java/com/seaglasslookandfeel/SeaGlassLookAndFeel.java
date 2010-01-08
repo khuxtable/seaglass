@@ -509,6 +509,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("textHighlight", d.get("nimbusSelectionBackground"));
         d.put("textHighlightText", Color.WHITE);
         d.put("textInactiveText", d.get("nimbusDisabledText"));
+        d.put("menuText", Color.WHITE);
+        d.put("menu", Color.WHITE);// d.get("nimbusBase"));
     }
 
     /**
@@ -730,7 +732,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("InternalFrame[Enabled+WindowFocused].backgroundPainter", new LazyPainter(c,
             FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
 
-        d.put("InternalFrame:InternalFrameTitlePane[Enabled].textForeground", new Color(0, 0, 0));
+        d.put("InternalFrame:InternalFrameTitlePane[Enabled].textForeground", d.get("nimbusDisabledText"));
+        d.put("InternalFrame:InternalFrameTitlePane[WindowFocused].textForeground", Color.WHITE);
     }
 
     /**
@@ -902,9 +905,28 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
     private void defineMenuItems(UIDefaults d) {
 
+        // Initialize MenuBar
+        String c = "com.seaglasslookandfeel.painter.MenuBarPainter";
+        String p = "MenuBar";
+        d.put(p + ".contentMargins", new InsetsUIResource(2, 6, 2, 6));
+//        d.put(p + "[Enabled].backgroundPainter", new LazyPainter("com.sun.java.swing.plaf.nimbus.MenuBarPainter",
+//            MenuBarPainter.Which.BACKGROUND_ENABLED, new Insets(1, 0, 0, 0), new Dimension(18, 22), false,
+//            CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0));
+//        d.put(p + "[Enabled].borderPainter", new LazyPainter("com.sun.java.swing.plaf.nimbus.MenuBarPainter",
+//            MenuBarPainter.Which.BORDER_ENABLED, new Insets(0, 0, 1, 0), new Dimension(30, 30), false,
+//            CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY, 2.0));
+        d.put(p + ":Menu.contentMargins", new InsetsUIResource(1, 4, 2, 4));
+        d.put(p + ":Menu[Disabled].textForeground", Color.BLACK);
+        d.put(p + ":Menu[Enabled].textForeground", Color.WHITE);
+        d.put(p + ":Menu[Selected].textForeground", Color.BLACK);
+//        d.put(p + ":Menu[Selected].backgroundPainter", new LazyPainter("com.sun.java.swing.plaf.nimbus.MenuBarMenuPainter",
+//            MenuBarMenuPainter.Which.BACKGROUND_SELECTED, new Insets(0, 0, 0, 0), new Dimension(100, 30), false,
+//            CacheMode.NO_CACHING, 1.0, 1.0));
+        d.put(p + ":Menu:MenuItemAccelerator.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+
         // Initialize MenuItem
-        String c = "com.seaglasslookandfeel.painter.MenuItemPainter";
-        String p = "MenuItem";
+        c = "com.seaglasslookandfeel.painter.MenuItemPainter";
+        p = "MenuItem";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
         d.put(p + ".textIconGap", new Integer(5));
         d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
