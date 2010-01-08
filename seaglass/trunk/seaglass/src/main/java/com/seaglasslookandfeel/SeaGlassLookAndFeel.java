@@ -110,6 +110,7 @@ import com.seaglasslookandfeel.state.ProgressBarIndeterminateState;
 import com.seaglasslookandfeel.state.RootPaneNoFrameState;
 import com.seaglasslookandfeel.state.RootPaneWindowFocusedState;
 import com.seaglasslookandfeel.state.ScrollBarButtonIsIncreaseButtonState;
+import com.seaglasslookandfeel.state.ScrollBarButtonsTogetherState;
 import com.seaglasslookandfeel.state.SliderArrowShapeState;
 import com.seaglasslookandfeel.state.SplitPaneDividerVerticalState;
 import com.seaglasslookandfeel.state.SplitPaneVerticalState;
@@ -1036,43 +1037,49 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Buttons
         String c = "com.seaglasslookandfeel.painter.ScrollBarButtonPainter";
-        d.put("ScrollBar:\"ScrollBar.button\".IncreaseButton", new ScrollBarButtonIsIncreaseButtonState());
-        d.put("ScrollBar:\"ScrollBar.button\".States", "Enabled,Pressed,Disabled,IncreaseButton");
-        d.put("ScrollBar:\"ScrollBar.button\"[Enabled].foregroundPainter", new LazyPainter(c,
-            ScrollBarButtonPainter.Which.FOREGROUND_ENABLED));
-        d.put("ScrollBar:\"ScrollBar.button\"[Disabled].foregroundPainter", new LazyPainter(c,
-            ScrollBarButtonPainter.Which.FOREGROUND_DISABLED));
-        d.put("ScrollBar:\"ScrollBar.button\"[Pressed].foregroundPainter", new LazyPainter(c,
-            ScrollBarButtonPainter.Which.FOREGROUND_PRESSED));
-        d.put("ScrollBar:\"ScrollBar.button\"[IncreaseButton+Enabled].foregroundPainter", new LazyPainter(c,
-            ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED));
-        d.put("ScrollBar:\"ScrollBar.button\"[IncreaseButton+Disabled].foregroundPainter", new LazyPainter(c,
+        String p = "ScrollBar:\"ScrollBar.button\"";
+        d.put(p + ".IncreaseButton", new ScrollBarButtonIsIncreaseButtonState());
+        d.put(p + ".States", "Enabled,Pressed,Disabled,IncreaseButton");
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_ENABLED));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_DISABLED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_PRESSED));
+        d.put(p + "[IncreaseButton+Enabled].foregroundPainter",
+            new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED));
+        d.put(p + "[IncreaseButton+Disabled].foregroundPainter", new LazyPainter(c,
             ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED));
-        d.put("ScrollBar:\"ScrollBar.button\"[IncreaseButton+Pressed].foregroundPainter", new LazyPainter(c,
-            ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED));
+        d.put(p + "[IncreaseButton+Pressed].foregroundPainter",
+            new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED));
 
         // Thumb
         // Seems to be a bug somewhere where MouseOver is always delivered even
         // when we don't want it, but if it's not specified nothing at all is
         // painted.
         c = "com.seaglasslookandfeel.painter.ScrollBarThumbPainter";
-        d.put("ScrollBar:ScrollBarThumb.States", "Enabled,Pressed,MouseOver,Disabled");
-        d.put("ScrollBar:ScrollBarThumb[Disabled].backgroundPainter", new LazyPainter(c, ScrollBarThumbPainter.Which.BACKGROUND_DISABLED));
-        d.put("ScrollBar:ScrollBarThumb[Enabled].backgroundPainter", new LazyPainter(c, ScrollBarThumbPainter.Which.BACKGROUND_ENABLED));
-        d.put("ScrollBar:ScrollBarThumb[MouseOver].backgroundPainter", new LazyPainter(c, ScrollBarThumbPainter.Which.BACKGROUND_ENABLED));
-        d.put("ScrollBar:ScrollBarThumb[Pressed].backgroundPainter", new LazyPainter(c, ScrollBarThumbPainter.Which.BACKGROUND_PRESSED));
-        d.put("ScrollBar:ScrollBarThumb[MouseOver+Pressed].backgroundPainter", new LazyPainter(c,
-            ScrollBarThumbPainter.Which.BACKGROUND_PRESSED));
+        p = "ScrollBar:ScrollBarThumb";
+        d.put(p + ".States", "Enabled,Pressed,MouseOver,Disabled");
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ScrollBarThumbPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ScrollBarThumbPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, ScrollBarThumbPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, ScrollBarThumbPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[MouseOver+Pressed].backgroundPainter", new LazyPainter(c, ScrollBarThumbPainter.Which.BACKGROUND_PRESSED));
 
         // Track
         c = "com.seaglasslookandfeel.painter.ScrollBarTrackPainter";
-        d.put("ScrollBar:ScrollBarTrack[Disabled].backgroundPainter", new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_DISABLED));
-        d.put("ScrollBar:ScrollBarTrack[Enabled].backgroundPainter", new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_ENABLED));
+        p = "ScrollBar:ScrollBarTrack";
+        d.put(p + ".ButtonsTogether", new ScrollBarButtonsTogetherState());
+        d.put(p + ".States", "Enabled,Disabled,EnabledTogether,DisabledTogether");
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Disabled+ButtonsTogether].backgroundPainter", new LazyPainter(c,
+            ScrollBarTrackPainter.Which.BACKGROUND_DISABLED_TOGETHER));
+        d.put(p + "[Enabled+ButtonsTogether].backgroundPainter",
+            new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_ENABLED_TOGETHER));
 
         // Define ScrollPane border painters.
         c = "com.seaglasslookandfeel.painter.ScrollPanePainter";
-        d.put("ScrollPane[Enabled+Focused].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED_FOCUSED));
-        d.put("ScrollPane[Enabled].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED));
+        p = "ScrollPane";
+        d.put(p + "[Enabled+Focused].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED_FOCUSED));
+        d.put(p + "[Enabled].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED));
     }
 
     /**
