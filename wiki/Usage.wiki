@@ -13,3 +13,7 @@ To enable the Sea Glass Look and Feel, include the following in your application
             e.printStackTrace();
         }
 }}}
+
+We also support setting the UI on the command line using the VM option
+
+{{{-Dswing.defaultlaf=com.seaglasslookandfeel.SeaGlassLookAndFeel}}}
