@@ -46,6 +46,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JRootPane;
+import javax.swing.JWindow;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
@@ -58,6 +59,7 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.component.SeaGlassBorder;
 import com.seaglasslookandfeel.component.SeaGlassTitlePane;
+import com.seaglasslookandfeel.util.PlatformUtils;
 import com.seaglasslookandfeel.util.WindowUtils;
 
 import sun.swing.plaf.synth.SynthUI;
@@ -163,8 +165,15 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         root = (JRootPane) c;
+        root.putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
+        if (PlatformUtils.isMac()) {
+            if (root.isValid()) {
+                throw new IllegalArgumentException("This method only works if the given JRootPane has not yet been realized.");
+            }
+            root.putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
+        }
         int style = root.getWindowDecorationStyle();
-        if (c.getParent() != null && (c.getParent() instanceof JFrame || c.getParent() instanceof JDialog) && style != JRootPane.NONE) {
+        if (c.getParent() != null && (c.getParent() instanceof JFrame || c.getParent() instanceof JDialog || c.getParent() instanceof JWindow) && style != JRootPane.NONE) {
             installClientDecorations(root);
         }
     }
@@ -484,7 +493,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             // simpler. AqvavitTitlePane also assumes it will be recreated if
             // the decoration style changes.
             uninstallClientDecorations(root);
-            if (root.getParent() != null && (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog) && style != JRootPane.NONE) {
+            if (root.getParent() != null && (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog || root.getParent() instanceof JWindow) && style != JRootPane.NONE) {
                 installClientDecorations(root);
             }
         } else if (propertyName.equals("ancestor")) {
