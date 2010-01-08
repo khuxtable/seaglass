@@ -57,20 +57,22 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     private static final Double           maxH                    = Double.POSITIVE_INFINITY;
     private static final Double           maxV                    = Double.POSITIVE_INFINITY;
 
-    private static final Color            borderColor             = new Color(0x808080);
+    private static final Color            borderColor             = new Color(0x545454);
 
-    private static final Color            ACTIVE_TITLE_COLOR_T    = new Color(0xd0d0d0);
+    private static final Color            ACTIVE_TITLE_COLOR_T    = new Color(0x7593b2);
     private static final Color            INACTIVE_TITLE_COLOR_T  = new Color(0xededed);
 
-    private static final Color            ACTIVE_TOP_COLOR_T      = new Color(0xc9c9c9);
-    private static final Color            ACTIVE_TOP_COLOR_B      = new Color(0xb7b7b7);
+    private static final Color            ACTIVE_TOP_COLOR_T      = new Color(0x6888ab);
+    private static final Color            ACTIVE_TOP_COLOR_B      = new Color(0x5a7da4);
     private static final Color            INACTIVE_TOP_COLOR_T    = new Color(0xe9e9e9);
     private static final Color            INACTIVE_TOP_COLOR_B    = new Color(0xe0e0e0);
 
-    private static final Color            ACTIVE_BOTTOM_COLOR_T   = new Color(0x999999);
-    private static final Color            ACTIVE_BOTTOM_COLOR_B   = new Color(0x909090);
+    private static final Color            ACTIVE_BOTTOM_COLOR_T   = new Color(0x597ca3);
+    private static final Color            ACTIVE_BOTTOM_COLOR_B   = new Color(0x5b7fa5);
     private static final Color            INACTIVE_BOTTOM_COLOR_T = new Color(0xcfcfcf);
     private static final Color            INACTIVE_BOTTOM_COLOR_B = new Color(0xcacaca);
+
+    private static final Color            INNER_HIGHLIGHT_COLOR   = new Color(0x55ffffff, true);
 
     private static final State            toolBarNorthState       = new ToolBarNorthState();
     private static final State            toolBarSouthState       = new ToolBarSouthState();
@@ -152,6 +154,10 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         g.setPaint(decodeGradient(roundRect, titleHeight, topToolBarHeight, bottomToolBarHeight, topColor, titleBottomColor,
             topToolBarBottomColor, bottomToolBarTopColor, bottomColor));
         g.fill(roundRect);
+
+        roundRect.setRoundRect(1, 1, width - 3, height - 3, 6.0, 6.0);
+        g.setPaint(INNER_HIGHLIGHT_COLOR);
+        g.draw(roundRect);
     }
 
     private Paint decodeGradient(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight, Color topColor,
