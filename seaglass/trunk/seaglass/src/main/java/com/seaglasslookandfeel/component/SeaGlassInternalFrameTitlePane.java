@@ -19,6 +19,7 @@
  */
 package com.seaglasslookandfeel.component;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -335,7 +336,17 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
         if (title != null) {
             SynthStyle style = context.getStyle();
 
-            g.setColor(style.getColor(context, ColorType.TEXT_FOREGROUND));
+            Color color = style.getColor(context, ColorType.TEXT_FOREGROUND);
+            // TODO style.getColor returns improper color for state? Why?
+            if ((context.getComponentState() & 512) != 0) {
+                Object obj = style.get(context, "[WindowFocused].textForeground");
+                if (obj != null && obj instanceof Color) {
+                    color = (Color) obj;
+                }
+                // FIXME The state *still* doesn't get the color right!!!
+                color = Color.WHITE;
+            }
+            g.setColor(color);
             g.setFont(style.getFont(context));
 
             // Center text vertically.
