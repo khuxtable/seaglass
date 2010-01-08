@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.ui;
 
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Window;
 import java.beans.PropertyChangeEvent;
@@ -52,21 +51,21 @@ public class SeaGlassPopupMenuUI extends BasicPopupMenuUI implements PropertyCha
     /**
      * Maximum size of the text portion of the children menu items.
      */
-    private int           maxTextWidth;
+    private int            maxTextWidth;
 
     /**
      * Maximum size of the text for the acclerator portion of the children menu
      * items.
      */
-    private int           maxAcceleratorWidth;
+    private int            maxAcceleratorWidth;
 
     /*
      * Maximum icon and text offsets of the children menu items.
      */
-    private int           maxTextOffset;
-    private int           maxIconOffset;
+    private int            maxTextOffset;
+    private int            maxIconOffset;
 
-    private SeaGlassStyle style;
+    private SeaGlassStyle  style;
 
     public static ComponentUI createUI(JComponent x) {
         return new SeaGlassPopupMenuUI();
@@ -82,13 +81,10 @@ public class SeaGlassPopupMenuUI extends BasicPopupMenuUI implements PropertyCha
 
     private void updateStyle(JComponent c) {
         SeaGlassContext context = getContext(c, ENABLED);
-        Window window = SwingUtilities.getWindowAncestor(popupMenu);
-        if (window != null) {
-            for (Component jc = c; jc != null && (jc instanceof JComponent); jc = jc.getParent()) {
-                ((JComponent) jc).setOpaque(false);
-            }
-            WindowUtils.makeWindowNonOpaque(window);
-        }
+//        Window window = SwingUtilities.getWindowAncestor(popupMenu);
+//        if (window != null) {
+//            WindowUtils.makeWindowNonOpaque(window);
+//        }
         SeaGlassStyle oldStyle = style;
         style = (SeaGlassStyle) SeaGlassLookAndFeel.updateStyle(context, this);
         if (style != oldStyle) {
