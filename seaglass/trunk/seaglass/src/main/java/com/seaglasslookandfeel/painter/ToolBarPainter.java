@@ -42,8 +42,6 @@ import com.seaglasslookandfeel.util.PlatformUtils;
  * @author Modified by Kathryn Huxtable for SeaGlass
  */
 public class ToolBarPainter extends AbstractRegionPainter {
-    private static final boolean IS_MAC_OSX = PlatformUtils.isMac() && !PlatformUtils.isSnowLeopard();
-
     public static enum Which {
         BORDER_NORTH,
         BORDER_SOUTH,
@@ -55,6 +53,9 @@ public class ToolBarPainter extends AbstractRegionPainter {
         BORDER_WEST_ENABLED,
         HANDLEICON_ENABLED
     };
+
+    private static final boolean   IS_NON_MAC              = !PlatformUtils.isMac();
+    private static final boolean   IS_SNOW_LEOPARD         = PlatformUtils.isSnowLeopard();
 
     private static final Insets    insets                  = new Insets(0, 0, 0, 0);
     private static final Dimension dimension               = new Dimension(30, 30);
@@ -70,15 +71,19 @@ public class ToolBarPainter extends AbstractRegionPainter {
 
     // For non-Mac use Snow Leopard colors because it has the same Gamma
     // correction.
-    private static final Color     ACTIVE_TOP_COLOR_T      = IS_MAC_OSX ? new Color(0xbcbcbc) : new Color(0xc9c9c9);
-    private static final Color     ACTIVE_TOP_COLOR_B      = IS_MAC_OSX ? new Color(0x9a9a9a) : new Color(0xb7b7b7);
-    private static final Color     INACTIVE_TOP_COLOR_T    = IS_MAC_OSX ? new Color(0xe4e4e4) : new Color(0xe9e9e9);
-    private static final Color     INACTIVE_TOP_COLOR_B    = IS_MAC_OSX ? new Color(0xd1d1d1) : new Color(0xe0e0e0);
+    private static final Color     ACTIVE_TOP_COLOR_T      = IS_NON_MAC ? new Color(0x54769e) : IS_SNOW_LEOPARD ? new Color(0xc9c9c9)
+                                                                   : new Color(0xbcbcbc);
+    private static final Color     ACTIVE_TOP_COLOR_B      = IS_NON_MAC ? new Color(0x466b97) : IS_SNOW_LEOPARD ? new Color(0xb7b7b7)
+                                                                   : new Color(0x9a9a9a);
+    private static final Color     INACTIVE_TOP_COLOR_T    = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xe9e9e9) : new Color(0xe4e4e4);
+    private static final Color     INACTIVE_TOP_COLOR_B    = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xe0e0e0) : new Color(0xd1d1d1);
 
-    private static final Color     ACTIVE_BOTTOM_COLOR_T   = IS_MAC_OSX ? new Color(0xcccccc) : new Color(0x999999);
-    private static final Color     ACTIVE_BOTTOM_COLOR_B   = IS_MAC_OSX ? new Color(0xa7a7a7) : new Color(0x909090);
-    private static final Color     INACTIVE_BOTTOM_COLOR_T = IS_MAC_OSX ? new Color(0xe9e9e9) : new Color(0xcfcfcf);
-    private static final Color     INACTIVE_BOTTOM_COLOR_B = IS_MAC_OSX ? new Color(0xd8d8d8) : new Color(0xcacaca);
+    private static final Color     ACTIVE_BOTTOM_COLOR_T   = IS_NON_MAC ? new Color(0x456a96) : IS_SNOW_LEOPARD ? new Color(0x999999)
+                                                                   : new Color(0xcccccc);
+    private static final Color     ACTIVE_BOTTOM_COLOR_B   = IS_NON_MAC ? new Color(0x3c618d) : IS_SNOW_LEOPARD ? new Color(0x909090)
+                                                                   : new Color(0xa7a7a7);
+    private static final Color     INACTIVE_BOTTOM_COLOR_T = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcfcfcf) : new Color(0xe9e9e9);
+    private static final Color     INACTIVE_BOTTOM_COLOR_B = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcacaca) : new Color(0xd8d8d8);
 
     private static final Color     HANDLE_COLOR            = new Color(0xc8191919, true);
 
