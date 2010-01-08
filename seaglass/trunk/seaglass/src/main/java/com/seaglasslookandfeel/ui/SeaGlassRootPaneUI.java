@@ -46,7 +46,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JRootPane;
-import javax.swing.JWindow;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
@@ -173,7 +172,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             root.putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
         }
         int style = root.getWindowDecorationStyle();
-        if (c.getParent() != null && (c.getParent() instanceof JFrame || c.getParent() instanceof JDialog || c.getParent() instanceof JWindow) && style != JRootPane.NONE) {
+        if (c.getParent() != null && (c.getParent() instanceof JFrame || c.getParent() instanceof JDialog) && style != JRootPane.NONE) {
             installClientDecorations(root);
         }
     }
@@ -493,7 +492,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             // simpler. AqvavitTitlePane also assumes it will be recreated if
             // the decoration style changes.
             uninstallClientDecorations(root);
-            if (root.getParent() != null && (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog || root.getParent() instanceof JWindow) && style != JRootPane.NONE) {
+            if (root.getParent() != null && (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog) && style != JRootPane.NONE) {
                 installClientDecorations(root);
             }
         } else if (propertyName.equals("ancestor")) {
