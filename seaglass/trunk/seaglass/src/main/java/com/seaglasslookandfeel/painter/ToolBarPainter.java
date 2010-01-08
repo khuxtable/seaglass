@@ -71,16 +71,16 @@ public class ToolBarPainter extends AbstractRegionPainter {
 
     // For non-Mac use Snow Leopard colors because it has the same Gamma
     // correction.
-    private static final Color     ACTIVE_TOP_COLOR_T      = IS_NON_MAC ? new Color(0x54769e) : IS_SNOW_LEOPARD ? new Color(0xc9c9c9)
+    private static final Color     ACTIVE_TOP_COLOR_T      = IS_NON_MAC ? new Color(0x6888ab) : IS_SNOW_LEOPARD ? new Color(0xc9c9c9)
                                                                    : new Color(0xbcbcbc);
-    private static final Color     ACTIVE_TOP_COLOR_B      = IS_NON_MAC ? new Color(0x466b97) : IS_SNOW_LEOPARD ? new Color(0xb7b7b7)
+    private static final Color     ACTIVE_TOP_COLOR_B      = IS_NON_MAC ? new Color(0x5a7da4) : IS_SNOW_LEOPARD ? new Color(0xb7b7b7)
                                                                    : new Color(0x9a9a9a);
     private static final Color     INACTIVE_TOP_COLOR_T    = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xe9e9e9) : new Color(0xe4e4e4);
     private static final Color     INACTIVE_TOP_COLOR_B    = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xe0e0e0) : new Color(0xd1d1d1);
 
-    private static final Color     ACTIVE_BOTTOM_COLOR_T   = IS_NON_MAC ? new Color(0x456a96) : IS_SNOW_LEOPARD ? new Color(0x999999)
+    private static final Color     ACTIVE_BOTTOM_COLOR_T   = IS_NON_MAC ? new Color(0x597ca3) : IS_SNOW_LEOPARD ? new Color(0x999999)
                                                                    : new Color(0xcccccc);
-    private static final Color     ACTIVE_BOTTOM_COLOR_B   = IS_NON_MAC ? new Color(0x3c618d) : IS_SNOW_LEOPARD ? new Color(0x909090)
+    private static final Color     ACTIVE_BOTTOM_COLOR_B   = IS_NON_MAC ? new Color(0x5b7fa5) : IS_SNOW_LEOPARD ? new Color(0x909090)
                                                                    : new Color(0xa7a7a7);
     private static final Color     INACTIVE_BOTTOM_COLOR_T = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcfcfcf) : new Color(0xe9e9e9);
     private static final Color     INACTIVE_BOTTOM_COLOR_B = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcacaca) : new Color(0xd8d8d8);
