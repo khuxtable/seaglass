@@ -23,6 +23,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
@@ -35,9 +36,9 @@ public final class MenuBarMenuPainter extends AbstractRegionPainter {
     private Which        state;
     private PaintContext ctx;
 
-    private Rectangle2D  rect   = new Rectangle2D.Float(0, 0, 0, 0);
+    private Rectangle2D  rect            = new Rectangle2D.Float(0, 0, 0, 0);
 
-    private Color        color1 = decodeColor("nimbusBase", -0.010750473f, -0.04875779f, -0.007843137f, 0);
+    private Color        backgroundColor = Color.WHITE;
 
     public MenuBarMenuPainter(Which state) {
         super();
@@ -50,7 +51,7 @@ public final class MenuBarMenuPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_SELECTED:
-            paintBackgroundSelected(g);
+            paintBackgroundSelected(g, width, height);
             break;
         }
     }
@@ -60,18 +61,15 @@ public final class MenuBarMenuPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintBackgroundSelected(Graphics2D g) {
-        rect = decodeRect1();
-        g.setPaint(color1);
-        g.fill(rect);
+    private void paintBackgroundSelected(Graphics2D g, int width, int height) {
+        Shape s = decodeBackground(width, height);
+        g.setPaint(backgroundColor);
+        g.fill(s);
 
     }
 
-    private Rectangle2D decodeRect1() {
-        rect.setRect(decodeX(1.0f), // x
-            decodeY(1.0f), // y
-            decodeX(2.0f) - decodeX(1.0f), // width
-            decodeY(2.0f) - decodeY(1.0f)); // height
+    private Shape decodeBackground(int width, int height) {
+        rect.setRect(0, 0, width, height);
         return rect;
     }
 }
