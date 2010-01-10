@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.ui;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -246,15 +245,7 @@ public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChang
             if (v != null) {
                 v.paint(g, textRect);
             } else {
-                Color color = style.getColor(context, ColorType.TEXT_FOREGROUND);
-                // TODO style.getColor returns improper color for state? Why?
-                if ((context.getComponentState() & MOUSE_OVER) != 0) {
-                    Object obj = style.get(context, "[MouseOver].textForeground");
-                    if (obj != null && obj instanceof Color) {
-                        color = (Color) obj;
-                    }
-                }
-                g.setColor(color);
+                g.setColor(style.getColor(context, ColorType.TEXT_FOREGROUND));
                 g.setFont(style.getFont(context));
                 style.getGraphicsUtils(context).paintText(context, g, text, textRect.x, textRect.y, b.getDisplayedMnemonicIndex());
             }
