@@ -428,7 +428,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             if (!PlatformUtils.isMac()) {
                 defineInternalFrames(uiDefaults);
-                defineInternalFrameMenus(uiDefaults);
+                defineInternalFrameMenuButtons(uiDefaults);
                 defineInternalFrameCloseButtons(uiDefaults);
                 defineInternalFrameIconifyButtons(uiDefaults);
                 defineInternalFrameMaximizeButton(uiDefaults);
@@ -504,7 +504,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("textHighlightText", Color.WHITE);
         d.put("textInactiveText", d.get("nimbusDisabledText"));
         d.put("menuText", Color.WHITE);
-        d.put("menu", Color.WHITE);// d.get("nimbusBase"));
+        d.put("menu", Color.WHITE);
     }
 
     /**
@@ -575,10 +575,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Initialize ToggleButton
         d.put("ToggleButton.States", "Enabled,Pressed,Disabled,Focused,Selected");
-        d.put("ToggleButton[Selected].textForeground", Color.black);
-        d.put("Button[Default+Pressed].textForeground", Color.black);
-        d.put("ToggleButton[Focused+Selected].textForeground", Color.black);
-        d.put("ToggleButton[Disabled+Selected].textForeground", Color.black);
+        d.put("ToggleButton[Selected].textForeground", new ColorUIResource(Color.black));
+        d.put("Button[Default+Pressed].textForeground", new ColorUIResource(Color.black));
+        d.put("ToggleButton[Focused+Selected].textForeground", new ColorUIResource(Color.black));
+        d.put("ToggleButton[Disabled+Selected].textForeground", new ColorUIResource(Color.black));
         d.put("ToggleButton[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
         d.put("ToggleButton[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
         d.put("ToggleButton[Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_FOCUSED));
@@ -857,12 +857,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
-     * Initialize the internal frame menu settings.
+     * Initialize the internal frame menu button settings.
      * 
      * @param d
      *            the UI defaults map.
      */
-    private void defineInternalFrameMenus(UIDefaults d) {
+    private void defineInternalFrameMenuButtons(UIDefaults d) {
         String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"";
         String c = PAINTER_DIRECTORY + ".TitlePaneMenuButtonPainter";
 
@@ -892,6 +892,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineLists(UIDefaults d) {
         d.put("List.background", d.get("control"));
+        // TODO Why doesn't ColorUIResource work here?
         d.put("List[Selected].textForeground", Color.WHITE);
         d.put("List[Selected].textBackground", d.get("nimbusSelection"));
         d.put("List[Disabled+Selected].textBackground", Color.WHITE);
@@ -904,17 +905,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         String p = "Menu";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 5));
         d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
-        d.put(p + "[Enabled].textForeground", Color.BLACK);
-        d.put(p + "[Enabled+Selected].textForeground", Color.WHITE);
+        d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.BLACK));
+        d.put(p + "[Enabled+Selected].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[Enabled+Selected].backgroundPainter", new LazyPainter(c, MenuPainter.Which.BACKGROUND_ENABLED_SELECTED));
         d.put(p + "[Disabled].arrowIconPainter", new LazyPainter(c, MenuPainter.Which.ARROWICON_DISABLED));
         d.put(p + "[Enabled].arrowIconPainter", new LazyPainter(c, MenuPainter.Which.ARROWICON_ENABLED));
         d.put(p + "[Enabled+Selected].arrowIconPainter", new LazyPainter(c, MenuPainter.Which.ARROWICON_ENABLED_SELECTED));
         d.put(p + ".arrowIcon", new SeaGlassIcon(p + "", "arrowIconPainter", 9, 10));
-        
+
         p = "Menu:MenuItemAccelerator";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+        d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
 
         // Initialize MenuBar
         c = PAINTER_DIRECTORY + ".MenuBarPainter";
@@ -922,15 +923,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".contentMargins", new InsetsUIResource(2, 6, 2, 6));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, MenuBarPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Enabled].borderPainter", new LazyPainter(c, MenuBarPainter.Which.BORDER_ENABLED));
-        
+
         c = PAINTER_DIRECTORY + ".MenuBarMenuPainter";
         p = "MenuBar:Menu";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 4, 2, 4));
-        d.put(p + "[Disabled].textForeground", Color.BLACK);
-        d.put(p + "[Enabled].textForeground", Color.WHITE);
-        d.put(p + "[Selected].textForeground", Color.BLACK);
+        d.put(p + "[Disabled].textForeground", new ColorUIResource(Color.BLACK));
+        d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.WHITE));
+        d.put(p + "[Selected].textForeground", new ColorUIResource(Color.BLACK));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, MenuBarMenuPainter.Which.BACKGROUND_SELECTED));
-        
+
         p = "MenuBar:Menu:MenuItemAccelerator";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
@@ -940,14 +941,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
         d.put(p + ".textIconGap", new Integer(5));
         d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
-        d.put(p + "[Enabled].textForeground", Color.BLACK);
-        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+        d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.BLACK));
+        d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, MenuItemPainter.Which.BACKGROUND_MOUSEOVER));
 
         p = "MenuItem:MenuItemAccelerator";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
-        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+        d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
 
         // Initialize CheckBoxMenuItem
         c = PAINTER_DIRECTORY + ".CheckBoxMenuItemPainter";
@@ -955,10 +956,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
         d.put(p + ".textIconGap", new Integer(5));
         d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
-        d.put(p + "[Enabled].textForeground", Color.BLACK);
-        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+        d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.BLACK));
+        d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, CheckBoxMenuItemPainter.Which.BACKGROUND_MOUSEOVER));
-        d.put(p + "[MouseOver+Selected].textForeground", Color.WHITE);
+        d.put(p + "[MouseOver+Selected].textForeground", new ColorUIResource(Color.WHITE));
         d
             .put(p + "[MouseOver+Selected].backgroundPainter", new LazyPainter(c,
                 CheckBoxMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
@@ -969,7 +970,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         p = "CheckBoxMenuItem:MenuItemAccelerator";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+        d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
 
         // Initialize RadioButtonMenuItem
         c = PAINTER_DIRECTORY + ".RadioButtonMenuItemPainter";
@@ -977,10 +978,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
         d.put(p + ".textIconGap", new Integer(5));
         d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
-        d.put(p + "[Enabled].textForeground", Color.BLACK);
-        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+        d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.BLACK));
+        d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, RadioButtonMenuItemPainter.Which.BACKGROUND_MOUSEOVER));
-        d.put(p + "[MouseOver+Selected].textForeground", Color.WHITE);
+        d.put(p + "[MouseOver+Selected].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[MouseOver+Selected].backgroundPainter", new LazyPainter(c,
             RadioButtonMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
         d.put(p + "[Disabled+Selected].checkIconPainter", new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_DISABLED_SELECTED));
@@ -991,7 +992,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         p = "RadioButtonMenuItem:MenuItemAccelerator";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[MouseOver].textForeground", Color.WHITE);
+        d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
     }
 
     private void definePopups(UIDefaults d) {
@@ -1125,9 +1126,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineSliders(UIDefaults d) {
-        // d.put("sliderBlueGrey", d.get("nimbusBlueGrey"));
-        d.put("sliderBlueGrey", new Color(0xced7e9));
-
         d.put("Slider.ArrowShape", new SliderArrowShapeState());
         d.put("Slider:SliderThumb.ArrowShape", new SliderArrowShapeState());
         d.put("Slider:SliderTrack.ArrowShape", new SliderArrowShapeState());
@@ -1224,8 +1222,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineSplitPanes(UIDefaults d) {
-        // Hack to get the background color to be (248,248,248).
-        d.put("splitPaneBase", new Color(215, 215, 215));
+        d.put("splitPaneBase", new ColorUIResource(215, 215, 215));
         d.put("SplitPane.contentMargins", new InsetsUIResource(1, 1, 1, 1));
         d.put("SplitPane.States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Vertical");
         d.put("SplitPane.Vertical", new SplitPaneVerticalState());
@@ -1293,8 +1290,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineTables(UIDefaults d) {
         d.put("Table.background", new ColorUIResource(255, 255, 255));
-        d.put("Table.alternateRowColor", new Color(235, 245, 252));
+        d.put("Table.alternateRowColor", new ColorUIResource(235, 245, 252));
         d.put("TableHeader:\"TableHeader.renderer\".Sorted", new TableHeaderRendererSortedState());
+        // TODO Why doesn't ColorUIResource work on these next two?
         d.put("Table[Enabled+Selected].textBackground", new Color(97, 129, 165));
         d.put("Table[Disabled+Selected].textBackground", new Color(97, 129, 165));
 
@@ -1455,9 +1453,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineTrees(UIDefaults d) {
-        d.put("\"Tree.cellEditor\".background", Color.WHITE);
-        d.put("\"Tree.cellEditor\"[Disabled].textForeground", new Color(200, 200, 200));
-        d.put("\"Tree.cellEditor\"[Selected].textForeground", d.get("nimbusSelectedText"));
+//        d.put("\"Tree.cellEditor\".background", d.get("control"));
+//        d.put("\"Tree.cellEditor\"[Disabled].textForeground", new ColorUIResource(200, 200, 200));
+//        d.put("\"Tree.cellEditor\"[Selected].textForeground", new ColorUIResource(Color.WHITE));
+//        d.put("\"Tree.cellEditor\"[Selected].textBackground", new ColorUIResource((Color) d.get("nimbusSelection")));
 
         d.put("Tree.leftChildIndent", new Integer(12));
         d.put("Tree.rightChildIndent", new Integer(2));
