@@ -32,18 +32,19 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
-public final class MenuItemPainter extends AbstractRegionPainter {
+public class MenuItemPainter extends AbstractRegionPainter {
     public static enum Which {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_MOUSEOVER,
     }
 
-    private Which        state;
-    private PaintContext ctx;
+    private Which              state;
+    private PaintContext       ctx;
 
-    private Rectangle2D  rect   = new Rectangle2D.Float(0, 0, 0, 0);
+    private Rectangle2D        rect             = new Rectangle2D.Float(0, 0, 0, 0);
 
-    private ColorSet     colors = new ColorSet(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
-                                    new Color(0xffb4d9ee, true), 0.4f, new Color(0x134D8C), new Color(0x4F7BBF), new Color(0x3F76BF));
+    private static final Color backgroundTop    = new Color(0x6a90b6);
+    private static final Color backgroundBottom = new Color(0x4a6b90);
+    private static final Color lineColor        = new Color(0x3a5d89);
 
     public MenuItemPainter(Which state) {
         super();
@@ -61,32 +62,23 @@ public final class MenuItemPainter extends AbstractRegionPainter {
     }
 
     @Override
-    protected final PaintContext getPaintContext() {
+    protected PaintContext getPaintContext() {
         return ctx;
     }
 
-    private void paintBackgroundMouseOver(Graphics2D g, int width, int height) {
+    protected void paintBackgroundMouseOver(Graphics2D g, int width, int height) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Shape s = decodeBorder(width, height);
-        g.setPaint(decodeGradientBackground(s, colors.borderTop, colors.borderBottom));
-        // g.fill(s);
-        s = decodeInterior(width, height);
-        g.setColor(colors.mainColor);
+        Shape s = decodeBackground(width, height - 1);
+        g.setPaint(decodeGradientBackground(s, backgroundTop, backgroundBottom));
         g.fill(s);
-        g.setPaint(decodeGradientBottomShine(s, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
-        g.fill(s);
-        g.setPaint(decodeGradientTopShine(s, colors.upperShineTop, colors.upperShineBottom));
-        g.fill(s);
+
+        g.setColor(lineColor);
+        g.drawLine(0, height - 1, width - 1, height - 1);
     }
 
-    private Rectangle2D decodeBorder(int width, int height) {
+    protected Shape decodeBackground(int width, int height) {
         rect.setRect(0, 0, width, height);
-        return rect;
-    }
-
-    private Rectangle2D decodeInterior(int width, int height) {
-        rect.setRect(1, 1, width - 2, height - 2);
         return rect;
     }
 
@@ -99,76 +91,12 @@ public final class MenuItemPainter extends AbstractRegionPainter {
      * @param color2
      * @return
      */
-    private Paint decodeGradientBackground(Shape s, Color color1, Color color2) {
+    protected Paint decodeGradientBackground(Shape s, Color color1, Color color2) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
         return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
-    }
-
-    /**
-     * Create the gradient for the shine at the bottom of the button.
-     * 
-     * @param color1
-     * @param color2
-     * @param midpoint
-     */
-    private Paint decodeGradientBottomShine(Shape s, Color color1, Color color2, float midpoint) {
-        Color midColor = new Color(deriveARGB(color1, color2, midpoint) & 0xFFFFFF, true);
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, midpoint, 1f }, new Color[] {
-            color1,
-            midColor,
-            color2 });
-    }
-
-    /**
-     * Create the gradient for the shine at the top of the button.
-     * 
-     * @param s
-     * @param color1
-     * @param color2
-     * @return
-     */
-    private Paint decodeGradientTopShine(Shape s, Color color1, Color color2) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
-    }
-
-    /**
-     * A set of colors to use for the highlight.
-     */
-    public class ColorSet {
-
-        public Color upperShineTop;
-        public Color upperShineBottom;
-        public Color lowerShineTop;
-        public Color lowerShineBottom;
-        public float lowerShineMidpoint;
-        public Color mainColor;
-        public Color borderTop;
-        public Color borderBottom;
-
-        public ColorSet(Color upperShineTop, Color upperShineBottom, Color lowerShineTop, Color lowerShineBottom, float lowerShineMidpoint,
-            Color mainColor, Color borderTop, Color borderBottom) {
-            this.upperShineTop = upperShineTop;
-            this.upperShineBottom = upperShineBottom;
-            this.lowerShineTop = lowerShineTop;
-            this.lowerShineBottom = lowerShineBottom;
-            this.lowerShineMidpoint = lowerShineMidpoint;
-            this.mainColor = mainColor;
-            this.borderTop = borderTop;
-            this.borderBottom = borderBottom;
-        }
     }
 }
