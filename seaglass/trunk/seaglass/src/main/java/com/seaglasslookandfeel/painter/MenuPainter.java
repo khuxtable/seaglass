@@ -24,11 +24,10 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
-public final class MenuPainter extends AbstractRegionPainter {
+public final class MenuPainter extends MenuItemPainter {
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_ENABLED,
@@ -44,15 +43,13 @@ public final class MenuPainter extends AbstractRegionPainter {
     // the following 4 variables are reused during the painting code of the
     // layers
     private Path2D       path   = new Path2D.Float();
-    private Rectangle2D  rect   = new Rectangle2D.Float(0, 0, 0, 0);
 
-    private Color        color1 = decodeColor("nimbusSelection", 0.0f, 0.0f, 0.0f, 0);
     private Color        color2 = decodeColor("nimbusBlueGrey", 0.0f, -0.08983666f, -0.17647058f, 0);
     private Color        color3 = decodeColor("nimbusBlueGrey", 0.055555582f, -0.09663743f, -0.4627451f, 0);
     private Color        color4 = new Color(255, 255, 255, 255);
 
     public MenuPainter(Which state) {
-        super();
+        super(MenuItemPainter.Which.BACKGROUND_ENABLED);
         this.state = state;
         switch (state) {
         case BACKGROUND_ENABLED_SELECTED:
@@ -78,7 +75,7 @@ public final class MenuPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_ENABLED_SELECTED:
-            paintBackgroundEnabledAndSelected(g);
+            paintBackgroundMouseOver(g, width, height);
             break;
         case ARROWICON_DISABLED:
             paintarrowIconDisabled(g);
@@ -97,12 +94,6 @@ public final class MenuPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintBackgroundEnabledAndSelected(Graphics2D g) {
-        rect = decodeRect1();
-        g.setPaint(color1);
-        g.fill(rect);
-    }
-
     private void paintarrowIconDisabled(Graphics2D g) {
         path = decodePath1();
         g.setPaint(color2);
@@ -119,14 +110,6 @@ public final class MenuPainter extends AbstractRegionPainter {
         path = decodePath2();
         g.setPaint(color4);
         g.fill(path);
-    }
-
-    private Rectangle2D decodeRect1() {
-        rect.setRect(decodeX(1.0f), // x
-            decodeY(1.0f), // y
-            decodeX(2.0f) - decodeX(1.0f), // width
-            decodeY(2.0f) - decodeY(1.0f)); // height
-        return rect;
     }
 
     private Path2D decodePath1() {
