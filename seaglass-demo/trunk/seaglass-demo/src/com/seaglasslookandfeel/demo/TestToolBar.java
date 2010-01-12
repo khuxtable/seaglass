@@ -45,11 +45,10 @@ public class TestToolBar {
                 JToolBar toolbar4 = makeToolBar("Toolbar4", JToolBar.VERTICAL);
 
                 JFrame frame = new JFrame("TestToolBar");
-//                frame.setJMenuBar(mb);
+                frame.setJMenuBar(mb);
                 frame.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
 
                 JPanel panel = new JPanel();
-                panel.setBackground(Color.white);
                 panel.add(new JLabel("Hi there!"));
                 JButton open = new JButton("Open");
                 panel.add(open);
