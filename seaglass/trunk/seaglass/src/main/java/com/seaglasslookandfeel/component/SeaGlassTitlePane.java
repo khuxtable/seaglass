@@ -407,7 +407,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                 } else {
                     minX = getParentInsets().left + titleSpacing;
                 }
-                maxX = -titleSpacing;
+                maxX = getParentWidth() - getParentInsets().right -titleSpacing;
             }
             String clippedTitle = getTitle(title, fm, maxX - minX);
             if (clippedTitle == title) {
