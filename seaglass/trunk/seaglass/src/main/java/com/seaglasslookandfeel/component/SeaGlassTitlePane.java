@@ -59,6 +59,7 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.ui.SeaGlassButtonUI;
 import com.seaglasslookandfeel.ui.SeaGlassRootPaneUI;
+import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
 import sun.swing.SwingUtilities2;
 import sun.swing.plaf.synth.SynthUI;
@@ -89,6 +90,8 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     private Action              restoreAction;
     private Action              moveAction;
     private Action              sizeAction;
+
+    private static final Color  DEFAULT_EMPHASIS_COLOR   = new Color(255, 255, 255, 110);
 
     private static final String CLOSE_CMD                = UIManager.getString("InternalFrameTitlePane.closeButtonText");
     private static final String ICONIFY_CMD              = UIManager.getString("InternalFrameTitlePane.minimizeButtonText");
@@ -412,7 +415,10 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                 minX = Math.max(minX, (getWidth() - width) / 2);
                 minX = Math.min(maxX - width, minX);
             }
-            style.getGraphicsUtils(context).paintText(context, g, clippedTitle, minX, baseline - fm.getAscent(), -1);
+            // style.getGraphicsUtils(context).paintText(context, g,
+            // clippedTitle, minX, baseline - fm.getAscent(), -1);
+            ((SeaGlassGraphicsUtils) style.getGraphicsUtils(context)).drawEmphasizedText(g, color, DEFAULT_EMPHASIS_COLOR, clippedTitle,
+                minX, baseline);// - fm.getAscent());
         }
     }
 
