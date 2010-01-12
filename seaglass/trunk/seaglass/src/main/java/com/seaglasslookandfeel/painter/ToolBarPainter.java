@@ -110,13 +110,10 @@ public class ToolBarPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         if (state == Which.HANDLEICON_ENABLED) {
             painthandleIconEnabled(g);
-        } else {
-            if (true) return;
+        } else if (PlatformUtils.isMac()) {
             paintBackground(g, c, width, height);
-
-            if (!PlatformUtils.isMac()) {
-                paintInnerHighlight(g, c, width, height);
-            }
+        } else {
+            paintInnerHighlight(g, c, width, height);
         }
     }
 

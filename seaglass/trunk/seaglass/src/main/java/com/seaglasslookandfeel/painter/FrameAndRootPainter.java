@@ -48,69 +48,28 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED, BACKGROUND_ENABLED_WINDOWFOCUSED, BACKGROUND_ENABLED_NOFRAME
     };
 
-    private static final int       TITLE_BAR_HEIGHT        = 25;
+    private static final int       TITLE_BAR_HEIGHT      = 25;
 
     // Constants for the PaintContext.
-    private static final Insets    insets                  = new Insets(25, 6, 6, 6);
-    private static final Dimension dimension               = new Dimension(25, 36);
-    private static final CacheMode cacheMode               = PaintContext.CacheMode.FIXED_SIZES;
-    private static final Double    maxH                    = Double.POSITIVE_INFINITY;
-    private static final Double    maxV                    = Double.POSITIVE_INFINITY;
+    private static final Insets    insets                = new Insets(25, 6, 6, 6);
+    private static final Dimension dimension             = new Dimension(25, 36);
+    private static final CacheMode cacheMode             = PaintContext.CacheMode.FIXED_SIZES;
+    private static final Double    maxH                  = Double.POSITIVE_INFINITY;
+    private static final Double    maxV                  = Double.POSITIVE_INFINITY;
 
-    private static final ColorSet  active                  = new ColorSet(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true),
-                                                               new Color(0x00A8D9FC, true), new Color(0xffb4d9ee, true), 0.4f, new Color(
-                                                                   0x134D8C), new Color(0x4F7BBF), new Color(0x3F76BF));
-    private static final ColorSet  inactive                = new ColorSet(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true),
-                                                               new Color(0x00A8D9FC, true), new Color(0xffF7FCFF, true), 0.4f, new Color(
-                                                                   0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF));
+    private static final ColorSet  active                = new ColorSet(new Color(0xafbecf), new Color(0x96adc4), new Color(0x96adc4),
+                                                             new Color(0x8ea7c0));
+    private static final ColorSet  inactive              = new ColorSet(new Color(0xededed), new Color(0xe0e0e0), new Color(0xe0e0e0),
+                                                             new Color(0xd3d3d3));
 
-    private static final Color     borderColor             = new Color(0x545454);
+    private static final Color     borderColor           = new Color(0x545454);
 
-    // private static final Color ACTIVE_TITLE_COLOR_T = new Color(0x7593b2);
-    // private static final Color INACTIVE_TITLE_COLOR_T = new Color(0xededed);
-    //
-    // private static final Color ACTIVE_TOP_COLOR_T = new Color(0x6888ab);
-    // private static final Color ACTIVE_TOP_COLOR_B = new Color(0x5a7da4);
-    // private static final Color INACTIVE_TOP_COLOR_T = new Color(0xe9e9e9);
-    // private static final Color INACTIVE_TOP_COLOR_B = new Color(0xe0e0e0);
-    //
-    // private static final Color ACTIVE_BOTTOM_COLOR_T = new Color(0x597ca3);
-    // private static final Color ACTIVE_BOTTOM_COLOR_B = new Color(0x5b7fa5);
-    // private static final Color INACTIVE_BOTTOM_COLOR_T = new Color(0xcfcfcf);
-    // private static final Color INACTIVE_BOTTOM_COLOR_B = new Color(0xcacaca);
+    private static final Color     INNER_HIGHLIGHT_COLOR = new Color(0x55ffffff, true);
 
-    // private static final Color ACTIVE_TITLE_COLOR_T = new Color(0x5f80a5);
-    // private static final Color INACTIVE_TITLE_COLOR_T = new Color(0xededed);
-    //
-    // private static final Color ACTIVE_TOP_COLOR_T = new Color(0x466c97);
-    // private static final Color ACTIVE_TOP_COLOR_B = new Color(0x466c97);
-    // private static final Color INACTIVE_TOP_COLOR_T = new Color(0xe9e9e9);
-    // private static final Color INACTIVE_TOP_COLOR_B = new Color(0xe0e0e0);
-    //
-    // private static final Color ACTIVE_BOTTOM_COLOR_T = new Color(0x5f80a5);
-    // private static final Color ACTIVE_BOTTOM_COLOR_B = new Color(0x466c97);
-    // private static final Color INACTIVE_BOTTOM_COLOR_T = new Color(0xcfcfcf);
-    // private static final Color INACTIVE_BOTTOM_COLOR_B = new Color(0xcacaca);
+    private static final State     toolBarNorthState     = new ToolBarNorthState();
+    private static final State     toolBarSouthState     = new ToolBarSouthState();
 
-    private static final Color     ACTIVE_TITLE_COLOR_T    = new Color(0x42628b);
-    private static final Color     INACTIVE_TITLE_COLOR_T  = new Color(0xededed);
-
-    private static final Color     ACTIVE_TOP_COLOR_T      = new Color(0x466c97);
-    private static final Color     ACTIVE_TOP_COLOR_B      = new Color(0x466c97);
-    private static final Color     INACTIVE_TOP_COLOR_T    = new Color(0xe9e9e9);
-    private static final Color     INACTIVE_TOP_COLOR_B    = new Color(0xe0e0e0);
-
-    private static final Color     ACTIVE_BOTTOM_COLOR_T   = new Color(0x5f80a5);
-    private static final Color     ACTIVE_BOTTOM_COLOR_B   = new Color(0x2b4d7b);
-    private static final Color     INACTIVE_BOTTOM_COLOR_T = new Color(0xcfcfcf);
-    private static final Color     INACTIVE_BOTTOM_COLOR_B = new Color(0xcacaca);
-
-    private static final Color     INNER_HIGHLIGHT_COLOR   = new Color(0x55ffffff, true);
-
-    private static final State     toolBarNorthState       = new ToolBarNorthState();
-    private static final State     toolBarSouthState       = new ToolBarSouthState();
-
-    private Path2D                 path                    = new Path2D.Double();
+    private Path2D                 path                  = new Path2D.Double();
 
     private Which                  state;
     private PaintContext           ctx;
@@ -137,21 +96,14 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundEnabled(Graphics2D g, JComponent c, int width, int height) {
-         paintFrame(g, c, width, height, INACTIVE_TITLE_COLOR_T,
-         INACTIVE_TOP_COLOR_T, INACTIVE_TOP_COLOR_B, INACTIVE_BOTTOM_COLOR_T,
-         INACTIVE_BOTTOM_COLOR_B, inactive);
+        paintFrame(g, c, width, height, inactive);
     }
 
     private void paintBackgroundEnabledAndWindowFocused(Graphics2D g, JComponent c, int width, int height) {
-         paintFrame(g, c, width, height, ACTIVE_TITLE_COLOR_T,
-         ACTIVE_TOP_COLOR_T, ACTIVE_TOP_COLOR_B, ACTIVE_BOTTOM_COLOR_T,
-         ACTIVE_BOTTOM_COLOR_B, active);
+        paintFrame(g, c, width, height, active);
     }
 
-     private void paintFrame(Graphics2D g, JComponent c, int width, int
-     height, Color topColor, Color titleBottomColor,
-     Color topToolBarBottomColor, Color bottomToolBarTopColor, Color
-     bottomColor, ColorSet colors) {
+    private void paintFrame(Graphics2D g, JComponent c, int width, int height, ColorSet colors) {
         Shape s = decodePath(0, 0, width - 1, height - 1, 8.0);
         g.setColor(borderColor);
         g.draw(s);
@@ -188,17 +140,8 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         }
 
         s = decodePath(1, 1, width - 2, height - 2, 7.0);
-         g.setPaint(decodeGradient(s, titleHeight, topToolBarHeight,
-         bottomToolBarHeight, topColor, titleBottomColor,
-         topToolBarBottomColor,
-         bottomToolBarTopColor, bottomColor));
-         if (true) {
-            g.setColor(colors.mainColor);
-            g.fill(s);
-            g.setPaint(decodeGradientBottomShine(s, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
-            g.fill(s);
-            g.setPaint(decodeGradientTopShine(path, colors.upperShineTop, colors.upperShineBottom));
-         }
+        g.setPaint(decodeGradient(s, titleHeight, topToolBarHeight, bottomToolBarHeight, colors.topColorT, colors.topColorB,
+            colors.bottomColorT, colors.bottomColorB));
         g.fill(s);
 
         s = decodePath(1, 1, width - 3, height - 3, 6.0);
@@ -221,8 +164,8 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         return path;
     }
 
-    private Paint decodeGradient(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight, Color topColor,
-        Color titleBottomColor, Color topToolBarBottomColor, Color bottomToolBarTopColor, Color bottomColor) {
+    private Paint decodeGradient(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight, Color topColorT, Color topColorB,
+        Color bottomColorT, Color bottomColorB) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
@@ -237,9 +180,6 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
 
         float[] midPoints = null;
         Color[] colors = null;
-        if (true) {
-            return decodeGradient(midX, y, x + midX, y + h, new float[] { 0f, 1f }, new Color[] { topColor, bottomColor });
-        }
         if (topToolBarHeight > 0 && bottomToolBarHeight > 0) {
             float topToolBarBottom = (titleHeight + topToolBarHeight) / h;
             if (topToolBarBottom >= 1.0f) {
@@ -250,101 +190,30 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
                 bottomToolBarTop = 1.0f - 0.00002f;
             }
 
-            midPoints = new float[] {
-                0.0f,
-                titleBottom,
-                titleBottom + 0.00001f,
-                topToolBarBottom,
-                topToolBarBottom + 0.00001f,
-                bottomToolBarTop,
-                bottomToolBarTop + 0.00001f,
-                1.0f };
-            colors = new Color[] {
-                topColor,
-                titleBottomColor,
-                titleBottomColor,
-                topToolBarBottomColor,
-                topToolBarBottomColor,
-                bottomToolBarTopColor,
-                bottomToolBarTopColor,
-                bottomColor };
+            midPoints = new float[] { 0.0f, topToolBarBottom, bottomToolBarTop, 1.0f };
+            colors = new Color[] { topColorT, topColorB, bottomColorT, bottomColorB };
         } else if (topToolBarHeight > 0) {
             float toolBarBottom = (titleHeight + topToolBarHeight) / h;
             if (toolBarBottom >= 1.0f) {
                 toolBarBottom = 1.0f - 0.00002f;
             }
 
-            midPoints = new float[] { 0.0f, titleBottom, titleBottom + 0.00001f, toolBarBottom, toolBarBottom + 0.00001f, 1.0f };
-            colors = new Color[] { topColor, titleBottomColor, titleBottomColor, topToolBarBottomColor, topToolBarBottomColor, bottomColor };
+            midPoints = new float[] { 0.0f, toolBarBottom, titleBottom };
+            colors = new Color[] { topColorT, topColorB, bottomColorT };
         } else if (bottomToolBarHeight > 0) {
             float bottomToolBarTop = (h - 2 - bottomToolBarHeight) / h;
             if (bottomToolBarTop >= 1.0f) {
                 bottomToolBarTop = 1.0f - 0.00002f;
             }
 
-            midPoints = new float[] { 0.0f, titleBottom, titleBottom + 0.00001f, bottomToolBarTop, bottomToolBarTop + 0.00001f, 1.0f };
-            colors = new Color[] { topColor, titleBottomColor, titleBottomColor, bottomToolBarTopColor, bottomToolBarTopColor, bottomColor };
+            midPoints = new float[] { 0.0f, titleBottom, bottomToolBarTop, 1.0f };
+            colors = new Color[] { topColorT, topColorB, bottomColorT, bottomColorB };
         } else {
-            midPoints = new float[] { 0.0f, titleBottom, titleBottom + 0.00001f, 1.0f };
-            colors = new Color[] { topColor, titleBottomColor, titleBottomColor, bottomColor };
+            midPoints = new float[] { 0.0f, titleBottom, 1.0f };
+            colors = new Color[] { topColorT, topColorB, topColorB };
         }
 
         return decodeGradient(midX, y, x + midX, y + h, midPoints, colors);
-    }
-
-    /**
-     * Create the gradient for the background of the button. This creates the
-     * border.
-     * 
-     * @param s
-     * @param color1
-     * @param color2
-     * @return
-     */
-    private Paint decodeGradientBackground(Shape s, Color color1, Color color2) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
-    }
-
-    /**
-     * Create the gradient for the shine at the bottom of the button.
-     * 
-     * @param color1
-     * @param color2
-     * @param midpoint
-     */
-    private Paint decodeGradientBottomShine(Shape s, Color color1, Color color2, float midpoint) {
-        Color midColor = new Color(deriveARGB(color1, color2, midpoint) & 0xFFFFFF, true);
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, midpoint, 1f }, new Color[] {
-            color1,
-            midColor,
-            color2 });
-    }
-
-    /**
-     * Create the gradient for the shine at the top of the button.
-     * 
-     * @param s
-     * @param color1
-     * @param color2
-     * @return
-     */
-    private Paint decodeGradientTopShine(Shape s, Color color1, Color color2) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
     }
 
     /**
@@ -352,25 +221,16 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
      */
     public static class ColorSet {
 
-        public Color upperShineTop;
-        public Color upperShineBottom;
-        public Color lowerShineTop;
-        public Color lowerShineBottom;
-        public float lowerShineMidpoint;
-        public Color mainColor;
-        public Color backgroundTop;
-        public Color backgroundBottom;
+        public Color topColorT;
+        public Color topColorB;
+        public Color bottomColorT;
+        public Color bottomColorB;
 
-        public ColorSet(Color upperShineTop, Color upperShineBottom, Color lowerShineTop, Color lowerShineBottom, float lowerShineMidpoint,
-            Color mainColor, Color backgroundTop, Color backgroundBottom) {
-            this.upperShineTop = upperShineTop;
-            this.upperShineBottom = upperShineBottom;
-            this.lowerShineTop = lowerShineTop;
-            this.lowerShineBottom = lowerShineBottom;
-            this.lowerShineMidpoint = lowerShineMidpoint;
-            this.mainColor = mainColor;
-            this.backgroundTop = backgroundTop;
-            this.backgroundBottom = backgroundBottom;
+        public ColorSet(Color topColorT, Color topColorB, Color bottomColorT, Color bottomColorB) {
+            this.topColorT = topColorT;
+            this.topColorB = topColorB;
+            this.bottomColorT = bottomColorT;
+            this.bottomColorB = bottomColorB;
         }
     }
 }
