@@ -198,7 +198,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
                 toolBarBottom = 1.0f - 0.00002f;
             }
 
-            midPoints = new float[] { 0.0f, toolBarBottom, titleBottom };
+            midPoints = new float[] { 0.0f, toolBarBottom, 1.0f };
             colors = new Color[] { topColorT, topColorB, bottomColorT };
         } else if (bottomToolBarHeight > 0) {
             float bottomToolBarTop = (h - 2 - bottomToolBarHeight) / h;
