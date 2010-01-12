@@ -26,6 +26,7 @@ import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
@@ -52,9 +53,9 @@ import sun.swing.plaf.synth.SynthUI;
  * @see javax.swing.plaf.synth.SynthInternalFrameUI
  */
 public class SeaGlassInternalFrameUI extends BasicInternalFrameUI implements SynthUI, PropertyChangeListener {
-    private SynthStyle        style;
-    
-    private SeaGlassInternalFrameTitlePane titlePane;
+    private SynthStyle                         style;
+
+    private SeaGlassInternalFrameTitlePane     titlePane;
 
     public static ComponentUI createUI(JComponent b) {
         return new SeaGlassInternalFrameUI((JInternalFrame) b);
@@ -65,6 +66,8 @@ public class SeaGlassInternalFrameUI extends BasicInternalFrameUI implements Syn
     }
 
     public void installDefaults() {
+        frame.setBorder(BorderFactory.createEmptyBorder(1, 2, 2, 2));
+
         frame.setLayout(internalFrameLayout = createLayoutManager());
         updateStyle(frame);
     }
