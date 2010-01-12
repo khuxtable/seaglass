@@ -47,15 +47,13 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
     private static final Double    maxH           = Double.POSITIVE_INFINITY;
     private static final Double    maxV           = 1.0;
 
-    private ButtonStateColors      disabledColors = new ButtonStateColors(new Color(0xd8f4f8fb, true), new Color(0x00ffffff, true),
-                                                      new Color(0x00a8d9fc, true), new Color(0xf7fcff), 0.45f, new Color(0x80a8d2f2, true),
-                                                      new Color(0x80a2c2ed, true), new Color(0x805785bf, true));
-    private ButtonStateColors      enabledColors  = new ButtonStateColors(new Color(0xd8f4f8fb, true), new Color(0x00ffffff, true),
-                                                      new Color(0x00a8d9fc, true), new Color(0xf7fcff), 0.45f, new Color(0xa8d2f2),
-                                                      new Color(0xa2c2ed), new Color(0x5785bf));
-    private ButtonStateColors      pressedColors  = new ButtonStateColors(new Color(0xbfeeeeee, true), new Color(0x00eeeeee, true),
-                                                      new Color(0x00a8d9fc, true), new Color(0xc0e8ff), 0.45f, new Color(0x276fb2),
-                                                      new Color(0x4f7bbf), new Color(0x3f76bf));
+    private ButtonStateColors      disabledColors = new ButtonStateColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true),
+                                                      new Color(0x80d2e8f8, true), new Color(0x80f5fafd, true), 0.46f, 0.62f, new Color(
+                                                          0x6088ade0, true), new Color(0x605785bf, true));
+    private ButtonStateColors      enabledColors  = new ButtonStateColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8),
+                                                      new Color(0xf5fafd), 0.46f, 0.62f, new Color(0x88ade0), new Color(0x5785bf));
+    private ButtonStateColors      pressedColors  = new ButtonStateColors(new Color(0xbccedf), new Color(0x81a8cd), new Color(0x89b5da),
+                                                      new Color(0xb2d8f5), 0.4f, 0.7f, new Color(0x4f7bbf), new Color(0x3f76bf));
 
     private RoundRectangle2D       rect           = new RoundRectangle2D.Double();
 
@@ -105,14 +103,11 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = decodeBorder(width, height);
-        g.setPaint(decodeGradientBackground(s, colors.backgroundTop, colors.backgroundBottom));
+        g.setPaint(decodeGradientBackground(s, colors.background1, colors.background2));
         g.fill(s);
+
         s = decodeInterior(width, height);
-        g.setColor(colors.mainColor);
-        g.fill(s);
-        g.setPaint(decodeGradientBottomShine(s, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
-        g.fill(s);
-        g.setPaint(decodeGradientTopShine(s, colors.upperShineTop, colors.upperShineBottom));
+        g.setPaint(decodeGradientInner(s, colors.inner1, colors.inner2, colors.inner3, colors.inner4, colors.midpoint2, colors.midpoint3));
         g.fill(s);
     }
 
@@ -159,36 +154,25 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
      * 
      * @param color1
      * @param color2
-     * @param midpoint
+     * @param color3
+     *            TODO
+     * @param color4
+     *            TODO
+     * @param midpoint2
+     * @param midpoint3
+     *            TODO
      */
-    private Paint decodeGradientBottomShine(Shape s, Color color1, Color color2, float midpoint) {
-        Color midColor = new Color(deriveARGB(color1, color2, midpoint) & 0xFFFFFF, true);
+    private Paint decodeGradientInner(Shape s, Color color1, Color color2, Color color3, Color color4, float midpoint2, float midpoint3) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, midpoint, 1f }, new Color[] {
+        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, midpoint2, midpoint3, 1f }, new Color[] {
             color1,
-            midColor,
-            color2 });
-    }
-
-    /**
-     * Create the gradient for the shine at the top of the button.
-     * 
-     * @param s
-     * @param color1
-     * @param color2
-     * @return
-     */
-    private Paint decodeGradientTopShine(Shape s, Color color1, Color color2) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
+            color2,
+            color3,
+            color4 });
     }
 
     /**
@@ -196,25 +180,25 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
      */
     public class ButtonStateColors {
 
-        public Color upperShineTop;
-        public Color upperShineBottom;
-        public Color lowerShineTop;
-        public Color lowerShineBottom;
-        public float lowerShineMidpoint;
-        public Color mainColor;
-        public Color backgroundTop;
-        public Color backgroundBottom;
+        public Color inner1;
+        public Color inner2;
+        public Color inner3;
+        public Color inner4;
+        public float midpoint2;
+        public float midpoint3;
+        public Color background1;
+        public Color background2;
 
-        public ButtonStateColors(Color upperShineTop, Color upperShineBottom, Color lowerShineTop, Color lowerShineBottom,
-            float lowerShineMidpoint, Color mainColor, Color backgroundTop, Color backgroundBottom) {
-            this.upperShineTop = upperShineTop;
-            this.upperShineBottom = upperShineBottom;
-            this.lowerShineTop = lowerShineTop;
-            this.lowerShineBottom = lowerShineBottom;
-            this.lowerShineMidpoint = lowerShineMidpoint;
-            this.mainColor = mainColor;
-            this.backgroundTop = backgroundTop;
-            this.backgroundBottom = backgroundBottom;
+        public ButtonStateColors(Color inner1, Color inner2, Color inner3, Color inner4, float midpoint2, float midpoint3,
+            Color background1, Color background2) {
+            this.inner1 = inner1;
+            this.inner2 = inner2;
+            this.inner3 = inner3;
+            this.inner4 = inner4;
+            this.midpoint2 = midpoint2;
+            this.midpoint3 = midpoint3;
+            this.background1 = background1;
+            this.background2 = background2;
         }
     }
 }
