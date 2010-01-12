@@ -618,7 +618,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
 
         public Dimension minimumLayoutSize(Container c) {
             SeaGlassContext context = getContext(SeaGlassTitlePane.this);
-            int width = 0;
+            int width = 10;
             int height = 0;
 
             int buttonCount = 0;
@@ -691,7 +691,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
             Insets insets = c.getInsets();
 
             if (isParentLeftToRight()) {
-                int x = getWidth() - insets.right;
+                int x = getWidth() - insets.right - 5;
                 if (isParentClosable()) {
                     x = center(closeButton, insets, x, true);
                 }
@@ -702,7 +702,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                     x = center(iconButton, insets, x, true);
                 }
             } else {
-                int x = insets.left;
+                int x = insets.left + 5;
                 if (isParentClosable()) {
                     x = center(closeButton, insets, x, false);
                 }

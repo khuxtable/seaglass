@@ -89,13 +89,16 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
     private void updateStyle(JToolBar c) {
         SeaGlassContext context = getContext(c, Region.TOOL_BAR_CONTENT, null, ENABLED);
         contentStyle = SeaGlassLookAndFeel.updateStyle(context, this);
+        context.getComponent().setOpaque(false);
         context.dispose();
 
         context = getContext(c, Region.TOOL_BAR_DRAG_WINDOW, null, ENABLED);
+        context.getComponent().setOpaque(false);
         dragWindowStyle = SeaGlassLookAndFeel.updateStyle(context, this);
         context.dispose();
 
         context = getContext(c, ENABLED);
+        context.getComponent().setOpaque(false);
         SynthStyle oldStyle = style;
 
         style = SeaGlassLookAndFeel.updateStyle(context, this);
@@ -214,7 +217,7 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
         }
 
         SeaGlassContext subcontext = getContext(toolBar, Region.TOOL_BAR_CONTENT, contentStyle);
-        paintContent(subcontext, g, contentRect);
+//        paintContent(subcontext, g, contentRect);
         subcontext.dispose();
     }
 
@@ -230,11 +233,11 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
     protected void paintDragWindow(Graphics g) {
         int w = dragWindow.getWidth();
         int h = dragWindow.getHeight();
-        SeaGlassContext context = getContext(toolBar, Region.TOOL_BAR_DRAG_WINDOW, dragWindowStyle);
-        SeaGlassLookAndFeel.updateSubregion(context, g, new Rectangle(0, 0, w, h));
-        context.getPainter().paintToolBarDragWindowBackground(context, g, 0, 0, w, h, dragWindow.getOrientation());
-        context.getPainter().paintToolBarDragWindowBorder(context, g, 0, 0, w, h, dragWindow.getOrientation());
-        context.dispose();
+//        SeaGlassContext context = getContext(toolBar, Region.TOOL_BAR_DRAG_WINDOW, dragWindowStyle);
+//        SeaGlassLookAndFeel.updateSubregion(context, g, new Rectangle(0, 0, w, h));
+//        context.getPainter().paintToolBarDragWindowBackground(context, g, 0, 0, w, h, dragWindow.getOrientation());
+//        context.getPainter().paintToolBarDragWindowBorder(context, g, 0, 0, w, h, dragWindow.getOrientation());
+//        context.dispose();
     }
 
     //
