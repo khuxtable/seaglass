@@ -85,8 +85,6 @@ public class ToolBarPainter extends AbstractRegionPainter {
     private static final Color     INACTIVE_BOTTOM_COLOR_T = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcfcfcf) : new Color(0xe9e9e9);
     private static final Color     INACTIVE_BOTTOM_COLOR_B = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcacaca) : new Color(0xd8d8d8);
 
-    private static final Color     INNER_HIGHLIGHT_COLOR   = new Color(0x55ffffff, true);
-
     private static final Color     HANDLE_COLOR            = IS_NON_MAC ? new Color(0xddcccccc, true) : new Color(0xc8191919, true);
 
     private static final Path2D    path                    = new Path2D.Float();
@@ -112,8 +110,6 @@ public class ToolBarPainter extends AbstractRegionPainter {
             painthandleIconEnabled(g);
         } else if (PlatformUtils.isMac()) {
             paintBackground(g, c, width, height);
-        } else {
-            paintInnerHighlight(g, c, width, height);
         }
     }
 
@@ -135,42 +131,6 @@ public class ToolBarPainter extends AbstractRegionPainter {
     private void paintBackground(Graphics2D g, JComponent c, int width, int height) {
         g.setPaint(decodeGradient(state, c, width, height));
         g.fillRect(0, 0, width, height);
-    }
-
-    /**
-     * @param g
-     * @param c
-     *            TODO
-     * @param width
-     * @param height
-     */
-    private void paintInnerHighlight(Graphics2D g, JComponent c, int width, int height) {
-        g.setColor(INNER_HIGHLIGHT_COLOR);
-        switch (state) {
-        case BORDER_NORTH:
-        case BORDER_NORTH_ENABLED:
-            if (width == c.getWidth()) {
-                g.drawLine(0, 0, 0, height - 1);
-            }
-            g.drawLine(width - 1, 0, width - 1, height - 1);
-            break;
-        case BORDER_SOUTH:
-        case BORDER_SOUTH_ENABLED:
-            if (width == c.getWidth()) {
-                g.drawLine(0, 0, 0, height - 2);
-            }
-            g.drawLine(width - 1, 0, width - 1, height - 1);
-            g.drawLine(0, height - 1, width - 2, height - 1);
-            break;
-        case BORDER_EAST:
-        case BORDER_EAST_ENABLED:
-            g.drawLine(0, height - 1, width - 1, height - 1);
-            break;
-        case BORDER_WEST:
-        case BORDER_WEST_ENABLED:
-            g.drawLine(0, 0, width - 1, 0);
-            break;
-        }
     }
 
     private GradientPaint decodeGradient(Which state, JComponent c, int width, int height) {

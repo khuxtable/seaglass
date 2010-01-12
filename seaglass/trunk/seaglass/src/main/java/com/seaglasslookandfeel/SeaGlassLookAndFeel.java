@@ -727,7 +727,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
 
         d.put("InternalFrame:InternalFrameTitlePane[Enabled].textForeground", d.get("nimbusDisabledText"));
-        d.put("InternalFrame:InternalFrameTitlePane[WindowFocused].textForeground", Color.WHITE);
+        d.put("InternalFrame:InternalFrameTitlePane[WindowFocused].textForeground", Color.BLACK);
     }
 
     /**
@@ -928,7 +928,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         p = "MenuBar:Menu";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 4, 2, 4));
         d.put(p + "[Disabled].textForeground", new ColorUIResource(Color.BLACK));
-        d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.WHITE));
+        d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.BLACK));
         d.put(p + "[Selected].textForeground", new ColorUIResource(Color.BLACK));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, MenuBarMenuPainter.Which.BACKGROUND_SELECTED));
 

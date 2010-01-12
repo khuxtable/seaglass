@@ -372,7 +372,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                     color = (Color) obj;
                 }
                 // FIXME The state *still* doesn't get the color right!!!
-                color = Color.WHITE;
+                color = Color.BLACK;
             }
             g.setColor(color);
             g.setFont(style.getFont(context));
