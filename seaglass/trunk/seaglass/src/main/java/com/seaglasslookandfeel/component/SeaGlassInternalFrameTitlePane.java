@@ -517,7 +517,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
 
         public Dimension minimumLayoutSize(Container c) {
             SeaGlassContext context = getContext(SeaGlassInternalFrameTitlePane.this);
-            int width = 0;
+            int width = 8;
             int height = 0;
 
             int buttonCount = 0;
@@ -597,8 +597,8 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
             Insets insets = c.getInsets();
 
             if (SeaGlassLookAndFeel.isLeftToRight(frame)) {
-                center(menuButton, insets, insets.left, false);
-                int x = getWidth() - insets.right;
+                center(menuButton, insets, insets.left + 4, false);
+                int x = getWidth() - insets.right - 4;
                 if (frame.isClosable()) {
                     x = center(closeButton, insets, x, true);
                 }
@@ -609,8 +609,8 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
                     x = center(iconButton, insets, x, true);
                 }
             } else {
-                center(menuButton, insets, getWidth() - insets.right, true);
-                int x = insets.left;
+                center(menuButton, insets, getWidth() - insets.right - 4, true);
+                int x = insets.left + 4;
                 if (frame.isClosable()) {
                     x = center(closeButton, insets, x, false);
                 }
