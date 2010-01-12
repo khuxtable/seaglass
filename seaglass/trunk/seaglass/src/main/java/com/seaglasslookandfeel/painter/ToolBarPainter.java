@@ -71,21 +71,23 @@ public class ToolBarPainter extends AbstractRegionPainter {
 
     // For non-Mac use Snow Leopard colors because it has the same Gamma
     // correction.
-    private static final Color     ACTIVE_TOP_COLOR_T      = IS_NON_MAC ? new Color(0x6888ab) : IS_SNOW_LEOPARD ? new Color(0xc9c9c9)
+    private static final Color     ACTIVE_TOP_COLOR_T      = IS_NON_MAC ? new Color(0x466c97) : IS_SNOW_LEOPARD ? new Color(0xc9c9c9)
                                                                    : new Color(0xbcbcbc);
-    private static final Color     ACTIVE_TOP_COLOR_B      = IS_NON_MAC ? new Color(0x5a7da4) : IS_SNOW_LEOPARD ? new Color(0xb7b7b7)
+    private static final Color     ACTIVE_TOP_COLOR_B      = IS_NON_MAC ? new Color(0x466c97) : IS_SNOW_LEOPARD ? new Color(0xb7b7b7)
                                                                    : new Color(0x9a9a9a);
     private static final Color     INACTIVE_TOP_COLOR_T    = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xe9e9e9) : new Color(0xe4e4e4);
     private static final Color     INACTIVE_TOP_COLOR_B    = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xe0e0e0) : new Color(0xd1d1d1);
 
-    private static final Color     ACTIVE_BOTTOM_COLOR_T   = IS_NON_MAC ? new Color(0x597ca3) : IS_SNOW_LEOPARD ? new Color(0x999999)
+    private static final Color     ACTIVE_BOTTOM_COLOR_T   = IS_NON_MAC ? new Color(0x5f80a5) : IS_SNOW_LEOPARD ? new Color(0x999999)
                                                                    : new Color(0xcccccc);
-    private static final Color     ACTIVE_BOTTOM_COLOR_B   = IS_NON_MAC ? new Color(0x5b7fa5) : IS_SNOW_LEOPARD ? new Color(0x909090)
+    private static final Color     ACTIVE_BOTTOM_COLOR_B   = IS_NON_MAC ? new Color(0x466c97) : IS_SNOW_LEOPARD ? new Color(0x909090)
                                                                    : new Color(0xa7a7a7);
     private static final Color     INACTIVE_BOTTOM_COLOR_T = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcfcfcf) : new Color(0xe9e9e9);
     private static final Color     INACTIVE_BOTTOM_COLOR_B = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcacaca) : new Color(0xd8d8d8);
 
-    private static final Color     HANDLE_COLOR            = new Color(0xc8191919, true);
+    private static final Color     INNER_HIGHLIGHT_COLOR   = new Color(0x55ffffff, true);
+
+    private static final Color     HANDLE_COLOR            = IS_NON_MAC ? new Color(0xddcccccc, true) : new Color(0xc8191919, true);
 
     private static final Path2D    path                    = new Path2D.Float();
 
@@ -108,10 +110,14 @@ public class ToolBarPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         if (state == Which.HANDLEICON_ENABLED) {
             painthandleIconEnabled(g);
-            return;
-        }
+        } else {
+            if (true) return;
+            paintBackground(g, c, width, height);
 
-        paintBackground(g, c, width, height);
+            if (!PlatformUtils.isMac()) {
+                paintInnerHighlight(g, c, width, height);
+            }
+        }
     }
 
     protected PaintContext getPaintContext() {
@@ -132,6 +138,42 @@ public class ToolBarPainter extends AbstractRegionPainter {
     private void paintBackground(Graphics2D g, JComponent c, int width, int height) {
         g.setPaint(decodeGradient(state, c, width, height));
         g.fillRect(0, 0, width, height);
+    }
+
+    /**
+     * @param g
+     * @param c
+     *            TODO
+     * @param width
+     * @param height
+     */
+    private void paintInnerHighlight(Graphics2D g, JComponent c, int width, int height) {
+        g.setColor(INNER_HIGHLIGHT_COLOR);
+        switch (state) {
+        case BORDER_NORTH:
+        case BORDER_NORTH_ENABLED:
+            if (width == c.getWidth()) {
+                g.drawLine(0, 0, 0, height - 1);
+            }
+            g.drawLine(width - 1, 0, width - 1, height - 1);
+            break;
+        case BORDER_SOUTH:
+        case BORDER_SOUTH_ENABLED:
+            if (width == c.getWidth()) {
+                g.drawLine(0, 0, 0, height - 2);
+            }
+            g.drawLine(width - 1, 0, width - 1, height - 1);
+            g.drawLine(0, height - 1, width - 2, height - 1);
+            break;
+        case BORDER_EAST:
+        case BORDER_EAST_ENABLED:
+            g.drawLine(0, height - 1, width - 1, height - 1);
+            break;
+        case BORDER_WEST:
+        case BORDER_WEST_ENABLED:
+            g.drawLine(0, 0, width - 1, 0);
+            break;
+        }
     }
 
     private GradientPaint decodeGradient(Which state, JComponent c, int width, int height) {

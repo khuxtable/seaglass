@@ -164,7 +164,6 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         root = (JRootPane) c;
-        root.putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
         if (PlatformUtils.isMac()) {
             if (root.isValid()) {
                 throw new IllegalArgumentException("This method only works if the given JRootPane has not yet been realized.");
@@ -225,7 +224,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         if (style == JRootPane.NONE) {
             LookAndFeel.uninstallBorder(root);
         } else {
-            root.setBorder(new SeaGlassBorder(this, new Insets(0, 5, 5, 5)));
+            root.setBorder(new SeaGlassBorder(this, new Insets(0, 1, 1, 1)));
         }
     }
 
