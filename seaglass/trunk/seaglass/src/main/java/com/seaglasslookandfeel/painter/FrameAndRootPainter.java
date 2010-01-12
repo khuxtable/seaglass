@@ -122,7 +122,6 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        System.out.println("painting root pane: state = " + state);
         switch (state) {
         case BACKGROUND_ENABLED:
             paintBackgroundEnabled(g, c, width, height);
