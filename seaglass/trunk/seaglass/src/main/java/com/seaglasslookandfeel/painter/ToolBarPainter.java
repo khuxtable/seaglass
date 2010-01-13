@@ -65,8 +65,8 @@ public class ToolBarPainter extends AbstractRegionPainter {
 
     private static final Insets    handleInsets            = new Insets(5, 5, 5, 5);
     private static final Dimension handleDimension         = new Dimension(11, 38);
-    private static final CacheMode handleCacheMode         = CacheMode.NINE_SQUARE_SCALE;
-    private static final Double    handleMaxH              = 2.0;
+    private static final CacheMode handleCacheMode         = CacheMode.FIXED_SIZES;
+    private static final Double    handleMaxH              = Double.POSITIVE_INFINITY;
     private static final Double    handleMaxV              = Double.POSITIVE_INFINITY;
 
     // For non-Mac use Snow Leopard colors because it has the same Gamma
@@ -107,7 +107,7 @@ public class ToolBarPainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         if (state == Which.HANDLEICON_ENABLED) {
-            painthandleIconEnabled(g);
+            painthandleIconEnabled(g, width, height);
         } else if (PlatformUtils.isMac()) {
             paintBackground(g, c, width, height);
         }
@@ -117,12 +117,12 @@ public class ToolBarPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void painthandleIconEnabled(Graphics2D g) {
+    private void painthandleIconEnabled(Graphics2D g, int width, int height) {
         path.reset();
-        path.moveTo(decodeX(0.75f), decodeY(0.5f));
-        path.lineTo(decodeX(0.75f), decodeY(2.5f));
-        path.moveTo(decodeX(1.25f), decodeY(2.5f));
-        path.lineTo(decodeX(1.25f), decodeY(0.5f));
+        path.moveTo(4, 2);
+        path.lineTo(4, height - 3);
+        path.moveTo(6, height - 3);
+        path.lineTo(6, 2);
 
         g.setColor(HANDLE_COLOR);
         g.draw(path);
