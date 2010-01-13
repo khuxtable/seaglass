@@ -76,7 +76,6 @@ import com.seaglasslookandfeel.painter.DesktopIconPainter;
 import com.seaglasslookandfeel.painter.DesktopPanePainter;
 import com.seaglasslookandfeel.painter.FrameAndRootPainter;
 import com.seaglasslookandfeel.painter.MenuBarMenuPainter;
-import com.seaglasslookandfeel.painter.MenuBarPainter;
 import com.seaglasslookandfeel.painter.MenuItemPainter;
 import com.seaglasslookandfeel.painter.MenuPainter;
 import com.seaglasslookandfeel.painter.PopupMenuPainter;
@@ -917,12 +916,16 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
 
-        // Initialize MenuBar
+        // We don't paint MenuBar backgrounds. Remove the painters.
         c = PAINTER_DIRECTORY + ".MenuBarPainter";
         p = "MenuBar";
         d.put(p + ".contentMargins", new InsetsUIResource(2, 6, 2, 6));
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, MenuBarPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Enabled].borderPainter", new LazyPainter(c, MenuBarPainter.Which.BORDER_ENABLED));
+        if (d.get(p + "[Enabled].backgroundPainter") != null) {
+            d.remove(p + "[Enabled].backgroundPainter");
+        }
+        if (d.get(p + "[Enabled].borderPainter") != null) {
+            d.remove(p + "[Enabled].borderPainter");
+        }
 
         c = PAINTER_DIRECTORY + ".MenuBarMenuPainter";
         p = "MenuBar:Menu";
@@ -1453,10 +1456,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineTrees(UIDefaults d) {
-//        d.put("\"Tree.cellEditor\".background", d.get("control"));
-//        d.put("\"Tree.cellEditor\"[Disabled].textForeground", new ColorUIResource(200, 200, 200));
-//        d.put("\"Tree.cellEditor\"[Selected].textForeground", new ColorUIResource(Color.WHITE));
-//        d.put("\"Tree.cellEditor\"[Selected].textBackground", new ColorUIResource((Color) d.get("nimbusSelection")));
+        // d.put("\"Tree.cellEditor\".background", d.get("control"));
+        // d.put("\"Tree.cellEditor\"[Disabled].textForeground", new
+        // ColorUIResource(200, 200, 200));
+        // d.put("\"Tree.cellEditor\"[Selected].textForeground", new
+        // ColorUIResource(Color.WHITE));
+        // d.put("\"Tree.cellEditor\"[Selected].textBackground", new
+        // ColorUIResource((Color) d.get("nimbusSelection")));
 
         d.put("Tree.leftChildIndent", new Integer(12));
         d.put("Tree.rightChildIndent", new Integer(2));
