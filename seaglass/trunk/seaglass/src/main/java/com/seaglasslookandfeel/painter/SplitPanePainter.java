@@ -39,7 +39,7 @@ public final class SplitPanePainter extends AbstractRegionPainter {
     // Constants for the PaintContext.
     private static final Insets    insets    = new Insets(0, 0, 0, 0);
     private static final Dimension dimension = new Dimension(20, 20);
-    private static final CacheMode cacheMode = PaintContext.CacheMode.NINE_SQUARE_SCALE;
+    private static final CacheMode cacheMode = PaintContext.CacheMode.FIXED_SIZES;
     private static final Double    maxH      = Double.POSITIVE_INFINITY;
     private static final Double    maxV      = Double.POSITIVE_INFINITY;
 
