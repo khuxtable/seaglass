@@ -62,9 +62,6 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
 
     private static final Insets    bgInsets             = new Insets(4, 1, 4, 4);
     private static final Dimension bgDimension          = new Dimension(21, 23);
-    private static final CacheMode cacheMode            = CacheMode.FIXED_SIZES;
-    private static final Double    maxH                 = 1.0;
-    private static final Double    maxV                 = Double.POSITIVE_INFINITY;
 
     private static final Insets    fgInsets             = new Insets(0, 0, 0, 0);
     private static final Dimension fgDimension          = new Dimension(10, 6);
@@ -79,29 +76,18 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
     public ComboBoxArrowButtonPainter(Which state) {
         super();
         this.state = state;
+
         Insets ins = bgInsets;
         Dimension dim = bgDimension;
-        boolean inverted = false;
-        CacheMode mode = cacheMode;
-        Double maxH = ComboBoxArrowButtonPainter.maxH;
-        Double maxV = ComboBoxArrowButtonPainter.maxV;
         if (state == Which.FOREGROUND_ENABLED || state == Which.FOREGROUND_DISABLED || state == Which.FOREGROUND_PRESSED
                 || state == Which.FOREGROUND_SELECTED) {
             ins = fgInsets;
             dim = fgDimension;
-            inverted = true;
-            mode = CacheMode.NINE_SQUARE_SCALE;
-            maxH = Double.POSITIVE_INFINITY;
-            maxV = 5.0;
         } else if (state == Which.FOREGROUND_EDITABLE || state == Which.FOREGROUND_EDITABLE_DISABLED) {
             ins = fgInsets;
             dim = fgEditableDimension;
-            inverted = true;
-            mode = CacheMode.NINE_SQUARE_SCALE;
-            maxH = Double.POSITIVE_INFINITY;
-            maxV = 5.0;
         }
-        ctx = new PaintContext(ins, dim, inverted, mode, maxH, maxV);
+        ctx = new PaintContext(ins, dim, false, CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 
         // Set the default colors.
         setEnabled(new ButtonStateColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true), new Color(
@@ -193,6 +179,10 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
     }
 
     private void paintArrowsEnabled(Graphics2D g, JComponent c, int width, int height) {
+        int xOffset = width / 2 - 5;
+        int yOffset = height / 2 - 3;
+        g.translate(xOffset, yOffset);
+
         g.setColor(ENABLED_ARROW_COLOR);
 
         path.reset();
@@ -208,9 +198,15 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         path.lineTo(6.5, 4.5);
         path.closePath();
         g.fill(path);
+
+        g.translate(-xOffset, -yOffset);
     }
 
     private void paintArrowsDisabled(Graphics2D g, JComponent c, int width, int height) {
+        int xOffset = width / 2 - 5;
+        int yOffset = height / 2 - 3;
+        g.translate(xOffset, yOffset);
+
         g.setColor(DISABLED_ARROW_COLOR);
 
         path.reset();
@@ -226,9 +222,15 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         path.lineTo(6.5, 4.5);
         path.closePath();
         g.fill(path);
+
+        g.translate(-xOffset, -yOffset);
     }
 
     private void paintArrowDownEnabled(Graphics2D g, JComponent c, int width, int height) {
+        int xOffset = width / 2 - 3;
+        int yOffset = height / 2 - 5;
+        g.translate(xOffset, yOffset);
+
         path.reset();
         path.moveTo(5.2, 1.0);
         path.lineTo(1.0, 4.0);
@@ -236,9 +238,15 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         path.closePath();
         g.setColor(ENABLED_ARROW_COLOR);
         g.fill(path);
+
+        g.translate(-xOffset, -yOffset);
     }
 
     private void paintArrowDownDisabled(Graphics2D g, JComponent c, int width, int height) {
+        int xOffset = width / 2 - 3;
+        int yOffset = height / 2 - 5;
+        g.translate(xOffset, yOffset);
+
         path.reset();
         path.moveTo(5.2, 1.0);
         path.lineTo(1.0, 4.0);
@@ -246,6 +254,8 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         path.closePath();
         g.setColor(DISABLED_ARROW_COLOR);
         g.fill(path);
+
+        g.translate(-xOffset, -yOffset);
     }
 
     Path2D decodeBorder(double width, double height) {
