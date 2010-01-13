@@ -152,7 +152,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
         g.setColor(colors.line);
-        g.drawLine(0, height - 1, width - 1, height - 1);
+        g.drawLine(0, 0, width - 1, 0);
         s = decodeButtonForegroundPath(width, height, 4, 3);
         g.setColor(colors.foreground);
         g.fill(s);
