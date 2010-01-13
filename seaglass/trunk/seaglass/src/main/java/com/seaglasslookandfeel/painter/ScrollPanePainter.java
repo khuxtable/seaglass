@@ -23,8 +23,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Shape;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -35,23 +35,22 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
  */
 public final class ScrollPanePainter extends AbstractRegionPainter {
     public static enum Which {
-        BACKGROUND_ENABLED, BORDER_ENABLED_FOCUSED, BORDER_ENABLED
+        BACKGROUND_ENABLED, BORDER_ENABLED, BORDER_ENABLED_FOCUSED
     }
 
-    private static final Insets    insets    = new Insets(5, 5, 5, 5);
-    private static final Dimension dimension = new Dimension(122, 24);
-    private static final CacheMode cacheMode = CacheMode.NINE_SQUARE_SCALE;
-    private static final Double    maxH      = Double.POSITIVE_INFINITY;
-    private static final Double    maxV      = Double.POSITIVE_INFINITY;
+    private static final Insets    insets      = new Insets(5, 5, 5, 5);
+    private static final Dimension dimension   = new Dimension(122, 24);
+    private static final CacheMode cacheMode   = CacheMode.FIXED_SIZES;
+    private static final Double    maxH        = Double.POSITIVE_INFINITY;
+    private static final Double    maxV        = Double.POSITIVE_INFINITY;
 
     private Which                  state;
     private PaintContext           ctx;
 
-    private Path2D                 path      = new Path2D.Float();
-    private Rectangle2D            rect      = new Rectangle2D.Float(0, 0, 0, 0);
+    private Path2D                 path        = new Path2D.Float();
 
-    private Color                  color1    = decodeColor("nimbusBorder", 0.0f, 0.0f, 0.0f, 0);
-    private Color                  color2    = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
+    private Color                  borderColor = decodeColor("nimbusBorder", 0.0f, 0.0f, 0.0f, 0);
+    private Color                  focusColor  = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
 
     public ScrollPanePainter(Which state) {
         super();
@@ -61,11 +60,11 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
-        case BORDER_ENABLED_FOCUSED:
-            paintBorderEnabledAndFocused(g);
-            break;
         case BORDER_ENABLED:
-            paintBorderEnabled(g);
+            paintBorderEnabled(g, width, height);
+            break;
+        case BORDER_ENABLED_FOCUSED:
+            paintBorderFocused(g, width, height);
             break;
         }
     }
@@ -74,89 +73,48 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintBorderEnabledAndFocused(Graphics2D g) {
-        rect = decodeRect1();
-        g.setPaint(color1);
-        g.fill(rect);
-        rect = decodeRect2();
-        g.setPaint(color1);
-        g.fill(rect);
-        rect = decodeRect3();
-        g.setPaint(color1);
-        g.fill(rect);
-        rect = decodeRect4();
-        g.setPaint(color1);
-        g.fill(rect);
-        path = decodePath1();
-        g.setPaint(color2);
-        g.fill(path);
-
+    private void paintBorderEnabled(Graphics2D g, int width, int height) {
+        g.setPaint(borderColor);
+        g.drawLine(3, 2, width - 4, 2);
+        g.drawLine(2, 2, 2, height - 3);
+        g.drawLine(width - 3, 2, width - 3, height - 3);
+        g.drawLine(3, height - 3, width - 4, height - 3);
     }
 
-    private void paintBorderEnabled(Graphics2D g) {
-        rect = decodeRect1();
-        g.setPaint(color1);
-        g.fill(rect);
-        rect = decodeRect2();
-        g.setPaint(color1);
-        g.fill(rect);
-        rect = decodeRect3();
-        g.setPaint(color1);
-        g.fill(rect);
-        rect = decodeRect4();
-        g.setPaint(color1);
-        g.fill(rect);
+    private void paintBorderFocused(Graphics2D g, int width, int height) {
+        paintBorderEnabled(g, width, height);
 
+        Shape s = decodeFocusPath(width, height);
+        g.setPaint(focusColor);
+        g.fill(s);
     }
 
-    private Rectangle2D decodeRect1() {
-        rect.setRect(decodeX(0.6f), // x
-            decodeY(0.4f), // y
-            decodeX(2.4f) - decodeX(0.6f), // width
-            decodeY(0.6f) - decodeY(0.4f)); // height
-        return rect;
-    }
+    private Shape decodeFocusPath(int width, int height) {
+        float left = 2;
+        float top = 2;
+        float right = width - 2;
+        float bottom = height - 2;
 
-    private Rectangle2D decodeRect2() {
-        rect.setRect(decodeX(0.4f), // x
-            decodeY(0.4f), // y
-            decodeX(0.6f) - decodeX(0.4f), // width
-            decodeY(2.6f) - decodeY(0.4f)); // height
-        return rect;
-    }
-
-    private Rectangle2D decodeRect3() {
-        rect.setRect(decodeX(2.4f), // x
-            decodeY(0.4f), // y
-            decodeX(2.6f) - decodeX(2.4f), // width
-            decodeY(2.6f) - decodeY(0.4f)); // height
-        return rect;
-    }
-
-    private Rectangle2D decodeRect4() {
-        rect.setRect(decodeX(0.6f), // x
-            decodeY(2.4f), // y
-            decodeX(2.4f) - decodeX(0.6f), // width
-            decodeY(2.6f) - decodeY(2.4f)); // height
-        return rect;
-    }
-
-    private Path2D decodePath1() {
         path.reset();
-        path.moveTo(decodeX(0.4f), decodeY(0.4f));
-        path.lineTo(decodeX(0.4f), decodeY(2.6f));
-        path.lineTo(decodeX(2.6f), decodeY(2.6f));
-        path.lineTo(decodeX(2.6f), decodeY(0.4f));
-        path.curveTo(decodeAnchorX(2.5999999046325684f, 0.0f), decodeAnchorY(0.4000000059604645f, 0.0f), decodeAnchorX(2.880000352859497f,
-            0.09999999999999432f), decodeAnchorY(0.4000000059604645f, 0.0f), decodeX(2.8800004f), decodeY(0.4f));
-        path.curveTo(decodeAnchorX(2.880000352859497f, 0.09999999999999432f), decodeAnchorY(0.4000000059604645f, 0.0f), decodeAnchorX(
-            2.880000352859497f, 0.0f), decodeAnchorY(2.879999876022339f, 0.0f), decodeX(2.8800004f), decodeY(2.8799999f));
-        path.lineTo(decodeX(0.120000005f), decodeY(2.8799999f));
-        path.lineTo(decodeX(0.120000005f), decodeY(0.120000005f));
-        path.lineTo(decodeX(2.8800004f), decodeY(0.120000005f));
-        path.lineTo(decodeX(2.8800004f), decodeY(0.4f));
-        path.lineTo(decodeX(0.4f), decodeY(0.4f));
+        path.moveTo(left, top);
+        path.lineTo(left, bottom);
+        path.lineTo(right, bottom);
+        path.lineTo(right, top);
+
+        float left2 = 0.6f;
+        float top2 = 0.6f;
+        float right2 = width - 0.6f;
+        float bottom2 = height - 0.6f;
+
+        // TODO These two lines were curveTo in Nimbus. Perhaps we should revisit this?
+        path.lineTo(right2, top);
+        path.lineTo(right2, bottom2);
+        path.lineTo(left2, bottom2);
+        path.lineTo(left2, top2);
+        path.lineTo(right2, top2);
+        path.lineTo(right2, top);
         path.closePath();
+
         return path;
     }
 }
