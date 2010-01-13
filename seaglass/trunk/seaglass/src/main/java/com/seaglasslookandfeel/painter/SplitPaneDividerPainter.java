@@ -40,34 +40,25 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED, BACKGROUND_FOCUSED, FOREGROUND_ENABLED, FOREGROUND_ENABLED_VERTICAL,
     }
 
-    // Constants for the PaintContext.
-    private static final Insets    insets    = new Insets(3, 0, 3, 0);
-    private static final Dimension dimension = new Dimension(68, 10);
-    private static final CacheMode cacheMode = PaintContext.CacheMode.NINE_SQUARE_SCALE;
+    private static final CacheMode cacheMode = CacheMode.FIXED_SIZES;
     private static final Double    maxH      = Double.POSITIVE_INFINITY;
     private static final Double    maxV      = Double.POSITIVE_INFINITY;
 
     private Which                  state;
     private PaintContext           ctx;
 
-    private Rectangle2D            rect      = new Rectangle2D.Float(0, 0, 0, 0);
     private RoundRectangle2D       roundRect = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
 
-    private Color                  color1    = decodeColor("splitPaneBase", 0.0f, -0.017358616f, -0.11372548f, 0);
-    private Color                  color2    = decodeColor("splitPaneBase", 0.055555582f, -0.102396235f, 0.21960783f, 0);
-    private Color                  color3    = decodeColor("splitPaneBase", 0.0f, -0.07016757f, 0.12941176f, 0);
-    private Color                  color4    = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
-    private Color                  color5    = decodeColor("splitPaneBase", 0.0f, -0.110526316f, 0.25490195f, 0);
-    private Color                  color6    = decodeColor("splitPaneBase", 0.0f, -0.048026316f, 0.007843137f, 0);
-    private Color                  color7    = decodeColor("splitPaneBase", 0.0055555105f, -0.06970999f, 0.21568626f, 0);
-    private Color                  color8    = decodeColor("splitPaneBase", 0.0f, -0.06704806f, 0.06666666f, 0);
-    private Color                  color9    = decodeColor("splitPaneBase", 0.0f, -0.019617222f, -0.09803921f, 0);
-    private Color                  color10   = decodeColor("splitPaneBase", 0.004273474f, -0.03790062f, -0.043137252f, 0);
-    private Color                  color11   = decodeColor("splitPaneBase", -0.111111104f, -0.106573746f, 0.24705881f, 0);
-    private Color                  color12   = decodeColor("splitPaneBase", 0.0f, -0.049301825f, 0.02352941f, 0);
-    private Color                  color13   = decodeColor("splitPaneBase", -0.006944418f, -0.07399663f, 0.11372548f, 0);
-    private Color                  color14   = decodeColor("splitPaneBase", -0.018518567f, -0.06998578f, 0.12549019f, 0);
-    private Color                  color15   = decodeColor("splitPaneBase", 0.0f, -0.050526317f, 0.039215684f, 0);
+    private Color                  bgOuter   = new Color(0xd9d9d9);
+    private Color                  bgEnabled = decodeColor("control", 0f, 0f, 0f, 0);
+    private Color                  bgFocused = decodeColor("nimbusFocus", 0f, 0f, 0f, 0);
+
+    private Color                  fgBorder1 = new Color(0x88ade0);
+    private Color                  fgBorder2 = new Color(0x5785bf);
+
+    private Color                  fgInside1 = new Color(0xfbfdfe);
+    private Color                  fgInside2 = new Color(0xd2e8f8);
+    private Color                  fgInside3 = new Color(0xf5fafd);
 
     public SplitPaneDividerPainter(Which state) {
         super();
@@ -77,7 +68,7 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         } else if (state == Which.FOREGROUND_ENABLED_VERTICAL) {
             this.ctx = new PaintContext(new Insets(5, 0, 5, 0), new Dimension(10, 38), true, cacheMode, maxH, maxV);
         } else {
-            this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+            this.ctx = new PaintContext(new Insets(3, 0, 3, 0), new Dimension(68, 10), false, cacheMode, maxH, maxV);
         }
     }
 
@@ -85,16 +76,16 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_ENABLED:
-            paintBackgroundEnabled(g);
+            paintBackgroundEnabled(g, width, height);
             break;
         case BACKGROUND_FOCUSED:
-            paintBackgroundFocused(g);
+            paintBackgroundFocused(g, width, height);
             break;
         case FOREGROUND_ENABLED:
-            paintForegroundEnabled(g);
+            paintForegroundEnabled(g, width, height);
             break;
         case FOREGROUND_ENABLED_VERTICAL:
-            paintForegroundEnabledAndVertical(g);
+            paintForegroundEnabledAndVertical(g, width, height);
             break;
         }
     }
@@ -104,156 +95,64 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintBackgroundEnabled(Graphics2D g) {
-        rect = decodeRect1();
-        g.setPaint(decodeGradient1(rect));
-        g.fill(rect);
+    private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
+        g.setPaint(bgEnabled);
+        g.fillRect(0, 0, width, height);
+        g.setPaint(bgOuter);
+        g.drawLine(0, 0, width - 1, 0);
+        g.drawLine(0, height - 1, width - 1, height - 1);
+    }
+
+    private void paintBackgroundFocused(Graphics2D g, int width, int height) {
+        paintBackgroundEnabled(g, width, height);
+        g.setPaint(bgFocused);
+        g.drawLine(0, 1, width - 1, 1);
+        g.drawLine(0, height - 2, width - 1, height - 2);
 
     }
 
-    private void paintBackgroundFocused(Graphics2D g) {
-        rect = decodeRect1();
-        g.setPaint(decodeGradient2(rect));
-        g.fill(rect);
+    private void paintForegroundEnabledAndVertical(Graphics2D g, int width, int height) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.translate(0, height);
+        g2.rotate(Math.toRadians(-90));
 
+        paintForegroundEnabled(g2, height, width);
     }
 
-    private void paintForegroundEnabled(Graphics2D g) {
-        roundRect = decodeRoundRect1();
-        g.setPaint(decodeGradient3(roundRect));
-        g.fill(roundRect);
-        roundRect = decodeRoundRect2();
-        g.setPaint(decodeGradient4(roundRect));
-        g.fill(roundRect);
-
+    private void paintForegroundEnabled(Graphics2D g, int width, int height) {
+        Shape s = decodeForegroundBorder(width, height);
+        g.setPaint(decodeGradientForegroundBorder(s));
+        g.fill(s);
+        s = decodeForegroundInside(width, height);
+        g.setPaint(decodeGradientForegroundInside(s));
+        g.fill(s);
     }
 
-    private void paintForegroundEnabledAndVertical(Graphics2D g) {
-        roundRect = decodeRoundRect3();
-        g.setPaint(decodeGradient5(roundRect));
-        g.fill(roundRect);
-        rect = decodeRect2();
-        g.setPaint(decodeGradient6(rect));
-        g.fill(rect);
-
-    }
-
-    private Rectangle2D decodeRect1() {
-        rect.setRect(decodeX(1.0f), // x
-            decodeY(0.0f), // y
-            decodeX(2.0f) - decodeX(1.0f), // width
-            decodeY(3.0f) - decodeY(0.0f)); // height
-        return rect;
-    }
-
-    private RoundRectangle2D decodeRoundRect1() {
-        roundRect.setRoundRect(decodeX(1.05f), // x
-            decodeY(1.3f), // y
-            decodeX(1.95f) - decodeX(1.05f), // width
-            decodeY(1.8f) - decodeY(1.3f), // height
-            3.6666667f, 3.6666667f); // rounding
+    private Shape decodeForegroundBorder(int width, int height) {
+        double x = width / 2 - 10;
+        double y = height / 2 - 5;
+        roundRect.setRoundRect(x + 1, y + 3, 18, 4, 4f, 4f);
         return roundRect;
     }
 
-    private RoundRectangle2D decodeRoundRect2() {
-        roundRect.setRoundRect(decodeX(1.1f), // x
-            decodeY(1.4f), // y
-            decodeX(1.9f) - decodeX(1.1f), // width
-            decodeY(1.7f) - decodeY(1.4f), // height
-            4.0f, 4.0f); // rounding
+    private Shape decodeForegroundInside(int width, int height) {
+        double x = width / 2 - 10;
+        double y = height / 2 - 5;
+        roundRect.setRoundRect(x + 2, y + 4, 16, 2, 2f, 2f);
         return roundRect;
     }
 
-    private RoundRectangle2D decodeRoundRect3() {
-        roundRect.setRoundRect(decodeX(1.3f), // x
-            decodeY(1.1428572f), // y
-            decodeX(1.7f) - decodeX(1.3f), // width
-            decodeY(1.8214285f) - decodeY(1.1428572f), // height
-            4.0f, 4.0f); // rounding
-        return roundRect;
-    }
-
-    private Rectangle2D decodeRect2() {
-        rect.setRect(decodeX(1.4f), // x
-            decodeY(1.1785715f), // y
-            decodeX(1.6f) - decodeX(1.4f), // width
-            decodeY(1.7678571f) - decodeY(1.1785715f)); // height
-        return rect;
-    }
-
-    private Paint decodeGradient1(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, (0.0f * h) + y, (0.5f * w) + x, (1.0f * h) + y, new float[] {
-            0.058064517f,
-            0.08064516f,
-            0.103225805f,
-            0.116129026f,
-            0.12903225f,
-            0.43387097f,
-            0.7387097f,
-            0.77903223f,
-            0.81935483f,
-            0.85806453f,
-            0.8967742f }, new Color[] {
-            color1,
-            decodeColor(color1, color2, 0.5f),
-            color2,
-            decodeColor(color2, color3, 0.5f),
-            color3,
-            decodeColor(color3, color3, 0.5f),
-            color3,
-            decodeColor(color3, color2, 0.5f),
-            color2,
-            decodeColor(color2, color1, 0.5f),
-            color1 });
-    }
-
-    private Paint decodeGradient2(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, (0.0f * h) + y, (0.5f * w) + x, (1.0f * h) + y, new float[] {
-            0.058064517f,
-            0.08064516f,
-            0.103225805f,
-            0.1166129f,
-            0.13f,
-            0.43f,
-            0.73f,
-            0.7746774f,
-            0.81935483f,
-            0.85806453f,
-            0.8967742f }, new Color[] {
-            color1,
-            decodeColor(color1, color4, 0.5f),
-            color4,
-            decodeColor(color4, color3, 0.5f),
-            color3,
-            decodeColor(color3, color3, 0.5f),
-            color3,
-            decodeColor(color3, color4, 0.5f),
-            color4,
-            decodeColor(color4, color1, 0.5f),
-            color1 });
-    }
-
-    private Paint decodeGradient3(Shape s) {
+    private Paint decodeGradientForegroundBorder(Shape s) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
         return decodeGradient((0.5f * w) + x, (0.0f * h) + y, (0.5f * w) + x, (1.0f * h) + y,
-            new float[] { 0.20645161f, 0.5f, 0.7935484f }, new Color[] { color1, decodeColor(color1, color5, 0.5f), color5 });
+            new float[] { 0.20645161f, 0.5f, 0.7935484f }, new Color[] { fgBorder1, decodeColor(fgBorder1, fgBorder2, 0.5f), fgBorder2 });
     }
 
-    private Paint decodeGradient4(Shape s) {
+    private Paint decodeGradientForegroundInside(Shape s) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
@@ -264,43 +163,11 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
             0.2951613f,
             0.5f,
             0.5822581f,
-            0.66451615f }, new Color[] { color6, decodeColor(color6, color7, 0.5f), color7, decodeColor(color7, color8, 0.5f), color8 });
-    }
-
-    private Paint decodeGradient5(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.25f * w) + x, (0.0f * h) + y, (0.75f * w) + x, (1.0f * h) + y, new float[] {
-            0.0f,
-            0.42096773f,
-            0.84193546f,
-            0.8951613f,
-            0.9483871f }, new Color[] { color9, decodeColor(color9, color10, 0.5f), color10, decodeColor(color10, color11, 0.5f), color11 });
-    }
-
-    private Paint decodeGradient6(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, (0.0f * h) + y, (0.5f * w) + x, (1.0f * h) + y, new float[] {
-            0.0f,
-            0.08064516f,
-            0.16129032f,
-            0.5129032f,
-            0.86451614f,
-            0.88548386f,
-            0.90645164f }, new Color[] {
-            color12,
-            decodeColor(color12, color13, 0.5f),
-            color13,
-            decodeColor(color13, color14, 0.5f),
-            color14,
-            decodeColor(color14, color15, 0.5f),
-            color15 });
+            0.66451615f }, new Color[] {
+            fgInside1,
+            decodeColor(fgInside1, fgInside2, 0.5f),
+            fgInside2,
+            decodeColor(fgInside2, fgInside3, 0.5f),
+            fgInside3 });
     }
 }

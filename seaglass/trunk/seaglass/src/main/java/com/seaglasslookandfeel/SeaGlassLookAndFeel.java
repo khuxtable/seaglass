@@ -497,6 +497,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         d.put("nimbusSelection", new Color(97, 129, 165));
         d.put("nimbusFocus", new Color(115, 164, 209));
+        d.put("nimbusBorder", new Color(146, 151, 161));
         d.put("nimbusSelectedText", Color.WHITE);
         d.put("nimbusSelectionBackground", new Color(97, 129, 165));
         d.put("nimbusDisabledText", new Color(200, 200, 200));
@@ -703,7 +704,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Initialize DesktopIcon
         c = PAINTER_DIRECTORY + ".DesktopIconPainter";
-        d.put("DesktopIcon.contentMargins", new InsetsUIResource(4, 6, 5, 4));
+        d.put("DesktopIcon.contentMargins", new InsetsUIResource(0, 6, 5, 4));
         d.put("DesktopIcon[Enabled].backgroundPainter", new LazyPainter(c, DesktopIconPainter.Which.BACKGROUND_ENABLED));
     }
 
@@ -1226,7 +1227,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineSplitPanes(UIDefaults d) {
-        d.put("splitPaneBase", new ColorUIResource(215, 215, 215));
         d.put("SplitPane.contentMargins", new InsetsUIResource(1, 1, 1, 1));
         d.put("SplitPane.States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Vertical");
         d.put("SplitPane.Vertical", new SplitPaneVerticalState());
@@ -1406,7 +1406,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         d.put(p + ".contentMargins", new InsetsUIResource(2, 2, 2, 2));
         d.put(p + ".opaque", Boolean.TRUE);
-        d.put(p + ".States", "North,East,West,South,WindowIsActive");
+        d.put(p + ".States", "North,East,West,South,WindowIsActive,Pressed");
         d.put(p + ".North", new ToolBarNorthState());
         d.put(p + ".East", new ToolBarEastState());
         d.put(p + ".West", new ToolBarWestState());
@@ -1424,6 +1424,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         c = PAINTER_DIRECTORY + ".ToolBarHandlePainter";
         d.put(p + "[Enabled].handleIconPainter", new LazyPainter(c, ToolBarHandlePainter.Which.HANDLEICON_ENABLED));
+        d.put(p + "[Pressed].handleIconPainter", new LazyPainter(c, ToolBarHandlePainter.Which.HANDLEICON_PRESSED));
         d.put(p + ".handleIcon", new SeaGlassIcon(p, "handleIconPainter", 11, 38));
 
         c = PAINTER_DIRECTORY + ".ButtonPainter";
@@ -1440,17 +1441,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".States", "Enabled,Disabled,Focused,Pressed,Selected");
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_FOCUSED));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED));
-        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
-        d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
+        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+        d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
         d.put(p + "[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c,
             ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
-        d.put(p + "[Disabled+Selected].backgroundPainter", new LazyPainter(c,
-            ToolBarToggleButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
+        d.put(p + "[Disabled+Selected].backgroundPainter",
+            new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
 
         uiDefaults.put("ToolBarSeparator[Enabled].backgroundPainter", null);
     }
