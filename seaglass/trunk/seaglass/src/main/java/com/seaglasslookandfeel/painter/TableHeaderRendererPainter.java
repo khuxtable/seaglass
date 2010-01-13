@@ -80,7 +80,7 @@ public final class TableHeaderRendererPainter extends AbstractRegionPainter {
     public TableHeaderRendererPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(new Insets(1, 0, 1, 1), new Dimension(26, 16), false, CacheMode.NINE_SQUARE_SCALE, Double.POSITIVE_INFINITY,
+        ctx = new PaintContext(new Insets(1, 0, 1, 1), new Dimension(26, 16), false, CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
             Double.POSITIVE_INFINITY);
     }
 
