@@ -102,6 +102,7 @@ import com.seaglasslookandfeel.painter.TitlePaneCloseButtonPainter;
 import com.seaglasslookandfeel.painter.TitlePaneIconifyButtonPainter;
 import com.seaglasslookandfeel.painter.TitlePaneMaximizeButtonPainter;
 import com.seaglasslookandfeel.painter.TitlePaneMenuButtonPainter;
+import com.seaglasslookandfeel.painter.ToolBarHandlePainter;
 import com.seaglasslookandfeel.painter.ToolBarPainter;
 import com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter;
 import com.seaglasslookandfeel.state.ComboBoxArrowButtonEditableState;
@@ -1401,49 +1402,54 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineToolBars(UIDefaults d) {
         String c = PAINTER_DIRECTORY + ".ToolBarPainter";
+        String p = "ToolBar";
 
-        d.put("ToolBar.contentMargins", new InsetsUIResource(2, 2, 2, 2));
-        d.put("ToolBar.opaque", Boolean.TRUE);
-        d.put("ToolBar.States", "North,East,West,South,WindowIsActive");
-        d.put("ToolBar.North", new ToolBarNorthState());
-        d.put("ToolBar.East", new ToolBarEastState());
-        d.put("ToolBar.West", new ToolBarWestState());
-        d.put("ToolBar.South", new ToolBarSouthState());
-        d.put("ToolBar.WindowIsActive", new ToolBarWindowIsActiveState());
+        d.put(p + ".contentMargins", new InsetsUIResource(2, 2, 2, 2));
+        d.put(p + ".opaque", Boolean.TRUE);
+        d.put(p + ".States", "North,East,West,South,WindowIsActive");
+        d.put(p + ".North", new ToolBarNorthState());
+        d.put(p + ".East", new ToolBarEastState());
+        d.put(p + ".West", new ToolBarWestState());
+        d.put(p + ".South", new ToolBarSouthState());
+        d.put(p + ".WindowIsActive", new ToolBarWindowIsActiveState());
 
-        d.put("ToolBar[North].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH));
-        d.put("ToolBar[South].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH));
-        d.put("ToolBar[East].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST));
-        d.put("ToolBar[West].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST));
-        d.put("ToolBar[North+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH_ENABLED));
-        d.put("ToolBar[South+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH_ENABLED));
-        d.put("ToolBar[East+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST_ENABLED));
-        d.put("ToolBar[West+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST_ENABLED));
-        d.put("ToolBar[Enabled].handleIconPainter", new LazyPainter(c, ToolBarPainter.Which.HANDLEICON_ENABLED));
-        d.put("ToolBar.handleIcon", new SeaGlassIcon("ToolBar", "handleIconPainter", 11, 38));
+        d.put(p + "[North].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH));
+        d.put(p + "[South].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH));
+        d.put(p + "[East].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST));
+        d.put(p + "[West].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST));
+        d.put(p + "[North+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH_ENABLED));
+        d.put(p + "[South+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH_ENABLED));
+        d.put(p + "[East+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST_ENABLED));
+        d.put(p + "[West+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST_ENABLED));
+
+        c = PAINTER_DIRECTORY + ".ToolBarHandlePainter";
+        d.put(p + "[Enabled].handleIconPainter", new LazyPainter(c, ToolBarHandlePainter.Which.HANDLEICON_ENABLED));
+        d.put(p + ".handleIcon", new SeaGlassIcon(p, "handleIconPainter", 11, 38));
 
         c = PAINTER_DIRECTORY + ".ButtonPainter";
-        d.put("ToolBar:Button.States", "Enabled,Disabled,Focused,Pressed");
-        d.put("ToolBar:Button[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
-        d.put("ToolBar:Button[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
-        d.put("ToolBar:Button[Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put("ToolBar:Button[Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put("ToolBar:Button[Focused+Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+        p = "ToolBar:Button";
+        d.put(p + ".States", "Enabled,Disabled,Focused,Pressed");
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_FOCUSED));
+        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
 
         c = PAINTER_DIRECTORY + ".ToolBarToggleButtonPainter";
-        d.put("ToolBar:ToggleButton.States", "Enabled,Disabled,Focused,Pressed,Selected");
-        d.put("ToolBar:ToggleButton[Focused].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put("ToolBar:ToggleButton[Pressed].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put("ToolBar:ToggleButton[Focused+Pressed].backgroundPainter", new LazyPainter(c,
+        p = "ToolBar:ToggleButton";
+        d.put(p + ".States", "Enabled,Disabled,Focused,Pressed,Selected");
+        d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_FOCUSED));
+        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c,
             ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
-        d.put("ToolBar:ToggleButton[Selected].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED));
-        d.put("ToolBar:ToggleButton[Focused+Selected].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c,
             ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
-        d.put("ToolBar:ToggleButton[Pressed+Selected].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c,
             ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
-        d.put("ToolBar:ToggleButton[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c,
             ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
-        d.put("ToolBar:ToggleButton[Disabled+Selected].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Disabled+Selected].backgroundPainter", new LazyPainter(c,
             ToolBarToggleButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
 
         uiDefaults.put("ToolBarSeparator[Enabled].backgroundPainter", null);
