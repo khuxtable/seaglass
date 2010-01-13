@@ -24,7 +24,6 @@ import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.geom.Path2D;
 
 import javax.swing.JComponent;
 
@@ -51,7 +50,6 @@ public class ToolBarPainter extends AbstractRegionPainter {
         BORDER_SOUTH_ENABLED,
         BORDER_EAST_ENABLED,
         BORDER_WEST_ENABLED,
-        HANDLEICON_ENABLED
     };
 
     private static final boolean   IS_NON_MAC              = !PlatformUtils.isMac();
@@ -62,12 +60,6 @@ public class ToolBarPainter extends AbstractRegionPainter {
     private static final CacheMode cacheMode               = CacheMode.NO_CACHING;
     private static final Double    maxH                    = 1.0;
     private static final Double    maxV                    = 1.0;
-
-    private static final Insets    handleInsets            = new Insets(5, 5, 5, 5);
-    private static final Dimension handleDimension         = new Dimension(11, 38);
-    private static final CacheMode handleCacheMode         = CacheMode.FIXED_SIZES;
-    private static final Double    handleMaxH              = Double.POSITIVE_INFINITY;
-    private static final Double    handleMaxV              = Double.POSITIVE_INFINITY;
 
     // For non-Mac use Snow Leopard colors because it has the same Gamma
     // correction.
@@ -85,10 +77,6 @@ public class ToolBarPainter extends AbstractRegionPainter {
     private static final Color     INACTIVE_BOTTOM_COLOR_T = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcfcfcf) : new Color(0xe9e9e9);
     private static final Color     INACTIVE_BOTTOM_COLOR_B = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcacaca) : new Color(0xd8d8d8);
 
-    private static final Color     HANDLE_COLOR            = IS_NON_MAC ? new Color(0xddcccccc, true) : new Color(0xc8191919, true);
-
-    private static final Path2D    path                    = new Path2D.Float();
-
     private static final State     hasNorthToolBarState    = new ToolBarHasNorthToolBarState();
 
     // Refers to one of the static final ints above
@@ -98,34 +86,17 @@ public class ToolBarPainter extends AbstractRegionPainter {
     public ToolBarPainter(Which state) {
         super();
         this.state = state;
-        if (state == Which.HANDLEICON_ENABLED) {
-            this.ctx = new PaintContext(handleInsets, handleDimension, false, handleCacheMode, handleMaxH, handleMaxV);
-        } else {
-            this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
-        }
+        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        if (state == Which.HANDLEICON_ENABLED) {
-            painthandleIconEnabled(g, width, height);
-        } else if (PlatformUtils.isMac()) {
+        if (PlatformUtils.isMac()) {
             paintBackground(g, c, width, height);
         }
     }
 
     protected PaintContext getPaintContext() {
         return ctx;
-    }
-
-    private void painthandleIconEnabled(Graphics2D g, int width, int height) {
-        path.reset();
-        path.moveTo(4, 2);
-        path.lineTo(4, height - 3);
-        path.moveTo(6, height - 3);
-        path.lineTo(6, 2);
-
-        g.setColor(HANDLE_COLOR);
-        g.draw(path);
     }
 
     private void paintBackground(Graphics2D g, JComponent c, int width, int height) {
