@@ -21,13 +21,12 @@ public class TestSplitPanes {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 
-                JButton b1 = new JButton();
-                JButton b2 = new JButton();
+                JButton b1 = new JButton("Button 1");
+                JButton b2 = new JButton("Button 2");
 
-                JSplitPane pane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+                JSplitPane pane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, b1, b2);
                 pane.setFocusable(true);
-                pane.add(b1);
-                pane.add(b2);
+                pane.setOneTouchExpandable(true);
 
                 JFrame frame = new JFrame();
                 frame.add(pane, BorderLayout.CENTER);
