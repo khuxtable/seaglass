@@ -506,6 +506,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("textInactiveText", d.get("nimbusDisabledText"));
         d.put("menuText", Color.WHITE);
         d.put("menu", Color.WHITE);
+
+        d.put("seaGlassControlInsets", new Insets(2, 2, 2, 2));
+        d.put("seaGlassFocus", new Color(0x73a4d1));
+        d.put("seaGlassOuterFocus", getDerivedColor("seaGlassFocus", -0.0028f, 0.01f, 0f, -0x80, true));
     }
 
     /**
