@@ -152,9 +152,16 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     private float        bottomScale;
 
     /**
+     * Insets used for positioning the control border in order to leave enough
+     * room for the focus indicator.
+     */
+    protected Insets     focusInsets;
+
+    /**
      * Create a new AbstractRegionPainter
      */
     protected AbstractRegionPainter() {
+        focusInsets = UIManager.getInsets("seaGlassFocusInsets");
     }
 
     /**

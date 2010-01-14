@@ -14,6 +14,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
@@ -91,10 +92,14 @@ public abstract class Effect {
      * @param height
      *            the height to paint.
      */
-    public void fill(Graphics2D g, Shape s, int width, int height) {
+    public void fill(Graphics2D g, Shape s, Color shadowColor) {
+        Rectangle bounds = s.getBounds();
+        int width = bounds.width;
+        int height = bounds.height;
+
         BufferedImage bimage = Effect.createBufferedImage(width, height, true);
         Graphics2D gbi = bimage.createGraphics();
-        gbi.setColor(Color.white);
+        gbi.setColor(shadowColor);
         gbi.fill(s);
 
         g.drawImage(applyEffect(bimage, null, width, height), 0, 0, null);
@@ -107,12 +112,16 @@ public abstract class Effect {
      *            the graphics to paint into.
      * @param s
      *            the shape to base the effect around.
-     * @param width
-     *            the width to paint.
-     * @param height
-     *            the height to paint.
+     * @param shadowColor TODO
      */
-    public void draw(Graphics2D g, Shape s, int width, int height) {
+    public void draw(Graphics2D g, Shape s, Color shadowColor) {
+        Rectangle bounds = s.getBounds();
+        int width = bounds.width;
+        int height = bounds.height;
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+
         BufferedImage bimage = Effect.createBufferedImage(width, height, true);
         Graphics2D gbi = bimage.createGraphics();
         gbi.setColor(Color.white);

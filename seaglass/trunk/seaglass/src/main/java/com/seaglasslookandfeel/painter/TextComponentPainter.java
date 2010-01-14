@@ -175,7 +175,7 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         Shape s = g.getClip();
         g.setClip(2, 2, width - 5, height - 5);
         setShadowPart(2, 2, width - 6, height - 6, searchType);
-        dropShadow.draw(g, path, width, height);
+        dropShadow.draw(g, path, Color.white);
         g.setClip(s);
     }
 
