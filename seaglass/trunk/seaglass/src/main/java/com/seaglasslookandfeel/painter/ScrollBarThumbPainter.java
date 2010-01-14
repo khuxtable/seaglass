@@ -52,8 +52,8 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
                                                           0x6088ade0, true), new Color(0x605785bf, true));
     private ButtonStateColors      enabledColors  = new ButtonStateColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8),
                                                       new Color(0xf5fafd), 0.46f, 0.62f, new Color(0x88ade0), new Color(0x5785bf));
-    private ButtonStateColors      pressedColors  = new ButtonStateColors(new Color(0xbccedf), new Color(0x81a8cd), new Color(0x89b5da),
-                                                      new Color(0xb2d8f5), 0.4f, 0.7f, new Color(0x4f7bbf), new Color(0x3f76bf));
+    private ButtonStateColors      pressedColors  = new ButtonStateColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc),
+                                                      new Color(0xbbcedf), 0.4f, 0.7f, new Color(0x4076bf), new Color(0x4f7bbf));
 
     private RoundRectangle2D       rect           = new RoundRectangle2D.Double();
 
