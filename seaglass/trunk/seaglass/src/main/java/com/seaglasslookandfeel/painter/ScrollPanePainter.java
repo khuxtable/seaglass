@@ -23,8 +23,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -35,22 +37,27 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
  */
 public final class ScrollPanePainter extends AbstractRegionPainter {
     public static enum Which {
-        BACKGROUND_ENABLED, BORDER_ENABLED, BORDER_ENABLED_FOCUSED
+        BACKGROUND_ENABLED, BORDER_ENABLED, BORDER_ENABLED_FOCUSED, CORNER_ENABLED,
     }
 
-    private static final Insets    insets      = new Insets(5, 5, 5, 5);
-    private static final Dimension dimension   = new Dimension(122, 24);
-    private static final CacheMode cacheMode   = CacheMode.FIXED_SIZES;
-    private static final Double    maxH        = Double.POSITIVE_INFINITY;
-    private static final Double    maxV        = Double.POSITIVE_INFINITY;
+    private static final Insets    insets       = new Insets(5, 5, 5, 5);
+    private static final Dimension dimension    = new Dimension(122, 24);
+    private static final CacheMode cacheMode    = CacheMode.FIXED_SIZES;
+    private static final Double    maxH         = Double.POSITIVE_INFINITY;
+    private static final Double    maxV         = Double.POSITIVE_INFINITY;
 
     private Which                  state;
     private PaintContext           ctx;
 
-    private Path2D                 path        = new Path2D.Float();
+    private Rectangle2D            rect         = new Rectangle2D.Double();
+    private Path2D                 path         = new Path2D.Float();
 
-    private Color                  borderColor = decodeColor("nimbusBorder", 0.0f, 0.0f, 0.0f, 0);
-    private Color                  focusColor  = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
+    private Color                  borderColor  = decodeColor("nimbusBorder", 0.0f, 0.0f, 0.0f, 0);
+    private Color                  focusColor   = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
+
+    private Color                  cornerBorder = new Color(192, 192, 192);
+    private Color                  cornerColor1 = new Color(240, 240, 240);
+    private Color                  cornerColor2 = new Color(212, 212, 212);
 
     public ScrollPanePainter(Which state) {
         super();
@@ -65,6 +72,9 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
             break;
         case BORDER_ENABLED_FOCUSED:
             paintBorderFocused(g, width, height);
+            break;
+        case CORNER_ENABLED:
+            paintCornerEnabled(g, width, height);
             break;
         }
     }
@@ -89,6 +99,15 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
         g.fill(s);
     }
 
+    private void paintCornerEnabled(Graphics2D g, int width, int height) {
+        Shape s = decodeCornerBorder(width, height);
+        g.setPaint(cornerBorder);
+        g.fill(s);
+        s = decodeCornerInside(width, height);
+        g.setPaint(decodeCornerGradient(s));
+        g.fill(s);
+    }
+
     private Shape decodeFocusPath(int width, int height) {
         float left = 2;
         float top = 2;
@@ -106,7 +125,8 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
         float right2 = width - 0.6f;
         float bottom2 = height - 0.6f;
 
-        // TODO These two lines were curveTo in Nimbus. Perhaps we should revisit this?
+        // TODO These two lines were curveTo in Nimbus. Perhaps we should
+        // revisit this?
         path.lineTo(right2, top);
         path.lineTo(right2, bottom2);
         path.lineTo(left2, bottom2);
@@ -116,5 +136,22 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
         path.closePath();
 
         return path;
+    }
+
+    private Shape decodeCornerBorder(int width, int height) {
+        rect.setRect(0, 0, width, height);
+        return rect;
+    }
+
+    private Shape decodeCornerInside(int width, int height) {
+        rect.setRect(1, 1, width - 2, height - 2);
+        return rect;
+    }
+
+    private Paint decodeCornerGradient(Shape s) {
+        Rectangle2D bounds = s.getBounds2D();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return decodeGradient(1, 1, w - 2, h - 2, new float[] { 0f, 1f }, new Color[] { cornerColor1, cornerColor2 });
     }
 }
