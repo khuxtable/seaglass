@@ -26,7 +26,6 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
@@ -46,20 +45,22 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         NONE, FIRST, MIDDLE, LAST
     };
 
-    private static final Color OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
-    private static final Color INNER_FOCUS_COLOR = new Color(0x73a4d1);
+    private Color            OUTER_FOCUS_COLOR = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
+    private Color            INNER_FOCUS_COLOR = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
 
-    private final Color        colorShadow       = new Color(0x000000);
-    private Effect             dropShadow        = new SeaGlassDropShadowEffect();
+    private final Color      colorShadow       = new Color(0x000000);
+    private Effect           dropShadow        = new SeaGlassDropShadowEffect();
 
-    Path2D                     path              = new Path2D.Double();
+    private double           arcSize           = 4d;
 
-    public ButtonStateColors   enabled;
-    public ButtonStateColors   enabledPressed;
-    public ButtonStateColors   defaultButton;
-    public ButtonStateColors   defaultPressed;
-    public ButtonStateColors   disabled;
-    public ButtonStateColors   disabledSelected;
+    Path2D                   path              = new Path2D.Double();
+
+    public ButtonStateColors enabled;
+    public ButtonStateColors enabledPressed;
+    public ButtonStateColors defaultButton;
+    public ButtonStateColors defaultPressed;
+    public ButtonStateColors disabled;
+    public ButtonStateColors disabledSelected;
 
     /**
      * Create a segmented button painter.
@@ -121,28 +122,34 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        int x = focusInsets.left;
+        int y = focusInsets.top;
+        width -= focusInsets.left + focusInsets.right;
+        height -= focusInsets.top + focusInsets.bottom;
+
+        Shape s;
         if (focused) {
-            path = decodeOuterFocus(segmentStatus, width, height);
+            s = decodeOuterFocus(segmentStatus, x, y, width, height);
             g.setColor(OUTER_FOCUS_COLOR);
-            g.fill(path);
-            path = decodeInnerFocus(segmentStatus, width, height);
+            g.fill(s);
+            s = decodeInnerFocus(segmentStatus, x, y, width, height);
             g.setColor(INNER_FOCUS_COLOR);
-            g.fill(path);
+            g.fill(s);
         }
 
-        path = decodeBorder(segmentStatus, width, height);
+        s = decodeBorder(segmentStatus, x, y, width, height);
         if (!focused) {
-            g.drawImage(createDropShadowImage(path, width, height), 0, 0, null);
+            dropShadow.fill(g, s, colorShadow);
         }
-        g.setPaint(decodeGradientBackground(path, colors.backgroundTop, colors.backgroundBottom));
-        g.fill(path);
-        path = decodeInterior(segmentStatus, width, height);
+        g.setPaint(decodeGradientBackground(s, colors.backgroundTop, colors.backgroundBottom));
+        g.fill(s);
+        s = decodeInterior(segmentStatus, x, y, width, height);
         g.setColor(colors.mainColor);
-        g.fill(path);
-        g.setPaint(decodeGradientBottomShine(path, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
-        g.fill(path);
-        g.setPaint(decodeGradientTopShine(path, colors.upperShineTop, colors.upperShineBottom));
-        g.fill(path);
+        g.fill(s);
+        g.setPaint(decodeGradientBottomShine(s, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
+        g.fill(s);
+        g.setPaint(decodeGradientTopShine(s, colors.upperShineTop, colors.upperShineBottom));
+        g.fill(s);
     }
 
     /**
@@ -205,28 +212,12 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         return segmentStatus;
     }
 
-    /**
-     * Create a drop shadow image.
-     * 
-     * @param s
-     *            the shape to use as the shade.
-     * @param width
-     *            TODO
-     * @param height
-     *            TODO
-     */
-    BufferedImage createDropShadowImage(Shape s, int width, int height) {
-        BufferedImage bimage = SeaGlassDropShadowEffect.createBufferedImage(width, height, true);
-        Graphics2D gbi = bimage.createGraphics();
-        gbi.setColor(colorShadow);
-        gbi.fill(s);
-        return dropShadow.applyEffect(bimage, null, width, height);
-    }
-
-    Path2D decodeOuterFocus(SegmentStatus segmentStatus, int width, int height) {
-        double arcSize = 6d;
-        int x = 0;
-        int y = 0;
+    Path2D decodeOuterFocus(SegmentStatus segmentStatus, int x, int y, int width, int height) {
+        double arcSize = this.arcSize + 2;
+        x -= 2;
+        y -= 2;
+        width += 4;
+        height += 4;
         switch (segmentStatus) {
         case FIRST:
             decodeFirstSegmentPath(x, y, width, height, arcSize, arcSize);
@@ -244,12 +235,12 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         return path;
     }
 
-    Path2D decodeInnerFocus(SegmentStatus segmentStatus, int width, int height) {
-        double arcSize = 5d;
-        int x = 1;
-        int y = 1;
-        width -= 2;
-        height -= 2;
+    Path2D decodeInnerFocus(SegmentStatus segmentStatus, int x, int y, int width, int height) {
+        double arcSize = this.arcSize + 1;
+        x -= 1;
+        y -= 1;
+        width += 2;
+        height += 2;
         switch (segmentStatus) {
         case FIRST:
             decodeFirstSegmentPath(x, y, width + 1, height, arcSize, arcSize);
@@ -267,12 +258,8 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         return path;
     }
 
-    Path2D decodeBorder(SegmentStatus segmentStatus, int width, int height) {
-        double arcSize = 4d;
-        int x = 2;
-        int y = 2;
-        width -= 4;
-        height -= 4;
+    Path2D decodeBorder(SegmentStatus segmentStatus, int x, int y, int width, int height) {
+        double arcSize = this.arcSize;
         switch (segmentStatus) {
         case FIRST:
             decodeFirstSegmentPath(x, y, width + 2, height, arcSize, arcSize);
@@ -290,12 +277,12 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         return path;
     }
 
-    Path2D decodeInterior(SegmentStatus segmentStatus, int width, int height) {
-        double arcSize = 3d;
-        int x = 3;
-        int y = 3;
-        width -= 6;
-        height -= 6;
+    Path2D decodeInterior(SegmentStatus segmentStatus, int x, int y, int width, int height) {
+        double arcSize = this.arcSize - 1;
+        x += 1;
+        y += 1;
+        width -= 2;
+        height -= 2;
         switch (segmentStatus) {
         case FIRST:
             decodeFirstSegmentPath(x, y, width + 2, height, arcSize, arcSize);

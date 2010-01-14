@@ -28,7 +28,7 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
 
 /**
- * Paint a "textured" button. This is suitable for placing on darker grey
+ * Paint a "transparent" button. This is suitable for placing on darker grey
  * backgrounds such as toolbars and bottom bars.
  * 
  * @author Kathryn Huxtable
@@ -41,7 +41,7 @@ public class TransparentButtonPainter extends ButtonVariantPainter {
     Path2D                     path              = new Path2D.Double();
 
     /**
-     * Create a segmented button painter.
+     * Create a transparent button painter.
      * 
      * @param state
      *            the button state.
@@ -56,32 +56,38 @@ public class TransparentButtonPainter extends ButtonVariantPainter {
      * {@inheritDoc}
      */
     public void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
+
+        int x = focusInsets.left;
+        int y = focusInsets.top;
+        width -= focusInsets.left + focusInsets.right;
+        height -= focusInsets.top + focusInsets.bottom;
+
         if (focused) {
-            path = decodeInnerFocus(width, height);
+            path = decodeInnerFocus(x, y, width, height);
             g.setColor(INNER_FOCUS_COLOR);
             g.draw(path);
-            path = decodeOuterFocus(width, height);
+            path = decodeOuterFocus(x, y, width, height);
             g.setColor(OUTER_FOCUS_COLOR);
             g.draw(path);
         }
     }
 
-    Path2D decodeOuterFocus(int width, int height) {
+    Path2D decodeOuterFocus(int x, int y, int width, int height) {
         double arcSize = 6d;
-        int x = 0;
-        int y = 0;
-        width -= 1;
-        height -= 1;
+        x -= 2;
+        y -= 2;
+        width += 3;
+        height += 3;
         decodeFocusPath(x, y, width, height, arcSize, arcSize);
         return path;
     }
 
-    Path2D decodeInnerFocus(int width, int height) {
+    Path2D decodeInnerFocus(int x, int y, int width, int height) {
         double arcSize = 5d;
-        int x = 1;
-        int y = 1;
-        width -= 3;
-        height -= 3;
+        x -= 1;
+        y -= 1;
+        width += 1;
+        height += 1;
         decodeFocusPath(x, y, width, height, arcSize, arcSize);
         return path;
     }
