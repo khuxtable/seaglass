@@ -1230,31 +1230,29 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineSplitPanes(UIDefaults d) {
-        d.put("SplitPane.contentMargins", new InsetsUIResource(1, 1, 1, 1));
-        d.put("SplitPane.States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Vertical");
-        d.put("SplitPane.Vertical", new SplitPaneVerticalState());
-        d.put("SplitPane.size", new Integer(10));
-        d.put("SplitPane.dividerSize", new Integer(10));
-        d.put("SplitPane.centerOneTouchButtons", Boolean.TRUE);
-        d.put("SplitPane.oneTouchButtonOffset", new Integer(30));
-        d.put("SplitPane.oneTouchExpandable", Boolean.FALSE);
-        d.put("SplitPane.continuousLayout", Boolean.TRUE);
-        d.put("SplitPane:SplitPaneDivider.contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put("SplitPane:SplitPaneDivider.States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Vertical");
-        d.put("SplitPane:SplitPaneDivider.Vertical", new SplitPaneDividerVerticalState());
+        String p = "SplitPane";
+        d.put(p + ".contentMargins", new InsetsUIResource(1, 1, 1, 1));
+        d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Vertical");
+        d.put(p + ".Vertical", new SplitPaneVerticalState());
+        d.put(p + ".size", new Integer(11));
+        d.put(p + ".dividerSize", new Integer(11));
+        d.put(p + ".centerOneTouchButtons", Boolean.TRUE);
+        d.put(p + ".oneTouchButtonOffset", new Integer(30));
+        d.put(p + ".oneTouchButtonVOffset", new Integer(1));
+        d.put(p + ".oneTouchExpandable", Boolean.FALSE);
+        d.put(p + ".continuousLayout", Boolean.TRUE);
 
         String c = PAINTER_DIRECTORY + ".SplitPaneDividerPainter";
-        d
-            .put("SplitPane:SplitPaneDivider[Enabled].backgroundPainter", new LazyPainter(c,
-                SplitPaneDividerPainter.Which.BACKGROUND_ENABLED));
-        d
-            .put("SplitPane:SplitPaneDivider[Focused].backgroundPainter", new LazyPainter(c,
-                SplitPaneDividerPainter.Which.BACKGROUND_FOCUSED));
-        d
-            .put("SplitPane:SplitPaneDivider[Enabled].foregroundPainter", new LazyPainter(c,
-                SplitPaneDividerPainter.Which.FOREGROUND_ENABLED));
-        d.put("SplitPane:SplitPaneDivider[Enabled+Vertical].foregroundPainter", new LazyPainter(c,
-            SplitPaneDividerPainter.Which.FOREGROUND_ENABLED_VERTICAL));
+        p = "SplitPane:SplitPaneDivider";
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Vertical");
+        d.put(p + ".Vertical", new SplitPaneDividerVerticalState());
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.BACKGROUND_FOCUSED));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_ENABLED));
+        d.put(p + "[Enabled+Vertical].foregroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_ENABLED_VERTICAL));
+        d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_FOCUSED));
+        d.put(p + "[Focused+Vertical].foregroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_FOCUSED_VERTICAL));
     }
 
     /**
