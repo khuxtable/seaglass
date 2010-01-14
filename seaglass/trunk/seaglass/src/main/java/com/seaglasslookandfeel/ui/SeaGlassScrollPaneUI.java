@@ -22,6 +22,7 @@ package com.seaglasslookandfeel.ui;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -58,6 +59,7 @@ import javax.swing.text.JTextComponent;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.painter.Painter;
 
 import sun.swing.plaf.synth.SynthUI;
 
@@ -87,6 +89,8 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
 
     private Handler                  handler;
 
+    private Painter                  cornerPainter;
+
     /**
      * State flag that shows whether setValue() was called from a user program
      * before the value of "extent" was set in right-to-left component
@@ -107,6 +111,12 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
             vpBorder = UIManager.getBorder("ScrollPane.viewportBorder");
             scrollpane.setViewportBorder(vpBorder);
         }
+
+        Object obj = UIManager.get("ScrollPane.cornerPainter");
+        if (obj != null && obj instanceof Painter) {
+            cornerPainter = (Painter) obj;
+        }
+
         LookAndFeel.installProperty(scrollpane, "opaque", Boolean.TRUE);
         updateStyle(scrollpane);
     }
@@ -249,8 +259,30 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
 
         SeaGlassLookAndFeel.update(context, g);
         context.getPainter().paintScrollPaneBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
+        paintScrollPaneCorner(g, c);
         paint(context, g);
         context.dispose();
+    }
+
+    /**
+     * @param g
+     * @param c
+     */
+    private void paintScrollPaneCorner(Graphics g, JComponent c) {
+        if (!scrollpane.getHorizontalScrollBar().isVisible() || !scrollpane.getVerticalScrollBar().isVisible()) {
+            return;
+        }
+
+        int vBarWidth = scrollpane.getVerticalScrollBar().getWidth();
+        int hBarHeight = scrollpane.getHorizontalScrollBar().getHeight();
+
+        Insets insets = c.getInsets();
+
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.translate(c.getWidth() - insets.right - vBarWidth, c.getHeight() - insets.bottom - hBarHeight);
+        g2.setClip(0, 0, vBarWidth, hBarHeight);
+
+        cornerPainter.paint(g2, c, 15, 15);
     }
 
     public void paint(Graphics g, JComponent c) {
