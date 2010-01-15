@@ -2,8 +2,6 @@ package com.seaglasslookandfeel.demo;
 
 import java.awt.BorderLayout;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -21,16 +19,17 @@ public class TestTextField {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                JTextField tf1 = new JTextField("Here is some text");
+                tf1.putClientProperty("JTextField.variant", "search");
 
-                JTextField textfield = new JTextField("Here is some text");
-                textfield.putClientProperty("JTextField.variant", "search");
-                
+                JTextField tf2 = new JTextField("Here is some more text");
+
                 JPanel panel = new JPanel();
-                panel.add(textfield);
+                panel.add(tf1);
+                panel.add(tf2);
 
                 JFrame frame = new JFrame();
                 frame.add(panel, BorderLayout.CENTER);
-                frame.add(new JButton("B1"), BorderLayout.SOUTH);
                 frame.setSize(275, 125);
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
