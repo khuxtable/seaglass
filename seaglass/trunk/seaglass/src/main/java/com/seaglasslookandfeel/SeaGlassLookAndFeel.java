@@ -1392,6 +1392,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
         d.put(p + "[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
         d.put(p + "[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
+        c = PAINTER_DIRECTORY + ".SearchFieldPainter";
+        d.put(p + "[Disabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Selected+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Disabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_DISABLED));
+        d.put(p + "[Focused+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_FOCUSED));
+        d.put(p + "[Enabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_ENABLED));
 
         // Initialize TextArea
         // TextArea in scroll pane is visually the same as editor pane.
