@@ -1341,64 +1341,66 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineTextControls(UIDefaults d) {
+        String c = PAINTER_DIRECTORY + ".TextComponentPainter";
+        String cs = PAINTER_DIRECTORY + ".SearchFieldPainter";
 
         // Initialize TextField
         String p = "TextField";
-        String c = PAINTER_DIRECTORY + ".TextComponentPainter";
         d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField");
         d.put(p + ".SearchField", new TextFieldIsSearchState());
         d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put(p + ".searchContentMargins", new InsetsUIResource(6, 21, 6, 21));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
         d.put(p + "[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
         d.put(p + "[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
-        c = PAINTER_DIRECTORY + ".SearchFieldPainter";
-        d.put(p + "[Disabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Enabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Selected+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_SELECTED));
-        d.put(p + "[Disabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_DISABLED));
-        d.put(p + "[Focused+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_FOCUSED));
-        d.put(p + "[Enabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_ENABLED));
+        // Paint with SearchFieldPainter.
+        d.put(p + "[Disabled+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Selected+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Disabled+SearchField].borderPainter", new LazyPainter(cs, SearchFieldPainter.Which.BORDER_DISABLED));
+        d.put(p + "[Focused+SearchField].borderPainter", new LazyPainter(cs, SearchFieldPainter.Which.BORDER_FOCUSED));
+        d.put(p + "[Enabled+SearchField].borderPainter", new LazyPainter(cs, SearchFieldPainter.Which.BORDER_ENABLED));
 
         // Initialize FormattedTextField
         p = "FormattedTextField";
-        c = PAINTER_DIRECTORY + ".TextComponentPainter";
         d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField");
         d.put(p + ".SearchField", new TextFieldIsSearchState());
         d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put(p + ".searchContentMargins", new InsetsUIResource(6, 21, 6, 21));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
         d.put(p + "[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
         d.put(p + "[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
-        c = PAINTER_DIRECTORY + ".SearchFieldPainter";
-        d.put(p + "[Disabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Enabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Selected+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_SELECTED));
-        d.put(p + "[Disabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_DISABLED));
-        d.put(p + "[Focused+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_FOCUSED));
-        d.put(p + "[Enabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_ENABLED));
+        // Paint with SearchFieldPainter.
+        d.put(p + "[Disabled+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Selected+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Disabled+SearchField].borderPainter", new LazyPainter(cs, SearchFieldPainter.Which.BORDER_DISABLED));
+        d.put(p + "[Focused+SearchField].borderPainter", new LazyPainter(cs, SearchFieldPainter.Which.BORDER_FOCUSED));
+        d.put(p + "[Enabled+SearchField].borderPainter", new LazyPainter(cs, SearchFieldPainter.Which.BORDER_ENABLED));
 
         // Initialize PasswordField
         p = "PasswordField";
         d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
-        c = PAINTER_DIRECTORY + ".TextComponentPainter";
+        d.put(p + ".searchContentMargins", new InsetsUIResource(6, 21, 6, 21));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
         d.put(p + "[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
         d.put(p + "[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
-        c = PAINTER_DIRECTORY + ".SearchFieldPainter";
-        d.put(p + "[Disabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Enabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Selected+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_SELECTED));
-        d.put(p + "[Disabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_DISABLED));
-        d.put(p + "[Focused+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_FOCUSED));
-        d.put(p + "[Enabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_ENABLED));
+        // Paint with SearchFieldPainter.
+        d.put(p + "[Disabled+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Selected+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Disabled+SearchField].borderPainter", new LazyPainter(cs, SearchFieldPainter.Which.BORDER_DISABLED));
+        d.put(p + "[Focused+SearchField].borderPainter", new LazyPainter(cs, SearchFieldPainter.Which.BORDER_FOCUSED));
+        d.put(p + "[Enabled+SearchField].borderPainter", new LazyPainter(cs, SearchFieldPainter.Which.BORDER_ENABLED));
 
         // Initialize TextArea
         // TextArea in scroll pane is visually the same as editor pane.
