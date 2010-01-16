@@ -561,31 +561,21 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
         private double        maxHorizontalScaleFactor;
         private double        maxVerticalScaleFactor;
 
-        private float         a;                                    // insets.left
-        private float         b;                                    // canvasSize.width
-        // -
-        // insets.right
-        private float         c;                                    // insets.top
-        private float         d;                                    // canvasSize.height
-        // -
-        // insets.bottom;
-        private float         aPercent;                             // only
-        // used if
-        // inverted
-        // == true
-        private float         bPercent;                             // only
-        // used if
-        // inverted
-        // == true
-        private float         cPercent;                             // only
-        // used if
-        // inverted
-        // == true
-        private float         dPercent;                             // only
-
-        // used if
-        // inverted
-        // == true
+        // insets.left
+        private float         a;
+        // canvasSize.width - insets.right
+        private float         b;
+        // insets.top
+        private float         c;
+        // canvasSize.height - insets.bottom
+        private float         d;
+        private float         aPercent;
+        // only used if inverted == true
+        private float         bPercent;
+        // only used if inverted == true
+        private float         cPercent;
+        // only used if inverted == true
+        private float         dPercent;
 
         /**
          * Creates a new PaintContext which does not attempt to cache or scale
@@ -834,8 +824,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     }
 
     // convenience method which creates a temporary graphics object by creating
-    // a
-    // clone of the passed in one, configuring it, drawing with it, disposing
+    // a clone of the passed in one, configuring it, drawing with it, disposing
     // it.
     // These steps have to be taken to ensure that any hints set on the graphics
     // are removed subsequent to painting.
