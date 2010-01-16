@@ -26,7 +26,9 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
@@ -34,7 +36,7 @@ import javax.swing.JToolBar;
 /**
  * TextComponentPainter implementation.
  */
-public final class TextComponentPainter extends AbstractRegionPainter {
+public final class SearchFieldPainter extends AbstractRegionPainter {
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_ENABLED,
@@ -60,13 +62,14 @@ public final class TextComponentPainter extends AbstractRegionPainter {
     private static final Dimension dimension              = new Dimension(90, 30);
     private static final Insets    insets                 = new Insets(5, 3, 3, 3);
 
-    private Rectangle2D            rect                   = new Rectangle2D.Double();
+    private Path2D                 path                   = new Path2D.Double();
+    private RoundRectangle2D       roundRect              = new RoundRectangle2D.Double();
 
     private Which                  state;
     private PaintContext           ctx;
     private boolean                focused;
 
-    public TextComponentPainter(Which state) {
+    public SearchFieldPainter(Which state) {
         super();
         this.state = state;
         this.ctx = new PaintContext(insets, dimension, false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES,
@@ -163,7 +166,7 @@ public final class TextComponentPainter extends AbstractRegionPainter {
             g.setColor(INNER_FOCUS_COLOR);
             drawBorder(g, x - 1, y - 1, width + 2, height + 2);
         }
-        paintInnerShadow(g, x, y, width, height);
+        paintInternalDropShadow(g, x, y, width, height);
         Color color = ENABLED_BORDER;
         for (Container container = c.getParent(); container != null; container = container.getParent()) {
             if (container instanceof JToolBar) {
@@ -176,15 +179,14 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         drawBorder(g, x, y, width, height);
     }
 
+    private void paintInternalDropShadow(Graphics2D g, int x, int y, int width, int height) {
+        paintInnerShadow(g, x, y, width, height);
+    }
+
     private void paintInnerShadow(Graphics2D g, int x, int y, int width, int height) {
-        Shape s = decodeSquareFilled(x + 1, y + 1, width - 2, 2);
-        g.setPaint(decodeGradientTopShadow(s));
-        g.fill(s);
-        s = decodeSquareFilled(x + 1, y + 1, 1, height - 2);
-        g.setPaint(decodeGradientLeftShadow(s));
-        g.fill(s);
-        s = decodeSquareFilled(x + width - 2, y + 1, 1, height - 2);
-        g.setPaint(decodeGradientRightShadow(s));
+        Shape s = decodeRoundedFilled(x + 1, y + 1, width - 2, height - 2);
+        g.setPaint(decodeGradientRoundedTopShadow(s));
+        s = decodeRoundedShadow(x, y, width, height);
         g.fill(s);
     }
 
@@ -197,39 +199,48 @@ public final class TextComponentPainter extends AbstractRegionPainter {
     }
 
     private void drawBorder(Graphics2D g, int x, int y, int width, int height) {
-        g.drawRect(x, y, width - 1, height - 1);
+        g.drawRoundRect(x, y, width - 1, height - 1, height, height);
     }
 
     private Shape decodeFilledBackground(int x, int y, int width, int height) {
-        return decodeSquareFilled(x, y, width, height);
+        return decodeRoundedFilled(x, y, width, height);
     }
 
-    private Shape decodeSquareFilled(int x, int y, int width, int height) {
-        rect.setRect(x, y, width, height);
-        return rect;
+    private Shape decodeRoundedFilled(int x, int y, int width, int height) {
+        roundRect.setRoundRect(x, y, width, height, height, height);
+        return roundRect;
     }
 
-    private Paint decodeGradientTopShadow(Shape s) {
+    private Shape decodeRoundedShadow(int x, int y, int width, int height) {
+        double halfHeight = height / 2.0;
+
+        double top = y;
+        double left = x;
+        double right = left + width;
+
+        double midLine = top + halfHeight;
+
+        double leftCurve = left + halfHeight;
+        double rightCurve = right - halfHeight;
+
+        path.reset();
+        path.moveTo(left, midLine);
+        path.quadTo(left, top, leftCurve, top);
+        path.lineTo(rightCurve, top);
+        path.quadTo(right, top, right, midLine);
+        path.closePath();
+        return path;
+    }
+
+    private Paint decodeGradientRoundedTopShadow(Shape s) {
         Rectangle2D bounds = s.getBounds2D();
         float minY = (float) bounds.getMinY();
         float maxY = (float) bounds.getMaxY();
         float midX = (float) bounds.getCenterX();
-        return decodeGradient(midX, minY, midX, maxY, new float[] { 0f, 1f }, new Color[] { DARK_SHADOW_COLOR, TRANSPARENT_COLOR });
-    }
-
-    private Paint decodeGradientLeftShadow(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minX = (float) bounds.getMinX();
-        float maxX = (float) bounds.getMaxX();
-        float midY = (float) bounds.getCenterY();
-        return decodeGradient(minX, midY, maxX, midY, new float[] { 0f, 1f }, new Color[] { LIGHT_SHADOW_COLOR, TRANSPARENT_COLOR });
-    }
-
-    private Paint decodeGradientRightShadow(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minX = (float) bounds.getMinX();
-        float maxX = (float) bounds.getMaxX();
-        float midY = (float) bounds.getCenterY();
-        return decodeGradient(minX - 1, midY, maxX - 1, midY, new float[] { 0f, 1f }, new Color[] { TRANSPARENT_COLOR, LIGHT_SHADOW_COLOR });
+        float lowY = (float) (2.0 / bounds.getHeight());
+        return decodeGradient(midX, minY, midX, maxY, new float[] { 0f, lowY, 1f }, new Color[] {
+            DARK_SHADOW_COLOR,
+            TRANSPARENT_COLOR,
+            TRANSPARENT_COLOR });
     }
 }
