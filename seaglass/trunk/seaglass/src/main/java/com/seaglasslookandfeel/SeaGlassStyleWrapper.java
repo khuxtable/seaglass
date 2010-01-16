@@ -145,7 +145,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      * {@inheritDoc}
      */
     @Override
-    protected Color getColorForState(SynthContext ctx, ColorType type) {
+    public Color getColorForState(SynthContext ctx, ColorType type) {
         return style.getColor(ctx, type);
     }
 

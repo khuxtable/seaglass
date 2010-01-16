@@ -769,7 +769,7 @@ public class SeaGlassStyle extends SynthStyle {
      * @return Color to render with
      */
     @Override
-    protected Color getColorForState(SynthContext ctx, ColorType type) {
+    public Color getColorForState(SynthContext ctx, ColorType type) {
         String key = null;
         if (type == ColorType.BACKGROUND) {
             key = "background";
