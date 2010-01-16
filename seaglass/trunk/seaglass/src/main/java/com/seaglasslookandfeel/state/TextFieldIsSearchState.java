@@ -27,7 +27,7 @@ import javax.swing.text.JTextComponent;
  */
 public class TextFieldIsSearchState extends State {
     public TextFieldIsSearchState() {
-        super("IsSearchField");
+        super("SearchField");
     }
 
     public boolean isInState(JComponent c) {
