@@ -443,7 +443,7 @@ public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeLis
     }
 
     public void propertyChange(PropertyChangeEvent e) {
-        if (SeaGlassLookAndFeel.shouldUpdateStyle(e) || e.getPropertyName() != null && e.getPropertyName().startsWith(APPLE_PREFIX)) {
+        if (SeaGlassLookAndFeel.shouldUpdateStyle(e)) {
             updateStyle((AbstractButton) e.getSource());
         }
     }
