@@ -52,7 +52,7 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
     private Color                  INNER_FOCUS_COLOR      = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
 
     private static final Color     TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
-    private static final Color     LIGHT_SHADOW_COLOR     = new Color(0, 0, 0, 0x0a);
+    // private static final Color LIGHT_SHADOW_COLOR = new Color(0, 0, 0, 0x0a);
     private static final Color     DARK_SHADOW_COLOR      = new Color(0, 0, 0, 0x1e);
 
     private static final Color     DISABLED_BORDER        = new Color(0xdddddd);
