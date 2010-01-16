@@ -20,10 +20,10 @@
 package com.seaglasslookandfeel.state;
 
 import javax.swing.JComponent;
-import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 /**
- * Is the text area not in a scroll pane?
+ * Is the text field a search field variant?
  */
 public class TextFieldIsSearchState extends State {
     public TextFieldIsSearchState() {
@@ -31,6 +31,6 @@ public class TextFieldIsSearchState extends State {
     }
 
     public boolean isInState(JComponent c) {
-        return (c instanceof JTextField && "search".equals(c.getClientProperty("JTextField.variant")));
+        return (c instanceof JTextComponent) && "search".equals(c.getClientProperty("JTextField.variant"));
     }
 }
