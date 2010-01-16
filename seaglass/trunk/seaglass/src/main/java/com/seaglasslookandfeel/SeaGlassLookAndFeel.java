@@ -1349,7 +1349,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField");
         d.put(p + ".SearchField", new TextFieldIsSearchState());
         d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
-        d.put(p + ".searchContentMargins", new InsetsUIResource(6, 21, 6, 21));
+        d.put(p + ".searchIconWidth", new Integer(15));
+        d.put(p + ".cancelIconWidth", new Integer(15));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
@@ -1369,7 +1370,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField");
         d.put(p + ".SearchField", new TextFieldIsSearchState());
         d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
-        d.put(p + ".searchContentMargins", new InsetsUIResource(6, 21, 6, 21));
+        d.put(p + ".searchIconWidth", new Integer(15));
+        d.put(p + ".cancelIconWidth", new Integer(15));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
@@ -1387,7 +1389,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Initialize PasswordField
         p = "PasswordField";
         d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
-        d.put(p + ".searchContentMargins", new InsetsUIResource(6, 21, 6, 21));
+        d.put(p + ".searchIconWidth", new Integer(15));
+        d.put(p + ".cancelIconWidth", new Integer(15));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
