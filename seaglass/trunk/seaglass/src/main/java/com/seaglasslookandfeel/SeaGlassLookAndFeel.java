@@ -87,6 +87,7 @@ import com.seaglasslookandfeel.painter.ScrollBarButtonPainter;
 import com.seaglasslookandfeel.painter.ScrollBarThumbPainter;
 import com.seaglasslookandfeel.painter.ScrollBarTrackPainter;
 import com.seaglasslookandfeel.painter.ScrollPanePainter;
+import com.seaglasslookandfeel.painter.SearchFieldPainter;
 import com.seaglasslookandfeel.painter.SliderThumbPainter;
 import com.seaglasslookandfeel.painter.SliderTrackPainter;
 import com.seaglasslookandfeel.painter.SpinnerFormattedTextFieldPainter;
@@ -119,6 +120,7 @@ import com.seaglasslookandfeel.state.SplitPaneDividerVerticalState;
 import com.seaglasslookandfeel.state.SplitPaneVerticalState;
 import com.seaglasslookandfeel.state.TableHeaderRendererSortedState;
 import com.seaglasslookandfeel.state.TextAreaNotInScrollPaneState;
+import com.seaglasslookandfeel.state.TextFieldIsSearchState;
 import com.seaglasslookandfeel.state.TitlePaneCloseButtonWindowModifiedState;
 import com.seaglasslookandfeel.state.TitlePaneCloseButtonWindowNotFocusedState;
 import com.seaglasslookandfeel.state.TitlePaneIconifyButtonWindowMinimizedState;
@@ -386,6 +388,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "CheckBoxMenuItem");
             useOurUI(uiDefaults, "ComboBox");
             useOurUI(uiDefaults, "DesktopPane");
+            useOurUI(uiDefaults, "FormattedTextField");
             useOurUI(uiDefaults, "Label");
             useOurUI(uiDefaults, "MenuItem");
             if (!PlatformUtils.isMac()) {
@@ -402,6 +405,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "SplitPane");
             useOurUI(uiDefaults, "Table");
             useOurUI(uiDefaults, "TableHeader");
+            useOurUI(uiDefaults, "TextField");
             useOurUI(uiDefaults, "ToggleButton");
             useOurUI(uiDefaults, "ToolBar");
             useOurUI(uiDefaults, "Viewport");
@@ -742,32 +746,30 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineInternalFrameCloseButtons(UIDefaults d) {
-        String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\"";
-        String painter = PAINTER_DIRECTORY + ".TitlePaneCloseButtonPainter";
+        String p = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\"";
+        String c = PAINTER_DIRECTORY + ".TitlePaneCloseButtonPainter";
 
         // Set the multiplicity of states for the Close button.
-        d.put(prefix + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowModified");
-        d.put(prefix + ".WindowNotFocused", new TitlePaneCloseButtonWindowNotFocusedState());
-        d.put(prefix + ".WindowModified", new TitlePaneCloseButtonWindowModifiedState());
-        d.put(prefix + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowModified");
+        d.put(p + ".WindowNotFocused", new TitlePaneCloseButtonWindowNotFocusedState());
+        d.put(p + ".WindowModified", new TitlePaneCloseButtonWindowModifiedState());
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
-        d.put(prefix + "[Disabled].backgroundPainter", new LazyPainter(painter, TitlePaneCloseButtonPainter.Which.BACKGROUND_DISABLED));
-        d.put(prefix + "[Enabled].backgroundPainter", new LazyPainter(painter, TitlePaneCloseButtonPainter.Which.BACKGROUND_ENABLED));
-        d.put(prefix + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(painter,
-            TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
-        d.put(prefix + "[Enabled+MouseOver+WindowModified].backgroundPainter", new LazyPainter(painter,
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
+        d.put(p + "[Enabled+MouseOver+WindowModified].backgroundPainter", new LazyPainter(c,
             TitlePaneCloseButtonPainter.Which.BACKGROUND_MODIFIED_MOUSEOVER));
-        d.put(prefix + "[Enabled+WindowModified].backgroundPainter", new LazyPainter(painter,
-            TitlePaneCloseButtonPainter.Which.BACKGROUND_MODIFIED));
-        d.put(prefix + "[Pressed].backgroundPainter", new LazyPainter(painter, TitlePaneCloseButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put(prefix + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
+        d.put(p + "[Enabled+WindowModified].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_MODIFIED));
+        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneCloseButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
-        d.put(prefix + "[Enabled+WindowNotFocused+MouseOver].backgroundPainter", new LazyPainter(painter,
+        d.put(p + "[Enabled+WindowNotFocused+MouseOver].backgroundPainter", new LazyPainter(c,
             TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
-        d.put(prefix + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(painter,
+        d.put(p + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneCloseButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
 
-        d.put(prefix + ".icon", new SeaGlassIcon(prefix, "iconPainter", 43, 18));
+        d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 43, 18));
     }
 
     /**
@@ -777,43 +779,43 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineInternalFrameIconifyButtons(UIDefaults d) {
-        String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"";
+        String p = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"";
         String c = PAINTER_DIRECTORY + ".TitlePaneIconifyButtonPainter";
 
-        d.put(prefix + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowMinimized");
-        d.put(prefix + ".WindowNotFocused", new TitlePaneIconifyButtonWindowNotFocusedState());
-        d.put(prefix + ".WindowMinimized", new TitlePaneIconifyButtonWindowMinimizedState());
-        d.put(prefix + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowMinimized");
+        d.put(p + ".WindowNotFocused", new TitlePaneIconifyButtonWindowNotFocusedState());
+        d.put(p + ".WindowMinimized", new TitlePaneIconifyButtonWindowMinimizedState());
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
         // Set the iconify button states.
-        d.put(prefix + "[Enabled].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_ENABLED));
-        d.put(prefix + "[Disabled].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_DISABLED));
-        d.put(prefix + "[MouseOver].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_MOUSEOVER));
-        d.put(prefix + "[Pressed].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put(prefix + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_MOUSEOVER));
+        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneIconifyButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
-        d.put(prefix + "[MouseOver+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[MouseOver+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneIconifyButtonPainter.Which.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED));
-        d.put(prefix + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneIconifyButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
 
         // Set the restore button states.
-        d.put(prefix + "[Disabled+WindowMinimized].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Disabled+WindowMinimized].backgroundPainter", new LazyPainter(c,
             TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_DISABLED));
-        d.put(prefix + "[Enabled+WindowMinimized].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Enabled+WindowMinimized].backgroundPainter", new LazyPainter(c,
             TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_ENABLED));
-        d.put(prefix + "[MouseOver+WindowMinimized].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[MouseOver+WindowMinimized].backgroundPainter", new LazyPainter(c,
             TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_MOUSEOVER));
-        d.put(prefix + "[Pressed+WindowMinimized].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Pressed+WindowMinimized].backgroundPainter", new LazyPainter(c,
             TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_PRESSED));
-        d.put(prefix + "[Enabled+WindowMinimized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Enabled+WindowMinimized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_ENABLED_WINDOWNOTFOCUSED));
-        d.put(prefix + "[MouseOver+WindowMinimized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[MouseOver+WindowMinimized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_MOUSEOVER_WINDOWNOTFOCUSED));
-        d.put(prefix + "[Pressed+WindowMinimized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Pressed+WindowMinimized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_PRESSED_WINDOWNOTFOCUSED));
 
-        d.put(prefix + ".icon", new SeaGlassIcon(prefix, "iconPainter", 26, 18));
+        d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 26, 18));
     }
 
     /**
@@ -823,42 +825,42 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineInternalFrameMaximizeButton(UIDefaults d) {
-        String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"";
+        String p = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"";
         String c = PAINTER_DIRECTORY + ".TitlePaneMaximizeButtonPainter";
 
-        d.put(prefix + ".WindowNotFocused", new TitlePaneMaximizeButtonWindowNotFocusedState());
-        d.put(prefix + ".WindowMaximized", new TitlePaneMaximizeButtonWindowMaximizedState());
-        d.put(prefix + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".WindowNotFocused", new TitlePaneMaximizeButtonWindowNotFocusedState());
+        d.put(p + ".WindowMaximized", new TitlePaneMaximizeButtonWindowMaximizedState());
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
         // Set the maximize button states.
-        d.put(prefix + "[Disabled].backgroundPainter", new LazyPainter(c, TitlePaneMaximizeButtonPainter.Which.BACKGROUND_DISABLED));
-        d.put(prefix + "[Enabled].backgroundPainter", new LazyPainter(c, TitlePaneMaximizeButtonPainter.Which.BACKGROUND_ENABLED));
-        d.put(prefix + "[MouseOver].backgroundPainter", new LazyPainter(c, TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MOUSEOVER));
-        d.put(prefix + "[Pressed].backgroundPainter", new LazyPainter(c, TitlePaneMaximizeButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put(prefix + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TitlePaneMaximizeButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TitlePaneMaximizeButtonPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MOUSEOVER));
+        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TitlePaneMaximizeButtonPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneMaximizeButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
-        d.put(prefix + "[MouseOver+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[MouseOver+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED));
-        d.put(prefix + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneMaximizeButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
 
         // Set the restore button states.
-        d.put(prefix + "[Disabled+WindowMaximized].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Disabled+WindowMaximized].backgroundPainter", new LazyPainter(c,
             TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_DISABLED));
-        d.put(prefix + "[Enabled+WindowMaximized].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Enabled+WindowMaximized].backgroundPainter", new LazyPainter(c,
             TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_ENABLED));
-        d.put(prefix + "[MouseOver+WindowMaximized].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[MouseOver+WindowMaximized].backgroundPainter", new LazyPainter(c,
             TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_MOUSEOVER));
-        d.put(prefix + "[Pressed+WindowMaximized].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Pressed+WindowMaximized].backgroundPainter", new LazyPainter(c,
             TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_PRESSED));
-        d.put(prefix + "[Enabled+WindowMaximized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Enabled+WindowMaximized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_ENABLED_WINDOWNOTFOCUSED));
-        d.put(prefix + "[MouseOver+WindowMaximized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[MouseOver+WindowMaximized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_MOUSEOVER_WINDOWNOTFOCUSED));
-        d.put(prefix + "[Pressed+WindowMaximized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Pressed+WindowMaximized+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_PRESSED_WINDOWNOTFOCUSED));
 
-        d.put(prefix + ".icon", new SeaGlassIcon(prefix, "iconPainter", 25, 18));
+        d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 25, 18));
     }
 
     /**
@@ -868,25 +870,25 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineInternalFrameMenuButtons(UIDefaults d) {
-        String prefix = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"";
+        String p = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"";
         String c = PAINTER_DIRECTORY + ".TitlePaneMenuButtonPainter";
 
-        d.put(prefix + ".WindowNotFocused", new TitlePaneMenuButtonWindowNotFocusedState());
-        d.put(prefix + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".WindowNotFocused", new TitlePaneMenuButtonWindowNotFocusedState());
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
         // Set the states for the Menu button.
-        d.put(prefix + "[Enabled].iconPainter", new LazyPainter(c, TitlePaneMenuButtonPainter.Which.ICON_ENABLED));
-        d.put(prefix + "[Disabled].iconPainter", new LazyPainter(c, TitlePaneMenuButtonPainter.Which.ICON_DISABLED));
-        d.put(prefix + "[MouseOver].iconPainter", new LazyPainter(c, TitlePaneMenuButtonPainter.Which.ICON_MOUSEOVER));
-        d.put(prefix + "[Pressed].iconPainter", new LazyPainter(c, TitlePaneMenuButtonPainter.Which.ICON_PRESSED));
-        d.put(prefix + "[Enabled+WindowNotFocused].iconPainter", new LazyPainter(c,
+        d.put(p + "[Enabled].iconPainter", new LazyPainter(c, TitlePaneMenuButtonPainter.Which.ICON_ENABLED));
+        d.put(p + "[Disabled].iconPainter", new LazyPainter(c, TitlePaneMenuButtonPainter.Which.ICON_DISABLED));
+        d.put(p + "[MouseOver].iconPainter", new LazyPainter(c, TitlePaneMenuButtonPainter.Which.ICON_MOUSEOVER));
+        d.put(p + "[Pressed].iconPainter", new LazyPainter(c, TitlePaneMenuButtonPainter.Which.ICON_PRESSED));
+        d.put(p + "[Enabled+WindowNotFocused].iconPainter", new LazyPainter(c,
             TitlePaneMenuButtonPainter.Which.ICON_ENABLED_WINDOWNOTFOCUSED));
-        d.put(prefix + "[MouseOver+WindowNotFocused].iconPainter", new LazyPainter(c,
+        d.put(p + "[MouseOver+WindowNotFocused].iconPainter", new LazyPainter(c,
             TitlePaneMenuButtonPainter.Which.ICON_MOUSEOVER_WINDOWNOTFOCUSED));
-        d.put(prefix + "[Pressed+WindowNotFocused].iconPainter", new LazyPainter(c,
+        d.put(p + "[Pressed+WindowNotFocused].iconPainter", new LazyPainter(c,
             TitlePaneMenuButtonPainter.Which.ICON_PRESSED_WINDOWNOTFOCUSED));
 
-        d.put(prefix + ".icon", new SeaGlassIcon(prefix, "iconPainter", 19, 18));
+        d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 19, 18));
     }
 
     /**
@@ -1341,62 +1343,87 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void defineTextControls(UIDefaults d) {
 
         // Initialize TextField
-        d.put("TextField.contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        String p = "TextField";
         String c = PAINTER_DIRECTORY + ".TextComponentPainter";
-        d.put("TextField[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
-        d.put("TextField[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
-        d.put("TextField[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
-        d.put("TextField[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
-        d.put("TextField[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
-        d.put("TextField[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
+        d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField");
+        d.put(p + ".SearchField", new TextFieldIsSearchState());
+        d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
+        d.put(p + "[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
+        d.put(p + "[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
+        c = PAINTER_DIRECTORY + ".SearchFieldPainter";
+        d.put(p + "[Disabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Selected+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Disabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_DISABLED));
+        d.put(p + "[Focused+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_FOCUSED));
+        d.put(p + "[Enabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_ENABLED));
 
         // Initialize FormattedTextField
-        d.put("FormattedTextField.contentMargins", new InsetsUIResource(6, 6, 6, 6));
-        d.put("FormattedTextField[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
-        d.put("FormattedTextField[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
-        d.put("FormattedTextField[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
-        d.put("FormattedTextField[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
-        d.put("FormattedTextField[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
-        d.put("FormattedTextField[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
+        p = "FormattedTextField";
+        c = PAINTER_DIRECTORY + ".TextComponentPainter";
+        d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField");
+        d.put(p + ".SearchField", new TextFieldIsSearchState());
+        d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
+        d.put(p + "[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
+        d.put(p + "[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
+        c = PAINTER_DIRECTORY + ".SearchFieldPainter";
+        d.put(p + "[Disabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Selected+SearchField].backgroundPainter", new LazyPainter(c, SearchFieldPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Disabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_DISABLED));
+        d.put(p + "[Focused+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_FOCUSED));
+        d.put(p + "[Enabled+SearchField].borderPainter", new LazyPainter(c, SearchFieldPainter.Which.BORDER_ENABLED));
 
         // Initialize PasswordField
-        d.put("PasswordField.contentMargins", new InsetsUIResource(6, 6, 6, 6));
-        d.put("PasswordField[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
-        d.put("PasswordField[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
-        d.put("PasswordField[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
-        d.put("PasswordField[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
-        d.put("PasswordField[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
-        d.put("PasswordField[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
+        p = "PasswordField";
+        d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        c = PAINTER_DIRECTORY + ".TextComponentPainter";
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Disabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
+        d.put(p + "[Focused].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
+        d.put(p + "[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
 
         // Initialize TextArea
         // TextArea in scroll pane is visually the same as editor pane.
-        d.put("TextArea.contentMargins", new InsetsUIResource(6, 6, 6, 6));
-        d.put("TextArea.States", "Enabled,MouseOver,Pressed,Selected,Disabled,Focused,NotInScrollPane");
-        d.put("TextArea.NotInScrollPane", new TextAreaNotInScrollPaneState());
-        d.put("TextArea[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
-        d.put("TextArea[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
+        p = "TextArea";
+        d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put(p + ".States", "Enabled,MouseOver,Pressed,Selected,Disabled,Focused,NotInScrollPane");
+        d.put(p + ".NotInScrollPane", new TextAreaNotInScrollPaneState());
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
         // TextArea not in scroll pane is visually the same as TextField.
-        c = PAINTER_DIRECTORY + ".TextComponentPainter";
-        d.put("TextArea[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
-        d.put("TextArea[Disabled+NotInScrollPane].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
-        d.put("TextArea[Enabled+NotInScrollPane].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
-        d.put("TextArea[Disabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
-        d.put("TextArea[Focused+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
-        d.put("TextArea[Enabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Disabled+NotInScrollPane].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled+NotInScrollPane].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Disabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
+        d.put(p + "[Focused+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
+        d.put(p + "[Enabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
 
         // Initialize TextPane
-        d.put("TextPane.contentMargins", new InsetsUIResource(4, 6, 4, 6));
-        d.put("TextPane.opaque", Boolean.TRUE);
-        d.put("TextPane[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
-        d.put("TextPane[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
-        d.put("TextPane[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        p = "TextPane";
+        d.put(p + ".contentMargins", new InsetsUIResource(4, 6, 4, 6));
+        d.put(p + ".opaque", Boolean.TRUE);
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
 
         // Initialize EditorPane
-        d.put("EditorPane.contentMargins", new InsetsUIResource(4, 6, 4, 6));
-        d.put("EditorPane.opaque", Boolean.TRUE);
-        d.put("EditorPane[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
-        d.put("EditorPane[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
-        d.put("EditorPane[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        p = "EditorPane";
+        d.put(p + ".contentMargins", new InsetsUIResource(4, 6, 4, 6));
+        d.put(p + ".opaque", Boolean.TRUE);
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
     }
 
     /**
@@ -2144,6 +2171,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         } else if ("JComponent.sizeVariant" == eName) {
             // Always update when the JComponent.sizeVariant
             // client property has changed
+            return true;
+        } else if (eName != null && (eName.startsWith("JButton.") || eName.startsWith("JTextField."))) {
+            // Always update when an Apple-style variant client property has
+            // changed.
             return true;
         }
         return false;
