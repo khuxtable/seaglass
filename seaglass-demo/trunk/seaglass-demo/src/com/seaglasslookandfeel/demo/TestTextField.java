@@ -24,7 +24,7 @@ public class TestTextField {
                 JTextField tf1 = new JTextField("Here is some text");
                 tf1.setPreferredSize(new Dimension(180, 25));
                 tf1.putClientProperty("JTextField.variant", "search");
-                tf1.putClientProperty("JTextField.Search.placeholderText", "Search");
+                tf1.putClientProperty("JTextField.Search.PlaceholderText", "Search");
                 tf1.putClientProperty("JTextField.Search.FindPopup", new PopupMenu());
 
                 JTextField tf2 = new JTextField("Here is some more text");
