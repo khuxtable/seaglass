@@ -26,7 +26,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.PopupMenu;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.FocusEvent;
@@ -36,6 +35,7 @@ import java.awt.geom.Path2D;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.AbstractBorder;
@@ -484,7 +484,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
             insets.left += searchIconWidth + searchLeftInnerMargin;
             Object findPopup = ((JComponent) c).getClientProperty("JTextField.Search.FindPopup");
-            if (findPopup != null && findPopup instanceof PopupMenu) {
+            if (findPopup != null && findPopup instanceof JPopupMenu) {
                 insets.left += popupIconWidth;
             }
             insets.right += cancelIconWidth + searchRightInnerMargin;
@@ -516,7 +516,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             paintSearchGlass(g, x, y);
 
             Object findPopup = c.getClientProperty("JTextField.Search.FindPopup");
-            if (findPopup != null && findPopup instanceof PopupMenu) {
+            if (findPopup != null && findPopup instanceof JPopupMenu) {
                 paintPopupIcon(g, x, y);
             }
 
