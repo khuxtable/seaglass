@@ -80,8 +80,8 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
     private SynthStyle         style;
 
-    private PlaceholderText    placeholderFocusListener;
     private CancelListener     cancelListener;
+    private String             placeholderText;
 
     private ActionListener     findAction;
     private JPopupMenu         findPopup;
@@ -166,16 +166,9 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
             o = comp.getClientProperty("JTextField.Search.PlaceholderText");
             if (o != null && o instanceof String) {
-                String text = (String) o;
-                if (placeholderFocusListener == null) {
-                    placeholderFocusListener = new PlaceholderText(text);
-                    comp.addFocusListener(placeholderFocusListener);
-                } else if (!placeholderFocusListener.getPlaceholderText().equals(text)) {
-                    placeholderFocusListener.setPlaceholderText(text);
-                }
-            } else if (placeholderFocusListener != null) {
-                comp.removeFocusListener(placeholderFocusListener);
-                placeholderFocusListener = null;
+                placeholderText = (String) o;
+            } else if (placeholderText != null) {
+                placeholderText = null;
             }
 
             if (cancelListener == null) {
@@ -210,10 +203,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
                 comp.setBorder(((SearchBorder) border).getOriginalBorder());
             }
 
-            if (placeholderFocusListener != null) {
-                comp.removeFocusListener(placeholderFocusListener);
-                placeholderFocusListener = null;
-            }
+            placeholderText = null;
 
             if (cancelListener != null) {
                 comp.removeMouseListener(cancelListener);
@@ -331,6 +321,8 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
     void paintBackground(SeaGlassContext context, Graphics g, JComponent c) {
         context.getPainter().paintTextFieldBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
+        // If necessary, paint the placeholder text.
+        paintPlaceholderText(context, g, c);
     }
 
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
@@ -339,6 +331,17 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
     protected void paintBackground(Graphics g) {
         // Overriden to do nothing, all our painting is done from update/paint.
+    }
+
+    private void paintPlaceholderText(SeaGlassContext context, Graphics g, JComponent c) {
+        if (placeholderText != null && ((JTextComponent) c).getText().length() == 0 && !c.hasFocus()) {
+            // TODO Don't hard-code this color.
+            g.setColor(Color.GRAY);
+            g.setFont(c.getFont());
+            Rectangle innerArea = SwingUtilities.calculateInnerArea(c, null);
+            // TODO Do better baseline calculation.
+            context.getStyle().getGraphicsUtils(context).paintText(context, g, placeholderText, innerArea.x, innerArea.y - 1, -1);
+        }
     }
 
     /**
@@ -583,7 +586,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             }
 
             // Draw the erase "x" if user-entered text is present.
-            if (!placeholderFocusListener.isShowingPlaceholderText() && c.getText().length() > 0) {
+            if (c.getText().length() > 0) {
                 paintCancelIcon(g, x, y, width, height);
             }
         }
@@ -747,54 +750,6 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
         private void disarmFind() {
             isFindArmed = false;
-        }
-    }
-
-    /**
-     * Replaces the entered text with a gray placeholder string when the search
-     * field doesn't have the focus. The entered text returns when we get the
-     * focus back.
-     */
-    public class PlaceholderText implements FocusListener {
-        private String  placeholderText;
-        private String  previousText;
-        private Color   previousColor;
-
-        private boolean isShowingPlaceholderText = false;
-
-        PlaceholderText(String placeholderText) {
-            setPlaceholderText(placeholderText);
-            focusLost(null);
-        }
-
-        public String getPlaceholderText() {
-            return placeholderText;
-        }
-
-        public void setPlaceholderText(String placeholderText) {
-            this.placeholderText = placeholderText;
-        }
-
-        public boolean isShowingPlaceholderText() {
-            return isShowingPlaceholderText;
-        }
-
-        public void focusGained(FocusEvent e) {
-            JTextComponent c = (JTextComponent) getComponent();
-            c.setForeground(previousColor);
-            c.setText(previousText);
-            isShowingPlaceholderText = false;
-        }
-
-        public void focusLost(FocusEvent e) {
-            JTextComponent c = (JTextComponent) getComponent();
-            previousText = c.getText();
-            previousColor = c.getForeground();
-            if (previousText.length() == 0) {
-                isShowingPlaceholderText = true;
-                c.setForeground(Color.GRAY);
-                c.setText(placeholderText);
-            }
         }
     }
 }
