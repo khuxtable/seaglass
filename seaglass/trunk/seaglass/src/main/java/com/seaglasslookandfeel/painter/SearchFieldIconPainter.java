@@ -39,12 +39,15 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
         CANCEL_ICON_DISABLED, CANCEL_ICON_ENABLED, CANCEL_ICON_PRESSED,
     }
 
-    private final Color  GRAY        = Color.GRAY;
-    private final Color  MEDIUM_GRAY = new Color(179, 179, 179);
-    private final Color  DARK_GRAY   = Color.DARK_GRAY;
+    private static final Color WHITE       = Color.WHITE;
+    private final Color        GRAY        = Color.GRAY;
+    private final Color        MEDIUM_GRAY = new Color(0xb3b3b3);
+    private final Color        DARK_GRAY   = Color.DARK_GRAY;
 
-    private Which        state;
-    private PaintContext ctx;
+    private Path2D             path        = new Path2D.Float();
+
+    private Which              state;
+    private PaintContext       ctx;
 
     public SearchFieldIconPainter(Which state) {
         super();
@@ -52,14 +55,17 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
         switch (state) {
         case FIND_ICON_DISABLED:
         case FIND_ICON_ENABLED:
+            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(14, 17), false,
+                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+            break;
         case FIND_ICON_ENABLED_POPUP:
-            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(20, 15), false,
+            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(22, 17), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
             break;
         case CANCEL_ICON_DISABLED:
         case CANCEL_ICON_ENABLED:
         case CANCEL_ICON_PRESSED:
-            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(15, 15), false,
+            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(17, 17), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
             break;
         }
@@ -71,17 +77,16 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case FIND_ICON_ENABLED:
-            paintSearchGlass(g, width, height);
+            paintSearchGlass(g, width, height, false);
             break;
         case FIND_ICON_ENABLED_POPUP:
-            paintSearchGlass(g, width, height);
-            paintPopupIcon(g, width, height);
+            paintSearchGlass(g, width, height, true);
             break;
         case CANCEL_ICON_ENABLED:
-            paintCancelIcon(g, width, height, false);
+            paintCancelIcon(g, width, height, MEDIUM_GRAY);
             break;
         case CANCEL_ICON_PRESSED:
-            paintCancelIcon(g, width, height, true);
+            paintCancelIcon(g, width, height, GRAY);
             break;
         }
     }
@@ -93,47 +98,58 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintSearchGlass(Graphics2D g, int width, int height) {
+    private void paintSearchGlass(Graphics2D g, int width, int height, boolean hasPopup) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g.setStroke(new BasicStroke(2));
-        final int glassL = 8;
-        final int handleL = 3;
-        final int handleO = 7;
         final int glassX = 2;
         final int glassY = 2;
+        final int glassRadius = 8;
+
+        g.setStroke(new BasicStroke(2));
         g.setColor(DARK_GRAY);
-        g.drawOval(glassX, glassY, glassL, glassL);
-        g.drawLine(glassX + handleO, glassY + handleO, glassX + handleO + handleL, glassY + handleO + handleL);
+        g.drawOval(glassX, glassY, glassRadius, glassRadius);
+
+        final int handleOffset = 7;
+        final int handleX = glassX + handleOffset;
+        final int handleY = glassY + handleOffset;
+        final int handleLength = 3;
+
+        g.drawLine(handleX, handleY, handleX + handleLength, handleY + handleLength);
+
+        if (hasPopup) {
+            final int popupX = glassX + glassRadius + 3;
+            final int popupY = glassY + 3;
+            final int popupWidth = 7;
+            final int popupHeight = 4;
+
+            path.reset();
+            path.moveTo(popupX, popupY);
+            path.lineTo(popupX + popupWidth, popupY);
+            path.lineTo(popupX + popupWidth / 2.0, popupY + popupHeight);
+            path.closePath();
+
+            g.setColor(DARK_GRAY);
+            g.fill(path);
+        }
     }
 
-    private void paintPopupIcon(Graphics2D g, int width, int height) {
+    private void paintCancelIcon(Graphics2D g, int width, int height, Color color) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        final int dropX = 13;
-        final int dropY = 5;
-        Path2D path = new Path2D.Float();
-        path.moveTo(dropX, dropY);
-        path.lineTo(dropX + 7, dropY);
-        path.lineTo(dropX + 3.5, dropY + 4);
-        path.closePath();
-        g.fill(path);
-    }
+        final int circleRadius = height - 4;
+        final int circleX = 2;
+        final int circleY = 2;
 
-    private void paintCancelIcon(Graphics2D g, int width, int height, boolean isArmed) {
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setColor(color);
+        g.fillOval(circleX, circleY, circleRadius, circleRadius);
 
-        final int circleL = height + 2;
-        final int circleX = width - circleL;
-        final int circleY = (height - 1 - circleL) / 2;
-        g.setColor(isArmed ? GRAY : MEDIUM_GRAY);
-        g.fillOval(circleX, circleY, circleL, circleL);
-        final int lineL = circleL - 9;
+        final int lineLength = circleRadius - 9;
         final int lineX = circleX + 4;
         final int lineY = circleY + 4;
-        g.setColor(Color.WHITE);
-        g.setStroke(new BasicStroke(1.5f));
-        g.drawLine(lineX, lineY, lineX + lineL, lineY + lineL);
-        g.drawLine(lineX, lineY + lineL, lineX + lineL, lineY);
+
+        g.setColor(WHITE);
+        g.setStroke(new BasicStroke(2));
+        g.drawLine(lineX, lineY, lineX + lineLength, lineY + lineLength);
+        g.drawLine(lineX, lineY + lineLength, lineX + lineLength, lineY);
     }
 }
