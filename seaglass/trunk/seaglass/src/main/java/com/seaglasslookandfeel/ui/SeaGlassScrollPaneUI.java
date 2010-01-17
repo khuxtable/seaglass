@@ -404,9 +404,9 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
     public class ViewportChangeHandler implements ChangeListener {
 
         // NOTE: This class exists only for backward compatability. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // its functionality has been moved into SearchHandler. If you need to add
+        // new functionality add it to the SearchHandler, but make sure this
+        // class calls into the SearchHandler.
 
         public void stateChanged(ChangeEvent e) {
             getHandler().stateChanged(e);
@@ -423,9 +423,9 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
     public class HSBChangeListener implements ChangeListener {
 
         // NOTE: This class exists only for backward compatability. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // its functionality has been moved into SearchHandler. If you need to add
+        // new functionality add it to the SearchHandler, but make sure this
+        // class calls into the SearchHandler.
 
         public void stateChanged(ChangeEvent e) {
             getHandler().stateChanged(e);
@@ -450,9 +450,9 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
     public class VSBChangeListener implements ChangeListener {
 
         // NOTE: This class exists only for backward compatability. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // its functionality has been moved into SearchHandler. If you need to add
+        // new functionality add it to the SearchHandler, but make sure this
+        // class calls into the SearchHandler.
 
         public void stateChanged(ChangeEvent e) {
             getHandler().stateChanged(e);
@@ -487,9 +487,9 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
     protected class MouseWheelHandler implements MouseWheelListener {
 
         // NOTE: This class exists only for backward compatability. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // its functionality has been moved into SearchHandler. If you need to add
+        // new functionality add it to the SearchHandler, but make sure this
+        // class calls into the SearchHandler.
 
         /**
          * Called when the mouse wheel is rotated while over a JScrollPane.
@@ -549,9 +549,9 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
     public class PropertyChangeHandler implements PropertyChangeListener {
 
         // NOTE: This class exists only for backward compatability. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // its functionality has been moved into SearchHandler. If you need to add
+        // new functionality add it to the SearchHandler, but make sure this
+        // class calls into the SearchHandler.
 
         public void propertyChange(PropertyChangeEvent e) {
             getHandler().propertyChange(e);

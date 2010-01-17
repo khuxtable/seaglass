@@ -470,7 +470,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
             }
         }
 
-        // Basic (from Handler inner class)
+        // Basic (from SearchHandler inner class)
         String prop = (String) evt.getPropertyName();
 
         if (closeButton != null && WINDOW_DOCUMENT_MODIFIED.equals(prop)) {
