@@ -415,7 +415,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
             }
         }
 
-        // Basic (from SearchHandler inner class)
+        // Basic (from Handler inner class)
         String prop = (String) evt.getPropertyName();
 
         if (prop == JInternalFrame.IS_SELECTED_PROPERTY) {

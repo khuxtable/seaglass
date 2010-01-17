@@ -108,7 +108,7 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
     private ButtonHandler      buttonHandler;
 
     /**
-     * SearchHandler for repainting combo when editor component gains/looses focus
+     * Handler for repainting combo when editor component gains/loses focus
      */
     private EditorFocusHandler editorFocusHandler;
 
@@ -752,7 +752,7 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
     }
 
     /**
-     * SearchHandler for repainting combo when editor component gains/looses focus
+     * Handler for repainting combo when editor component gains/loses focus
      */
     private static class EditorFocusHandler implements FocusListener, PropertyChangeListener {
         private JComboBox      comboBox;
