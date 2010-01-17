@@ -19,15 +19,28 @@
  */
 package com.seaglasslookandfeel.ui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.PopupMenu;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Path2D;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JComponent;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.border.AbstractBorder;
+import javax.swing.border.Border;
+import javax.swing.event.MouseInputAdapter;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicTextFieldUI;
@@ -52,11 +65,24 @@ import sun.swing.plaf.synth.SynthUI;
  * Sea Glass TextField UI delegate.
  * 
  * Based on SynthTextFieldUI, but we need to set preferred sizes.
+ * 
+ * The search code is based loosely on
+ * elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
  */
 public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, FocusListener {
-    private SynthStyle         style;
 
     private static final State isSearchState = new TextFieldIsSearchState();
+
+    private SynthStyle         style;
+
+    private PlaceholderText    placeholderFocusListener;
+    private CancelListener     cancelListener;
+
+    private int                searchIconWidth;
+    private int                popupIconWidth;
+    private int                cancelIconWidth;
+    private int                searchLeftInnerMargin;
+    private int                searchRightInnerMargin;
 
     /**
      * Creates a UI for a JTextField.
@@ -79,8 +105,10 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
         style = SeaGlassLookAndFeel.updateStyle(context, this);
 
+        updateSearchStyle(comp, context, getPropertyPrefix());
+
         if (style != oldStyle) {
-            SeaGlassTextFieldUI.updateStyle(comp, context, getPropertyPrefix());
+            updateStyle(comp, context, getPropertyPrefix());
 
             if (oldStyle != null) {
                 uninstallKeyboardActions();
@@ -90,7 +118,76 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         context.dispose();
     }
 
-    static void updateStyle(JTextComponent comp, SeaGlassContext context, String prefix) {
+    private void updateSearchStyle(JTextComponent comp, SeaGlassContext context, String prefix) {
+        searchIconWidth = 0;
+        popupIconWidth = 0;
+        cancelIconWidth = 0;
+        searchLeftInnerMargin = 0;
+        searchRightInnerMargin = 0;
+
+        if (isSearchState.isInState(comp)) {
+            Object o = style.get(context, prefix + ".searchIconWidth");
+            if (o != null && o instanceof Integer) {
+                searchIconWidth = (Integer) o;
+            }
+
+            o = style.get(context, prefix + ".popupIconWidth");
+            if (o != null && o instanceof Integer) {
+                popupIconWidth = (Integer) o;
+            }
+
+            o = style.get(context, prefix + ".cancelIconWidth");
+            if (o != null && o instanceof Integer) {
+                cancelIconWidth = (Integer) o;
+            }
+
+            o = style.get(context, prefix + ".searchLeftInnerMargin");
+            if (o != null && o instanceof Integer) {
+                searchLeftInnerMargin = (Integer) o;
+            }
+
+            o = style.get(context, prefix + ".searchRightInnerMargin");
+            if (o != null && o instanceof Integer) {
+                searchRightInnerMargin = (Integer) o;
+            }
+        }
+
+        Border border = comp.getBorder();
+        if (isSearchState.isInState(comp)) {
+            if (!(border instanceof SearchBorder)) {
+                comp.setBorder(new SearchBorder(border));
+            }
+            Object placeholderText = comp.getClientProperty("JTextField.Search.PlaceholderText");
+            if (placeholderText != null && placeholderText instanceof String) {
+                if (placeholderFocusListener == null) {
+                    placeholderFocusListener = new PlaceholderText((String) placeholderText);
+                    comp.addFocusListener(placeholderFocusListener);
+                } else if (!placeholderFocusListener.getPlaceholderText().equals(placeholderText)) {
+                    placeholderFocusListener.setPlaceholderText((String) placeholderText);
+                }
+            }
+            if (cancelListener == null) {
+                cancelListener = new CancelListener();
+                comp.addMouseListener(cancelListener);
+                comp.addMouseMotionListener(cancelListener);
+            }
+        } else {
+            if (border instanceof SearchBorder) {
+                comp.setBorder(((SearchBorder) border).getOriginalBorder());
+            }
+            if (placeholderFocusListener != null) {
+                comp.removeFocusListener(placeholderFocusListener);
+                placeholderFocusListener = null;
+            }
+            if (cancelListener != null) {
+                comp.removeMouseListener(cancelListener);
+                comp.removeMouseMotionListener(cancelListener);
+                cancelListener = null;
+            }
+        }
+    }
+
+    private void updateStyle(JTextComponent comp, SeaGlassContext context, String prefix) {
         SeaGlassStyle style = (SeaGlassStyle) context.getStyle();
 
         Color color = comp.getCaretColor();
@@ -225,15 +322,22 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
     protected void installDefaults() {
         // Installs the text cursor on the component
         super.installDefaults();
-        updateStyle((JTextComponent) getComponent());
+        JTextComponent c = getComponent();
+        updateStyle(c);
         getComponent().addFocusListener(this);
     }
 
     protected void uninstallDefaults() {
-        SeaGlassContext context = getContext(getComponent(), ENABLED);
+        JTextComponent c = getComponent();
+        SeaGlassContext context = getContext(c, ENABLED);
 
-        getComponent().putClientProperty("caretAspectRatio", null);
-        getComponent().removeFocusListener(this);
+        Border border = c.getBorder();
+        if (border instanceof SearchBorder) {
+            c.setBorder(((SearchBorder) border).getOriginalBorder());
+        }
+
+        c.putClientProperty("caretAspectRatio", null);
+        c.removeFocusListener(this);
 
         style.uninstallDefaults(context);
         context.dispose();
@@ -272,15 +376,306 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             }
         }
 
-        // Fix: The preferred width is always two pixels too small
-        // on a Mac.
+        // Fix: The preferred width is always two pixels too small on a Mac.
         d.width += 2;
 
-        // The search field height needs to be odd to look good.
-        if (isSearchState.isInState(c) && (d.height & 1) == 0) {
+        // We'd like our heights to be odd by default.
+        if ((d.height & 1) == 0) {
             d.height--;
         }
 
         return d;
+    }
+
+    public class SearchBorder extends AbstractBorder {
+        private final Color GRAY = new Color(0.7f, 0.7f, 0.7f);
+
+        private Border      originalBorder;
+
+        /**
+         * Creates a compound border with null outside and inside borders.
+         */
+        public SearchBorder() {
+            this.originalBorder = null;
+        }
+
+        /**
+         * Creates a compound border with the specified outside and inside
+         * borders. Either border may be null.
+         * 
+         * @param originalBorder
+         *            the outside border
+         * @param insideBorder
+         *            the inside border to be nested
+         */
+        public SearchBorder(Border originalBorder) {
+            this.originalBorder = originalBorder;
+        }
+
+        /**
+         * Returns whether or not this compound border is opaque. Returns true
+         * if both the inside and outside borders are non-null and opaque;
+         * returns false otherwise.
+         */
+        public boolean isBorderOpaque() {
+            return (originalBorder == null || originalBorder.isBorderOpaque());
+        }
+
+        /**
+         * Paints the compound border by painting the outside border with the
+         * specified position and size and then painting the inside border at
+         * the specified position and size offset by the insets of the outside
+         * border.
+         * 
+         * @param c
+         *            the component for which this border is being painted
+         * @param g
+         *            the paint graphics
+         * @param x
+         *            the x position of the painted border
+         * @param y
+         *            the y position of the painted border
+         * @param width
+         *            the width of the painted border
+         * @param height
+         *            the height of the painted border
+         */
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            Insets nextInsets;
+            int px, py, pw, ph;
+
+            px = x;
+            py = y;
+            pw = width;
+            ph = height;
+
+            if (originalBorder != null) {
+                originalBorder.paintBorder(c, g, px, py, pw, ph);
+
+                nextInsets = originalBorder.getBorderInsets(c);
+                px += nextInsets.left;
+                py += nextInsets.top;
+                pw = pw - nextInsets.right - nextInsets.left;
+                ph = ph - nextInsets.bottom - nextInsets.top;
+            }
+
+            paintSearchBorder((JTextField) c, (Graphics2D) g.create(), px, py, pw, ph);
+        }
+
+        /**
+         * Reinitialize the insets parameter with this Border's current Insets.
+         * 
+         * @param c
+         *            the component for which this border insets value applies
+         * @param insets
+         *            the object to be reinitialized
+         */
+        public Insets getBorderInsets(Component c, Insets insets) {
+            Insets nextInsets;
+
+            insets.top = insets.left = insets.right = insets.bottom = 0;
+            if (originalBorder != null) {
+                nextInsets = originalBorder.getBorderInsets(c);
+                insets.top += nextInsets.top;
+                insets.left += nextInsets.left;
+                insets.right += nextInsets.right;
+                insets.bottom += nextInsets.bottom;
+            }
+
+            insets.left += searchIconWidth + searchLeftInnerMargin;
+            Object findPopup = ((JComponent) c).getClientProperty("JTextField.Search.FindPopup");
+            if (findPopup != null && findPopup instanceof PopupMenu) {
+                insets.left += popupIconWidth;
+            }
+            insets.right += cancelIconWidth + searchRightInnerMargin;
+
+            return insets;
+        }
+
+        /**
+         * Returns the insets of the composite border by adding the insets of
+         * the outside border to the insets of the inside border.
+         * 
+         * @param c
+         *            the component for which this border insets value applies
+         */
+        public Insets getBorderInsets(Component c) {
+            return getBorderInsets(c, new Insets(0, 0, 0, 0));
+        }
+
+        /**
+         * Returns the outside border object.
+         */
+        public Border getOriginalBorder() {
+            return originalBorder;
+        }
+
+        public void paintSearchBorder(JTextField c, Graphics2D g, int x, int y, int width, int height) {
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            paintSearchGlass(g, x, y);
+
+            Object findPopup = c.getClientProperty("JTextField.Search.FindPopup");
+            if (findPopup != null && findPopup instanceof PopupMenu) {
+                paintPopupIcon(g, x, y);
+            }
+
+            // Draw the erase "x" if user-entered text is present.
+            if (!placeholderFocusListener.isShowingPlaceholderText() && c.getText().length() > 0) {
+                paintCancelIcon(g, x, y, width, height);
+            }
+        }
+
+        private void paintSearchGlass(Graphics2D g, int x, int y) {
+            g.setStroke(new BasicStroke(2));
+            final int glassL = 8;
+            final int handleL = 3;
+            final int handleO = 7;
+            final int glassX = 2;
+            final int glassY = 2;
+            g.setColor(Color.DARK_GRAY);
+            g.drawOval(x + glassX, y + glassY, glassL, glassL);
+            g.drawLine(x + glassX + handleO, y + glassY + handleO, x + glassX + handleO + handleL, y + glassY + handleO + handleL);
+        }
+
+        private void paintPopupIcon(Graphics2D g, int x, int y) {
+            final int dropX = x + 13;
+            final int dropY = y + 5;
+            Path2D path = new Path2D.Float();
+            path.moveTo(dropX, dropY);
+            path.lineTo(dropX + 7, dropY);
+            path.lineTo(dropX + 3.5, dropY + 4);
+            path.closePath();
+            g.fill(path);
+        }
+
+        private void paintCancelIcon(Graphics2D g, int x, int y, int width, int height) {
+            final int circleL = height + 2;
+            final int circleX = x + width - circleL;
+            final int circleY = y + (height - 1 - circleL) / 2;
+            g.setColor(cancelListener.isArmed() ? Color.GRAY : GRAY);
+            g.fillOval(circleX, circleY, circleL, circleL);
+            final int lineL = circleL - 9;
+            final int lineX = circleX + 4;
+            final int lineY = circleY + 4;
+            g.setColor(Color.WHITE);
+            g.setStroke(new BasicStroke(1.5f));
+            g.drawLine(lineX, lineY, lineX + lineL, lineY + lineL);
+            g.drawLine(lineX, lineY + lineL, lineX + lineL, lineY);
+        }
+    }
+
+    /**
+     * Handles a click on the cancel button by clearing the text and notifying
+     * any ActionListeners.
+     */
+    public class CancelListener extends MouseInputAdapter {
+
+        private boolean armed = false;
+
+        public boolean isArmed() {
+            return armed;
+        }
+
+        private boolean isOverButton(MouseEvent e) {
+            // If the button is down, we might be outside the component
+            // without having had mouseExited invoked.
+            if (getComponent().contains(e.getPoint()) == false) {
+                return false;
+            }
+
+            JTextComponent c = getComponent();
+            Rectangle innerArea = SwingUtilities.calculateInnerArea(c, new Rectangle());
+            // Adjust for the placement of the cancel button.
+            innerArea.x += innerArea.width + searchRightInnerMargin;
+            innerArea.width = cancelIconWidth;
+            return innerArea.contains(e.getPoint());
+        }
+
+        public void mouseDragged(MouseEvent e) {
+            arm(e);
+        }
+
+        public void mouseEntered(MouseEvent e) {
+            arm(e);
+        }
+
+        public void mouseExited(MouseEvent e) {
+            disarm();
+        }
+
+        public void mousePressed(MouseEvent e) {
+            arm(e);
+        }
+
+        private void cancel() {
+            getComponent().setText("");
+            // postActionEvent();
+        }
+
+        public void mouseReleased(MouseEvent e) {
+            if (armed) {
+                cancel();
+            }
+            disarm();
+        }
+
+        private void arm(MouseEvent e) {
+            armed = (isOverButton(e) && SwingUtilities.isLeftMouseButton(e));
+            getComponent().repaint();
+        }
+
+        private void disarm() {
+            armed = false;
+            getComponent().repaint();
+        }
+    }
+
+    /**
+     * Replaces the entered text with a gray placeholder string when the search
+     * field doesn't have the focus. The entered text returns when we get the
+     * focus back.
+     */
+    public class PlaceholderText implements FocusListener {
+        private String  placeholderText;
+        private String  previousText;
+        private Color   previousColor;
+
+        private boolean isShowingPlaceholderText = false;
+
+        PlaceholderText(String placeholderText) {
+            setPlaceholderText(placeholderText);
+            focusLost(null);
+        }
+
+        public String getPlaceholderText() {
+            return placeholderText;
+        }
+
+        public void setPlaceholderText(String placeholderText) {
+            this.placeholderText = placeholderText;
+        }
+
+        public boolean isShowingPlaceholderText() {
+            return isShowingPlaceholderText;
+        }
+
+        public void focusGained(FocusEvent e) {
+            JTextComponent c = (JTextComponent) getComponent();
+            c.setForeground(previousColor);
+            c.setText(previousText);
+            isShowingPlaceholderText = false;
+        }
+
+        public void focusLost(FocusEvent e) {
+            JTextComponent c = (JTextComponent) getComponent();
+            previousText = c.getText();
+            previousColor = c.getForeground();
+            if (previousText.length() == 0) {
+                isShowingPlaceholderText = true;
+                c.setForeground(Color.GRAY);
+                c.setText(placeholderText);
+            }
+        }
     }
 }
