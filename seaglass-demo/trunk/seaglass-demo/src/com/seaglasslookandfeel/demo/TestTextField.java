@@ -1,6 +1,8 @@
 package com.seaglasslookandfeel.demo;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.PopupMenu;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,9 +22,13 @@ public class TestTextField {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JTextField tf1 = new JTextField("Here is some text");
+                tf1.setPreferredSize(new Dimension(180, 25));
                 tf1.putClientProperty("JTextField.variant", "search");
+                tf1.putClientProperty("JTextField.Search.placeholderText", "Search");
+                tf1.putClientProperty("JTextField.Search.FindPopup", new PopupMenu());
 
                 JTextField tf2 = new JTextField("Here is some more text");
+                tf2.setPreferredSize(new Dimension(180, 25));
 
                 JPanel panel = new JPanel();
                 panel.add(tf1);
@@ -37,5 +43,4 @@ public class TestTextField {
             }
         });
     }
-
 }
