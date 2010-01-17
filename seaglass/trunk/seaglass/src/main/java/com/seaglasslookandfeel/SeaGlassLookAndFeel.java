@@ -87,6 +87,7 @@ import com.seaglasslookandfeel.painter.ScrollBarButtonPainter;
 import com.seaglasslookandfeel.painter.ScrollBarThumbPainter;
 import com.seaglasslookandfeel.painter.ScrollBarTrackPainter;
 import com.seaglasslookandfeel.painter.ScrollPanePainter;
+import com.seaglasslookandfeel.painter.SearchFieldIconPainter;
 import com.seaglasslookandfeel.painter.SearchFieldPainter;
 import com.seaglasslookandfeel.painter.SliderThumbPainter;
 import com.seaglasslookandfeel.painter.SliderTrackPainter;
@@ -349,6 +350,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         register(Region.TEXT_FIELD, "\"Table.editor\"");
         register(Region.TEXT_FIELD, "\"Tree.cellEditor\"");
         register(Region.TEXT_FIELD, "TextField");
+        register(Region.BUTTON, "TextField:findButton");
+        register(Region.BUTTON, "TextField:cancelButton");
         register(Region.FORMATTED_TEXT_FIELD, "FormattedTextField");
         register(Region.PASSWORD_FIELD, "PasswordField");
         register(Region.TEXT_AREA, "TextArea");
@@ -1343,9 +1346,28 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void defineTextControls(UIDefaults d) {
         String c = PAINTER_DIRECTORY + ".TextComponentPainter";
         String cs = PAINTER_DIRECTORY + ".SearchFieldPainter";
+        String ci = PAINTER_DIRECTORY + ".SearchFieldIconPainter";
+
+        // Initialize search field icons
+        String p = "TextField:findButton";
+        d.put(p + ".States", "Enabled,Disabled,HasPopup");
+        d.put(p + ".HasPopup", "Enabled,Disabled,Popup");
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[Disabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_DISABLED));
+        d.put(p + "[Enabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
+        d.put(p + "[Enabled+HasPopup].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
+        d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 20, 15));
+
+        p = "TextField:cancelButton";
+        d.put(p + ".States", "Enabled,Disabled,Pressed");
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[Disabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_DISABLED));
+        d.put(p + "[Enabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
+        d.put(p + "[Pressed].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_PRESSED));
+        d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 15, 15));
 
         // Initialize TextField
-        String p = "TextField";
+        p = "TextField";
         d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField");
         d.put(p + ".SearchField", new TextFieldIsSearchState());
         d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));

@@ -20,7 +20,6 @@
 package com.seaglasslookandfeel.ui;
 
 import java.awt.AWTEvent;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -36,7 +35,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Path2D;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JComponent;
@@ -61,6 +59,9 @@ import javax.swing.text.View;
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
+import com.seaglasslookandfeel.painter.Painter;
+import com.seaglasslookandfeel.painter.SearchFieldIconPainter;
+import com.seaglasslookandfeel.state.SearchFieldHasPopupState;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.state.TextFieldIsSearchState;
 
@@ -69,9 +70,10 @@ import sun.swing.plaf.synth.SynthUI;
 /**
  * Sea Glass TextField UI delegate.
  * 
- * Based on SynthTextFieldUI, but we need to set preferred sizes.
+ * Based on SynthTextFieldUI, but we need to set preferred sizes and handle
+ * search fields.
  * 
- * The search code is based loosely on
+ * The search code is very loosely based on
  * elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
  */
 public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, FocusListener {
@@ -80,8 +82,9 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
     private SynthStyle         style;
 
-    private CancelListener     cancelListener;
     private String             placeholderText;
+
+    private SearchHandler      searchHandler;
 
     private ActionListener     findAction;
     private JPopupMenu         findPopup;
@@ -164,17 +167,17 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
                 comp.setBorder(new SearchBorder(border));
             }
 
+            if (searchHandler == null) {
+                searchHandler = new SearchHandler();
+                comp.addMouseListener(searchHandler);
+                comp.addMouseMotionListener(searchHandler);
+            }
+
             o = comp.getClientProperty("JTextField.Search.PlaceholderText");
             if (o != null && o instanceof String) {
                 placeholderText = (String) o;
             } else if (placeholderText != null) {
                 placeholderText = null;
-            }
-
-            if (cancelListener == null) {
-                cancelListener = new CancelListener();
-                comp.addMouseListener(cancelListener);
-                comp.addMouseMotionListener(cancelListener);
             }
 
             o = comp.getClientProperty("JTextField.Search.FindAction");
@@ -203,13 +206,13 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
                 comp.setBorder(((SearchBorder) border).getOriginalBorder());
             }
 
-            placeholderText = null;
-
-            if (cancelListener != null) {
-                comp.removeMouseListener(cancelListener);
-                comp.removeMouseMotionListener(cancelListener);
-                cancelListener = null;
+            if (searchHandler != null) {
+                comp.removeMouseListener(searchHandler);
+                comp.removeMouseMotionListener(searchHandler);
+                searchHandler = null;
             }
+
+            placeholderText = null;
 
             if (findAction != null) {
                 findAction = null;
@@ -375,7 +378,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         super.installDefaults();
         JTextComponent c = getComponent();
         updateStyle(c);
-        getComponent().addFocusListener(this);
+        c.addFocusListener(this);
     }
 
     protected void uninstallDefaults() {
@@ -453,16 +456,13 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
     }
 
     public class SearchBorder extends AbstractBorder {
-        private final Color GRAY = new Color(0.7f, 0.7f, 0.7f);
+        private Border        originalBorder;
 
-        private Border      originalBorder;
-
-        /**
-         * Creates a compound border with null outside and inside borders.
-         */
-        public SearchBorder() {
-            this.originalBorder = null;
-        }
+        private final State   hasPopup         = new SearchFieldHasPopupState();
+        private final Painter findEnabled      = new SearchFieldIconPainter(SearchFieldIconPainter.Which.FIND_ICON_ENABLED);
+        private final Painter findPopupEnabled = new SearchFieldIconPainter(SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP);
+        private final Painter cancelEnabled    = new SearchFieldIconPainter(SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED);
+        private final Painter cancelPressed    = new SearchFieldIconPainter(SearchFieldIconPainter.Which.CANCEL_ICON_PRESSED);
 
         /**
          * Creates a compound border with the specified outside and inside
@@ -578,55 +578,22 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         public void paintSearchBorder(JTextField c, Graphics2D g, int x, int y, int width, int height) {
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            paintSearchGlass(g, x, y);
-
-            Object findPopup = c.getClientProperty("JTextField.Search.FindPopup");
-            if (findPopup != null && findPopup instanceof JPopupMenu) {
-                paintPopupIcon(g, x, y);
+            g.translate(x, y);
+            if (hasPopup.isInState(c)) {
+                findPopupEnabled.paint(g, c, width, height);
+            } else {
+                findEnabled.paint(g, c, width, height);
             }
 
             // Draw the erase "x" if user-entered text is present.
             if (c.getText().length() > 0) {
-                paintCancelIcon(g, x, y, width, height);
+                if (searchHandler.isCancelArmed()) {
+                    cancelPressed.paint(g, c, width, height);
+                } else {
+                    cancelEnabled.paint(g, c, width, height);
+                }
             }
-        }
-
-        private void paintSearchGlass(Graphics2D g, int x, int y) {
-            g.setStroke(new BasicStroke(2));
-            final int glassL = 8;
-            final int handleL = 3;
-            final int handleO = 7;
-            final int glassX = 2;
-            final int glassY = 2;
-            g.setColor(Color.DARK_GRAY);
-            g.drawOval(x + glassX, y + glassY, glassL, glassL);
-            g.drawLine(x + glassX + handleO, y + glassY + handleO, x + glassX + handleO + handleL, y + glassY + handleO + handleL);
-        }
-
-        private void paintPopupIcon(Graphics2D g, int x, int y) {
-            final int dropX = x + 13;
-            final int dropY = y + 5;
-            Path2D path = new Path2D.Float();
-            path.moveTo(dropX, dropY);
-            path.lineTo(dropX + 7, dropY);
-            path.lineTo(dropX + 3.5, dropY + 4);
-            path.closePath();
-            g.fill(path);
-        }
-
-        private void paintCancelIcon(Graphics2D g, int x, int y, int width, int height) {
-            final int circleL = height + 2;
-            final int circleX = x + width - circleL;
-            final int circleY = y + (height - 1 - circleL) / 2;
-            g.setColor(cancelListener.isCancelArmed() ? Color.GRAY : GRAY);
-            g.fillOval(circleX, circleY, circleL, circleL);
-            final int lineL = circleL - 9;
-            final int lineX = circleX + 4;
-            final int lineY = circleY + 4;
-            g.setColor(Color.WHITE);
-            g.setStroke(new BasicStroke(1.5f));
-            g.drawLine(lineX, lineY, lineX + lineL, lineY + lineL);
-            g.drawLine(lineX, lineY + lineL, lineX + lineL, lineY);
+            g.translate(-x, -y);
         }
     }
 
@@ -634,7 +601,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
      * Handles a click on the cancel button by clearing the text and notifying
      * any ActionListeners.
      */
-    public class CancelListener extends MouseInputAdapter {
+    public class SearchHandler extends MouseInputAdapter {
 
         private boolean isFindArmed   = false;
         private boolean isCancelArmed = false;

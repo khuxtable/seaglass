@@ -39,21 +39,30 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
         CANCEL_ICON_DISABLED, CANCEL_ICON_ENABLED, CANCEL_ICON_PRESSED,
     }
 
-    private final Color            GRAY        = Color.GRAY;
-    private final Color            MEDIUM_GRAY = new Color(179, 179, 179);
-    private final Color            DARK_GRAY   = Color.DARK_GRAY;
+    private final Color  GRAY        = Color.GRAY;
+    private final Color  MEDIUM_GRAY = new Color(179, 179, 179);
+    private final Color  DARK_GRAY   = Color.DARK_GRAY;
 
-    private static final Dimension dimension   = new Dimension(90, 30);
-    private static final Insets    insets      = new Insets(5, 3, 3, 3);
-
-    private Which                  state;
-    private PaintContext           ctx;
+    private Which        state;
+    private PaintContext ctx;
 
     public SearchFieldIconPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(insets, dimension, false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES,
-            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        switch (state) {
+        case FIND_ICON_DISABLED:
+        case FIND_ICON_ENABLED:
+        case FIND_ICON_ENABLED_POPUP:
+            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(20, 15), false,
+                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+            break;
+        case CANCEL_ICON_DISABLED:
+        case CANCEL_ICON_ENABLED:
+        case CANCEL_ICON_PRESSED:
+            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(15, 15), false,
+                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+            break;
+        }
     }
 
     /**
