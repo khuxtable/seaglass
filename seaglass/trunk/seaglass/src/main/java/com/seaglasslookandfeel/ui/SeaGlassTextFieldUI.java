@@ -19,15 +19,21 @@
  */
 package com.seaglasslookandfeel.ui;
 
+import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JComponent;
@@ -71,6 +77,8 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
     private static final State hasPopupMenu  = new SearchFieldHasPopupState();
 
     private TextFieldBorder    textFieldBorder;
+
+    private MouseAdapter       mouseButtonListener;
 
     private SynthStyle         style;
     private SynthStyle         findStyle;
@@ -332,7 +340,9 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
     private int getComponentState(JComponent c, Region region) {
         if (region == SeaGlassRegion.SEARCH_FIELD_CANCEL_BUTTON && c.isEnabled()) {
-            if (false/* isMouseButtonDown */) {
+            if (((JTextComponent) c).getText().length() == 0) {
+                return DISABLED;
+            } else if (isCancelArmed) {
                 return PRESSED;
             }
             return ENABLED;
@@ -480,6 +490,31 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         super.uninstallDefaults();
     }
 
+    @Override
+    protected void installListeners() {
+        super.installListeners();
+
+        MouseAdapter mouseListener = createMouseListener();
+        getComponent().addMouseListener(mouseListener);
+        getComponent().addMouseMotionListener(mouseListener);
+    }
+
+    @Override
+    protected void uninstallListeners() {
+        super.uninstallListeners();
+        if (mouseButtonListener != null) {
+            getComponent().removeMouseListener(mouseButtonListener);
+            getComponent().removeMouseMotionListener(mouseButtonListener);
+        }
+    }
+
+    protected MouseAdapter createMouseListener() {
+        if (mouseButtonListener == null) {
+            mouseButtonListener = new MouseButtonListener();
+        }
+        return mouseButtonListener;
+    }
+
     public void installUI(JComponent c) {
         super.installUI(c);
         updateStyle((JTextComponent) c);
@@ -559,6 +594,85 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             }
 
             return insets;
+        }
+    }
+
+    protected void fireAction(ActionListener action) {
+        int modifiers = 0;
+        AWTEvent currentEvent = EventQueue.getCurrentEvent();
+        if (currentEvent instanceof InputEvent) {
+            modifiers = ((InputEvent) currentEvent).getModifiers();
+        } else if (currentEvent instanceof ActionEvent) {
+            modifiers = ((ActionEvent) currentEvent).getModifiers();
+        }
+        ActionEvent e = new ActionEvent(getComponent(), ActionEvent.ACTION_PERFORMED, getComponent().getText(), EventQueue
+            .getMostRecentEventTime(), modifiers);
+
+        action.actionPerformed(e);
+    }
+
+    private boolean isCancelArmed = false;
+
+    /**
+     * Track mouse clicks and moves.
+     */
+    protected class MouseButtonListener extends MouseAdapter {
+        protected transient int currentMouseX, currentMouseY;
+
+        public void mouseReleased(MouseEvent e) {
+            if (isCancelArmed) {
+                isCancelArmed = false;
+                if (isOverCancelButton()) {
+                    getComponent().setText("");
+                    if (cancelAction != null) {
+                        fireAction(cancelAction);
+                    }
+                }
+                getComponent().repaint();
+            }
+        }
+
+        public void mouseDragged(MouseEvent e) {
+
+            currentMouseX = e.getX();
+            currentMouseY = e.getY();
+
+            if (isCancelArmed && !isOverCancelButton()) {
+                isCancelArmed = false;
+                getComponent().repaint();
+            }
+        }
+
+        public void mousePressed(MouseEvent e) {
+            if (!SwingUtilities.isLeftMouseButton(e) || !getComponent().isEnabled()) {
+                return;
+            }
+
+            currentMouseX = e.getX();
+            currentMouseY = e.getY();
+
+            if (isOverFindButton()) {
+                if (findAction != null) {
+                    fireAction(findAction);
+                    return;
+                }
+            }
+
+            if (isOverCancelButton()) {
+                isCancelArmed = true;
+                getComponent().repaint();
+            } else if (isCancelArmed) {
+                isCancelArmed = false;
+                getComponent().repaint();
+            }
+        }
+
+        private boolean isOverFindButton() {
+            return getFindButtonBounds().contains(currentMouseX, currentMouseY);
+        }
+
+        public boolean isOverCancelButton() {
+            return getCancelButtonBounds().contains(currentMouseX, currentMouseY);
         }
     }
 }
