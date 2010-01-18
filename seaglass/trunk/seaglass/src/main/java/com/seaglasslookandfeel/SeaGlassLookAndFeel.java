@@ -1357,7 +1357,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".States", "Enabled,Pressed,Disabled,HasPopup");
         d.put(p + ".HasPopup", new SearchFieldHasPopupState());
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
         d.put(p + "[Enabled+HasPopup].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
@@ -1367,7 +1367,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         p = "TextField:SearchFieldCancelButton";
         d.put(p + ".States", "Enabled,Pressed,Disabled");
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_PRESSED));
 
