@@ -116,6 +116,8 @@ import com.seaglasslookandfeel.state.RootPaneNoFrameState;
 import com.seaglasslookandfeel.state.RootPaneWindowFocusedState;
 import com.seaglasslookandfeel.state.ScrollBarButtonIsIncreaseButtonState;
 import com.seaglasslookandfeel.state.ScrollBarButtonsTogetherState;
+import com.seaglasslookandfeel.state.SearchFieldCancelIsPressedState;
+import com.seaglasslookandfeel.state.SearchFieldHasPopupState;
 import com.seaglasslookandfeel.state.SliderArrowShapeState;
 import com.seaglasslookandfeel.state.SplitPaneDividerVerticalState;
 import com.seaglasslookandfeel.state.SplitPaneVerticalState;
@@ -162,7 +164,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in a handful of places where we need an empty Insets.
      */
-    public static final Insets           EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
+    public static final Insets           EMPTY_UIRESOURCE_INSETS    = new InsetsUIResource(0, 0, 0, 0);
 
     /**
      * The map of SynthStyles. This map is keyed by Region. Each Region maps to
@@ -174,7 +176,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * than one prefix defined for a given region. For example, both Button and
      * "MyButton" might be prefixes assigned to the Region.Button region.
      */
-    private Map<Region, List<LazyStyle>> styleMap                = new HashMap<Region, List<LazyStyle>>();
+    private Map<Region, List<LazyStyle>> styleMap                   = new HashMap<Region, List<LazyStyle>>();
 
     /**
      * A map of regions which have been registered. This mapping is maintained
@@ -182,7 +184,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * This is used in the "matches" method of LazyStyle.
      */
 
-    private Map<String, Region>          registeredRegions       = new HashMap<String, Region>();
+    private Map<String, Region>          registeredRegions          = new HashMap<String, Region>();
 
     /**
      * Our fallback style to avoid NPEs if the proper style cannot be found in
@@ -199,19 +201,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in IMAGE_DIRECTORY and UI_PACKAGE_PREFIX.
      */
-    private static final String          PACKAGE_DIRECTORY       = SeaGlassLookAndFeel.class.getPackage().getName();
+    private static final String          PACKAGE_DIRECTORY          = SeaGlassLookAndFeel.class.getPackage().getName();
 
     /**
      * Set the image directory name based on the root package.
      */
-    private static final String          PAINTER_DIRECTORY       = PACKAGE_DIRECTORY + ".painter";
+    private static final String          PAINTER_DIRECTORY          = PACKAGE_DIRECTORY + ".painter";
 
     /**
      * Set the package name for UI delegates based on the root package.
      */
-    private static final String          UI_PACKAGE_PREFIX       = PACKAGE_DIRECTORY + ".ui.SeaGlass";
+    private static final String          UI_PACKAGE_PREFIX          = PACKAGE_DIRECTORY + ".ui.SeaGlass";
 
-    private UIDefaults                   uiDefaults              = null;
+    private UIDefaults                   uiDefaults                 = null;
 
     // Refer to setSelectedUI
     public static ComponentUI            selectedUI;
@@ -350,8 +352,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         register(Region.TEXT_FIELD, "\"Table.editor\"");
         register(Region.TEXT_FIELD, "\"Tree.cellEditor\"");
         register(Region.TEXT_FIELD, "TextField");
-        register(Region.BUTTON, "TextField:findButton");
-        register(Region.BUTTON, "TextField:cancelButton");
         register(Region.FORMATTED_TEXT_FIELD, "FormattedTextField");
         register(Region.PASSWORD_FIELD, "PasswordField");
         register(Region.TEXT_AREA, "TextArea");
@@ -517,6 +517,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaGlassFocusInsets", new Insets(2, 2, 2, 2));
         d.put("seaGlassFocus", new Color(0x73a4d1));
         d.put("seaGlassOuterFocus", getDerivedColor("seaGlassFocus", -0.0028f, 0.01f, 0f, -0x80, true));
+        d.put("seaGlassSearchPlaceholderText", new Color(128, 128, 128));
     }
 
     /**
@@ -1348,34 +1349,30 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         String cs = PAINTER_DIRECTORY + ".SearchFieldPainter";
         String ci = PAINTER_DIRECTORY + ".SearchFieldIconPainter";
 
-        // Initialize search field icons
-        String p = "TextField:findButton";
-        d.put(p + ".States", "Enabled,Disabled,HasPopup");
-        d.put(p + ".HasPopup", "Enabled,Disabled,Popup");
-        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[Disabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_DISABLED));
-        d.put(p + "[Enabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
-        d.put(p + "[Enabled+HasPopup].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
-        d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 20, 15));
-
-        p = "TextField:cancelButton";
-        d.put(p + ".States", "Enabled,Disabled,Pressed");
-        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[Disabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_DISABLED));
-        d.put(p + "[Enabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
-        d.put(p + "[Pressed].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_PRESSED));
-        d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 15, 15));
-
-        // Initialize TextField
-        p = "TextField";
-        d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField");
+        String p = "TextField";
+        d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField,HasPopup,CancelIsPressed");
         d.put(p + ".SearchField", new TextFieldIsSearchState());
+        d.put(p + ".HasPopup", new SearchFieldHasPopupState());
+        d.put(p + ".CancelIsPressed", new SearchFieldCancelIsPressedState());
         d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
         d.put(p + ".searchIconWidth", new Integer(15));
         d.put(p + ".cancelIconWidth", new Integer(15));
         d.put(p + ".popupIconWidth", new Integer(7));
         d.put(p + ".searchLeftInnerMargin", new Integer(3));
         d.put(p + ".searchRightInnerMargin", new Integer(3));
+        d.put(p + ".placeholderTextColor", d.get("seaGlassSearchPlaceholderText"));
+
+        // Initialize search field icons
+        d.put(p + "[Disabled].findIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_DISABLED));
+        d.put(p + "[Enabled].findIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
+        d.put(p + "[Enabled+HasPopup].findIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
+        d.put(p + ".findIcon", new SeaGlassIcon(p, "findIconPainter", 20, 17));
+        d.put(p + "[Disabled].cancelIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_DISABLED));
+        d.put(p + "[Enabled].cancelIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
+        d.put(p + "[Enabled+SearchField+CancelIsPressed].cancelIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_PRESSED));
+        d.put(p + ".cancelIcon", new SeaGlassIcon(p, "cancelIconPainter", 17, 17));
+
+        // Initialize TextField
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
@@ -1400,6 +1397,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".popupIconWidth", new Integer(7));
         d.put(p + ".searchLeftInnerMargin", new Integer(3));
         d.put(p + ".searchRightInnerMargin", new Integer(3));
+        d.put(p + ".placeholderTextColor", d.get("seaGlassSearchPlaceholderText"));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
@@ -1422,6 +1420,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".popupIconWidth", new Integer(7));
         d.put(p + ".searchLeftInnerMargin", new Integer(3));
         d.put(p + ".searchRightInnerMargin", new Integer(3));
+        d.put(p + ".placeholderTextColor", d.get("seaGlassSearchPlaceholderText"));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
@@ -2259,5 +2258,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     public static void resetSelectedUI() {
         selectedUI = null;
+    }
+
+    public static class SeaGlassRegion extends Region {
+
+        protected SeaGlassRegion(String name, String ui, boolean subregion) {
+            super(name, ui, subregion);
+        }
     }
 }
