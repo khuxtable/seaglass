@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 import com.seaglasslookandfeel.ui.SeaGlassTextFieldUI;
 
 /**
- * Is the text field a search field variant with a popup menu?
+ * Is the text field a search field variant with a pressed cancel button?
  */
 public class SearchFieldCancelIsPressedState extends State {
     public SearchFieldCancelIsPressedState() {
