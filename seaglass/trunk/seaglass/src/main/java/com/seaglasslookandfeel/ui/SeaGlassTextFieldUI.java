@@ -22,27 +22,29 @@ package com.seaglasslookandfeel.ui;
 import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.LayoutManager2;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
+import java.io.Serializable;
 
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
-import javax.swing.event.MouseInputAdapter;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicTextFieldUI;
@@ -56,9 +58,9 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.View;
 
 import com.seaglasslookandfeel.SeaGlassContext;
-import com.seaglasslookandfeel.SeaGlassIcon;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
+import com.seaglasslookandfeel.SeaGlassSynthPainterImpl;
 import com.seaglasslookandfeel.state.SearchFieldHasPopupState;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.state.TextFieldIsSearchState;
@@ -79,15 +81,15 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
     private static final State isSearchField = new TextFieldIsSearchState();
     private static final State hasPopupMenu  = new SearchFieldHasPopupState();
 
-    private SeaGlassIcon       findIcon;
-    private SeaGlassIcon       cancelIcon;
+    private JButton            findButton;
+    private JButton            cancelButton;
 
     private SynthStyle         style;
 
     private String             placeholderText;
     private Color              placeholderColor;
 
-    private SearchHandler      searchHandler;
+    private SearchFieldLayout  layoutManager;
 
     private ActionListener     findAction;
     private JPopupMenu         findPopup;
@@ -115,7 +117,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
     }
 
     public boolean isCancelPressed() {
-        return searchHandler != null && searchHandler.isCancelArmed();
+        return false;// searchHandler != null && searchHandler.isCancelArmed();
     }
 
     private void updateStyle(JTextComponent comp) {
@@ -174,26 +176,26 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             placeholderColor = (Color) o;
         }
 
-        o = style.get(context, "findIcon");
-        if (o != null && o instanceof SeaGlassIcon) {
-            findIcon = (SeaGlassIcon) o;
-        }
-
-        o = style.get(context, "cancelIcon");
-        if (o != null && o instanceof SeaGlassIcon) {
-            cancelIcon = (SeaGlassIcon) o;
-        }
-
         if (isSearchField.isInState(comp)) {
             Border border = comp.getBorder();
             if (!(border instanceof SearchBorder)) {
                 comp.setBorder(new SearchBorder(border));
             }
 
-            if (searchHandler == null) {
-                searchHandler = new SearchHandler();
-                comp.addMouseListener(searchHandler);
-                comp.addMouseMotionListener(searchHandler);
+            if (comp.getLayout() == null || comp.getLayout() instanceof UIResource) {
+                comp.setLayout(createLayoutManager());
+            }
+
+            if (findButton == null) {
+                findButton = new SearchFieldButton();
+                findButton.setName("TextField.findButton");
+                comp.add(findButton, SearchFieldLayout.FIND_BUTTON);
+            }
+
+            if (cancelButton == null) {
+                cancelButton = new SearchFieldButton();
+                cancelButton.setName("TextField.cancelButton");
+                comp.add(cancelButton, SearchFieldLayout.CANCEL_BUTTON);
             }
 
             o = comp.getClientProperty("JTextField.Search.PlaceholderText");
@@ -227,12 +229,6 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             Border border = comp.getBorder();
             if (border instanceof SearchBorder) {
                 comp.setBorder(((SearchBorder) border).getOriginalBorder());
-            }
-
-            if (searchHandler != null) {
-                comp.removeMouseListener(searchHandler);
-                comp.removeMouseMotionListener(searchHandler);
-                searchHandler = null;
             }
 
             placeholderText = null;
@@ -294,7 +290,6 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         Insets margin = comp.getMargin();
         if (margin == null || margin instanceof UIResource) {
             margin = (Insets) style.get(context, prefix + ".margin");
-
             if (margin == null) {
                 // Some places assume margins are non-null.
                 margin = SeaGlassLookAndFeel.EMPTY_UIRESOURCE_INSETS;
@@ -414,6 +409,11 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             c.setBorder(((SearchBorder) border).getOriginalBorder());
         }
 
+        if (layoutManager != null) {
+            c.setLayout(null);
+            layoutManager = null;
+        }
+
         c.putClientProperty("caretAspectRatio", null);
         c.removeFocusListener(this);
 
@@ -431,6 +431,13 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
     public void installUI(JComponent c) {
         super.installUI(c);
         updateStyle((JTextComponent) c);
+    }
+
+    protected LayoutManager createLayoutManager() {
+        if (layoutManager == null) {
+            layoutManager = new SearchFieldLayout(getComponent());
+        }
+        return layoutManager;
     }
 
     protected void fireAction(ActionListener action) {
@@ -546,8 +553,6 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
                 pw = pw - nextInsets.right - nextInsets.left;
                 ph = ph - nextInsets.bottom - nextInsets.top;
             }
-
-            paintSearchBorder((JTextField) c, (Graphics2D) g.create(), px, py, pw, ph);
         }
 
         /**
@@ -596,143 +601,130 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         public Border getOriginalBorder() {
             return originalBorder;
         }
+    }
 
-        public void paintSearchBorder(JTextField c, Graphics2D g, int x, int y, int width, int height) {
-            SeaGlassContext context = SeaGlassContext.getContext(SeaGlassContext.class, c, null, style, ENABLED);
+    public static class SearchFieldLayout implements LayoutManager2, Serializable {
 
-            findIcon.paintIcon(context, g, x, y, 20, 17);
+        private enum Constraints {
+            FIND, CANCEL
+        };
 
-            // Draw the erase "x" if text is not empty.
-            if (c.getText().length() > 0) {
-                final int cancelX = width - 9;
-                final int cancelY = y - 2;
+        public static final Constraints FIND_BUTTON   = Constraints.FIND;
+        public static final Constraints CANCEL_BUTTON = Constraints.CANCEL;
 
-                cancelIcon.paintIcon(context, g, cancelX, cancelY, 17, 17);
+        private JTextComponent          target;
+        private JButton                 findButton;
+        private JButton                 cancelButton;
+
+        public SearchFieldLayout(JTextComponent target) {
+            this.target = target;
+        }
+
+        public void addLayoutComponent(Component comp, Object constraints) {
+            if (comp instanceof JButton && constraints == FIND_BUTTON) {
+                findButton = (JButton) comp;
+            } else if (comp instanceof JButton && constraints == CANCEL_BUTTON) {
+                cancelButton = (JButton) comp;
+            }
+
+            invalidateLayout(comp.getParent());
+        }
+
+        public void invalidateLayout(Container target) {
+        }
+
+        public void addLayoutComponent(String name, Component comp) {
+            invalidateLayout(comp.getParent());
+        }
+
+        public void removeLayoutComponent(Component comp) {
+            invalidateLayout(comp.getParent());
+        }
+
+        public Dimension preferredLayoutSize(Container target) {
+            return target.getPreferredSize();
+        }
+
+        public Dimension minimumLayoutSize(Container target) {
+            return target.getMinimumSize();
+        }
+
+        public Dimension maximumLayoutSize(Container target) {
+            return target.getMaximumSize();
+        }
+
+        public float getLayoutAlignmentX(Container target) {
+            return 0.0f;
+        }
+
+        public float getLayoutAlignmentY(Container target) {
+            return 0.0f;
+        }
+
+        public void layoutContainer(Container target) {
+
+            // determine the child placements
+            Dimension alloc = this.target.getSize();
+            Insets in = target.getInsets();
+            alloc.width -= in.left + in.right;
+            alloc.height -= in.top + in.bottom;
+
+            // flush changes to the container
+            if (findButton != null) {
+                findButton.setBounds(6, in.top - 1, 20, 17);
+            }
+
+            if (cancelButton != null) {
+                cancelButton.setBounds(in.left + alloc.width, in.top - 1, 17, 17);
             }
         }
     }
 
-    /**
-     * Handles a click on the cancel button by clearing the text and notifying
-     * any ActionListeners.
-     */
-    public class SearchHandler extends MouseInputAdapter {
-
-        private boolean isFindPressed   = false;
-        private boolean isCancelPressed = false;
-
-        public boolean isCancelArmed() {
-            return isCancelPressed;
+    private class SearchFieldButton extends JButton {
+        public SearchFieldButton() {
+            setFocusable(false);
+            setDefaultCapable(false);
+            setContentAreaFilled(false);
         }
 
-        private boolean isOverCancelButton(MouseEvent e) {
-            // TODO Make the actions actual buttons.
+        public String getUIClassID() {
+            return "SearchFieldButtonUI";
+        }
 
-            // If the button is down, we might be outside the component
-            // without having had mouseExited invoked.
-            if (!getComponent().contains(e.getPoint())) {
-                return false;
+        public void updateUI() {
+            setUI(new SearchFieldButtonUI());
+        }
+    }
+
+    private static class SearchFieldButtonUI extends SeaGlassButtonUI {
+        protected void installDefaults(AbstractButton b) {
+            super.installDefaults(b);
+            updateStyle(b);
+        }
+
+        protected void paint(SeaGlassContext context, Graphics g) {
+            SearchFieldButton button = (SearchFieldButton) context.getComponent();
+            System.out.println("For " + button.getName() + ", state = "+ context.getComponentState());
+            ((SeaGlassSynthPainterImpl) context.getPainter()).paintSearchButtonForeground(context, g, 0, 0, button.getWidth(),
+                button.getHeight());
+        }
+
+        void paintBackground(SeaGlassContext context, Graphics g, JComponent c) {
+        }
+
+        public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
+        }
+
+        public Dimension getPreferredSize(JComponent c) {
+            SeaGlassContext context = getContext(c);
+            Dimension dim = null;
+            if ("TextField.findButton".equals(context.getComponent().getName())) {
+                dim = new Dimension(hasPopupMenu.isInState((JComponent) c.getParent()) ? 22 : 20, 17);
+            } else if ("TextField.cancelButton".equals(context.getComponent().getName())) {
+                dim = new Dimension(17, 17);
             }
-
-            JTextComponent c = getComponent();
-            Rectangle rect = new Rectangle();
-            SwingUtilities.calculateInnerArea(c, rect);
-
-            // Adjust for the placement of the cancel button.
-            rect.x += rect.width + searchRightInnerMargin;
-            rect.width = cancelIconWidth;
-            return rect.contains(e.getPoint());
-        }
-
-        private boolean isOverFindButton(MouseEvent e) {
-            // TODO Make the actions actual buttons.
-            if (findPopup == null && findAction != null) {
-                return false;
-            }
-
-            // If the button is down, we might be outside the component
-            // without having had mouseExited invoked.
-            if (!getComponent().contains(e.getPoint())) {
-                return false;
-            }
-
-            JTextComponent c = getComponent();
-            Rectangle rect = new Rectangle();
-            SwingUtilities.calculateInnerArea(c, rect);
-            // Adjust for the placement of the find button.
-            rect.x -= searchIconWidth - searchLeftInnerMargin;
-            rect.width = searchIconWidth;
-            if (findPopup != null) {
-                rect.x -= popupIconWidth;
-                rect.width += popupIconWidth;
-            }
-            return rect.contains(e.getPoint());
-        }
-
-        public void mouseDragged(MouseEvent e) {
-            armCancel(e);
-            armFind(e);
-        }
-
-        public void mouseEntered(MouseEvent e) {
-            armCancel(e);
-            armFind(e);
-        }
-
-        public void mouseExited(MouseEvent e) {
-            disarmCancel();
-            disarmFind();
-        }
-
-        public void mousePressed(MouseEvent e) {
-            armCancel(e);
-            armFind(e);
-        }
-
-        private void cancel() {
-            getComponent().setText("");
-            if (cancelAction != null) {
-                fireAction(cancelAction);
-            }
-        }
-
-        private void find() {
-            if (findAction != null) {
-                fireAction(findAction);
-            }
-            if (findPopup != null) {
-                System.out.println("Got here");
-                findPopup.setVisible(true);
-            }
-        }
-
-        public void mouseReleased(MouseEvent e) {
-            if (isCancelPressed) {
-                cancel();
-            }
-            disarmCancel();
-            if (isFindPressed) {
-                find();
-            }
-            disarmFind();
-        }
-
-        private void armCancel(MouseEvent e) {
-            isCancelPressed = (isOverCancelButton(e) && SwingUtilities.isLeftMouseButton(e));
-            getComponent().repaint();
-        }
-
-        private void disarmCancel() {
-            isCancelPressed = false;
-            getComponent().repaint();
-        }
-
-        private void armFind(MouseEvent e) {
-            isFindPressed = (isOverFindButton(e) && SwingUtilities.isLeftMouseButton(e));
-        }
-
-        private void disarmFind() {
-            isFindPressed = false;
+            context.dispose();
+            return dim;
         }
     }
 }

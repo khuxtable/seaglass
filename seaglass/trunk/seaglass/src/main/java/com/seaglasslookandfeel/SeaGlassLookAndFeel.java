@@ -63,6 +63,7 @@ import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.plaf.synth.SynthStyleFactory;
 
+import com.seaglasslookandfeel.component.SeaGlassIcon;
 import com.seaglasslookandfeel.component.SeaGlassTitlePane;
 import com.seaglasslookandfeel.component.TableScrollPaneCorner;
 import com.seaglasslookandfeel.painter.ArrowButtonPainter;
@@ -116,7 +117,6 @@ import com.seaglasslookandfeel.state.RootPaneNoFrameState;
 import com.seaglasslookandfeel.state.RootPaneWindowFocusedState;
 import com.seaglasslookandfeel.state.ScrollBarButtonIsIncreaseButtonState;
 import com.seaglasslookandfeel.state.ScrollBarButtonsTogetherState;
-import com.seaglasslookandfeel.state.SearchFieldCancelIsPressedState;
 import com.seaglasslookandfeel.state.SearchFieldHasPopupState;
 import com.seaglasslookandfeel.state.SliderArrowShapeState;
 import com.seaglasslookandfeel.state.SplitPaneDividerVerticalState;
@@ -164,7 +164,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in a handful of places where we need an empty Insets.
      */
-    public static final Insets           EMPTY_UIRESOURCE_INSETS    = new InsetsUIResource(0, 0, 0, 0);
+    public static final Insets           EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
+
+    public static final Region           SEARCH_FIELD_BUTTON     = new SeaGlassRegion("SearchFieldButton", "SearchFieldButtonUI", false);
 
     /**
      * The map of SynthStyles. This map is keyed by Region. Each Region maps to
@@ -176,7 +178,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * than one prefix defined for a given region. For example, both Button and
      * "MyButton" might be prefixes assigned to the Region.Button region.
      */
-    private Map<Region, List<LazyStyle>> styleMap                   = new HashMap<Region, List<LazyStyle>>();
+    private Map<Region, List<LazyStyle>> styleMap                = new HashMap<Region, List<LazyStyle>>();
 
     /**
      * A map of regions which have been registered. This mapping is maintained
@@ -184,7 +186,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * This is used in the "matches" method of LazyStyle.
      */
 
-    private Map<String, Region>          registeredRegions          = new HashMap<String, Region>();
+    private Map<String, Region>          registeredRegions       = new HashMap<String, Region>();
 
     /**
      * Our fallback style to avoid NPEs if the proper style cannot be found in
@@ -201,19 +203,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in IMAGE_DIRECTORY and UI_PACKAGE_PREFIX.
      */
-    private static final String          PACKAGE_DIRECTORY          = SeaGlassLookAndFeel.class.getPackage().getName();
+    private static final String          PACKAGE_DIRECTORY       = SeaGlassLookAndFeel.class.getPackage().getName();
 
     /**
      * Set the image directory name based on the root package.
      */
-    private static final String          PAINTER_DIRECTORY          = PACKAGE_DIRECTORY + ".painter";
+    private static final String          PAINTER_DIRECTORY       = PACKAGE_DIRECTORY + ".painter";
 
     /**
      * Set the package name for UI delegates based on the root package.
      */
-    private static final String          UI_PACKAGE_PREFIX          = PACKAGE_DIRECTORY + ".ui.SeaGlass";
+    private static final String          UI_PACKAGE_PREFIX       = PACKAGE_DIRECTORY + ".ui.SeaGlass";
 
-    private UIDefaults                   uiDefaults                 = null;
+    private UIDefaults                   uiDefaults              = null;
 
     // Refer to setSelectedUI
     public static ComponentUI            selectedUI;
@@ -352,6 +354,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         register(Region.TEXT_FIELD, "\"Table.editor\"");
         register(Region.TEXT_FIELD, "\"Tree.cellEditor\"");
         register(Region.TEXT_FIELD, "TextField");
+        register(SEARCH_FIELD_BUTTON, "TextField:\"TextField.findButton\"");
+        register(SEARCH_FIELD_BUTTON, "TextField:\"TextField.cancelButton\"");
         register(Region.FORMATTED_TEXT_FIELD, "FormattedTextField");
         register(Region.PASSWORD_FIELD, "PasswordField");
         register(Region.TEXT_AREA, "TextArea");
@@ -404,6 +408,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "RootPane");
             useOurUI(uiDefaults, "ScrollBar");
             useOurUI(uiDefaults, "ScrollPane");
+            useOurUI(uiDefaults, "SearchFieldButton");
             useOurUI(uiDefaults, "Slider");
             useOurUI(uiDefaults, "SplitPane");
             useOurUI(uiDefaults, "Table");
@@ -1349,28 +1354,36 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         String cs = PAINTER_DIRECTORY + ".SearchFieldPainter";
         String ci = PAINTER_DIRECTORY + ".SearchFieldIconPainter";
 
-        String p = "TextField";
-        d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField,HasPopup,CancelIsPressed");
-        d.put(p + ".SearchField", new TextFieldIsSearchState());
+        // Initialize search field "find" button
+        String p = "TextField:\"TextField.findButton\"";
+        d.put(p + ".States", "Enabled,Pressed,Disabled,HasPopup");
         d.put(p + ".HasPopup", new SearchFieldHasPopupState());
-        d.put(p + ".CancelIsPressed", new SearchFieldCancelIsPressedState());
-        d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
+        d.put(p + "[Enabled+HasPopup].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
+        d.put(p + "[Pressed+HasPopup].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
+
+        // Initialize search field "cancel" button
+        p = "TextField:\"TextField.cancelButton\"";
+        d.put(p + ".States", "Enabled,Pressed,Disabled");
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_PRESSED));
+
+        p = "TextField";
+        d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField");
+        d.put(p + ".SearchField", new TextFieldIsSearchState());
         d.put(p + ".searchIconWidth", new Integer(15));
         d.put(p + ".cancelIconWidth", new Integer(15));
         d.put(p + ".popupIconWidth", new Integer(7));
         d.put(p + ".searchLeftInnerMargin", new Integer(3));
         d.put(p + ".searchRightInnerMargin", new Integer(3));
         d.put(p + ".placeholderTextColor", d.get("seaGlassSearchPlaceholderText"));
-
-        // Initialize search field icons
-        d.put(p + "[Disabled].findIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_DISABLED));
-        d.put(p + "[Enabled].findIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
-        d.put(p + "[Enabled+HasPopup].findIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
-        d.put(p + ".findIcon", new SeaGlassIcon(p, "findIconPainter", 20, 17));
-        d.put(p + "[Disabled].cancelIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_DISABLED));
-        d.put(p + "[Enabled].cancelIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
-        d.put(p + "[Enabled+SearchField+CancelIsPressed].cancelIconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_PRESSED));
-        d.put(p + ".cancelIcon", new SeaGlassIcon(p, "cancelIconPainter", 17, 17));
+        d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put(p + "[SearchField].contentMargins", new InsetsUIResource(6, 26, 6, 23));
 
         // Initialize TextField
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
