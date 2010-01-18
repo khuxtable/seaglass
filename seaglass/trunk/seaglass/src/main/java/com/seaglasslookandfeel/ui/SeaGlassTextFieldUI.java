@@ -704,7 +704,6 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
         protected void paint(SeaGlassContext context, Graphics g) {
             SearchFieldButton button = (SearchFieldButton) context.getComponent();
-            System.out.println("For " + button.getName() + ", state = "+ context.getComponentState());
             ((SeaGlassSynthPainterImpl) context.getPainter()).paintSearchButtonForeground(context, g, 0, 0, button.getWidth(),
                 button.getHeight());
         }
