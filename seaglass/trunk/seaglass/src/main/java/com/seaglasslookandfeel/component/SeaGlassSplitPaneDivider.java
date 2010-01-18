@@ -203,7 +203,7 @@ public class SeaGlassSplitPaneDivider extends BasicSplitPaneDivider {
                         }
                         leftButton.setBounds(extraX + oneTouchOffset, y - oneTouchVOffset, blockSize * 2, blockSize);
                         rightButton
-                            .setBounds(extraX + oneTouchOffset + oneTouchSize * 2, y + oneTouchVOffset + 1, blockSize * 2, blockSize);
+                            .setBounds(extraX + oneTouchOffset, y + oneTouchVOffset + 1, blockSize * 2, blockSize);
                     } else {
                         int extraY = (insets != null) ? insets.top : 0;
                         int blockSize = getWidth();
@@ -223,7 +223,7 @@ public class SeaGlassSplitPaneDivider extends BasicSplitPaneDivider {
 
                         leftButton.setBounds(x - oneTouchVOffset, extraY + oneTouchOffset, blockSize, blockSize * 2);
                         rightButton
-                            .setBounds(x + oneTouchVOffset + 1, extraY + oneTouchOffset + oneTouchSize * 2, blockSize, blockSize * 2);
+                            .setBounds(x + oneTouchVOffset + 1, extraY + oneTouchOffset, blockSize, blockSize * 2);
                     }
                 } else {
                     leftButton.setBounds(-5, -5, 1, 1);
