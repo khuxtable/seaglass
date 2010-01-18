@@ -19,22 +19,18 @@
  */
 package com.seaglasslookandfeel.ui;
 
-import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.LayoutManager2;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.InputEvent;
 import java.beans.PropertyChangeEvent;
 import java.io.Serializable;
 
@@ -43,7 +39,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
-import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
@@ -61,6 +56,7 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.SeaGlassSynthPainterImpl;
+import com.seaglasslookandfeel.component.SeaGlassBorder;
 import com.seaglasslookandfeel.state.SearchFieldHasPopupState;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.state.TextFieldIsSearchState;
@@ -72,14 +68,14 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * Based on SynthTextFieldUI, but we need to set preferred sizes and handle
  * search fields.
- * 
- * The search code is very loosely based on
- * elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
  */
 public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, FocusListener {
 
     private static final State isSearchField = new TextFieldIsSearchState();
     private static final State hasPopupMenu  = new SearchFieldHasPopupState();
+
+    private SearchFieldLayout  layoutManager;
+    private TextFieldBorder    textFieldBorder;
 
     private JButton            findButton;
     private JButton            cancelButton;
@@ -88,8 +84,6 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
     private String             placeholderText;
     private Color              placeholderColor;
-
-    private SearchFieldLayout  layoutManager;
 
     private ActionListener     findAction;
     private JPopupMenu         findPopup;
@@ -187,27 +181,13 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             placeholderColor = (Color) o;
         }
 
+        Border border = c.getBorder();
+        if (border == null || border instanceof UIResource && !(border instanceof TextFieldBorder)) {
+            c.setBorder(createTextFieldBorder(context));
+        }
+
         if (isSearchField.isInState(c)) {
-            Border border = c.getBorder();
-            if (!(border instanceof SearchBorder)) {
-                c.setBorder(new SearchBorder(border));
-            }
-
-            if (c.getLayout() == null || c.getLayout() instanceof UIResource) {
-                c.setLayout(createLayoutManager());
-            }
-
-            if (findButton == null) {
-                findButton = new SearchFieldButton();
-                findButton.setName("TextField.findButton");
-                c.add(findButton, SearchFieldLayout.FIND_BUTTON);
-            }
-
-            if (cancelButton == null) {
-                cancelButton = new SearchFieldButton();
-                cancelButton.setName("TextField.cancelButton");
-                c.add(cancelButton, SearchFieldLayout.CANCEL_BUTTON);
-            }
+            installLayoutManager(c);
 
             o = c.getClientProperty("JTextField.Search.PlaceholderText");
             if (o != null && o instanceof String) {
@@ -237,11 +217,6 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
                 }
             }
         } else {
-            Border border = c.getBorder();
-            if (border instanceof SearchBorder) {
-                c.setBorder(((SearchBorder) border).getOriginalBorder());
-            }
-
             placeholderText = null;
 
             if (findAction != null) {
@@ -417,6 +392,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         super.installDefaults();
 
         JTextComponent c = getComponent();
+
         updateStyle(c);
         c.addFocusListener(this);
     }
@@ -427,13 +403,8 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
         // Remove the search border, if present.
         Border border = c.getBorder();
-        if (border instanceof SearchBorder) {
-            c.setBorder(((SearchBorder) border).getOriginalBorder());
-        }
-
-        if (layoutManager != null) {
-            c.setLayout(null);
-            layoutManager = null;
+        if (border instanceof TextFieldBorder) {
+            c.setBorder(null);
         }
 
         c.putClientProperty("caretAspectRatio", null);
@@ -443,16 +414,42 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         context.dispose();
         style = null;
 
+        uninstallLayoutManager(c);
+
+        super.uninstallDefaults();
+    }
+
+    protected void uninstallLayoutManager(JTextComponent c) {
         if (c.getLayout() instanceof UIResource) {
             c.setLayout(null);
         }
 
-        super.uninstallDefaults();
+        if (layoutManager != null) {
+            layoutManager = null;
+        }
     }
 
     public void installUI(JComponent c) {
         super.installUI(c);
         updateStyle((JTextComponent) c);
+    }
+
+    protected void installLayoutManager(JTextComponent c) {
+        if (c.getLayout() == null || c.getLayout() instanceof UIResource) {
+            c.setLayout(createLayoutManager());
+        }
+
+        if (findButton == null) {
+            findButton = new SearchFieldButton();
+            findButton.setName("TextField.findButton");
+            c.add(findButton, SearchFieldLayout.FIND_BUTTON);
+        }
+
+        if (cancelButton == null) {
+            cancelButton = new SearchFieldButton();
+            cancelButton.setName("TextField.cancelButton");
+            c.add(cancelButton, SearchFieldLayout.CANCEL_BUTTON);
+        }
     }
 
     protected LayoutManager createLayoutManager() {
@@ -462,18 +459,11 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         return layoutManager;
     }
 
-    protected void fireAction(ActionListener action) {
-        int modifiers = 0;
-        AWTEvent currentEvent = EventQueue.getCurrentEvent();
-        if (currentEvent instanceof InputEvent) {
-            modifiers = ((InputEvent) currentEvent).getModifiers();
-        } else if (currentEvent instanceof ActionEvent) {
-            modifiers = ((ActionEvent) currentEvent).getModifiers();
+    protected TextFieldBorder createTextFieldBorder(SeaGlassContext context) {
+        if (textFieldBorder == null) {
+            textFieldBorder = new TextFieldBorder(this, context.getStyle().getInsets(context, null));
         }
-        ActionEvent e = new ActionEvent(getComponent(), ActionEvent.ACTION_PERFORMED, getComponent().getText(), EventQueue
-            .getMostRecentEventTime(), modifiers);
-
-        action.actionPerformed(e);
+        return textFieldBorder;
     }
 
     public Dimension getPreferredSize(JComponent c) {
@@ -513,54 +503,10 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         return d;
     }
 
-    public class SearchBorder extends AbstractBorder {
-        private Border originalBorder;
+    protected class TextFieldBorder extends SeaGlassBorder {
 
-        /**
-         * Creates a compound border with the specified outside and inside
-         * borders. Either border may be null.
-         * 
-         * @param originalBorder
-         *            the outside border
-         * @param insideBorder
-         *            the inside border to be nested
-         */
-        public SearchBorder(Border originalBorder) {
-            this.originalBorder = originalBorder;
-        }
-
-        /**
-         * Returns whether or not this compound border is opaque. Returns true
-         * if both the inside and outside borders are non-null and opaque;
-         * returns false otherwise.
-         */
-        public boolean isBorderOpaque() {
-            return (originalBorder == null || originalBorder.isBorderOpaque());
-        }
-
-        /**
-         * Paints the compound border by painting the outside border with the
-         * specified position and size and then painting the inside border at
-         * the specified position and size offset by the insets of the outside
-         * border.
-         * 
-         * @param c
-         *            the component for which this border is being painted
-         * @param g
-         *            the paint graphics
-         * @param x
-         *            the x position of the painted border
-         * @param y
-         *            the y position of the painted border
-         * @param width
-         *            the width of the painted border
-         * @param height
-         *            the height of the painted border
-         */
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            if (originalBorder != null) {
-                originalBorder.paintBorder(c, g, x, y, width, height);
-            }
+        public TextFieldBorder(SynthUI ui, Insets insets) {
+            super(ui, insets);
         }
 
         /**
@@ -572,46 +518,25 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
          *            the object to be reinitialized
          */
         public Insets getBorderInsets(Component c, Insets insets) {
-            Insets nextInsets;
-
-            insets.top = insets.left = insets.right = insets.bottom = 0;
-            if (originalBorder != null) {
-                nextInsets = originalBorder.getBorderInsets(c);
-                insets.top += nextInsets.top;
-                insets.left += nextInsets.left;
-                insets.right += nextInsets.right;
-                insets.bottom += nextInsets.bottom;
+            if (insets == null) {
+                insets = new Insets(0, 0, 0, 0);
             }
 
-            insets.left += searchIconWidth + searchLeftInnerMargin;
-            if (hasPopupMenu.isInState((JComponent) c)) {
-                insets.left += popupIconWidth;
+            super.getBorderInsets(c, insets);
+
+            if (isSearchField.isInState((JTextComponent) c)) {
+                insets.left += searchIconWidth + searchLeftInnerMargin;
+                if (hasPopupMenu.isInState((JComponent) c)) {
+                    insets.left += popupIconWidth;
+                }
+                insets.right += cancelIconWidth + searchRightInnerMargin;
             }
-            insets.right += cancelIconWidth + searchRightInnerMargin;
 
             return insets;
         }
-
-        /**
-         * Returns the insets of the composite border by adding the insets of
-         * the outside border to the insets of the inside border.
-         * 
-         * @param c
-         *            the component for which this border insets value applies
-         */
-        public Insets getBorderInsets(Component c) {
-            return getBorderInsets(c, new Insets(0, 0, 0, 0));
-        }
-
-        /**
-         * Returns the outside border object.
-         */
-        public Border getOriginalBorder() {
-            return originalBorder;
-        }
     }
 
-    public static class SearchFieldLayout implements LayoutManager2, Serializable {
+    protected static class SearchFieldLayout implements LayoutManager2, Serializable {
 
         private enum Constraints {
             FIND, CANCEL
@@ -688,7 +613,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         }
     }
 
-    private class SearchFieldButton extends JButton {
+    protected class SearchFieldButton extends JButton {
         public SearchFieldButton() {
             setFocusable(false);
             setDefaultCapable(false);
@@ -704,7 +629,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         }
     }
 
-    private static class SearchFieldButtonUI extends SeaGlassButtonUI {
+    protected static class SearchFieldButtonUI extends SeaGlassButtonUI {
         protected void installDefaults(AbstractButton b) {
             super.installDefaults(b);
             updateStyle(b);
