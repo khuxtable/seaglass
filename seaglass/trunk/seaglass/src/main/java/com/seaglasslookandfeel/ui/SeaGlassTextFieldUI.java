@@ -577,21 +577,33 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         return d;
     }
 
-    /**
-     * 
-     */
     private void doFind() {
-        fireAction(findAction);
+        if (findAction != null) {
+            fireAction(findAction);
+        }
+
+        doPopup();
     }
 
-    /**
-     * 
-     */
     private void doCancel() {
+        // Erase the text in the search field.
         getComponent().setText("");
 
         if (cancelAction != null) {
             fireAction(cancelAction);
+        }
+    }
+
+    private void doPopup() {
+        if (findPopup != null) {
+            JTextComponent c = getComponent();
+            findPopup.pack();
+            // The "-1" just snugs us up a bit under the text field.
+            findPopup.show(c, 0, c.getHeight() - 1);
+
+            // Set focus back to the text field.
+            // TODO Fix caret positioning, selection, etc.
+            c.requestFocusInWindow();
         }
     }
 
@@ -682,10 +694,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             currentMouseY = e.getY();
 
             if (isOverFindButton()) {
-                if (findAction != null) {
-                    doFind();
-                    return;
-                }
+                doFind();
             }
 
             if (isOverCancelButton()) {
