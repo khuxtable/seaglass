@@ -19,8 +19,6 @@
  */
 package com.seaglasslookandfeel.state;
 
-import java.awt.Container;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
@@ -35,19 +33,17 @@ public class SearchFieldHasPopupState extends State {
     }
 
     public boolean isInState(JComponent c) {
-        if (!(c instanceof JButton)) {
+        if (c instanceof JButton && c.getParent() != null && c.getParent() instanceof JTextComponent) {
+            c = (JComponent) c.getParent();
+        } else if (!(c instanceof JTextComponent)) {
             return false;
         }
 
-        Container p = c.getParent();
-        if (p == null || !(p instanceof JTextComponent)) { return false;}
-        
-        JTextComponent field = (JTextComponent) p;
-        if (!"search".equals(field.getClientProperty("JTextField.variant"))) {
+        if (!"search".equals(c.getClientProperty("JTextField.variant"))) {
             return false;
         }
 
-        Object o = field.getClientProperty("JTextField.Search.FindPopup");
+        Object o = c.getClientProperty("JTextField.Search.FindPopup");
         return (o != null && o instanceof JPopupMenu);
     }
 }
