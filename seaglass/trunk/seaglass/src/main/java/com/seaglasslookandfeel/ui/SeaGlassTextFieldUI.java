@@ -120,16 +120,16 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         return false;// searchHandler != null && searchHandler.isCancelArmed();
     }
 
-    private void updateStyle(JTextComponent comp) {
-        SeaGlassContext context = getContext(comp, ENABLED);
+    private void updateStyle(JTextComponent c) {
+        SeaGlassContext context = getContext(c, ENABLED);
         SynthStyle oldStyle = style;
 
         style = SeaGlassLookAndFeel.updateStyle(context, this);
 
-        updateSearchStyle(comp, context, getPropertyPrefix());
+        updateSearchStyle(c, context, getPropertyPrefix());
 
         if (style != oldStyle) {
-            updateStyle(comp, context, getPropertyPrefix());
+            updateStyle(c, context, getPropertyPrefix());
 
             if (oldStyle != null) {
                 uninstallKeyboardActions();
@@ -139,7 +139,18 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         context.dispose();
     }
 
-    private void updateSearchStyle(JTextComponent comp, SeaGlassContext context, String prefix) {
+    /**
+     * Sea Glass code to support the search JTextField.variant.
+     * 
+     * @param c
+     *            the JTextField component.
+     * @param context
+     *            the SeaGlassContext.
+     * @param prefix
+     *            the control prefix, e.g. "TextField", "FormattedTextField", or
+     *            "PasswordField".
+     */
+    private void updateSearchStyle(JTextComponent c, SeaGlassContext context, String prefix) {
         searchIconWidth = 0;
         Object o = style.get(context, prefix + ".searchIconWidth");
         if (o != null && o instanceof Integer) {
@@ -176,59 +187,59 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             placeholderColor = (Color) o;
         }
 
-        if (isSearchField.isInState(comp)) {
-            Border border = comp.getBorder();
+        if (isSearchField.isInState(c)) {
+            Border border = c.getBorder();
             if (!(border instanceof SearchBorder)) {
-                comp.setBorder(new SearchBorder(border));
+                c.setBorder(new SearchBorder(border));
             }
 
-            if (comp.getLayout() == null || comp.getLayout() instanceof UIResource) {
-                comp.setLayout(createLayoutManager());
+            if (c.getLayout() == null || c.getLayout() instanceof UIResource) {
+                c.setLayout(createLayoutManager());
             }
 
             if (findButton == null) {
                 findButton = new SearchFieldButton();
                 findButton.setName("TextField.findButton");
-                comp.add(findButton, SearchFieldLayout.FIND_BUTTON);
+                c.add(findButton, SearchFieldLayout.FIND_BUTTON);
             }
 
             if (cancelButton == null) {
                 cancelButton = new SearchFieldButton();
                 cancelButton.setName("TextField.cancelButton");
-                comp.add(cancelButton, SearchFieldLayout.CANCEL_BUTTON);
+                c.add(cancelButton, SearchFieldLayout.CANCEL_BUTTON);
             }
 
-            o = comp.getClientProperty("JTextField.Search.PlaceholderText");
+            o = c.getClientProperty("JTextField.Search.PlaceholderText");
             if (o != null && o instanceof String) {
                 placeholderText = (String) o;
             } else if (placeholderText != null) {
                 placeholderText = null;
             }
 
-            o = comp.getClientProperty("JTextField.Search.FindAction");
+            o = c.getClientProperty("JTextField.Search.FindAction");
             if (o != null && o instanceof ActionListener) {
                 if (findAction == null) {
                     findAction = (ActionListener) o;
                 }
             }
 
-            o = comp.getClientProperty("JTextField.Search.FindPopup");
+            o = c.getClientProperty("JTextField.Search.FindPopup");
             if (o != null && o instanceof JPopupMenu) {
                 if (findPopup == null) {
                     findPopup = (JPopupMenu) o;
                 }
             }
 
-            o = comp.getClientProperty("JTextField.Search.CancelAction");
+            o = c.getClientProperty("JTextField.Search.CancelAction");
             if (o != null && o instanceof ActionListener) {
                 if (cancelAction == null) {
                     cancelAction = (ActionListener) o;
                 }
             }
         } else {
-            Border border = comp.getBorder();
+            Border border = c.getBorder();
             if (border instanceof SearchBorder) {
-                comp.setBorder(((SearchBorder) border).getOriginalBorder());
+                c.setBorder(((SearchBorder) border).getOriginalBorder());
             }
 
             placeholderText = null;
@@ -247,57 +258,68 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         }
     }
 
-    private void updateStyle(JTextComponent comp, SeaGlassContext context, String prefix) {
+    /**
+     * Private method to update styles.
+     * 
+     * @param c
+     *            the JTextField component.
+     * @param context
+     *            the SeaGlassContext.
+     * @param prefix
+     *            the control prefix, e.g. "TextField", "FormattedTextField", or
+     *            "PasswordField".
+     */
+    private void updateStyle(JTextComponent c, SeaGlassContext context, String prefix) {
         SeaGlassStyle style = (SeaGlassStyle) context.getStyle();
 
-        Color color = comp.getCaretColor();
+        Color color = c.getCaretColor();
         if (color == null || color instanceof UIResource) {
-            comp.setCaretColor((Color) style.get(context, prefix + ".caretForeground"));
+            c.setCaretColor((Color) style.get(context, prefix + ".caretForeground"));
         }
 
-        Color fg = comp.getForeground();
+        Color fg = c.getForeground();
         if (fg == null || fg instanceof UIResource) {
             fg = style.getColorForState(context, ColorType.TEXT_FOREGROUND);
             if (fg != null) {
-                comp.setForeground(fg);
+                c.setForeground(fg);
             }
         }
 
         Object ar = style.get(context, prefix + ".caretAspectRatio");
         if (ar instanceof Number) {
-            comp.putClientProperty("caretAspectRatio", ar);
+            c.putClientProperty("caretAspectRatio", ar);
         }
 
         context.setComponentState(SELECTED | FOCUSED);
 
-        Color s = comp.getSelectionColor();
+        Color s = c.getSelectionColor();
         if (s == null || s instanceof UIResource) {
-            comp.setSelectionColor(style.getColor(context, ColorType.TEXT_BACKGROUND));
+            c.setSelectionColor(style.getColor(context, ColorType.TEXT_BACKGROUND));
         }
 
-        Color sfg = comp.getSelectedTextColor();
+        Color sfg = c.getSelectedTextColor();
         if (sfg == null || sfg instanceof UIResource) {
-            comp.setSelectedTextColor(style.getColor(context, ColorType.TEXT_FOREGROUND));
+            c.setSelectedTextColor(style.getColor(context, ColorType.TEXT_FOREGROUND));
         }
 
         context.setComponentState(DISABLED);
 
-        Color dfg = comp.getDisabledTextColor();
+        Color dfg = c.getDisabledTextColor();
         if (dfg == null || dfg instanceof UIResource) {
-            comp.setDisabledTextColor(style.getColor(context, ColorType.TEXT_FOREGROUND));
+            c.setDisabledTextColor(style.getColor(context, ColorType.TEXT_FOREGROUND));
         }
 
-        Insets margin = comp.getMargin();
+        Insets margin = c.getMargin();
         if (margin == null || margin instanceof UIResource) {
             margin = (Insets) style.get(context, prefix + ".margin");
             if (margin == null) {
                 // Some places assume margins are non-null.
                 margin = SeaGlassLookAndFeel.EMPTY_UIRESOURCE_INSETS;
             }
-            comp.setMargin(margin);
+            c.setMargin(margin);
         }
 
-        Caret caret = comp.getCaret();
+        Caret caret = c.getCaret();
         if (caret instanceof UIResource) {
             Object o = style.get(context, prefix + ".caretBlinkRate");
             if (o != null && o instanceof Integer) {
@@ -536,22 +558,8 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
          *            the height of the painted border
          */
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Insets nextInsets;
-            int px, py, pw, ph;
-
-            px = x;
-            py = y;
-            pw = width;
-            ph = height;
-
             if (originalBorder != null) {
-                originalBorder.paintBorder(c, g, px, py, pw, ph);
-
-                nextInsets = originalBorder.getBorderInsets(c);
-                px += nextInsets.left;
-                py += nextInsets.top;
-                pw = pw - nextInsets.right - nextInsets.left;
-                ph = ph - nextInsets.bottom - nextInsets.top;
+                originalBorder.paintBorder(c, g, x, y, width, height);
             }
         }
 
@@ -671,7 +679,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
             // flush changes to the container
             if (findButton != null) {
-                findButton.setBounds(6, in.top - 1, 20, 17);
+                findButton.setBounds(6, in.top - 1, hasPopupMenu.isInState(this.target) ? 22 : 20, 17);
             }
 
             if (cancelButton != null) {
@@ -704,8 +712,8 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
         protected void paint(SeaGlassContext context, Graphics g) {
             SearchFieldButton button = (SearchFieldButton) context.getComponent();
-            ((SeaGlassSynthPainterImpl) context.getPainter()).paintSearchButtonForeground(context, g, 0, 0, button.getWidth(),
-                button.getHeight());
+            ((SeaGlassSynthPainterImpl) context.getPainter()).paintSearchButtonForeground(context, g, 0, 0, button.getWidth(), button
+                .getHeight());
         }
 
         void paintBackground(SeaGlassContext context, Graphics g, JComponent c) {
