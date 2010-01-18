@@ -17,7 +17,7 @@
  * 
  * $Id$
  */
-package com.seaglasslookandfeel;
+package com.seaglasslookandfeel.component;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -31,6 +31,8 @@ import javax.swing.UIManager;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.SynthContext;
 
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.painter.Painter;
 
 import sun.swing.plaf.synth.SynthIcon;

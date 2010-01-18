@@ -317,6 +317,28 @@ public class SeaGlassSynthPainterImpl extends SynthPainter {
     }
 
     /**
+     * Paints the foreground of a search field button. This method is responsible for
+     * drawing a graphical representation of a find or cancel button.
+     * 
+     * @param context
+     *            SynthContext identifying the <code>JComponent</code> and
+     *            <code>Region</code> to paint to
+     * @param g
+     *            <code>Graphics</code> to paint to
+     * @param x
+     *            X coordinate of the area to paint to
+     * @param y
+     *            Y coordinate of the area to paint to
+     * @param w
+     *            Width of the area to paint to
+     * @param h
+     *            Height of the area to paint to
+     */
+    public void paintSearchButtonForeground(SynthContext context, Graphics g, int x, int y, int w, int h) {
+        paintForeground(context, g, x, y, w, h, null);
+    }
+
+    /**
      * Paints the background of a button.
      * 
      * @param context
