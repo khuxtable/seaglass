@@ -164,7 +164,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in a handful of places where we need an empty Insets.
      */
-    public static final Insets           EMPTY_UIRESOURCE_INSETS    = new InsetsUIResource(0, 0, 0, 0);
+    public static final Insets           EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(0, 0, 0, 0);
 
     /**
      * The map of SynthStyles. This map is keyed by Region. Each Region maps to
@@ -176,7 +176,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * than one prefix defined for a given region. For example, both Button and
      * "MyButton" might be prefixes assigned to the Region.Button region.
      */
-    private Map<Region, List<LazyStyle>> styleMap                   = new HashMap<Region, List<LazyStyle>>();
+    private Map<Region, List<LazyStyle>> styleMap                = new HashMap<Region, List<LazyStyle>>();
 
     /**
      * A map of regions which have been registered. This mapping is maintained
@@ -184,7 +184,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * This is used in the "matches" method of LazyStyle.
      */
 
-    private Map<String, Region>          registeredRegions          = new HashMap<String, Region>();
+    private Map<String, Region>          registeredRegions       = new HashMap<String, Region>();
 
     /**
      * Our fallback style to avoid NPEs if the proper style cannot be found in
@@ -201,19 +201,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Used in IMAGE_DIRECTORY and UI_PACKAGE_PREFIX.
      */
-    private static final String          PACKAGE_DIRECTORY          = SeaGlassLookAndFeel.class.getPackage().getName();
+    private static final String          PACKAGE_DIRECTORY       = SeaGlassLookAndFeel.class.getPackage().getName();
 
     /**
      * Set the image directory name based on the root package.
      */
-    private static final String          PAINTER_DIRECTORY          = PACKAGE_DIRECTORY + ".painter";
+    private static final String          PAINTER_DIRECTORY       = PACKAGE_DIRECTORY + ".painter";
 
     /**
      * Set the package name for UI delegates based on the root package.
      */
-    private static final String          UI_PACKAGE_PREFIX          = PACKAGE_DIRECTORY + ".ui.SeaGlass";
+    private static final String          UI_PACKAGE_PREFIX       = PACKAGE_DIRECTORY + ".ui.SeaGlass";
 
-    private UIDefaults                   uiDefaults                 = null;
+    private UIDefaults                   uiDefaults              = null;
 
     // Refer to setSelectedUI
     public static ComponentUI            selectedUI;
@@ -352,8 +352,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         register(Region.TEXT_FIELD, "\"Table.editor\"");
         register(Region.TEXT_FIELD, "\"Tree.cellEditor\"");
         register(Region.TEXT_FIELD, "TextField");
-        register(SeaGlassRegion.SEARCH_FIELD_FIND_BUTTON, "TextField:SearchFindButton");
-        register(SeaGlassRegion.SEARCH_FIELD_CANCEL_BUTTON, "TextField:SearchCancelButton");
+        register(SeaGlassRegion.SEARCH_FIELD_FIND_BUTTON, "TextField:SearchFieldFindButton");
+        register(SeaGlassRegion.SEARCH_FIELD_CANCEL_BUTTON, "TextField:SearchFieldCancelButton");
         register(Region.FORMATTED_TEXT_FIELD, "FormattedTextField");
         register(Region.PASSWORD_FIELD, "PasswordField");
         register(Region.TEXT_AREA, "TextArea");
@@ -1353,25 +1353,23 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         String ci = PAINTER_DIRECTORY + ".SearchFieldIconPainter";
 
         // Initialize search field "find" button
-        String p = "TextField:SearchFindButton";
+        String p = "TextField:SearchFieldFindButton";
         d.put(p + ".States", "Enabled,Pressed,Disabled,HasPopup");
         d.put(p + ".HasPopup", new SearchFieldHasPopupState());
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[Disabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
-        d.put(p + "[Enabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
-        d.put(p + "[Pressed].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
-        d.put(p + "[Enabled+HasPopup].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
-        d.put(p + "[Pressed+HasPopup].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
-        d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 22, 17));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
+        d.put(p + "[Enabled+HasPopup].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
+        d.put(p + "[Pressed+HasPopup].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
 
         // Initialize search field "cancel" button
-        p = "TextField:SearchCancelButton";
+        p = "TextField:SearchFieldCancelButton";
         d.put(p + ".States", "Enabled,Pressed,Disabled");
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[Disabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
-        d.put(p + "[Enabled].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
-        d.put(p + "[Pressed].iconPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_PRESSED));
-        d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 17, 17));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.CANCEL_ICON_PRESSED));
 
         p = "TextField";
         d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField");
