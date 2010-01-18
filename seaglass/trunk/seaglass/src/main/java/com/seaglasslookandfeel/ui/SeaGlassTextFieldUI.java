@@ -78,7 +78,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
     private TextFieldBorder    textFieldBorder;
 
-    private MouseAdapter       mouseButtonListener;
+    private MouseAdapter       mouseListener;
 
     private SynthStyle         style;
     private SynthStyle         findStyle;
@@ -224,6 +224,8 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
                     cancelAction = (ActionListener) o;
                 }
             }
+            
+            installMouseListeners();
         } else {
             placeholderText = null;
 
@@ -238,6 +240,8 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             if (cancelAction != null) {
                 cancelAction = null;
             }
+            
+            uninstallMouseListeners();
         }
     }
 
@@ -491,28 +495,39 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
     }
 
     @Override
-    protected void installListeners() {
-        super.installListeners();
-
-        MouseAdapter mouseListener = createMouseListener();
-        getComponent().addMouseListener(mouseListener);
-        getComponent().addMouseMotionListener(mouseListener);
-    }
-
-    @Override
     protected void uninstallListeners() {
         super.uninstallListeners();
-        if (mouseButtonListener != null) {
-            getComponent().removeMouseListener(mouseButtonListener);
-            getComponent().removeMouseMotionListener(mouseButtonListener);
+        uninstallMouseListeners();
+    }
+
+    /**
+     * 
+     */
+    private void installMouseListeners() {
+        if (mouseListener == null) {
+            mouseListener = createMouseListener();
+
+            getComponent().addMouseListener(mouseListener);
+            getComponent().addMouseMotionListener(mouseListener);
+        }
+    }
+
+    /**
+     * 
+     */
+    private void uninstallMouseListeners() {
+        if (mouseListener != null) {
+            getComponent().removeMouseListener(mouseListener);
+            getComponent().removeMouseMotionListener(mouseListener);
+            mouseListener = null;
         }
     }
 
     protected MouseAdapter createMouseListener() {
-        if (mouseButtonListener == null) {
-            mouseButtonListener = new MouseButtonListener();
+        if (mouseListener == null) {
+            mouseListener = new MouseButtonListener();
         }
-        return mouseButtonListener;
+        return mouseListener;
     }
 
     public void installUI(JComponent c) {
