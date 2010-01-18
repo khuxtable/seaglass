@@ -683,7 +683,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             }
 
             if (cancelButton != null) {
-                cancelButton.setBounds(in.left + alloc.width, in.top - 1, 17, 17);
+                cancelButton.setBounds(in.left + alloc.width + 3, in.top - 2, 17, 17);
             }
         }
     }
