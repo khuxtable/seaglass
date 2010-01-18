@@ -679,7 +679,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
             // flush changes to the container
             if (findButton != null) {
-                findButton.setBounds(6, in.top - 1, hasPopupMenu.isInState(this.target) ? 22 : 20, 17);
+                findButton.setBounds(6, in.top, hasPopupMenu.isInState(this.target) ? 22 : 20, 17);
             }
 
             if (cancelButton != null) {
