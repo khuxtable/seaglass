@@ -1250,8 +1250,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".size", new Integer(11));
         d.put(p + ".dividerSize", new Integer(11));
         d.put(p + ".centerOneTouchButtons", Boolean.TRUE);
-        d.put(p + ".oneTouchButtonOffset", new Integer(30));
-        d.put(p + ".oneTouchButtonVOffset", new Integer(1));
+        d.put(p + ".oneTouchButtonOffset", new Integer(20));
+        d.put(p + ".oneTouchButtonVOffset", new Integer(3));
         d.put(p + ".oneTouchExpandable", Boolean.FALSE);
         d.put(p + ".continuousLayout", Boolean.TRUE);
 
