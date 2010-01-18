@@ -5,6 +5,5 @@
 	<classpathentry kind="lib" path="lib/laffy-seaglass.jar" sourcepath="/Users/huxtable/dev/workspace/laffy/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JDK 1.6.0"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/seaglass"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/macwidgets"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
