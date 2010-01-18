@@ -80,6 +80,8 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
     private MouseAdapter       mouseListener;
 
+    private boolean            isCancelArmed;
+
     private SynthStyle         style;
     private SynthStyle         findStyle;
     private SynthStyle         cancelStyle;
@@ -110,10 +112,6 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
     public SeaGlassTextFieldUI() {
         super();
-    }
-
-    public boolean isCancelPressed() {
-        return false;// searchHandler != null && searchHandler.isCancelArmed();
     }
 
     private void updateStyle(JTextComponent c) {
@@ -224,7 +222,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
                     cancelAction = (ActionListener) o;
                 }
             }
-            
+
             installMouseListeners();
         } else {
             placeholderText = null;
@@ -240,7 +238,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
             if (cancelAction != null) {
                 cancelAction = null;
             }
-            
+
             uninstallMouseListeners();
         }
     }
@@ -579,6 +577,38 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         return d;
     }
 
+    /**
+     * 
+     */
+    private void doFind() {
+        fireAction(findAction);
+    }
+
+    /**
+     * 
+     */
+    private void doCancel() {
+        getComponent().setText("");
+
+        if (cancelAction != null) {
+            fireAction(cancelAction);
+        }
+    }
+
+    protected void fireAction(ActionListener action) {
+        int modifiers = 0;
+        AWTEvent currentEvent = EventQueue.getCurrentEvent();
+        if (currentEvent instanceof InputEvent) {
+            modifiers = ((InputEvent) currentEvent).getModifiers();
+        } else if (currentEvent instanceof ActionEvent) {
+            modifiers = ((ActionEvent) currentEvent).getModifiers();
+        }
+        ActionEvent e = new ActionEvent(getComponent(), ActionEvent.ACTION_PERFORMED, getComponent().getText(), EventQueue
+            .getMostRecentEventTime(), modifiers);
+
+        action.actionPerformed(e);
+    }
+
     protected class TextFieldBorder extends SeaGlassBorder {
 
         public TextFieldBorder(SynthUI ui, Insets insets) {
@@ -612,36 +642,21 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         }
     }
 
-    protected void fireAction(ActionListener action) {
-        int modifiers = 0;
-        AWTEvent currentEvent = EventQueue.getCurrentEvent();
-        if (currentEvent instanceof InputEvent) {
-            modifiers = ((InputEvent) currentEvent).getModifiers();
-        } else if (currentEvent instanceof ActionEvent) {
-            modifiers = ((ActionEvent) currentEvent).getModifiers();
-        }
-        ActionEvent e = new ActionEvent(getComponent(), ActionEvent.ACTION_PERFORMED, getComponent().getText(), EventQueue
-            .getMostRecentEventTime(), modifiers);
-
-        action.actionPerformed(e);
-    }
-
-    private boolean isCancelArmed = false;
-
     /**
      * Track mouse clicks and moves.
      */
     protected class MouseButtonListener extends MouseAdapter {
         protected transient int currentMouseX, currentMouseY;
 
+        public MouseButtonListener() {
+            isCancelArmed = false;
+        }
+
         public void mouseReleased(MouseEvent e) {
             if (isCancelArmed) {
                 isCancelArmed = false;
                 if (isOverCancelButton()) {
-                    getComponent().setText("");
-                    if (cancelAction != null) {
-                        fireAction(cancelAction);
-                    }
+                    doCancel();
                 }
                 getComponent().repaint();
             }
@@ -668,7 +683,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
             if (isOverFindButton()) {
                 if (findAction != null) {
-                    fireAction(findAction);
+                    doFind();
                     return;
                 }
             }
