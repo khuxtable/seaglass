@@ -97,7 +97,6 @@ import com.seaglasslookandfeel.painter.SpinnerNextButtonPainter;
 import com.seaglasslookandfeel.painter.SpinnerPreviousButtonPainter;
 import com.seaglasslookandfeel.painter.SplitPaneDividerPainter;
 import com.seaglasslookandfeel.painter.TabbedPaneTabAreaPainter;
-import com.seaglasslookandfeel.painter.TabbedPaneTabPainter;
 import com.seaglasslookandfeel.painter.TableHeaderPainter;
 import com.seaglasslookandfeel.painter.TableHeaderRendererPainter;
 import com.seaglasslookandfeel.painter.TextComponentPainter;
@@ -121,6 +120,10 @@ import com.seaglasslookandfeel.state.SearchFieldHasPopupState;
 import com.seaglasslookandfeel.state.SliderArrowShapeState;
 import com.seaglasslookandfeel.state.SplitPaneDividerVerticalState;
 import com.seaglasslookandfeel.state.SplitPaneVerticalState;
+import com.seaglasslookandfeel.state.TabbedPaneBottomTabState;
+import com.seaglasslookandfeel.state.TabbedPaneLeftTabState;
+import com.seaglasslookandfeel.state.TabbedPaneRightTabState;
+import com.seaglasslookandfeel.state.TabbedPaneTopTabState;
 import com.seaglasslookandfeel.state.TableHeaderRendererSortedState;
 import com.seaglasslookandfeel.state.TextAreaNotInScrollPaneState;
 import com.seaglasslookandfeel.state.TextFieldIsSearchState;
@@ -1277,38 +1280,43 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineTabbedPanes(UIDefaults d) {
         d.put("tabbedPaneTabBase", new Color(90, 120, 200));
-        
+
         String p = "TabbedPane";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + ".tabAreaStatesMatchSelectedTab", Boolean.TRUE);
         d.put(p + ".nudgeSelectedLabel", Boolean.FALSE);
         d.put(p + ".tabRunOverlay", new Integer(0));
-        d.put(p + ".tabOverlap", new Integer(-2));
-        d.put(p + ".extendTabsToBase", Boolean.TRUE);
+        d.put(p + ".tabOverlap", new Integer(0));
         d.put(p + ".useBasicArrows", Boolean.TRUE);
 
-        String c = PAINTER_DIRECTORY + ".TabbedPaneTabPainter";
+        String c = PAINTER_DIRECTORY + ".ButtonPainter";
         p = "TabbedPane:TabbedPaneTab";
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED_MOUSEOVER));
-        d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED_PRESSED));
-        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Disabled+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_DISABLED));
-        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED));
-        d.put(p + "[MouseOver+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
-        d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_PRESSED));
-        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_FOCUSED));
-        d.put(p + "[Focused+MouseOver+Selected].backgroundPainter", new LazyPainter(c,
-            TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_MOUSEOVER_FOCUSED));
+        d.put(p + ".States", "Enabled,Pressed,Disabled,Focused,Selected,Default");
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Disabled+Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
+        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
         d.put(p + "[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c,
-            TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_PRESSED_FOCUSED));
+            ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
 
         p = "TabbedPane:TabbedPaneTabArea";
         c = PAINTER_DIRECTORY + ".TabbedPaneTabAreaPainter";
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_MOUSEOVER));
-        d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_PRESSED));
+        d.put(p + ".States", "Enabled,Disabled,Top,Left,Bottom,Right");
+        d.put(p + ".Top", new TabbedPaneTopTabState());
+        d.put(p + ".Left", new TabbedPaneLeftTabState());
+        d.put(p + ".Bottom", new TabbedPaneBottomTabState());
+        d.put(p + ".Right", new TabbedPaneRightTabState());
+        d.put(p + "[Enabled+Top].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_TOP));
+        d.put(p + "[Disabled+Top].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_TOP));
+        d.put(p + "[Enabled+Left].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_LEFT));
+        d.put(p + "[Disabled+Left].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_LEFT));
+        d.put(p + "[Enabled+Bottom].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_BOTTOM));
+        d.put(p + "[Disabled+Bottom].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_BOTTOM));
+        d.put(p + "[Enabled+Right].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_RIGHT));
+        d.put(p + "[Disabled+Right].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_RIGHT));
     }
 
     /**
