@@ -24,7 +24,6 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -60,78 +59,22 @@ import sun.swing.plaf.synth.SynthUI;
  * Sea Glass's TabbedPane UI delegate.
  * 
  * Based on SynthTabbedPaneUI.
- * 
- * Looks up 'selectedTabPadInsets' from the Style, which will be additional
- * insets for the selected tab.
  */
 public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, PropertyChangeListener {
-    /**
-     * <p>
-     * If non-zero, tabOverlap indicates the amount that the tab bounds should
-     * be altered such that they would overlap with a tab on either the leading
-     * or trailing end of a run (ie: in TOP, this would be on the left or
-     * right).
-     * </p>
-     * 
-     * <p>
-     * A positive overlap indicates that tabs should overlap right/down, while a
-     * negative overlap indicates tha tabs should overlap left/up.
-     * </p>
-     * 
-     * <p>
-     * When tabOverlap is specified, it both changes the x position and width of
-     * the tab if in TOP or BOTTOM placement, and changes the y position and
-     * height if in LEFT or RIGHT placement.
-     * </p>
-     * 
-     * <p>
-     * This is done for the following reason. Consider a run of 10 tabs. There
-     * are 9 gaps between these tabs. If you specified a tabOverlap of "-1",
-     * then each of the tabs "x" values will be shifted left. This leaves 9
-     * pixels of space to the right of the right-most tab unpainted. So, each
-     * tab's width is also extended by 1 pixel to make up the difference.
-     * </p>
-     * 
-     * <p>
-     * This property respects the RTL component orientation.
-     * </p>
-     */
-    private int          tabOverlap                    = 0;
-
-    /**
-     * When a tabbed pane has multiple rows of tabs, this indicates whether the
-     * tabs in the upper row(s) should extend to the base of the tab area, or
-     * whether they should remain at their normal tab height. This does not
-     * affect the bounds of the tabs, only the bounds of area painted by the
-     * tabs. The text position does not change. The result is that the bottom
-     * border of the upper row of tabs becomes fully obscured by the lower tabs,
-     * resulting in a cleaner look.
-     */
-    private boolean      extendTabsToBase              = false;
 
     private SeaGlassContext tabAreaContext;
     private SeaGlassContext tabContext;
     private SeaGlassContext tabContentContext;
 
-    private SynthStyle   style;
-    private SynthStyle   tabStyle;
-    private SynthStyle   tabAreaStyle;
-    private SynthStyle   tabContentStyle;
+    private SynthStyle      style;
+    private SynthStyle      tabStyle;
+    private SynthStyle      tabAreaStyle;
+    private SynthStyle      tabContentStyle;
 
-    private Rectangle    textRect;
-    private Rectangle    iconRect;
+    private Rectangle       textRect;
+    private Rectangle       iconRect;
 
-    private Rectangle    tabAreaBounds                 = new Rectangle();
-
-    // added for the Nimbus look and feel, where the tab area is painted
-    // differently depending on the
-    // state for the selected tab
-    private boolean      tabAreaStatesMatchSelectedTab = false;
-    // added for the Nimbus LAF to ensure that the labels don't move whether the
-    // tab is selected or not
-    private boolean      nudgeSelectedLabel            = true;
-
-    private boolean      selectedTabIsPressed          = false;
+    private boolean         selectedTabIsPressed = false;
 
     public static ComponentUI createUI(JComponent c) {
         return new SeaGlassTabbedPaneUI();
@@ -140,10 +83,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     SeaGlassTabbedPaneUI() {
         textRect = new Rectangle();
         iconRect = new Rectangle();
-    }
-
-    private boolean scrollableTabLayoutEnabled() {
-        return (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT);
     }
 
     protected void installDefaults() {
@@ -157,16 +96,16 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         // Add properties other than JComponent colors, Borders and
         // opacity settings here:
         if (style != oldStyle) {
-            tabRunOverlay = style.getInt(context, "TabbedPane.tabRunOverlay", 0);
-            tabOverlap = style.getInt(context, "TabbedPane.tabOverlap", 0);
-            extendTabsToBase = style.getBoolean(context, "TabbedPane.extendTabsToBase", false);
+            // Force the tabs to be scrolled rather than wrapped.
+            c.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+            c.putClientProperty("JButton.buttonType", "segmented");
+
+            tabRunOverlay = 0;
             textIconGap = style.getInt(context, "TabbedPane.textIconGap", 0);
             selectedTabPadInsets = (Insets) style.get(context, "TabbedPane.selectedTabPadInsets");
             if (selectedTabPadInsets == null) {
                 selectedTabPadInsets = new Insets(0, 0, 0, 0);
             }
-            tabAreaStatesMatchSelectedTab = style.getBoolean(context, "TabbedPane.tabAreaStatesMatchSelectedTab", false);
-            nudgeSelectedLabel = style.getBoolean(context, "TabbedPane.nudgeSelectedLabel", true);
             if (oldStyle != null) {
                 uninstallKeyboardActions();
                 installKeyboardActions();
@@ -329,13 +268,11 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 delegate.mouseReleased(e);
 
                 // hack: The super method *should* be setting the mouse-over
-                // property correctly
-                // here, but it doesn't. That is, when the mouse is released,
-                // whatever tab is below the
-                // released mouse should be in rollover state. But, if you
-                // select a tab and don't
-                // move the mouse, this doesn't happen. Hence, forwarding the
-                // event.
+                // property correctly here, but it doesn't. That is, when the
+                // mouse is released, whatever tab is below the released mouse
+                // should be in rollover state. But, if you select a tab and
+                // don't move the mouse, this doesn't happen. Hence, forwarding
+                // the event.
                 delegate2.mouseMoved(e);
             }
         };
@@ -343,20 +280,12 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
     @Override
     protected int getTabLabelShiftX(int tabPlacement, int tabIndex, boolean isSelected) {
-        if (nudgeSelectedLabel) {
-            return super.getTabLabelShiftX(tabPlacement, tabIndex, isSelected);
-        } else {
-            return 0;
-        }
+        return 0;
     }
 
     @Override
     protected int getTabLabelShiftY(int tabPlacement, int tabIndex, boolean isSelected) {
-        if (nudgeSelectedLabel) {
-            return super.getTabLabelShiftY(tabPlacement, tabIndex, isSelected);
-        } else {
-            return 0;
-        }
+        return 0;
     }
 
     public void update(Graphics g, JComponent c) {
@@ -401,49 +330,12 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
         ensureCurrentLayout();
 
-        // Paint tab area
-        // If scrollable tabs are enabled, the tab area will be
-        // painted by the scrollable tab panel instead.
-        //
-        if (!scrollableTabLayoutEnabled()) { // WRAP_TAB_LAYOUT
-            Insets insets = tabPane.getInsets();
-            int x = insets.left;
-            int y = insets.top;
-            int width = tabPane.getWidth() - insets.left - insets.right;
-            int height = tabPane.getHeight() - insets.top - insets.bottom;
-            int size;
-            switch (tabPlacement) {
-            case LEFT:
-                width = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-                break;
-            case RIGHT:
-                size = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-                x = x + width - size;
-                width = size;
-                break;
-            case BOTTOM:
-                size = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
-                y = y + height - size;
-                height = size;
-                break;
-            case TOP:
-            default:
-                height = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
-            }
-
-            tabAreaBounds.setBounds(x, y, width, height);
-
-            if (g.getClipBounds().intersects(tabAreaBounds)) {
-                paintTabArea(tabAreaContext, g, tabPlacement, selectedIndex, tabAreaBounds);
-            }
-        }
-
-        // Paint content border
+        // Paint content border.
         paintContentBorder(tabContentContext, g, tabPlacement, selectedIndex);
     }
 
     protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex) {
-        // This can be invoked from ScrollabeTabPanel
+        // This can be invoked from ScrollableTabPanel
         Insets insets = tabPane.getInsets();
         int x = insets.left;
         int y = insets.top;
@@ -456,23 +348,13 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     protected void paintTabArea(SeaGlassContext ss, Graphics g, int tabPlacement, int selectedIndex, Rectangle tabAreaBounds) {
         Rectangle clipRect = g.getClipBounds();
 
-        // if the tab area's states should match that of the selected tab, then
-        // first update the selected tab's states, then set the state
-        // for the tab area to match
-        // otherwise, restore the tab area's state to ENABLED (which is the
-        // only supported state otherwise).
-        if (tabAreaStatesMatchSelectedTab && selectedIndex >= 0) {
-            updateTabContext(selectedIndex, true, selectedTabIsPressed, (getRolloverTab() == selectedIndex),
-                (getFocusIndex() == selectedIndex));
-            ss.setComponentState(tabContext.getComponentState());
-        } else {
-            ss.setComponentState(SynthConstants.ENABLED);
-        }
+        ss.setComponentState(SynthConstants.ENABLED);
 
         // Paint the tab area.
+
         SeaGlassLookAndFeel.updateSubregion(ss, g, tabAreaBounds);
-        ss.getPainter().paintTabbedPaneTabAreaBackground(ss, g, tabAreaBounds.x, tabAreaBounds.y, tabAreaBounds.width,
-            tabAreaBounds.height, tabPlacement);
+        ss.getPainter()
+            .paintTabbedPaneTabAreaBackground(ss, g, tabAreaBounds.x, tabAreaBounds.y, tabAreaBounds.width, tabAreaBounds.height);
         ss.getPainter().paintTabbedPaneTabAreaBorder(ss, g, tabAreaBounds.x, tabAreaBounds.y, tabAreaBounds.width, tabAreaBounds.height,
             tabPlacement);
 
@@ -506,22 +388,17 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
         Rectangle r = null;
 
-        if (oldRolloverTab != index && tabAreaStatesMatchSelectedTab) {
-            // TODO need to just repaint the tab area!
-            tabPane.repaint();
-        } else {
-            if ((oldRolloverTab >= 0) && (oldRolloverTab < tabPane.getTabCount())) {
-                r = getTabBounds(tabPane, oldRolloverTab);
-                if (r != null) {
-                    tabPane.repaint(r);
-                }
+        if ((oldRolloverTab >= 0) && (oldRolloverTab < tabPane.getTabCount())) {
+            r = getTabBounds(tabPane, oldRolloverTab);
+            if (r != null) {
+                tabPane.repaint(r);
             }
+        }
 
-            if (index >= 0) {
-                r = getTabBounds(tabPane, index);
-                if (r != null) {
-                    tabPane.repaint(r);
-                }
+        if (index >= 0) {
+            r = getTabBounds(tabPane, index);
+            if (r != null) {
+                tabPane.repaint(r);
             }
         }
     }
@@ -531,6 +408,17 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         Rectangle tabRect = rects[tabIndex];
         int selectedIndex = tabPane.getSelectedIndex();
         boolean isSelected = selectedIndex == tabIndex;
+        String segmentPosition = "only";
+        if (tabPane.getTabCount() > 0) {
+            if (tabIndex == 0) {
+                segmentPosition = "first";
+            } else if (tabIndex == tabPane.getTabCount() - 1) {
+                segmentPosition = "last";
+            } else {
+                segmentPosition = "middle";
+            }
+        }
+        ss.getComponent().putClientProperty("JButton.segmentPosition", segmentPosition);
         updateTabContext(tabIndex, isSelected, isSelected && selectedTabIsPressed, (getRolloverTab() == tabIndex),
             (getFocusIndex() == tabIndex));
 
@@ -540,37 +428,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         int height = tabRect.height;
         int width = tabRect.width;
         int placement = tabPane.getTabPlacement();
-        if (extendTabsToBase && runCount > 1) {
-            // paint this tab such that its edge closest to the base is equal to
-            // edge of the selected tab closest to the base. In terms of the TOP
-            // tab placement, this will cause the bottom of each tab to be
-            // painted even with the bottom of the selected tab. This is because
-            // in each tab placement (TOP, LEFT, BOTTOM, RIGHT) the selected tab
-            // is closest to the base.
-            if (selectedIndex >= 0) {
-                Rectangle r = rects[selectedIndex];
-                switch (placement) {
-                case TOP:
-                    int bottomY = r.y + r.height;
-                    height = bottomY - tabRect.y;
-                    break;
-                case LEFT:
-                    int rightX = r.x + r.width;
-                    width = rightX - tabRect.x;
-                    break;
-                case BOTTOM:
-                    int topY = r.y;
-                    height = (tabRect.y + tabRect.height) - topY;
-                    y = topY;
-                    break;
-                case RIGHT:
-                    int leftX = r.x;
-                    width = (tabRect.x + tabRect.width) - leftX;
-                    x = leftX;
-                    break;
-                }
-            }
-        }
+
         tabContext.getPainter().paintTabbedPaneTabBackground(tabContext, g, x, y, width, height, tabIndex, placement);
         tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g, x, y, width, height, tabIndex, placement);
 
@@ -673,7 +531,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         }
     }
 
-    protected int calculateMaxTabHeight(int tabPlacement) {
+    public int calculateMaxTabHeight(int tabPlacement) {
         FontMetrics metrics = getFontMetrics(tabContext.getStyle().getFont(tabContext));
         int tabCount = tabPane.getTabCount();
         int result = 0;
@@ -709,7 +567,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         return width;
     }
 
-    protected int calculateMaxTabWidth(int tabPlacement) {
+    public int calculateMaxTabWidth(int tabPlacement) {
         FontMetrics metrics = getFontMetrics(tabContext.getStyle().getFont(tabContext));
         int tabCount = tabPane.getTabCount();
         int result = 0;
@@ -749,7 +607,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         } else {
             state = SeaGlassLookAndFeel.getComponentState(tabPane);
             state &= ~SynthConstants.FOCUSED; // don't use tabbedpane focus
-                                              // state
+            // state
         }
         if (hasFocus && tabPane.hasFocus()) {
             state |= SynthConstants.FOCUSED; // individual tab has focus
@@ -759,62 +617,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         }
 
         tabContext.setComponentState(state);
-    }
-
-    /**
-     * @inheritDoc
-     * 
-     *             Overridden to create a TabbedPaneLayout subclass which takes
-     *             into account tabOverlap.
-     */
-    @Override
-    protected LayoutManager createLayoutManager() {
-        if (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT) {
-            return super.createLayoutManager();
-        } else { /* WRAP_TAB_LAYOUT */
-            return new TabbedPaneLayout() {
-                @Override
-                public void calculateLayoutInfo() {
-                    super.calculateLayoutInfo();
-                    // shift all the tabs, if necessary
-                    if (tabOverlap != 0) {
-                        int tabCount = tabPane.getTabCount();
-                        // left-to-right/right-to-left only affects layout
-                        // when placement is TOP or BOTTOM
-                        boolean ltr = tabPane.getComponentOrientation().isLeftToRight();
-                        for (int i = runCount - 1; i >= 0; i--) {
-                            int start = tabRuns[i];
-                            int next = tabRuns[(i == runCount - 1) ? 0 : i + 1];
-                            int end = (next != 0 ? next - 1 : tabCount - 1);
-                            for (int j = start + 1; j <= end; j++) {
-                                // xshift and yshift represent the amount &
-                                // direction to shift the tab in their
-                                // respective axis.
-                                int xshift = 0;
-                                int yshift = 0;
-                                // configure xshift and y shift based on tab
-                                // position and ltr/rtl
-                                switch (tabPane.getTabPlacement()) {
-                                case JTabbedPane.TOP:
-                                case JTabbedPane.BOTTOM:
-                                    xshift = ltr ? tabOverlap : -tabOverlap;
-                                    break;
-                                case JTabbedPane.LEFT:
-                                case JTabbedPane.RIGHT:
-                                    yshift = tabOverlap;
-                                    break;
-                                default: // do nothing
-                                }
-                                rects[j].x += xshift;
-                                rects[j].y += yshift;
-                                rects[j].width += Math.abs(xshift);
-                                rects[j].height += Math.abs(yshift);
-                            }
-                        }
-                    }
-                }
-            };
-        }
     }
 
     private class SynthScrollableTabButton extends SeaGlassArrowButton implements UIResource {
