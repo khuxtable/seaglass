@@ -1279,15 +1279,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineTabbedPanes(UIDefaults d) {
-        d.put("tabbedPaneTabBase", new Color(90, 120, 200));
-
         String p = "TabbedPane";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + ".tabAreaStatesMatchSelectedTab", Boolean.TRUE);
-        d.put(p + ".nudgeSelectedLabel", Boolean.FALSE);
         d.put(p + ".tabRunOverlay", new Integer(0));
-        d.put(p + ".tabOverlap", new Integer(0));
-        d.put(p + ".useBasicArrows", Boolean.TRUE);
+        d.put(p + ".useBasicArrows", Boolean.FALSE);
 
         String c = PAINTER_DIRECTORY + ".ButtonPainter";
         p = "TabbedPane:TabbedPaneTab";
