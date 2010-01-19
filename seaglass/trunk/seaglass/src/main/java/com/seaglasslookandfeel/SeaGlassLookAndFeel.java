@@ -1296,9 +1296,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
         d.put(p + "[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c,
             ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
+        d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
+        d.put(p + "[Pressed+Selected].textForeground", Color.BLACK);
+        d.put(p + "[Focused+Pressed+Selected].textForeground", Color.BLACK);
 
         p = "TabbedPane:TabbedPaneTabArea";
         c = PAINTER_DIRECTORY + ".TabbedPaneTabAreaPainter";
+        d.put(p + ".contentMargins", new InsetsUIResource(3, 10, 4, 10));
         d.put(p + ".States", "Enabled,Disabled,Top,Left,Bottom,Right");
         d.put(p + ".Top", new TabbedPaneTopTabState());
         d.put(p + ".Left", new TabbedPaneLeftTabState());
@@ -1312,6 +1316,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled+Bottom].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_BOTTOM));
         d.put(p + "[Enabled+Right].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_RIGHT));
         d.put(p + "[Disabled+Right].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_RIGHT));
+
+        p = "TabbedPane:TabbedPaneContent";
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
     }
 
     /**
