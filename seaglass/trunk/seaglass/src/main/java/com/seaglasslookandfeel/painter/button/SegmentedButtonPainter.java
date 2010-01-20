@@ -32,6 +32,8 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
+import com.seaglasslookandfeel.state.ControlInToolBarState;
+import com.seaglasslookandfeel.state.State;
 
 /**
  * Paint a (possibly) segmented button. The default colors are suitable for
@@ -45,22 +47,26 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         NONE, FIRST, MIDDLE, LAST
     };
 
-    private Color            OUTER_FOCUS_COLOR = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
-    private Color            INNER_FOCUS_COLOR = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
+    private static final State inToolBar              = new ControlInToolBarState();
 
-    private final Color      colorShadow       = new Color(0x000000);
-    private Effect           dropShadow        = new SeaGlassDropShadowEffect();
+    private Color              outerFocusColor        = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
+    private Color              innerFocusColor        = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
+    private Color              outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus", 0f, 0f, 0f, 0);
+    private Color              innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus", 0f, 0f, 0f, 0);
 
-    private double           arcSize           = 4d;
+    private final Color        colorShadow            = new Color(0x000000);
+    private Effect             dropShadow             = new SeaGlassDropShadowEffect();
 
-    Path2D                   path              = new Path2D.Double();
+    private double             arcSize                = 4d;
 
-    public ButtonStateColors enabled;
-    public ButtonStateColors enabledPressed;
-    public ButtonStateColors defaultButton;
-    public ButtonStateColors defaultPressed;
-    public ButtonStateColors disabled;
-    public ButtonStateColors disabledSelected;
+    Path2D                     path                   = new Path2D.Double();
+
+    public ButtonStateColors   enabled;
+    public ButtonStateColors   enabledPressed;
+    public ButtonStateColors   defaultButton;
+    public ButtonStateColors   defaultPressed;
+    public ButtonStateColors   disabled;
+    public ButtonStateColors   disabledSelected;
 
     /**
      * Create a segmented button painter.
@@ -127,29 +133,32 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         width -= focusInsets.left + focusInsets.right;
         height -= focusInsets.top + focusInsets.bottom;
 
+        boolean useToolBarFocus = inToolBar.isInState(c);
         Shape s;
         if (focused) {
             s = decodeOuterFocus(segmentStatus, x, y, width, height);
-            g.setColor(OUTER_FOCUS_COLOR);
-            g.fill(s);
+            g.setColor(useToolBarFocus ? outerToolBarFocusColor : outerFocusColor);
+            g.draw(s);
             s = decodeInnerFocus(segmentStatus, x, y, width, height);
-            g.setColor(INNER_FOCUS_COLOR);
-            g.fill(s);
+            g.setColor(useToolBarFocus ? innerToolBarFocusColor : innerFocusColor);
+            g.draw(s);
         }
 
-        s = decodeBorder(segmentStatus, x, y, width, height);
-        if (!focused) {
-            dropShadow.fill(g, s, colorShadow);
+        if (!useToolBarFocus) {
+            s = decodeBorder(segmentStatus, x, y, width, height);
+            if (!focused) {
+                dropShadow.fill(g, s, colorShadow);
+            }
+            g.setPaint(decodeGradientBackground(s, colors.backgroundTop, colors.backgroundBottom));
+            g.fill(s);
+            s = decodeInterior(segmentStatus, x, y, width, height);
+            g.setColor(colors.mainColor);
+            g.fill(s);
+            g.setPaint(decodeGradientBottomShine(s, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
+            g.fill(s);
+            g.setPaint(decodeGradientTopShine(s, colors.upperShineTop, colors.upperShineBottom));
+            g.fill(s);
         }
-        g.setPaint(decodeGradientBackground(s, colors.backgroundTop, colors.backgroundBottom));
-        g.fill(s);
-        s = decodeInterior(segmentStatus, x, y, width, height);
-        g.setColor(colors.mainColor);
-        g.fill(s);
-        g.setPaint(decodeGradientBottomShine(s, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
-        g.fill(s);
-        g.setPaint(decodeGradientTopShine(s, colors.upperShineTop, colors.upperShineBottom));
-        g.fill(s);
     }
 
     /**
@@ -216,8 +225,8 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         double arcSize = this.arcSize + 2;
         x -= 2;
         y -= 2;
-        width += 4;
-        height += 4;
+        width += 3;
+        height += 3;
         switch (segmentStatus) {
         case FIRST:
             decodeFirstSegmentPath(x, y, width, height, arcSize, arcSize);
@@ -239,8 +248,8 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         double arcSize = this.arcSize + 1;
         x -= 1;
         y -= 1;
-        width += 2;
-        height += 2;
+        width += 1;
+        height += 1;
         switch (segmentStatus) {
         case FIRST:
             decodeFirstSegmentPath(x, y, width + 1, height, arcSize, arcSize);
