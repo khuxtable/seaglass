@@ -29,8 +29,6 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
 import com.seaglasslookandfeel.painter.button.ButtonVariantPainter;
 import com.seaglasslookandfeel.painter.button.SegmentedButtonPainter;
 import com.seaglasslookandfeel.painter.button.TexturedButtonPainter;
-import com.seaglasslookandfeel.painter.button.TransparentButtonPainter;
-import com.seaglasslookandfeel.state.ControlInToolBarState;
 
 /**
  * Button painter. This paints both regular and toggle buttons because they look
@@ -58,8 +56,6 @@ public final class ButtonPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED_SELECTED
     };
 
-    private static final ControlInToolBarState inToolBar = new ControlInToolBarState();
-
     private static final Insets                insets    = new Insets(7, 7, 7, 7);
     private static final Dimension             dimension = new Dimension(86, 29);
     private static final CacheMode             cacheMode = CacheMode.FIXED_SIZES;
@@ -70,7 +66,6 @@ public final class ButtonPainter extends AbstractRegionPainter {
 
     private ButtonVariantPainter               standard;
     private ButtonVariantPainter               textured;
-    private ButtonVariantPainter               transparent;
 
     /**
      * Create a new ButtonPainter.
@@ -85,7 +80,6 @@ public final class ButtonPainter extends AbstractRegionPainter {
 
         standard = new SegmentedButtonPainter(state, ctx);
         textured = new TexturedButtonPainter(state, ctx);
-        transparent = new TransparentButtonPainter(state, ctx);
     }
 
     /**
@@ -121,9 +115,7 @@ public final class ButtonPainter extends AbstractRegionPainter {
     private ButtonVariantPainter getButtonPainter(JComponent c) {
         Object buttonType = c.getClientProperty("JButton.buttonType");
         ButtonVariantPainter button = standard;
-        if (buttonType == null && inToolBar.isInState(c)) {
-            button = transparent;
-        } else if ("textured".equals(buttonType) || "segmentedTextured".equals(buttonType)) {
+        if ("textured".equals(buttonType) || "segmentedTextured".equals(buttonType)) {
             button = textured;
         }
         return button;
