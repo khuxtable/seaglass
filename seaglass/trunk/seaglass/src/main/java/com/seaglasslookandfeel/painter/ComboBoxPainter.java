@@ -34,7 +34,6 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.state.ControlInToolBarState;
 import com.seaglasslookandfeel.state.State;
-import com.seaglasslookandfeel.util.PlatformUtils;
 
 /**
  * ComboBoxPainter implementation.
@@ -208,7 +207,7 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     }
 
     private void paintFocus(Graphics2D g, JComponent c, int width, int height) {
-        boolean useToolBarFocus = !PlatformUtils.isMac() && inToolBarState.isInState(c);
+        boolean useToolBarFocus = inToolBarState.isInState(c);
 
         g.setColor(useToolBarFocus ? outerToolBarFocusColor : outerFocusColor);
         setPath(0, 0, width, height, 6);
