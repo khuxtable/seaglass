@@ -76,6 +76,8 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
     private boolean         selectedTabIsPressed = false;
 
+    private int             originalTabLayoutPolicy;
+
     public static ComponentUI createUI(JComponent c) {
         return new SeaGlassTabbedPaneUI();
     }
@@ -85,7 +87,30 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         iconRect = new Rectangle();
     }
 
+    @Override
+    public void installUI(JComponent c) {
+        // Force the tabs to be scrolled rather than wrapped.
+        JTabbedPane tabPane = (JTabbedPane) c;
+        originalTabLayoutPolicy = tabPane.getTabLayoutPolicy();
+        if (originalTabLayoutPolicy != JTabbedPane.SCROLL_TAB_LAYOUT) {
+            tabPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+        }
+
+        super.installUI(c);
+    }
+
+    @Override
+    public void uninstallUI(JComponent c) {
+        super.uninstallUI(c);
+
+        if (originalTabLayoutPolicy != JTabbedPane.SCROLL_TAB_LAYOUT) {
+            ((JTabbedPane) c).setTabLayoutPolicy(originalTabLayoutPolicy);
+        }
+    }
+
     protected void installDefaults() {
+        tabPane.putClientProperty("JButton.buttonType", "segmented");
+
         updateStyle(tabPane);
     }
 
@@ -96,9 +121,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         // Add properties other than JComponent colors, Borders and
         // opacity settings here:
         if (style != oldStyle) {
-            // Force the tabs to be scrolled rather than wrapped.
-            c.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-            c.putClientProperty("JButton.buttonType", "segmented");
 
             tabRunOverlay = 0;
             textIconGap = style.getInt(context, "TabbedPane.textIconGap", 0);
