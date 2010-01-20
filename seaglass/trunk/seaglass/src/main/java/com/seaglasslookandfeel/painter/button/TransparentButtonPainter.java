@@ -35,10 +35,12 @@ import com.seaglasslookandfeel.painter.ButtonPainter.Which;
  */
 public class TransparentButtonPainter extends ButtonVariantPainter {
 
-    private static final Color OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
-    private static final Color INNER_FOCUS_COLOR = new Color(0x73a4d1);
+    private Color outerFocusColor        = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
+    private Color innerFocusColor        = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
+    private Color outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus", 0f, 0f, 0f, 0);
+    private Color innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus", 0f, 0f, 0f, 0);
 
-    Path2D                     path              = new Path2D.Double();
+    Path2D        path                   = new Path2D.Double();
 
     /**
      * Create a transparent button painter.
@@ -56,6 +58,7 @@ public class TransparentButtonPainter extends ButtonVariantPainter {
      * {@inheritDoc}
      */
     public void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
+        boolean useToolBarFocus = true;
 
         int x = focusInsets.left;
         int y = focusInsets.top;
@@ -64,10 +67,10 @@ public class TransparentButtonPainter extends ButtonVariantPainter {
 
         if (focused) {
             path = decodeInnerFocus(x, y, width, height);
-            g.setColor(INNER_FOCUS_COLOR);
+            g.setColor(useToolBarFocus ? innerToolBarFocusColor : innerFocusColor);
             g.draw(path);
             path = decodeOuterFocus(x, y, width, height);
-            g.setColor(OUTER_FOCUS_COLOR);
+            g.setColor(useToolBarFocus ? outerToolBarFocusColor : outerFocusColor);
             g.draw(path);
         }
     }
