@@ -144,7 +144,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             g.draw(s);
         }
 
-        if (!useToolBarFocus) {
+        if (!useToolBarFocus || this instanceof TexturedButtonPainter) {
             s = decodeBorder(segmentStatus, x, y, width, height);
             if (!focused) {
                 dropShadow.fill(g, s, colorShadow);
