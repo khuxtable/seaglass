@@ -41,21 +41,19 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED_TOP, BACKGROUND_DISABLED_LEFT, BACKGROUND_DISABLED_BOTTOM, BACKGROUND_DISABLED_RIGHT,
     }
 
-    private Color        backgroundColor       = decodeColor("control", 0f, 0f, 0f, 0);
-
     private Color        enabledBackLineColor  = new Color(0x647595);
     private Color        disabledBackLineColor = new Color(0x80647595, true);
 
     private Color        lightShadow           = new Color(0x55eeeeee, true);
     private Color        darkShadow            = new Color(0x55aaaaaa, true);
 
-    private Which        state;
+    public Which         state;
     private PaintContext ctx;
 
     public TabbedPaneTabAreaPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(500, 500), false, CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
+        ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(0, 0), false, CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
             Double.POSITIVE_INFINITY);
     }
 
@@ -93,9 +91,6 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
     }
 
     private void paintBackground(Graphics2D g, JComponent c, int width, int height, Color lineColor) {
-        g.setPaint(backgroundColor);
-        g.fillRect(0, 0, width, height);
-
         JTabbedPane tabPane = (JTabbedPane) c;
         SeaGlassTabbedPaneUI ui = (SeaGlassTabbedPaneUI) tabPane.getUI();
         int orientation = tabPane.getTabPlacement();
@@ -111,7 +106,6 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
             paintHorizontalLine(g, c, 0, offset / 2 + 3, width, height, lineColor);
         } else {
             int offset = ui.calculateMaxTabHeight(orientation) / 2 + insets.top;
-            System.out.println("offset = " + offset);
             paintHorizontalLine(g, c, 0, offset + 3, width, height, lineColor);
         }
     }
