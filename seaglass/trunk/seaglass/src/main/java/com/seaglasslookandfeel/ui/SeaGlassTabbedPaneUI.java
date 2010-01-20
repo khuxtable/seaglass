@@ -103,14 +103,13 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     public void uninstallUI(JComponent c) {
         super.uninstallUI(c);
 
+        // Restore original tab layout policy.
         if (originalTabLayoutPolicy != JTabbedPane.SCROLL_TAB_LAYOUT) {
             ((JTabbedPane) c).setTabLayoutPolicy(originalTabLayoutPolicy);
         }
     }
 
     protected void installDefaults() {
-        tabPane.putClientProperty("JButton.buttonType", "segmented");
-
         updateStyle(tabPane);
     }
 
@@ -430,6 +429,10 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         Rectangle tabRect = rects[tabIndex];
         int selectedIndex = tabPane.getSelectedIndex();
         boolean isSelected = selectedIndex == tabIndex;
+        JComponent b = ss.getComponent();
+        if (!"segmented".equals(b.getClientProperty("JButton.buttonType"))) {
+            b.putClientProperty("JButton.buttonType", "segmented");
+        }
         String segmentPosition = "only";
         if (tabPane.getTabCount() > 0) {
             if (tabIndex == 0) {
@@ -440,7 +443,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 segmentPosition = "middle";
             }
         }
-        ss.getComponent().putClientProperty("JButton.segmentPosition", segmentPosition);
+        b.putClientProperty("JButton.segmentPosition", segmentPosition);
         updateTabContext(tabIndex, isSelected, isSelected && selectedTabIsPressed, (getRolloverTab() == tabIndex),
             (getFocusIndex() == tabIndex));
 
