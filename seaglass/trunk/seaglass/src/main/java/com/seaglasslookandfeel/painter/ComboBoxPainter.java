@@ -32,6 +32,8 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.state.ControlInToolBarState;
+import com.seaglasslookandfeel.state.State;
 
 /**
  * ComboBoxPainter implementation.
@@ -51,10 +53,14 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         BACKGROUND_PRESSED_EDITABLE,
     }
 
-    private static final Color         OUTER_FOCUS_COLOR  = new Color(0x8072a5d2, true);
-    private static final Color         INNER_FOCUS_COLOR  = new Color(0x73a4d1);
-    private final Color                OUTER_SHADOW_COLOR = new Color(0x0a000000, true);
-    private final Color                INNER_SHADOW_COLOR = new Color(0x1c000000, true);
+    private static final State         inToolBarState         = new ControlInToolBarState();
+
+    private Color                      outerFocusColor        = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
+    private Color                      innerFocusColor        = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
+    private Color                      outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus", 0f, 0f, 0f, 0);
+    private Color                      innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus", 0f, 0f, 0f, 0);
+    private Color                      outerShadowColor       = new Color(0x0a000000, true);
+    private Color                      innerShadowColor       = new Color(0x1c000000, true);
 
     public ButtonStateColors           enabled;
     public ButtonStateColors           pressed;
@@ -62,17 +68,17 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
 
     private ComboBoxArrowButtonPainter buttonPainter;
 
-    private static final Insets        insets             = new Insets(8, 9, 8, 23);
-    private static final Dimension     dimension          = new Dimension(105, 23);
-    private static final CacheMode     cacheMode          = CacheMode.FIXED_SIZES;
-    private static final Double        maxH               = Double.POSITIVE_INFINITY;
-    private static final Double        maxV               = Double.POSITIVE_INFINITY;
+    private static final Insets        insets                 = new Insets(8, 9, 8, 23);
+    private static final Dimension     dimension              = new Dimension(105, 23);
+    private static final CacheMode     cacheMode              = CacheMode.FIXED_SIZES;
+    private static final Double        maxH                   = Double.POSITIVE_INFINITY;
+    private static final Double        maxV                   = Double.POSITIVE_INFINITY;
 
-    private static final Insets        editableInsets     = new Insets(0, 0, 0, 0);
-    private static final Insets        focusInsets        = new Insets(5, 5, 5, 5);
-    private static final int           buttonWidth        = 21;
+    private static final Insets        editableInsets         = new Insets(0, 0, 0, 0);
+    private static final Insets        focusInsets            = new Insets(5, 5, 5, 5);
+    private static final int           buttonWidth            = 21;
 
-    private Path2D                     path               = new Path2D.Double();
+    private Path2D                     path                   = new Path2D.Double();
 
     private Which                      state;
     private PaintContext               ctx;
@@ -201,10 +207,11 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     }
 
     private void paintFocus(Graphics2D g, JComponent c, int width, int height) {
-        g.setColor(OUTER_FOCUS_COLOR);
+        boolean inToolBar = inToolBarState.isInState(c);
+        g.setColor(inToolBar ? outerToolBarFocusColor : outerFocusColor);
         setPath(0, 0, width, height, 6);
         g.fill(path);
-        g.setColor(INNER_FOCUS_COLOR);
+        g.setColor(inToolBar ? innerToolBarFocusColor : innerFocusColor);
         setPath(1, 1, width - 2, height - 2, 5);
         g.fill(path);
     }
@@ -216,10 +223,10 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         } else {
             g.setClip(width - buttonWidth, 0, buttonWidth, height);
         }
-        g.setColor(OUTER_SHADOW_COLOR);
+        g.setColor(outerShadowColor);
         setPath(1, 2, width - 2, height - 2, 5);
         g.fill(path);
-        g.setColor(INNER_SHADOW_COLOR);
+        g.setColor(innerShadowColor);
         setPath(2, 2, width - 4, height - 3, 5);
         g.fill(path);
         g.setClip(s);
