@@ -20,7 +20,6 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -29,7 +28,9 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
-import javax.swing.JToolBar;
+
+import com.seaglasslookandfeel.state.ControlInToolBarState;
+import com.seaglasslookandfeel.state.State;
 
 /**
  * TextComponentPainter implementation.
@@ -46,16 +47,20 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         BORDER_ENABLED,
     }
 
-    private Color                  OUTER_FOCUS_COLOR      = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
-    private Color                  INNER_FOCUS_COLOR      = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
+    private static final State     inToolBar              = new ControlInToolBarState();
 
-    private static final Color     TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
-    private static final Color     LIGHT_SHADOW_COLOR     = new Color(0, 0, 0, 0x0a);
-    private static final Color     DARK_SHADOW_COLOR      = new Color(0, 0, 0, 0x1e);
+    private Color                  outerFocusColor        = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
+    private Color                  innerFocusColor        = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
+    private Color                  outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus", 0f, 0f, 0f, 0);
+    private Color                  innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus", 0f, 0f, 0f, 0);
 
-    private static final Color     DISABLED_BORDER        = new Color(0xdddddd);
-    private static final Color     ENABLED_BORDER         = new Color(0xbbbbbb);
-    private static final Color     ENABLED_TOOLBAR_BORDER = new Color(0x888888);
+    private Color                  TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
+    private Color                  LIGHT_SHADOW_COLOR     = new Color(0, 0, 0, 0x0a);
+    private Color                  DARK_SHADOW_COLOR      = new Color(0, 0, 0, 0x1e);
+
+    private Color                  DISABLED_BORDER        = new Color(0xdddddd);
+    private Color                  ENABLED_BORDER         = new Color(0xbbbbbb);
+    private Color                  ENABLED_TOOLBAR_BORDER = new Color(0x888888);
 
     private static final Dimension dimension              = new Dimension(90, 30);
     private static final Insets    insets                 = new Insets(5, 3, 3, 3);
@@ -157,22 +162,15 @@ public final class TextComponentPainter extends AbstractRegionPainter {
     }
 
     private void paintBorderEnabled(Graphics2D g, JComponent c, int x, int y, int width, int height) {
+        boolean useToolBarColors = inToolBar.isInState(c);
         if (focused) {
-            g.setColor(OUTER_FOCUS_COLOR);
+            g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
             drawBorder(g, x - 2, y - 2, width + 4, height + 4);
-            g.setColor(INNER_FOCUS_COLOR);
+            g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
             drawBorder(g, x - 1, y - 1, width + 2, height + 2);
         }
         paintInnerShadow(g, x, y, width, height);
-        Color color = ENABLED_BORDER;
-        for (Container container = c.getParent(); container != null; container = container.getParent()) {
-            if (container instanceof JToolBar) {
-                color = ENABLED_TOOLBAR_BORDER;
-                break;
-            }
-        }
-
-        g.setColor(color);
+        g.setColor(!focused && useToolBarColors ? ENABLED_TOOLBAR_BORDER : ENABLED_BORDER);
         drawBorder(g, x, y, width, height);
     }
 
