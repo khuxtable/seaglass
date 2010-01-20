@@ -52,7 +52,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 
-import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
@@ -300,7 +299,6 @@ public class SeaGlassBrowser {
             w = d.width;
             h = d.height;
         }
-        Insets insets = null;
         Dimension dim = null;
         CacheMode cacheMode = null;
         if (painter instanceof AbstractRegionPainter) {
@@ -309,7 +307,6 @@ public class SeaGlassBrowser {
             dim = ctx.getCanvasSize();
             w = dim.width;
             h = dim.height;
-            insets = p.getMyInsets();
             cacheMode = p.getMyCacheMode();
         }
         try {
@@ -322,8 +319,7 @@ public class SeaGlassBrowser {
             painter.paint(g2, null, w, h);
             g2.dispose();
             html.println("<td>" + saveImage(img));
-            if (dim != null || insets != null || cacheMode != null) {
-                html.print(" ctx((" + insets.top + "," + insets.left + "," + insets.bottom + "," + insets.right + "),");
+            if (dim != null || cacheMode != null) {
                 html.print(" (" + dim.width + "," + dim.height + "), " + cacheMode);
             }
             html.println("</td>");
