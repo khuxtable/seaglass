@@ -52,9 +52,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 
-import com.seaglasslookandfeel.painter.AbstractRegionPainter;
-import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext;
-import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.sun.java.swing.Painter;
 
 /**
@@ -292,23 +289,6 @@ public class SeaGlassBrowser {
     static void printPainter(PrintWriter html, Painter<?> painter) {
         html.println("<td>Painter</td>");
         int w = 25, h = 25;
-        if (painter instanceof AbstractRegionPainter) {
-            AbstractRegionPainter p = (AbstractRegionPainter) painter;
-            PaintContext ctx = p.getMyPaintContext();
-            Dimension d = ctx.getCanvasSize();
-            w = d.width;
-            h = d.height;
-        }
-        Dimension dim = null;
-        CacheMode cacheMode = null;
-        if (painter instanceof AbstractRegionPainter) {
-            AbstractRegionPainter p = (AbstractRegionPainter) painter;
-            PaintContext ctx = p.getMyPaintContext();
-            dim = ctx.getCanvasSize();
-            w = dim.width;
-            h = dim.height;
-            cacheMode = p.getMyCacheMode();
-        }
         try {
             BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = img.createGraphics();
@@ -319,9 +299,6 @@ public class SeaGlassBrowser {
             painter.paint(g2, null, w, h);
             g2.dispose();
             html.println("<td>" + saveImage(img));
-            if (dim != null || cacheMode != null) {
-                html.print(" (" + dim.width + "," + dim.height + "), " + cacheMode);
-            }
             html.println("</td>");
         } catch (Exception e) {
             // e.printStackTrace();
