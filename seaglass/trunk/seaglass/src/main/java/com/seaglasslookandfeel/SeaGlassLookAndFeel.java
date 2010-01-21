@@ -507,14 +507,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineBaseColors(UIDefaults d) {
-        d.put("control", new Color(248, 248, 248));
+        d.put("control", new Color(0xf8f8f8));
 
-        d.put("nimbusSelection", new Color(97, 129, 165));
-        d.put("nimbusFocus", new Color(115, 164, 209));
-        d.put("nimbusBorder", new Color(146, 151, 161));
+        d.put("nimbusSelection", new Color(0x6181a5));
+        d.put("nimbusFocus", new Color(0x73a4d1));
+        d.put("nimbusBorder", new Color(0x9297a1));
         d.put("nimbusSelectedText", Color.WHITE);
-        d.put("nimbusSelectionBackground", new Color(97, 129, 165));
-        d.put("nimbusDisabledText", new Color(200, 200, 200));
+        d.put("nimbusSelectionBackground", new Color(0x6181a5));
+        d.put("nimbusDisabledText", new Color(0xc8c8c8));
         d.put("textHighlight", d.get("nimbusSelectionBackground"));
         d.put("textHighlightText", Color.WHITE);
         d.put("textInactiveText", d.get("nimbusDisabledText"));
@@ -528,7 +528,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaGlassToolBarOuterFocus", PlatformUtils.isMac() ? d.get("seaGlassOuterFocus") : getDerivedColor("seaGlassToolBarFocus",
             -0.0028f, 0.01f, 0f, -0x80, true));
 
-        d.put("seaGlassSearchPlaceholderText", new Color(128, 128, 128));
+        d.put("seaGlassSearchPlaceholderText", new Color(0x808080));
     }
 
     /**
@@ -1332,12 +1332,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineTables(UIDefaults d) {
-        d.put("Table.background", new ColorUIResource(255, 255, 255));
-        d.put("Table.alternateRowColor", new ColorUIResource(235, 245, 252));
+        d.put("Table.background", new ColorUIResource(Color.WHITE));
+        d.put("Table.alternateRowColor", new ColorUIResource(0xebf5fc));
         d.put("TableHeader:\"TableHeader.renderer\".Sorted", new TableHeaderRendererSortedState());
         // TODO Why doesn't ColorUIResource work on these next two?
-        d.put("Table[Enabled+Selected].textBackground", new Color(97, 129, 165));
-        d.put("Table[Disabled+Selected].textBackground", new Color(97, 129, 165));
+        d.put("Table[Enabled+Selected].textBackground", new Color(0x6181a5));
+        d.put("Table[Disabled+Selected].textBackground", new Color(0x6181a5));
 
         String c = PAINTER_DIRECTORY + ".TableHeaderPainter";
         d.put("TableHeader.font", defaultFont.deriveFont(11.0f));
