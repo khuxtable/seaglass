@@ -44,8 +44,8 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
     private Rectangle2D  rect         = new Rectangle2D.Double();
     private Path2D       path         = new Path2D.Float();
 
-    private Color        borderColor  = decodeColor("nimbusBorder", 0.0f, 0.0f, 0.0f, 0);
-    private Color        focusColor   = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
+    private Color        borderColor  = decodeColor("nimbusBorder");
+    private Color        focusColor   = decodeColor("nimbusFocus");
 
     private Color        cornerBorder = new Color(192, 192, 192);
     private Color        cornerColor1 = new Color(240, 240, 240);
