@@ -32,8 +32,6 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
-import com.seaglasslookandfeel.state.ControlInToolBarState;
-import com.seaglasslookandfeel.state.State;
 
 /**
  * Paint a (possibly) segmented button. The default colors are suitable for
@@ -47,12 +45,10 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         NONE, FIRST, MIDDLE, LAST
     };
 
-    private static final State inToolBar              = new ControlInToolBarState();
-
-    private Color              outerFocusColor        = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
-    private Color              innerFocusColor        = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
-    private Color              outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus", 0f, 0f, 0f, 0);
-    private Color              innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus", 0f, 0f, 0f, 0);
+    private Color              outerFocusColor        = decodeColor("seaGlassOuterFocus");
+    private Color              innerFocusColor        = decodeColor("seaGlassFocus");
+    private Color              outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
+    private Color              innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
     private final Color        colorShadow            = new Color(0x000000);
     private Effect             dropShadow             = new SeaGlassDropShadowEffect();
@@ -133,7 +129,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         width -= focusInsets.left + focusInsets.right;
         height -= focusInsets.top + focusInsets.bottom;
 
-        boolean useToolBarFocus = inToolBar.isInState(c);
+        boolean useToolBarFocus = useToolBarFocus(c);
         Shape s;
         if (focused) {
             s = decodeOuterFocus(segmentStatus, x, y, width, height);
