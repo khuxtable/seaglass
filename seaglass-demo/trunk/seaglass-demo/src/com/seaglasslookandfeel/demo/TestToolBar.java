@@ -48,10 +48,16 @@ public class TestToolBar {
                 frame.setJMenuBar(mb);
                 frame.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
 
+                JPanel outerPanel = new JPanel(new BorderLayout());
                 JPanel panel = new JPanel();
                 panel.add(new JLabel("Hi there!"));
                 JButton open = new JButton("Open");
                 panel.add(open);
+                JToolBar tb = new JToolBar();
+                tb.add(new JButton("B1"));
+                outerPanel.add(panel, BorderLayout.CENTER);
+                outerPanel.add(tb, BorderLayout.SOUTH);
+                
                 open.addActionListener(new ActionListener() {
                     JFrame newFrame;
                     public void actionPerformed(ActionEvent e) {
@@ -78,7 +84,7 @@ public class TestToolBar {
                 frame.getContentPane().add(toolbar2, BorderLayout.SOUTH);
                 frame.getContentPane().add(toolbar3, BorderLayout.WEST);
                 frame.getContentPane().add(toolbar4, BorderLayout.EAST);
-                frame.add(panel, BorderLayout.CENTER);
+                frame.add(outerPanel, BorderLayout.CENTER);
                 frame.setSize(600, 600);
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
