@@ -522,11 +522,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("menu", Color.WHITE);
 
         d.put("seaGlassFocusInsets", new Insets(2, 2, 2, 2));
+        d.put("seaGlassTransparent", new Color(0, true));
         d.put("seaGlassFocus", new Color(0x73a4d1));
         d.put("seaGlassOuterFocus", getDerivedColor("seaGlassFocus", -0.0028f, 0.01f, 0f, -0x80, true));
         d.put("seaGlassToolBarFocus", PlatformUtils.isMac() ? d.get("seaGlassFocus") : new Color(0xf8f8f8));
         d.put("seaGlassToolBarOuterFocus", PlatformUtils.isMac() ? d.get("seaGlassOuterFocus") : getDerivedColor("seaGlassToolBarFocus",
             -0.0028f, 0.01f, 0f, -0x80, true));
+        d.put("seaGlassTableSelectionActiveBottom", new Color(0x7daaea));
+        d.put("seaGlassTableSelectionInactiveBottom", new Color(0xe0e0e0));
 
         d.put("seaGlassSearchPlaceholderText", new Color(0x808080));
     }
