@@ -28,20 +28,20 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
- * Nimbus's ArrowButtonPainter class.
+ * Sea Glass's ArrowButtonPainter class.
  */
 public final class ArrowButtonPainter extends AbstractRegionPainter {
     public static enum Which {
         BACKGROUND_ENABLED, FOREGROUND_DISABLED, FOREGROUND_ENABLED,
     }
 
+    private Color        disabledColor = new Color(0x9ba8cf);
+    private Color        enabledColor  = Color.black;
+
     private Which        state;
     private PaintContext ctx;
 
     private Path2D       path          = new Path2D.Float();
-
-    private Color        disabledColor = new Color(0x9ba8cf);
-    private Color        enabledColor  = Color.black;
 
     public ArrowButtonPainter(Which state) {
         super();
