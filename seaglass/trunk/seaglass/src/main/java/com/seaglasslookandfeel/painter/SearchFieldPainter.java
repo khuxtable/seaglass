@@ -29,9 +29,6 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
-import com.seaglasslookandfeel.state.ControlInToolBarState;
-import com.seaglasslookandfeel.state.State;
-
 /**
  * TextComponentPainter implementation.
  */
@@ -47,12 +44,10 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
         BORDER_ENABLED,
     }
 
-    private static final State     inToolBar              = new ControlInToolBarState();
-
-    private Color                  outerFocusColor        = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
-    private Color                  innerFocusColor        = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
-    private Color                  outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus", 0f, 0f, 0f, 0);
-    private Color                  innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus", 0f, 0f, 0f, 0);
+    private Color                  outerFocusColor        = decodeColor("seaGlassOuterFocus");
+    private Color                  innerFocusColor        = decodeColor("seaGlassFocus");
+    private Color                  outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
+    private Color                  innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
     private Color                  TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
     // private Color LIGHT_SHADOW_COLOR = new Color(0, 0, 0, 0x0a);
@@ -159,7 +154,7 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
     }
 
     private void paintBorderEnabled(Graphics2D g, JComponent c, int x, int y, int width, int height) {
-        boolean useToolBarColors = inToolBar.isInState(c);
+        boolean useToolBarColors = useToolBarFocus(c);
 
         if (focused) {
             g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
