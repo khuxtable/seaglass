@@ -22,7 +22,7 @@ package com.seaglasslookandfeel.painter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.JComponent;
 
@@ -42,11 +42,11 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
     private Which        state;
     private PaintContext ctx;
 
-    private Path2D       path                  = new Path2D.Float();
+    private Ellipse2D    ellipse               = new Ellipse2D.Float();
 
-    private Color        iconDisabledSelected  = decodeColor("nimbusBlueGrey", 0.0f, -0.08983666f, -0.17647058f, 0);
-    private Color        iconEnabledSelected   = decodeColor("nimbusBlueGrey", 0.055555582f, -0.09663743f, -0.4627451f, 0);
-    private Color        iconSelectedMouseOver = decodeColor("nimbusBlueGrey", 0.0f, -0.110526316f, 0.25490195f, 0);
+    private Color        iconDisabledSelected  = decodeColor("nimbusDisabledText");
+    private Color        iconEnabledSelected   = decodeColor("text");
+    private Color        iconSelectedMouseOver = decodeColor("nimbusSelectedText");
 
     public RadioButtonMenuItemPainter(Which state) {
         super(MenuItemPainter.Which.BACKGROUND_ENABLED);
@@ -110,12 +110,8 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
     }
 
     private Shape decodeRadioPath(int width, int height) {
-        path.reset();
-        path.moveTo(0, height - 5);
-        path.lineTo(4.5f, 1f);
-        path.lineTo(width, height - 4.5f);
-        path.lineTo(4.5f, height);
-        path.closePath();
-        return path;
+        int size = Math.min(width, height);
+        ellipse.setFrame(0, 1, size - 1, size - 1);
+        return ellipse;
     }
 }
