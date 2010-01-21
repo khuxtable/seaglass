@@ -39,6 +39,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.UIResource;
 
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.util.ImageCache;
 
 /**
@@ -86,14 +87,11 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
 
         Object[] extendedCacheKeys = getExtendedCacheKeys(c);
         ctx = getPaintContext();
-        PaintContext.CacheMode cacheMode = ctx == null ? PaintContext.CacheMode.NO_CACHING : ctx.cacheMode;
-        if (cacheMode == PaintContext.CacheMode.NO_CACHING || !ImageCache.getInstance().isImageCachable(w, h)
-                || g instanceof PrinterGraphics) {
-            // no caching so paint directly
-            paint0(g, c, w, h, extendedCacheKeys);
+        CacheMode cacheMode = ctx == null ? CacheMode.NO_CACHING : ctx.getCacheMode();
+        if (cacheMode == CacheMode.NO_CACHING || !ImageCache.getInstance().isImageCachable(w, h) || g instanceof PrinterGraphics) {
+            paintDirectly(g, c, w, h, extendedCacheKeys);
         } else {
-            // fixed size caching
-            paintWithFixedSizeCaching(g, c, w, h, extendedCacheKeys);
+            paintWithCaching(g, c, w, h, extendedCacheKeys);
         }
     }
 
@@ -177,11 +175,23 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     protected abstract void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys);
 
     /**
+     * Decodes and returns a base color in UI defaults.
+     * 
+     * @param key
+     *            A key corresponding to the value in the UI Defaults table of
+     *            UIManager where the base color is defined
+     * @return The base color.
+     */
+    protected final Color decodeColor(String key) {
+        return decodeColor(key, 0f, 0f, 0f, 0);
+    }
+
+    /**
      * Decodes and returns a color, which is derived from a base color in UI
      * defaults.
      * 
      * @param key
-     *            A key corrosponding to the value in the UI Defaults table of
+     *            A key corresponding to the value in the UI Defaults table of
      *            UIManager where the base color is defined
      * @param hOffset
      *            The hue offset used for derivation.
@@ -371,6 +381,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
 
         /**
          * Creates a new PaintContext.
+         * 
          * @param cacheMode
          *            A hint as to which caching mode to use. If null, then set
          *            to no caching.
@@ -386,15 +397,28 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
 
     // ---------------------- private methods
 
-    private void paintWithFixedSizeCaching(Graphics2D g, JComponent c, int w, int h, Object[] extendedCacheKeys) {
+    private void paintWithCaching(Graphics2D g, JComponent c, int w, int h, Object[] extendedCacheKeys) {
         VolatileImage img = getImage(g.getDeviceConfiguration(), c, w, h, extendedCacheKeys);
         if (img != null) {
             // render cached image
             g.drawImage(img, 0, 0, null);
         } else {
             // render directly
-            paint0(g, c, w, h, extendedCacheKeys);
+            paintDirectly(g, c, w, h, extendedCacheKeys);
         }
+    }
+
+    /**
+     * Convenience method which creates a temporary graphics object by creating
+     * a clone of the passed in one, configuring it, drawing with it, disposing
+     * it. These steps have to be taken to ensure that any hints set on the
+     * graphics are removed subsequent to painting.
+     */
+    private void paintDirectly(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
+        g = (Graphics2D) g.create();
+        configureGraphics(g);
+        doPaint(g, c, width, height, extendedCacheKeys);
+        g.dispose();
     }
 
     /**
@@ -440,7 +464,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
                 bg.setComposite(AlphaComposite.SrcOver);
                 configureGraphics(bg);
                 // paint the painter into buffer
-                paint0(bg, c, w, h, extendedCacheKeys);
+                paintDirectly(bg, c, w, h, extendedCacheKeys);
                 // close buffer graphics
                 bg.dispose();
             }
@@ -449,18 +473,6 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
         if (renderCounter == 3) return null;
         // return image
         return buffer;
-    }
-
-    // convenience method which creates a temporary graphics object by creating
-    // a clone of the passed in one, configuring it, drawing with it, disposing
-    // it.
-    // These steps have to be taken to ensure that any hints set on the graphics
-    // are removed subsequent to painting.
-    private void paint0(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        g = (Graphics2D) g.create();
-        configureGraphics(g);
-        doPaint(g, c, width, height, extendedCacheKeys);
-        g.dispose();
     }
 
     private float clamp(float value) {
