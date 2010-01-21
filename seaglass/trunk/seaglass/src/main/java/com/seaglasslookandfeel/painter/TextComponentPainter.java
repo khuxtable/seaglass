@@ -27,9 +27,6 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
-import com.seaglasslookandfeel.state.ControlInToolBarState;
-import com.seaglasslookandfeel.state.State;
-
 /**
  * TextComponentPainter implementation.
  */
@@ -45,26 +42,24 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         BORDER_ENABLED,
     }
 
-    private static final State inToolBar              = new ControlInToolBarState();
+    private Color        outerFocusColor        = decodeColor("seaGlassOuterFocus");
+    private Color        innerFocusColor        = decodeColor("seaGlassFocus");
+    private Color        outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
+    private Color        innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
-    private Color              outerFocusColor        = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
-    private Color              innerFocusColor        = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
-    private Color              outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus", 0f, 0f, 0f, 0);
-    private Color              innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus", 0f, 0f, 0f, 0);
+    private Color        transparentColor       = new Color(0, 0, 0, 0);
+    private Color        lightShadowColor       = new Color(0, 0, 0, 0x0a);
+    private Color        darkShadowColor        = new Color(0, 0, 0, 0x1e);
 
-    private Color              TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
-    private Color              LIGHT_SHADOW_COLOR     = new Color(0, 0, 0, 0x0a);
-    private Color              DARK_SHADOW_COLOR      = new Color(0, 0, 0, 0x1e);
+    private Color        disabledBorder         = new Color(0xdddddd);
+    private Color        enabledBorder          = new Color(0xbbbbbb);
+    private Color        enabledToolBarBorder   = new Color(0x888888);
 
-    private Color              DISABLED_BORDER        = new Color(0xdddddd);
-    private Color              ENABLED_BORDER         = new Color(0xbbbbbb);
-    private Color              ENABLED_TOOLBAR_BORDER = new Color(0x888888);
+    private Rectangle2D  rect                   = new Rectangle2D.Double();
 
-    private Rectangle2D        rect                   = new Rectangle2D.Double();
-
-    private Which              state;
-    private PaintContext       ctx;
-    private boolean            focused;
+    private Which        state;
+    private PaintContext ctx;
+    private boolean      focused;
 
     public TextComponentPainter(Which state) {
         super();
@@ -151,12 +146,12 @@ public final class TextComponentPainter extends AbstractRegionPainter {
     }
 
     private void paintBorderDisabled(Graphics2D g, JComponent c, int x, int y, int width, int height) {
-        g.setColor(DISABLED_BORDER);
+        g.setColor(disabledBorder);
         drawBorder(g, x, y, width, height);
     }
 
     private void paintBorderEnabled(Graphics2D g, JComponent c, int x, int y, int width, int height) {
-        boolean useToolBarColors = inToolBar.isInState(c);
+        boolean useToolBarColors = useToolBarFocus(c);
         if (focused) {
             g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
             drawBorder(g, x - 2, y - 2, width + 4, height + 4);
@@ -164,7 +159,7 @@ public final class TextComponentPainter extends AbstractRegionPainter {
             drawBorder(g, x - 1, y - 1, width + 2, height + 2);
         }
         paintInnerShadow(g, x, y, width, height);
-        g.setColor(!focused && useToolBarColors ? ENABLED_TOOLBAR_BORDER : ENABLED_BORDER);
+        g.setColor(!focused && useToolBarColors ? enabledToolBarBorder : enabledBorder);
         drawBorder(g, x, y, width, height);
     }
 
@@ -206,7 +201,7 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         float minY = (float) bounds.getMinY();
         float maxY = (float) bounds.getMaxY();
         float midX = (float) bounds.getCenterX();
-        return decodeGradient(midX, minY, midX, maxY, new float[] { 0f, 1f }, new Color[] { DARK_SHADOW_COLOR, TRANSPARENT_COLOR });
+        return decodeGradient(midX, minY, midX, maxY, new float[] { 0f, 1f }, new Color[] { darkShadowColor, transparentColor });
     }
 
     private Paint decodeGradientLeftShadow(Shape s) {
@@ -214,7 +209,7 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         float minX = (float) bounds.getMinX();
         float maxX = (float) bounds.getMaxX();
         float midY = (float) bounds.getCenterY();
-        return decodeGradient(minX, midY, maxX, midY, new float[] { 0f, 1f }, new Color[] { LIGHT_SHADOW_COLOR, TRANSPARENT_COLOR });
+        return decodeGradient(minX, midY, maxX, midY, new float[] { 0f, 1f }, new Color[] { lightShadowColor, transparentColor });
     }
 
     private Paint decodeGradientRightShadow(Shape s) {
@@ -222,6 +217,6 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         float minX = (float) bounds.getMinX();
         float maxX = (float) bounds.getMaxX();
         float midY = (float) bounds.getCenterY();
-        return decodeGradient(minX - 1, midY, maxX - 1, midY, new float[] { 0f, 1f }, new Color[] { TRANSPARENT_COLOR, LIGHT_SHADOW_COLOR });
+        return decodeGradient(minX - 1, midY, maxX - 1, midY, new float[] { 0f, 1f }, new Color[] { transparentColor, lightShadowColor });
     }
 }
