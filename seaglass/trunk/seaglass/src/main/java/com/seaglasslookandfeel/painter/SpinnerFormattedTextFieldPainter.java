@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.geom.Path2D;
 
@@ -38,30 +36,25 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED, BACKGROUND_FOCUSED, BACKGROUND_SELECTED_FOCUSED,
     }
 
-    private static final Color     OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
-    private static final Color     INNER_FOCUS_COLOR = new Color(0x73a4d1);
-    private static final Color     DISABLED_BORDER   = new Color(0xdddddd);
-    private static final Color     ENABLED_BORDER    = new Color(0xbbbbbb);
-    private static final Color     DARKER_SHADOW     = new Color(0xe1e1e1);
-    private static final Color     LIGHTER_SHADOW    = new Color(0xf5f5f5);
+    private static final Color OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
+    private static final Color INNER_FOCUS_COLOR = new Color(0x73a4d1);
+    private static final Color DISABLED_BORDER   = new Color(0xdddddd);
+    private static final Color ENABLED_BORDER    = new Color(0xbbbbbb);
+    private static final Color DARKER_SHADOW     = new Color(0xe1e1e1);
+    private static final Color LIGHTER_SHADOW    = new Color(0xf5f5f5);
 
-    private static final Insets    insets            = new Insets(3, 3, 3, 0);
-    private static final Dimension dimension         = new Dimension(84, 25);
-    private static final CacheMode cacheMode         = CacheMode.FIXED_SIZES;
-    private static final Double    maxH              = Double.POSITIVE_INFINITY;
-    private static final Double    maxV              = Double.POSITIVE_INFINITY;
+    private Which              state;
+    private PaintContext       ctx;
+    private boolean            focused;
 
-    private Which                  state;
-    private PaintContext           ctx;
-    private boolean                focused;
-
-    private Rectangle              rect              = new Rectangle();
-    private Path2D                 path              = new Path2D.Double();
+    private Rectangle          rect              = new Rectangle();
+    private Path2D             path              = new Path2D.Double();
 
     public SpinnerFormattedTextFieldPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
+
         focused = (state == Which.BACKGROUND_FOCUSED || state == Which.BACKGROUND_SELECTED_FOCUSED);
     }
 

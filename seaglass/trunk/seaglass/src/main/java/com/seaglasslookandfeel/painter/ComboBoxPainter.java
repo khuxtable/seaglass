@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -68,14 +66,9 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
 
     private ComboBoxArrowButtonPainter buttonPainter;
 
-    private static final Insets        insets                 = new Insets(8, 9, 8, 23);
-    private static final Dimension     dimension              = new Dimension(105, 23);
     private static final CacheMode     cacheMode              = CacheMode.FIXED_SIZES;
-    private static final Double        maxH                   = Double.POSITIVE_INFINITY;
-    private static final Double        maxV                   = Double.POSITIVE_INFINITY;
 
-    private static final Insets        editableInsets         = new Insets(0, 0, 0, 0);
-    private static final Insets        focusInsets            = new Insets(5, 5, 5, 5);
+    // TODO Get this from the UI.
     private static final int           buttonWidth            = 21;
 
     private Path2D                     path                   = new Path2D.Double();
@@ -87,14 +80,14 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     public ComboBoxPainter(Which state) {
         super();
         this.state = state;
+        this.ctx = new PaintContext(cacheMode);
+
         editable = false;
         if (state == Which.BACKGROUND_DISABLED_EDITABLE || state == Which.BACKGROUND_ENABLED_EDITABLE
                 || state == Which.BACKGROUND_PRESSED_EDITABLE) {
             editable = true;
-            ctx = new PaintContext(editableInsets, dimension, false, cacheMode, maxH, maxV);
         } else if (state == Which.BACKGROUND_FOCUSED_EDITABLE) {
             editable = true;
-            ctx = new PaintContext(focusInsets, dimension, false, cacheMode, maxH, maxV);
         } else {
             ComboBoxArrowButtonPainter.Which arrowState;
             if (state == Which.BACKGROUND_DISABLED || state == Which.BACKGROUND_DISABLED_PRESSED) {
@@ -105,7 +98,6 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
                 arrowState = ComboBoxArrowButtonPainter.Which.BACKGROUND_ENABLED_EDITABLE;
             }
             buttonPainter = new ComboBoxArrowButtonPainter(arrowState);
-            ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
         }
 
         // Set the default colors.

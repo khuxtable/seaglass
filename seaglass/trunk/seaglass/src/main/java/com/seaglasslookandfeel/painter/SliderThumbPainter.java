@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -57,36 +55,30 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE,
     }
 
-    private static final ColorSet  disabled          = new ColorSet(new Color(0x8088ade0, true), new Color(0x805785bf, true), new Color(
-                                                         0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8, true),
-                                                         new Color(0x80f5fafd, true));
-    private static final ColorSet  enabled           = new ColorSet(new Color(0x88ade0), new Color(0x5785bf), new Color(0xfbfdfe),
-                                                         new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd));
-    private static final ColorSet  pressed           = new ColorSet(new Color(0x4f7bbf), new Color(0x3f76bf), new Color(0xacbdd0),
-                                                         new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4));
+    private static final ColorSet disabled          = new ColorSet(new Color(0x8088ade0, true), new Color(0x805785bf, true), new Color(
+                                                        0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8, true),
+                                                        new Color(0x80f5fafd, true));
+    private static final ColorSet enabled           = new ColorSet(new Color(0x88ade0), new Color(0x5785bf), new Color(0xfbfdfe),
+                                                        new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd));
+    private static final ColorSet pressed           = new ColorSet(new Color(0x4f7bbf), new Color(0x3f76bf), new Color(0xacbdd0),
+                                                        new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4));
 
-    private static final Color     OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
-    private static final Color     INNER_FOCUS_COLOR = new Color(0x73a4d1);
+    private static final Color    OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
+    private static final Color    INNER_FOCUS_COLOR = new Color(0x73a4d1);
 
-    private static final Color     shadowColor       = Color.black;
-    private static final Effect    dropShadow        = new SeaGlassDropShadowEffect();
+    private static final Color    shadowColor       = Color.black;
+    private static final Effect   dropShadow        = new SeaGlassDropShadowEffect();
 
-    private static final Insets    insets            = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension         = new Dimension(17, 20);
-    private static final CacheMode cacheMode         = CacheMode.FIXED_SIZES;
-    private static final Double    maxH              = 1.0;
-    private static final Double    maxV              = 1.0;
+    private Ellipse2D             ellipse           = new Ellipse2D.Double();
+    private Path2D                path              = new Path2D.Double();
 
-    private Ellipse2D              ellipse           = new Ellipse2D.Double();
-    private Path2D                 path              = new Path2D.Double();
-
-    private Which                  state;
-    private PaintContext           ctx;
+    private Which                 state;
+    private PaintContext          ctx;
 
     public SliderThumbPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     @Override
@@ -207,11 +199,14 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
      *            the shape to use as the shade.
      */
     private BufferedImage createDropShadowImage(Shape s) {
-        BufferedImage bimage = SeaGlassDropShadowEffect.createBufferedImage(dimension.width, dimension.height, true);
+        Rectangle b = s.getBounds();
+        int width = b.width;
+        int height = b.height;
+        BufferedImage bimage = SeaGlassDropShadowEffect.createBufferedImage(width, height, true);
         Graphics2D gbi = bimage.createGraphics();
         gbi.setColor(shadowColor);
         gbi.fill(s);
-        return dropShadow.applyEffect(bimage, null, dimension.width, dimension.height);
+        return dropShadow.applyEffect(bimage, null, width, height);
     }
 
     private Paint decodeInteriorGradient(Shape s, Color color1, Color color2, Color color3, Color color4) {

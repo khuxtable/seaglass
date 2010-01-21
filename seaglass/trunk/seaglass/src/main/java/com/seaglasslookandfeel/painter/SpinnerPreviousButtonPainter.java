@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
@@ -49,47 +47,41 @@ public final class SpinnerPreviousButtonPainter extends AbstractRegionPainter {
         FOREGROUND_PRESSED,
     }
 
-    private static final Color     OUTER_FOCUS_COLOR        = new Color(0x8072a5d2, true);
-    private static final Color     INNER_FOCUS_COLOR        = new Color(0x73a4d1);
+    private static final Color OUTER_FOCUS_COLOR        = new Color(0x8072a5d2, true);
+    private static final Color INNER_FOCUS_COLOR        = new Color(0x73a4d1);
 
-    private static final Color     DISABLED_TOP_INTERIOR    = new Color(0xd8dbe4f0, true);
-    private static final Color     DISABLED_BOTTOM_INTERIOR = new Color(0xdddae5f0, true);
-    private static final Color     DISABLED_TOP_LINE        = new Color(0xe0e4ebf3, true);
-    private static final Color     DISABLED_TOP_BORDER      = new Color(0x807aa1d4, true);
-    private static final Color     DISABLED_BOTTOM_BORDER   = new Color(0x805987c0, true);
+    private static final Color DISABLED_TOP_INTERIOR    = new Color(0xd8dbe4f0, true);
+    private static final Color DISABLED_BOTTOM_INTERIOR = new Color(0xdddae5f0, true);
+    private static final Color DISABLED_TOP_LINE        = new Color(0xe0e4ebf3, true);
+    private static final Color DISABLED_TOP_BORDER      = new Color(0x807aa1d4, true);
+    private static final Color DISABLED_BOTTOM_BORDER   = new Color(0x805987c0, true);
 
-    private static final Color     ENABLED_TOP_INTERIOR     = new Color(0x81aed4);
-    private static final Color     ENABLED_BOTTOM_INTERIOR  = new Color(0xaad4f1);
-    private static final Color     ENABLED_TOP_LINE         = new Color(0xacc8e0);
-    private static final Color     ENABLED_TOP_BORDER       = new Color(0x4778bf);
-    private static final Color     ENABLED_BOTTOM_BORDER    = new Color(0x4076bf);
+    private static final Color ENABLED_TOP_INTERIOR     = new Color(0x81aed4);
+    private static final Color ENABLED_BOTTOM_INTERIOR  = new Color(0xaad4f1);
+    private static final Color ENABLED_TOP_LINE         = new Color(0xacc8e0);
+    private static final Color ENABLED_TOP_BORDER       = new Color(0x4778bf);
+    private static final Color ENABLED_BOTTOM_BORDER    = new Color(0x4076bf);
 
-    private static final Color     PRESSED_TOP_INTERIOR     = new Color(0x6c91b8);
-    private static final Color     PRESSED_BOTTOM_INTERIOR  = new Color(0x9cc3de);
-    private static final Color     PRESSED_TOP_LINE         = new Color(0x9eb6cf);
-    private static final Color     PRESSED_TOP_BORDER       = new Color(0x4778bf);
-    private static final Color     PRESSED_BOTTOM_BORDER    = new Color(0x4076bf);
+    private static final Color PRESSED_TOP_INTERIOR     = new Color(0x6c91b8);
+    private static final Color PRESSED_BOTTOM_INTERIOR  = new Color(0x9cc3de);
+    private static final Color PRESSED_TOP_LINE         = new Color(0x9eb6cf);
+    private static final Color PRESSED_TOP_BORDER       = new Color(0x4778bf);
+    private static final Color PRESSED_BOTTOM_BORDER    = new Color(0x4076bf);
 
-    private static final Color     ENABLED_ARROW_COLOR      = new Color(0x000000);
-    private static final Color     DISABLED_ARROW_COLOR     = new Color(0x9ba8cf);
+    private static final Color ENABLED_ARROW_COLOR      = new Color(0x000000);
+    private static final Color DISABLED_ARROW_COLOR     = new Color(0x9ba8cf);
 
-    private static final Insets    insets                   = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension                = new Dimension(22, 13);
-    private static final CacheMode cacheMode                = CacheMode.FIXED_SIZES;
-    private static final Double    maxH                     = 1.0;
-    private static final Double    maxV                     = Double.POSITIVE_INFINITY;
+    private Path2D             path                     = new Path2D.Double();
 
-    private Path2D                 path                     = new Path2D.Double();
-
-    private Which                  state;
-    private PaintContext           ctx;
-    private boolean                focused;
+    private Which              state;
+    private PaintContext       ctx;
+    private boolean            focused;
 
     public SpinnerPreviousButtonPainter(Which state) {
         super();
         this.state = state;
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
-        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
         focused = (state == Which.BACKGROUND_FOCUSED || state == Which.BACKGROUND_PRESSED_FOCUSED);
     }
 

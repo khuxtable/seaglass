@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -40,31 +38,25 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
-    private static final Insets    insets                 = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension              = new Dimension(23, 17);
-    private static final CacheMode cacheMode              = CacheMode.FIXED_SIZES;
-    private static final Double    maxH                   = Double.POSITIVE_INFINITY;
-    private static final Double    maxV                   = 2.0;
+    private Which            state;
+    private PaintContext     ctx;
 
-    private Which                  state;
-    private PaintContext           ctx;
+    private RoundRectangle2D roundRect              = new RoundRectangle2D.Double();
 
-    private RoundRectangle2D       roundRect              = new RoundRectangle2D.Double();
+    private Color            disabledBorderTop      = new Color(0x80909090, true);
+    private Color            disabledBorderBottom   = new Color(0x80b4b4b4, true);
+    private Color            disabledInteriorTop    = new Color(0x80c4c4c4, true);
+    private Color            disabledInteriorBottom = new Color(0x80ebebeb, true);
 
-    private Color                  disabledBorderTop      = new Color(0x80909090, true);
-    private Color                  disabledBorderBottom   = new Color(0x80b4b4b4, true);
-    private Color                  disabledInteriorTop    = new Color(0x80c4c4c4, true);
-    private Color                  disabledInteriorBottom = new Color(0x80ebebeb, true);
-
-    private Color                  enabledBorderTop       = new Color(0x636363);
-    private Color                  enabledBorderBottom    = new Color(0xaeaeae);
-    private Color                  enabledInteriorTop     = new Color(0xc4c4c4);
-    private Color                  enabledInteriorBottom  = new Color(0xebebeb);
+    private Color            enabledBorderTop       = new Color(0x636363);
+    private Color            enabledBorderBottom    = new Color(0xaeaeae);
+    private Color            enabledInteriorTop     = new Color(0xc4c4c4);
+    private Color            enabledInteriorBottom  = new Color(0xebebeb);
 
     public SliderTrackPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
@@ -102,7 +94,7 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
 
     private Paint decodeTrackGradient(Shape s, Color color1, Color color2) {
         Rectangle r = s.getBounds();
-        int x =  r.x + r.width / 2;
+        int x = r.x + r.width / 2;
         int y1 = r.y;
         int y2 = y1 + r.height;
         return decodeGradient(x, y1, x, y2, new float[] { 0f, 1f }, new Color[] { color1, color2 });

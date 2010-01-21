@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -54,73 +52,67 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         ICON_DISABLED_SELECTED,
     }
 
-    private static final Insets    insets                   = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension                = new Dimension(18, 18);
-    private static final CacheMode cacheMode                = CacheMode.FIXED_SIZES;
-    private static final Double    maxH                     = 1.0;
-    private static final Double    maxV                     = 1.0;
+    private Which              state;
+    private PaintContext       ctx;
+    private boolean            focused;
+    private boolean            selected;
 
-    private Which                  state;
-    private PaintContext           ctx;
-    private boolean                focused;
-    private boolean                selected;
+    private static final Color OUTER_FOCUS_COLOR        = new Color(0x8072a5d2, true);
+    private static final Color INNER_FOCUS_COLOR        = new Color(0x73a4d1);
 
-    private static final Color     OUTER_FOCUS_COLOR        = new Color(0x8072a5d2, true);
-    private static final Color     INNER_FOCUS_COLOR        = new Color(0x73a4d1);
+    private final Color        colorShadow              = new Color(0x000000);
+    private Effect             dropShadow               = new SeaGlassDropShadowEffect();
 
-    private final Color            colorShadow              = new Color(0x000000);
-    private Effect                 dropShadow               = new SeaGlassDropShadowEffect();
+    private RoundRectangle2D   rect                     = new RoundRectangle2D.Double();
+    private Path2D             path                     = new Path2D.Double();
 
-    private RoundRectangle2D       rect                     = new RoundRectangle2D.Double();
-    private Path2D                 path                     = new Path2D.Double();
+    private Color              bullet1                  = new Color(0x333333);
+    private Color              bullet2                  = new Color(0x000000);
 
-    private Color                  bullet1                  = new Color(0x333333);
-    private Color                  bullet2                  = new Color(0x000000);
+    private Color              bulletDisabled1          = new Color(0x80333333, true);
+    private Color              bulletDisabled2          = new Color(0x80000000, true);
 
-    private Color                  bulletDisabled1          = new Color(0x80333333, true);
-    private Color                  bulletDisabled2          = new Color(0x80000000, true);
+    private Color              enabledInternal1         = new Color(0xfbfdfe);
+    private Color              enabledInternal2         = new Color(0xd6eaf9);
+    private Color              enabledInternal3         = new Color(0xd2e8f8);
+    private Color              enabledInternal4         = new Color(0xf5fafd);
+    private Color              enabledBorder1           = new Color(0x88ade0);
+    private Color              enabledBorder2           = new Color(0x5785bf);
 
-    private Color                  enabledInternal1         = new Color(0xfbfdfe);
-    private Color                  enabledInternal2         = new Color(0xd6eaf9);
-    private Color                  enabledInternal3         = new Color(0xd2e8f8);
-    private Color                  enabledInternal4         = new Color(0xf5fafd);
-    private Color                  enabledBorder1           = new Color(0x88ade0);
-    private Color                  enabledBorder2           = new Color(0x5785bf);
+    private Color              pressedInternal1         = new Color(0xacbdd0);
+    private Color              pressedInternal2         = new Color(0x688db3);
+    private Color              pressedInternal3         = new Color(0x6d93ba);
+    private Color              pressedInternal4         = new Color(0xa4cbe4);
+    private Color              pressedBorder1           = new Color(0x4f7bbf);
+    private Color              pressedBorder2           = new Color(0x3f76bf);
 
-    private Color                  pressedInternal1         = new Color(0xacbdd0);
-    private Color                  pressedInternal2         = new Color(0x688db3);
-    private Color                  pressedInternal3         = new Color(0x6d93ba);
-    private Color                  pressedInternal4         = new Color(0xa4cbe4);
-    private Color                  pressedBorder1           = new Color(0x4f7bbf);
-    private Color                  pressedBorder2           = new Color(0x3f76bf);
+    private Color              selectedInternal1        = new Color(0xbccedf);
+    private Color              selectedInternal2        = new Color(0x7fa7cd);
+    private Color              selectedInternal3        = new Color(0x82b0d6);
+    private Color              selectedInternal4        = new Color(0xb0daf6);
+    private Color              selectedBorder1          = new Color(0x4f7bbf);
+    private Color              selectedBorder2          = new Color(0x3f76bf);
 
-    private Color                  selectedInternal1        = new Color(0xbccedf);
-    private Color                  selectedInternal2        = new Color(0x7fa7cd);
-    private Color                  selectedInternal3        = new Color(0x82b0d6);
-    private Color                  selectedInternal4        = new Color(0xb0daf6);
-    private Color                  selectedBorder1          = new Color(0x4f7bbf);
-    private Color                  selectedBorder2          = new Color(0x3f76bf);
+    private Color              pressedSelectedInternal1 = new Color(0xacbdd0);
+    private Color              pressedSelectedInternal2 = new Color(0x688db3);
+    private Color              pressedSelectedInternal3 = new Color(0x6d93ba);
+    private Color              pressedSelectedInternal4 = new Color(0xa4cbe4);
+    private Color              pressedSelectedBorder1   = new Color(0x4f7bbf);
+    private Color              pressedSelectedBorder2   = new Color(0x3f76bf);
 
-    private Color                  pressedSelectedInternal1 = new Color(0xacbdd0);
-    private Color                  pressedSelectedInternal2 = new Color(0x688db3);
-    private Color                  pressedSelectedInternal3 = new Color(0x6d93ba);
-    private Color                  pressedSelectedInternal4 = new Color(0xa4cbe4);
-    private Color                  pressedSelectedBorder1   = new Color(0x4f7bbf);
-    private Color                  pressedSelectedBorder2   = new Color(0x3f76bf);
-
-    private Color                  disabledInternalA1       = new Color(0x60f4f8fb, true);
-    private Color                  disabledInternalA2       = new Color(0x00ffffff, true);
-    private Color                  disabledInternalB1       = new Color(0x00a8d9fc, true);
-    private Color                  disabledInternalB2       = new Color(0x00cfeafd, true);
-    private Color                  disabledInternalB3       = new Color(0x80f7fcff, true);
-    private Color                  disabledInternalC        = new Color(0x80eeeeee, true);
-    private Color                  disabledBorder1          = new Color(0x808aafe0, true);
-    private Color                  disabledBorder2          = new Color(0x805785bf, true);
+    private Color              disabledInternalA1       = new Color(0x60f4f8fb, true);
+    private Color              disabledInternalA2       = new Color(0x00ffffff, true);
+    private Color              disabledInternalB1       = new Color(0x00a8d9fc, true);
+    private Color              disabledInternalB2       = new Color(0x00cfeafd, true);
+    private Color              disabledInternalB3       = new Color(0x80f7fcff, true);
+    private Color              disabledInternalC        = new Color(0x80eeeeee, true);
+    private Color              disabledBorder1          = new Color(0x808aafe0, true);
+    private Color              disabledBorder2          = new Color(0x805785bf, true);
 
     public CheckBoxPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
         focused = false;
         selected = false;
@@ -281,11 +273,14 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
      *            the shape to use as the shade.
      */
     BufferedImage createDropShadowImage(Shape s) {
-        BufferedImage bimage = SeaGlassDropShadowEffect.createBufferedImage(dimension.width, dimension.height, true);
+        Rectangle2D b = s.getBounds2D();
+        int width = (int) b.getWidth();
+        int height = (int) b.getHeight();
+        BufferedImage bimage = SeaGlassDropShadowEffect.createBufferedImage(width, height, true);
         Graphics2D gbi = bimage.createGraphics();
         gbi.setColor(colorShadow);
         gbi.fill(s);
-        return dropShadow.applyEffect(bimage, null, dimension.width, dimension.height);
+        return dropShadow.applyEffect(bimage, null, width, height);
     }
 
     private Shape setRect(Double diameter, int width, int height, int arc) {

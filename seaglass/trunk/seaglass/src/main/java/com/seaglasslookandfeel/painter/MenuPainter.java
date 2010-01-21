@@ -20,12 +20,12 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.geom.Path2D;
 
 import javax.swing.JComponent;
+
+import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 public final class MenuPainter extends MenuItemPainter {
     public static enum Which {
@@ -40,8 +40,6 @@ public final class MenuPainter extends MenuItemPainter {
     private Which        state;
     private PaintContext ctx;
 
-    // the following 4 variables are reused during the painting code of the
-    // layers
     private Path2D       path   = new Path2D.Float();
 
     private Color        color2 = decodeColor("nimbusBlueGrey", 0.0f, -0.08983666f, -0.17647058f, 0);
@@ -53,20 +51,12 @@ public final class MenuPainter extends MenuItemPainter {
         this.state = state;
         switch (state) {
         case BACKGROUND_ENABLED_SELECTED:
-            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(100, 30), false,
-                AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0);
+            this.ctx = new PaintContext(CacheMode.NO_CACHING);
             break;
         case ARROWICON_DISABLED:
-            ctx = new PaintContext(new Insets(5, 5, 5, 5), new Dimension(9, 10), false,
-                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
-            break;
         case ARROWICON_ENABLED:
-            ctx = new PaintContext(new Insets(5, 5, 5, 5), new Dimension(9, 10), false,
-                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
-            break;
         case ARROWICON_ENABLED_SELECTED:
-            ctx = new PaintContext(new Insets(1, 1, 1, 1), new Dimension(9, 10), false,
-                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
+            this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
             break;
         }
     }
@@ -78,13 +68,13 @@ public final class MenuPainter extends MenuItemPainter {
             paintBackgroundMouseOver(g, width, height);
             break;
         case ARROWICON_DISABLED:
-            paintarrowIconDisabled(g);
+            paintArrowIconDisabled(g, width, height);
             break;
         case ARROWICON_ENABLED:
-            paintarrowIconEnabled(g);
+            paintArrowIconEnabled(g, width, height);
             break;
         case ARROWICON_ENABLED_SELECTED:
-            paintarrowIconEnabledAndSelected(g);
+            paintArrowIconEnabledAndSelected(g, width, height);
             break;
         }
     }
@@ -94,40 +84,29 @@ public final class MenuPainter extends MenuItemPainter {
         return ctx;
     }
 
-    private void paintarrowIconDisabled(Graphics2D g) {
-        path = decodePath1();
+    private void paintArrowIconDisabled(Graphics2D g, int width, int height) {
+        path = decodeArrowPath(width, height);
         g.setPaint(color2);
         g.fill(path);
     }
 
-    private void paintarrowIconEnabled(Graphics2D g) {
-        path = decodePath1();
+    private void paintArrowIconEnabled(Graphics2D g, int width, int height) {
+        path = decodeArrowPath(width, height);
         g.setPaint(color3);
         g.fill(path);
     }
 
-    private void paintarrowIconEnabledAndSelected(Graphics2D g) {
-        path = decodePath2();
+    private void paintArrowIconEnabledAndSelected(Graphics2D g, int width, int height) {
+        path = decodeArrowPath(width, height);
         g.setPaint(color4);
         g.fill(path);
     }
 
-    private Path2D decodePath1() {
+    private Path2D decodeArrowPath(int width, int height) {
         path.reset();
-        path.moveTo(decodeX(0.0f), decodeY(0.2f));
-        path.lineTo(decodeX(2.7512195f), decodeY(2.102439f));
-        path.lineTo(decodeX(0.0f), decodeY(3.0f));
-        path.lineTo(decodeX(0.0f), decodeY(0.2f));
-        path.closePath();
-        return path;
-    }
-
-    private Path2D decodePath2() {
-        path.reset();
-        path.moveTo(decodeX(0.0f), decodeY(1.0f));
-        path.lineTo(decodeX(1.9529617f), decodeY(1.5625f));
-        path.lineTo(decodeX(0.0f), decodeY(3.0f));
-        path.lineTo(decodeX(0.0f), decodeY(1.0f));
+        path.moveTo(0, 1);
+        path.lineTo((width - 2) * 0.9529617f + 1, (height - 2) * 0.5625f + 1);
+        path.lineTo(0, height);
         path.closePath();
         return path;
     }

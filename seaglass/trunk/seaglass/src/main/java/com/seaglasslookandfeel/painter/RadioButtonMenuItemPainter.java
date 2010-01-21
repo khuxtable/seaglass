@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
 
@@ -39,9 +37,6 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
         CHECKICON_DISABLED_SELECTED,
         CHECKICON_ENABLED_SELECTED,
         CHECKICON_SELECTED_MOUSEOVER,
-        ICON_DISABLED,
-        ICON_ENABLED,
-        ICON_MOUSEOVER,
     }
 
     private Which        state;
@@ -61,10 +56,10 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
         case BACKGROUND_ENABLED:
         case BACKGROUND_MOUSEOVER:
         case BACKGROUND_SELECTED_MOUSEOVER:
-            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(100, 3), false, CacheMode.NO_CACHING, 1.0, 1.0);
+            this.ctx = new PaintContext(CacheMode.NO_CACHING);
             break;
         default:
-            ctx = new PaintContext(new Insets(5, 5, 5, 5), new Dimension(9, 10), false, CacheMode.FIXED_SIZES, 1.0, 1.0);
+            this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
             break;
         }
     }
@@ -79,13 +74,13 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
             paintBackgroundMouseOver(g, width, height);
             break;
         case CHECKICON_DISABLED_SELECTED:
-            paintcheckIconDisabledAndSelected(g);
+            paintCheckIconDisabledAndSelected(g, width, height);
             break;
         case CHECKICON_ENABLED_SELECTED:
-            paintcheckIconEnabledAndSelected(g);
+            paintCheckIconEnabledAndSelected(g, width, height);
             break;
         case CHECKICON_SELECTED_MOUSEOVER:
-            paintcheckIconSelectedAndMouseOver(g);
+            paintCheckIconSelectedAndMouseOver(g, width, height);
             break;
 
         }
@@ -96,42 +91,30 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
         return ctx;
     }
 
-    private void paintcheckIconDisabledAndSelected(Graphics2D g) {
-        Shape s = decodePath1();
+    private void paintCheckIconDisabledAndSelected(Graphics2D g, int width, int height) {
+        Shape s = decodeRadioPath(width, height);
         g.setPaint(iconDisabledSelected);
         g.fill(s);
     }
 
-    private void paintcheckIconEnabledAndSelected(Graphics2D g) {
-        Shape s = decodePath2();
+    private void paintCheckIconEnabledAndSelected(Graphics2D g, int width, int height) {
+        Shape s = decodeRadioPath(width, height);
         g.setPaint(iconEnabledSelected);
         g.fill(s);
     }
 
-    private void paintcheckIconSelectedAndMouseOver(Graphics2D g) {
-        Shape s = decodePath2();
+    private void paintCheckIconSelectedAndMouseOver(Graphics2D g, int width, int height) {
+        Shape s = decodeRadioPath(width, height);
         g.setPaint(iconSelectedMouseOver);
         g.fill(s);
     }
 
-    private Shape decodePath1() {
+    private Shape decodeRadioPath(int width, int height) {
         path.reset();
-        path.moveTo(decodeX(0.0f), decodeY(2.097561f));
-        path.lineTo(decodeX(0.90975606f), decodeY(0.20243903f));
-        path.lineTo(decodeX(3.0f), decodeY(2.102439f));
-        path.lineTo(decodeX(0.90731704f), decodeY(3.0f));
-        path.lineTo(decodeX(0.0f), decodeY(2.097561f));
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodePath2() {
-        path.reset();
-        path.moveTo(decodeX(0.0024390244f), decodeY(2.097561f));
-        path.lineTo(decodeX(0.90975606f), decodeY(0.20243903f));
-        path.lineTo(decodeX(3.0f), decodeY(2.102439f));
-        path.lineTo(decodeX(0.90731704f), decodeY(3.0f));
-        path.lineTo(decodeX(0.0024390244f), decodeY(2.097561f));
+        path.moveTo(0, height - 5);
+        path.lineTo(4.5f, 1f);
+        path.lineTo(width, height - 4.5f);
+        path.lineTo(4.5f, height);
         path.closePath();
         return path;
     }

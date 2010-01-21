@@ -21,7 +21,6 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.Insets;
@@ -40,9 +39,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.UIResource;
 
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
-import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.util.ImageCache;
-import com.seaglasslookandfeel.util.ImageScalingHelper;
 
 /**
  * Convenient base class for defining Painter instances for rendering a region
@@ -66,90 +63,6 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      * calls.
      */
     private PaintContext ctx;
-    /**
-     * The scaling factor. Recomputed on each call to paint.
-     */
-    private float        f;
-    /*
-     * Various metrics used for decoding x/y values based on the canvas size and
-     * stretching insets.
-     * 
-     * On each call to paint, we first ask the subclass for the PaintContext.
-     * From the context we get the canvas size and stretching insets, and
-     * whether the algorithm should be "inverted", meaning the center section
-     * remains a fixed size and the other sections scale.
-     * 
-     * We then use these values to compute a series of metrics (listed below)
-     * which are used to decode points in a specific axis (x or y).
-     * 
-     * The leftWidth represents the distance from the left edge of the region to
-     * the first stretching inset, after accounting for any scaling factor (such
-     * as DPI scaling). The centerWidth is the distance between the leftWidth
-     * and the rightWidth. The rightWidth is the distance from the right edge,
-     * to the right inset (after scaling has been applied).
-     * 
-     * The same logic goes for topHeight, centerHeight, and bottomHeight.
-     * 
-     * The leftScale represents the proportion of the width taken by the left
-     * section. The same logic is applied to the other scales.
-     * 
-     * The various widths/heights are used to decode control points. The various
-     * scales are used to decode bezier handles (or anchors).
-     */
-    /**
-     * The width of the left section. Recomputed on each call to paint.
-     */
-    private float        leftWidth;
-    /**
-     * The height of the top section. Recomputed on each call to paint.
-     */
-    private float        topHeight;
-    /**
-     * The width of the center section. Recomputed on each call to paint.
-     */
-    private float        centerWidth;
-    /**
-     * The height of the center section. Recomputed on each call to paint.
-     */
-    private float        centerHeight;
-    /**
-     * The width of the right section. Recomputed on each call to paint.
-     */
-    private float        rightWidth;
-    /**
-     * The height of the bottom section. Recomputed on each call to paint.
-     */
-    private float        bottomHeight;
-    /**
-     * The scaling factor to use for the left section. Recomputed on each call
-     * to paint.
-     */
-    private float        leftScale;
-    /**
-     * The scaling factor to use for the top section. Recomputed on each call to
-     * paint.
-     */
-    private float        topScale;
-    /**
-     * The scaling factor to use for the center section, in the horizontal
-     * direction. Recomputed on each call to paint.
-     */
-    private float        centerHScale;
-    /**
-     * The scaling factor to use for the center section, in the vertical
-     * direction. Recomputed on each call to paint.
-     */
-    private float        centerVScale;
-    /**
-     * The scaling factor to use for the right section. Recomputed on each call
-     * to paint.
-     */
-    private float        rightScale;
-    /**
-     * The scaling factor to use for the bottom section. Recomputed on each call
-     * to paint.
-     */
-    private float        bottomScale;
 
     /**
      * Insets used for positioning the control border in order to leave enough
@@ -178,11 +91,9 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
                 || g instanceof PrinterGraphics) {
             // no caching so paint directly
             paint0(g, c, w, h, extendedCacheKeys);
-        } else if (cacheMode == PaintContext.CacheMode.FIXED_SIZES) {
-            paintWithFixedSizeCaching(g, c, w, h, extendedCacheKeys);
         } else {
-            // 9 Square caching
-            paintWith9SquareCaching(g, ctx, c, w, h, extendedCacheKeys);
+            // fixed size caching
+            paintWithFixedSizeCaching(g, c, w, h, extendedCacheKeys);
         }
     }
 
@@ -264,102 +175,6 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      *            The result of the call to getExtendedCacheKeys()
      */
     protected abstract void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys);
-
-    /**
-     * Decodes and returns a float value representing the actual pixel location
-     * for the given encoded X value.
-     * 
-     * @param x
-     *            an encoded x value (0...1, or 1...2, or 2...3)
-     * @return the decoded x value
-     */
-    protected final float decodeX(float x) {
-        if (ctx.canvasSize == null) return x;
-
-        if (x >= 0 && x <= 1) {
-            return x * leftWidth;
-        } else if (x > 1 && x < 2) {
-            return ((x - 1) * centerWidth) + leftWidth;
-        } else if (x >= 2 && x <= 3) {
-            return ((x - 2) * rightWidth) + leftWidth + centerWidth;
-        } else {
-            throw new AssertionError("Invalid x");
-        }
-    }
-
-    /**
-     * Decodes and returns a float value representing the actual pixel location
-     * for the given encoded y value.
-     * 
-     * @param y
-     *            an encoded y value (0...1, or 1...2, or 2...3)
-     * @return the decoded y value
-     */
-    protected final float decodeY(float y) {
-        if (ctx.canvasSize == null) return y;
-
-        if (y >= 0 && y <= 1) {
-            return y * topHeight;
-        } else if (y > 1 && y < 2) {
-            return ((y - 1) * centerHeight) + topHeight;
-        } else if (y >= 2 && y <= 3) {
-            return ((y - 2) * bottomHeight) + topHeight + centerHeight;
-        } else {
-            throw new AssertionError("Invalid y");
-        }
-    }
-
-    /**
-     * Decodes and returns a float value representing the actual pixel location
-     * for the anchor point given the encoded X value of the control point, and
-     * the offset distance to the anchor from that control point.
-     * 
-     * @param x
-     *            an encoded x value of the bezier control point (0...1, or
-     *            1...2, or 2...3)
-     * @param dx
-     *            the offset distance to the anchor from the control point x
-     * @return the decoded x location of the control point
-     */
-    protected final float decodeAnchorX(float x, float dx) {
-        if (ctx.canvasSize == null) return x + dx;
-
-        if (x >= 0 && x <= 1) {
-            return decodeX(x) + (dx * leftScale);
-        } else if (x > 1 && x < 2) {
-            return decodeX(x) + (dx * centerHScale);
-        } else if (x >= 2 && x <= 3) {
-            return decodeX(x) + (dx * rightScale);
-        } else {
-            throw new AssertionError("Invalid x");
-        }
-    }
-
-    /**
-     * Decodes and returns a float value representing the actual pixel location
-     * for the anchor point given the encoded Y value of the control point, and
-     * the offset distance to the anchor from that control point.
-     * 
-     * @param y
-     *            an encoded y value of the bezier control point (0...1, or
-     *            1...2, or 2...3)
-     * @param dy
-     *            the offset distance to the anchor from the control point y
-     * @return the decoded y position of the control point
-     */
-    protected final float decodeAnchorY(float y, float dy) {
-        if (ctx.canvasSize == null) return y + dy;
-
-        if (y >= 0 && y <= 1) {
-            return decodeY(y) + (dy * topScale);
-        } else if (y > 1 && y < 2) {
-            return decodeY(y) + (dy * centerVScale);
-        } else if (y >= 2 && y <= 3) {
-            return decodeY(y) + (dy * bottomScale);
-        } else {
-            throw new AssertionError("Invalid y");
-        }
-    }
 
     /**
      * Decodes and returns a color, which is derived from a base color in UI
@@ -549,124 +364,19 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      */
     public static class PaintContext {
         public static enum CacheMode {
-            NO_CACHING, FIXED_SIZES, NINE_SQUARE_SCALE
+            NO_CACHING, FIXED_SIZES
         }
 
-        private static Insets EMPTY_INSETS = new Insets(0, 0, 0, 0);
-
-        private Insets        stretchingInsets;
-        private Dimension     canvasSize;
-        private boolean       inverted;
-        private CacheMode     cacheMode;
-        private double        maxHorizontalScaleFactor;
-        private double        maxVerticalScaleFactor;
-
-        // insets.left
-        private float         a;
-        // canvasSize.width - insets.right
-        private float         b;
-        // insets.top
-        private float         c;
-        // canvasSize.height - insets.bottom
-        private float         d;
-        private float         aPercent;
-        // only used if inverted == true
-        private float         bPercent;
-        // only used if inverted == true
-        private float         cPercent;
-        // only used if inverted == true
-        private float         dPercent;
-
-        /**
-         * Creates a new PaintContext which does not attempt to cache or scale
-         * any cached images.
-         * 
-         * @param insets
-         *            The stretching insets. May be null. If null, then assumed
-         *            to be 0, 0, 0, 0.
-         * @param canvasSize
-         *            The size of the canvas used when encoding the various x/y
-         *            values. May be null. If null, then it is assumed that
-         *            there are no encoded values, and any calls to one of the
-         *            "decode" methods will return the passed in value.
-         * @param inverted
-         *            Whether to "invert" the meaning of the 9-square grid and
-         *            stretching insets
-         */
-        public PaintContext(Insets insets, Dimension canvasSize, boolean inverted) {
-            this(insets, canvasSize, inverted, null, 1, 1);
-        }
+        private CacheMode cacheMode;
 
         /**
          * Creates a new PaintContext.
-         * 
-         * @param insets
-         *            The stretching insets. May be null. If null, then assumed
-         *            to be 0, 0, 0, 0.
-         * @param canvasSize
-         *            The size of the canvas used when encoding the various x/y
-         *            values. May be null. If null, then it is assumed that
-         *            there are no encoded values, and any calls to one of the
-         *            "decode" methods will return the passed in value.
-         * @param inverted
-         *            Whether to "invert" the meaning of the 9-square grid and
-         *            stretching insets
          * @param cacheMode
          *            A hint as to which caching mode to use. If null, then set
          *            to no caching.
-         * @param maxH
-         *            The maximium scale in the horizontal direction to use
-         *            before punting and redrawing from scratch. For example, if
-         *            maxH is 2, then we will attempt to scale any cached images
-         *            up to 2x the canvas width before redrawing from scratch.
-         *            Reasonable maxH values may improve painting performance.
-         *            If set too high, then you may get poor looking graphics at
-         *            higher zoom levels. Must be >= 1.
-         * @param maxV
-         *            The maximium scale in the vertical direction to use before
-         *            punting and redrawing from scratch. For example, if maxV
-         *            is 2, then we will attempt to scale any cached images up
-         *            to 2x the canvas height before redrawing from scratch.
-         *            Reasonable maxV values may improve painting performance.
-         *            If set too high, then you may get poor looking graphics at
-         *            higher zoom levels. Must be >= 1.
          */
-        public PaintContext(Insets insets, Dimension canvasSize, boolean inverted, CacheMode cacheMode, double maxH, double maxV) {
-            if (maxH < 1 || maxH < 1) {
-                throw new IllegalArgumentException("Both maxH and maxV must be >= 1");
-            }
-
-            this.stretchingInsets = insets == null ? EMPTY_INSETS : insets;
-            this.canvasSize = canvasSize;
-            this.inverted = inverted;
+        public PaintContext(CacheMode cacheMode) {
             this.cacheMode = cacheMode == null ? CacheMode.NO_CACHING : cacheMode;
-            this.maxHorizontalScaleFactor = maxH;
-            this.maxVerticalScaleFactor = maxV;
-
-            if (canvasSize != null) {
-                a = insets.left;
-                b = canvasSize.width - insets.right;
-                c = insets.top;
-                d = canvasSize.height - insets.bottom;
-                this.canvasSize = canvasSize;
-                this.inverted = inverted;
-                if (inverted) {
-                    float available = canvasSize.width - (b - a);
-                    aPercent = available > 0f ? a / available : 0f;
-                    bPercent = available > 0f ? b / available : 0f;
-                    available = canvasSize.height - (d - c);
-                    cPercent = available > 0f ? c / available : 0f;
-                    dPercent = available > 0f ? d / available : 0f;
-                }
-            }
-        }
-
-        public Dimension getCanvasSize() {
-            return canvasSize;
-        }
-
-        public Insets getStretchingInsets() {
-            return stretchingInsets;
         }
 
         public CacheMode getCacheMode() {
@@ -675,88 +385,6 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     }
 
     // ---------------------- private methods
-
-    // initializes the class to prepare it for being able to decode points
-    private void prepare(float w, float h) {
-        // if no PaintContext has been specified, reset the values and bail
-        // also bail if the canvasSize was not set (since decoding will not
-        // work)
-        if (ctx == null || ctx.canvasSize == null) {
-            f = 1f;
-            leftWidth = centerWidth = rightWidth = 0f;
-            topHeight = centerHeight = bottomHeight = 0f;
-            leftScale = centerHScale = rightScale = 0f;
-            topScale = centerVScale = bottomScale = 0f;
-            return;
-        }
-
-        // calculate the scaling factor, and the sizes for the various 9-square
-        // sections
-        Number scale = (Number) UIManager.get("scale");
-        f = scale == null ? 1f : scale.floatValue();
-
-        if (ctx.inverted) {
-            centerWidth = (ctx.b - ctx.a) * f;
-            float availableSpace = w - centerWidth;
-            leftWidth = availableSpace * ctx.aPercent;
-            rightWidth = availableSpace * ctx.bPercent;
-            centerHeight = (ctx.d - ctx.c) * f;
-            availableSpace = h - centerHeight;
-            topHeight = availableSpace * ctx.cPercent;
-            bottomHeight = availableSpace * ctx.dPercent;
-        } else {
-            leftWidth = ctx.a * f;
-            rightWidth = (float) (ctx.canvasSize.getWidth() - ctx.b) * f;
-            centerWidth = w - leftWidth - rightWidth;
-            topHeight = ctx.c * f;
-            bottomHeight = (float) (ctx.canvasSize.getHeight() - ctx.d) * f;
-            centerHeight = h - topHeight - bottomHeight;
-        }
-
-        leftScale = ctx.a == 0f ? 0f : leftWidth / ctx.a;
-        centerHScale = (ctx.b - ctx.a) == 0f ? 0f : centerWidth / (ctx.b - ctx.a);
-        rightScale = (ctx.canvasSize.width - ctx.b) == 0f ? 0f : rightWidth / (ctx.canvasSize.width - ctx.b);
-        topScale = ctx.c == 0f ? 0f : topHeight / ctx.c;
-        centerVScale = (ctx.d - ctx.c) == 0f ? 0f : centerHeight / (ctx.d - ctx.c);
-        bottomScale = (ctx.canvasSize.height - ctx.d) == 0f ? 0f : bottomHeight / (ctx.canvasSize.height - ctx.d);
-    }
-
-    private void paintWith9SquareCaching(Graphics2D g, PaintContext ctx, JComponent c, int w, int h, Object[] extendedCacheKeys) {
-        // check if we can scale to the requested size
-        Dimension canvas = ctx.canvasSize;
-        Insets insets = ctx.stretchingInsets;
-
-        if (w <= (canvas.width * ctx.maxHorizontalScaleFactor) && h <= (canvas.height * ctx.maxVerticalScaleFactor)) {
-            // get image at canvas size
-            VolatileImage img = getImage(g.getDeviceConfiguration(), c, canvas.width, canvas.height, extendedCacheKeys);
-            if (img != null) {
-                // calculate dst inserts
-                // todo: destination inserts need to take into acount scale
-                // factor for high dpi. Note: You can use f for this, I think
-                Insets dstInsets;
-                if (ctx.inverted) {
-                    int leftRight = (w - (canvas.width - (insets.left + insets.right))) / 2;
-                    int topBottom = (h - (canvas.height - (insets.top + insets.bottom))) / 2;
-                    dstInsets = new Insets(topBottom, leftRight, topBottom, leftRight);
-                } else {
-                    dstInsets = insets;
-                }
-                // paint 9 square scaled
-                Object oldScaleingHints = g.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
-                g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-                ImageScalingHelper.paint(g, 0, 0, w, h, img, insets, dstInsets, ImageScalingHelper.PaintType.PAINT9_STRETCH,
-                    ImageScalingHelper.PAINT_ALL);
-                g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, oldScaleingHints != null ? oldScaleingHints
-                        : RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-            } else {
-                // render directly
-                paint0(g, c, w, h, extendedCacheKeys);
-            }
-        } else {
-            // paint directly
-            paint0(g, c, w, h, extendedCacheKeys);
-        }
-    }
 
     private void paintWithFixedSizeCaching(Graphics2D g, JComponent c, int w, int h, Object[] extendedCacheKeys) {
         VolatileImage img = getImage(g.getDeviceConfiguration(), c, w, h, extendedCacheKeys);
@@ -829,7 +457,6 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     // These steps have to be taken to ensure that any hints set on the graphics
     // are removed subsequent to painting.
     private void paint0(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        prepare(width, height);
         g = (Graphics2D) g.create();
         configureGraphics(g);
         doPaint(g, c, width, height, extendedCacheKeys);
@@ -852,17 +479,5 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
             value = 255;
         }
         return value;
-    }
-
-    public PaintContext getMyPaintContext() {
-        return getPaintContext();
-    }
-
-    public Insets getMyInsets() {
-        return getPaintContext().getStretchingInsets();
-    }
-
-    public CacheMode getMyCacheMode() {
-        return getPaintContext().getCacheMode();
     }
 }

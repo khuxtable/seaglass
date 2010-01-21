@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
@@ -64,12 +62,6 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     private final Color                    colorShadow      = new Color(0x000000);
     private Effect                         dropShadow       = new ScrollButtonDropShadowEffect();
 
-    private static final Insets            insets           = new Insets(0, 0, 0, 0);
-    private static final Dimension         dimension        = new Dimension(20, 15);
-    private static final CacheMode         cacheMode        = CacheMode.FIXED_SIZES;
-    private static final Double            maxH             = 2.0;
-    private static final Double            maxV             = 2.0;
-
     private Path2D                         path             = new Path2D.Double();
 
     private Which                          state;
@@ -78,7 +70,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     public ScrollBarButtonPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     @Override

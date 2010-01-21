@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -60,14 +58,6 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
     public ButtonStateColors       pressed;
     public ButtonStateColors       disabled;
 
-    private static final Insets    bgInsets             = new Insets(4, 1, 4, 4);
-    private static final Dimension bgDimension          = new Dimension(21, 23);
-
-    private static final Insets    fgInsets             = new Insets(0, 0, 0, 0);
-    private static final Dimension fgDimension          = new Dimension(10, 6);
-
-    private static final Dimension fgEditableDimension  = new Dimension(6, 9);
-
     private Path2D                 path                 = new Path2D.Double();
 
     private Which                  state;
@@ -76,18 +66,7 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
     public ComboBoxArrowButtonPainter(Which state) {
         super();
         this.state = state;
-
-        Insets ins = bgInsets;
-        Dimension dim = bgDimension;
-        if (state == Which.FOREGROUND_ENABLED || state == Which.FOREGROUND_DISABLED || state == Which.FOREGROUND_PRESSED
-                || state == Which.FOREGROUND_SELECTED) {
-            ins = fgInsets;
-            dim = fgDimension;
-        } else if (state == Which.FOREGROUND_EDITABLE || state == Which.FOREGROUND_EDITABLE_DISABLED) {
-            ins = fgInsets;
-            dim = fgEditableDimension;
-        }
-        ctx = new PaintContext(ins, dim, false, CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
         // Set the default colors.
         setEnabled(new ButtonStateColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true), new Color(

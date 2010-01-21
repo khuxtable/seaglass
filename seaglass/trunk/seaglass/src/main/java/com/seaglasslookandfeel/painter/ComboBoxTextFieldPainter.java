@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.geom.Path2D;
 
@@ -38,27 +36,21 @@ public final class ComboBoxTextFieldPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED,
     }
 
-    private static final Color     DISABLED_BORDER = new Color(0xdddddd);
-    private static final Color     ENABLED_BORDER  = new Color(0xbbbbbb);
-    private static final Color     DARKER_SHADOW   = new Color(0xe1e1e1);
-    private static final Color     LIGHTER_SHADOW  = new Color(0xf5f5f5);
+    private static final Color DISABLED_BORDER = new Color(0xdddddd);
+    private static final Color ENABLED_BORDER  = new Color(0xbbbbbb);
+    private static final Color DARKER_SHADOW   = new Color(0xe1e1e1);
+    private static final Color LIGHTER_SHADOW  = new Color(0xf5f5f5);
 
-    private static final Insets    insets          = new Insets(3, 3, 3, 0);
-    private static final Dimension dimension       = new Dimension(84, 23);
-    private static final CacheMode cacheMode       = CacheMode.FIXED_SIZES;
-    private static final Double    maxH            = Double.POSITIVE_INFINITY;
-    private static final Double    maxV            = Double.POSITIVE_INFINITY;
+    private Which              state;
+    private PaintContext       ctx;
 
-    private Which                  state;
-    private PaintContext           ctx;
-
-    private Rectangle              rect            = new Rectangle();
-    private Path2D                 path            = new Path2D.Double();
+    private Rectangle          rect            = new Rectangle();
+    private Path2D             path            = new Path2D.Double();
 
     public ComboBoxTextFieldPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     @Override
@@ -90,7 +82,7 @@ public final class ComboBoxTextFieldPainter extends AbstractRegionPainter {
     }
 
     private void paintSelected(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g,  c, width, height, ENABLED_BORDER);
+        paintButton(g, c, width, height, ENABLED_BORDER);
     }
 
     private void paintButton(Graphics2D g, JComponent c, int width, int height, Color borderColor) {

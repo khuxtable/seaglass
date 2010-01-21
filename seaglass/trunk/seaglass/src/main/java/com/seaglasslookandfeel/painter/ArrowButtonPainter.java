@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.geom.Path2D;
 
 import javax.swing.JComponent;
@@ -37,33 +35,27 @@ public final class ArrowButtonPainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED, FOREGROUND_DISABLED, FOREGROUND_ENABLED,
     }
 
-    private static final Insets    insets        = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension     = new Dimension(10, 10);
-    private static final CacheMode cacheMode     = CacheMode.FIXED_SIZES;
-    private static final Double    maxH          = 1.0;
-    private static final Double    maxV          = 1.0;
+    private Which        state;
+    private PaintContext ctx;
 
-    private Which                  state;
-    private PaintContext           ctx;
+    private Path2D       path          = new Path2D.Float();
 
-    private Path2D                 path          = new Path2D.Float();
-
-    private Color                  disabledColor = new Color(0x9ba8cf);
-    private Color                  enabledColor  = Color.black;
+    private Color        disabledColor = new Color(0x9ba8cf);
+    private Color        enabledColor  = Color.black;
 
     public ArrowButtonPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case FOREGROUND_DISABLED:
-            paintForegroundDisabled(g);
+            paintForegroundDisabled(g, width, height);
             break;
         case FOREGROUND_ENABLED:
-            paintForegroundEnabled(g);
+            paintForegroundEnabled(g, width, height);
             break;
         }
     }
@@ -72,26 +64,26 @@ public final class ArrowButtonPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintForegroundDisabled(Graphics2D g) {
-        path = decodePath1();
+    private void paintForegroundDisabled(Graphics2D g, int width, int height) {
+        path = decodeArrowPath(width, height);
         g.setPaint(disabledColor);
         g.fill(path);
 
     }
 
-    private void paintForegroundEnabled(Graphics2D g) {
-        path = decodePath1();
+    private void paintForegroundEnabled(Graphics2D g, int width, int height) {
+        path = decodeArrowPath(width, height);
         g.setPaint(enabledColor);
         g.fill(path);
 
     }
 
-    private Path2D decodePath1() {
+    private Path2D decodeArrowPath(int width, int height) {
         path.reset();
-        path.moveTo(decodeX(1.8f), decodeY(1.2f));
-        path.lineTo(decodeX(1.2f), decodeY(1.5f));
-        path.lineTo(decodeX(1.8f), decodeY(1.8f));
-        path.lineTo(decodeX(1.8f), decodeY(1.2f));
+        path.moveTo(width * 0.8f, height * 0.2f);
+        path.lineTo(width * 0.2f, height * 0.5f);
+        path.lineTo(width * 0.8f, height * 0.8f);
+        path.lineTo(width * 0.8f, height * 0.2f);
         path.closePath();
         return path;
     }

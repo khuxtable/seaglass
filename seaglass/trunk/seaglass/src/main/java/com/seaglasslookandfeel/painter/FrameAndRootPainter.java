@@ -21,9 +21,7 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
@@ -35,7 +33,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JRootPane;
 import javax.swing.JToolBar;
 
-import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.state.ToolBarNorthState;
 import com.seaglasslookandfeel.state.ToolBarSouthState;
@@ -48,36 +45,29 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED, BACKGROUND_ENABLED_WINDOWFOCUSED, BACKGROUND_ENABLED_NOFRAME
     };
 
-    private static final int       TITLE_BAR_HEIGHT      = 25;
+    private static final int      TITLE_BAR_HEIGHT      = 25;
 
-    // Constants for the PaintContext.
-    private static final Insets    insets                = new Insets(25, 6, 6, 6);
-    private static final Dimension dimension             = new Dimension(25, 36);
-    private static final CacheMode cacheMode             = PaintContext.CacheMode.FIXED_SIZES;
-    private static final Double    maxH                  = Double.POSITIVE_INFINITY;
-    private static final Double    maxV                  = Double.POSITIVE_INFINITY;
+    private static final ColorSet active                = new ColorSet(new Color(0xafbecf), new Color(0x96adc4), new Color(0x96adc4),
+                                                            new Color(0x8ea7c0));
+    private static final ColorSet inactive              = new ColorSet(new Color(0xededed), new Color(0xe0e0e0), new Color(0xe0e0e0),
+                                                            new Color(0xd3d3d3));
 
-    private static final ColorSet  active                = new ColorSet(new Color(0xafbecf), new Color(0x96adc4), new Color(0x96adc4),
-                                                             new Color(0x8ea7c0));
-    private static final ColorSet  inactive              = new ColorSet(new Color(0xededed), new Color(0xe0e0e0), new Color(0xe0e0e0),
-                                                             new Color(0xd3d3d3));
+    private static final Color    borderColor           = new Color(0x545454);
 
-    private static final Color     borderColor           = new Color(0x545454);
+    private static final Color    INNER_HIGHLIGHT_COLOR = new Color(0x55ffffff, true);
 
-    private static final Color     INNER_HIGHLIGHT_COLOR = new Color(0x55ffffff, true);
+    private static final State    toolBarNorthState     = new ToolBarNorthState();
+    private static final State    toolBarSouthState     = new ToolBarSouthState();
 
-    private static final State     toolBarNorthState     = new ToolBarNorthState();
-    private static final State     toolBarSouthState     = new ToolBarSouthState();
+    private Path2D                path                  = new Path2D.Double();
 
-    private Path2D                 path                  = new Path2D.Double();
-
-    private Which                  state;
-    private PaintContext           ctx;
+    private Which                 state;
+    private PaintContext          ctx;
 
     public FrameAndRootPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(PaintContext.CacheMode.FIXED_SIZES);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {

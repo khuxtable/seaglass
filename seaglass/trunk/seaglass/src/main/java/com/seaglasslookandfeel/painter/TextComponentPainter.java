@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
@@ -47,35 +45,31 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         BORDER_ENABLED,
     }
 
-    private static final State     inToolBar              = new ControlInToolBarState();
+    private static final State inToolBar              = new ControlInToolBarState();
 
-    private Color                  outerFocusColor        = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
-    private Color                  innerFocusColor        = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
-    private Color                  outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus", 0f, 0f, 0f, 0);
-    private Color                  innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus", 0f, 0f, 0f, 0);
+    private Color              outerFocusColor        = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
+    private Color              innerFocusColor        = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
+    private Color              outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus", 0f, 0f, 0f, 0);
+    private Color              innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus", 0f, 0f, 0f, 0);
 
-    private Color                  TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
-    private Color                  LIGHT_SHADOW_COLOR     = new Color(0, 0, 0, 0x0a);
-    private Color                  DARK_SHADOW_COLOR      = new Color(0, 0, 0, 0x1e);
+    private Color              TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
+    private Color              LIGHT_SHADOW_COLOR     = new Color(0, 0, 0, 0x0a);
+    private Color              DARK_SHADOW_COLOR      = new Color(0, 0, 0, 0x1e);
 
-    private Color                  DISABLED_BORDER        = new Color(0xdddddd);
-    private Color                  ENABLED_BORDER         = new Color(0xbbbbbb);
-    private Color                  ENABLED_TOOLBAR_BORDER = new Color(0x888888);
+    private Color              DISABLED_BORDER        = new Color(0xdddddd);
+    private Color              ENABLED_BORDER         = new Color(0xbbbbbb);
+    private Color              ENABLED_TOOLBAR_BORDER = new Color(0x888888);
 
-    private static final Dimension dimension              = new Dimension(90, 30);
-    private static final Insets    insets                 = new Insets(5, 3, 3, 3);
+    private Rectangle2D        rect                   = new Rectangle2D.Double();
 
-    private Rectangle2D            rect                   = new Rectangle2D.Double();
-
-    private Which                  state;
-    private PaintContext           ctx;
-    private boolean                focused;
+    private Which              state;
+    private PaintContext       ctx;
+    private boolean            focused;
 
     public TextComponentPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(insets, dimension, false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES,
-            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        this.ctx = new PaintContext(AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES);
 
         focused = (state == Which.BORDER_FOCUSED);
     }

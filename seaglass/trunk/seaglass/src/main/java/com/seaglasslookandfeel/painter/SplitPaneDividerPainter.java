@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
@@ -45,38 +43,28 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         FOREGROUND_FOCUSED_VERTICAL,
     }
 
-    private static final CacheMode cacheMode         = CacheMode.FIXED_SIZES;
-    private static final Double    maxH              = Double.POSITIVE_INFINITY;
-    private static final Double    maxV              = Double.POSITIVE_INFINITY;
+    private Which              state;
+    private PaintContext       ctx;
 
-    private Which                  state;
-    private PaintContext           ctx;
+    private RoundRectangle2D   roundRect         = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
 
-    private RoundRectangle2D       roundRect         = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
+    private Color              bgOuter           = new Color(0xd9d9d9);
+    private Color              bgEnabled         = decodeColor("control", 0f, 0f, 0f, 0);
 
-    private Color                  bgOuter           = new Color(0xd9d9d9);
-    private Color                  bgEnabled         = decodeColor("control", 0f, 0f, 0f, 0);
+    private static final Color OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
+    private static final Color INNER_FOCUS_COLOR = new Color(0x73a4d1);
 
-    private static final Color     OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
-    private static final Color     INNER_FOCUS_COLOR = new Color(0x73a4d1);
+    private Color              fgBorder1         = new Color(0x88ade0);
+    private Color              fgBorder2         = new Color(0x5785bf);
 
-    private Color                  fgBorder1         = new Color(0x88ade0);
-    private Color                  fgBorder2         = new Color(0x5785bf);
-
-    private Color                  fgInside1         = new Color(0xfbfdfe);
-    private Color                  fgInside2         = new Color(0xd2e8f8);
-    private Color                  fgInside3         = new Color(0xf5fafd);
+    private Color              fgInside1         = new Color(0xfbfdfe);
+    private Color              fgInside2         = new Color(0xd2e8f8);
+    private Color              fgInside3         = new Color(0xf5fafd);
 
     public SplitPaneDividerPainter(Which state) {
         super();
         this.state = state;
-        if (state == Which.FOREGROUND_ENABLED) {
-            this.ctx = new PaintContext(new Insets(0, 24, 0, 24), new Dimension(68, 10), true, cacheMode, maxH, maxV);
-        } else if (state == Which.FOREGROUND_ENABLED_VERTICAL) {
-            this.ctx = new PaintContext(new Insets(5, 0, 5, 0), new Dimension(10, 38), true, cacheMode, maxH, maxV);
-        } else {
-            this.ctx = new PaintContext(new Insets(3, 0, 3, 0), new Dimension(68, 10), false, cacheMode, maxH, maxV);
-        }
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     @Override

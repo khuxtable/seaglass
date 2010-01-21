@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 
 import javax.swing.JComponent;
 
@@ -36,19 +34,13 @@ public final class DesktopPanePainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED
     }
 
-    private PaintContext           ctx;
+    private PaintContext ctx;
 
-    private Color                  desktopPaneColor = decodeColor("nimbusBase.DesktopPane", 0f, 0f, 0f, 0);
-
-    private static final Insets    insets           = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension        = new Dimension(300, 232);
-    private static final CacheMode cacheMode        = CacheMode.FIXED_SIZES;
-    private static final Double    maxH             = Double.POSITIVE_INFINITY;
-    private static final Double    maxV             = Double.POSITIVE_INFINITY;
+    private Color        desktopPaneColor = decodeColor("nimbusBase.DesktopPane", 0f, 0f, 0f, 0);
 
     public DesktopPanePainter(Which state) {
         super();
-        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {

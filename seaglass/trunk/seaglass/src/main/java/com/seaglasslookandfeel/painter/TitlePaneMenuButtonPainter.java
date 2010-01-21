@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
@@ -66,7 +64,7 @@ public final class TitlePaneMenuButtonPainter extends AbstractRegionPainter {
     public TitlePaneMenuButtonPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(19, 18), false, CacheMode.FIXED_SIZES, 1.0, 1.0);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     @Override

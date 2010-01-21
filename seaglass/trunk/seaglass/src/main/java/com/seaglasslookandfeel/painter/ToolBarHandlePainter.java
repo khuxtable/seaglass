@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
@@ -69,8 +67,7 @@ public class ToolBarHandlePainter extends AbstractRegionPainter {
     public ToolBarHandlePainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(new Insets(5, 5, 5, 5), new Dimension(11, 38), false, CacheMode.FIXED_SIZES,
-            (Double) Double.POSITIVE_INFINITY, (Double) Double.POSITIVE_INFINITY);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {

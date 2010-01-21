@@ -21,9 +21,7 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.geom.Path2D;
 
@@ -52,23 +50,7 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
     public SearchFieldIconPainter(Which state) {
         super();
         this.state = state;
-        switch (state) {
-        case FIND_ICON_DISABLED:
-        case FIND_ICON_ENABLED:
-            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(14, 17), false,
-                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-            break;
-        case FIND_ICON_ENABLED_POPUP:
-            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(22, 17), false,
-                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-            break;
-        case CANCEL_ICON_DISABLED:
-        case CANCEL_ICON_ENABLED:
-        case CANCEL_ICON_PRESSED:
-            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(17, 17), false,
-                AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-            break;
-        }
+        this.ctx = new PaintContext(AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES);
     }
 
     /**
