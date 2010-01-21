@@ -55,22 +55,24 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE,
     }
 
-    private static final ColorSet disabled          = new ColorSet(new Color(0x8088ade0, true), new Color(0x805785bf, true), new Color(
-                                                        0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8, true),
-                                                        new Color(0x80f5fafd, true));
-    private static final ColorSet enabled           = new ColorSet(new Color(0x88ade0), new Color(0x5785bf), new Color(0xfbfdfe),
-                                                        new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd));
-    private static final ColorSet pressed           = new ColorSet(new Color(0x4f7bbf), new Color(0x3f76bf), new Color(0xacbdd0),
-                                                        new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4));
+    private static final ColorSet disabled               = new ColorSet(new Color(0x8088ade0, true), new Color(0x805785bf, true),
+                                                             new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(
+                                                                 0x80d2e8f8, true), new Color(0x80f5fafd, true));
+    private static final ColorSet enabled                = new ColorSet(new Color(0x88ade0), new Color(0x5785bf), new Color(0xfbfdfe),
+                                                             new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd));
+    private static final ColorSet pressed                = new ColorSet(new Color(0x4f7bbf), new Color(0x3f76bf), new Color(0xacbdd0),
+                                                             new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4));
 
-    private static final Color    OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
-    private static final Color    INNER_FOCUS_COLOR = new Color(0x73a4d1);
+    private Color                 outerFocusColor        = decodeColor("seaGlassOuterFocus");
+    private Color                 innerFocusColor        = decodeColor("seaGlassFocus");
+    private Color                 outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
+    private Color                 innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
-    private static final Color    shadowColor       = Color.black;
-    private static final Effect   dropShadow        = new SeaGlassDropShadowEffect();
+    private static final Color    shadowColor            = Color.black;
+    private static final Effect   dropShadow             = new SeaGlassDropShadowEffect();
 
-    private Ellipse2D             ellipse           = new Ellipse2D.Double();
-    private Path2D                path              = new Path2D.Double();
+    private Ellipse2D             ellipse                = new Ellipse2D.Double();
+    private Path2D                path                   = new Path2D.Double();
 
     private Which                 state;
     private PaintContext          ctx;
@@ -151,13 +153,14 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
     }
 
     private void paintDiscrete(Graphics2D g, JComponent c, int width, int height, boolean focused, ColorSet colors) {
+        boolean useToolBarColors = useToolBarFocus(c);
         Shape s;
         if (focused) {
             s = decodeDiscreteOuterFocus(width, height);
-            g.setColor(OUTER_FOCUS_COLOR);
+            g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
             g.fill(s);
             s = decodeDiscreteInnerFocus(width, height);
-            g.setColor(INNER_FOCUS_COLOR);
+            g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
             g.fill(s);
         }
         s = decodeDiscreteBorder(width, height);
@@ -172,13 +175,14 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
     }
 
     private void paintContinuous(Graphics2D g, JComponent c, int width, int height, boolean focused, ColorSet colors) {
+        boolean useToolBarColors = useToolBarFocus(c);
         Shape s;
         if (focused) {
             s = decodeContinuousOuterFocus(width, height);
-            g.setColor(OUTER_FOCUS_COLOR);
+            g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
             g.fill(s);
             s = decodeContinuousInnerFocus(width, height);
-            g.setColor(INNER_FOCUS_COLOR);
+            g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
             g.fill(s);
         }
         s = decodeContinuousBorder(width, height);
