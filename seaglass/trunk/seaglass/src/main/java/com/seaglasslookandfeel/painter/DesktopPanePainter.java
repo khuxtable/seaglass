@@ -27,7 +27,7 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
- * Nimbus's DesktopPanePainter.
+ * Sea Glass's DesktopPanePainter.
  */
 public final class DesktopPanePainter extends AbstractRegionPainter {
     public static enum Which {
@@ -36,7 +36,7 @@ public final class DesktopPanePainter extends AbstractRegionPainter {
 
     private PaintContext ctx;
 
-    private Color        desktopPaneColor = decodeColor("nimbusBase.DesktopPane", 0f, 0f, 0f, 0);
+    private Color        desktopPaneColor = decodeColor("seaGlassDesktopPane");
 
     public DesktopPanePainter(Which state) {
         super();
