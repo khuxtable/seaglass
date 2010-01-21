@@ -44,9 +44,9 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
 
     private Path2D       path                  = new Path2D.Float();
 
-    private Color        iconDisabledSelected  = decodeColor("nimbusBlueGrey", 0.0f, -0.08983666f, -0.17647058f, 0);
-    private Color        iconEnabledSelected   = decodeColor("nimbusBlueGrey", 0.055555582f, -0.096827686f, -0.45882353f, 0);
-    private Color        iconSelectedMouseOver = decodeColor("nimbusBlueGrey", 0.0f, -0.110526316f, 0.25490195f, 0);
+    private Color        iconDisabledSelected  = Color.GRAY;
+    private Color        iconEnabledSelected   = Color.BLACK;
+    private Color        iconSelectedMouseOver = Color.WHITE;
 
     public CheckBoxMenuItemPainter(Which state) {
         super(MenuItemPainter.Which.BACKGROUND_ENABLED);
@@ -112,7 +112,7 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
 
     private Shape decodeIconPath(int width, int height) {
         double widthMult = width / 16.0;
-        double heightMult = height / 16.0;
+        double heightMult = height / 13.0;
         path.reset();
         path.moveTo(5.0 * widthMult, 8.0 * heightMult);
         path.lineTo(7.0 * widthMult, 8.0 * heightMult);
