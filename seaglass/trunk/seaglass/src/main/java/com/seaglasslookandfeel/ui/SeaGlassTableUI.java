@@ -84,10 +84,6 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
 
     private static final CellRendererPane CELL_RENDER_PANE = new CellRendererPane();
 
-    private Color                         selectionActiveBottomBorderColor;
-    private Color                         selectionInactiveBottomBorderColor;
-    private Color                         transparentColor;
-
     //
     // Instance Variables
     //
@@ -98,6 +94,10 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     private boolean                       useUIBorder;
     // The background color to use for cells for alternate cells.
     private Color                         alternateColor;
+
+    private Color                         selectionActiveBottomBorderColor;
+    private Color                         selectionInactiveBottomBorderColor;
+    private Color                         transparentColor;
 
     // TableCellRenderer installed on the JTable at the time we're installed,
     // cached so that we can reinstall them at uninstallUI time.
