@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
@@ -39,23 +37,17 @@ public final class PopupMenuSeparatorPainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED
     }
 
-    private Which                  state;
-    private PaintContext           ctx;
+    private Which        state;
+    private PaintContext ctx;
 
-    private Rectangle2D            rect      = new Rectangle2D.Float(0, 0, 0, 0);
+    private Rectangle2D  rect   = new Rectangle2D.Float(0, 0, 0, 0);
 
-    private Color                  color1    = new Color(0xdddddd);
-
-    private static final Insets    insets    = new Insets(1, 1, 1, 1);
-    private static final Dimension dimension = new Dimension(3, 3);
-    private static final CacheMode cacheMode = CacheMode.NO_CACHING;
-    private static final Double    maxH      = 1.0;
-    private static final Double    maxV      = 1.0;
+    private Color        color1 = new Color(0xdddddd);
 
     public PopupMenuSeparatorPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(insets, dimension, true, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.NO_CACHING);
     }
 
     @Override

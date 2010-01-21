@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -48,30 +46,24 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED_SELECTED,
     }
 
-    private static final Color     END_INNER_COLOR      = new Color(0x00000000, true);
-    private static final Color     MID_INNER_COLOR      = new Color(0x28000000, true);
+    private static final Color END_INNER_COLOR      = new Color(0x00000000, true);
+    private static final Color MID_INNER_COLOR      = new Color(0x28000000, true);
 
-    private static final Color     END_INNER_EDGE_COLOR = new Color(0x00000000, true);
-    private static final Color     MID_INNER_EDGE_COLOR = new Color(0x20000000, true);
+    private static final Color END_INNER_EDGE_COLOR = new Color(0x00000000, true);
+    private static final Color MID_INNER_EDGE_COLOR = new Color(0x20000000, true);
 
-    private static final Color     END_OUTER_EDGE_COLOR = new Color(0x10000000, true);
-    private static final Color     MID_OUTER_EDGE_COLOR = new Color(0x40000000, true);
+    private static final Color END_OUTER_EDGE_COLOR = new Color(0x10000000, true);
+    private static final Color MID_OUTER_EDGE_COLOR = new Color(0x40000000, true);
 
-    private static final Insets    insets               = new Insets(5, 5, 5, 5);
-    private static final Dimension dimension            = new Dimension(104, 34);
-    private static final CacheMode cacheMode            = CacheMode.FIXED_SIZES;
-    private static final Double    maxH                 = Double.POSITIVE_INFINITY;
-    private static final Double    maxV                 = Double.POSITIVE_INFINITY;
+    private Rectangle          rect                 = new Rectangle();
 
-    private Rectangle              rect                 = new Rectangle();
-
-    private Which                  state;
-    private PaintContext           ctx;
+    private Which              state;
+    private PaintContext       ctx;
 
     public ToolBarToggleButtonPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     @Override

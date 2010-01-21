@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -67,8 +65,7 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
     public ScrollBarTrackPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(19, 15), false, CacheMode.FIXED_SIZES,
-            (Double) Double.POSITIVE_INFINITY, (Double) Double.POSITIVE_INFINITY);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     @Override

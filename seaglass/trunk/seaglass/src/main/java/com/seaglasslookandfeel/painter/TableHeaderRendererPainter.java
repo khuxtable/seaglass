@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Rectangle;
 
@@ -80,8 +78,7 @@ public final class TableHeaderRendererPainter extends AbstractRegionPainter {
     public TableHeaderRendererPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(new Insets(1, 0, 1, 1), new Dimension(26, 16), false, CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
-            Double.POSITIVE_INFINITY);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     @Override

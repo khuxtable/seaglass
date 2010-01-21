@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
@@ -40,27 +38,21 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED
     }
 
-    private PaintContext           ctx;
+    private PaintContext     ctx;
 
-    private Rectangle2D            rect                = new Rectangle2D.Float(0, 0, 0, 0);
-    private RoundRectangle2D       roundRect           = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
+    private Rectangle2D      rect                = new Rectangle2D.Float(0, 0, 0, 0);
+    private RoundRectangle2D roundRect           = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
 
-    private Color                  borderColor         = new Color(0x545454);
+    private Color            borderColor         = new Color(0x545454);
 
-    private Color                  innerHighLightColor = new Color(0x55ffffff, true);
+    private Color            innerHighLightColor = new Color(0x55ffffff, true);
 
-    private Color                  inactiveColor1      = new Color(0xededed);
-    private Color                  inactiveColor2      = new Color(0xe0e0e0);
-
-    private static final Insets    insets              = new Insets(5, 5, 5, 5);
-    private static final Dimension dimension           = new Dimension(28, 26);
-    private static final CacheMode cacheMode           = CacheMode.FIXED_SIZES;
-    private static final Double    maxH                = Double.POSITIVE_INFINITY;
-    private static final Double    maxV                = Double.POSITIVE_INFINITY;
+    private Color            inactiveColor1      = new Color(0xededed);
+    private Color            inactiveColor2      = new Color(0xe0e0e0);
 
     public DesktopIconPainter(Which state) {
         super();
-        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {

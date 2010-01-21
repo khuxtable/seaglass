@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
@@ -64,9 +62,6 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
     private Color                  ENABLED_BORDER         = new Color(0xbbbbbb);
     private Color                  ENABLED_TOOLBAR_BORDER = new Color(0x888888);
 
-    private static final Dimension dimension              = new Dimension(90, 30);
-    private static final Insets    insets                 = new Insets(5, 3, 3, 3);
-
     private Path2D                 path                   = new Path2D.Double();
     private RoundRectangle2D       roundRect              = new RoundRectangle2D.Double();
 
@@ -77,8 +72,7 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
     public SearchFieldPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(insets, dimension, false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES,
-            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        this.ctx = new PaintContext(AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES);
 
         focused = (state == Which.BORDER_FOCUSED);
     }

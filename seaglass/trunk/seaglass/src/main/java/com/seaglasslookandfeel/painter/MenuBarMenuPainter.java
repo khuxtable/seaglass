@@ -20,13 +20,13 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
+
+import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 public final class MenuBarMenuPainter extends AbstractRegionPainter {
     public static enum Which {
@@ -43,8 +43,7 @@ public final class MenuBarMenuPainter extends AbstractRegionPainter {
     public MenuBarMenuPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(100, 30), false,
-            AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0);
+        this.ctx = new PaintContext(CacheMode.NO_CACHING);
     }
 
     @Override

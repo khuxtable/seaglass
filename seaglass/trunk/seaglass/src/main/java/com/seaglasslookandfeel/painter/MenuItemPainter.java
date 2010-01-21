@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -49,7 +47,7 @@ public class MenuItemPainter extends AbstractRegionPainter {
     public MenuItemPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(100, 3), false, CacheMode.NO_CACHING, 1.0, 1.0);
+        this.ctx = new PaintContext(CacheMode.NO_CACHING);
     }
 
     @Override

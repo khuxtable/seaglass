@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -41,29 +39,23 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_PRESSED,
     }
 
-    private static final Insets    insets         = new Insets(0, 8, 0, 8);
-    private static final Dimension dimension      = new Dimension(82, 14);
-    private static final CacheMode cacheMode      = CacheMode.FIXED_SIZES;
-    private static final Double    maxH           = Double.POSITIVE_INFINITY;
-    private static final Double    maxV           = 1.0;
+    private ButtonStateColors disabledColors = new ButtonStateColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(
+                                                 0x80d2e8f8, true), new Color(0x80f5fafd, true), 0.46f, 0.62f, new Color(0x6088ade0, true),
+                                                 new Color(0x605785bf, true));
+    private ButtonStateColors enabledColors  = new ButtonStateColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8),
+                                                 new Color(0xf5fafd), 0.46f, 0.62f, new Color(0x88ade0), new Color(0x5785bf));
+    private ButtonStateColors pressedColors  = new ButtonStateColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc),
+                                                 new Color(0xbbcedf), 0.4f, 0.7f, new Color(0x4076bf), new Color(0x4f7bbf));
 
-    private ButtonStateColors      disabledColors = new ButtonStateColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true),
-                                                      new Color(0x80d2e8f8, true), new Color(0x80f5fafd, true), 0.46f, 0.62f, new Color(
-                                                          0x6088ade0, true), new Color(0x605785bf, true));
-    private ButtonStateColors      enabledColors  = new ButtonStateColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8),
-                                                      new Color(0xf5fafd), 0.46f, 0.62f, new Color(0x88ade0), new Color(0x5785bf));
-    private ButtonStateColors      pressedColors  = new ButtonStateColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc),
-                                                      new Color(0xbbcedf), 0.4f, 0.7f, new Color(0x4076bf), new Color(0x4f7bbf));
+    private RoundRectangle2D  rect           = new RoundRectangle2D.Double();
 
-    private RoundRectangle2D       rect           = new RoundRectangle2D.Double();
-
-    private Which                  state;
-    private PaintContext           ctx;
+    private Which             state;
+    private PaintContext      ctx;
 
     public ScrollBarThumbPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
     }
 

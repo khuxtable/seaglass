@@ -20,7 +20,6 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Paint;
@@ -53,8 +52,7 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
     public TabbedPaneTabAreaPainter(Which state) {
         super();
         this.state = state;
-        ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(0, 0), false, CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
-            Double.POSITIVE_INFINITY);
+        this.ctx = new PaintContext(CacheMode.NO_CACHING);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {

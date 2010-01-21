@@ -19,9 +19,7 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 
 import javax.swing.JComponent;
 
@@ -56,16 +54,10 @@ public final class ButtonPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED_SELECTED
     };
 
-    private static final Insets                insets    = new Insets(7, 7, 7, 7);
-    private static final Dimension             dimension = new Dimension(86, 29);
-    private static final CacheMode             cacheMode = CacheMode.FIXED_SIZES;
-    private static final Double                maxH      = Double.POSITIVE_INFINITY;
-    private static final Double                maxV      = Double.POSITIVE_INFINITY;
+    private PaintContext         ctx;
 
-    private PaintContext                       ctx;
-
-    private ButtonVariantPainter               standard;
-    private ButtonVariantPainter               textured;
+    private ButtonVariantPainter standard;
+    private ButtonVariantPainter textured;
 
     /**
      * Create a new ButtonPainter.
@@ -76,7 +68,7 @@ public final class ButtonPainter extends AbstractRegionPainter {
     public ButtonPainter(Which state) {
         super();
 
-        ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
         standard = new SegmentedButtonPainter(state, ctx);
         textured = new TexturedButtonPainter(state, ctx);

@@ -20,10 +20,8 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 
 import javax.swing.JComponent;
 
@@ -52,41 +50,35 @@ public class ToolBarPainter extends AbstractRegionPainter {
         BORDER_WEST_ENABLED,
     };
 
-    private static final boolean   IS_NON_MAC              = !PlatformUtils.isMac();
-    private static final boolean   IS_SNOW_LEOPARD         = PlatformUtils.isSnowLeopard();
-
-    private static final Insets    insets                  = new Insets(0, 0, 0, 0);
-    private static final Dimension dimension               = new Dimension(30, 30);
-    private static final CacheMode cacheMode               = CacheMode.NO_CACHING;
-    private static final Double    maxH                    = 1.0;
-    private static final Double    maxV                    = 1.0;
+    private static final boolean IS_NON_MAC              = !PlatformUtils.isMac();
+    private static final boolean IS_SNOW_LEOPARD         = PlatformUtils.isSnowLeopard();
 
     // For non-Mac use Snow Leopard colors because it has the same Gamma
     // correction.
-    private static final Color     ACTIVE_TOP_COLOR_T      = IS_NON_MAC ? new Color(0x466c97) : IS_SNOW_LEOPARD ? new Color(0xc9c9c9)
-                                                                   : new Color(0xbcbcbc);
-    private static final Color     ACTIVE_TOP_COLOR_B      = IS_NON_MAC ? new Color(0x466c97) : IS_SNOW_LEOPARD ? new Color(0xb7b7b7)
-                                                                   : new Color(0x9a9a9a);
-    private static final Color     INACTIVE_TOP_COLOR_T    = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xe9e9e9) : new Color(0xe4e4e4);
-    private static final Color     INACTIVE_TOP_COLOR_B    = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xe0e0e0) : new Color(0xd1d1d1);
+    private static final Color   ACTIVE_TOP_COLOR_T      = IS_NON_MAC ? new Color(0x466c97) : IS_SNOW_LEOPARD ? new Color(0xc9c9c9)
+                                                                 : new Color(0xbcbcbc);
+    private static final Color   ACTIVE_TOP_COLOR_B      = IS_NON_MAC ? new Color(0x466c97) : IS_SNOW_LEOPARD ? new Color(0xb7b7b7)
+                                                                 : new Color(0x9a9a9a);
+    private static final Color   INACTIVE_TOP_COLOR_T    = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xe9e9e9) : new Color(0xe4e4e4);
+    private static final Color   INACTIVE_TOP_COLOR_B    = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xe0e0e0) : new Color(0xd1d1d1);
 
-    private static final Color     ACTIVE_BOTTOM_COLOR_T   = IS_NON_MAC ? new Color(0x5f80a5) : IS_SNOW_LEOPARD ? new Color(0x999999)
-                                                                   : new Color(0xcccccc);
-    private static final Color     ACTIVE_BOTTOM_COLOR_B   = IS_NON_MAC ? new Color(0x466c97) : IS_SNOW_LEOPARD ? new Color(0x909090)
-                                                                   : new Color(0xa7a7a7);
-    private static final Color     INACTIVE_BOTTOM_COLOR_T = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcfcfcf) : new Color(0xe9e9e9);
-    private static final Color     INACTIVE_BOTTOM_COLOR_B = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcacaca) : new Color(0xd8d8d8);
+    private static final Color   ACTIVE_BOTTOM_COLOR_T   = IS_NON_MAC ? new Color(0x5f80a5) : IS_SNOW_LEOPARD ? new Color(0x999999)
+                                                                 : new Color(0xcccccc);
+    private static final Color   ACTIVE_BOTTOM_COLOR_B   = IS_NON_MAC ? new Color(0x466c97) : IS_SNOW_LEOPARD ? new Color(0x909090)
+                                                                 : new Color(0xa7a7a7);
+    private static final Color   INACTIVE_BOTTOM_COLOR_T = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcfcfcf) : new Color(0xe9e9e9);
+    private static final Color   INACTIVE_BOTTOM_COLOR_B = IS_NON_MAC || IS_SNOW_LEOPARD ? new Color(0xcacaca) : new Color(0xd8d8d8);
 
-    private static final State     hasNorthToolBarState    = new ToolBarHasNorthToolBarState();
+    private static final State   hasNorthToolBarState    = new ToolBarHasNorthToolBarState();
 
     // Refers to one of the static final ints above
-    private Which                  state;
-    private PaintContext           ctx;
+    private Which                state;
+    private PaintContext         ctx;
 
     public ToolBarPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.NO_CACHING);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {

@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 
@@ -40,27 +38,21 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
-    private Which                  state;
-    private PaintContext           ctx;
+    private Which            state;
+    private PaintContext     ctx;
 
-    private RoundRectangle2D       rect                  = new RoundRectangle2D.Double();
+    private RoundRectangle2D rect                  = new RoundRectangle2D.Double();
 
-    private Color                  disabledBorderColor   = new Color(0x80dddddd, true);
-    private Color                  disabledInteriorColor = new Color(0x80ffffff, true);
+    private Color            disabledBorderColor   = new Color(0x80dddddd, true);
+    private Color            disabledInteriorColor = new Color(0x80ffffff, true);
 
-    private Color                  enabledBorderColor    = new Color(0xdddddd);
-    private Color                  enabledInteriorColor  = new Color(0xffffff);
-
-    private static final Insets    insets                = new Insets(4, 2, 4, 2);
-    private static final Dimension dimension             = new Dimension(220, 313);
-    private static final CacheMode cacheMode             = CacheMode.NO_CACHING;
-    private static final Double    maxH                  = 1.0;
-    private static final Double    maxV                  = 1.0;
+    private Color            enabledBorderColor    = new Color(0xdddddd);
+    private Color            enabledInteriorColor  = new Color(0xffffff);
 
     public PopupMenuPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.NO_CACHING);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {

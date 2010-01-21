@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
@@ -40,29 +38,23 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED, BORDER_ENABLED, BORDER_ENABLED_FOCUSED, CORNER_ENABLED,
     }
 
-    private static final Insets    insets       = new Insets(5, 5, 5, 5);
-    private static final Dimension dimension    = new Dimension(122, 24);
-    private static final CacheMode cacheMode    = CacheMode.FIXED_SIZES;
-    private static final Double    maxH         = Double.POSITIVE_INFINITY;
-    private static final Double    maxV         = Double.POSITIVE_INFINITY;
+    private Which        state;
+    private PaintContext ctx;
 
-    private Which                  state;
-    private PaintContext           ctx;
+    private Rectangle2D  rect         = new Rectangle2D.Double();
+    private Path2D       path         = new Path2D.Float();
 
-    private Rectangle2D            rect         = new Rectangle2D.Double();
-    private Path2D                 path         = new Path2D.Float();
+    private Color        borderColor  = decodeColor("nimbusBorder", 0.0f, 0.0f, 0.0f, 0);
+    private Color        focusColor   = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
 
-    private Color                  borderColor  = decodeColor("nimbusBorder", 0.0f, 0.0f, 0.0f, 0);
-    private Color                  focusColor   = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
-
-    private Color                  cornerBorder = new Color(192, 192, 192);
-    private Color                  cornerColor1 = new Color(240, 240, 240);
-    private Color                  cornerColor2 = new Color(212, 212, 212);
+    private Color        cornerBorder = new Color(192, 192, 192);
+    private Color        cornerColor1 = new Color(240, 240, 240);
+    private Color        cornerColor2 = new Color(212, 212, 212);
 
     public ScrollPanePainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {

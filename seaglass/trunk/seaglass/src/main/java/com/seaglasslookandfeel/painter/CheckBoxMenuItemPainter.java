@@ -20,9 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
 
@@ -58,10 +56,10 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
         case BACKGROUND_ENABLED:
         case BACKGROUND_MOUSEOVER:
         case BACKGROUND_SELECTED_MOUSEOVER:
-            ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(100, 3), false, CacheMode.NO_CACHING, 1.0, 1.0);
+            this.ctx = new PaintContext(CacheMode.NO_CACHING);
             break;
         default:
-            ctx = new PaintContext(new Insets(5, 5, 5, 5), new Dimension(9, 10), false, CacheMode.FIXED_SIZES, 1.0, 1.0);
+            this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
             break;
         }
     }
@@ -76,13 +74,13 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
             paintBackgroundMouseOver(g, width, height);
             break;
         case CHECKICON_DISABLED_SELECTED:
-            paintcheckIconDisabledAndSelected(g);
+            paintCheckIconDisabledAndSelected(g, width, height);
             break;
         case CHECKICON_ENABLED_SELECTED:
-            paintcheckIconEnabledAndSelected(g);
+            paintCheckIconEnabledAndSelected(g, width, height);
             break;
         case CHECKICON_SELECTED_MOUSEOVER:
-            paintcheckIconSelectedAndMouseOver(g);
+            paintCheckIconSelectedAndMouseOver(g, width, height);
             break;
 
         }
@@ -93,37 +91,35 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
         return ctx;
     }
 
-    private void paintcheckIconDisabledAndSelected(Graphics2D g) {
-        Shape s = decodeIconPath();
+    private void paintCheckIconDisabledAndSelected(Graphics2D g, int width, int height) {
+        Shape s = decodeIconPath(width, height);
         g.setPaint(iconDisabledSelected);
         g.fill(s);
 
     }
 
-    private void paintcheckIconEnabledAndSelected(Graphics2D g) {
-        Shape s = decodeIconPath();
+    private void paintCheckIconEnabledAndSelected(Graphics2D g, int width, int height) {
+        Shape s = decodeIconPath(width, height);
         g.setPaint(iconEnabledSelected);
         g.fill(s);
     }
 
-    private void paintcheckIconSelectedAndMouseOver(Graphics2D g) {
-        Shape s = decodeIconPath();
+    private void paintCheckIconSelectedAndMouseOver(Graphics2D g, int width, int height) {
+        Shape s = decodeIconPath(width, height);
         g.setPaint(iconSelectedMouseOver);
         g.fill(s);
     }
 
-    private Shape decodeIconPath() {
+    private Shape decodeIconPath(int width, int height) {
+        double widthMult = width / 16.0;
+        double heightMult = height / 16.0;
         path.reset();
-        path.moveTo(decodeX(0.0f), decodeY(1.5f));
-        path.lineTo(decodeX(0.4292683f), decodeY(1.5f));
-        path.lineTo(decodeX(0.7121951f), decodeY(2.4780488f));
-        path.lineTo(decodeX(2.5926828f), decodeY(0.0f));
-        path.lineTo(decodeX(3.0f), decodeY(0.0f));
-        path.lineTo(decodeX(3.0f), decodeY(0.2f));
-        path.lineTo(decodeX(2.8317075f), decodeY(0.39512196f));
-        path.lineTo(decodeX(0.8f), decodeY(3.0f));
-        path.lineTo(decodeX(0.5731707f), decodeY(3.0f));
-        path.lineTo(decodeX(0.0f), decodeY(1.5f));
+        path.moveTo(5.0 * widthMult, 8.0 * heightMult);
+        path.lineTo(7.0 * widthMult, 8.0 * heightMult);
+        path.lineTo(9.75 * widthMult, 11.0 * heightMult);
+        path.lineTo(14.0 * widthMult, 1.0 * heightMult);
+        path.lineTo(16.0 * widthMult, 1.0 * heightMult);
+        path.lineTo(10.0 * widthMult, 13.0 * heightMult);
         path.closePath();
         return path;
     }
