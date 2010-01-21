@@ -32,11 +32,12 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
  */
 public final class ArrowButtonPainter extends AbstractRegionPainter {
     public static enum Which {
-        BACKGROUND_ENABLED, FOREGROUND_DISABLED, FOREGROUND_ENABLED,
+        BACKGROUND_ENABLED, FOREGROUND_DISABLED, FOREGROUND_ENABLED, FOREGROUND_PRESSED,
     }
 
-    private Color        disabledColor = new Color(0x9ba8cf);
-    private Color        enabledColor  = Color.black;
+    private Color        disabledColor = decodeColor("ArrowButton[Disabled].foreground");
+    private Color        enabledColor  = decodeColor("ArrowButton[Enabled].foreground");
+    private Color        pressedColor  = decodeColor("ArrowButton[Pressed].foreground");
 
     private Which        state;
     private PaintContext ctx;
@@ -57,6 +58,9 @@ public final class ArrowButtonPainter extends AbstractRegionPainter {
         case FOREGROUND_ENABLED:
             paintForegroundEnabled(g, width, height);
             break;
+        case FOREGROUND_PRESSED:
+            paintForegroundPressed(g, width, height);
+            break;
         }
     }
 
@@ -74,6 +78,13 @@ public final class ArrowButtonPainter extends AbstractRegionPainter {
     private void paintForegroundEnabled(Graphics2D g, int width, int height) {
         path = decodeArrowPath(width, height);
         g.setPaint(enabledColor);
+        g.fill(path);
+
+    }
+
+    private void paintForegroundPressed(Graphics2D g, int width, int height) {
+        path = decodeArrowPath(width, height);
+        g.setPaint(pressedColor);
         g.fill(path);
 
     }
