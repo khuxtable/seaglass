@@ -40,7 +40,10 @@ import javax.swing.plaf.UIResource;
 
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.state.ControlInToolBarState;
+import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.util.ImageCache;
+import com.seaglasslookandfeel.util.PlatformUtils;
 
 /**
  * Convenient base class for defining Painter instances for rendering a region
@@ -52,6 +55,8 @@ import com.seaglasslookandfeel.util.ImageCache;
  * @see com.sun.java.swing.plaf.nimbus.AbstractRegionPainter
  */
 public abstract class AbstractRegionPainter implements Painter<JComponent> {
+    private static final State inToolBarState = new ControlInToolBarState();
+
     /**
      * PaintContext, which holds a lot of the state needed for cache hinting and
      * x/y value decoding The data contained within the context is typically
@@ -63,19 +68,30 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      * to the subclass to compute and cache the PaintContext over multiple
      * calls.
      */
-    private PaintContext ctx;
+    private PaintContext       ctx;
 
     /**
      * Insets used for positioning the control border in order to leave enough
      * room for the focus indicator.
      */
-    protected Insets     focusInsets;
+    protected Insets           focusInsets;
 
     /**
      * Create a new AbstractRegionPainter
      */
     protected AbstractRegionPainter() {
         focusInsets = UIManager.getInsets("seaGlassFocusInsets");
+    }
+
+    /**
+     * Returns true if we should paint focus using light colors on a blue
+     * toolbar.
+     * 
+     * @param c
+     * @return
+     */
+    protected boolean useToolBarFocus(JComponent c) {
+        return !PlatformUtils.isMac() && inToolBarState.isInState(c);
     }
 
     /**
