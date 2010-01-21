@@ -721,7 +721,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * 
      */
     private void defineDesktopPanes(UIDefaults d) {
-        d.put("nimbusBase.DesktopPane", new ColorUIResource(90, 120, 200));
+        d.put("seaGlassDesktopPane", new ColorUIResource(0x556ba6));
         String c = PAINTER_DIRECTORY + ".DesktopPanePainter";
         d.put("DesktopPane[Enabled].backgroundPainter", new LazyPainter(c, DesktopPanePainter.Which.BACKGROUND_ENABLED));
 
