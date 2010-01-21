@@ -40,11 +40,11 @@ public final class MenuPainter extends MenuItemPainter {
     private Which        state;
     private PaintContext ctx;
 
-    private Path2D       path   = new Path2D.Float();
+    private Path2D       path                  = new Path2D.Float();
 
-    private Color        color2 = decodeColor("nimbusBlueGrey", 0.0f, -0.08983666f, -0.17647058f, 0);
-    private Color        color3 = decodeColor("nimbusBlueGrey", 0.055555582f, -0.09663743f, -0.4627451f, 0);
-    private Color        color4 = new Color(255, 255, 255, 255);
+    private Color        iconDisabledSelected  = decodeColor("nimbusDisabledText");
+    private Color        iconEnabledSelected   = decodeColor("text");
+    private Color        iconSelectedMouseOver = decodeColor("nimbusSelectedText");
 
     public MenuPainter(Which state) {
         super(MenuItemPainter.Which.BACKGROUND_ENABLED);
@@ -86,19 +86,19 @@ public final class MenuPainter extends MenuItemPainter {
 
     private void paintArrowIconDisabled(Graphics2D g, int width, int height) {
         path = decodeArrowPath(width, height);
-        g.setPaint(color2);
+        g.setPaint(iconDisabledSelected);
         g.fill(path);
     }
 
     private void paintArrowIconEnabled(Graphics2D g, int width, int height) {
         path = decodeArrowPath(width, height);
-        g.setPaint(color3);
+        g.setPaint(iconEnabledSelected);
         g.fill(path);
     }
 
     private void paintArrowIconEnabledAndSelected(Graphics2D g, int width, int height) {
         path = decodeArrowPath(width, height);
-        g.setPaint(color4);
+        g.setPaint(iconSelectedMouseOver);
         g.fill(path);
     }
 
