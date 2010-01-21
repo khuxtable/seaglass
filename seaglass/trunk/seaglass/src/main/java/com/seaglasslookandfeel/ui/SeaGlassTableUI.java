@@ -82,11 +82,11 @@ import sun.swing.plaf.synth.SynthUI;
  */
 public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyChangeListener, ViewportPainter {
 
-    private static final CellRendererPane CELL_RENDER_PANE                   = new CellRendererPane();
+    private static final CellRendererPane CELL_RENDER_PANE = new CellRendererPane();
 
-    private Color                         selectionActiveBottomBorderColor   = UIManager.getColor("seaGlassTableSelectionActiveBottom");
-    private Color                         selectionInactiveBottomBorderColor = UIManager.getColor("seaGlassTableSelectionInactiveBottom");
-    private Color                         transparentColor                   = UIManager.getColor("seaGlassTransparent");
+    private Color                         selectionActiveBottomBorderColor;
+    private Color                         selectionInactiveBottomBorderColor;
+    private Color                         transparentColor;
 
     //
     // Instance Variables
@@ -151,6 +151,11 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         SeaGlassContext context = getContext(c, ENABLED);
         SynthStyle oldStyle = style;
         style = SeaGlassLookAndFeel.updateStyle(context, this);
+
+        selectionActiveBottomBorderColor = UIManager.getColor("seaGlassTableSelectionActiveBottom");
+        selectionInactiveBottomBorderColor = UIManager.getColor("seaGlassTableSelectionInactiveBottom");
+        transparentColor = UIManager.getColor("seaGlassTransparent");
+
         if (style != oldStyle) {
             table.remove(rendererPane);
             rendererPane = createCustomCellRendererPane();
