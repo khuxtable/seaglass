@@ -43,23 +43,25 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         FOREGROUND_FOCUSED_VERTICAL,
     }
 
-    private Which              state;
-    private PaintContext       ctx;
+    private Which            state;
+    private PaintContext     ctx;
 
-    private RoundRectangle2D   roundRect         = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
+    private RoundRectangle2D roundRect              = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
 
-    private Color              bgOuter           = new Color(0xd9d9d9);
-    private Color              bgEnabled         = decodeColor("control", 0f, 0f, 0f, 0);
+    private Color            bgOuter                = new Color(0xd9d9d9);
+    private Color            bgEnabled              = decodeColor("control", 0f, 0f, 0f, 0);
 
-    private static final Color OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
-    private static final Color INNER_FOCUS_COLOR = new Color(0x73a4d1);
+    private Color            outerFocusColor        = decodeColor("seaGlassOuterFocus");
+    private Color            innerFocusColor        = decodeColor("seaGlassFocus");
+    private Color            outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
+    private Color            innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
-    private Color              fgBorder1         = new Color(0x88ade0);
-    private Color              fgBorder2         = new Color(0x5785bf);
+    private Color            fgBorder1              = new Color(0x88ade0);
+    private Color            fgBorder2              = new Color(0x5785bf);
 
-    private Color              fgInside1         = new Color(0xfbfdfe);
-    private Color              fgInside2         = new Color(0xd2e8f8);
-    private Color              fgInside3         = new Color(0xf5fafd);
+    private Color            fgInside1              = new Color(0xfbfdfe);
+    private Color            fgInside2              = new Color(0xd2e8f8);
+    private Color            fgInside3              = new Color(0xf5fafd);
 
     public SplitPaneDividerPainter(Which state) {
         super();
@@ -74,7 +76,7 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
             paintBackgroundEnabled(g, width, height);
             break;
         case BACKGROUND_FOCUSED:
-            paintBackgroundFocused(g, width, height);
+            paintBackgroundFocused(g, c, width, height);
             break;
         case FOREGROUND_ENABLED:
             paintForegroundEnabled(g, width, height);
@@ -83,10 +85,10 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
             paintForegroundEnabledAndVertical(g, width, height);
             break;
         case FOREGROUND_FOCUSED:
-            paintForegroundFocused(g, width, height);
+            paintForegroundFocused(g, c, width, height);
             break;
         case FOREGROUND_FOCUSED_VERTICAL:
-            paintForegroundFocusedAndVertical(g, width, height);
+            paintForegroundFocusedAndVertical(g, c, width, height);
             break;
         }
     }
@@ -104,16 +106,17 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         g.drawLine(0, y, width - 1, y);
     }
 
-    private void paintBackgroundFocused(Graphics2D g, int width, int height) {
+    private void paintBackgroundFocused(Graphics2D g, JComponent c, int width, int height) {
+        boolean useToolBarColors = useToolBarFocus(c);
         int y = height / 2;
 
         g.setPaint(bgEnabled);
         g.fillRect(0, 0, width, height);
 
-        g.setPaint(OUTER_FOCUS_COLOR);
+        g.setPaint(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
         g.fillRect(0, y - 1, width, 3);
 
-        g.setPaint(INNER_FOCUS_COLOR);
+        g.setPaint(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
         g.drawLine(0, y, width - 1, y);
     }
 
@@ -125,12 +128,12 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         paintForegroundEnabled(g2, height, width);
     }
 
-    private void paintForegroundFocusedAndVertical(Graphics2D g, int width, int height) {
+    private void paintForegroundFocusedAndVertical(Graphics2D g, JComponent c, int width, int height) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.translate(0, height);
         g2.rotate(Math.toRadians(-90));
 
-        paintForegroundFocused(g2, height, width);
+        paintForegroundFocused(g2, c, height, width);
     }
 
     private void paintForegroundEnabled(Graphics2D g, int width, int height) {
@@ -142,12 +145,13 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         g.fill(s);
     }
 
-    private void paintForegroundFocused(Graphics2D g, int width, int height) {
+    private void paintForegroundFocused(Graphics2D g, JComponent c, int width, int height) {
+        boolean useToolBarColors = useToolBarFocus(c);
         Shape s = decodeForegroundOuterFocus(width, height);
-        g.setPaint(OUTER_FOCUS_COLOR);
+        g.setPaint(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
         g.fill(s);
         s = decodeForegroundInnerFocus(width, height);
-        g.setPaint(INNER_FOCUS_COLOR);
+        g.setPaint(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
         g.fill(s);
         s = decodeForegroundBorder(width, height);
         g.setPaint(decodeGradientForegroundBorder(s, fgBorder1, fgBorder2));
