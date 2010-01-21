@@ -52,62 +52,64 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         ICON_DISABLED_SELECTED,
     }
 
-    private Which              state;
-    private PaintContext       ctx;
-    private boolean            focused;
-    private boolean            selected;
+    private Which            state;
+    private PaintContext     ctx;
+    private boolean          focused;
+    private boolean          selected;
 
-    private static final Color OUTER_FOCUS_COLOR        = new Color(0x8072a5d2, true);
-    private static final Color INNER_FOCUS_COLOR        = new Color(0x73a4d1);
+    private Color            outerFocusColor          = decodeColor("seaGlassOuterFocus");
+    private Color            innerFocusColor          = decodeColor("seaGlassFocus");
+    private Color            outerToolBarFocusColor   = decodeColor("seaGlassToolBarOuterFocus");
+    private Color            innerToolBarFocusColor   = decodeColor("seaGlassToolBarFocus");
 
-    private final Color        colorShadow              = new Color(0x000000);
-    private Effect             dropShadow               = new SeaGlassDropShadowEffect();
+    private Color            colorShadow              = new Color(0x000000);
+    private Effect           dropShadow               = new SeaGlassDropShadowEffect();
 
-    private RoundRectangle2D   rect                     = new RoundRectangle2D.Double();
-    private Path2D             path                     = new Path2D.Double();
+    private RoundRectangle2D rect                     = new RoundRectangle2D.Double();
+    private Path2D           path                     = new Path2D.Double();
 
-    private Color              bullet1                  = new Color(0x333333);
-    private Color              bullet2                  = new Color(0x000000);
+    private Color            bullet1                  = new Color(0x333333);
+    private Color            bullet2                  = new Color(0x000000);
 
-    private Color              bulletDisabled1          = new Color(0x80333333, true);
-    private Color              bulletDisabled2          = new Color(0x80000000, true);
+    private Color            bulletDisabled1          = new Color(0x80333333, true);
+    private Color            bulletDisabled2          = new Color(0x80000000, true);
 
-    private Color              enabledInternal1         = new Color(0xfbfdfe);
-    private Color              enabledInternal2         = new Color(0xd6eaf9);
-    private Color              enabledInternal3         = new Color(0xd2e8f8);
-    private Color              enabledInternal4         = new Color(0xf5fafd);
-    private Color              enabledBorder1           = new Color(0x88ade0);
-    private Color              enabledBorder2           = new Color(0x5785bf);
+    private Color            enabledInternal1         = new Color(0xfbfdfe);
+    private Color            enabledInternal2         = new Color(0xd6eaf9);
+    private Color            enabledInternal3         = new Color(0xd2e8f8);
+    private Color            enabledInternal4         = new Color(0xf5fafd);
+    private Color            enabledBorder1           = new Color(0x88ade0);
+    private Color            enabledBorder2           = new Color(0x5785bf);
 
-    private Color              pressedInternal1         = new Color(0xacbdd0);
-    private Color              pressedInternal2         = new Color(0x688db3);
-    private Color              pressedInternal3         = new Color(0x6d93ba);
-    private Color              pressedInternal4         = new Color(0xa4cbe4);
-    private Color              pressedBorder1           = new Color(0x4f7bbf);
-    private Color              pressedBorder2           = new Color(0x3f76bf);
+    private Color            pressedInternal1         = new Color(0xacbdd0);
+    private Color            pressedInternal2         = new Color(0x688db3);
+    private Color            pressedInternal3         = new Color(0x6d93ba);
+    private Color            pressedInternal4         = new Color(0xa4cbe4);
+    private Color            pressedBorder1           = new Color(0x4f7bbf);
+    private Color            pressedBorder2           = new Color(0x3f76bf);
 
-    private Color              selectedInternal1        = new Color(0xbccedf);
-    private Color              selectedInternal2        = new Color(0x7fa7cd);
-    private Color              selectedInternal3        = new Color(0x82b0d6);
-    private Color              selectedInternal4        = new Color(0xb0daf6);
-    private Color              selectedBorder1          = new Color(0x4f7bbf);
-    private Color              selectedBorder2          = new Color(0x3f76bf);
+    private Color            selectedInternal1        = new Color(0xbccedf);
+    private Color            selectedInternal2        = new Color(0x7fa7cd);
+    private Color            selectedInternal3        = new Color(0x82b0d6);
+    private Color            selectedInternal4        = new Color(0xb0daf6);
+    private Color            selectedBorder1          = new Color(0x4f7bbf);
+    private Color            selectedBorder2          = new Color(0x3f76bf);
 
-    private Color              pressedSelectedInternal1 = new Color(0xacbdd0);
-    private Color              pressedSelectedInternal2 = new Color(0x688db3);
-    private Color              pressedSelectedInternal3 = new Color(0x6d93ba);
-    private Color              pressedSelectedInternal4 = new Color(0xa4cbe4);
-    private Color              pressedSelectedBorder1   = new Color(0x4f7bbf);
-    private Color              pressedSelectedBorder2   = new Color(0x3f76bf);
+    private Color            pressedSelectedInternal1 = new Color(0xacbdd0);
+    private Color            pressedSelectedInternal2 = new Color(0x688db3);
+    private Color            pressedSelectedInternal3 = new Color(0x6d93ba);
+    private Color            pressedSelectedInternal4 = new Color(0xa4cbe4);
+    private Color            pressedSelectedBorder1   = new Color(0x4f7bbf);
+    private Color            pressedSelectedBorder2   = new Color(0x3f76bf);
 
-    private Color              disabledInternalA1       = new Color(0x60f4f8fb, true);
-    private Color              disabledInternalA2       = new Color(0x00ffffff, true);
-    private Color              disabledInternalB1       = new Color(0x00a8d9fc, true);
-    private Color              disabledInternalB2       = new Color(0x00cfeafd, true);
-    private Color              disabledInternalB3       = new Color(0x80f7fcff, true);
-    private Color              disabledInternalC        = new Color(0x80eeeeee, true);
-    private Color              disabledBorder1          = new Color(0x808aafe0, true);
-    private Color              disabledBorder2          = new Color(0x805785bf, true);
+    private Color            disabledInternalA1       = new Color(0x60f4f8fb, true);
+    private Color            disabledInternalA2       = new Color(0x00ffffff, true);
+    private Color            disabledInternalB1       = new Color(0x00a8d9fc, true);
+    private Color            disabledInternalB2       = new Color(0x00cfeafd, true);
+    private Color            disabledInternalB3       = new Color(0x80f7fcff, true);
+    private Color            disabledInternalC        = new Color(0x80eeeeee, true);
+    private Color            disabledBorder1          = new Color(0x808aafe0, true);
+    private Color            disabledBorder2          = new Color(0x805785bf, true);
 
     public CheckBoxPainter(Which state) {
         super();
@@ -132,10 +134,10 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
 
         if (focused) {
             Shape s = setOuterFocus(width, height);
-            g.setColor(OUTER_FOCUS_COLOR);
+            g.setColor(useToolBarFocus(c) ? outerToolBarFocusColor : outerFocusColor);
             g.fill(s);
             s = setInnerFocus(width, height);
-            g.setColor(INNER_FOCUS_COLOR);
+            g.setColor(useToolBarFocus(c) ? innerToolBarFocusColor : innerFocusColor);
             g.fill(s);
         }
 
