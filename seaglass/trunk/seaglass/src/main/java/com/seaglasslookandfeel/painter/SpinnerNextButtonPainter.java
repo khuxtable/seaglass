@@ -47,32 +47,34 @@ public final class SpinnerNextButtonPainter extends AbstractRegionPainter {
         FOREGROUND_PRESSED,
     }
 
-    private static final Color OUTER_FOCUS_COLOR        = new Color(0x8072a5d2, true);
-    private static final Color INNER_FOCUS_COLOR        = new Color(0x73a4d1);
+    private Color        outerFocusColor          = decodeColor("seaGlassOuterFocus");
+    private Color        innerFocusColor          = decodeColor("seaGlassFocus");
+    private Color        outerToolBarFocusColor   = decodeColor("seaGlassToolBarOuterFocus");
+    private Color        innerToolBarFocusColor   = decodeColor("seaGlassToolBarFocus");
 
-    private static final Color DISABLED_TOP_INTERIOR    = new Color(0xeaebf1f7, true);
-    private static final Color DISABLED_BOTTOM_INTERIOR = new Color(0xdbe2e9f2, true);
-    private static final Color DISABLED_TOP_BORDER      = new Color(0x80a2c2ed, true);
-    private static final Color DISABLED_BOTTOM_BORDER   = new Color(0x807ea4d7, true);
+    private Color        DISABLED_TOP_INTERIOR    = new Color(0xeaebf1f7, true);
+    private Color        DISABLED_BOTTOM_INTERIOR = new Color(0xdbe2e9f2, true);
+    private Color        DISABLED_TOP_BORDER      = new Color(0x80a2c2ed, true);
+    private Color        DISABLED_BOTTOM_BORDER   = new Color(0x807ea4d7, true);
 
-    private static final Color ENABLED_TOP_INTERIOR     = new Color(0xbccedf);
-    private static final Color ENABLED_BOTTOM_INTERIOR  = new Color(0x85abcf);
-    private static final Color ENABLED_TOP_BORDER       = new Color(0x4f7bbf);
-    private static final Color ENABLED_BOTTOM_BORDER    = new Color(0x4779bf);
+    private Color        ENABLED_TOP_INTERIOR     = new Color(0xbccedf);
+    private Color        ENABLED_BOTTOM_INTERIOR  = new Color(0x85abcf);
+    private Color        ENABLED_TOP_BORDER       = new Color(0x4f7bbf);
+    private Color        ENABLED_BOTTOM_BORDER    = new Color(0x4779bf);
 
-    private static final Color PRESSED_TOP_INTERIOR     = new Color(0xacbdd0);
-    private static final Color PRESSED_BOTTOM_INTERIOR  = new Color(0x6e92b6);
-    private static final Color PRESSED_TOP_BORDER       = new Color(0x4f7bbf);
-    private static final Color PRESSED_BOTTOM_BORDER    = new Color(0x4879bf);
+    private Color        PRESSED_TOP_INTERIOR     = new Color(0xacbdd0);
+    private Color        PRESSED_BOTTOM_INTERIOR  = new Color(0x6e92b6);
+    private Color        PRESSED_TOP_BORDER       = new Color(0x4f7bbf);
+    private Color        PRESSED_BOTTOM_BORDER    = new Color(0x4879bf);
 
-    private static final Color ENABLED_ARROW_COLOR      = new Color(0x000000);
-    private static final Color DISABLED_ARROW_COLOR     = new Color(0x9ba8cf);
+    private Color        ENABLED_ARROW_COLOR      = new Color(0x000000);
+    private Color        DISABLED_ARROW_COLOR     = new Color(0x9ba8cf);
 
-    private Path2D             path                     = new Path2D.Double();
+    private Path2D       path                     = new Path2D.Double();
 
-    private Which              state;
-    private PaintContext       ctx;
-    private boolean            focused;
+    private Which        state;
+    private PaintContext ctx;
+    private boolean      focused;
 
     public SpinnerNextButtonPainter(Which state) {
         super();
@@ -86,18 +88,18 @@ public final class SpinnerNextButtonPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            paintButtonDisabled(g, width, height);
+            paintButtonDisabled(g, c, width, height);
             break;
         case BACKGROUND_ENABLED:
         case BACKGROUND_FOCUSED:
-            paintButtonEnabled(g, width, height);
+            paintButtonEnabled(g, c, width, height);
             break;
         case BACKGROUND_PRESSED_FOCUSED:
         case BACKGROUND_PRESSED:
-            paintButtonPressed(g, width, height);
+            paintButtonPressed(g, c, width, height);
             break;
         case FOREGROUND_DISABLED:
-            paintArrowDisabled(g, width, height);
+            paintArrowDisabled(g, c, width, height);
             break;
         case FOREGROUND_ENABLED:
         case FOREGROUND_FOCUSED:
@@ -113,19 +115,19 @@ public final class SpinnerNextButtonPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintButtonDisabled(Graphics2D g, int width, int height) {
-        paintButton(g, width, height, DISABLED_TOP_BORDER, DISABLED_BOTTOM_BORDER, DISABLED_TOP_INTERIOR, DISABLED_BOTTOM_INTERIOR);
+    private void paintButtonDisabled(Graphics2D g, JComponent c, int width, int height) {
+        paintButton(g, c, width, height, DISABLED_TOP_BORDER, DISABLED_BOTTOM_BORDER, DISABLED_TOP_INTERIOR, DISABLED_BOTTOM_INTERIOR);
     }
 
-    private void paintButtonEnabled(Graphics2D g, int width, int height) {
-        paintButton(g, width, height, ENABLED_TOP_BORDER, ENABLED_BOTTOM_BORDER, ENABLED_TOP_INTERIOR, ENABLED_BOTTOM_INTERIOR);
+    private void paintButtonEnabled(Graphics2D g, JComponent c, int width, int height) {
+        paintButton(g, c, width, height, ENABLED_TOP_BORDER, ENABLED_BOTTOM_BORDER, ENABLED_TOP_INTERIOR, ENABLED_BOTTOM_INTERIOR);
     }
 
-    private void paintButtonPressed(Graphics2D g, int width, int height) {
-        paintButton(g, width, height, PRESSED_TOP_BORDER, PRESSED_BOTTOM_BORDER, PRESSED_TOP_INTERIOR, PRESSED_BOTTOM_INTERIOR);
+    private void paintButtonPressed(Graphics2D g, JComponent c, int width, int height) {
+        paintButton(g, c, width, height, PRESSED_TOP_BORDER, PRESSED_BOTTOM_BORDER, PRESSED_TOP_INTERIOR, PRESSED_BOTTOM_INTERIOR);
     }
 
-    private void paintArrowDisabled(Graphics2D g, int width, int height) {
+    private void paintArrowDisabled(Graphics2D g, JComponent c, int width, int height) {
         paintArrow(g, width, height, DISABLED_ARROW_COLOR);
     }
 
@@ -133,17 +135,18 @@ public final class SpinnerNextButtonPainter extends AbstractRegionPainter {
         paintArrow(g, width, height, ENABLED_ARROW_COLOR);
     }
 
-    private void paintButton(Graphics2D g, int width, int height, Color topBorder, Color bottomBorder, Color topInterior,
+    private void paintButton(Graphics2D g, JComponent c, int width, int height, Color topBorder, Color bottomBorder, Color topInterior,
         Color bottomInterior) {
+        boolean useToolBarColors = useToolBarFocus(c);
         Shape s;
 
         if (focused) {
             s = setButtonShape(0, 0, width, height, 6);
-            g.setColor(OUTER_FOCUS_COLOR);
+            g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
             g.fill(s);
 
             s = setButtonShape(0, 1, width - 1, height - 1, 5);
-            g.setColor(INNER_FOCUS_COLOR);
+            g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
             g.fill(s);
         }
 
