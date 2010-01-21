@@ -44,6 +44,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
@@ -81,11 +82,11 @@ import sun.swing.plaf.synth.SynthUI;
  */
 public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyChangeListener, ViewportPainter {
 
-    private static final CellRendererPane CELL_RENDER_PANE                       = new CellRendererPane();
+    private static final CellRendererPane CELL_RENDER_PANE                   = new CellRendererPane();
 
-    private static final Color            SELECTION_ACTIVE_BOTTOM_BORDER_COLOR   = new Color(125, 170, 234);
-    private static final Color            SELECTION_INACTIVE_BOTTOM_BORDER_COLOR = new Color(224, 224, 224);
-    private static final Color            TRANSPARENT_COLOR                      = new Color(0, 0, 0, 0);
+    private Color                         selectionActiveBottomBorderColor   = UIManager.getColor("seaGlassTableSelectionActiveBottom");
+    private Color                         selectionInactiveBottomBorderColor = UIManager.getColor("seaGlassTableSelectionInactiveBottom");
+    private Color                         transparentColor                   = UIManager.getColor("seaGlassTransparent");
 
     //
     // Instance Variables
@@ -132,8 +133,8 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         floatRenderer = installRendererIfPossible(Float.class, null);
         iconRenderer = installRendererIfPossible(Icon.class, null);
         imageIconRenderer = installRendererIfPossible(ImageIcon.class, null);
-        booleanRenderer = installRendererIfPossible(Boolean.class, new SynthBooleanTableCellRenderer());
-        objectRenderer = installRendererIfPossible(Object.class, new SynthTableCellRenderer());
+        booleanRenderer = installRendererIfPossible(Boolean.class, new SeaGlassBooleanTableCellRenderer());
+        objectRenderer = installRendererIfPossible(Object.class, new SeaGlassTableCellRenderer());
 
         updateStyle(table);
     }
@@ -344,7 +345,8 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         // Paint the grid.
         if (!(table.getParent() instanceof JViewport)
                 || (table.getParent() != null && !(table.getParent().getParent() instanceof JScrollPane))) {
-            // FIXME We need to not repaint the entire table any time something changes.
+            // FIXME We need to not repaint the entire table any time something
+            // changes.
             // paintGrid(context, g, rMin, rMax, cMin, cMax);
             paintStripesAndGrid(context, g, table, table.getWidth(), table.getHeight(), 0);
         }
@@ -404,7 +406,8 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             g.setColor(table.getGridColor());
             TableColumnModel cm = table.getColumnModel();
             n = cm.getColumnCount();
-            int y = top + row * rh;;
+            int y = top + row * rh;
+            ;
             int x = -1;
             for (int i = 0; i < n; i++) {
                 TableColumn col = cm.getColumn(i);
@@ -733,8 +736,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     private Color getSelectedRowBottomHighlight() {
-        return WindowUtils.isParentWindowFocused(table) ? SELECTION_ACTIVE_BOTTOM_BORDER_COLOR
-                : SELECTION_INACTIVE_BOTTOM_BORDER_COLOR;
+        return WindowUtils.isParentWindowFocused(table) ? selectionActiveBottomBorderColor : selectionInactiveBottomBorderColor;
     }
 
     /**
@@ -759,8 +761,8 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                     component.setBounds(0, 0, emptyColumnWidth, table.getTableHeader().getHeight());
 
                     ((JComponent) component).setOpaque(false);
-                    CELL_RENDER_PANE.paintComponent(g, component, null, startX, 0, emptyColumnWidth + 1, table.getTableHeader()
-                        .getHeight(), true);
+                    CELL_RENDER_PANE.paintComponent(g, component, null, startX, 0, emptyColumnWidth + 1,
+                        table.getTableHeader().getHeight(), true);
                 }
             }
         };
@@ -851,7 +853,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                     JComponent jComponent = (JComponent) component;
                     jComponent.setOpaque(isSelected);
                     jComponent.setBorder(isSelected ? getSelectedRowBorder() : getRowBorder());
-                    jComponent.setBackground(isSelected ? jComponent.getBackground() : TRANSPARENT_COLOR);
+                    jComponent.setBackground(isSelected ? jComponent.getBackground() : transparentColor);
                 }
 
                 super.paintComponent(graphics, component, container, x, y, w, h, shouldValidate);
@@ -859,16 +861,15 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         };
     }
 
-    private class SynthBooleanTableCellRenderer extends JCheckBox implements TableCellRenderer {
+    public class SeaGlassBooleanTableCellRenderer extends JCheckBox implements TableCellRenderer {
         private boolean isRowSelected;
 
-        public SynthBooleanTableCellRenderer() {
+        public SeaGlassBooleanTableCellRenderer() {
             setHorizontalAlignment(JLabel.CENTER);
             setName("Table.cellRenderer");
         }
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
-            int column) {
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             isRowSelected = isSelected;
 
             if (isSelected) {
@@ -895,7 +896,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         }
     }
 
-    private class SynthTableCellRenderer extends DefaultTableCellRenderer {
+    public class SeaGlassTableCellRenderer extends DefaultTableCellRenderer {
         private Object  numberFormat;
         private Object  dateFormat;
         private boolean opaque;
@@ -922,12 +923,10 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             }
         }
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
-            int column) {
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             if (!useTableColors && (isSelected || hasFocus)) {
-                SeaGlassLookAndFeel.setSelectedUI(
-                    (SeaGlassLabelUI) SeaGlassLookAndFeel.getUIOfType(getUI(), SeaGlassLabelUI.class), isSelected, hasFocus, table
-                        .isEnabled(), false);
+                SeaGlassLookAndFeel.setSelectedUI((SeaGlassLabelUI) SeaGlassLookAndFeel.getUIOfType(getUI(), SeaGlassLabelUI.class),
+                    isSelected, hasFocus, table.isEnabled(), false);
             } else {
                 SeaGlassLookAndFeel.resetSelectedUI();
             }
