@@ -571,8 +571,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void defineArrowButtons(UIDefaults d) {
         String c = PAINTER_DIRECTORY + ".ArrowButtonPainter";
         String p = "ArrowButton";
+        d.put(p + ".States", "Enabled,Disabled,Pressed");
+        d.put(p + "[Disabled].foreground", new ColorUIResource(0x9ba8cf));
+        d.put(p + "[Enabled].foreground", new ColorUIResource(Color.BLACK));
+        d.put(p + "[Pressed].foreground", new ColorUIResource(0x134D8C));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_ENABLED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_PRESSED));
     }
 
     /**
