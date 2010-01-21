@@ -36,19 +36,22 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED, BACKGROUND_FOCUSED, BACKGROUND_SELECTED_FOCUSED,
     }
 
-    private static final Color OUTER_FOCUS_COLOR = new Color(0x8072a5d2, true);
-    private static final Color INNER_FOCUS_COLOR = new Color(0x73a4d1);
-    private static final Color DISABLED_BORDER   = new Color(0xdddddd);
-    private static final Color ENABLED_BORDER    = new Color(0xbbbbbb);
-    private static final Color DARKER_SHADOW     = new Color(0xe1e1e1);
-    private static final Color LIGHTER_SHADOW    = new Color(0xf5f5f5);
+    private Color        outerFocusColor        = decodeColor("seaGlassOuterFocus");
+    private Color        innerFocusColor        = decodeColor("seaGlassFocus");
+    private Color        outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
+    private Color        innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
-    private Which              state;
-    private PaintContext       ctx;
-    private boolean            focused;
+    private Color        disabledBorder         = new Color(0xdddddd);
+    private Color        enabledBorder          = new Color(0xbbbbbb);
+    private Color        darkerShadow           = new Color(0xe1e1e1);
+    private Color        lighterShadow          = new Color(0xf5f5f5);
 
-    private Rectangle          rect              = new Rectangle();
-    private Path2D             path              = new Path2D.Double();
+    private Rectangle    rect                   = new Rectangle();
+    private Path2D       path                   = new Path2D.Double();
+
+    private Which        state;
+    private PaintContext ctx;
+    private boolean      focused;
 
     public SpinnerFormattedTextFieldPainter(Which state) {
         super();
@@ -81,24 +84,25 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
     }
 
     private void paintDisabled(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, DISABLED_BORDER);
+        paintButton(g, c, width, height, disabledBorder);
     }
 
     private void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, ENABLED_BORDER);
+        paintButton(g, c, width, height, enabledBorder);
     }
 
     private void paintSelected(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, ENABLED_BORDER);
+        paintButton(g, c, width, height, enabledBorder);
     }
 
     private void paintButton(Graphics2D g, JComponent c, int width, int height, Color borderColor) {
+        boolean useFocusColors = useToolBarFocus(c);
         if (focused) {
             rect.setBounds(0, 0, width, height);
-            g.setColor(OUTER_FOCUS_COLOR);
+            g.setColor(useFocusColors ? outerToolBarFocusColor : outerFocusColor);
             g.fill(rect);
             rect.setBounds(1, 1, width - 1, height - 2);
-            g.setColor(INNER_FOCUS_COLOR);
+            g.setColor(useFocusColors ? innerToolBarFocusColor : innerFocusColor);
             g.fill(rect);
         }
 
@@ -114,9 +118,9 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
     }
 
     private void paintInternalDropShadow(Graphics2D g, int width, int height) {
-        g.setColor(DARKER_SHADOW);
+        g.setColor(darkerShadow);
         g.drawLine(3, 3, width - 1, 3);
-        g.setColor(LIGHTER_SHADOW);
+        g.setColor(lighterShadow);
         g.drawLine(3, 4, width - 1, 4);
     }
 
