@@ -52,47 +52,48 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         FOREGROUND_DISABLED_INDETERMINATE,
     }
 
-    private static final Color  shadowColor            = Color.black;
-    private static final Effect dropShadow             = new SeaGlassDropShadowEffect();
-    private static final Color  INNER_SHADOW_COLOR1    = new Color(0x20000000, true);
-    private static final Color  INNER_SHADOW_COLOR2    = new Color(0x10000000, true);
+    private Color            innerShadowColor1      = new Color(0x20000000, true);
+    private Color            innerShadowColor2      = new Color(0x10000000, true);
 
-    private static final Color  disabledTrack1         = new Color(0x803f76bf, true);
-    private static final Color  disabledTrack2         = new Color(0x804076bf, true);
-    private static final Color  disabledTrackInterior  = new Color(0x80ffffff, true);
+    private Color            shadowColor            = Color.black;
+    private Effect           dropShadow             = new SeaGlassDropShadowEffect();
 
-    private static final Color  enabledTrack1          = new Color(0x3f76bf);
-    private static final Color  enabledTrack2          = new Color(0x4076bf);
-    private static final Color  enabledTrackInterior   = new Color(0xffffff);
+    private Color            disabledTrack1         = new Color(0x803f76bf, true);
+    private Color            disabledTrack2         = new Color(0x804076bf, true);
+    private Color            disabledTrackInterior  = new Color(0x80ffffff, true);
 
-    private static final Color  disabledBar1           = new Color(0x80bccedf, true);
-    private static final Color  disabledBar2           = new Color(0x807fa7cd, true);
-    private static final Color  disabledBar3           = new Color(0x8082b0d6, true);
-    private static final Color  disabledBar4           = new Color(0x80b0daf6, true);
-    private static final Color  disabledBarEnd         = new Color(0x804076bf, true);
+    private Color            enabledTrack1          = new Color(0x3f76bf);
+    private Color            enabledTrack2          = new Color(0x4076bf);
+    private Color            enabledTrackInterior   = new Color(0xffffff);
 
-    private static final Color  disabledIndeterminate1 = new Color(0x80fbfdfe, true);
-    private static final Color  disabledIndeterminate2 = new Color(0x80d6eaf9, true);
-    private static final Color  disabledIndeterminate3 = new Color(0x80d2e8f8, true);
-    private static final Color  disabledIndeterminate4 = new Color(0x80f5fafd, true);
+    private Color            disabledBar1           = new Color(0x80bccedf, true);
+    private Color            disabledBar2           = new Color(0x807fa7cd, true);
+    private Color            disabledBar3           = new Color(0x8082b0d6, true);
+    private Color            disabledBar4           = new Color(0x80b0daf6, true);
+    private Color            disabledBarEnd         = new Color(0x804076bf, true);
 
-    private static final Color  enabledBar1            = new Color(0xbccedf);
-    private static final Color  enabledBar2            = new Color(0x7fa7cd);
-    private static final Color  enabledBar3            = new Color(0x82b0d6);
-    private static final Color  enabledBar4            = new Color(0xb0daf6);
-    private static final Color  enabledBarEnd          = new Color(0x4076bf);
+    private Color            disabledIndeterminate1 = new Color(0x80fbfdfe, true);
+    private Color            disabledIndeterminate2 = new Color(0x80d6eaf9, true);
+    private Color            disabledIndeterminate3 = new Color(0x80d2e8f8, true);
+    private Color            disabledIndeterminate4 = new Color(0x80f5fafd, true);
 
-    private static final Color  indeterminate1         = new Color(0xfbfdfe);
-    private static final Color  indeterminate2         = new Color(0xd6eaf9);
-    private static final Color  indeterminate3         = new Color(0xd2e8f8);
-    private static final Color  indeterminate4         = new Color(0xf5fafd);
+    private Color            enabledBar1            = new Color(0xbccedf);
+    private Color            enabledBar2            = new Color(0x7fa7cd);
+    private Color            enabledBar3            = new Color(0x82b0d6);
+    private Color            enabledBar4            = new Color(0xb0daf6);
+    private Color            enabledBarEnd          = new Color(0x4076bf);
 
-    private Rectangle2D         rect                   = new Rectangle2D.Double();
-    private RoundRectangle2D    roundRect              = new RoundRectangle2D.Double();
-    private Path2D              path                   = new Path2D.Double();
+    private Color            indeterminate1         = new Color(0xfbfdfe);
+    private Color            indeterminate2         = new Color(0xd6eaf9);
+    private Color            indeterminate3         = new Color(0xd2e8f8);
+    private Color            indeterminate4         = new Color(0xf5fafd);
 
-    private Which               state;
-    private PaintContext        ctx;
+    private Rectangle2D      rect                   = new Rectangle2D.Double();
+    private RoundRectangle2D roundRect              = new RoundRectangle2D.Double();
+    private Path2D           path                   = new Path2D.Double();
+
+    private Which            state;
+    private PaintContext     ctx;
 
     public ProgressBarPainter(Which state) {
         super();
@@ -174,10 +175,10 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         g.fill(s);
 
         s = decodeTrackInternalShadowBorder2(width, height);
-        g.setColor(INNER_SHADOW_COLOR2);
+        g.setColor(innerShadowColor2);
         g.draw(s);
         s = decodeTrackInternalShadowBorder1(width, height);
-        g.setColor(INNER_SHADOW_COLOR1);
+        g.setColor(innerShadowColor1);
         g.draw(s);
     }
 
