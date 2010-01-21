@@ -30,8 +30,6 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.state.ControlInToolBarState;
-import com.seaglasslookandfeel.state.State;
 
 /**
  * ComboBoxPainter implementation.
@@ -51,12 +49,10 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         BACKGROUND_PRESSED_EDITABLE,
     }
 
-    private static final State         inToolBarState         = new ControlInToolBarState();
-
-    private Color                      outerFocusColor        = decodeColor("seaGlassOuterFocus", 0f, 0f, 0f, 0);
-    private Color                      innerFocusColor        = decodeColor("seaGlassFocus", 0f, 0f, 0f, 0);
-    private Color                      outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus", 0f, 0f, 0f, 0);
-    private Color                      innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus", 0f, 0f, 0f, 0);
+    private Color                      outerFocusColor        = decodeColor("seaGlassOuterFocus");
+    private Color                      innerFocusColor        = decodeColor("seaGlassFocus");
+    private Color                      outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
+    private Color                      innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
     private Color                      outerShadowColor       = new Color(0x0a000000, true);
     private Color                      innerShadowColor       = new Color(0x1c000000, true);
 
@@ -65,8 +61,6 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     public ButtonStateColors           disabled;
 
     private ComboBoxArrowButtonPainter buttonPainter;
-
-    private static final CacheMode     cacheMode              = CacheMode.FIXED_SIZES;
 
     // TODO Get this from the UI.
     private static final int           buttonWidth            = 21;
@@ -80,7 +74,7 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     public ComboBoxPainter(Which state) {
         super();
         this.state = state;
-        this.ctx = new PaintContext(cacheMode);
+        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
         editable = false;
         if (state == Which.BACKGROUND_DISABLED_EDITABLE || state == Which.BACKGROUND_ENABLED_EDITABLE
@@ -199,12 +193,10 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     }
 
     private void paintFocus(Graphics2D g, JComponent c, int width, int height) {
-        boolean useToolBarFocus = inToolBarState.isInState(c);
-
-        g.setColor(useToolBarFocus ? outerToolBarFocusColor : outerFocusColor);
+        g.setColor(useToolBarFocus(c) ? outerToolBarFocusColor : outerFocusColor);
         setPath(0, 0, width, height, 6);
         g.fill(path);
-        g.setColor(useToolBarFocus ? innerToolBarFocusColor : innerFocusColor);
+        g.setColor(useToolBarFocus(c) ? innerToolBarFocusColor : innerFocusColor);
         setPath(1, 1, width - 2, height - 2, 5);
         g.fill(path);
     }
