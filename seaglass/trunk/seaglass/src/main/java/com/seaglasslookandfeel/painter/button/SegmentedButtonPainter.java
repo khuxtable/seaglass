@@ -32,6 +32,8 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
+import com.seaglasslookandfeel.state.ControlInToolBarState;
+import com.seaglasslookandfeel.state.State;
 
 /**
  * Paint a (possibly) segmented button. The default colors are suitable for
@@ -44,6 +46,8 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
     enum SegmentStatus {
         NONE, FIRST, MIDDLE, LAST
     };
+
+    private static final State inToolBar              = new ControlInToolBarState();
 
     private Color              outerFocusColor        = decodeColor("seaGlassOuterFocus");
     private Color              innerFocusColor        = decodeColor("seaGlassFocus");
@@ -140,7 +144,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             g.draw(s);
         }
 
-        if (!useToolBarFocus || this instanceof TexturedButtonPainter) {
+        if (!inToolBar.isInState(c) || this instanceof TexturedButtonPainter) {
             s = decodeBorder(segmentStatus, x, y, width, height);
             if (!focused) {
                 dropShadow.fill(g, s, colorShadow);
