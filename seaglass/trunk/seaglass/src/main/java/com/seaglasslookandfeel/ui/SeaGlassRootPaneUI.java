@@ -163,15 +163,19 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
      */
     public void installUI(JComponent c) {
         super.installUI(c);
+
         root = (JRootPane) c;
+        root.setOpaque(false);
         if (PlatformUtils.isMac()) {
             if (root.isValid()) {
                 throw new IllegalArgumentException("This method only works if the given JRootPane has not yet been realized.");
             }
             root.putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
         }
+
         int style = root.getWindowDecorationStyle();
-        if (c.getParent() != null && (c.getParent() instanceof JFrame || c.getParent() instanceof JDialog) && style != JRootPane.NONE) {
+        Container parent = root.getParent();
+        if (parent != null && (parent instanceof JFrame || parent instanceof JDialog) && style != JRootPane.NONE) {
             installClientDecorations(root);
         }
     }
@@ -323,6 +327,12 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     private void installClientDecorations(JRootPane root) {
         installBorder(root);
         if (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog) {
+            // Indicate that this frame should not make all the content
+            // draggable. By default, when you set the opacity to 0 (like we do
+            // below) this property automatically gets set to true. Also note
+            // that this client property must be set *before* changing the
+            // opacity (not sure why).
+            root.putClientProperty("apple.awt.draggableWindowBackground", Boolean.FALSE);
             WindowUtils.makeWindowNonOpaque((Window) root.getParent());
         }
 
@@ -437,7 +447,9 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         SeaGlassContext context = getContext(c);
 
         SeaGlassLookAndFeel.update(context, g);
-        context.getPainter().paintRootPaneBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
+        if (((JRootPane) c).getWindowDecorationStyle() != JRootPane.NONE) {
+            context.getPainter().paintRootPaneBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
+        }
         paint(context, g);
         context.dispose();
     }
@@ -491,7 +503,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             // simpler. AqvavitTitlePane also assumes it will be recreated if
             // the decoration style changes.
             uninstallClientDecorations(root);
-            if (root.getParent() != null && (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog) && style != JRootPane.NONE) {
+            Container parent = root.getParent();
+            if (parent != null && (parent instanceof JFrame || parent instanceof JDialog) && style != JRootPane.NONE) {
                 installClientDecorations(root);
             }
         } else if (propertyName.equals("ancestor")) {
