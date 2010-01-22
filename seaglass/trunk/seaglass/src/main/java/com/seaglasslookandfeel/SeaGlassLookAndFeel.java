@@ -135,10 +135,6 @@ import com.seaglasslookandfeel.state.TitlePaneMaximizeButtonWindowMaximizedState
 import com.seaglasslookandfeel.state.TitlePaneMaximizeButtonWindowNotFocusedState;
 import com.seaglasslookandfeel.state.TitlePaneMenuButtonWindowNotFocusedState;
 import com.seaglasslookandfeel.state.TitlePaneWindowFocusedState;
-import com.seaglasslookandfeel.state.ToolBarEastState;
-import com.seaglasslookandfeel.state.ToolBarNorthState;
-import com.seaglasslookandfeel.state.ToolBarSouthState;
-import com.seaglasslookandfeel.state.ToolBarWestState;
 import com.seaglasslookandfeel.state.ToolBarWindowIsActiveState;
 import com.seaglasslookandfeel.util.MacKeybindings;
 import com.seaglasslookandfeel.util.PlatformUtils;
@@ -1562,21 +1558,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         d.put(p + ".contentMargins", new InsetsUIResource(2, 2, 2, 2));
         d.put(p + ".opaque", Boolean.TRUE);
-        d.put(p + ".States", "North,East,West,South,WindowIsActive");
-        d.put(p + ".North", new ToolBarNorthState());
-        d.put(p + ".East", new ToolBarEastState());
-        d.put(p + ".West", new ToolBarWestState());
-        d.put(p + ".South", new ToolBarSouthState());
+        d.put(p + ".States", "WindowIsActive");
         d.put(p + ".WindowIsActive", new ToolBarWindowIsActiveState());
 
-        d.put(p + "[North].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH));
-        d.put(p + "[South].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH));
-        d.put(p + "[East].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST));
-        d.put(p + "[West].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST));
-        d.put(p + "[North+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_NORTH_ENABLED));
-        d.put(p + "[South+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_SOUTH_ENABLED));
-        d.put(p + "[East+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_EAST_ENABLED));
-        d.put(p + "[West+WindowIsActive].backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_WEST_ENABLED));
+        d.put(p + ".backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_ENABLED));
 
         c = PAINTER_DIRECTORY + ".ToolBarHandlePainter";
         d.put(p + "[Enabled].handleIconPainter", new LazyPainter(c, ToolBarHandlePainter.Which.HANDLEICON_ENABLED));
