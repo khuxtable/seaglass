@@ -28,6 +28,8 @@ public class TestToolBar {
             }
         }
 
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 
@@ -57,9 +59,10 @@ public class TestToolBar {
                 tb.add(new JButton("B1"));
                 outerPanel.add(panel, BorderLayout.CENTER);
                 outerPanel.add(tb, BorderLayout.SOUTH);
-                
+
                 open.addActionListener(new ActionListener() {
                     JFrame newFrame;
+
                     public void actionPerformed(ActionEvent e) {
                         newFrame = new JFrame("New Window");
                         JPanel panel = new JPanel();
@@ -67,9 +70,9 @@ public class TestToolBar {
                         panel.add(new JLabel("Boo!"));
                         JButton close = new JButton("Close");
                         close.addActionListener(new ActionListener() {
-                           public void actionPerformed(ActionEvent e) {
-                               newFrame.dispose();
-                           }
+                            public void actionPerformed(ActionEvent e) {
+                                newFrame.dispose();
+                            }
                         });
                         panel.add(close);
                         newFrame.add(panel, BorderLayout.CENTER);
