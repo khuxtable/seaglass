@@ -107,7 +107,7 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundFocused(Graphics2D g, JComponent c, int width, int height) {
-        boolean useToolBarColors = useToolBarFocus(c);
+        boolean useToolBarColors = isInToolBar(c);
         int y = height / 2;
 
         g.setPaint(bgEnabled);
@@ -146,7 +146,7 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
     }
 
     private void paintForegroundFocused(Graphics2D g, JComponent c, int width, int height) {
-        boolean useToolBarColors = useToolBarFocus(c);
+        boolean useToolBarColors = isInToolBar(c);
         Shape s = decodeForegroundOuterFocus(width, height);
         g.setPaint(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
         g.fill(s);

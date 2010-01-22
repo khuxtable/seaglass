@@ -153,7 +153,7 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
     }
 
     private void paintDiscrete(Graphics2D g, JComponent c, int width, int height, boolean focused, ColorSet colors) {
-        boolean useToolBarColors = useToolBarFocus(c);
+        boolean useToolBarColors = isInToolBar(c);
         Shape s;
         if (focused) {
             s = decodeDiscreteOuterFocus(width, height);
@@ -175,7 +175,7 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
     }
 
     private void paintContinuous(Graphics2D g, JComponent c, int width, int height, boolean focused, ColorSet colors) {
-        boolean useToolBarColors = useToolBarFocus(c);
+        boolean useToolBarColors = isInToolBar(c);
         Shape s;
         if (focused) {
             s = decodeContinuousOuterFocus(width, height);

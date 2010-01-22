@@ -96,7 +96,7 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
     }
 
     private void paintButton(Graphics2D g, JComponent c, int width, int height, Color borderColor) {
-        boolean useFocusColors = useToolBarFocus(c);
+        boolean useFocusColors = isInToolBar(c);
         if (focused) {
             rect.setBounds(0, 0, width, height);
             g.setColor(useFocusColors ? outerToolBarFocusColor : outerFocusColor);

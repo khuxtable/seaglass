@@ -525,9 +525,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaGlassTransparent", new Color(0, true));
         d.put("seaGlassFocus", new Color(0x73a4d1));
         d.put("seaGlassOuterFocus", getDerivedColor("seaGlassFocus", -0.0028f, 0.01f, 0f, -0x80, true));
-        d.put("seaGlassToolBarFocus", PlatformUtils.isMac() ? d.get("seaGlassFocus") : new Color(0xf8f8f8));
-        d.put("seaGlassToolBarOuterFocus", PlatformUtils.isMac() ? d.get("seaGlassOuterFocus") : getDerivedColor("seaGlassToolBarFocus",
-            -0.0028f, 0.01f, 0f, -0x80, true));
+        if (PlatformUtils.isMac()) {
+            d.put("seaGlassToolBarFocus", d.get("seaGlassFocus"));
+            d.put("seaGlassToolBarOuterFocus", d.get("seaGlassOuterFocus"));
+        } else {
+            d.put("seaGlassToolBarFocus", new Color(0xf8f8f8));
+            d.put("seaGlassToolBarOuterFocus", getDerivedColor("seaGlassToolBarFocus", -0.0028f, 0.01f, 0f, -0x80, true));
+        }
         d.put("seaGlassTableSelectionActiveBottom", new Color(0x7daaea));
         d.put("seaGlassTableSelectionInactiveBottom", new Color(0xe0e0e0));
 
@@ -1519,12 +1523,45 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineToolBars(UIDefaults d) {
+
+        if ((!PlatformUtils.isMac())) {
+            d.put("seaGlassToolBarActiveTopT", new Color(0x466c97));
+            d.put("seaGlassToolBarActiveTopB", new Color(0x466c97));
+            d.put("seaGlassToolBarInactiveTopT", new Color(0xe9e9e9));
+            d.put("seaGlassToolBarInactiveTopB", new Color(0xe0e0e0));
+
+            d.put("seaGlassToolBarActiveBottomT", new Color(0x5f80a5));
+            d.put("seaGlassToolBarActiveBottomB", new Color(0x466c97));
+            d.put("seaGlassToolBarInactiveBottomT", new Color(0xcfcfcf));
+            d.put("seaGlassToolBarInactiveBottomB", new Color(0xcacaca));
+        } else if (PlatformUtils.isSnowLeopard()) {
+            d.put("seaGlassToolBarActiveTopT", new Color(0xc9c9c9));
+            d.put("seaGlassToolBarActiveTopB", new Color(0xb7b7b7));
+            d.put("seaGlassToolBarInactiveTopT", new Color(0xe9e9e9));
+            d.put("seaGlassToolBarInactiveTopB", new Color(0xe0e0e0));
+
+            d.put("seaGlassToolBarActiveBottomT", new Color(0x999999));
+            d.put("seaGlassToolBarActiveBottomB", new Color(0x909090));
+            d.put("seaGlassToolBarInactiveBottomT", new Color(0xcfcfcf));
+            d.put("seaGlassToolBarInactiveBottomB", new Color(0xcacaca));
+        } else {
+            d.put("seaGlassToolBarActiveTopT", new Color(0xbcbcbc));
+            d.put("seaGlassToolBarActiveTopB", new Color(0x9a9a9a));
+            d.put("seaGlassToolBarInactiveTopT", new Color(0xe4e4e4));
+            d.put("seaGlassToolBarInactiveTopB", new Color(0xd1d1d1));
+
+            d.put("seaGlassToolBarActiveBottomT", new Color(0xcccccc));
+            d.put("seaGlassToolBarActiveBottomB", new Color(0xa7a7a7));
+            d.put("seaGlassToolBarInactiveBottomT", new Color(0xe9e9e9));
+            d.put("seaGlassToolBarInactiveBottomB", new Color(0xd8d8d8));
+        }
+
         String c = PAINTER_DIRECTORY + ".ToolBarPainter";
         String p = "ToolBar";
 
         d.put(p + ".contentMargins", new InsetsUIResource(2, 2, 2, 2));
         d.put(p + ".opaque", Boolean.TRUE);
-        d.put(p + ".States", "North,East,West,South,WindowIsActive,Pressed");
+        d.put(p + ".States", "North,East,West,South,WindowIsActive");
         d.put(p + ".North", new ToolBarNorthState());
         d.put(p + ".East", new ToolBarEastState());
         d.put(p + ".West", new ToolBarWestState());
@@ -1542,7 +1579,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         c = PAINTER_DIRECTORY + ".ToolBarHandlePainter";
         d.put(p + "[Enabled].handleIconPainter", new LazyPainter(c, ToolBarHandlePainter.Which.HANDLEICON_ENABLED));
-        d.put(p + "[Pressed].handleIconPainter", new LazyPainter(c, ToolBarHandlePainter.Which.HANDLEICON_PRESSED));
         d.put(p + ".handleIcon", new SeaGlassIcon(p, "handleIconPainter", 11, 38));
 
         c = PAINTER_DIRECTORY + ".ButtonPainter";

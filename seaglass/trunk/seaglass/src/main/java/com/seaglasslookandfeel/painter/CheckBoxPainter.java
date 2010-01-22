@@ -134,10 +134,10 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
 
         if (focused) {
             Shape s = setOuterFocus(width, height);
-            g.setColor(useToolBarFocus(c) ? outerToolBarFocusColor : outerFocusColor);
+            g.setColor(isInToolBar(c) ? outerToolBarFocusColor : outerFocusColor);
             g.fill(s);
             s = setInnerFocus(width, height);
-            g.setColor(useToolBarFocus(c) ? innerToolBarFocusColor : innerFocusColor);
+            g.setColor(isInToolBar(c) ? innerToolBarFocusColor : innerFocusColor);
             g.fill(s);
         }
 
