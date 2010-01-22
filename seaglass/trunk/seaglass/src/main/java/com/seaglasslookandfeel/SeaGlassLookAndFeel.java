@@ -403,6 +403,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 useOurUI(uiDefaults, "InternalFrame");
                 useOurUI(uiDefaults, "DesktopIcon");
             }
+            useOurUI(uiDefaults, "Panel");
             useOurUI(uiDefaults, "PopupMenu");
             useOurUI(uiDefaults, "ProgressBar");
             useOurUI(uiDefaults, "RadioButtonMenuItem");
@@ -1688,15 +1689,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * Sea Glass returns {@code false} on a Macintosh, {@code true} otherwise.
      * 
      * @return {@code true} if the {@code RootPaneUI} instances created by this
-     *         look and feel support client side decorations. This always
-     *         returns {@code true}.
+     *         look and feel support client side decorations. This returns
+     *         {@code true} on a non-Macintosh.
      * 
      * @see JDialog#setDefaultLookAndFeelDecorated
      * @see JFrame#setDefaultLookAndFeelDecorated
      * @see JRootPane#setWindowDecorationStyle
      */
     public boolean getSupportsWindowDecorations() {
-        return true;
+        return !PlatformUtils.isMac();
     }
 
     /**
