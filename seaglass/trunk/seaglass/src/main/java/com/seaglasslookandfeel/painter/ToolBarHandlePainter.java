@@ -42,31 +42,22 @@ import com.seaglasslookandfeel.util.PlatformUtils;
  */
 public class ToolBarHandlePainter extends AbstractRegionPainter {
     public static enum Which {
-        HANDLEICON_ENABLED, HANDLEICON_PRESSED,
+        HANDLEICON_ENABLED,
     };
 
-    private static final Color            MAC_COLOR      = new Color(0xc8191919, true);
+    private Color                         macHandleColor = new Color(0xc8191919, true);
 
-    // private ButtonStateColors disabledColors = new ButtonStateColors(new
-    // Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true),
-    // new Color(0x80d2e8f8, true), new Color(0x80f5fafd, true), 0.46f, 0.62f,
-    // new Color(0x6088ade0, true), new Color(0x605785bf, true));
     private ButtonStateColors             enabledColors  = new ButtonStateColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(
                                                              0xd2e8f8), new Color(0xf5fafd), 0.46f, 0.62f, new Color(0x88ade0), new Color(
                                                              0x5785bf));
-    private ButtonStateColors             pressedColors  = new ButtonStateColors(new Color(0xbccedf), new Color(0x81a8cd), new Color(
-                                                             0x89b5da), new Color(0xb2d8f5), 0.4f, 0.7f, new Color(0x4f7bbf), new Color(
-                                                             0x3f76bf));
 
     private static final Path2D           path           = new Path2D.Float();
     private static final RoundRectangle2D roundRect      = new RoundRectangle2D.Float();
 
-    private Which                         state;
     private PaintContext                  ctx;
 
     public ToolBarHandlePainter(Which state) {
         super();
-        this.state = state;
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
@@ -74,14 +65,7 @@ public class ToolBarHandlePainter extends AbstractRegionPainter {
         if (PlatformUtils.isMac()) {
             paintMacHandleIconEnabled(g, width, height);
         } else {
-            switch (state) {
-            case HANDLEICON_ENABLED:
-                paintNonMacHandleIconEnabled(g, width, height);
-                break;
-            case HANDLEICON_PRESSED:
-                paintNonMacHandleIconPressed(g, width, height);
-                break;
-            }
+            paintNonMacHandleIconEnabled(g, width, height);
         }
     }
 
@@ -92,16 +76,12 @@ public class ToolBarHandlePainter extends AbstractRegionPainter {
     private void paintMacHandleIconEnabled(Graphics2D g, int width, int height) {
         Shape s = decodeMacHandle(width, height);
 
-        g.setColor(MAC_COLOR);
+        g.setColor(macHandleColor);
         g.draw(s);
     }
 
     private void paintNonMacHandleIconEnabled(Graphics2D g, int width, int height) {
         paintNonMacHandleIcon(g, width, height, enabledColors);
-    }
-
-    private void paintNonMacHandleIconPressed(Graphics2D g, int width, int height) {
-        paintNonMacHandleIcon(g, width, height, pressedColors);
     }
 
     private void paintNonMacHandleIcon(Graphics2D g, int width, int height, ButtonStateColors colors) {
