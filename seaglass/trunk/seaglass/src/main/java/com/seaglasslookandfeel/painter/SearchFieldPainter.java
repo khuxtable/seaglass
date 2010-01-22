@@ -154,7 +154,7 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
     }
 
     private void paintBorderEnabled(Graphics2D g, JComponent c, int x, int y, int width, int height) {
-        boolean useToolBarColors = useToolBarFocus(c);
+        boolean useToolBarColors = isInToolBar(c);
 
         if (focused) {
             g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);

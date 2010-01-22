@@ -137,7 +137,7 @@ public final class SpinnerNextButtonPainter extends AbstractRegionPainter {
 
     private void paintButton(Graphics2D g, JComponent c, int width, int height, Color topBorder, Color bottomBorder, Color topInterior,
         Color bottomInterior) {
-        boolean useToolBarColors = useToolBarFocus(c);
+        boolean useToolBarColors = isInToolBar(c);
         Shape s;
 
         if (focused) {

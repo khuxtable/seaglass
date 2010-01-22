@@ -43,7 +43,6 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
 import com.seaglasslookandfeel.state.ControlInToolBarState;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.util.ImageCache;
-import com.seaglasslookandfeel.util.PlatformUtils;
 
 /**
  * Convenient base class for defining Painter instances for rendering a region
@@ -90,8 +89,8 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      * @param c
      * @return
      */
-    protected boolean useToolBarFocus(JComponent c) {
-        return !PlatformUtils.isMac() && inToolBarState.isInState(c);
+    protected boolean isInToolBar(JComponent c) {
+        return inToolBarState.isInState(c);
     }
 
     /**
