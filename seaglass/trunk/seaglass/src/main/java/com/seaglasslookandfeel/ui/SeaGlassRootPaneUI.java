@@ -838,7 +838,6 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             if (w != null) {
                 w.toFront();
             }
-            Point convertedDragWindowOffset = SwingUtilities.convertPoint(w, dragWindowOffset, getTitlePane());
 
             Frame f = null;
             Dialog d = null;
@@ -851,13 +850,17 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
 
             int frameState = (f != null) ? f.getExtendedState() : 0;
 
-            if (getTitlePane() != null && getTitlePane().contains(convertedDragWindowOffset)) {
-                if ((f != null && ((frameState & Frame.MAXIMIZED_BOTH) == 0) || (d != null)) && dragWindowOffset.y >= BORDER_DRAG_THICKNESS
-                        && dragWindowOffset.x >= BORDER_DRAG_THICKNESS && dragWindowOffset.x < w.getWidth() - BORDER_DRAG_THICKNESS) {
-                    isMovingWindow = true;
-                    dragOffsetX = dragWindowOffset.x;
-                    dragOffsetY = dragWindowOffset.y;
-                    return;
+            if (getTitlePane() != null) {
+                Point convertedDragWindowOffset = SwingUtilities.convertPoint(w, dragWindowOffset, getTitlePane());
+                if (getTitlePane().contains(convertedDragWindowOffset)) {
+                    if ((f != null && ((frameState & Frame.MAXIMIZED_BOTH) == 0) || (d != null))
+                            && dragWindowOffset.y >= BORDER_DRAG_THICKNESS && dragWindowOffset.x >= BORDER_DRAG_THICKNESS
+                            && dragWindowOffset.x < w.getWidth() - BORDER_DRAG_THICKNESS) {
+                        isMovingWindow = true;
+                        dragOffsetX = dragWindowOffset.x;
+                        dragOffsetY = dragWindowOffset.y;
+                        return;
+                    }
                 }
             }
 
@@ -1007,18 +1010,20 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
                 return;
             }
 
-            Point convertedPoint = SwingUtilities.convertPoint(w, ev.getPoint(), getTitlePane());
+            if (getTitlePane() != null) {
+                Point convertedPoint = SwingUtilities.convertPoint(w, ev.getPoint(), getTitlePane());
 
-            int state = f.getExtendedState();
-            if (getTitlePane() != null && getTitlePane().contains(convertedPoint)) {
-                if ((ev.getClickCount() % 2) == 0 && ((ev.getModifiers() & InputEvent.BUTTON1_MASK) != 0)) {
-                    if (f.isResizable()) {
-                        if ((state & Frame.MAXIMIZED_BOTH) != 0) {
-                            f.setExtendedState(state & ~Frame.MAXIMIZED_BOTH);
-                        } else {
-                            f.setExtendedState(state | Frame.MAXIMIZED_BOTH);
+                int state = f.getExtendedState();
+                if (getTitlePane().contains(convertedPoint)) {
+                    if ((ev.getClickCount() % 2) == 0 && ((ev.getModifiers() & InputEvent.BUTTON1_MASK) != 0)) {
+                        if (f.isResizable()) {
+                            if ((state & Frame.MAXIMIZED_BOTH) != 0) {
+                                f.setExtendedState(state & ~Frame.MAXIMIZED_BOTH);
+                            } else {
+                                f.setExtendedState(state | Frame.MAXIMIZED_BOTH);
+                            }
+                            return;
                         }
-                        return;
                     }
                 }
             }
