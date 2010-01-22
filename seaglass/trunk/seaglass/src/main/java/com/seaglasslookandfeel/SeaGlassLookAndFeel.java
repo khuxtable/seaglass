@@ -1652,15 +1652,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * Sea Glass returns {@code false} on a Macintosh, {@code true} otherwise.
      * 
      * @return {@code true} if the {@code RootPaneUI} instances created by this
-     *         look and feel support client side decorations. This will be the
-     *         case on a non-Macintosh operating system.
+     *         look and feel support client side decorations. This always
+     *         returns {@code true}.
      * 
      * @see JDialog#setDefaultLookAndFeelDecorated
      * @see JFrame#setDefaultLookAndFeelDecorated
      * @see JRootPane#setWindowDecorationStyle
      */
     public boolean getSupportsWindowDecorations() {
-        return !PlatformUtils.isMac();
+        return true;
     }
 
     /**
