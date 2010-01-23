@@ -205,7 +205,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /**
      * Set the image directory name based on the root package.
      */
-    private static final String          PAINTER_DIRECTORY       = PACKAGE_DIRECTORY + ".painter";
+    private static final String          PAINTER_PREFIX          = PACKAGE_DIRECTORY + ".painter.";
 
     /**
      * Set the package name for UI delegates based on the root package.
@@ -573,7 +573,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineArrowButtons(UIDefaults d) {
-        String c = PAINTER_DIRECTORY + ".ArrowButtonPainter";
+        String c = PAINTER_PREFIX + "ArrowButtonPainter";
         String p = "ArrowButton";
         d.put(p + ".States", "Enabled,Disabled,Pressed");
         d.put(p + "[Disabled].foreground", new ColorUIResource(0x9ba8cf));
@@ -591,7 +591,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineButtons(UIDefaults d) {
-        String c = PAINTER_DIRECTORY + ".ButtonPainter";
+        String c = PAINTER_PREFIX + "ButtonPainter";
 
         // Initialize Button
         d.put("Button.States", "Enabled,Pressed,Disabled,Focused,Default");
@@ -625,7 +625,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ToggleButton[Disabled+Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
 
         // Initialize CheckBox
-        c = PAINTER_DIRECTORY + ".CheckBoxPainter";
+        c = PAINTER_PREFIX + "CheckBoxPainter";
         d.put("CheckBox.States", "Enabled,Pressed,Disabled,Focused,Selected");
         d.put("CheckBox.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("CheckBox[Disabled].iconPainter", new LazyPainter(c, CheckBoxPainter.Which.ICON_DISABLED));
@@ -641,7 +641,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("CheckBox.icon", new SeaGlassIcon("CheckBox", "iconPainter", 18, 18));
 
         // Initialize RadioButton
-        c = PAINTER_DIRECTORY + ".RadioButtonPainter";
+        c = PAINTER_PREFIX + "RadioButtonPainter";
         d.put("RadioButton.States", "Enabled,Pressed,Disabled,Focused,Selected");
         d.put("RadioButton.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("RadioButton[Disabled].iconPainter", new LazyPainter(c, RadioButtonPainter.Which.ICON_DISABLED));
@@ -665,61 +665,56 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineComboBoxes(UIDefaults d) {
-        d.put("ComboBox.Editable", new ComboBoxEditableState());
-        d.put("ComboBox:\"ComboBox.arrowButton\".Editable", new ComboBoxArrowButtonEditableState());
+        String p = "ComboBox";
 
-        d.put("ComboBox.States", "Enabled,Pressed,Selected,Disabled,Focused,Editable");
+        d.put(p + ".Editable", new ComboBoxEditableState());
+        d.put(p + ":\"ComboBox.arrowButton\".Editable", new ComboBoxArrowButtonEditableState());
+
+        d.put(p + ".States", "Enabled,Pressed,Selected,Disabled,Focused,Editable");
 
         // Background
-        String c = PAINTER_DIRECTORY + ".ComboBoxPainter";
-        d.put("ComboBox[Disabled].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_DISABLED));
-        d.put("ComboBox[Disabled+Pressed].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_DISABLED_PRESSED));
-        d.put("ComboBox[Enabled].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_ENABLED));
-        d.put("ComboBox[Focused].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_FOCUSED));
-        d.put("ComboBox[Focused+Pressed].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_PRESSED_FOCUSED));
-        d.put("ComboBox[Pressed].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_PRESSED));
-        d.put("ComboBox[Enabled+Selected].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_ENABLED_SELECTED));
+        String c = PAINTER_PREFIX + "ComboBoxPainter";
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Disabled+Pressed].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_DISABLED_PRESSED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_FOCUSED));
+        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[Enabled+Selected].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_ENABLED_SELECTED));
 
-        d.put("ComboBox[Disabled+Editable].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_DISABLED_EDITABLE));
-        d.put("ComboBox[Editable+Enabled].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_ENABLED_EDITABLE));
-        d.put("ComboBox[Editable+Focused].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_FOCUSED_EDITABLE));
-        d.put("ComboBox[Editable+Pressed].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_PRESSED_EDITABLE));
+        d.put(p + "[Disabled+Editable].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_DISABLED_EDITABLE));
+        d.put(p + "[Editable+Enabled].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_ENABLED_EDITABLE));
+        d.put(p + "[Editable+Focused].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_FOCUSED_EDITABLE));
+        d.put(p + "[Editable+Pressed].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_PRESSED_EDITABLE));
 
         // Editable arrow
-        c = PAINTER_DIRECTORY + ".ComboBoxArrowButtonPainter";
-        d.put("ComboBox:\"ComboBox.arrowButton\".size", new Integer(22));
-        d.put("ComboBox:\"ComboBox.arrowButton\".States", "Enabled,Pressed,Disabled,Editable");
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Disabled+Editable].backgroundPainter", new LazyPainter(c,
-            ComboBoxArrowButtonPainter.Which.BACKGROUND_DISABLED_EDITABLE));
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Editable+Enabled].backgroundPainter", new LazyPainter(c,
-            ComboBoxArrowButtonPainter.Which.BACKGROUND_ENABLED_EDITABLE));
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Editable+Pressed].backgroundPainter", new LazyPainter(c,
-            ComboBoxArrowButtonPainter.Which.BACKGROUND_PRESSED_EDITABLE));
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Editable+Selected].backgroundPainter", new LazyPainter(c,
-            ComboBoxArrowButtonPainter.Which.BACKGROUND_SELECTED_EDITABLE));
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Enabled].foregroundPainter", new LazyPainter(c,
-            ComboBoxArrowButtonPainter.Which.FOREGROUND_ENABLED));
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Disabled].foregroundPainter", new LazyPainter(c,
-            ComboBoxArrowButtonPainter.Which.FOREGROUND_DISABLED));
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Pressed].foregroundPainter", new LazyPainter(c,
-            ComboBoxArrowButtonPainter.Which.FOREGROUND_PRESSED));
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Selected].foregroundPainter", new LazyPainter(c,
-            ComboBoxArrowButtonPainter.Which.FOREGROUND_SELECTED));
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Editable].foregroundPainter", new LazyPainter(c,
-            ComboBoxArrowButtonPainter.Which.FOREGROUND_EDITABLE));
-        d.put("ComboBox:\"ComboBox.arrowButton\"[Editable+Disabled].foregroundPainter", new LazyPainter(c,
-            ComboBoxArrowButtonPainter.Which.FOREGROUND_EDITABLE_DISABLED));
+        c = PAINTER_PREFIX + "ComboBoxArrowButtonPainter";
+        p = "ComboBox:\"ComboBox.arrowButton\"";
+        d.put(p + ".size", new Integer(22));
+        d.put(p + ".States", "Enabled,Pressed,Disabled,Editable");
+        d.put(p + "[Disabled+Editable].backgroundPainter",
+            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_DISABLED_EDITABLE));
+        d.put(p + "[Editable+Enabled].backgroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_ENABLED_EDITABLE));
+        d.put(p + "[Editable+Pressed].backgroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_PRESSED_EDITABLE));
+        d.put(p + "[Editable+Selected].backgroundPainter",
+            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_SELECTED_EDITABLE));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_ENABLED));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_DISABLED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_PRESSED));
+        d.put(p + "[Selected].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_SELECTED));
+        d.put(p + "[Editable].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_EDITABLE));
+        d.put(p + "[Editable+Disabled].foregroundPainter",
+            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_EDITABLE_DISABLED));
 
         // Textfield
-        c = PAINTER_DIRECTORY + ".ComboBoxTextFieldPainter";
-        d.put("ComboBox:\"ComboBox.textField\"[Disabled].backgroundPainter", new LazyPainter(c,
-            ComboBoxTextFieldPainter.Which.BACKGROUND_DISABLED));
-        d.put("ComboBox:\"ComboBox.textField\"[Enabled].backgroundPainter", new LazyPainter(c,
-            ComboBoxTextFieldPainter.Which.BACKGROUND_ENABLED));
-        d.put("ComboBox:\"ComboBox.textField\"[Selected].backgroundPainter", new LazyPainter(c,
-            ComboBoxTextFieldPainter.Which.BACKGROUND_SELECTED));
+        c = PAINTER_PREFIX + "ComboBoxTextFieldPainter";
+        p = "ComboBox:\"ComboBox.textField\"";
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ComboBoxTextFieldPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ComboBoxTextFieldPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, ComboBoxTextFieldPainter.Which.BACKGROUND_SELECTED));
 
-        d.put("ComboBox:\"ComboBox.listRenderer\".contentMargins", new InsetsUIResource(2, 10, 2, 10));
+        p = "ComboBox:\"ComboBox.listRenderer\"";
+        d.put(p + ".contentMargins", new InsetsUIResource(2, 10, 2, 10));
     }
 
     /**
@@ -731,11 +726,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineDesktopPanes(UIDefaults d) {
         d.put("seaGlassDesktopPane", new ColorUIResource(0x556ba6));
-        String c = PAINTER_DIRECTORY + ".DesktopPanePainter";
+        String c = PAINTER_PREFIX + "DesktopPanePainter";
         d.put("DesktopPane[Enabled].backgroundPainter", new LazyPainter(c, DesktopPanePainter.Which.BACKGROUND_ENABLED));
 
         // Initialize DesktopIcon
-        c = PAINTER_DIRECTORY + ".DesktopIconPainter";
+        c = PAINTER_PREFIX + "DesktopIconPainter";
         d.put("DesktopIcon.contentMargins", new InsetsUIResource(0, 6, 5, 4));
         d.put("DesktopIcon[Enabled].backgroundPainter", new LazyPainter(c, DesktopIconPainter.Which.BACKGROUND_ENABLED));
     }
@@ -747,7 +742,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineInternalFrames(UIDefaults d) {
-        String c = PAINTER_DIRECTORY + ".FrameAndRootPainter";
+        String c = PAINTER_PREFIX + "FrameAndRootPainter";
 
         d.put("InternalFrame.States", "Enabled,WindowFocused");
 
@@ -771,7 +766,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineInternalFrameCloseButtons(UIDefaults d) {
         String p = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\"";
-        String c = PAINTER_DIRECTORY + ".TitlePaneCloseButtonPainter";
+        String c = PAINTER_PREFIX + "TitlePaneCloseButtonPainter";
 
         // Set the multiplicity of states for the Close button.
         d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowModified");
@@ -804,7 +799,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineInternalFrameIconifyButtons(UIDefaults d) {
         String p = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\"";
-        String c = PAINTER_DIRECTORY + ".TitlePaneIconifyButtonPainter";
+        String c = PAINTER_PREFIX + "TitlePaneIconifyButtonPainter";
 
         d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowMinimized");
         d.put(p + ".WindowNotFocused", new TitlePaneIconifyButtonWindowNotFocusedState());
@@ -850,7 +845,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineInternalFrameMaximizeButton(UIDefaults d) {
         String p = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\"";
-        String c = PAINTER_DIRECTORY + ".TitlePaneMaximizeButtonPainter";
+        String c = PAINTER_PREFIX + "TitlePaneMaximizeButtonPainter";
 
         d.put(p + ".WindowNotFocused", new TitlePaneMaximizeButtonWindowNotFocusedState());
         d.put(p + ".WindowMaximized", new TitlePaneMaximizeButtonWindowMaximizedState());
@@ -895,7 +890,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineInternalFrameMenuButtons(UIDefaults d) {
         String p = "InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\"";
-        String c = PAINTER_DIRECTORY + ".TitlePaneMenuButtonPainter";
+        String c = PAINTER_PREFIX + "TitlePaneMenuButtonPainter";
 
         d.put(p + ".WindowNotFocused", new TitlePaneMenuButtonWindowNotFocusedState());
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
@@ -932,7 +927,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void defineMenus(UIDefaults d) {
 
         // Initialize Menu
-        String c = PAINTER_DIRECTORY + ".MenuPainter";
+        String c = PAINTER_PREFIX + "MenuPainter";
         String p = "Menu";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 5));
         d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
@@ -949,7 +944,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
 
         // We don't paint MenuBar backgrounds. Remove the painters.
-        c = PAINTER_DIRECTORY + ".MenuBarPainter";
+        c = PAINTER_PREFIX + "MenuBarPainter";
         p = "MenuBar";
         d.put(p + ".contentMargins", new InsetsUIResource(2, 6, 2, 6));
         if (d.get(p + "[Enabled].backgroundPainter") != null) {
@@ -959,7 +954,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             d.remove(p + "[Enabled].borderPainter");
         }
 
-        c = PAINTER_DIRECTORY + ".MenuBarMenuPainter";
+        c = PAINTER_PREFIX + "MenuBarMenuPainter";
         p = "MenuBar:Menu";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 4, 2, 4));
         d.put(p + "[Disabled].textForeground", new ColorUIResource(Color.BLACK));
@@ -971,7 +966,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
         // Initialize MenuItem
-        c = PAINTER_DIRECTORY + ".MenuItemPainter";
+        c = PAINTER_PREFIX + "MenuItemPainter";
         p = "MenuItem";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
         d.put(p + ".textIconGap", new Integer(5));
@@ -986,7 +981,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
 
         // Initialize CheckBoxMenuItem
-        c = PAINTER_DIRECTORY + ".CheckBoxMenuItemPainter";
+        c = PAINTER_PREFIX + "CheckBoxMenuItemPainter";
         p = "CheckBoxMenuItem";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
         d.put(p + ".textIconGap", new Integer(5));
@@ -1008,7 +1003,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
 
         // Initialize RadioButtonMenuItem
-        c = PAINTER_DIRECTORY + ".RadioButtonMenuItemPainter";
+        c = PAINTER_PREFIX + "RadioButtonMenuItemPainter";
         p = "RadioButtonMenuItem";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
         d.put(p + ".textIconGap", new Integer(5));
@@ -1031,7 +1026,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     private void definePopups(UIDefaults d) {
-        String c = PAINTER_DIRECTORY + ".PopupMenuPainter";
+        String c = PAINTER_PREFIX + "PopupMenuPainter";
         String p = "PopupMenu";
         d.put(p + ".contentMargins", new InsetsUIResource(6, 1, 6, 1));
         d.put(p + ".opaque", Boolean.TRUE);
@@ -1040,7 +1035,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, PopupMenuPainter.Which.BACKGROUND_ENABLED));
 
         // Initialize PopupMenuSeparator
-        c = PAINTER_DIRECTORY + ".PopupMenuSeparatorPainter";
+        c = PAINTER_PREFIX + "PopupMenuSeparatorPainter";
         p = "PopupMenuSeparator";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 0, 2, 0));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, PopupMenuSeparatorPainter.Which.BACKGROUND_ENABLED));
@@ -1056,7 +1051,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ProgressBar.Indeterminate", new ProgressBarIndeterminateState());
         d.put("ProgressBar.Finished", new ProgressBarFinishedState());
 
-        String c = PAINTER_DIRECTORY + ".ProgressBarPainter";
+        String c = PAINTER_PREFIX + "ProgressBarPainter";
         d.put("ProgressBar.cycleTime", 500);
         d.put("ProgressBar.progressPadding", new Integer(3));
         d.put("ProgressBar.trackThickness", new Integer(19));
@@ -1082,17 +1077,18 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineRootPanes(UIDefaults d) {
-        String c = PAINTER_DIRECTORY + ".FrameAndRootPainter";
+        String c = PAINTER_PREFIX + "FrameAndRootPainter";
+        String p = "RootPane";
 
-        d.put("RootPane.States", "Enabled,WindowFocused,NoFrame");
-        d.put("RootPane.contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put("RootPane.opaque", Boolean.FALSE);
-        d.put("RootPane.NoFrame", new RootPaneNoFrameState());
-        d.put("RootPane.WindowFocused", new RootPaneWindowFocusedState());
+        d.put(p + ".States", "Enabled,WindowFocused,NoFrame");
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".opaque", Boolean.FALSE);
+        d.put(p + ".NoFrame", new RootPaneNoFrameState());
+        d.put(p + ".WindowFocused", new RootPaneWindowFocusedState());
 
-        d.put("RootPane[Enabled+NoFrame].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED_NOFRAME));
-        d.put("RootPane[Enabled].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED));
-        d.put("RootPane[Enabled+WindowFocused].backgroundPainter", new LazyPainter(c,
+        d.put(p + "[Enabled+NoFrame].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED_NOFRAME));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Enabled+WindowFocused].backgroundPainter", new LazyPainter(c,
             FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
     }
 
@@ -1108,7 +1104,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ScrollBar:\"ScrollBar.button\".size", new Integer(20));
 
         // Buttons
-        String c = PAINTER_DIRECTORY + ".ScrollBarButtonPainter";
+        String c = PAINTER_PREFIX + "ScrollBarButtonPainter";
         String p = "ScrollBar:\"ScrollBar.button\"";
         d.put(p + ".IncreaseButton", new ScrollBarButtonIsIncreaseButtonState());
         d.put(p + ".States", "Enabled,Pressed,Disabled,IncreaseButton");
@@ -1126,7 +1122,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Seems to be a bug somewhere where MouseOver is always delivered even
         // when we don't want it, but if it's not specified nothing at all is
         // painted.
-        c = PAINTER_DIRECTORY + ".ScrollBarThumbPainter";
+        c = PAINTER_PREFIX + "ScrollBarThumbPainter";
         p = "ScrollBar:ScrollBarThumb";
         d.put(p + ".States", "Enabled,Pressed,MouseOver,Disabled");
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ScrollBarThumbPainter.Which.BACKGROUND_DISABLED));
@@ -1136,7 +1132,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[MouseOver+Pressed].backgroundPainter", new LazyPainter(c, ScrollBarThumbPainter.Which.BACKGROUND_PRESSED));
 
         // Track
-        c = PAINTER_DIRECTORY + ".ScrollBarTrackPainter";
+        c = PAINTER_PREFIX + "ScrollBarTrackPainter";
         p = "ScrollBar:ScrollBarTrack";
         d.put(p + ".ButtonsTogether", new ScrollBarButtonsTogetherState());
         d.put(p + ".States", "Enabled,Disabled,EnabledTogether,DisabledTogether");
@@ -1148,7 +1144,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_ENABLED_TOGETHER));
 
         // Define ScrollPane border painters.
-        c = PAINTER_DIRECTORY + ".ScrollPanePainter";
+        c = PAINTER_PREFIX + "ScrollPanePainter";
         p = "ScrollPane";
         d.put(p + "[Enabled+Focused].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED_FOCUSED));
         d.put(p + "[Enabled].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED));
@@ -1172,7 +1168,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("Slider.trackBorder", new Integer(0));
         d.put("Slider.trackHeight", new Integer(5));
 
-        String c = PAINTER_DIRECTORY + ".SliderThumbPainter";
+        String c = PAINTER_PREFIX + "SliderThumbPainter";
         d.put("Slider:SliderThumb[Disabled].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_DISABLED));
         d.put("Slider:SliderThumb[Enabled].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_ENABLED));
         d.put("Slider:SliderThumb[Focused].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_FOCUSED));
@@ -1197,7 +1193,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("Slider:SliderThumb[ArrowShape+Focused+Pressed].backgroundPainter", new LazyPainter(c,
             SliderThumbPainter.Which.BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE));
 
-        c = PAINTER_DIRECTORY + ".SliderTrackPainter";
+        c = PAINTER_PREFIX + "SliderTrackPainter";
         d.put("Slider:SliderTrack[Disabled].backgroundPainter", new LazyPainter(c, SliderTrackPainter.Which.BACKGROUND_DISABLED));
         d.put("Slider:SliderTrack[Enabled].backgroundPainter", new LazyPainter(c, SliderTrackPainter.Which.BACKGROUND_ENABLED));
     }
@@ -1212,7 +1208,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("Spinner.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("Spinner:\"Spinner.editor\".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
-        String c = PAINTER_DIRECTORY + ".SpinnerFormattedTextFieldPainter";
+        String c = PAINTER_PREFIX + "SpinnerFormattedTextFieldPainter";
         String p = "Spinner:Panel:\"Spinner.formattedTextField\"";
         d.put(p + ".contentMargins", new InsetsUIResource(3, 10, 2, 10));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_DISABLED));
@@ -1222,7 +1218,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c,
             SpinnerFormattedTextFieldPainter.Which.BACKGROUND_SELECTED_FOCUSED));
 
-        c = PAINTER_DIRECTORY + ".SpinnerPreviousButtonPainter";
+        c = PAINTER_PREFIX + "SpinnerPreviousButtonPainter";
         p = "Spinner:\"Spinner.previousButton\"";
         d.put(p + ".size", new Integer(22));
         d.put(p + ".States", "Disabled,Enabled,Focused,Pressed");
@@ -1237,7 +1233,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Focused+Pressed].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED));
 
-        c = PAINTER_DIRECTORY + ".SpinnerNextButtonPainter";
+        c = PAINTER_PREFIX + "SpinnerNextButtonPainter";
         p = "Spinner:\"Spinner.nextButton\"";
         d.put(p + ".size", new Integer(22));
         d.put(p + ".States", "Disabled,Enabled,Focused,Pressed");
@@ -1272,7 +1268,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".oneTouchExpandable", Boolean.FALSE);
         d.put(p + ".continuousLayout", Boolean.TRUE);
 
-        String c = PAINTER_DIRECTORY + ".SplitPaneDividerPainter";
+        String c = PAINTER_PREFIX + "SplitPaneDividerPainter";
         p = "SplitPane:SplitPaneDivider";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Vertical");
@@ -1297,7 +1293,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".tabRunOverlay", new Integer(0));
         d.put(p + ".useBasicArrows", Boolean.FALSE);
 
-        String c = PAINTER_DIRECTORY + ".ButtonPainter";
+        String c = PAINTER_PREFIX + "ButtonPainter";
         p = "TabbedPane:TabbedPaneTab";
         d.put(p + ".States", "Enabled,Pressed,Disabled,Focused,Selected,Default");
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
@@ -1314,7 +1310,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Focused+Pressed+Selected].textForeground", Color.BLACK);
 
         p = "TabbedPane:TabbedPaneTabArea";
-        c = PAINTER_DIRECTORY + ".TabbedPaneTabAreaPainter";
+        c = PAINTER_PREFIX + "TabbedPaneTabAreaPainter";
         d.put(p + ".contentMargins", new InsetsUIResource(3, 10, 4, 10));
         d.put(p + ".States", "Enabled,Disabled,Top,Left,Bottom,Right");
         d.put(p + ".Top", new TabbedPaneTopTabState());
@@ -1348,14 +1344,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("Table[Enabled+Selected].textBackground", new Color(0x6181a5));
         d.put("Table[Disabled+Selected].textBackground", new Color(0x6181a5));
 
-        String c = PAINTER_DIRECTORY + ".TableHeaderPainter";
+        String c = PAINTER_PREFIX + "TableHeaderPainter";
         d.put("TableHeader.font", defaultFont.deriveFont(11.0f));
         d.put("TableHeader[Enabled].ascendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.ASCENDINGSORTICON_ENABLED));
         d.put("Table.ascendingSortIcon", new SeaGlassIcon("TableHeader", "ascendingSortIconPainter", 8, 7));
         d.put("TableHeader[Enabled].descendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.DESCENDINGSORTICON_ENABLED));
         d.put("Table.descendingSortIcon", new SeaGlassIcon("TableHeader", "descendingSortIconPainter", 8, 7));
 
-        c = PAINTER_DIRECTORY + ".TableHeaderRendererPainter";
+        c = PAINTER_PREFIX + "TableHeaderRendererPainter";
         d.put("TableHeader:\"TableHeader.renderer\"[Disabled].backgroundPainter", new LazyPainter(c,
             TableHeaderRendererPainter.Which.BACKGROUND_DISABLED));
         d.put("TableHeader:\"TableHeader.renderer\"[Enabled].backgroundPainter", new LazyPainter(c,
@@ -1382,9 +1378,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineTextControls(UIDefaults d) {
-        String c = PAINTER_DIRECTORY + ".TextComponentPainter";
-        String cs = PAINTER_DIRECTORY + ".SearchFieldPainter";
-        String ci = PAINTER_DIRECTORY + ".SearchFieldIconPainter";
+        String c = PAINTER_PREFIX + "TextComponentPainter";
+        String cs = PAINTER_PREFIX + "SearchFieldPainter";
+        String ci = PAINTER_PREFIX + "SearchFieldIconPainter";
 
         // Initialize search field "find" button
         String p = "TextField:SearchFieldFindButton";
@@ -1553,7 +1549,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             d.put("seaGlassToolBarInactiveBottomB", new Color(0xd8d8d8));
         }
 
-        String c = PAINTER_DIRECTORY + ".ToolBarPainter";
+        String c = PAINTER_PREFIX + "ToolBarPainter";
         String p = "ToolBar";
 
         d.put(p + ".contentMargins", new InsetsUIResource(2, 2, 2, 2));
@@ -1563,11 +1559,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         d.put(p + ".backgroundPainter", new LazyPainter(c, ToolBarPainter.Which.BORDER_ENABLED));
 
-        c = PAINTER_DIRECTORY + ".ToolBarHandlePainter";
-        d.put(p + "[Enabled].handleIconPainter", new LazyPainter(c, ToolBarHandlePainter.Which.HANDLEICON_ENABLED));
+        c = PAINTER_PREFIX + "ToolBarHandlePainter";
+        d.put(p + ".handleIconPainter", new LazyPainter(c, ToolBarHandlePainter.Which.HANDLEICON_ENABLED));
         d.put(p + ".handleIcon", new SeaGlassIcon(p, "handleIconPainter", 11, 38));
 
-        c = PAINTER_DIRECTORY + ".ButtonPainter";
+        c = PAINTER_PREFIX + "ButtonPainter";
         p = "ToolBar:Button";
         d.put(p + ".States", "Enabled,Disabled,Focused,Pressed");
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
@@ -1576,7 +1572,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
 
-        c = PAINTER_DIRECTORY + ".ToolBarToggleButtonPainter";
+        c = PAINTER_PREFIX + "ToolBarToggleButtonPainter";
         p = "ToolBar:ToggleButton";
         d.put(p + ".States", "Enabled,Disabled,Focused,Pressed,Selected");
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_FOCUSED));
