@@ -1,11 +1,11 @@
 package com.seaglasslookandfeel.demo;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -17,6 +17,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 public class TestToolBar {
+    
+    static JFrame frame;
 
     public static void main(String[] args) {
         if (true) {
@@ -46,7 +48,7 @@ public class TestToolBar {
                 JToolBar toolbar3 = makeToolBar("Toolbar3", JToolBar.VERTICAL);
                 JToolBar toolbar4 = makeToolBar("Toolbar4", JToolBar.VERTICAL);
 
-                JFrame frame = new JFrame("TestToolBar");
+                frame = new JFrame("TestToolBar");
                 frame.setJMenuBar(mb);
                 frame.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
 
@@ -61,25 +63,23 @@ public class TestToolBar {
                 outerPanel.add(tb, BorderLayout.SOUTH);
 
                 open.addActionListener(new ActionListener() {
-                    JFrame newFrame;
+                    JDialog dialog;
 
                     public void actionPerformed(ActionEvent e) {
-                        newFrame = new JFrame("New Window");
+                        dialog = new JDialog(frame, "Dialog");
                         JPanel panel = new JPanel();
-                        panel.setBackground(Color.white);
                         panel.add(new JLabel("Boo!"));
                         JButton close = new JButton("Close");
                         close.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                newFrame.dispose();
+                                dialog.dispose();
                             }
                         });
                         panel.add(close);
-                        newFrame.add(panel, BorderLayout.CENTER);
-                        newFrame.setSize(300, 200);
-                        newFrame.setLocationRelativeTo(null);
-                        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        newFrame.setVisible(true);
+                        dialog.add(panel, BorderLayout.CENTER);
+                        dialog.setSize(300, 200);
+                        dialog.setLocationRelativeTo(null);
+                        dialog.setVisible(true);
                     }
                 });
 
