@@ -107,6 +107,9 @@ import com.seaglasslookandfeel.painter.TitlePaneMenuButtonPainter;
 import com.seaglasslookandfeel.painter.ToolBarHandlePainter;
 import com.seaglasslookandfeel.painter.ToolBarPainter;
 import com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter;
+import com.seaglasslookandfeel.painter.TreeCellEditorPainter;
+import com.seaglasslookandfeel.painter.TreePainter;
+import com.seaglasslookandfeel.painter.TreeTreeCellPainter;
 import com.seaglasslookandfeel.state.ComboBoxArrowButtonEditableState;
 import com.seaglasslookandfeel.state.ComboBoxEditableState;
 import com.seaglasslookandfeel.state.InternalFrameWindowFocusedState;
@@ -1603,20 +1606,63 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineTrees(UIDefaults d) {
-        // d.put("\"Tree.cellEditor\".background", d.get("control"));
-        // d.put("\"Tree.cellEditor\"[Disabled].textForeground", new
-        // ColorUIResource(200, 200, 200));
-        // d.put("\"Tree.cellEditor\"[Selected].textForeground", new
-        // ColorUIResource(Color.WHITE));
-        // d.put("\"Tree.cellEditor\"[Selected].textBackground", new
-        // ColorUIResource((Color) d.get("nimbusSelection")));
+        String p = "Tree";
+        String c = PAINTER_PREFIX + "TreePainter";
 
-        d.put("Tree.leftChildIndent", new Integer(12));
-        d.put("Tree.rightChildIndent", new Integer(2));
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".opaque", Boolean.TRUE);
+        d.put(p + ".textForeground", d.get("text"));
+        d.put(p + ".textBackground", d.get("nimbusLightBackground"));
+        d.put(p + ".background", d.get("nimbusLightBackground"));
+        d.put(p + ".rendererFillBackground", Boolean.FALSE);
+        d.put(p + ".leftChildIndent", new Integer(12));
+        d.put(p + ".rightChildIndent", new Integer(2));
+        d.put(p + ".drawHorizontalLines", Boolean.FALSE);
+        d.put(p + ".drawVerticalLines", Boolean.FALSE);
+        d.put(p + ".showRootHandles", Boolean.FALSE);
+        d.put(p + ".rendererUseTreeColors", Boolean.TRUE);
+        d.put(p + ".repaintWholeRow", Boolean.TRUE);
+        d.put(p + ".rowHeight", new Integer(0));
+        d.put(p + ".rendererMargins", new InsetsUIResource(2, 0, 1, 5));
+        d.put(p + ".selectionForeground", d.get("nimbusSelectedText"));
+        d.put(p + ".selectionBackground", d.get("nimbusSelectionBackground"));
+        d.put(p + ".dropLineColor", d.get("nimbusFocus"));
 
-        d.put("Tree.leafIcon", null);
-        d.put("Tree.closedIcon", null);
-        d.put("Tree.openIcon", null);
+        d.put(p + "[Enabled].collapsedIconPainter", new LazyPainter(c, TreePainter.Which.COLLAPSEDICON_ENABLED));
+        d.put(p + "[Enabled+Selected].collapsedIconPainter", new LazyPainter(c, TreePainter.Which.COLLAPSEDICON_ENABLED_SELECTED));
+        d.put(p + "[Enabled].expandedIconPainter", new LazyPainter(c, TreePainter.Which.EXPANDEDICON_ENABLED));
+        d.put(p + "[Enabled+Selected].expandedIconPainter", new LazyPainter(c, TreePainter.Which.EXPANDEDICON_ENABLED_SELECTED));
+        d.put(p + ".collapsedIcon", new SeaGlassIcon(p, "collapsedIconPainter", 18, 7));
+        d.put(p + ".expandedIcon", new SeaGlassIcon(p, "expandedIconPainter", 18, 7));
+        d.put(p + ".leafIcon", null);
+        d.put(p + ".closedIcon", null);
+        d.put(p + ".openIcon", null);
+
+        p = "Tree:TreeCell";
+        c = PAINTER_PREFIX + "TreeTreeCellPainter";
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[Enabled].background", d.get("nimbusLightBackground"));
+        d.put(p + "[Enabled+Focused].background", d.get("nimbusLightBackground"));
+        d.put(p + "[Enabled+Focused].backgroundPainter", new LazyPainter(c, TreeTreeCellPainter.Which.BACKGROUND_ENABLED_FOCUSED));
+        d.put(p + "[Enabled+Selected].textForeground", Color.WHITE);
+        d.put(p + "[Enabled+Selected].backgroundPainter", new LazyPainter(c, TreeTreeCellPainter.Which.BACKGROUND_ENABLED_SELECTED));
+        d.put(p + "[Focused+Selected].textForeground", Color.WHITE);
+        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, TreeTreeCellPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+
+        p = "Tree:\"Tree.cellRenderer\"";
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
+
+        p = "\"Tree.cellEditor\"";
+        c = PAINTER_PREFIX + "TreeCellEditorPainter";
+        d.put(p + ".contentMargins", new InsetsUIResource(2, 5, 2, 5));
+        d.put(p + ".opaque", Boolean.TRUE);
+        d.put(p + ".background", d.get("control"));
+        d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
+        d.put(p + "[Selected].textForeground", d.get("nimbusSelectedText"));
+        d.put(p + "[Selected].textBackground", new ColorUIResource((Color) d.get("nimbusSelection")));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TreeCellEditorPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Enabled+Focused].backgroundPainter", new LazyPainter(c, TreeCellEditorPainter.Which.BACKGROUND_ENABLED_FOCUSED));
     }
 
     /**
