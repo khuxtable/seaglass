@@ -27,6 +27,7 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.LayoutManager2;
@@ -44,6 +45,7 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JRootPane;
 import javax.swing.LookAndFeel;
@@ -58,6 +60,10 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.component.SeaGlassBorder;
 import com.seaglasslookandfeel.component.SeaGlassTitlePane;
+import com.seaglasslookandfeel.painter.ContentPanePainter;
+import com.seaglasslookandfeel.painter.Painter;
+import com.seaglasslookandfeel.state.RootPaneWindowFocusedState;
+import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.util.PlatformUtils;
 import com.seaglasslookandfeel.util.WindowUtils;
 
@@ -177,6 +183,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         if (parent != null && (parent instanceof JFrame || parent instanceof JDialog) && style != JRootPane.NONE) {
             installClientDecorations(root);
         }
+        // Need the content pane to not be opaque.
+        ((JComponent) root.getContentPane()).setOpaque(false);
     }
 
     /**
@@ -442,12 +450,33 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         return root;
     }
 
+    private static final State   isWindowFocused = new RootPaneWindowFocusedState();
+    private static final Painter contentActive   = new ContentPanePainter(ContentPanePainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED);
+    private static final Painter contentInactive = new ContentPanePainter(ContentPanePainter.Which.BACKGROUND_ENABLED);
+
     public void update(Graphics g, JComponent c) {
         SeaGlassContext context = getContext(c);
 
         SeaGlassLookAndFeel.update(context, g);
         if (((JRootPane) c).getWindowDecorationStyle() != JRootPane.NONE) {
             context.getPainter().paintRootPaneBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
+        } else if (PlatformUtils.isMac()) {
+            // We may need to paint the rootpane on a Mac if the window is
+            // decorated.
+            boolean shouldPaint = false;
+            Container toplevelContainer = c.getParent();
+            if (toplevelContainer instanceof JFrame) {
+                shouldPaint = !((JFrame) toplevelContainer).isUndecorated();
+            } else if (toplevelContainer instanceof JInternalFrame) {
+                shouldPaint = true;
+            }
+            if (shouldPaint) {
+                if (isWindowFocused.isInState(c)) {
+                    contentActive.paint((Graphics2D) g, c, c.getWidth(), c.getHeight());
+                } else {
+                    contentInactive.paint((Graphics2D) g, c, c.getWidth(), c.getHeight());
+                }
+            }
         }
 
         paint(context, g);
@@ -465,8 +494,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     }
 
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
-            ((SeaGlassContext) context).getPainter().paintRootPaneBorder(context, g, x, y, w, h);
-        }
+        ((SeaGlassContext) context).getPainter().paintRootPaneBorder(context, g, x, y, w, h);
+    }
 
     /**
      * Invoked when a property changes. <code>AqvavitRootPaneUI</code> is
