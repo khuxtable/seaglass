@@ -26,6 +26,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicPanelUI;
 import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthStyle;
@@ -42,7 +43,6 @@ import sun.swing.plaf.synth.SynthUI;
  */
 public class SeaGlassPanelUI extends BasicPanelUI implements PropertyChangeListener, SynthUI {
     private SynthStyle style;
-    private boolean    originalOpacity;
 
     public static ComponentUI createUI(JComponent c) {
         return new SeaGlassPanelUI();
@@ -71,8 +71,6 @@ public class SeaGlassPanelUI extends BasicPanelUI implements PropertyChangeListe
     }
 
     protected void installDefaults(JPanel p) {
-        originalOpacity = p.isOpaque();
-        p.setOpaque(false);
         updateStyle(p);
     }
 
@@ -82,7 +80,6 @@ public class SeaGlassPanelUI extends BasicPanelUI implements PropertyChangeListe
         style.uninstallDefaults(context);
         context.dispose();
         style = null;
-        p.setOpaque(originalOpacity);
     }
 
     private void updateStyle(JPanel c) {
@@ -106,9 +103,16 @@ public class SeaGlassPanelUI extends BasicPanelUI implements PropertyChangeListe
     public void update(Graphics g, JComponent c) {
         SeaGlassContext context = getContext(c);
 
-        SeaGlassLookAndFeel.update(context, g);
-        context.getPainter().paintPanelBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
+        // Subvert paintRegion, which is called by SeaGlassLookAndFeel.update.
+        // We don't want to paint panel background if it has not been set by the
+        // user.
+        if (!(c.getBackground() instanceof UIResource)) {
+            SeaGlassLookAndFeel.update(context, g);
+            context.getPainter().paintPanelBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
+        }
+
         paint(context, g);
+
         context.dispose();
     }
 
