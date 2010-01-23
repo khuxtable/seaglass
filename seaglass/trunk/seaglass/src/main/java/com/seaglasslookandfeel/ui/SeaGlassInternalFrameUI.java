@@ -66,6 +66,10 @@ public class SeaGlassInternalFrameUI extends BasicInternalFrameUI implements Syn
     }
 
     public void installDefaults() {
+        // We want to draw rounded corners, so the internal frame must not be
+        // opaque. LookAndFeel.installProperty doesn't seem to work here.
+        frame.setOpaque(false);
+
         frame.setBorder(BorderFactory.createEmptyBorder(1, 2, 2, 2));
 
         frame.setLayout(internalFrameLayout = createLayoutManager());
@@ -104,9 +108,6 @@ public class SeaGlassInternalFrameUI extends BasicInternalFrameUI implements Syn
                 installKeyboardActions();
             }
         }
-        // We want to draw rounded corners, so the internal frame must not be
-        // opaque.
-        c.setOpaque(false);
         context.dispose();
     }
 
