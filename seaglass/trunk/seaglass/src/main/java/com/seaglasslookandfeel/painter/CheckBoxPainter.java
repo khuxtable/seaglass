@@ -27,7 +27,6 @@ import java.awt.Shape;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
@@ -102,13 +101,11 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     private Color            pressedSelectedBorder1   = new Color(0x4f7bbf);
     private Color            pressedSelectedBorder2   = new Color(0x3f76bf);
 
-    private Color            disabledInternalA1       = new Color(0x60f4f8fb, true);
-    private Color            disabledInternalA2       = new Color(0x00ffffff, true);
-    private Color            disabledInternalB1       = new Color(0x00a8d9fc, true);
-    private Color            disabledInternalB2       = new Color(0x00cfeafd, true);
-    private Color            disabledInternalB3       = new Color(0x80f7fcff, true);
-    private Color            disabledInternalC        = new Color(0x80eeeeee, true);
-    private Color            disabledBorder1          = new Color(0x808aafe0, true);
+    private Color            disabledInternal1        = new Color(0x80fbfdfe, true);
+    private Color            disabledInternal2        = new Color(0x80d6eaf9, true);
+    private Color            disabledInternal3        = new Color(0x80d2e8f8, true);
+    private Color            disabledInternal4        = new Color(0x80f5fafd, true);
+    private Color            disabledBorder1          = new Color(0x8088ade0, true);
     private Color            disabledBorder2          = new Color(0x805785bf, true);
 
     public CheckBoxPainter(Which state) {
@@ -181,66 +178,46 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     }
 
     private void paintDisabled(Graphics2D g, JComponent c, int width, int height) {
-        paintFourLayeredButton(g, width, height, disabledBorder1, disabledBorder2, disabledInternalA1, disabledInternalA2,
-            disabledInternalB1, disabledInternalB2, disabledInternalB3, disabledInternalC);
+        paintBackground(g, width, height, disabledBorder1, disabledBorder2, disabledInternal1, disabledInternal2, disabledInternal3,
+            disabledInternal4);
     }
 
     private void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
-        paintTwoLayeredButton(g, width, height, enabledBorder1, enabledBorder2, enabledInternal1, enabledInternal2, enabledInternal3,
+        paintBackground(g, width, height, enabledBorder1, enabledBorder2, enabledInternal1, enabledInternal2, enabledInternal3,
             enabledInternal4);
     }
 
     private void paintPressed(Graphics2D g, JComponent c, int width, int height) {
-        paintTwoLayeredButton(g, width, height, pressedBorder1, pressedBorder2, pressedInternal1, pressedInternal2, pressedInternal3,
+        paintBackground(g, width, height, pressedBorder1, pressedBorder2, pressedInternal1, pressedInternal2, pressedInternal3,
             pressedInternal4);
     }
 
     private void paintSelected(Graphics2D g, JComponent c, int width, int height) {
-        paintTwoLayeredButton(g, width, height, selectedBorder1, selectedBorder2, selectedInternal1, selectedInternal2, selectedInternal3,
+        paintBackground(g, width, height, selectedBorder1, selectedBorder2, selectedInternal1, selectedInternal2, selectedInternal3,
             selectedInternal4);
     }
 
     private void paintPressedSelected(Graphics2D g, JComponent c, int width, int height) {
-        paintTwoLayeredButton(g, width, height, pressedSelectedBorder1, pressedSelectedBorder2, pressedSelectedInternal1,
+        paintBackground(g, width, height, pressedSelectedBorder1, pressedSelectedBorder2, pressedSelectedInternal1,
             pressedSelectedInternal2, pressedSelectedInternal3, pressedSelectedInternal4);
     }
 
     private void paintDisabledSelected(Graphics2D g, JComponent c, int width, int height) {
-        paintFourLayeredButton(g, width, height, disabledBorder1, disabledBorder2, disabledInternalA1, disabledInternalA2,
-            disabledInternalB1, disabledInternalB2, disabledInternalB3, disabledInternalC);
+        paintBackground(g, width, height, disabledBorder1, disabledBorder2, disabledInternal1, disabledInternal2, disabledInternal3,
+            disabledInternal4);
     }
 
-    private void paintTwoLayeredButton(Graphics2D g, int width, int height, Color border1, Color border2, Color internal1, Color internal2,
+    private void paintBackground(Graphics2D g, int width, int height, Color border1, Color border2, Color internal1, Color internal2,
         Color internal3, Color internal4) {
         Shape s = setBorder(width, height);
         if (!focused) {
-            g.drawImage(createDropShadowImage(s), 0, 0, null);
+            dropShadow.fill(g, s, colorShadow);
         }
-        Paint p = setGradient2(s, border1, border2);
+        Paint p = setGradientBorder(s, border1, border2);
         g.setPaint(p);
         g.fill(s);
         s = setInternal(width, height);
-        p = setGradient4(s, internal1, internal2, internal3, internal4);
-        g.setPaint(p);
-        g.fill(s);
-    }
-
-    private void paintFourLayeredButton(Graphics2D g, int width, int height, Color border1, Color border2, Color internalA1,
-        Color internalA2, Color internalB1, Color internalB2, Color internalB3, Color internalC) {
-        Shape s = setBorder(width, height);
-        if (!focused) {
-            g.drawImage(createDropShadowImage(s), 0, 0, null);
-        }
-        Paint p = setGradient2(s, border1, border2);
-        g.setPaint(p);
-        g.fill(s);
-        s = setInternal(width, height);
-        g.setColor(internalC);
-        g.fill(s);
-        p = setGradient3(s, internalB1, internalB2, internalB3);
-        g.setPaint(p);
-        g.fill(s);
-        p = setGradient2(s, internalA1, internalA2);
+        p = setGradientInterior(s, internal1, internal2, internal3, internal4);
         g.setPaint(p);
         g.fill(s);
     }
@@ -268,23 +245,6 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         return setRect(width - 6.0, width, height, 4);
     }
 
-    /**
-     * Create a drop shadow image.
-     * 
-     * @param s
-     *            the shape to use as the shade.
-     */
-    BufferedImage createDropShadowImage(Shape s) {
-        Rectangle2D b = s.getBounds2D();
-        int width = (int) b.getWidth();
-        int height = (int) b.getHeight();
-        BufferedImage bimage = SeaGlassDropShadowEffect.createBufferedImage(width, height, true);
-        Graphics2D gbi = bimage.createGraphics();
-        gbi.setColor(colorShadow);
-        gbi.fill(s);
-        return dropShadow.applyEffect(bimage, null, width, height);
-    }
-
     private Shape setRect(Double diameter, int width, int height, int arc) {
         Double pos = (width - diameter) / 2.0;
         rect.setRoundRect(pos, pos, diameter, diameter, arc, arc);
@@ -305,7 +265,7 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         return path;
     }
 
-    private Paint setGradient2(Shape s, Color color1, Color color2) {
+    private Paint setGradientBorder(Shape s, Color color1, Color color2) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
@@ -314,17 +274,7 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
     }
 
-    private Paint setGradient3(Shape s, Color color1, Color color2, Color color3) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 0.5f, 1f },
-            new Color[] { color1, color2, color3 });
-    }
-
-    private Paint setGradient4(Shape s, Color color1, Color color2, Color color3, Color color4) {
+    private Paint setGradientInterior(Shape s, Color color1, Color color2, Color color3, Color color4) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
