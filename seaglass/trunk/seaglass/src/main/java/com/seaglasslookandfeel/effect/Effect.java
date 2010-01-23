@@ -105,31 +105,6 @@ public abstract class Effect {
         g.drawImage(applyEffect(bimage, null, width, height), 0, 0, null);
     }
 
-    /**
-     * Paint the effect based around a solid shape in the graphics supplied.
-     * 
-     * @param g
-     *            the graphics to paint into.
-     * @param s
-     *            the shape to base the effect around.
-     * @param shadowColor TODO
-     */
-    public void draw(Graphics2D g, Shape s, Color shadowColor) {
-        Rectangle bounds = s.getBounds();
-        int width = bounds.width;
-        int height = bounds.height;
-        if (width <= 0 || height <= 0) {
-            return;
-        }
-
-        BufferedImage bimage = Effect.createBufferedImage(width, height, true);
-        Graphics2D gbi = bimage.createGraphics();
-        gbi.setColor(Color.white);
-        gbi.draw(s);
-
-        g.drawImage(applyEffect(bimage, null, width, height), 0, 0, null);
-    }
-
     // =================================================================================================================
     // Static data cache
 
