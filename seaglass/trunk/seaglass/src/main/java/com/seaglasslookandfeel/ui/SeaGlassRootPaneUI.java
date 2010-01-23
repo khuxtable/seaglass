@@ -184,7 +184,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             installClientDecorations(root);
         }
         // Need the content pane to not be opaque.
-        ((JComponent) root.getContentPane()).setOpaque(false);
+        LookAndFeel.installProperty((JComponent) root.getContentPane(), "opaque", Boolean.FALSE);
     }
 
     /**
