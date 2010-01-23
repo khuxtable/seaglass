@@ -53,9 +53,9 @@ import sun.swing.plaf.synth.SynthUI;
  * @see javax.swing.plaf.synth.SynthInternalFrameUI
  */
 public class SeaGlassInternalFrameUI extends BasicInternalFrameUI implements SynthUI, PropertyChangeListener {
-    private SynthStyle                         style;
+    private SynthStyle                     style;
 
-    private SeaGlassInternalFrameTitlePane     titlePane;
+    private SeaGlassInternalFrameTitlePane titlePane;
 
     public static ComponentUI createUI(JComponent b) {
         return new SeaGlassInternalFrameUI((JInternalFrame) b);
@@ -104,7 +104,9 @@ public class SeaGlassInternalFrameUI extends BasicInternalFrameUI implements Syn
                 installKeyboardActions();
             }
         }
-        c.setOpaque(true);
+        // We want to draw rounded corners, so the internal frame must not be
+        // opaque.
+        c.setOpaque(false);
         context.dispose();
     }
 
