@@ -165,7 +165,6 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         super.installUI(c);
 
         root = (JRootPane) c;
-        root.setOpaque(false);
         if (PlatformUtils.isMac()) {
             if (root.isValid()) {
                 throw new IllegalArgumentException("This method only works if the given JRootPane has not yet been realized.");
@@ -450,6 +449,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         if (((JRootPane) c).getWindowDecorationStyle() != JRootPane.NONE) {
             context.getPainter().paintRootPaneBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
         }
+
         paint(context, g);
         context.dispose();
     }
@@ -465,8 +465,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     }
 
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
-        ((SeaGlassContext) context).getPainter().paintRootPaneBorder(context, g, x, y, w, h);
-    }
+            ((SeaGlassContext) context).getPainter().paintRootPaneBorder(context, g, x, y, w, h);
+        }
 
     /**
      * Invoked when a property changes. <code>AqvavitRootPaneUI</code> is
