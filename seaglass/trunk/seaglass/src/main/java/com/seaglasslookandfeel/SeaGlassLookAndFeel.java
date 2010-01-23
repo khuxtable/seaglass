@@ -399,7 +399,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
                 useOurUI(uiDefaults, "InternalFrame");
                 useOurUI(uiDefaults, "DesktopIcon");
             }
-            // useOurUI(uiDefaults, "Panel");
+            useOurUI(uiDefaults, "Panel");
             useOurUI(uiDefaults, "PopupMenu");
             useOurUI(uiDefaults, "ProgressBar");
             useOurUI(uiDefaults, "RadioButtonMenuItem");
@@ -424,6 +424,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             defineDesktopPanes(uiDefaults);
             defineLists(uiDefaults);
             defineMenus(uiDefaults);
+            definePanels(uiDefaults);
             definePopups(uiDefaults);
             defineProgressBars(uiDefaults);
             defineRootPanes(uiDefaults);
@@ -1023,6 +1024,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         p = "RadioButtonMenuItem:MenuItemAccelerator";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
+    }
+
+    private void definePanels(UIDefaults d) {
+        String p = "Panel";
+        d.put(p + ".background", new ColorUIResource((Color) d.get("control")));
+        d.put(p + ".opaque", Boolean.TRUE);
     }
 
     private void definePopups(UIDefaults d) {
