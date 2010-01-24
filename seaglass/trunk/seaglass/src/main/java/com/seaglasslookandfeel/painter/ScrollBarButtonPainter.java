@@ -24,7 +24,6 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
@@ -43,26 +42,45 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         FOREGROUND_INCREASE_ENABLED,
         FOREGROUND_INCREASE_DISABLED,
         FOREGROUND_INCREASE_PRESSED,
+
+        FOREGROUND_ENABLED_TOGETHER,
+        FOREGROUND_DISABLED_TOGETHER,
+        FOREGROUND_PRESSED_TOGETHER,
+        FOREGROUND_INCREASE_ENABLED_TOGETHER,
+        FOREGROUND_INCREASE_DISABLED_TOGETHER,
+        FOREGROUND_INCREASE_PRESSED_TOGETHER,
     }
 
-    private static final ButtonStateColors disabledIncrease = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xffffff), new Color(
-                                                                0xbdbdbd), new Color(0x80555555, true));
-    private static final ButtonStateColors enabledIncrease  = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xffffff), new Color(
-                                                                0xbdbdbd), new Color(0x555555));
-    private static final ButtonStateColors pressedIncrease  = new ButtonStateColors(new Color(0x8fb1d1), new Color(0xcee2f5), new Color(
-                                                                0x82abd0), new Color(0x555555));
+    private static final ButtonStateColors disabledIncreaseApart    = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xffffff),
+                                                                        new Color(0xbdbdbd), new Color(0x80555555, true));
+    private static final ButtonStateColors disabledIncreaseTogether = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xe5e5e5),
+                                                                        new Color(0xbdbdbd), new Color(0x80555555, true));
+    private static final ButtonStateColors enabledIncreaseApart     = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xffffff),
+                                                                        new Color(0xbdbdbd), new Color(0x555555));
+    private static final ButtonStateColors enabledIncreaseTogether  = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xe5e5e5),
+                                                                        new Color(0xbdbdbd), new Color(0x555555));
+    private static final ButtonStateColors pressedIncreaseApart     = new ButtonStateColors(new Color(0x8fb1d1), new Color(0xcee2f5),
+                                                                        new Color(0x82abd0), new Color(0x555555));
+    private static final ButtonStateColors pressedIncreaseTogether  = new ButtonStateColors(new Color(0x8fb1d1), new Color(0xcee2f5),
+                                                                        new Color(0x82abd0), new Color(0x555555));
 
-    private static final ButtonStateColors disabledDecrease = new ButtonStateColors(new Color(0xffffff), new Color(0xcccccc), new Color(
-                                                                0xbdbdbd), new Color(0x80555555, true));
-    private static final ButtonStateColors enabledDecrease  = new ButtonStateColors(new Color(0xffffff), new Color(0xcccccc), new Color(
-                                                                0xbdbdbd), new Color(0x555555));
-    private static final ButtonStateColors pressedDecrease  = new ButtonStateColors(new Color(0xcee2f5), new Color(0x8fb1d1), new Color(
-                                                                0x82abd0), new Color(0x555555));
+    private static final ButtonStateColors disabledDecreaseApart    = new ButtonStateColors(new Color(0xffffff), new Color(0xcccccc),
+                                                                        new Color(0xbdbdbd), new Color(0x80555555, true));
+    private static final ButtonStateColors disabledDecreaseTogether = new ButtonStateColors(new Color(0xffffff), new Color(0xe9e9e9),
+                                                                        new Color(0xbdbdbd), new Color(0x80555555, true));
+    private static final ButtonStateColors enabledDecreaseApart     = new ButtonStateColors(new Color(0xffffff), new Color(0xcccccc),
+                                                                        new Color(0xbdbdbd), new Color(0x555555));
+    private static final ButtonStateColors enabledDecreaseTogether  = new ButtonStateColors(new Color(0xffffff), new Color(0xe9e9e9),
+                                                                        new Color(0xbdbdbd), new Color(0x555555));
+    private static final ButtonStateColors pressedDecreaseApart     = new ButtonStateColors(new Color(0xcee2f5), new Color(0x8fb1d1),
+                                                                        new Color(0x82abd0), new Color(0x555555));
+    private static final ButtonStateColors pressedDecreaseTogether  = new ButtonStateColors(new Color(0xcee2f5), new Color(0x8fb1d1),
+                                                                        new Color(0x82abd0), new Color(0x555555));
 
-    private final Color                    colorShadow      = new Color(0x000000);
-    private Effect                         dropShadow       = new ScrollButtonDropShadowEffect();
+    private final Color                    colorShadow              = new Color(0x000000);
+    private Effect                         dropShadow               = new ScrollButtonDropShadowEffect();
 
-    private Path2D                         path             = new Path2D.Double();
+    private Path2D                         path                     = new Path2D.Double();
 
     private Which                          state;
     private PaintContext                   ctx;
@@ -77,22 +95,40 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case FOREGROUND_DISABLED:
-            paintDisabledDecreaseButton(g, c, width, height);
+            paintDecreaseButtonApart(g, c, width, height, disabledDecreaseApart);
+            break;
+        case FOREGROUND_DISABLED_TOGETHER:
+            paintDecreaseButtonTogether(g, c, width, height, disabledDecreaseTogether);
             break;
         case FOREGROUND_ENABLED:
-            paintEnabledDecreaseButton(g, c, width, height);
+            paintDecreaseButtonApart(g, c, width, height, enabledDecreaseApart);
+            break;
+        case FOREGROUND_ENABLED_TOGETHER:
+            paintDecreaseButtonTogether(g, c, width, height, enabledDecreaseTogether);
             break;
         case FOREGROUND_PRESSED:
-            paintPressedDecreaseButton(g, c, width, height);
+            paintDecreaseButtonApart(g, c, width, height, pressedDecreaseApart);
+            break;
+        case FOREGROUND_PRESSED_TOGETHER:
+            paintDecreaseButtonTogether(g, c, width, height, pressedDecreaseTogether);
             break;
         case FOREGROUND_INCREASE_DISABLED:
-            paintDisabledIncreaseButton(g, c, width, height);
+            paintIncreaseButtonApart(g, c, width, height, disabledIncreaseApart);
+            break;
+        case FOREGROUND_INCREASE_DISABLED_TOGETHER:
+            paintIncreaseButtonTogether(g, c, width, height, disabledIncreaseTogether);
             break;
         case FOREGROUND_INCREASE_ENABLED:
-            paintEnabledIncreaseButton(g, c, width, height);
+            paintIncreaseButtonApart(g, c, width, height, enabledIncreaseApart);
+            break;
+        case FOREGROUND_INCREASE_ENABLED_TOGETHER:
+            paintIncreaseButtonTogether(g, c, width, height, enabledIncreaseTogether);
             break;
         case FOREGROUND_INCREASE_PRESSED:
-            paintPressedIncreaseButton(g, c, width, height);
+            paintIncreaseButtonApart(g, c, width, height, pressedIncreaseApart);
+            break;
+        case FOREGROUND_INCREASE_PRESSED_TOGETHER:
+            paintIncreaseButtonTogether(g, c, width, height, pressedIncreaseTogether);
             break;
         }
     }
@@ -102,70 +138,53 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintDisabledIncreaseButton(Graphics2D g, JComponent c, int width, int height) {
-        paintIncreaseButton(g, c, width, height, disabledIncrease);
-    }
-
-    private void paintEnabledIncreaseButton(Graphics2D g, JComponent c, int width, int height) {
-        paintIncreaseButton(g, c, width, height, enabledIncrease);
-    }
-
-    private void paintPressedIncreaseButton(Graphics2D g, JComponent c, int width, int height) {
-        paintIncreaseButton(g, c, width, height, pressedIncrease);
-    }
-
-    private void paintDisabledDecreaseButton(Graphics2D g, JComponent c, int width, int height) {
-        paintDecreaseButton(g, c, width, height, disabledDecrease);
-    }
-
-    private void paintEnabledDecreaseButton(Graphics2D g, JComponent c, int width, int height) {
-        paintDecreaseButton(g, c, width, height, enabledDecrease);
-    }
-
-    private void paintPressedDecreaseButton(Graphics2D g, JComponent c, int width, int height) {
-        paintDecreaseButton(g, c, width, height, pressedDecrease);
-    }
-
-    private void paintIncreaseButton(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
-        Shape s = decodeButtonBackgroundPath(width, height);
-        g.drawImage(createDropShadowImage(path, width, height), 0, 0, null);
+    private void paintIncreaseButtonApart(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
+        Shape s = decodeButtonApartBackgroundPath(width, height);
+        dropShadow.fill(g, s, colorShadow);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
         g.setColor(colors.line);
         g.drawLine(0, 0, width - 1, 0);
-        s = decodeButtonForegroundPath(width, height, 5, 2);
+        s = decodeButtonApartForegroundPath(width, height, 5, 2);
         g.setColor(colors.foreground);
         g.fill(s);
     }
 
-    private void paintDecreaseButton(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
-        Shape s = decodeButtonBackgroundPath(width, height);
-        g.drawImage(createDropShadowImage(path, width, height), 0, 0, null);
+    private void paintDecreaseButtonApart(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
+        Shape s = decodeButtonApartBackgroundPath(width, height);
+        dropShadow.fill(g, s, colorShadow);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
         g.setColor(colors.line);
         g.drawLine(0, 0, width - 1, 0);
-        s = decodeButtonForegroundPath(width, height, 4, 3);
+        s = decodeButtonApartForegroundPath(width, height, 4, 3);
         g.setColor(colors.foreground);
         g.fill(s);
     }
 
-    /**
-     * Create a drop shadow image.
-     * 
-     * @param s
-     *            the shape to use as the shade.
-     * @param width
-     *            TODO
-     * @param height
-     *            TODO
-     */
-    private BufferedImage createDropShadowImage(Shape s, int width, int height) {
-        BufferedImage bimage = ScrollButtonDropShadowEffect.createBufferedImage(width, height, true);
-        Graphics2D gbi = bimage.createGraphics();
-        gbi.setColor(colorShadow);
-        gbi.fill(s);
-        return dropShadow.applyEffect(bimage, null, width, height);
+    private void paintIncreaseButtonTogether(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
+        Shape s = decodeIncreaseButtonTogetherBackgroundPath(width, height);
+        dropShadow.fill(g, s, colorShadow);
+        g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
+        g.fill(s);
+        g.setColor(colors.line);
+        g.drawLine(0, 0, width - 1, 0);
+        g.drawLine(width - 1, 1, width - 1, height - 1);
+        s = decodeIncreaseButtonTogetherForegroundPath(width, height, 3, 3);
+        g.setColor(colors.foreground);
+        g.fill(s);
+    }
+
+    private void paintDecreaseButtonTogether(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
+        Shape s = decodeDecreaseButtonTogetherBackgroundPath(width, height);
+        dropShadow.fill(g, s, colorShadow);
+        g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
+        g.fill(s);
+        g.setColor(colors.line);
+        g.drawLine(0, 0, width - 1, 0);
+        s = decodeDecreaseButtonTogetherForegroundPath(width, height, 0, 3);
+        g.setColor(colors.foreground);
+        g.fill(s);
     }
 
     private Paint decodeButtonGradient(Shape s, Color top, Color bottom) {
@@ -174,7 +193,18 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         return decodeGradient(0, height / 2, width - 1, height / 2, new float[] { 0f, 1f }, new Color[] { top, bottom });
     }
 
-    private Shape decodeButtonForegroundPath(int width, int height, int xOffset, int yOffset) {
+    private Shape decodeButtonApartBackgroundPath(int width, int height) {
+        path.reset();
+        path.moveTo(0, 0);
+        path.lineTo(0, height);
+        path.lineTo(width, height);
+        path.quadTo(width - height / 3.0, height, width - height / 3.0, height / 2.0);
+        path.quadTo(width - height / 3.0, 0, width, 0);
+        path.closePath();
+        return path;
+    }
+
+    private Shape decodeButtonApartForegroundPath(int width, int height, int xOffset, int yOffset) {
         double x = width / 2.0 - xOffset;
         double y = height / 2.0 - yOffset;
         path.reset();
@@ -185,13 +215,45 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         return path;
     }
 
-    private Shape decodeButtonBackgroundPath(int width, int height) {
+    private Shape decodeIncreaseButtonTogetherBackgroundPath(int width, int height) {
         path.reset();
         path.moveTo(0, 0);
         path.lineTo(0, height);
         path.lineTo(width, height);
-        path.quadTo(width - height / 3.0, height, width - height / 3.0, height / 2.0);
-        path.quadTo(width - height / 3.0, 0, width, 0);
+        path.lineTo(width, 0);
+        path.closePath();
+        return path;
+    }
+
+    private Shape decodeIncreaseButtonTogetherForegroundPath(int width, int height, int xOffset, int yOffset) {
+        double x = width / 2.0 - xOffset;
+        double y = height / 2.0 - yOffset;
+        path.reset();
+        path.moveTo(x + 0, y + 3);
+        path.lineTo(x + 4, y + 6);
+        path.lineTo(x + 4, y + 0);
+        path.closePath();
+        return path;
+    }
+
+    private Shape decodeDecreaseButtonTogetherBackgroundPath(int width, int height) {
+        path.reset();
+        path.moveTo(width, 0);
+        path.lineTo(width, height);
+        path.lineTo(0, height);
+        path.quadTo(height / 3.0, height, height / 3.0, height / 2.0);
+        path.quadTo(height / 3.0, 0, 0, 0);
+        path.closePath();
+        return path;
+    }
+
+    private Shape decodeDecreaseButtonTogetherForegroundPath(int width, int height, int xOffset, int yOffset) {
+        double x = width / 2.0 - xOffset;
+        double y = height / 2.0 - yOffset;
+        path.reset();
+        path.moveTo(x + 0, y + 3);
+        path.lineTo(x + 4, y + 6);
+        path.lineTo(x + 4, y + 0);
         path.closePath();
         return path;
     }
