@@ -26,7 +26,6 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
@@ -50,8 +49,8 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
     private static final Color             trackInner3      = new Color(0x00000000, true);
     private static final Color             trackInner4      = new Color(0x12000000, true);
 
-    private static final ButtonStateColors enabledDecrease  = new ButtonStateColors(new Color(0xffffff), new Color(0xcccccc), new Color(
-                                                                0xbdbdbd), new Color(0x555555));
+    private static final ButtonStateColors enabledDecrease  = new ButtonStateColors(new Color(0xffffff), new Color(0xbbbbbb), new Color(
+                                                                0xbdbdbd));
 
     private final Color                    colorShadow      = new Color(0x000000);
     private Effect                         dropShadow       = new ScrollButtonDropShadowEffect();
@@ -72,7 +71,7 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         paintBackgroundTrack(g, width, height);
         if (state == Which.BACKGROUND_DISABLED_TOGETHER || state == Which.BACKGROUND_ENABLED_TOGETHER) {
-            paintLeftCap(g, width);
+            paintLeftCap(g, width, height);
         }
     }
 
@@ -81,10 +80,6 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    /**
-     * @param g
-     * @param width
-     */
     private void paintBackgroundTrack(Graphics2D g, int width, int height) {
         Shape s = decodeTrackBackground(width, height);
         g.setPaint(decodeGradientTrack(s));
@@ -93,25 +88,13 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
         g.fill(s);
     }
 
-    private void paintLeftCap(Graphics2D g, int width) {
-        int height = (width * 2) / 3;
-        Shape s = decodeButtonBackgroundPath(width, height);
-        g.drawImage(createDropShadowImage(path, width, height), 0, 0, null);
-        g.setPaint(decodeButtonGradient(s, enabledDecrease.top, enabledDecrease.bottom));
+    private void paintLeftCap(Graphics2D g, int width, int height) {
+        Shape s = decodeTopCapPath(width, height);
+        dropShadow.fill(g, s, colorShadow);
+        g.setPaint(decodeTopCapGradient(s, enabledDecrease.top, enabledDecrease.bottom));
         g.fill(s);
         g.setColor(enabledDecrease.line);
-        g.drawLine(0, height - 1, width - 1, height - 1);
-        s = decodeButtonForegroundPath(width, height, 4, 3);
-        g.setColor(enabledDecrease.foreground);
-        g.fill(s);
-    }
-
-    private BufferedImage createDropShadowImage(Shape s, int width, int height) {
-        BufferedImage bimage = ScrollButtonDropShadowEffect.createBufferedImage(width, height, true);
-        Graphics2D gbi = bimage.createGraphics();
-        gbi.setColor(colorShadow);
-        gbi.fill(s);
-        return dropShadow.applyEffect(bimage, null, width, height);
+        g.drawLine(0, 0, width - 1, 0);
     }
 
     private Paint decodeGradientTrack(Shape s) {
@@ -131,7 +114,7 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
             new Color[] { trackInner1, trackInner2, trackInner3, trackInner3, trackInner4 });
     }
 
-    private Paint decodeButtonGradient(Shape s, Color top, Color bottom) {
+    private Paint decodeTopCapGradient(Shape s, Color top, Color bottom) {
         Rectangle bounds = s.getBounds();
         int width = bounds.width;
         int height = bounds.height;
@@ -143,18 +126,9 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
         return rect;
     }
 
-    private Shape decodeButtonForegroundPath(int width, int height, int xOffset, int yOffset) {
-        double x = width / 2.0 - xOffset;
-        double y = height / 2.0 - yOffset;
-        path.reset();
-        path.moveTo(x + 0, y + 3);
-        path.lineTo(x + 4, y + 6);
-        path.lineTo(x + 4, y + 0);
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodeButtonBackgroundPath(int width, int height) {
+    private Shape decodeTopCapPath(int width, int height) {
+        width = 9;
+        height = 15;
         path.reset();
         path.moveTo(0, 0);
         path.lineTo(0, height);
@@ -183,13 +157,11 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
         public Color top;
         public Color bottom;
         public Color line;
-        public Color foreground;
 
-        public ButtonStateColors(Color top, Color bottom, Color line, Color foreground) {
+        public ButtonStateColors(Color top, Color bottom, Color line) {
             this.top = top;
             this.bottom = bottom;
             this.line = line;
-            this.foreground = foreground;
         }
     }
 }
