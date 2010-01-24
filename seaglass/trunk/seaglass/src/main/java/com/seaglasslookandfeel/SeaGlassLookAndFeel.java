@@ -1158,14 +1158,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Track
         c = PAINTER_PREFIX + "ScrollBarTrackPainter";
         p = "ScrollBar:ScrollBarTrack";
-        d.put(p + ".ButtonsTogether", new ScrollBarButtonsTogetherState());
-        d.put(p + ".States", "Enabled,Disabled,ButtonsTogether");
+        d.put(p + ".States", "Enabled,Disabled");
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Disabled+ButtonsTogether].backgroundPainter", new LazyPainter(c,
-            ScrollBarTrackPainter.Which.BACKGROUND_DISABLED_TOGETHER));
-        d.put(p + "[Enabled+ButtonsTogether].backgroundPainter",
-            new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_ENABLED_TOGETHER));
 
         // Define ScrollPane border painters.
         c = PAINTER_PREFIX + "ScrollPanePainter";
