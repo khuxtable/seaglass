@@ -49,7 +49,12 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         FOREGROUND_INCREASE_ENABLED_TOGETHER,
         FOREGROUND_INCREASE_DISABLED_TOGETHER,
         FOREGROUND_INCREASE_PRESSED_TOGETHER,
+
+        FOREGROUND_CAP,
     }
+
+    private static final ButtonStateColors capColors                = new ButtonStateColors(new Color(0xffffff), new Color(0xbbbbbb),
+                                                                        new Color(0xbdbdbd), new Color(0x555555));
 
     private static final ButtonStateColors disabledIncreaseApart    = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xffffff),
                                                                         new Color(0xbdbdbd), new Color(0x80555555, true));
@@ -130,12 +135,24 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         case FOREGROUND_INCREASE_PRESSED_TOGETHER:
             paintIncreaseButtonTogether(g, c, width, height, pressedIncreaseTogether);
             break;
+        case FOREGROUND_CAP:
+            paintCap(g, c, width, height, capColors);
+            break;
         }
     }
 
     @Override
     protected PaintContext getPaintContext() {
         return ctx;
+    }
+
+    private void paintCap(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
+        Shape s = decodeCapPath(width, height);
+        dropShadow.fill(g, s, colorShadow);
+        g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
+        g.fill(s);
+        g.setColor(colors.line);
+        g.drawLine(0, 0, width - 1, 0);
     }
 
     private void paintIncreaseButtonApart(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
@@ -191,6 +208,17 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         int width = s.getBounds().width;
         int height = s.getBounds().height;
         return decodeGradient(0, height / 2, width - 1, height / 2, new float[] { 0f, 1f }, new Color[] { top, bottom });
+    }
+
+    private Shape decodeCapPath(int width, int height) {
+        path.reset();
+        path.moveTo(0, 0);
+        path.lineTo(0, height);
+        path.lineTo(width, height);
+        path.quadTo(width - height / 3.0, height, width - height / 3.0, height / 2.0);
+        path.quadTo(width - height / 3.0, 0, width, 0);
+        path.closePath();
+        return path;
     }
 
     private Shape decodeButtonApartBackgroundPath(int width, int height) {
