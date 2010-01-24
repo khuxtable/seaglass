@@ -45,17 +45,25 @@ public final class TableHeaderRendererPainter extends AbstractRegionPainter {
     private Which              state;
     private PaintContext       ctx;
 
-    private static final Color border          = new Color(0x88ade0);
-    private static final Color disabledBorder  = new Color(0x8088ade0, true);
+    // private static final Color border = new Color(0x88ade0);
+    // private static final Color disabledBorder = new Color(0x8088ade0, true);
+
+    private static final Color border          = new Color(0xcad3e0);
+    private static final Color disabledBorder  = new Color(0x80cad3e0, true);
 
     private static final Color disabled1       = new Color(0x80fbfdfe, true);
     private static final Color disabled2       = new Color(0x80d6eaf9, true);
     private static final Color disabled3       = new Color(0x80d2e8f8, true);
     private static final Color disabled4       = new Color(0x80f5fafd, true);
 
+    // private static final Color enabled1 = new Color(0xfbfdfe);
+    // private static final Color enabled2 = new Color(0xd6eaf9);
+    // private static final Color enabled3 = new Color(0xd2e8f8);
+    // private static final Color enabled4 = new Color(0xf5fafd);
+
     private static final Color enabled1        = new Color(0xfbfdfe);
-    private static final Color enabled2        = new Color(0xd6eaf9);
-    private static final Color enabled3        = new Color(0xd2e8f8);
+    private static final Color enabled2        = new Color(0xeaeff2);
+    private static final Color enabled3        = new Color(0xeff3f7);
     private static final Color enabled4        = new Color(0xf5fafd);
 
     private static final Color sorted1         = new Color(0xbccedf);
