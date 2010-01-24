@@ -434,7 +434,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             b.putClientProperty("JButton.buttonType", "segmented");
         }
         String segmentPosition = "only";
-        if (tabPane.getTabCount() > 0) {
+        if (tabPane.getTabCount() > 1) {
             if (tabIndex == 0) {
                 segmentPosition = "first";
             } else if (tabIndex == tabPane.getTabCount() - 1) {
