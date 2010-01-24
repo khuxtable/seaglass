@@ -1116,8 +1116,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Buttons
         String c = PAINTER_PREFIX + "ScrollBarButtonPainter";
         String p = "ScrollBar:\"ScrollBar.button\"";
+        d.put(p + ".States", "Enabled,Pressed,Disabled,IncreaseButton,ButtonsTogether");
         d.put(p + ".IncreaseButton", new ScrollBarButtonIsIncreaseButtonState());
-        d.put(p + ".States", "Enabled,Pressed,Disabled,IncreaseButton");
+        d.put(p + ".ButtonsTogether", new ScrollBarButtonsTogetherState());
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_PRESSED));
@@ -1127,6 +1128,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED));
         d.put(p + "[IncreaseButton+Pressed].foregroundPainter",
             new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED));
+
+        d.put(p + "[Enabled+ButtonsTogether].foregroundPainter", new LazyPainter(c,
+            ScrollBarButtonPainter.Which.FOREGROUND_ENABLED_TOGETHER));
+        d.put(p + "[Disabled+ButtonsTogether].foregroundPainter", new LazyPainter(c,
+            ScrollBarButtonPainter.Which.FOREGROUND_DISABLED_TOGETHER));
+        d.put(p + "[Pressed+ButtonsTogether].foregroundPainter", new LazyPainter(c,
+            ScrollBarButtonPainter.Which.FOREGROUND_PRESSED_TOGETHER));
+        d.put(p + "[IncreaseButton+Enabled+ButtonsTogether].foregroundPainter", new LazyPainter(c,
+            ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED_TOGETHER));
+        d.put(p + "[IncreaseButton+Disabled+ButtonsTogether].foregroundPainter", new LazyPainter(c,
+            ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED_TOGETHER));
+        d.put(p + "[IncreaseButton+Pressed+ButtonsTogether].foregroundPainter", new LazyPainter(c,
+            ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED_TOGETHER));
 
         // Thumb
         // Seems to be a bug somewhere where MouseOver is always delivered even
@@ -1145,7 +1159,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         c = PAINTER_PREFIX + "ScrollBarTrackPainter";
         p = "ScrollBar:ScrollBarTrack";
         d.put(p + ".ButtonsTogether", new ScrollBarButtonsTogetherState());
-        d.put(p + ".States", "Enabled,Disabled,EnabledTogether,DisabledTogether");
+        d.put(p + ".States", "Enabled,Disabled,ButtonsTogether");
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Disabled+ButtonsTogether].backgroundPainter", new LazyPainter(c,
