@@ -20,6 +20,7 @@
 package com.seaglasslookandfeel.state;
 
 import javax.swing.JComponent;
+import javax.swing.UIManager;
 
 /**
  * Are scroll bar buttons to be placed together or apart?
@@ -30,9 +31,11 @@ public class ScrollBarButtonsTogetherState extends State {
     }
 
     public boolean isInState(JComponent c) {
-        if (false) {
-            return true;
+        Object clientProperty = c.getClientProperty("SeaGlass.Override.ScrollBarButtonsTogether");
+        if (clientProperty != null && clientProperty instanceof Boolean) {
+            return (Boolean) clientProperty;
         }
-        return false;
+
+        return UIManager.getBoolean("SeaGlass.ScrollBarButtonsTogether");
     }
 }
