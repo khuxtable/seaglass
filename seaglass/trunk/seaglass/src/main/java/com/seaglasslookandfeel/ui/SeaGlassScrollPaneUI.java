@@ -279,9 +279,14 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
         Insets insets = c.getInsets();
 
         Graphics2D g2 = (Graphics2D) g.create();
-        g2.translate(c.getWidth() - insets.right - vBarWidth, c.getHeight() - insets.bottom - hBarHeight);
-        g2.setClip(0, 0, vBarWidth, hBarHeight);
-
+        if (scrollpane.getComponentOrientation().isLeftToRight()) {
+            g2.translate(c.getWidth() - insets.right - vBarWidth, c.getHeight() - insets.bottom - hBarHeight);
+            g2.setClip(0, 0, vBarWidth, hBarHeight);
+        } else {
+            g2.translate(15 + insets.right, c.getHeight() - insets.bottom - hBarHeight);
+            g2.scale(-1, 1);
+            g2.setClip(0, 0, vBarWidth, hBarHeight);
+        }
         cornerPainter.paint(g2, c, 15, 15);
     }
 
