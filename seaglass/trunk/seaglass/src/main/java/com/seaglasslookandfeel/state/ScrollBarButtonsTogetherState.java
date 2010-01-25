@@ -20,6 +20,7 @@
 package com.seaglasslookandfeel.state;
 
 import javax.swing.JComponent;
+import javax.swing.JScrollBar;
 import javax.swing.UIManager;
 
 /**
@@ -31,9 +32,15 @@ public class ScrollBarButtonsTogetherState extends State {
     }
 
     public boolean isInState(JComponent c) {
-        Object clientProperty = c.getClientProperty("SeaGlass.Override.ScrollBarButtonsTogether");
-        if (clientProperty != null && clientProperty instanceof Boolean) {
-            return (Boolean) clientProperty;
+        while (c != null && !(c instanceof JScrollBar)) {
+            c = (JComponent) c.getParent();
+        }
+
+        if (c != null) {
+            Object clientProperty = c.getClientProperty("SeaGlass.Override.ScrollBarButtonsTogether");
+            if (clientProperty != null && clientProperty instanceof Boolean) {
+                return (Boolean) clientProperty;
+            }
         }
 
         return UIManager.getBoolean("SeaGlass.ScrollBarButtonsTogether");
