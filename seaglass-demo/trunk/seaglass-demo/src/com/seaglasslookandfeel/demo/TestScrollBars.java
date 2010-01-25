@@ -19,6 +19,8 @@ public class TestScrollBars {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            // Set the global default.
+            UIManager.put("SeaGlass.ScrollBarButtonsTogether", Boolean.TRUE);
         }
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -30,6 +32,9 @@ public class TestScrollBars {
                 textPane.setText(TEXT);
 
                 JScrollPane scrollPane = new JScrollPane(textPane);
+                // Set to override the global default.
+                // scrollPane.getVerticalScrollBar().putClientProperty("SeaGlass.Override.ScrollBarButtonsTogether",
+                // Boolean.FALSE);
 
                 JFrame frame = new JFrame();
                 frame.add(scrollPane, BorderLayout.CENTER);
