@@ -27,6 +27,8 @@ public class SeaGlassRegion extends Region {
 
     public static final Region SEARCH_FIELD_CANCEL_BUTTON = new SeaGlassRegion("SearchFieldCancelButton", null, true);
 
+    public static final Region SCROLL_BAR_CAP             = new SeaGlassRegion("ScrollBarCap", null, true);
+
     protected SeaGlassRegion(String name, String ui, boolean subregion) {
         super(name, ui, subregion);
     }
