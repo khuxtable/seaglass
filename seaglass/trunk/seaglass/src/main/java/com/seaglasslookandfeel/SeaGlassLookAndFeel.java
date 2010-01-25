@@ -331,6 +331,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         register(Region.ARROW_BUTTON, "ScrollBar:\"ScrollBar.button\"");
         register(Region.SCROLL_BAR_THUMB, "ScrollBar:ScrollBarThumb");
         register(Region.SCROLL_BAR_TRACK, "ScrollBar:ScrollBarTrack");
+        register(SeaGlassRegion.SCROLL_BAR_CAP, "ScrollBar:ScrollBarCap");
         register(Region.SCROLL_PANE, "ScrollPane");
         register(Region.VIEWPORT, "Viewport");
         register(Region.SLIDER, "Slider");
@@ -1111,6 +1112,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void defineScrollBars(UIDefaults d) {
         d.put("ScrollBar.incrementButtonGap", new Integer(-5));
         d.put("ScrollBar.decrementButtonGap", new Integer(-5));
+        d.put("ScrollBar.capSize", new Integer(9));
         d.put("ScrollBar:\"ScrollBar.button\".size", new Integer(20));
 
         // Buttons
@@ -1161,6 +1163,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".States", "Enabled,Disabled");
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ScrollBarTrackPainter.Which.BACKGROUND_ENABLED));
+
+        // Cap
+        c = PAINTER_PREFIX + "ScrollBarButtonPainter";
+        p = "ScrollBar:ScrollBarCap";
+        d.put(p + ".States", "Enabled,Disabled");
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_CAP));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_CAP));
 
         // Define ScrollPane border painters.
         c = PAINTER_PREFIX + "ScrollPanePainter";
