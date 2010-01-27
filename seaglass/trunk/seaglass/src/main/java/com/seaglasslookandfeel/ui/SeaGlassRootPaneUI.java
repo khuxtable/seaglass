@@ -50,6 +50,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JRootPane;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicRootPaneUI;
@@ -76,8 +77,6 @@ import sun.swing.plaf.synth.SynthUI;
  */
 public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
 
-    private static final Color TRANSPARENT_COLOR     = new Color(0, 0, 0, 0);
-
     /**
      * The amount of space (in pixels) that the cursor is changed on.
      */
@@ -87,6 +86,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
      * Region from edges that dragging is active from.
      */
     private static final int   BORDER_DRAG_THICKNESS = 5;
+
+    private Color              transparentColor      = UIManager.getColor("seaGlassTransparent");
 
     private SynthStyle         style;
 
@@ -548,7 +549,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
      */
     // NOTE: Ideally this would extends JRootPane.RootLayout, but that
     // would force this to be non-static.
-    private static class SeaGlassRootLayout implements LayoutManager2 {
+    private class SeaGlassRootLayout implements LayoutManager2 {
         /**
          * Returns the amount of space the layout would like to have.
          * 
@@ -757,7 +758,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
                 Dimension mbd = root.getJMenuBar().getPreferredSize();
                 root.getJMenuBar().setBounds(0, menuInTitle ? 0 : nextY, w, mbd.height);
                 root.getJMenuBar().setOpaque(false);
-                root.getJMenuBar().setBackground(TRANSPARENT_COLOR);
+                root.getJMenuBar().setBackground(transparentColor);
                 if (!menuInTitle) {
                     nextY += mbd.height;
                 }

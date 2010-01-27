@@ -91,7 +91,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     private Action              moveAction;
     private Action              sizeAction;
 
-    private static final Color  DEFAULT_EMPHASIS_COLOR   = new Color(255, 255, 255, 110);
+    private Color               DEFAULT_EMPHASIS_COLOR   = UIManager.getColor("seaGlassTextEmphasis");
 
     private static final String CLOSE_CMD                = UIManager.getString("InternalFrameTitlePane.closeButtonText");
     private static final String ICONIFY_CMD              = UIManager.getString("InternalFrameTitlePane.minimizeButtonText");
@@ -407,7 +407,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                 } else {
                     minX = getParentInsets().left + titleSpacing;
                 }
-                maxX = getParentWidth() - getParentInsets().right -titleSpacing;
+                maxX = getParentWidth() - getParentInsets().right - titleSpacing;
             }
             String clippedTitle = getTitle(title, fm, maxX - minX);
             if (clippedTitle == title) {

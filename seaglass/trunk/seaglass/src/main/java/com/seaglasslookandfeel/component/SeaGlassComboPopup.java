@@ -31,6 +31,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicComboPopup;
@@ -44,9 +45,11 @@ import javax.swing.plaf.basic.BasicComboPopup;
  */
 public class SeaGlassComboPopup extends BasicComboPopup {
 
-    private static final int LEFT_SHIFT  = 5;
+    private static final int LEFT_SHIFT   = 5;
 
-    private static Border    LIST_BORDER = new LineBorder(new Color(0xbbbbbb), 1);
+    private Color            BORDER_COLOR = UIManager.getColor("seaGlassPopupBorder");
+    
+    private Border           LIST_BORDER  = new LineBorder(BORDER_COLOR, 1);
 
     public SeaGlassComboPopup(JComboBox combo) {
         super(combo);
@@ -153,7 +156,7 @@ public class SeaGlassComboPopup extends BasicComboPopup {
                 py -= margin.bottom;
             }
         } else {
-            int yOffset = - margin.top;
+            int yOffset = -margin.top;
             int selectedIndex = comboBox.getSelectedIndex();
             if (selectedIndex <= 0) {
                 py = -yOffset;

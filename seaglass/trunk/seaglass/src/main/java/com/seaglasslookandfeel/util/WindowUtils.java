@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.util;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
@@ -31,6 +30,7 @@ import java.lang.reflect.Method;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -57,7 +57,7 @@ public class WindowUtils {
     public static void makeWindowNonOpaque(Window window) {
         // on the mac, simply setting the window's background color to be fully
         // transparent makes the window non-opaque.
-        window.setBackground(new Color(0, 0, 0, 0));
+        window.setBackground(UIManager.getColor("seaGlassTransparent"));
         // on non-mac platforms, try to use the facilities of Java 6 update 10.
         if (!PlatformUtils.isMac()) {
             quietlyTryToMakeWindowNonOqaque(window);
