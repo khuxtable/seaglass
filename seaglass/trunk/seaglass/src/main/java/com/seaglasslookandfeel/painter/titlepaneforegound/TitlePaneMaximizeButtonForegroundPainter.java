@@ -24,20 +24,21 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
+import javax.swing.UIManager;
 
 public class TitlePaneMaximizeButtonForegroundPainter {
 
-    private static final Color enabledBorder   = new Color(0x99000000, true);
-    private static final Color enabledCorner   = new Color(0x26000000, true);
-    private static final Color enabledInterior = new Color(0x99ffffff, true);
+    private Color enabledBorder   = UIManager.getColor("seaGlassTitlePaneButtonEnabledBorder");
+    private Color enabledCorner   = UIManager.getColor("seaGlassTitlePaneButtonEnabledCorner");
+    private Color enabledInterior = UIManager.getColor("seaGlassTitlePaneButtonEnabledInterior");
 
-    private static final Color hoverBorder     = new Color(0xe5101010, true);
-    private static final Color hoverCorner     = new Color(0x267a7a7a, true);
-    private static final Color hoverInterior   = new Color(0xffffff);
+    private Color hoverBorder     = UIManager.getColor("seaGlassTitlePaneButtonHoverBorder");
+    private Color hoverCorner     = UIManager.getColor("seaGlassTitlePaneButtonHoverCorner");
+    private Color hoverInterior   = UIManager.getColor("seaGlassTitlePaneButtonHoverInterior");
 
-    private static final Color pressedBorder   = new Color(0xe50e0e0e, true);
-    private static final Color pressedCorner   = new Color(0x876e6e6e, true);
-    private static final Color pressedInterior = new Color(0xe6e6e6);
+    private Color pressedBorder   = UIManager.getColor("seaGlassTitlePaneButtonPressedBorder");
+    private Color pressedCorner   = UIManager.getColor("seaGlassTitlePaneButtonPressedCorner");
+    private Color pressedInterior = UIManager.getColor("seaGlassTitlePaneButtonPressedInterior");
 
     public void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
         paint(g, c, width, height, enabledBorder, enabledCorner, enabledInterior);

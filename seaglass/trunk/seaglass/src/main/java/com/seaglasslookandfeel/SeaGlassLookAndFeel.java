@@ -751,6 +751,18 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineInternalFrames(UIDefaults d) {
+        d.put("seaGlassTitlePaneButtonEnabledBorder", new Color(0x99000000, true));
+        d.put("seaGlassTitlePaneButtonEnabledCorner", new Color(0x26000000, true));
+        d.put("seaGlassTitlePaneButtonEnabledInterior", new Color(0x99ffffff, true));
+
+        d.put("seaGlassTitlePaneButtonHoverBorder", new Color(0xe5101010, true));
+        d.put("seaGlassTitlePaneButtonHoverCorner", new Color(0x267a7a7a, true));
+        d.put("seaGlassTitlePaneButtonHoverInterior", new Color(0xffffff));
+
+        d.put("seaGlassTitlePaneButtonPressedBorder", new Color(0xe50e0e0e, true));
+        d.put("seaGlassTitlePaneButtonPressedCorner", new Color(0x876e6e6e, true));
+        d.put("seaGlassTitlePaneButtonPressedInterior", new Color(0xe6e6e6));
+
         String c = PAINTER_PREFIX + "FrameAndRootPainter";
 
         d.put("InternalFrame.States", "Enabled,WindowFocused");
