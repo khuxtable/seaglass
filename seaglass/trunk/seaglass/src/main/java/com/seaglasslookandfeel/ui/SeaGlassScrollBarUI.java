@@ -475,17 +475,114 @@ public class SeaGlassScrollBarUI extends BasicScrollBarUI implements PropertyCha
     protected void layoutVScrollbar(JScrollBar sb) {
         if (!buttonsTogether.isInState(sb)) {
             super.layoutVScrollbar(sb);
-            return;
+        } else {
+            layoutVScrollbarTogether(sb);
         }
+    }
+
+    protected void layoutHScrollbar(JScrollBar sb) {
+        if (!buttonsTogether.isInState(sb)) {
+            super.layoutHScrollbar(sb);
+        } else {
+            if (sb.getComponentOrientation().isLeftToRight()) {
+                layoutHScrollbarTogetherLeftToRight(sb);
+            } else {
+                layoutHScrollbarTogetherRightToLeft(sb);
+            }
+        }
+    }
+
+    private void layoutVScrollbarTogether(JScrollBar sb) {
+        ScrollbarLayoutValues lv = new ScrollbarLayoutValues();
 
         Dimension sbSize = sb.getSize();
         Insets sbInsets = sb.getInsets();
 
+        layoutScrollbarTogether(sb, lv, sbSize.height, sbSize.width, sbInsets.top, sbInsets.bottom, sbInsets.left, sbInsets.right,
+            decrButton.getPreferredSize().height, getMinimumThumbSize().height, getMaximumThumbSize().height);
+
+        trackRect.setBounds(lv.itemEdge, lv.trackPosition, lv.itemThickness, lv.trackLength);
+        decrButton.setBounds(lv.itemEdge, lv.decrButtonPosition, lv.itemThickness, lv.decrButtonLength);
+        incrButton.setBounds(lv.itemEdge, lv.incrButtonPosition, lv.itemThickness, lv.incrButtonLength);
+        if (lv.thumbLength > 0) {
+            setThumbBounds(lv.itemEdge, lv.thumbPosition, lv.itemThickness, lv.thumbLength);
+        } else {
+            setThumbBounds(0, 0, 0, 0);
+        }
+    }
+
+    private void layoutHScrollbarTogetherLeftToRight(JScrollBar sb) {
+        ScrollbarLayoutValues lv = new ScrollbarLayoutValues();
+
+        Dimension sbSize = sb.getSize();
+        Insets sbInsets = sb.getInsets();
+
+        layoutScrollbarTogether(sb, lv, sbSize.width, sbSize.height, sbInsets.left, sbInsets.right, sbInsets.top, sbInsets.bottom,
+            decrButton.getPreferredSize().width, getMinimumThumbSize().width, getMaximumThumbSize().width);
+
+        trackRect.setBounds(lv.trackPosition, lv.itemEdge, lv.trackLength, lv.itemThickness);
+        decrButton.setBounds(lv.decrButtonPosition, lv.itemEdge, lv.decrButtonLength, lv.itemThickness);
+        incrButton.setBounds(lv.incrButtonPosition, lv.itemEdge, lv.incrButtonLength, lv.itemThickness);
+        if (lv.thumbLength > 0) {
+            setThumbBounds(lv.thumbPosition, lv.itemEdge, lv.thumbLength, lv.itemThickness);
+        } else {
+            setThumbBounds(0, 0, 0, 0);
+        }
+    }
+
+    private void layoutHScrollbarTogetherRightToLeft(JScrollBar sb) {
+        ScrollbarLayoutValues lv = new ScrollbarLayoutValues();
+
+        Dimension sbSize = sb.getSize();
+        Insets sbInsets = sb.getInsets();
+
+        layoutScrollbarTogether(sb, lv, sbSize.width, sbSize.height, sbInsets.left, sbInsets.right, sbInsets.top, sbInsets.bottom,
+            decrButton.getPreferredSize().width, getMinimumThumbSize().width, getMaximumThumbSize().width);
+
+        // Flip the positions of the buttons.
+        lv.incrButtonPosition = sbInsets.left;
+        lv.decrButtonPosition = lv.incrButtonPosition + lv.incrButtonLength;
+        // Make the thumb position relative to the old track and flip it,
+        // keeping the position at the left.
+        lv.thumbPosition = lv.trackPosition + lv.trackLength - lv.thumbPosition - lv.thumbLength;
+        // Flip the position of the track.
+        lv.trackPosition = lv.decrButtonPosition + lv.decrButtonLength + incrGap;
+        // Make the thumb position relative to the scrollbar.
+        lv.thumbPosition += lv.trackPosition;
+
+        trackRect.setBounds(lv.trackPosition, lv.itemEdge, lv.trackLength, lv.itemThickness);
+        decrButton.setBounds(lv.decrButtonPosition, lv.itemEdge, lv.decrButtonLength, lv.itemThickness);
+        incrButton.setBounds(lv.incrButtonPosition, lv.itemEdge, lv.incrButtonLength, lv.itemThickness);
+        if (lv.thumbLength > 0) {
+            setThumbBounds(lv.thumbPosition, lv.itemEdge, lv.thumbLength, lv.itemThickness);
+        } else {
+            setThumbBounds(0, 0, 0, 0);
+        }
+    }
+
+    /**
+     * Holds scrollbar layout values in an orientation-independent way.
+     */
+    private class ScrollbarLayoutValues {
+        int itemEdge;
+        int itemThickness;
+        int trackPosition;
+        int trackLength;
+        int incrButtonPosition;
+        int incrButtonLength;
+        int decrButtonPosition;
+        int decrButtonLength;
+        int thumbPosition;
+        int thumbLength;
+    }
+
+    private void layoutScrollbarTogether(JScrollBar sb, ScrollbarLayoutValues lv, int sbLength, int sbThickness, int insetLengthStart,
+        int insetLengthEnd, int insetThicknessStart, int insetThicknessEnd, int decrPreferredLength, int minThumbLength, int maxThumbLength) {
         /*
          * Width and left edge of the buttons and thumb.
          */
-        int itemW = sbSize.width - (sbInsets.left + sbInsets.right);
-        int itemX = sbInsets.left;
+        lv.itemThickness = sbThickness - (insetThicknessStart + insetThicknessEnd);
+        lv.itemEdge = insetThicknessStart;
 
         /*
          * Nominal locations of the buttons, assuming their preferred size will
@@ -493,39 +590,37 @@ public class SeaGlassScrollBarUI extends BasicScrollBarUI implements PropertyCha
          */
         boolean squareButtons = DefaultLookup.getBoolean(scrollbar, this, "ScrollBar.squareButtons", false);
 
-        int incrButtonH = itemW + 1;
-        int incrButtonY = sbSize.height - (sbInsets.bottom + incrButtonH);
+        lv.incrButtonLength = lv.itemThickness + 1;
+        lv.incrButtonPosition = sbLength - insetLengthEnd - lv.incrButtonLength;
 
-        int decrButtonH = squareButtons ? itemW : decrButton.getPreferredSize().height;
-        int decrButtonY = sbSize.height - sbInsets.bottom - sbInsets.top - incrButtonH - decrButton.getPreferredSize().height;
+        lv.decrButtonLength = squareButtons ? lv.itemThickness : decrPreferredLength;
+        lv.decrButtonPosition = lv.incrButtonPosition - lv.decrButtonLength;
 
         /*
          * The thumb must fit within the height left over after we subtract the
          * preferredSize of the buttons and the insets and the gaps
          */
-        int sbInsetsH = sbInsets.top + sbInsets.bottom;
-        int sbButtonsH = decrButtonH + incrButtonH;
-        int gaps = decrGap + incrGap;
-        float trackH = sbSize.height - (sbInsetsH + sbButtonsH) - gaps;
+        int sbInsetsSpace = insetLengthStart + insetLengthEnd;
+        int sbButtonsSpace = lv.decrButtonLength + lv.incrButtonLength;
 
         /*
          * If the buttons don't fit, allocate half of the available space to
          * each and move the lower one (incrButton) down.
          */
-        int sbAvailButtonH = (sbSize.height - sbInsetsH);
-        if (sbAvailButtonH < sbButtonsH) {
-            incrButtonH = decrButtonH = sbAvailButtonH / 2;
-            incrButtonY = sbSize.height - (sbInsets.bottom + incrButtonH);
+        int sbAvailButtonSpace = sbLength - sbInsetsSpace;
+        if (sbAvailButtonSpace < sbButtonsSpace) {
+            lv.incrButtonLength = lv.decrButtonLength = sbAvailButtonSpace / 2;
+            lv.incrButtonPosition = sbLength - insetLengthEnd - lv.incrButtonLength;
+            lv.decrButtonPosition = insetLengthStart;
         }
-        decrButton.setBounds(itemX, decrButtonY, itemW, decrButtonH);
-        incrButton.setBounds(itemX, incrButtonY, itemW, incrButtonH);
 
         /*
          * Update the trackRect field.
          */
-        int itrackY = capSize + decrGap;
-        int itrackH = decrButtonY - incrGap - itrackY;
-        trackRect.setBounds(itemX, itrackY, itemW, itrackH);
+        lv.trackPosition = insetLengthStart + capSize + decrGap;
+        lv.trackLength = lv.decrButtonPosition - incrGap - lv.trackPosition;
+        int gaps = decrGap + incrGap;
+        float trackLength = sbLength - sbInsetsSpace - sbButtonsSpace - gaps - capSize;
 
         /*
          * Compute the height and origin of the thumb. The case where the thumb
@@ -534,227 +629,38 @@ public class SeaGlassScrollBarUI extends BasicScrollBarUI implements PropertyCha
          * If the thumb doesn't fit in the track (trackH) we'll hide it later.
          */
         float min = sb.getMinimum();
+        float max = sb.getMaximum();
         float extent = sb.getVisibleAmount();
-        float range = sb.getMaximum() - min;
+        float range = max - min;
         float value = sb.getValue();
 
         /*
          * Update the thumb bounds.
          */
-        int thumbH = (range <= 0) ? getMaximumThumbSize().height : (int) (trackH * (extent / range));
-        thumbH = Math.max(thumbH, getMinimumThumbSize().height);
-        thumbH = Math.min(thumbH, getMaximumThumbSize().height);
-        int thumbY = decrButtonY - incrGap - thumbH;
-        if (value < (sb.getMaximum() - sb.getVisibleAmount())) {
-            float thumbRange = trackH - thumbH;
-            thumbY = (int) (0.5f + (thumbRange * ((value - min) / (range - extent))));
-            thumbY += capSize + decrGap;
+        lv.thumbLength = (range <= 0) ? maxThumbLength : (int) (trackLength * (extent / range));
+        lv.thumbLength = Math.min(Math.max(lv.thumbLength, minThumbLength), maxThumbLength);
+        int maxThumbPosition = lv.trackPosition + lv.trackLength - lv.thumbLength;
+        lv.thumbPosition = maxThumbPosition;
+        if (value < (max - extent)) {
+            float thumbRange = lv.trackLength - lv.thumbLength;
+            lv.thumbPosition = (int) (0.5f + (thumbRange * ((value - min) / (range - extent))));
+            lv.thumbPosition += lv.trackPosition;
         }
 
         /*
-         * If the thumb isn't going to fit, zero it's bounds. Otherwise make
-         * sure it fits between the buttons. Note that setting the thumbs bounds
-         * will cause a repaint.
+         * If the thumb isn't going to fit, zero its bounds. Otherwise make sure
+         * it fits between the buttons. Note that setting the thumbs bounds will
+         * cause a repaint.
          */
-        if (thumbH >= (int) trackH) {
-            setThumbBounds(0, 0, 0, 0);
+        if (lv.thumbLength >= (int) trackLength) {
+            lv.thumbLength = 0;
         } else {
-            if ((thumbY + thumbH) > decrButtonY - incrGap) {
-                thumbY = decrButtonY - incrGap - thumbH;
+            if (lv.thumbPosition > maxThumbPosition) {
+                lv.thumbPosition = maxThumbPosition;
             }
-            if (thumbY < (capSize + decrGap)) {
-                thumbY = capSize + decrGap + 1;
+            if (lv.thumbPosition < lv.trackPosition) {
+                lv.thumbPosition = lv.trackPosition;
             }
-            setThumbBounds(itemX, thumbY, itemW, thumbH);
-        }
-    }
-
-    protected void layoutHScrollbar(JScrollBar sb) {
-        if (!buttonsTogether.isInState(sb)) {
-            super.layoutHScrollbar(sb);
-            return;
-        }
-
-        if (sb.getComponentOrientation().isLeftToRight()) {
-            layoutHScrollbarTogetherLeftToRight(sb);
-        } else {
-            layoutHScrollbarTogetherRightToLeft(sb);
-        }
-    }
-
-    private void layoutHScrollbarTogetherLeftToRight(JScrollBar sb) {
-        Dimension sbSize = sb.getSize();
-        Insets sbInsets = sb.getInsets();
-
-        /*
-         * Height and top edge of the buttons and thumb.
-         */
-        int itemH = sbSize.height - (sbInsets.top + sbInsets.bottom);
-        int itemY = sbInsets.top;
-
-        /*
-         * Nominal locations of the buttons, assuming their preferred size will
-         * fit.
-         */
-        boolean squareButtons = DefaultLookup.getBoolean(scrollbar, this, "ScrollBar.squareButtons", false);
-        int incrButtonW = itemH + 1;
-        int incrButtonX = sbSize.width - (sbInsets.right + incrButtonW);
-        int decrButtonW = squareButtons ? itemH : decrButton.getPreferredSize().width;
-        int decrButtonX = incrButtonX - decrButtonW;
-
-        /*
-         * The thumb must fit within the width left over after we subtract the
-         * preferredSize of the buttons and the insets and the gaps
-         */
-        int sbInsetsW = sbInsets.left + sbInsets.right;
-        int sbButtonsW = decrButtonW + incrButtonW;
-        float trackW = sbSize.width - (sbInsetsW + sbButtonsW) - (decrGap + incrGap);
-
-        /*
-         * If the buttons don't fit, allocate half of the available space to
-         * each and move the right one over.
-         */
-        int sbAvailButtonW = (sbSize.width - sbInsetsW);
-        if (sbAvailButtonW < sbButtonsW) {
-            incrButtonW = decrButtonW = sbAvailButtonW / 2;
-            incrButtonX = sbSize.width - (sbInsets.right + incrButtonW + incrGap);
-        }
-
-        decrButton.setBounds(decrButtonX, itemY, decrButtonW, itemH);
-        incrButton.setBounds(incrButtonX, itemY, incrButtonW, itemH);
-
-        /*
-         * Update the trackRect field.
-         */
-        int itrackX = sbInsets.left + capSize + decrGap;
-        int itrackW = incrButtonX - incrGap - itrackX;
-        trackRect.setBounds(itrackX, itemY, itrackW, itemH);
-
-        /*
-         * Compute the width and origin of the thumb. Enforce the thumbs min/max
-         * dimensions. The case where the thumb is at the right edge is handled
-         * specially to avoid numerical problems in computing thumbX. If the
-         * thumb doesn't fit in the track (trackH) we'll hide it later.
-         */
-        float min = sb.getMinimum();
-        float max = sb.getMaximum();
-        float extent = sb.getVisibleAmount();
-        float range = max - min;
-        float value = sb.getValue();
-
-        int thumbW = (range <= 0) ? getMaximumThumbSize().width : (int) (trackW * (extent / range));
-        thumbW = Math.max(thumbW, getMinimumThumbSize().width);
-        thumbW = Math.min(thumbW, getMaximumThumbSize().width);
-
-        int thumbX = decrButtonX - incrGap - thumbW;
-        if (value < (max - sb.getVisibleAmount())) {
-            float thumbRange = trackW - thumbW;
-            thumbX = (int) (0.5f + (thumbRange * ((value - min) / (range - extent))));
-            thumbX += sbInsets.left + capSize + decrGap;
-        }
-
-        /*
-         * Make sure the thumb fits between the buttons. Note that setting the
-         * thumbs bounds causes a repaint.
-         */
-        if (thumbW >= (int) trackW) {
-            setThumbBounds(0, 0, 0, 0);
-        } else {
-            if (thumbX + thumbW > decrButtonX - incrGap) {
-                thumbX = decrButtonX - incrGap - thumbW;
-            }
-            if (thumbX < sbInsets.left + capSize + decrGap) {
-                thumbX = sbInsets.left + capSize + decrGap + 1;
-            }
-            setThumbBounds(thumbX, itemY, thumbW, itemH);
-        }
-    }
-
-    private void layoutHScrollbarTogetherRightToLeft(JScrollBar sb) {
-        Dimension sbSize = sb.getSize();
-        Insets sbInsets = sb.getInsets();
-
-        /*
-         * Height and top edge of the buttons and thumb.
-         */
-        int itemH = sbSize.height - (sbInsets.top + sbInsets.bottom);
-        int itemY = sbInsets.top;
-
-        /*
-         * Nominal locations of the buttons, assuming their preferred size will
-         * fit.
-         */
-        boolean squareButtons = DefaultLookup.getBoolean(scrollbar, this, "ScrollBar.squareButtons", false);
-        int incrButtonX = sbInsets.left;
-        int incrButtonW = itemH + 1;
-        int decrButtonW = squareButtons ? itemH : decrButton.getPreferredSize().width;
-        int decrButtonX = incrButtonX + incrButtonW;
-
-        /*
-         * The thumb must fit within the width left over after we subtract the
-         * preferredSize of the buttons and the insets and the gaps
-         */
-        int sbInsetsW = sbInsets.left + sbInsets.right;
-        int sbButtonsW = incrButtonW + decrButtonW;
-        float trackW = sbSize.width - (sbInsetsW + sbButtonsW) - (incrGap + decrGap);
-
-        /*
-         * If the buttons don't fit, allocate half of the available space to
-         * each and move the right one over.
-         */
-        int sbAvailButtonW = (sbSize.width - sbInsetsW);
-        if (sbAvailButtonW < sbButtonsW) {
-            decrButtonW = incrButtonW = sbAvailButtonW / 2;
-            decrButtonX = sbSize.width - (sbInsets.right + decrButtonW + decrGap);
-        }
-
-        incrButton.setBounds(incrButtonX, itemY, incrButtonW, itemH);
-        decrButton.setBounds(decrButtonX, itemY, decrButtonW, itemH);
-
-        /*
-         * Update the trackRect field.
-         */
-        int itrackX = decrButtonX + decrButtonW + incrGap;
-        int itrackW = sb.getWidth() - sbInsets.right - capSize - decrGap - itrackX;
-        trackRect.setBounds(itrackX, itemY, itrackW, itemH);
-
-        /*
-         * Compute the width and origin of the thumb. Enforce the thumbs min/max
-         * dimensions. The case where the thumb is at the right edge is handled
-         * specially to avoid numerical problems in computing thumbX. If the
-         * thumb doesn't fit in the track (trackH) we'll hide it later.
-         */
-        float min = sb.getMinimum();
-        float max = sb.getMaximum();
-        float extent = sb.getVisibleAmount();
-        float range = max - min;
-        float value = sb.getValue();
-
-        int thumbW = (range <= 0) ? getMaximumThumbSize().width : (int) (trackW * (extent / range));
-        thumbW = Math.max(thumbW, getMinimumThumbSize().width);
-        thumbW = Math.min(thumbW, getMaximumThumbSize().width);
-
-        int thumbX = decrButtonX + decrButtonW + incrGap;
-        if (value < (max - sb.getVisibleAmount())) {
-            float thumbRange = trackW - thumbW;
-            thumbX = (int) (0.5f + (thumbRange * ((max - extent - value) / (range - extent))));
-            thumbX += decrButtonX + decrButtonW + incrGap;
-        }
-
-        /*
-         * Make sure the thumb fits between the buttons. Note that setting the
-         * thumbs bounds causes a repaint.
-         */
-        if (thumbW >= (int) trackW) {
-            setThumbBounds(0, 0, 0, 0);
-        } else {
-            if (thumbX + thumbW > sb.getWidth() - sbInsets.right - capSize - decrGap) {
-                thumbX = sb.getWidth() - sbInsets.right - capSize - decrGap - thumbW;
-            }
-            if (thumbX < decrButtonX + decrButtonW + incrGap) {
-                thumbX = decrButtonX + decrButtonW + incrGap + 1;
-            }
-            setThumbBounds(thumbX, itemY, thumbW, itemH);
         }
     }
 
