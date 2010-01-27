@@ -53,42 +53,45 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         FOREGROUND_CAP,
     }
 
-    private static final ButtonStateColors capColors                = new ButtonStateColors(new Color(0xffffff), new Color(0xbbbbbb),
-                                                                        new Color(0xbdbdbd), new Color(0x555555));
+    private ButtonStateColors capColors                = new ButtonStateColors(new Color(0xffffff), new Color(0xbbbbbb),
+                                                           new Color(0xbdbdbd), new Color(0x555555));
 
-    private static final ButtonStateColors disabledIncreaseApart    = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xffffff),
-                                                                        new Color(0xbdbdbd), new Color(0x80555555, true));
-    private static final ButtonStateColors disabledIncreaseTogether = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xe5e5e5),
-                                                                        new Color(0xbdbdbd), new Color(0x80555555, true));
-    private static final ButtonStateColors enabledIncreaseApart     = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xffffff),
-                                                                        new Color(0xbdbdbd), new Color(0x555555));
-    private static final ButtonStateColors enabledIncreaseTogether  = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xe5e5e5),
-                                                                        new Color(0xbdbdbd), new Color(0x555555));
-    private static final ButtonStateColors pressedIncreaseApart     = new ButtonStateColors(new Color(0x8fb1d1), new Color(0xcee2f5),
-                                                                        new Color(0x82abd0), new Color(0x555555));
-    private static final ButtonStateColors pressedIncreaseTogether  = new ButtonStateColors(new Color(0x8fb1d1), new Color(0xcee2f5),
-                                                                        new Color(0x82abd0), new Color(0x555555));
+    private ButtonStateColors disabledIncreaseApart    = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xffffff),
+                                                           new Color(0xbdbdbd), new Color(0x80555555, true));
+    private ButtonStateColors disabledIncreaseTogether = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xe5e5e5),
+                                                           new Color(0xbdbdbd), new Color(0x80555555, true));
+    private ButtonStateColors enabledIncreaseApart     = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xffffff),
+                                                           new Color(0xbdbdbd), new Color(0x555555));
+    private ButtonStateColors enabledIncreaseTogether  = new ButtonStateColors(new Color(0xd1d1d1), new Color(0xe5e5e5),
+                                                           new Color(0xbdbdbd), new Color(0x555555));
+    private ButtonStateColors pressedIncreaseApart     = new ButtonStateColors(new Color(0x8fb1d1), new Color(0xcee2f5),
+                                                           new Color(0x82abd0), new Color(0x555555));
+    private ButtonStateColors pressedIncreaseTogether  = new ButtonStateColors(new Color(0x8fb1d1), new Color(0xcee2f5),
+                                                           new Color(0x82abd0), new Color(0x555555));
 
-    private static final ButtonStateColors disabledDecreaseApart    = new ButtonStateColors(new Color(0xffffff), new Color(0xcccccc),
-                                                                        new Color(0xbdbdbd), new Color(0x80555555, true));
-    private static final ButtonStateColors disabledDecreaseTogether = new ButtonStateColors(new Color(0xffffff), new Color(0xe9e9e9),
-                                                                        new Color(0xbdbdbd), new Color(0x80555555, true));
-    private static final ButtonStateColors enabledDecreaseApart     = new ButtonStateColors(new Color(0xffffff), new Color(0xcccccc),
-                                                                        new Color(0xbdbdbd), new Color(0x555555));
-    private static final ButtonStateColors enabledDecreaseTogether  = new ButtonStateColors(new Color(0xffffff), new Color(0xe9e9e9),
-                                                                        new Color(0xbdbdbd), new Color(0x555555));
-    private static final ButtonStateColors pressedDecreaseApart     = new ButtonStateColors(new Color(0xcee2f5), new Color(0x8fb1d1),
-                                                                        new Color(0x82abd0), new Color(0x555555));
-    private static final ButtonStateColors pressedDecreaseTogether  = new ButtonStateColors(new Color(0xcee2f5), new Color(0x8fb1d1),
-                                                                        new Color(0x82abd0), new Color(0x555555));
+    private ButtonStateColors disabledDecreaseApart    = new ButtonStateColors(new Color(0xffffff), new Color(0xcccccc),
+                                                           new Color(0xbdbdbd), new Color(0x80555555, true));
+    private ButtonStateColors disabledDecreaseTogether = new ButtonStateColors(new Color(0xffffff), new Color(0xe9e9e9),
+                                                           new Color(0xbdbdbd), new Color(0x80555555, true));
+    private ButtonStateColors enabledDecreaseApart     = new ButtonStateColors(new Color(0xffffff), new Color(0xcccccc),
+                                                           new Color(0xbdbdbd), new Color(0x555555));
+    private ButtonStateColors enabledDecreaseTogether  = new ButtonStateColors(new Color(0xffffff), new Color(0xe9e9e9),
+                                                           new Color(0xbdbdbd), new Color(0x555555));
+    private ButtonStateColors pressedDecreaseApart     = new ButtonStateColors(new Color(0xcee2f5), new Color(0x8fb1d1),
+                                                           new Color(0x82abd0), new Color(0x555555));
+    private ButtonStateColors pressedDecreaseTogether  = new ButtonStateColors(new Color(0xcee2f5), new Color(0x8fb1d1),
+                                                           new Color(0x82abd0), new Color(0x555555));
 
-    private final Color                    colorShadow              = new Color(0x000000);
-    private Effect                         dropShadow               = new ScrollButtonDropShadowEffect();
+    private Color             darkDivider              = new Color(0x1f000000, true);
+    private Color             lightDivider             = new Color(0x3fffffff, true);
 
-    private Path2D                         path                     = new Path2D.Double();
+    private final Color       colorShadow              = new Color(0x000000);
+    private Effect            dropShadow               = new ScrollButtonDropShadowEffect();
 
-    private Which                          state;
-    private PaintContext                   ctx;
+    private Path2D            path                     = new Path2D.Double();
+
+    private Which             state;
+    private PaintContext      ctx;
 
     public ScrollBarButtonPainter(Which state) {
         super();
@@ -186,6 +189,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         g.fill(s);
         g.setColor(colors.line);
         g.drawLine(0, 0, width - 1, 0);
+        g.setColor(lightDivider);
         g.drawLine(width - 1, 1, width - 1, height - 1);
         s = decodeIncreaseButtonTogetherForegroundPath(width, height, 3, 3);
         g.setColor(colors.foreground);
@@ -199,6 +203,8 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         g.fill(s);
         g.setColor(colors.line);
         g.drawLine(0, 0, width - 1, 0);
+        g.setColor(darkDivider);
+        g.drawLine(width - 1, 1, width - 1, height - 1);
         s = decodeDecreaseButtonTogetherForegroundPath(width, height, 0, 3);
         g.setColor(colors.foreground);
         g.fill(s);
