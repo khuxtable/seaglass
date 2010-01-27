@@ -29,7 +29,7 @@ import javax.swing.UIManager;
 public class SeaGlassDropShadowEffect extends DropShadowEffect {
 
     public SeaGlassDropShadowEffect() {
-        color = UIManager.getColor("seaGlassDropShadow");
+        color = UIManager.getColor("seaGlassDropShadow1");
         angle = 90;
         distance = 1;
         size = 2;
