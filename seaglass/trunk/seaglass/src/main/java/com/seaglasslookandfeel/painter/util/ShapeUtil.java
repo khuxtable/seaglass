@@ -51,18 +51,18 @@ public class ShapeUtil {
 
     private static final double     baseArcSize = 4d;
 
-    private Shape createRectangle(int x, int y, int w, int h) {
+    public static Shape createRectangle(int x, int y, int w, int h) {
         rect.setRect(x, y, w, h);
         return rect;
     }
 
-    private Shape createRoundRectangle(CornerSize size, int x, int y, int w, int h) {
+    public static Shape createRoundRectangle(CornerSize size, int x, int y, int w, int h) {
         double arcSize = 2 * size.arcSize;
         roundRect.setRoundRect(x, y, w, h, arcSize, arcSize);
         return roundRect;
     }
 
-    public Shape createQuad(CornerSize size, int x, int y, int w, int h, CornerStyle topLeft, CornerStyle bottomLeft,
+    public static Shape createQuad(CornerSize size, int x, int y, int w, int h, CornerStyle topLeft, CornerStyle bottomLeft,
         CornerStyle bottomRight, CornerStyle topRight) {
         if (topLeft == CornerStyle.SQUARE && bottomLeft == CornerStyle.SQUARE && bottomRight == CornerStyle.SQUARE
                 && topRight == CornerStyle.SQUARE) {
