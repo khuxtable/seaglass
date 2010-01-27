@@ -24,7 +24,6 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
@@ -32,6 +31,9 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
 /**
  * Paint a (possibly) segmented button. The default colors are suitable for
@@ -45,24 +47,20 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         NONE, FIRST, MIDDLE, LAST
     };
 
-    private Color              outerFocusColor        = decodeColor("seaGlassOuterFocus");
-    private Color              innerFocusColor        = decodeColor("seaGlassFocus");
-    private Color              outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
-    private Color              innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
+    private Color            outerFocusColor        = decodeColor("seaGlassOuterFocus");
+    private Color            innerFocusColor        = decodeColor("seaGlassFocus");
+    private Color            outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
+    private Color            innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
-    private final Color        colorShadow            = new Color(0x000000);
-    private Effect             dropShadow             = new SeaGlassDropShadowEffect();
+    private final Color      colorShadow            = new Color(0x000000);
+    private Effect           dropShadow             = new SeaGlassDropShadowEffect();
 
-    private double             arcSize                = 4d;
-
-    Path2D                     path                   = new Path2D.Double();
-
-    public ButtonStateColors   enabled;
-    public ButtonStateColors   enabledPressed;
-    public ButtonStateColors   defaultButton;
-    public ButtonStateColors   defaultPressed;
-    public ButtonStateColors   disabled;
-    public ButtonStateColors   disabledSelected;
+    public ButtonStateColors enabled;
+    public ButtonStateColors enabledPressed;
+    public ButtonStateColors defaultButton;
+    public ButtonStateColors defaultPressed;
+    public ButtonStateColors disabled;
+    public ButtonStateColors disabledSelected;
 
     /**
      * Create a segmented button painter.
@@ -162,7 +160,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
      * 
      * @return the button color set.
      */
-    ButtonStateColors getButtonColors() {
+    protected ButtonStateColors getButtonColors() {
         switch (state) {
         case BACKGROUND_DEFAULT:
         case BACKGROUND_DEFAULT_FOCUSED:
@@ -201,7 +199,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
      *            the component.
      * @return the segment status.
      */
-    SegmentStatus getSegmentStatus(JComponent c) {
+    protected SegmentStatus getSegmentStatus(JComponent c) {
         Object buttonType = c.getClientProperty("JButton.buttonType");
         SegmentStatus segmentStatus = SegmentStatus.NONE;
         if (buttonType != null && buttonType instanceof String && ((String) buttonType).startsWith("segmented")) {
@@ -217,144 +215,68 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         return segmentStatus;
     }
 
-    Path2D decodeOuterFocus(SegmentStatus segmentStatus, int x, int y, int width, int height) {
-        double arcSize = this.arcSize + 2;
-        x -= 2;
-        y -= 2;
-        width += 3;
-        height += 3;
+    protected Shape decodeOuterFocus(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
         switch (segmentStatus) {
         case FIRST:
-            decodeFirstSegmentPath(x, y, width, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x + 2, y + 2, w + 3, h + 3, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+                CornerStyle.SQUARE, CornerStyle.SQUARE);
         case MIDDLE:
-            decodeMiddleSegmentPath(x, y, width, height);
-            break;
+            return ShapeUtil.createRectangle(x + 2, y + 2, w + 3, h + 3);
         case LAST:
-            decodeLastSegmentPath(x, y, width, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x + 2, y + 2, w + 3, h + 3, CornerStyle.SQUARE, CornerStyle.SQUARE,
+                CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            decodeDefaultPath(x, y, width, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x + 2, y + 2, w + 3, h + 3, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+                CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         }
-        return path;
     }
 
-    Path2D decodeInnerFocus(SegmentStatus segmentStatus, int x, int y, int width, int height) {
-        double arcSize = this.arcSize + 1;
-        x -= 1;
-        y -= 1;
-        width += 1;
-        height += 1;
+    protected Shape decodeInnerFocus(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
         switch (segmentStatus) {
         case FIRST:
-            decodeFirstSegmentPath(x, y, width + 1, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x - 1, y - 1, w + 2, h + 1, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+                CornerStyle.SQUARE, CornerStyle.SQUARE);
         case MIDDLE:
-            decodeMiddleSegmentPath(x - 1, y, width + 2, height);
-            break;
+            return ShapeUtil.createRectangle(x - 2, y - 1, w + 3, h + 1);
         case LAST:
-            decodeLastSegmentPath(x - 1, y, width + 1, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x - 2, y - 1, w + 2, h + 1, CornerStyle.SQUARE, CornerStyle.SQUARE,
+                CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            decodeDefaultPath(x, y, width, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x - 1, y - 1, w + 1, h + 1, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+                CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         }
-        return path;
     }
 
-    Path2D decodeBorder(SegmentStatus segmentStatus, int x, int y, int width, int height) {
-        double arcSize = this.arcSize;
+    protected Shape decodeBorder(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
         switch (segmentStatus) {
         case FIRST:
-            decodeFirstSegmentPath(x, y, width + 2, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x, y, w + 2, h, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+                CornerStyle.SQUARE, CornerStyle.SQUARE);
         case MIDDLE:
-            decodeMiddleSegmentPath(x - 2, y, width + 4, height);
-            break;
+            return ShapeUtil.createRectangle(x - 2, y, w + 4, h);
         case LAST:
-            decodeLastSegmentPath(x - 2, y, width + 2, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x - 2, y, w + 2, h, CornerStyle.SQUARE, CornerStyle.SQUARE,
+                CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            decodeDefaultPath(x, y, width, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x, y, w, h, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+                CornerStyle.ROUNDED);
         }
-        return path;
     }
 
-    Path2D decodeInterior(SegmentStatus segmentStatus, int x, int y, int width, int height) {
-        double arcSize = this.arcSize - 1;
-        x += 1;
-        y += 1;
-        width -= 2;
-        height -= 2;
+    protected Shape decodeInterior(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
         switch (segmentStatus) {
         case FIRST:
-            decodeFirstSegmentPath(x, y, width + 2, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x + 1, y + 1, w, h - 2, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+                CornerStyle.SQUARE, CornerStyle.SQUARE);
         case MIDDLE:
-            decodeMiddleSegmentPath(x - 3, y, width + 5, height);
-            break;
+            return ShapeUtil.createRectangle(x - 2, y + 1, w + 3, h - 2);
         case LAST:
-            decodeLastSegmentPath(x - 3, y, width + 3, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x - 2, y + 1, w + 1, h - 2, CornerStyle.SQUARE, CornerStyle.SQUARE,
+                CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            decodeDefaultPath(x, y, width, height, arcSize, arcSize);
-            break;
+            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x + 1, y + 1, w - 2, h - 2, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+                CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         }
-        return path;
-    }
-
-    private void decodeDefaultPath(int left, int top, int width, int height, Double arcW, Double arcH) {
-        int bottom = top + height;
-        int right = left + width;
-        path.reset();
-        path.moveTo(left + arcW, top);
-        path.quadTo(left, top, left, top + arcH);
-        path.lineTo(left, bottom - arcH);
-        path.quadTo(left, bottom, left + arcW, bottom);
-        path.lineTo(right - arcW, bottom);
-        path.quadTo(right, bottom, right, bottom - arcH);
-        path.lineTo(right, top + arcH);
-        path.quadTo(right, top, right - arcW, top);
-        path.closePath();
-    }
-
-    private void decodeFirstSegmentPath(int left, int top, int width, int height, Double arcW, Double arcH) {
-        int bottom = top + height;
-        int right = left + width;
-        path.reset();
-        path.moveTo(left + arcW, top);
-        path.quadTo(left, top, left, top + arcH);
-        path.lineTo(left, bottom - arcH);
-        path.quadTo(left, bottom, left + arcW, bottom);
-        path.lineTo(right, bottom);
-        path.lineTo(right, top);
-        path.closePath();
-    }
-
-    private void decodeLastSegmentPath(int left, int top, int width, int height, Double arcW, Double arcH) {
-        int bottom = top + height;
-        int right = left + width;
-        path.reset();
-        path.moveTo(left, top);
-        path.lineTo(left, bottom);
-        path.lineTo(right - arcW, bottom);
-        path.quadTo(right, bottom, right, bottom - arcH);
-        path.lineTo(right, top + arcH);
-        path.quadTo(right, top, right - arcW, top);
-        path.closePath();
-    }
-
-    private void decodeMiddleSegmentPath(int left, int top, int width, int height) {
-        int bottom = top + height;
-        int right = left + width;
-        path.reset();
-        path.moveTo(left, top);
-        path.lineTo(left, bottom);
-        path.lineTo(right, bottom);
-        path.lineTo(right, top);
-        path.closePath();
     }
 
     /**
