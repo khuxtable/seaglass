@@ -28,7 +28,6 @@ import java.awt.Shape;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
@@ -55,7 +54,6 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
     private Color            innerShadowColor1      = new Color(0x20000000, true);
     private Color            innerShadowColor2      = new Color(0x10000000, true);
 
-    private Color            shadowColor            = Color.black;
     private Effect           dropShadow             = new SeaGlassDropShadowEffect();
 
     private Color            disabledTrack1         = new Color(0x803f76bf, true);
@@ -166,7 +164,7 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = decodeTrackBorder(width, height);
-        g.drawImage(createDropShadowImage(s, width, height), 0, 0, null);
+        dropShadow.fill(g, s);
         g.setPaint(decodeTrackGradient(s, color1, color2));
         g.draw(s);
 
@@ -202,20 +200,6 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         s = decodeIndeterminateDark(width, height);
         g.setPaint(decodeBarGradient(s, dark1, dark2, dark3, dark4));
         g.fill(s);
-    }
-
-    /**
-     * Create a drop shadow image.
-     * 
-     * @param s
-     *            the shape to use as the shade.
-     */
-    private BufferedImage createDropShadowImage(Shape s, int width, int height) {
-        BufferedImage bimage = SeaGlassDropShadowEffect.createBufferedImage(width, height, true);
-        Graphics2D gbi = bimage.createGraphics();
-        gbi.setColor(shadowColor);
-        gbi.fill(s);
-        return dropShadow.applyEffect(bimage, null, width, height);
     }
 
     private Shape decodeTrackInternalShadowBorder1(int width, int height) {

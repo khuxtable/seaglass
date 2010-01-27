@@ -92,14 +92,14 @@ public abstract class Effect {
      * @param height
      *            the height to paint.
      */
-    public void fill(Graphics2D g, Shape s, Color shadowColor) {
+    public void fill(Graphics2D g, Shape s) {
         Rectangle bounds = s.getBounds();
         int width = bounds.width;
         int height = bounds.height;
 
         BufferedImage bimage = Effect.createBufferedImage(width, height, true);
         Graphics2D gbi = bimage.createGraphics();
-        gbi.setColor(shadowColor);
+        gbi.setColor(Color.BLACK);
         gbi.fill(s);
 
         g.drawImage(applyEffect(bimage, null, width, height), 0, 0, null);
