@@ -526,6 +526,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaGlassTransparent", new Color(0x0, true));
         d.put("seaGlassTextEmphasis", new Color(255, 255, 255, 110));
         d.put("seaGlassDropShadow", new Color(211, 211, 211));
+        d.put("seaGlassStyleDefaultColor", new ColorUIResource(Color.BLACK));
         d.put("seaGlassFocusInsets", new Insets(2, 2, 2, 2));
         d.put("seaGlassTransparent", new Color(0, true));
         d.put("seaGlassFocus", new Color(0x73a4d1));

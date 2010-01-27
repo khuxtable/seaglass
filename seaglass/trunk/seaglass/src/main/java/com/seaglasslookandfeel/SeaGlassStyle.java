@@ -44,7 +44,6 @@ import javax.swing.JComponent;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.ColorType;
 import javax.swing.plaf.synth.SynthContext;
@@ -174,22 +173,6 @@ public class SeaGlassStyle extends SynthStyle {
      * rather than continuing the lookup procedure.
      */
     private static final Object                   NULL              = '\0';
-    /**
-     * <p>
-     * The Color to return from getColorForState if it would otherwise have
-     * returned null.
-     * </p>
-     * 
-     * <p>
-     * Returning null from getColorForState is a very bad thing, as it causes
-     * the AWT peer for the component to install a SystemColor, which is not a
-     * UIResource. As a result, if <code>null</code> is returned from
-     * getColorForState, then thereafter the color is not updated for other
-     * states or on LAF changes or updates. This DEFAULT_COLOR is used to ensure
-     * that a ColorUIResource is always returned from getColorForState.
-     * </p>
-     */
-    private static final Color                    DEFAULT_COLOR     = new ColorUIResource(Color.BLACK);
 
     /**
      * Simple Comparator for ordering the RuntimeStates according to their rank.
@@ -204,6 +187,23 @@ public class SeaGlassStyle extends SynthStyle {
      * Shared SynthGraphics.
      */
     private static final SynthGraphicsUtils       SEAGLASS_GRAPHICS = new SeaGlassGraphicsUtils();
+
+    /**
+     * <p>
+     * The Color to return from getColorForState if it would otherwise have
+     * returned null.
+     * </p>
+     * 
+     * <p>
+     * Returning null from getColorForState is a very bad thing, as it causes
+     * the AWT peer for the component to install a SystemColor, which is not a
+     * UIResource. As a result, if <code>null</code> is returned from
+     * getColorForState, then thereafter the color is not updated for other
+     * states or on LAF changes or updates. This defaultColor is used to ensure
+     * that a ColorUIResource is always returned from getColorForState.
+     * </p>
+     */
+    private Color                                 defaultColor      = UIManager.getColor("seaGlassStyleDefaultColor");
 
     /**
      * The prefix for the component or region that this SeaGlassStyle
@@ -785,12 +785,12 @@ public class SeaGlassStyle extends SynthStyle {
         } else if (type != null) {
             key = type.toString();
         } else {
-            return DEFAULT_COLOR;
+            return defaultColor;
         }
         Color c = (Color) get(ctx, key);
         // if all else fails, return a default color (which is a
         // ColorUIResource)
-        if (c == null) c = DEFAULT_COLOR;
+        if (c == null) c = defaultColor;
         return c;
     }
 
