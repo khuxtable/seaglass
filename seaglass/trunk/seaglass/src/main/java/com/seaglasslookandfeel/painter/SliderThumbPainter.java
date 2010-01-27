@@ -26,7 +26,6 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
@@ -68,7 +67,6 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
     private Color                 outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
     private Color                 innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
-    private static final Color    shadowColor            = Color.black;
     private static final Effect   dropShadow             = new SeaGlassDropShadowEffect();
 
     private Ellipse2D             ellipse                = new Ellipse2D.Double();
@@ -165,7 +163,7 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         }
         s = decodeDiscreteBorder(width, height);
         if (!focused) {
-            g.drawImage(createDropShadowImage(s), 0, 0, null);
+            dropShadow.fill(g, s);
         }
         g.setPaint(decodeBorderGradient(s, colors.border1, colors.border2));
         g.fill(s);
@@ -187,30 +185,13 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         }
         s = decodeContinuousBorder(width, height);
         if (!focused) {
-            g.drawImage(createDropShadowImage(s), 0, 0, null);
+            dropShadow.fill(g, s);
         }
         g.setPaint(decodeBorderGradient(s, colors.border1, colors.border2));
         g.fill(s);
         s = decodeContinuousInterior(width, height);
         g.setPaint(decodeInteriorGradient(s, colors.interior1, colors.interior2, colors.interior3, colors.interior4));
         g.fill(s);
-    }
-
-    /**
-     * Create a drop shadow image.
-     * 
-     * @param s
-     *            the shape to use as the shade.
-     */
-    private BufferedImage createDropShadowImage(Shape s) {
-        Rectangle b = s.getBounds();
-        int width = b.width;
-        int height = b.height;
-        BufferedImage bimage = SeaGlassDropShadowEffect.createBufferedImage(width, height, true);
-        Graphics2D gbi = bimage.createGraphics();
-        gbi.setColor(shadowColor);
-        gbi.fill(s);
-        return dropShadow.applyEffect(bimage, null, width, height);
     }
 
     private Paint decodeInteriorGradient(Shape s, Color color1, Color color2, Color color3, Color color4) {

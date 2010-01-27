@@ -22,12 +22,10 @@ package com.seaglasslookandfeel.painter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
@@ -57,7 +55,6 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     private Color        outerToolBarFocusColor   = decodeColor("seaGlassToolBarOuterFocus");
     private Color        innerToolBarFocusColor   = decodeColor("seaGlassToolBarFocus");
 
-    private final Color  colorShadow              = new Color(0x000000);
     private Effect       dropShadow               = new SeaGlassDropShadowEffect();
 
     private Ellipse2D    ellipse                  = new Ellipse2D.Double();
@@ -223,7 +220,7 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
         Color internal3, Color internal4) {
         Shape s = setBorder(width, height);
         if (!focused) {
-            g.drawImage(createDropShadowImage(s), 0, 0, null);
+            dropShadow.fill(g, s);
         }
         Paint p = setGradient2(s, border1, border2);
         g.setPaint(p);
@@ -238,7 +235,7 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
         Color internalA2, Color internalB1, Color internalB2, Color internalB3, Color internalC) {
         Shape s = setBorder(width, height);
         if (!focused) {
-            g.drawImage(createDropShadowImage(s), 0, 0, null);
+            dropShadow.fill(g, s);
         }
         Paint p = setGradient2(s, border1, border2);
         g.setPaint(p);
@@ -279,23 +276,6 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
 
     private Shape setBullet(int width, int height) {
         return setCircle(width / 4.5, width, height);
-    }
-
-    /**
-     * Create a drop shadow image.
-     * 
-     * @param s
-     *            the shape to use as the shade.
-     */
-    BufferedImage createDropShadowImage(Shape s) {
-        Rectangle b = s.getBounds();
-        int width = b.width;
-        int height = b.height;
-        BufferedImage bimage = SeaGlassDropShadowEffect.createBufferedImage(width, height, true);
-        Graphics2D gbi = bimage.createGraphics();
-        gbi.setColor(colorShadow);
-        gbi.fill(s);
-        return dropShadow.applyEffect(bimage, null, width, height);
     }
 
     private Shape setCircle(Double diameter, int width, int height) {

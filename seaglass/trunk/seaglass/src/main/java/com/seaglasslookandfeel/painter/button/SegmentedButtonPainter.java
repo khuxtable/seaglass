@@ -52,7 +52,6 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
     private Color            outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
     private Color            innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
-    private final Color      colorShadow            = new Color(0x000000);
     private Effect           dropShadow             = new SeaGlassDropShadowEffect();
 
     public ButtonStateColors enabled;
@@ -141,7 +140,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         if (!isInToolBar(c) || this instanceof TexturedButtonPainter) {
             s = decodeBorder(segmentStatus, x, y, width, height);
             if (!focused) {
-                dropShadow.fill(g, s, colorShadow);
+                dropShadow.fill(g, s);
             }
             g.setPaint(decodeGradientBackground(s, colors.backgroundTop, colors.backgroundBottom));
             g.fill(s);

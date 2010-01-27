@@ -61,7 +61,6 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     private Color            outerToolBarFocusColor   = decodeColor("seaGlassToolBarOuterFocus");
     private Color            innerToolBarFocusColor   = decodeColor("seaGlassToolBarFocus");
 
-    private Color            colorShadow              = new Color(0x000000);
     private Effect           dropShadow               = new SeaGlassDropShadowEffect();
 
     private RoundRectangle2D rect                     = new RoundRectangle2D.Double();
@@ -211,7 +210,7 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         Color internal3, Color internal4) {
         Shape s = setBorder(width, height);
         if (!focused) {
-            dropShadow.fill(g, s, colorShadow);
+            dropShadow.fill(g, s);
         }
         Paint p = setGradientBorder(s, border1, border2);
         g.setPaint(p);

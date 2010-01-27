@@ -85,7 +85,6 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     private Color             darkDivider              = new Color(0x1f000000, true);
     private Color             lightDivider             = new Color(0x3fffffff, true);
 
-    private final Color       colorShadow              = new Color(0x000000);
     private Effect            dropShadow               = new ScrollButtonDropShadowEffect();
 
     private Path2D            path                     = new Path2D.Double();
@@ -151,7 +150,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
 
     private void paintCap(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
         Shape s = decodeCapPath(width, height);
-        dropShadow.fill(g, s, colorShadow);
+        dropShadow.fill(g, s);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
         g.setColor(colors.line);
@@ -160,7 +159,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
 
     private void paintIncreaseButtonApart(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
         Shape s = decodeButtonApartBackgroundPath(width, height);
-        dropShadow.fill(g, s, colorShadow);
+        dropShadow.fill(g, s);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
         g.setColor(colors.line);
@@ -172,7 +171,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
 
     private void paintDecreaseButtonApart(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
         Shape s = decodeButtonApartBackgroundPath(width, height);
-        dropShadow.fill(g, s, colorShadow);
+        dropShadow.fill(g, s);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
         g.setColor(colors.line);
@@ -184,7 +183,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
 
     private void paintIncreaseButtonTogether(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
         Shape s = decodeIncreaseButtonTogetherBackgroundPath(width, height);
-        dropShadow.fill(g, s, colorShadow);
+        dropShadow.fill(g, s);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
         g.setColor(colors.line);
@@ -198,7 +197,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
 
     private void paintDecreaseButtonTogether(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
         Shape s = decodeDecreaseButtonTogetherBackgroundPath(width, height);
-        dropShadow.fill(g, s, colorShadow);
+        dropShadow.fill(g, s);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
         g.setColor(colors.line);
