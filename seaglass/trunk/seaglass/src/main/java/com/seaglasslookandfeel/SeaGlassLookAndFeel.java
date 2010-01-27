@@ -523,6 +523,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("menuText", Color.WHITE);
         d.put("menu", Color.WHITE);
 
+        d.put("seaGlassTransparent", new Color(0x0, true));
+        d.put("seaGlassTextEmphasis", new Color(255, 255, 255, 110));
+        d.put("seaGlassDropShadow", new Color(211, 211, 211));
         d.put("seaGlassFocusInsets", new Insets(2, 2, 2, 2));
         d.put("seaGlassTransparent", new Color(0, true));
         d.put("seaGlassFocus", new Color(0x73a4d1));
@@ -1037,6 +1040,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     private void definePopups(UIDefaults d) {
+        d.put("seaGlassPopupBorder", new ColorUIResource(0xbbbbbb));
+
         String c = PAINTER_PREFIX + "PopupMenuPainter";
         String p = "PopupMenu";
         d.put(p + ".contentMargins", new InsetsUIResource(6, 1, 6, 1));

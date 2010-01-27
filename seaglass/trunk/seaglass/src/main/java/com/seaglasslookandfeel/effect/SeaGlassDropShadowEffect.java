@@ -19,7 +19,7 @@
  */
 package com.seaglasslookandfeel.effect;
 
-import java.awt.Color;
+import javax.swing.UIManager;
 
 /**
  * Customized Nimbus's drop shadow effect for SeaGlass.
@@ -29,7 +29,7 @@ import java.awt.Color;
 public class SeaGlassDropShadowEffect extends DropShadowEffect {
 
     public SeaGlassDropShadowEffect() {
-        color = new Color(211, 211, 211);
+        color = UIManager.getColor("seaGlassDropShadow");
         angle = 90;
         distance = 1;
         size = 2;
