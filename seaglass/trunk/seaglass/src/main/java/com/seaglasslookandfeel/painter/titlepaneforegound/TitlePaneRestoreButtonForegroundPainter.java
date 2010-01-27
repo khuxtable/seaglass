@@ -24,20 +24,21 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
+import javax.swing.UIManager;
 
 public class TitlePaneRestoreButtonForegroundPainter {
 
-    private static final Color enabledBorder   = new Color(0x99000000, true);
-    private static final Color enabledCorner   = new Color(0x26000000, true);
-    private static final Color enabledInterior = new Color(0x99ffffff, true);
+    private Color enabledBorder   = UIManager.getColor("seaGlassTitlePaneButtonEnabledBorder");
+    private Color enabledCorner   = UIManager.getColor("seaGlassTitlePaneButtonEnabledCorner");
+    private Color enabledInterior = UIManager.getColor("seaGlassTitlePaneButtonEnabledInterior");
 
-    private static final Color hoverBorder     = new Color(0xe5101010, true);
-    private static final Color hoverCorner     = new Color(0x267a7a7a, true);
-    private static final Color hoverInterior   = new Color(0xffffff);
+    private Color hoverBorder     = UIManager.getColor("seaGlassTitlePaneButtonHoverBorder");
+    private Color hoverCorner     = UIManager.getColor("seaGlassTitlePaneButtonHoverCorner");
+    private Color hoverInterior   = UIManager.getColor("seaGlassTitlePaneButtonHoverInterior");
 
-    private static final Color pressedBorder   = new Color(0xe50e0e0e, true);
-    private static final Color pressedCorner   = new Color(0x876e6e6e, true);
-    private static final Color pressedInterior = new Color(0xe6e6e6);
+    private Color pressedBorder   = UIManager.getColor("seaGlassTitlePaneButtonPressedBorder");
+    private Color pressedCorner   = UIManager.getColor("seaGlassTitlePaneButtonPressedCorner");
+    private Color pressedInterior = UIManager.getColor("seaGlassTitlePaneButtonPressedInterior");
 
     public void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
         paint(g, c, width, height, enabledBorder, enabledCorner, enabledInterior);
@@ -59,14 +60,14 @@ public class TitlePaneRestoreButtonForegroundPainter {
         g.translate(left, top);
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-        
+
         g.setColor(interior);
         g.fillRect(4, 1, 8, 2);
         g.fillRect(10, 3, 2, 6);
         g.fillRect(4, 7, 2, 2);
         g.drawRect(1, 4, 7, 7);
         g.drawRect(2, 5, 5, 5);
-        
+
         g.setColor(border);
         g.drawRect(3, 6, 3, 3);
         g.drawLine(4, 0, 11, 0);
@@ -77,7 +78,7 @@ public class TitlePaneRestoreButtonForegroundPainter {
         g.drawLine(3, 1, 3, 2);
         g.drawLine(9, 4, 9, 11);
         g.drawLine(12, 1, 12, 8);
-        
+
         g.setColor(corner);
         g.drawLine(3, 0, 3, 0);
         g.drawLine(12, 0, 12, 0);

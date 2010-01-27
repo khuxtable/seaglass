@@ -24,15 +24,18 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
+import javax.swing.UIManager;
 
 public class TitlePaneIconifyButtonForegroundPainter {
 
-    private static Color enabledBorder   = new Color(0x99000000, true);
-    private static Color enabledInterior = new Color(0x99ffffff, true);
-    private static Color hoverBorder     = new Color(0xe5101010, true);
-    private static Color hoverInterior   = new Color(0xffffff);
-    private static Color pressedBorder   = new Color(0xe50e0e0e, true);
-    private static Color pressedInterior = new Color(0xe6e6e6);
+    private Color enabledBorder   = UIManager.getColor("seaGlassTitlePaneButtonEnabledBorder");
+    private Color enabledInterior = UIManager.getColor("seaGlassTitlePaneButtonEnabledInterior");
+
+    private Color hoverBorder     = UIManager.getColor("seaGlassTitlePaneButtonHoverBorder");
+    private Color hoverInterior   = UIManager.getColor("seaGlassTitlePaneButtonHoverInterior");
+
+    private Color pressedBorder   = UIManager.getColor("seaGlassTitlePaneButtonPressedBorder");
+    private Color pressedInterior = UIManager.getColor("seaGlassTitlePaneButtonPressedInterior");
 
     public void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
         paint(g, c, width, height, enabledBorder, enabledInterior);
