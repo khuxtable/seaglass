@@ -23,6 +23,7 @@ import static java.awt.BorderLayout.EAST;
 import static java.awt.BorderLayout.NORTH;
 import static java.awt.BorderLayout.SOUTH;
 import static java.awt.BorderLayout.WEST;
+import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,9 +31,11 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
@@ -43,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -52,9 +56,12 @@ import javax.swing.JToolBar;
 import javax.swing.LookAndFeel;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.InsetsUIResource;
+import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.ColorType;
 import javax.swing.plaf.synth.Region;
 import javax.swing.plaf.synth.SynthConstants;
@@ -141,6 +148,7 @@ import com.seaglasslookandfeel.state.TitlePaneWindowFocusedState;
 import com.seaglasslookandfeel.state.ToolBarWindowIsActiveState;
 import com.seaglasslookandfeel.util.MacKeybindings;
 import com.seaglasslookandfeel.util.PlatformUtils;
+import com.sun.java.swing.Painter;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import sun.swing.plaf.GTKKeybindings;
@@ -938,11 +946,29 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineLists(UIDefaults d) {
-        d.put("List.background", d.get("control"));
+        String p = "List";
+
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".opaque", Boolean.TRUE);
+
+        d.put(p + ".background", d.get("control"));
+        d.put(p + ".dropLineColor", d.get("nimbusFocus"));
+        d.put(p + ".rendererUseListColors", Boolean.TRUE);
+        d.put(p + ".rendererUseUIBorder", Boolean.TRUE);
+        d.put(p + ".cellNoFocusBorder", new BorderUIResource(BorderFactory.createEmptyBorder(2, 5, 2, 5)));
+        d.put(p + ".focusCellHighlightBorder", new BorderUIResource(new PainterBorder("Tree:TreeCell[Enabled+Focused].backgroundPainter",
+            new Insets(2, 5, 2, 5))));
         // TODO Why doesn't ColorUIResource work here?
-        d.put("List[Selected].textForeground", Color.WHITE);
-        d.put("List[Selected].textBackground", d.get("nimbusSelection"));
-        d.put("List[Disabled+Selected].textBackground", Color.WHITE);
+        d.put(p + "[Selected].textForeground", Color.WHITE);
+        d.put(p + "[Selected].textBackground", d.get("nimbusSelection"));
+        d.put(p + "[Disabled+Selected].textBackground", Color.WHITE);
+        d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
+
+        p = "List:\"List.cellRenderer\"";
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".opaque", Boolean.TRUE);
+        d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
+        d.put(p + "[Disabled].background", d.get("nimbusSelectionBackground"));
     }
 
     private void defineMenus(UIDefaults d) {
@@ -1659,7 +1685,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".rendererUseTreeColors", Boolean.TRUE);
         d.put(p + ".repaintWholeRow", Boolean.TRUE);
         d.put(p + ".rowHeight", new Integer(0));
-        d.put(p + ".rendererMargins", new InsetsUIResource(2, 0, 1, 5));
+        d.put(p + ".rendererMargins", new InsetsUIResource(2, 5, 1, 5));
         d.put(p + ".selectionForeground", d.get("nimbusSelectedText"));
         d.put(p + ".selectionBackground", d.get("nimbusSelectionBackground"));
         d.put(p + ".dropLineColor", d.get("nimbusFocus"));
@@ -1668,8 +1694,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Enabled+Selected].collapsedIconPainter", new LazyPainter(c, TreePainter.Which.COLLAPSEDICON_ENABLED_SELECTED));
         d.put(p + "[Enabled].expandedIconPainter", new LazyPainter(c, TreePainter.Which.EXPANDEDICON_ENABLED));
         d.put(p + "[Enabled+Selected].expandedIconPainter", new LazyPainter(c, TreePainter.Which.EXPANDEDICON_ENABLED_SELECTED));
-        d.put(p + ".collapsedIcon", new SeaGlassIcon(p, "collapsedIconPainter", 18, 7));
-        d.put(p + ".expandedIcon", new SeaGlassIcon(p, "expandedIconPainter", 18, 7));
+        d.put(p + ".collapsedIcon", new SeaGlassIcon(p, "collapsedIconPainter", 7, 7));
+        d.put(p + ".expandedIcon", new SeaGlassIcon(p, "expandedIconPainter", 7, 7));
         d.put(p + ".leafIcon", null);
         d.put(p + ".closedIcon", null);
         d.put(p + ".openIcon", null);
@@ -2409,5 +2435,44 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     public static void resetSelectedUI() {
         selectedUI = null;
+    }
+
+    private static final class PainterBorder implements Border, UIResource {
+        private Insets  insets;
+        private Painter painter;
+        private String  painterKey;
+
+        PainterBorder(String painterKey, Insets insets) {
+            this.insets = insets;
+            this.painterKey = painterKey;
+        }
+
+        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
+            if (painter == null) {
+                painter = (Painter) UIManager.get(painterKey);
+                if (painter == null) return;
+            }
+
+            g.translate(x, y);
+            if (g instanceof Graphics2D)
+                painter.paint((Graphics2D) g, c, w, h);
+            else {
+                BufferedImage img = new BufferedImage(w, h, TYPE_INT_ARGB);
+                Graphics2D gfx = img.createGraphics();
+                painter.paint(gfx, c, w, h);
+                gfx.dispose();
+                g.drawImage(img, x, y, null);
+                img = null;
+            }
+            g.translate(-x, -y);
+        }
+
+        public Insets getBorderInsets(Component c) {
+            return (Insets) insets.clone();
+        }
+
+        public boolean isBorderOpaque() {
+            return false;
+        }
     }
 }

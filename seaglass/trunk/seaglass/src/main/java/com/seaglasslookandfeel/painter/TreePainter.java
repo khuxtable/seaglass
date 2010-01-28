@@ -21,24 +21,20 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Path2D;
+import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public final class TreePainter extends AbstractRegionPainter {
     public enum Which {
-        COLLAPSEDICON_ENABLED,
-        COLLAPSEDICON_ENABLED_SELECTED,
-        EXPANDEDICON_ENABLED,
-        EXPANDEDICON_ENABLED_SELECTED,
+        COLLAPSEDICON_ENABLED, COLLAPSEDICON_ENABLED_SELECTED, EXPANDEDICON_ENABLED, EXPANDEDICON_ENABLED_SELECTED,
     }
 
     private Which        state;
     private PaintContext ctx;
-
-    private Path2D       path          = new Path2D.Float();
 
     private Color        selectedColor = decodeColor("nimbusBlueGrey", 0.0f, -0.110526316f, 0.25490195f, 0);
     private Color        enabledColor  = decodeColor("nimbusBlueGrey", -0.6111111f, -0.110526316f, -0.34509805f, 0);
@@ -74,44 +70,34 @@ public final class TreePainter extends AbstractRegionPainter {
     }
 
     private void paintCollapsedIconEnabled(Graphics2D g, int width, int height) {
-        path = decodeCollapsedPath(width, height);
+        Shape s = decodeCollapsedPath(width, height);
         g.setPaint(enabledColor);
-        g.fill(path);
+        g.fill(s);
     }
 
     private void paintCollapsedIconEnabledAndSelected(Graphics2D g, int width, int height) {
-        path = decodeCollapsedPath(width, height);
+        Shape s = decodeCollapsedPath(width, height);
         g.setPaint(selectedColor);
-        g.fill(path);
+        g.fill(s);
     }
 
     private void paintExpandedIconEnabled(Graphics2D g, int width, int height) {
-        path = decodeExpandedPath(width, height);
+        Shape s = decodeExpandedPath(width, height);
         g.setPaint(enabledColor);
-        g.fill(path);
+        g.fill(s);
     }
 
     private void paintExpandedIconEnabledAndSelected(Graphics2D g, int width, int height) {
-        path = decodeExpandedPath(width, height);
+        Shape s = decodeExpandedPath(width, height);
         g.setPaint(selectedColor);
-        g.fill(path);
+        g.fill(s);
     }
 
-    private Path2D decodeCollapsedPath(int width, int height) {
-        path.reset();
-        path.moveTo(0, 0);
-        path.lineTo(7f, 3.5f);
-        path.lineTo(0, 7f);
-        path.closePath();
-        return path;
+    private Shape decodeCollapsedPath(int width, int height) {
+        return ShapeUtil.createArrowRight(0, 0, width, height);
     }
 
-    private Path2D decodeExpandedPath(int width, int height) {
-        path.reset();
-        path.moveTo(0, 0);
-        path.lineTo(7f, 0);
-        path.lineTo(3.5f, 7f);
-        path.closePath();
-        return path;
+    private Shape decodeExpandedPath(int width, int height) {
+        return ShapeUtil.createArrowDown(0, 0, width, height);
     }
 }
