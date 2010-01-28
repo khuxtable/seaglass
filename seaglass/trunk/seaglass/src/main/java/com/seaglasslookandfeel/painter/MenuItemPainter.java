@@ -29,6 +29,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public class MenuItemPainter extends AbstractRegionPainter {
     public static enum Which {
@@ -37,8 +38,6 @@ public class MenuItemPainter extends AbstractRegionPainter {
 
     private Which              state;
     private PaintContext       ctx;
-
-    private Rectangle2D        rect             = new Rectangle2D.Float(0, 0, 0, 0);
 
     private static final Color backgroundTop    = new Color(0x6a90b6);
     private static final Color backgroundBottom = new Color(0x4a6b90);
@@ -67,17 +66,12 @@ public class MenuItemPainter extends AbstractRegionPainter {
     protected void paintBackgroundMouseOver(Graphics2D g, int width, int height) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Shape s = decodeBackground(width, height - 1);
+        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
         g.setPaint(decodeGradientBackground(s, backgroundTop, backgroundBottom));
         g.fill(s);
 
         g.setColor(lineColor);
         g.drawLine(0, height - 1, width - 1, height - 1);
-    }
-
-    protected Shape decodeBackground(int width, int height) {
-        rect.setRect(0, 0, width, height);
-        return rect;
     }
 
     /**
