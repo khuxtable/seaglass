@@ -21,11 +21,12 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Path2D;
+import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public final class TreeCellEditorPainter extends AbstractRegionPainter {
     public enum Which {
@@ -35,10 +36,8 @@ public final class TreeCellEditorPainter extends AbstractRegionPainter {
     private Which        state;
     private PaintContext ctx;
 
-    private Path2D       path   = new Path2D.Float();
-
-    private Color        color1 = decodeColor("nimbusBlueGrey", 0.0f, -0.017358616f, -0.11372548f, 0);
-    private Color        color2 = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
+    private Color        outlineColor = decodeColor("nimbusBlueGrey", 0.0f, -0.017358616f, -0.11372548f, 0);
+    private Color        focusColor   = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
 
     public TreeCellEditorPainter(Which state) {
         super();
@@ -65,48 +64,22 @@ public final class TreeCellEditorPainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
-        path = decodePath1(width, height);
-        g.setPaint(color1);
-        g.fill(path);
+        Shape s = decodeOutline(width, height);
+        g.setPaint(outlineColor);
+        g.fill(s);
     }
 
     private void paintBackgroundEnabledAndFocused(Graphics2D g, int width, int height) {
-        path = decodePath2(width, height);
-        g.setPaint(color2);
-        g.fill(path);
+        Shape s = decodeFocus(width, height);
+        g.setPaint(focusColor);
+        g.fill(s);
     }
 
-    private Path2D decodePath1(int width, int height) {
-        path.reset();
-        path.moveTo(0, 0);
-        path.lineTo(0, height);
-        path.lineTo(width, height);
-        path.lineTo(width, 0);
-        path.lineTo(1, 0);
-        path.lineTo(1, 1);
-        path.lineTo(width - 1, 1);
-        path.lineTo(width - 1, height - 1);
-        path.lineTo(1, height - 1);
-        path.lineTo(1, 0);
-        path.lineTo(0, 0);
-        path.closePath();
-        return path;
+    private Shape decodeOutline(int width, int height) {
+        return ShapeUtil.createFillableFocusPath(0, 0, width, height);
     }
 
-    private Path2D decodePath2(int width, int height) {
-        path.reset();
-        path.moveTo(0, 0);
-        path.lineTo(0, height);
-        path.lineTo(width, height);
-        path.lineTo(width, 0);
-        path.lineTo(1.2f, 0);
-        path.lineTo(1.2f, 1.2f);
-        path.lineTo(width - 1.2f, 1.2f);
-        path.lineTo(width - 1.2f, height - 1.2f);
-        path.lineTo(1.2f, height - 1.2f);
-        path.lineTo(1.2f, 0);
-        path.lineTo(0, 0);
-        path.closePath();
-        return path;
+    private Shape decodeFocus(int width, int height) {
+        return ShapeUtil.createFillableFocusPath(0, 0, width, height);
     }
 }
