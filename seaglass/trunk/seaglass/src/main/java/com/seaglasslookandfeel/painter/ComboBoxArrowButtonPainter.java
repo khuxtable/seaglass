@@ -24,12 +24,14 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
 /**
  * ComboBoxArrowButtonPainter implementation.
@@ -51,17 +53,15 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         FOREGROUND_EDITABLE_DISABLED,
     }
 
-    private static final Color     ENABLED_ARROW_COLOR  = new Color(0x000000);
-    private static final Color     DISABLED_ARROW_COLOR = new Color(0x9ba8cf);
+    private static final Color ENABLED_ARROW_COLOR  = new Color(0x000000);
+    private static final Color DISABLED_ARROW_COLOR = new Color(0x9ba8cf);
 
-    public ButtonStateColors       enabled;
-    public ButtonStateColors       pressed;
-    public ButtonStateColors       disabled;
+    public ButtonStateColors   enabled;
+    public ButtonStateColors   pressed;
+    public ButtonStateColors   disabled;
 
-    private Path2D                 path                 = new Path2D.Double();
-
-    private Which                  state;
-    private PaintContext           ctx;
+    private Which              state;
+    private PaintContext       ctx;
 
     public ComboBoxArrowButtonPainter(Which state) {
         super();
@@ -145,16 +145,16 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
     private void paintButton(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        path = decodeBorder(width, height);
-        g.setPaint(decodeGradientBackground(path, colors.backgroundTop, colors.backgroundBottom));
-        g.fill(path);
-        path = decodeInterior(width, height);
+        Shape s = decodeBorder(width, height);
+        g.setPaint(decodeGradientBackground(s, colors.backgroundTop, colors.backgroundBottom));
+        g.fill(s);
+        s = decodeInterior(width, height);
         g.setColor(colors.mainColor);
-        g.fill(path);
-        g.setPaint(decodeGradientBottomShine(path, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
-        g.fill(path);
-        g.setPaint(decodeGradientTopShine(path, colors.upperShineTop, colors.upperShineBottom));
-        g.fill(path);
+        g.fill(s);
+        g.setPaint(decodeGradientBottomShine(s, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
+        g.fill(s);
+        g.setPaint(decodeGradientTopShine(s, colors.upperShineTop, colors.upperShineBottom));
+        g.fill(s);
     }
 
     private void paintArrowsEnabled(Graphics2D g, JComponent c, int width, int height) {
@@ -162,21 +162,12 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         int yOffset = height / 2 - 3;
         g.translate(xOffset, yOffset);
 
+        Shape s = ShapeUtil.createArrowLeft(0.5, 0.5, 3, 4);
         g.setColor(ENABLED_ARROW_COLOR);
+        g.fill(s);
 
-        path.reset();
-        path.moveTo(3.5, 0.5);
-        path.lineTo(0.5, 2.5);
-        path.lineTo(3.5, 4.5);
-        path.closePath();
-        g.fill(path);
-
-        path.reset();
-        path.moveTo(6.5, 0.5);
-        path.lineTo(9.5, 2.5);
-        path.lineTo(6.5, 4.5);
-        path.closePath();
-        g.fill(path);
+        s = ShapeUtil.createArrowRight(6.5, 0.5, 3, 4);
+        g.fill(s);
 
         g.translate(-xOffset, -yOffset);
     }
@@ -186,21 +177,12 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         int yOffset = height / 2 - 3;
         g.translate(xOffset, yOffset);
 
+        Shape s = ShapeUtil.createArrowLeft(0.5, 0.5, 3, 4);
         g.setColor(DISABLED_ARROW_COLOR);
+        g.fill(s);
 
-        path.reset();
-        path.moveTo(3.5, 0.5);
-        path.lineTo(0.5, 2.5);
-        path.lineTo(3.5, 4.5);
-        path.closePath();
-        g.fill(path);
-
-        path.reset();
-        path.moveTo(6.5, 0.5);
-        path.lineTo(9.5, 2.5);
-        path.lineTo(6.5, 4.5);
-        path.closePath();
-        g.fill(path);
+        s = ShapeUtil.createArrowRight(6.5, 0.5, 3, 4);
+        g.fill(s);
 
         g.translate(-xOffset, -yOffset);
     }
@@ -210,13 +192,9 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         int yOffset = height / 2 - 5;
         g.translate(xOffset, yOffset);
 
-        path.reset();
-        path.moveTo(5.2, 1.0);
-        path.lineTo(1.0, 4.0);
-        path.lineTo(5.2, 7.0);
-        path.closePath();
+        Shape s = ShapeUtil.createArrowLeft(1, 1, 4.2, 6);
         g.setColor(ENABLED_ARROW_COLOR);
-        g.fill(path);
+        g.fill(s);
 
         g.translate(-xOffset, -yOffset);
     }
@@ -226,48 +204,23 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         int yOffset = height / 2 - 5;
         g.translate(xOffset, yOffset);
 
-        path.reset();
-        path.moveTo(5.2, 1.0);
-        path.lineTo(1.0, 4.0);
-        path.lineTo(5.2, 7.0);
-        path.closePath();
+        Shape s = ShapeUtil.createArrowLeft(1, 1, 4.2, 6);
         g.setColor(DISABLED_ARROW_COLOR);
-        g.fill(path);
+        g.fill(s);
 
         g.translate(-xOffset, -yOffset);
     }
 
-    Path2D decodeBorder(double width, double height) {
-        double arcSize = 4.0;
-        double x = 0.0;
-        double y = 2.0;
-        width -= 2.0;
-        height -= 4.0;
-        decodeButtonPath(x, y, width, height, arcSize, arcSize);
-        return path;
+    private Shape decodeBorder(int width, int height) {
+        return decodeButtonPath(CornerSize.BORDER, 0, 2, width - 2, height - 4);
     }
 
-    Path2D decodeInterior(double width, double height) {
-        double arcSize = 3.0;
-        double x = 1.0;
-        double y = 3.0;
-        width -= 4.0;
-        height -= 6.0;
-        decodeButtonPath(x, y, width, height, arcSize, arcSize);
-        return path;
+    private Shape decodeInterior(int width, int height) {
+        return decodeButtonPath(CornerSize.INTERIOR, 1, 3, width - 4, height - 6);
     }
 
-    private void decodeButtonPath(Double left, Double top, Double width, Double height, Double arcW, Double arcH) {
-        Double bottom = top + height;
-        Double right = left + width;
-        path.reset();
-        path.moveTo(left, top);
-        path.lineTo(left, bottom);
-        path.lineTo(right - arcW, bottom);
-        path.quadTo(right, bottom, right, bottom - arcH);
-        path.lineTo(right, top + arcH);
-        path.quadTo(right, top, right - arcW, top);
-        path.closePath();
+    private Shape decodeButtonPath(CornerSize size, int x, int y, int w, int h) {
+        return ShapeUtil.createQuad(size, x, y, w, h, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
     /**
