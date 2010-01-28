@@ -23,11 +23,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
+
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
 /**
  * TextComponentPainter implementation.
@@ -44,25 +45,22 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
         BORDER_ENABLED,
     }
 
-    private Color                  outerFocusColor        = decodeColor("seaGlassOuterFocus");
-    private Color                  innerFocusColor        = decodeColor("seaGlassFocus");
-    private Color                  outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
-    private Color                  innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
+    private Color        outerFocusColor        = decodeColor("seaGlassOuterFocus");
+    private Color        innerFocusColor        = decodeColor("seaGlassFocus");
+    private Color        outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
+    private Color        innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
-    private Color                  TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
+    private Color        TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
     // private Color LIGHT_SHADOW_COLOR = new Color(0, 0, 0, 0x0a);
-    private Color                  DARK_SHADOW_COLOR      = new Color(0, 0, 0, 0x1e);
+    private Color        DARK_SHADOW_COLOR      = new Color(0, 0, 0, 0x1e);
 
-    private Color                  DISABLED_BORDER        = new Color(0xdddddd);
-    private Color                  ENABLED_BORDER         = new Color(0xbbbbbb);
-    private Color                  ENABLED_TOOLBAR_BORDER = new Color(0x888888);
+    private Color        DISABLED_BORDER        = new Color(0xdddddd);
+    private Color        ENABLED_BORDER         = new Color(0xbbbbbb);
+    private Color        ENABLED_TOOLBAR_BORDER = new Color(0x888888);
 
-    private Path2D                 path                   = new Path2D.Double();
-    private RoundRectangle2D       roundRect              = new RoundRectangle2D.Double();
-
-    private Which                  state;
-    private PaintContext           ctx;
-    private boolean                focused;
+    private Which        state;
+    private PaintContext ctx;
+    private boolean      focused;
 
     public SearchFieldPainter(Which state) {
         super();
@@ -175,50 +173,27 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
     private void paintInnerShadow(Graphics2D g, int x, int y, int width, int height) {
         Shape s = decodeRoundedFilled(x + 1, y + 1, width - 2, height - 2);
         g.setPaint(decodeGradientRoundedTopShadow(s));
-        s = decodeRoundedShadow(x, y, width, height);
+        s = ShapeUtil.createRoundedInternalShadow(x, y, width, height);
         g.fill(s);
     }
 
     private Shape decodeBackground(int x, int y, int width, int height) {
-        return decodeFilledBackground(x + 1, y + 1, width - 2, height - 2);
+        return decodeRoundedFilled(x + 1, y + 1, width - 2, height - 2);
     }
 
     private Shape decodeSolidBackground(int x, int y, int width, int height) {
-        return decodeFilledBackground(x - 2, y - 2, width + 4, height + 4);
+        return decodeRoundedFilled(x - 2, y - 2, width + 4, height + 4);
     }
 
     private void drawBorder(Graphics2D g, int x, int y, int width, int height) {
-        g.drawRoundRect(x, y, width - 1, height - 1, height, height);
-    }
-
-    private Shape decodeFilledBackground(int x, int y, int width, int height) {
-        return decodeRoundedFilled(x, y, width, height);
+        Shape s = ShapeUtil.createQuad(x, y, width - 1, height - 1, height / 2.0, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+        g.draw(s);
     }
 
     private Shape decodeRoundedFilled(int x, int y, int width, int height) {
-        roundRect.setRoundRect(x, y, width, height, height, height);
-        return roundRect;
-    }
-
-    private Shape decodeRoundedShadow(int x, int y, int width, int height) {
-        double halfHeight = height / 2.0;
-
-        double top = y;
-        double left = x;
-        double right = left + width;
-
-        double midLine = top + halfHeight;
-
-        double leftCurve = left + halfHeight;
-        double rightCurve = right - halfHeight;
-
-        path.reset();
-        path.moveTo(left, midLine);
-        path.quadTo(left, top, leftCurve, top);
-        path.lineTo(rightCurve, top);
-        path.quadTo(right, top, right, midLine);
-        path.closePath();
-        return path;
+        return ShapeUtil.createQuad(x, y, width, height, height / 2.0, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            CornerStyle.ROUNDED);
     }
 
     private Paint decodeGradientRoundedTopShadow(Shape s) {

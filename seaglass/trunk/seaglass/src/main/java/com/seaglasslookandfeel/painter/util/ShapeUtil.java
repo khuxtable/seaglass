@@ -230,6 +230,27 @@ public class ShapeUtil {
         return path;
     }
 
+    public static Shape createRoundedInternalShadow(int x, int y, int width, int height) {
+        double halfHeight = height / 2.0;
+
+        double top = y;
+        double left = x;
+        double right = left + width;
+
+        double midLine = top + halfHeight;
+
+        double leftCurve = left + halfHeight;
+        double rightCurve = right - halfHeight;
+
+        path.reset();
+        path.moveTo(left, midLine);
+        path.quadTo(left, top, leftCurve, top);
+        path.lineTo(rightCurve, top);
+        path.quadTo(right, top, right, midLine);
+        path.closePath();
+        return path;
+    }
+
     public static Shape createRoundedInternalDropShadowDark(int width, int height) {
         path.reset();
         path.moveTo(4, (height - 5) / 2 - 1);
