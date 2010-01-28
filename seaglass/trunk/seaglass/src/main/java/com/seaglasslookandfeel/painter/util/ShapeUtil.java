@@ -57,7 +57,7 @@ public class ShapeUtil {
         }
     }
 
-    private static Path2D       path        = new Path2D.Double();
+    private static Path2D       path        = new Path2D.Double(Path2D.WIND_EVEN_ODD);
     private static Ellipse2D    ellipse     = new Ellipse2D.Float();
 
     private static final double baseArcSize = 4d;
@@ -309,6 +309,43 @@ public class ShapeUtil {
         path.quadTo(x + width - bottomArcW, y + height - bottomArcH, x + width / 2.0, y + height);
         path.quadTo(x + bottomArcW, y + height - bottomArcH, x, y + height / 2.0);
         path.closePath();
+        return path;
+    }
+
+    public static Shape createCancelIcon(int x, int y, int width, int height) {
+        final double xMid = x + width / 2.0;
+        final double yMid = y + height / 2.0;
+
+        // Draw the circle.
+        path.reset();
+        path.moveTo(xMid, y);
+        path.quadTo(x, y, x, yMid);
+        path.quadTo(x, y + height, xMid, y + height);
+        path.quadTo(x + width, y + height, x + width, yMid);
+        path.quadTo(x + width, y, xMid, y);
+        path.closePath();
+
+        final double xOffsetL = width / 2.0 - 3;
+        final double xOffsetS = width / 2.0 - 4;
+        final double yOffsetL = height / 2.0 - 3;
+        final double yOffsetS = height / 2.0 - 4;
+        final double offsetC = 1.5;
+
+        // Erase the "x" with an inner subpath.
+        path.moveTo(xMid, yMid - offsetC);
+        path.lineTo(xMid + xOffsetS, yMid - yOffsetL);
+        path.lineTo(yMid + xOffsetL, yMid - yOffsetS);
+        path.lineTo(xMid + offsetC, yMid);
+        path.lineTo(xMid + xOffsetL, yMid + yOffsetS);
+        path.lineTo(xMid + xOffsetS, yMid + yOffsetL);
+        path.lineTo(xMid, yMid + offsetC);
+        path.lineTo(xMid - xOffsetS, yMid + yOffsetL);
+        path.lineTo(xMid - xOffsetL, yMid + yOffsetS);
+        path.lineTo(xMid - offsetC, yMid);
+        path.lineTo(xMid - xOffsetL, yMid - yOffsetS);
+        path.lineTo(xMid - xOffsetS, yMid - yOffsetL);
+        path.closePath();
+
         return path;
     }
 }
