@@ -227,7 +227,7 @@ public class ShapeUtil {
         return path;
     }
 
-    public static Shape createProgressBarIndeterminatePathLight(int width, int height) {
+    public static Shape createProgressBarIndeterminateLight(int width, int height) {
         double half = width / 2.0;
         path.reset();
         path.moveTo(3, 0);
