@@ -252,4 +252,34 @@ public class ShapeUtil {
         ellipse.setFrame(x, y, w, h);
         return ellipse;
     }
+
+    public static Shape createFillableFocusPath(int x, int y, int width, int height) {
+        final int left = x;
+        final int top = y;
+        final int right = x + width;
+        final int bottom = y + height;
+
+        path.reset();
+        path.moveTo(left, top);
+        path.lineTo(left, bottom);
+        path.lineTo(right, bottom);
+        path.lineTo(right, top);
+
+        final float left2 = left - 1.4f;
+        final float top2 = top - 1.4f;
+        final float right2 = right + 1.4f;
+        final float bottom2 = bottom + 1.4f;
+
+        // TODO These two lines were curveTo in Nimbus. Perhaps we should
+        // revisit this?
+        path.lineTo(right2, top);
+        path.lineTo(right2, bottom2);
+        path.lineTo(left2, bottom2);
+        path.lineTo(left2, top2);
+        path.lineTo(right2, top2);
+        path.lineTo(right2, top);
+        path.closePath();
+
+        return path;
+    }
 }

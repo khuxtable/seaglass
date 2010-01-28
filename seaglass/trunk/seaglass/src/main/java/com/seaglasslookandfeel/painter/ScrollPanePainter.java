@@ -23,12 +23,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * Nimbus's ScrollPanePainter.
@@ -40,9 +40,6 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
 
     private Which        state;
     private PaintContext ctx;
-
-    private Rectangle2D  rect         = new Rectangle2D.Double();
-    private Path2D       path         = new Path2D.Float();
 
     private Color        borderColor  = decodeColor("nimbusBorder");
     private Color        focusColor   = decodeColor("nimbusFocus");
@@ -86,7 +83,7 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
     private void paintBorderFocused(Graphics2D g, int width, int height) {
         paintBorderEnabled(g, width, height);
 
-        Shape s = decodeFocusPath(width, height);
+        Shape s = ShapeUtil.createFillableFocusPath(2, 2, width - 4, height - 4);
         g.setPaint(focusColor);
         g.fill(s);
     }
@@ -100,44 +97,12 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
         g.fill(s);
     }
 
-    private Shape decodeFocusPath(int width, int height) {
-        float left = 2;
-        float top = 2;
-        float right = width - 2;
-        float bottom = height - 2;
-
-        path.reset();
-        path.moveTo(left, top);
-        path.lineTo(left, bottom);
-        path.lineTo(right, bottom);
-        path.lineTo(right, top);
-
-        float left2 = 0.6f;
-        float top2 = 0.6f;
-        float right2 = width - 0.6f;
-        float bottom2 = height - 0.6f;
-
-        // TODO These two lines were curveTo in Nimbus. Perhaps we should
-        // revisit this?
-        path.lineTo(right2, top);
-        path.lineTo(right2, bottom2);
-        path.lineTo(left2, bottom2);
-        path.lineTo(left2, top2);
-        path.lineTo(right2, top2);
-        path.lineTo(right2, top);
-        path.closePath();
-
-        return path;
-    }
-
     private Shape decodeCornerBorder(int width, int height) {
-        rect.setRect(0, 0, width, height);
-        return rect;
+        return ShapeUtil.createRectangle(0, 0, width, height);
     }
 
     private Shape decodeCornerInside(int width, int height) {
-        rect.setRect(1, 1, width - 2, height - 2);
-        return rect;
+        return ShapeUtil.createRectangle(1, 1, width - 2, height - 2);
     }
 
     private Paint decodeCornerGradient(Shape s) {
