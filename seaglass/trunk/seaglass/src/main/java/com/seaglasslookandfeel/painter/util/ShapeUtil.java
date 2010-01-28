@@ -419,18 +419,71 @@ public class ShapeUtil {
         return path;
     }
 
+    /**
+     * Return a path for a simple bullet.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the bullet
+     * @param y
+     *            the Y coordinate of the upper-left corner of the bullet
+     * @param diameter
+     *            the diameter of the bullet
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createBullet(int x, int y, int diameter) {
         return createEllipseInternal(x, y, diameter, diameter);
     }
 
+    /**
+     * Return a path for a radio button's concentric sections.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the section
+     * @param y
+     *            the Y coordinate of the upper-left corner of the section
+     * @param diameter
+     *            the diameter of the section
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createRadioButton(int x, int y, int diameter) {
         return createEllipseInternal(x, y, diameter, diameter);
     }
 
+    /**
+     * Return a path for a continuous slider thumb's concentric sections.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the section
+     * @param y
+     *            the Y coordinate of the upper-left corner of the section
+     * @param diameter
+     *            the diameter of the section
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createSliderThumbContinuous(final int x, final int y, final int diameter) {
         return createEllipseInternal(x, y, diameter, diameter);
     }
 
+    /**
+     * Return a path for a discrete slider thumb's concentric sections.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the section
+     * @param y
+     *            the Y coordinate of the upper-left corner of the section
+     * @param w
+     *            the width of the section
+     * @param h
+     *            the height of the section
+     * @param size
+     *            the CornerSize representing the rounding amount for the
+     *            section
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createSliderThumbDiscrete(final int x, final int y, final int w, final int h, final CornerSize size) {
         final double topArc = size.getRadius(w, h);
         final double bottomArcH = size == CornerSize.INTERIOR ? 0 : 1;
@@ -448,6 +501,21 @@ public class ShapeUtil {
         return path;
     }
 
+    /**
+     * Return a path for a "cancel" icon. This is a circle with a punched out
+     * "x" in it.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the icon
+     * @param y
+     *            the Y coordinate of the upper-left corner of the icon
+     * @param w
+     *            the width of the icon
+     * @param h
+     *            the height of the icon
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createCancelIcon(int x, int y, int width, int height) {
         final double xMid = x + width / 2.0;
         final double yMid = y + height / 2.0;
@@ -485,6 +553,21 @@ public class ShapeUtil {
         return path;
     }
 
+    /**
+     * Return a path for a scroll bar cap. This is used when the buttons are
+     * placed together at the opposite end of the scroll bar.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the cap
+     * @param y
+     *            the Y coordinate of the upper-left corner of the cap
+     * @param w
+     *            the width of the cap
+     * @param h
+     *            the height of the cap
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createScrollCap(int x, int y, int width, int height) {
         path.reset();
         path.moveTo(x, y);
@@ -495,6 +578,22 @@ public class ShapeUtil {
         return path;
     }
 
+    /**
+     * Return a path for a scroll bar button. This is used when the buttons are
+     * placed apart at opposite ends of the scroll bar. This is a common shape
+     * that is transformed to the appropriate button.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the button
+     * @param y
+     *            the Y coordinate of the upper-left corner of the button
+     * @param w
+     *            the width of the button
+     * @param h
+     *            the height of the button
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createScrollButtonApart(int x, int y, int width, int height) {
         path.reset();
         path.moveTo(x, y);
@@ -505,6 +604,21 @@ public class ShapeUtil {
         return path;
     }
 
+    /**
+     * Return a path for a scroll bar decrease button. This is used when the
+     * buttons are placed together at one end of the scroll bar.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the button
+     * @param y
+     *            the Y coordinate of the upper-left corner of the button
+     * @param w
+     *            the width of the button
+     * @param h
+     *            the height of the button
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createScrollButtonTogetherDecrease(int x, int y, int width, int height) {
         path.reset();
         path.moveTo(x + width, y);
@@ -513,6 +627,25 @@ public class ShapeUtil {
         addScrollGapPathBackwards(x, y, height);
         path.closePath();
         return path;
+    }
+
+    /**
+     * Return a path for a scroll bar increase button. This is used when the
+     * buttons are placed together at one end of the scroll bar.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the button
+     * @param y
+     *            the Y coordinate of the upper-left corner of the button
+     * @param w
+     *            the width of the button
+     * @param h
+     *            the height of the button
+     * 
+     * @return a path representing the shape.
+     */
+    public static Shape createScrollButtonTogetherIncrease(int x, int y, int w, int h) {
+        return createRectangle(x, y, w, h);
     }
 
     private static void addScrollGapPath(int x, int y, int width, int height) {
