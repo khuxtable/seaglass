@@ -22,11 +22,11 @@ package com.seaglasslookandfeel.painter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public final class CheckBoxMenuItemPainter extends MenuItemPainter {
     public static enum Which {
@@ -41,8 +41,6 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
 
     private Which        state;
     private PaintContext ctx;
-
-    private Path2D       path                  = new Path2D.Float();
 
     private Color        iconDisabledSelected  = decodeColor("nimbusDisabledText");
     private Color        iconEnabledSelected   = decodeColor("text");
@@ -92,35 +90,21 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
     }
 
     private void paintCheckIconDisabledAndSelected(Graphics2D g, int width, int height) {
-        Shape s = decodeIconPath(width, height);
+        Shape s = ShapeUtil.createCheckMark(0, 0, width, height);
         g.setPaint(iconDisabledSelected);
         g.fill(s);
 
     }
 
     private void paintCheckIconEnabledAndSelected(Graphics2D g, int width, int height) {
-        Shape s = decodeIconPath(width, height);
+        Shape s = ShapeUtil.createCheckMark(0, 0, width, height);
         g.setPaint(iconEnabledSelected);
         g.fill(s);
     }
 
     private void paintCheckIconSelectedAndMouseOver(Graphics2D g, int width, int height) {
-        Shape s = decodeIconPath(width, height);
+        Shape s = ShapeUtil.createCheckMark(0, 0, width, height);
         g.setPaint(iconSelectedMouseOver);
         g.fill(s);
-    }
-
-    private Shape decodeIconPath(int width, int height) {
-        double widthMult = width / 16.0;
-        double heightMult = height / 13.0;
-        path.reset();
-        path.moveTo(5.0 * widthMult, 8.0 * heightMult);
-        path.lineTo(7.0 * widthMult, 8.0 * heightMult);
-        path.lineTo(9.75 * widthMult, 11.0 * heightMult);
-        path.lineTo(14.0 * widthMult, 1.0 * heightMult);
-        path.lineTo(16.0 * widthMult, 1.0 * heightMult);
-        path.lineTo(10.0 * widthMult, 13.0 * heightMult);
-        path.closePath();
-        return path;
     }
 }
