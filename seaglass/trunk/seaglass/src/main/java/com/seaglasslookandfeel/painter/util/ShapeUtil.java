@@ -303,4 +303,21 @@ public class ShapeUtil {
 
         return path;
     }
+
+    public static Shape createDiscreteSliderThumb(final int x, final int y, final int width, final int height, final CornerSize size) {
+        final double topArc = size.arcSize - 1.0;
+        final double bottomArcH = size == CornerSize.INTERIOR ? 0 : 1;
+        final double bottomArcW = 3;
+
+        path.reset();
+        path.moveTo(x, y + topArc);
+        path.quadTo(x, y, x + topArc, y);
+        path.lineTo(x + width - topArc, y);
+        path.quadTo(x + width, y, x + width, y + topArc);
+        path.lineTo(x + width, y + height / 2.0);
+        path.quadTo(x + width - bottomArcW, y + height - bottomArcH, x + width / 2.0, y + height);
+        path.quadTo(x + bottomArcW, y + height - bottomArcH, x, y + height / 2.0);
+        path.closePath();
+        return path;
+    }
 }
