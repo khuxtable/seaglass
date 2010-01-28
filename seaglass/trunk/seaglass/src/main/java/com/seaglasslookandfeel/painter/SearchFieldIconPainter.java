@@ -23,9 +23,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.geom.Path2D;
+import java.awt.Shape;
 
 import javax.swing.JComponent;
+
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * Search field icon implementation.
@@ -37,16 +39,12 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
         CANCEL_ICON_DISABLED, CANCEL_ICON_ENABLED, CANCEL_ICON_PRESSED,
     }
 
-    private static final Color WHITE       = Color.WHITE;
-    private final Color        GRAY        = Color.GRAY;
-    private final Color        MEDIUM_GRAY = new Color(0xb3b3b3);
-    private final Color        DARK_GRAY   = Color.DARK_GRAY;
+    private Color        GRAY        = Color.GRAY;
+    private Color        MEDIUM_GRAY = new Color(0xb3b3b3);
+    private Color        DARK_GRAY   = Color.DARK_GRAY;
 
-    // FIXME Factor out shape code.
-    private Path2D             path        = new Path2D.Float();
-
-    private Which              state;
-    private PaintContext       ctx;
+    private Which        state;
+    private PaintContext ctx;
 
     public SearchFieldIconPainter(Which state) {
         super();
@@ -60,16 +58,16 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case FIND_ICON_ENABLED:
-            paintSearchGlass(g, width, height, false);
+            paintSearchGlass(g, 0, 0, width, height, false);
             break;
         case FIND_ICON_ENABLED_POPUP:
-            paintSearchGlass(g, width, height, true);
+            paintSearchGlass(g, 0, 0, width, height, true);
             break;
         case CANCEL_ICON_ENABLED:
-            paintCancelIcon(g, width, height, MEDIUM_GRAY);
+            paintCancelIcon(g, 0, 0, width, height, MEDIUM_GRAY);
             break;
         case CANCEL_ICON_PRESSED:
-            paintCancelIcon(g, width, height, GRAY);
+            paintCancelIcon(g, 0, 0, width, height, GRAY);
             break;
         }
     }
@@ -81,7 +79,7 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintSearchGlass(Graphics2D g, int width, int height, boolean hasPopup) {
+    private void paintSearchGlass(Graphics2D g, int x, int y, int width, int height, boolean hasPopup) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         final int glassX = 2;
@@ -102,37 +100,18 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
         if (hasPopup) {
             final int popupX = glassX + glassRadius + 3;
             final int popupY = glassY + 3;
-            final int popupWidth = 7;
-            final int popupHeight = 4;
 
-            path.reset();
-            path.moveTo(popupX, popupY);
-            path.lineTo(popupX + popupWidth, popupY);
-            path.lineTo(popupX + popupWidth / 2.0, popupY + popupHeight);
-            path.closePath();
-
+            Shape s = ShapeUtil.createArrowDown(popupX, popupY, 7, 4);
             g.setColor(DARK_GRAY);
-            g.fill(path);
+            g.fill(s);
         }
     }
 
-    private void paintCancelIcon(Graphics2D g, int width, int height, Color color) {
+    private void paintCancelIcon(Graphics2D g, int x, int y, int width, int height, Color color) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        final int circleRadius = height - 4;
-        final int circleX = 2;
-        final int circleY = 2;
-
+        Shape s = ShapeUtil.createCancelIcon(2, 2, width - 4, height - 4);
         g.setColor(color);
-        g.fillOval(circleX, circleY, circleRadius, circleRadius);
-
-        final int lineLength = circleRadius - 9;
-        final int lineX = circleX + 4;
-        final int lineY = circleY + 4;
-
-        g.setColor(WHITE);
-        g.setStroke(new BasicStroke(2));
-        g.drawLine(lineX, lineY, lineX + lineLength, lineY + lineLength);
-        g.drawLine(lineX, lineY + lineLength, lineX + lineLength, lineY);
+        g.fill(s);
     }
 }
