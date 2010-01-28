@@ -22,13 +22,13 @@ package com.seaglasslookandfeel.painter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * ToolBarToggleButtonPainter implementation.
@@ -54,8 +54,6 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
 
     private static final Color END_OUTER_EDGE_COLOR = new Color(0x10000000, true);
     private static final Color MID_OUTER_EDGE_COLOR = new Color(0x40000000, true);
-
-    private Rectangle          rect                 = new Rectangle();
 
     private Which              state;
     private PaintContext       ctx;
@@ -94,9 +92,9 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
     }
 
     private void paintRectangle(Graphics2D g, int x, int height, Color endColor, Color midColor) {
-        rect.setBounds(x, 0, 1, height);
-        g.setPaint(decodeGradient(rect, endColor, midColor));
-        g.fill(rect);
+        Shape s = ShapeUtil.createRectangle(x, 0, 1, height);
+        g.setPaint(decodeGradient(s, endColor, midColor));
+        g.fill(s);
     }
 
     /**
