@@ -25,11 +25,12 @@ import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
 /**
  * ScrollBarThumbPainter implementation.
@@ -46,8 +47,6 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
                                                  new Color(0xf5fafd), 0.46f, 0.62f, new Color(0x88ade0), new Color(0x5785bf));
     private ButtonStateColors pressedColors  = new ButtonStateColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc),
                                                  new Color(0xbbcedf), 0.4f, 0.7f, new Color(0x4076bf), new Color(0x4f7bbf));
-
-    private RoundRectangle2D  rect           = new RoundRectangle2D.Double();
 
     private Which             state;
     private PaintContext      ctx;
@@ -118,9 +117,8 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
     }
 
     private Shape decodePath(int x, int y, int width, int height) {
-        double arc = height;
-        rect.setRoundRect(x, y, width, height, arc, arc);
-        return rect;
+        return ShapeUtil.createQuad(x, y, width, height, height / 2.0, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            CornerStyle.ROUNDED);
     }
 
     /**
