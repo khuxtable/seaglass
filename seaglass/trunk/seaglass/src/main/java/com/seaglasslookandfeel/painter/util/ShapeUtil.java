@@ -305,6 +305,7 @@ public class ShapeUtil {
     }
 
     public static Shape createDiscreteSliderThumb(final int x, final int y, final int width, final int height, final CornerSize size) {
+        // FIXME This minus one is a magic number.
         final double topArc = size.arcSize - 1.0;
         final double bottomArcH = size == CornerSize.INTERIOR ? 0 : 1;
         final double bottomArcW = 3;
