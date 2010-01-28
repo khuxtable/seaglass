@@ -23,13 +23,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.util.PlatformUtils;
 
 /**
@@ -45,16 +44,12 @@ public class ToolBarHandlePainter extends AbstractRegionPainter {
         HANDLEICON_ENABLED,
     };
 
-    private Color                         macHandleColor = new Color(0xc8191919, true);
+    private Color             macHandleColor = new Color(0xc8191919, true);
 
-    private ButtonStateColors             enabledColors  = new ButtonStateColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(
-                                                             0xd2e8f8), new Color(0xf5fafd), 0.46f, 0.62f, new Color(0x88ade0), new Color(
-                                                             0x5785bf));
+    private ButtonStateColors enabledColors  = new ButtonStateColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8),
+                                                 new Color(0xf5fafd), 0.46f, 0.62f, new Color(0x88ade0), new Color(0x5785bf));
 
-    private static final Path2D           path           = new Path2D.Float();
-    private static final RoundRectangle2D roundRect      = new RoundRectangle2D.Float();
-
-    private PaintContext                  ctx;
+    private PaintContext      ctx;
 
     public ToolBarHandlePainter(Which state) {
         super();
@@ -74,10 +69,9 @@ public class ToolBarHandlePainter extends AbstractRegionPainter {
     }
 
     private void paintMacHandleIconEnabled(Graphics2D g, int width, int height) {
-        Shape s = decodeMacHandle(width, height);
-
         g.setColor(macHandleColor);
-        g.draw(s);
+        g.drawLine(4, 2, 4, height - 3);
+        g.drawLine(6, 2, 6, height - 3);
     }
 
     private void paintNonMacHandleIconEnabled(Graphics2D g, int width, int height) {
@@ -85,9 +79,8 @@ public class ToolBarHandlePainter extends AbstractRegionPainter {
     }
 
     private void paintNonMacHandleIcon(Graphics2D g, int width, int height, ButtonStateColors colors) {
-
         Shape s = decodeNonMacHandleBorder(width, height);
-        g.setPaint(decodeGradientBackground(path, colors.background1, colors.background2));
+        g.setPaint(decodeGradientBackground(s, colors.background1, colors.background2));
         g.fill(s);
 
         s = decodeNonMacHandleInside(width, height);
@@ -95,23 +88,12 @@ public class ToolBarHandlePainter extends AbstractRegionPainter {
         g.fill(s);
     }
 
-    private Shape decodeMacHandle(int width, int height) {
-        path.reset();
-        path.moveTo(4, 2);
-        path.lineTo(4, height - 3);
-        path.moveTo(6, height - 3);
-        path.lineTo(6, 2);
-        return path;
-    }
-
     private Shape decodeNonMacHandleBorder(int width, int height) {
-        roundRect.setRoundRect(4, 2, width - 4, height - 4, width - 4, width - 4);
-        return roundRect;
+        return ShapeUtil.createRoundRectangle(4, 2, width - 4, height - 4, width / 2.0 - 2);
     }
 
     private Shape decodeNonMacHandleInside(int width, int height) {
-        roundRect.setRoundRect(5, 3, width - 6, height - 6, width - 6, width - 6);
-        return roundRect;
+        return ShapeUtil.createRoundRectangle(5, 3, width - 6, height - 6, width / 2.0 - 3);
     }
 
     /**
