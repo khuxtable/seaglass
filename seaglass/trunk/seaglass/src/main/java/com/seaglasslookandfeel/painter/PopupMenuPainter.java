@@ -90,10 +90,10 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeBorder(int width, int height) {
-        return ShapeUtil.createRoundRectangle(CornerSize.POPUP_BORDER, 0, 0, width, height);
+        return ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.POPUP_BORDER);
     }
 
     private Shape decodeInterior(int width, int height) {
-        return ShapeUtil.createRoundRectangle(CornerSize.POPUP_INTERIOR, 1, 1, width - 2, height - 2);
+        return ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.POPUP_INTERIOR);
     }
 }

@@ -39,14 +39,14 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED
     }
 
-    private PaintContext     ctx;
+    private PaintContext ctx;
 
-    private Color            borderColor         = new Color(0x545454);
+    private Color        borderColor         = new Color(0x545454);
 
-    private Color            innerHighLightColor = new Color(0x55ffffff, true);
+    private Color        innerHighLightColor = new Color(0x55ffffff, true);
 
-    private Color            inactiveColor1      = new Color(0xededed);
-    private Color            inactiveColor2      = new Color(0xe0e0e0);
+    private Color        inactiveColor1      = new Color(0xededed);
+    private Color        inactiveColor2      = new Color(0xe0e0e0);
 
     public DesktopIconPainter(Which state) {
         super();
@@ -72,15 +72,15 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeRoundRect1(int width, int height) {
-        return ShapeUtil.createRoundRectangle(CornerSize.INNER_FOCUS, 2, 0, width - 3, height - 2);
+        return ShapeUtil.createRoundRectangle(2, 0, width - 3, height - 2, CornerSize.INNER_FOCUS);
     }
 
     private Shape decodeRoundRect2(int width, int height) {
-        return ShapeUtil.createRoundRectangle(CornerSize.BORDER, 3, 1, width - 5, height - 4);
+        return ShapeUtil.createRoundRectangle(3, 1, width - 5, height - 4, CornerSize.BORDER);
     }
 
     private Shape decodeRect1(int width, int height) {
-        return ShapeUtil.createRoundRectangle(CornerSize.INTERIOR, 4, 2, width - 7, height - 6);
+        return ShapeUtil.createRoundRectangle(4, 2, width - 7, height - 6, CornerSize.INTERIOR);
     }
 
     private Paint decodeGradient2(Shape s) {

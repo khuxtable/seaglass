@@ -217,60 +217,60 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
     protected Shape decodeOuterFocus(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
         switch (segmentStatus) {
         case FIRST:
-            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x - 2, y - 2, w + 3, h + 3, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            return ShapeUtil.createQuad(x - 2, y - 2, w + 3, h + 3, CornerSize.OUTER_FOCUS, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
                 CornerStyle.SQUARE, CornerStyle.SQUARE);
         case MIDDLE:
             return ShapeUtil.createRectangle(x - 2, y - 2, w + 3, h + 3);
         case LAST:
-            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x - 2, y - 2, w + 3, h + 3, CornerStyle.SQUARE, CornerStyle.SQUARE,
+            return ShapeUtil.createQuad(x - 2, y - 2, w + 3, h + 3, CornerSize.OUTER_FOCUS, CornerStyle.SQUARE, CornerStyle.SQUARE,
                 CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            return ShapeUtil.createRoundRectangle(CornerSize.OUTER_FOCUS, x - 2, y - 2, w + 3, h + 3);
+            return ShapeUtil.createRoundRectangle(x - 2, y - 2, w + 3, h + 3, CornerSize.OUTER_FOCUS);
         }
     }
 
     protected Shape decodeInnerFocus(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
         switch (segmentStatus) {
         case FIRST:
-            return ShapeUtil.createQuad(CornerSize.INNER_FOCUS, x - 1, y - 1, w + 2, h + 1, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            return ShapeUtil.createQuad(x - 1, y - 1, w + 2, h + 1, CornerSize.INNER_FOCUS, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
                 CornerStyle.SQUARE, CornerStyle.SQUARE);
         case MIDDLE:
             return ShapeUtil.createRectangle(x - 2, y - 1, w + 3, h + 1);
         case LAST:
-            return ShapeUtil.createQuad(CornerSize.INNER_FOCUS, x - 2, y - 1, w + 2, h + 1, CornerStyle.SQUARE, CornerStyle.SQUARE,
+            return ShapeUtil.createQuad(x - 2, y - 1, w + 2, h + 1, CornerSize.INNER_FOCUS, CornerStyle.SQUARE, CornerStyle.SQUARE,
                 CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            return ShapeUtil.createRoundRectangle(CornerSize.INNER_FOCUS, x - 1, y - 1, w + 1, h + 1);
+            return ShapeUtil.createRoundRectangle(x - 1, y - 1, w + 1, h + 1, CornerSize.INNER_FOCUS);
         }
     }
 
     protected Shape decodeBorder(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
         switch (segmentStatus) {
         case FIRST:
-            return ShapeUtil.createQuad(CornerSize.BORDER, x, y, w + 2, h, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            return ShapeUtil.createQuad(x, y, w + 2, h, CornerSize.BORDER, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
                 CornerStyle.SQUARE, CornerStyle.SQUARE);
         case MIDDLE:
             return ShapeUtil.createRectangle(x - 2, y, w + 4, h);
         case LAST:
-            return ShapeUtil.createQuad(CornerSize.BORDER, x - 2, y, w + 2, h, CornerStyle.SQUARE, CornerStyle.SQUARE,
+            return ShapeUtil.createQuad(x - 2, y, w + 2, h, CornerSize.BORDER, CornerStyle.SQUARE, CornerStyle.SQUARE,
                 CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            return ShapeUtil.createRoundRectangle(CornerSize.BORDER, x, y, w, h);
+            return ShapeUtil.createRoundRectangle(x, y, w, h, CornerSize.BORDER);
         }
     }
 
     protected Shape decodeInterior(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
         switch (segmentStatus) {
         case FIRST:
-            return ShapeUtil.createQuad(CornerSize.INTERIOR, x + 1, y + 1, w, h - 2, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            return ShapeUtil.createQuad(x + 1, y + 1, w, h - 2, CornerSize.INTERIOR, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
                 CornerStyle.SQUARE, CornerStyle.SQUARE);
         case MIDDLE:
             return ShapeUtil.createRectangle(x - 2, y + 1, w + 3, h - 2);
         case LAST:
-            return ShapeUtil.createQuad(CornerSize.INTERIOR, x - 2, y + 1, w + 1, h - 2, CornerStyle.SQUARE, CornerStyle.SQUARE,
+            return ShapeUtil.createQuad(x - 2, y + 1, w + 1, h - 2, CornerSize.INTERIOR, CornerStyle.SQUARE, CornerStyle.SQUARE,
                 CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            return ShapeUtil.createRoundRectangle(CornerSize.INTERIOR, x + 1, y + 1, w - 2, h - 2);
+            return ShapeUtil.createRoundRectangle(x + 1, y + 1, w - 2, h - 2, CornerSize.INTERIOR);
         }
     }
 

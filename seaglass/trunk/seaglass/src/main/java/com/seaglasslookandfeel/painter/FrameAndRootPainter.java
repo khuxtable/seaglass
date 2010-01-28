@@ -139,7 +139,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     }
 
     private Shape decodePath(CornerSize size, int x, int y, int width, int height) {
-        return ShapeUtil.createRoundRectangle(size, x, y, width, height);
+        return ShapeUtil.createRoundRectangle(x, y, width, height, size);
     }
 
     private Paint decodeGradient(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight, Color topColorT, Color topColorB,

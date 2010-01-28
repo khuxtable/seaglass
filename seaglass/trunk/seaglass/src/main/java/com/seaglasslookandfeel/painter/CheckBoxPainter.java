@@ -227,19 +227,19 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
     }
 
     private Shape setOuterFocus(int x, int y, int size) {
-        return ShapeUtil.createRoundRectangle(CornerSize.CHECKBOX_OUTER_FOCUS, x, y, size, size);
+        return ShapeUtil.createRoundRectangle(x, y, size, size, CornerSize.CHECKBOX_OUTER_FOCUS);
     }
 
     private Shape setInnerFocus(int x, int y, int size) {
-        return ShapeUtil.createRoundRectangle(CornerSize.CHECKBOX_INNER_FOCUS, x + 1, y + 1, size - 2, size - 2);
+        return ShapeUtil.createRoundRectangle(x + 1, y + 1, size - 2, size - 2, CornerSize.CHECKBOX_INNER_FOCUS);
     }
 
     private Shape setBorder(int x, int y, int size) {
-        return ShapeUtil.createRoundRectangle(CornerSize.CHECKBOX_BORDER, x + 2, y + 2, size - 4, size - 4);
+        return ShapeUtil.createRoundRectangle(x + 2, y + 2, size - 4, size - 4, CornerSize.CHECKBOX_BORDER);
     }
 
     private Shape setInternal(int x, int y, int size) {
-        return ShapeUtil.createRoundRectangle(CornerSize.CHECKBOX_INTERIOR, x + 3, y + 3, size - 6, size - 6);
+        return ShapeUtil.createRoundRectangle(x + 3, y + 3, size - 6, size - 6, CornerSize.CHECKBOX_INTERIOR);
     }
 
     private static final double SIZE_MULTIPLIER = 2.0 / 3.0;

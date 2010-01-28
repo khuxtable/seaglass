@@ -203,19 +203,19 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
 
     private void paintDropShadow(Graphics2D g, int width, int height, boolean full) {
         // FIXME Make this work again.
-//        Shape s = g.getClip();
-//        if (full) {
-//            g.setClip(0, 0, width, height);
-//        } else {
-//            g.setClip(width - buttonWidth, 0, buttonWidth, height);
-//        }
-//        g.setColor(outerShadowColor);
-//        s = setPath(CornerSize.OUTER_FOCUS, 1, 2, width - 2, height - 2);
-//        g.fill(s);
-//        g.setColor(innerShadowColor);
-//        s = setPath(CornerSize.INNER_FOCUS, 2, 2, width - 4, height - 3);
-//        g.fill(s);
-//        g.setClip(s);
+        // Shape s = g.getClip();
+        // if (full) {
+        // g.setClip(0, 0, width, height);
+        // } else {
+        // g.setClip(width - buttonWidth, 0, buttonWidth, height);
+        // }
+        // g.setColor(outerShadowColor);
+        // s = setPath(CornerSize.OUTER_FOCUS, 1, 2, width - 2, height - 2);
+        // g.fill(s);
+        // g.setColor(innerShadowColor);
+        // s = setPath(CornerSize.INNER_FOCUS, 2, 2, width - 4, height - 3);
+        // g.fill(s);
+        // g.setClip(s);
     }
 
     private Shape decodeBorder(int width, int height) {
@@ -227,13 +227,13 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeButtonPath(CornerSize size, int left, int top, int width, int height) {
-        return ShapeUtil.createQuad(size, left, top, width, height, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.SQUARE,
+        return ShapeUtil.createQuad(left, top, width, height, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.SQUARE,
             CornerStyle.SQUARE);
     }
 
     private Shape setPath(CornerSize size, int x, int y, int width, int height) {
         CornerStyle leftStyle = editable ? CornerStyle.SQUARE : CornerStyle.ROUNDED;
-        return ShapeUtil.createQuad(size, x, y, width, height, leftStyle, leftStyle, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+        return ShapeUtil.createQuad(x, y, width, height, size, leftStyle, leftStyle, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
     /**
