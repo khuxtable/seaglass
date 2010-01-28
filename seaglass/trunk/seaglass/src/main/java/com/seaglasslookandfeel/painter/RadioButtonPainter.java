@@ -24,7 +24,6 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
@@ -32,6 +31,7 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * RadioButtonPainter implementation.
@@ -56,8 +56,6 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     private Color        innerToolBarFocusColor   = decodeColor("seaGlassToolBarFocus");
 
     private Effect       dropShadow               = new SeaGlassDropShadowEffect();
-
-    private Ellipse2D    ellipse                  = new Ellipse2D.Double();
 
     private Color        bullet1                  = new Color(0x333333);
     private Color        bullet2                  = new Color(0x000000);
@@ -165,7 +163,8 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
 
     /**
      * @param g
-     * @param c TODO
+     * @param c
+     *            TODO
      * @param width
      * @param height
      */
@@ -259,29 +258,29 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     }
 
     private Shape setOuterFocus(int width, int height) {
-        return setCircle(width - 0.0, width, height);
+        return setCircle(width, width, height);
     }
 
     private Shape setInnerFocus(int width, int height) {
-        return setCircle(width - 2.0, width, height);
+        return setCircle(width - 2, width, height);
     }
 
     private Shape setBorder(int width, int height) {
-        return setCircle(width - 4.0, width, height);
+        return setCircle(width - 4, width, height);
     }
 
     private Shape setInternal(int width, int height) {
-        return setCircle(width - 6.0, width, height);
+        return setCircle(width - 6, width, height);
     }
 
     private Shape setBullet(int width, int height) {
         return setCircle(width / 4.5, width, height);
     }
 
-    private Shape setCircle(Double diameter, int width, int height) {
-        Double pos = (width - diameter) / 2.0;
-        ellipse.setFrame(pos, pos, diameter, diameter);
-        return ellipse;
+    private Shape setCircle(double diameter, int width, int height) {
+        int pos = (int) ((width - diameter) / 2.0 + 0.5);
+        int iDiameter = (int) (diameter + 0.5);
+        return ShapeUtil.createEllipse(pos, pos, iDiameter, iDiameter);
     }
 
     private Paint setGradient2(Shape s, Color color1, Color color2) {
