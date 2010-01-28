@@ -25,15 +25,14 @@ import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
 /**
  * ProgressBarPainter implementation.
@@ -51,47 +50,43 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         FOREGROUND_DISABLED_INDETERMINATE,
     }
 
-    private Color            innerShadowColor1      = new Color(0x20000000, true);
-    private Color            innerShadowColor2      = new Color(0x10000000, true);
+    private Color        innerShadowColor1      = new Color(0x20000000, true);
+    private Color        innerShadowColor2      = new Color(0x10000000, true);
 
-    private Effect           dropShadow             = new SeaGlassDropShadowEffect();
+    private Effect       dropShadow             = new SeaGlassDropShadowEffect();
 
-    private Color            disabledTrack1         = new Color(0x803f76bf, true);
-    private Color            disabledTrack2         = new Color(0x804076bf, true);
-    private Color            disabledTrackInterior  = new Color(0x80ffffff, true);
+    private Color        disabledTrack1         = new Color(0x803f76bf, true);
+    private Color        disabledTrack2         = new Color(0x804076bf, true);
+    private Color        disabledTrackInterior  = new Color(0x80ffffff, true);
 
-    private Color            enabledTrack1          = new Color(0x3f76bf);
-    private Color            enabledTrack2          = new Color(0x4076bf);
-    private Color            enabledTrackInterior   = new Color(0xffffff);
+    private Color        enabledTrack1          = new Color(0x3f76bf);
+    private Color        enabledTrack2          = new Color(0x4076bf);
+    private Color        enabledTrackInterior   = new Color(0xffffff);
 
-    private Color            disabledBar1           = new Color(0x80bccedf, true);
-    private Color            disabledBar2           = new Color(0x807fa7cd, true);
-    private Color            disabledBar3           = new Color(0x8082b0d6, true);
-    private Color            disabledBar4           = new Color(0x80b0daf6, true);
-    private Color            disabledBarEnd         = new Color(0x804076bf, true);
+    private Color        disabledBar1           = new Color(0x80bccedf, true);
+    private Color        disabledBar2           = new Color(0x807fa7cd, true);
+    private Color        disabledBar3           = new Color(0x8082b0d6, true);
+    private Color        disabledBar4           = new Color(0x80b0daf6, true);
+    private Color        disabledBarEnd         = new Color(0x804076bf, true);
 
-    private Color            disabledIndeterminate1 = new Color(0x80fbfdfe, true);
-    private Color            disabledIndeterminate2 = new Color(0x80d6eaf9, true);
-    private Color            disabledIndeterminate3 = new Color(0x80d2e8f8, true);
-    private Color            disabledIndeterminate4 = new Color(0x80f5fafd, true);
+    private Color        disabledIndeterminate1 = new Color(0x80fbfdfe, true);
+    private Color        disabledIndeterminate2 = new Color(0x80d6eaf9, true);
+    private Color        disabledIndeterminate3 = new Color(0x80d2e8f8, true);
+    private Color        disabledIndeterminate4 = new Color(0x80f5fafd, true);
 
-    private Color            enabledBar1            = new Color(0xbccedf);
-    private Color            enabledBar2            = new Color(0x7fa7cd);
-    private Color            enabledBar3            = new Color(0x82b0d6);
-    private Color            enabledBar4            = new Color(0xb0daf6);
-    private Color            enabledBarEnd          = new Color(0x4076bf);
+    private Color        enabledBar1            = new Color(0xbccedf);
+    private Color        enabledBar2            = new Color(0x7fa7cd);
+    private Color        enabledBar3            = new Color(0x82b0d6);
+    private Color        enabledBar4            = new Color(0xb0daf6);
+    private Color        enabledBarEnd          = new Color(0x4076bf);
 
-    private Color            indeterminate1         = new Color(0xfbfdfe);
-    private Color            indeterminate2         = new Color(0xd6eaf9);
-    private Color            indeterminate3         = new Color(0xd2e8f8);
-    private Color            indeterminate4         = new Color(0xf5fafd);
+    private Color        indeterminate1         = new Color(0xfbfdfe);
+    private Color        indeterminate2         = new Color(0xd6eaf9);
+    private Color        indeterminate3         = new Color(0xd2e8f8);
+    private Color        indeterminate4         = new Color(0xf5fafd);
 
-    private Rectangle2D      rect                   = new Rectangle2D.Double();
-    private RoundRectangle2D roundRect              = new RoundRectangle2D.Double();
-    private Path2D           path                   = new Path2D.Double();
-
-    private Which            state;
-    private PaintContext     ctx;
+    private Which        state;
+    private PaintContext ctx;
 
     public ProgressBarPainter(Which state) {
         super();
@@ -164,7 +159,9 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = decodeTrackBorder(width, height);
-        dropShadow.fill(g, s);
+        if (state != Which.BACKGROUND_DISABLED) {
+            dropShadow.fill(g, s);
+        }
         g.setPaint(decodeTrackGradient(s, color1, color2));
         g.draw(s);
 
@@ -172,10 +169,10 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         g.setColor(colorInterior);
         g.fill(s);
 
-        s = decodeTrackInternalShadowBorder2(width, height);
+        s = ShapeUtil.createRoundedInternalDropShadowLight(width, height);
         g.setColor(innerShadowColor2);
         g.draw(s);
-        s = decodeTrackInternalShadowBorder1(width, height);
+        s = ShapeUtil.createRoundedInternalDropShadowDark(width, height);
         g.setColor(innerShadowColor1);
         g.draw(s);
     }
@@ -194,71 +191,26 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
 
     private void paintIndeterminate(Graphics2D g, int width, int height, Color dark1, Color dark2, Color dark3, Color dark4, Color light1,
         Color light2, Color light3, Color light4) {
-        Shape s = decodeIndeterminatePathLight(width, height);
+        Shape s = ShapeUtil.createProgressBarIndeterminatePathLight(width, height);
         g.setPaint(decodeBarGradient(s, light1, light2, light3, light4));
         g.fill(s);
-        s = decodeIndeterminateDark(width, height);
+        s = ShapeUtil.createProgressBarIndeterminateDark(width, height);
         g.setPaint(decodeBarGradient(s, dark1, dark2, dark3, dark4));
         g.fill(s);
     }
 
-    private Shape decodeTrackInternalShadowBorder1(int width, int height) {
-        path.reset();
-        path.moveTo(4, (height - 5) / 2 - 1);
-        path.quadTo(5, 3, 8, 3);
-        path.lineTo(width - 11, 3);
-        path.quadTo(width - 5, 3, width - 5, (height - 5) / 2 - 1);
-        return path;
-    }
-
-    private Shape decodeTrackInternalShadowBorder2(int width, int height) {
-        path.reset();
-        path.moveTo(4, (height - 5) / 2);
-        path.quadTo(5, 4, 8, 4);
-        path.lineTo(width - 11, 4);
-        path.quadTo(width - 5, 4, width - 5, (height - 5) / 2);
-        return path;
-    }
-
     private Shape decodeTrackBorder(int width, int height) {
-        roundRect.setRoundRect(2, 2, width - 5, height - 5, height - 4, height - 4);
-        return roundRect;
+        return ShapeUtil.createQuad(2, 2, width - 5, height - 5, height / 2.0 - 2, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
     private Shape decodeTrackInterior(int width, int height) {
-        roundRect.setRoundRect(3, 3, width - 6, height - 6, height - 6, height - 6);
-        return roundRect;
+        return ShapeUtil.createQuad(3, 3, width - 6, height - 6, height / 2.0 - 3, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
     private Shape decodeBar(int width, int height) {
-        rect.setRect(0, 0, width, height);
-        return rect;
-    }
-
-    private Shape decodeIndeterminateDark(int width, int height) {
-        double half = width / 2.0;
-        path.reset();
-        path.moveTo(0, 0);
-        path.lineTo(3, 0);
-        path.lineTo(half, height);
-        path.lineTo(0, height);
-        path.closePath();
-        path.moveTo(half + 3, 0);
-        path.lineTo(width, 0);
-        path.lineTo(width, height);
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodeIndeterminatePathLight(int width, int height) {
-        double half = width / 2.0;
-        path.reset();
-        path.moveTo(3, 0);
-        path.lineTo(half + 3, 0);
-        path.lineTo(width, height);
-        path.lineTo(half, height);
-        path.closePath();
-        return path;
+        return ShapeUtil.createRectangle(0, 0, width, height);
     }
 
     private Paint decodeTrackGradient(Shape s, Color color1, Color color2) {

@@ -34,6 +34,8 @@ public class ShapeUtil {
     };
 
     public enum CornerSize {
+        VARIABLE(0),
+
         INTERIOR(baseArcSize - 1),
         BORDER(baseArcSize),
         INNER_FOCUS(baseArcSize + 1),
@@ -42,7 +44,10 @@ public class ShapeUtil {
         CHECKBOX_INTERIOR(baseArcSize / 2),
         CHECKBOX_BORDER((baseArcSize + 1) / 2),
         CHECKBOX_INNER_FOCUS((baseArcSize + 2) / 2),
-        CHECKBOX_OUTER_FOCUS((baseArcSize + 3) / 2);
+        CHECKBOX_OUTER_FOCUS((baseArcSize + 3) / 2),
+
+        POPUP_BORDER(3),
+        POPUP_INTERIOR(2.5);
 
         public double arcSize;
 
@@ -66,39 +71,60 @@ public class ShapeUtil {
 
     public static Shape createRectangle(final int x, final int y, final int w, final int h) {
         // The corner size doesn't matter, but must not be null.
-        return createQuad(CornerSize.BORDER, x, y, w, h, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE);
+        return createQuad(x, y, w, h, CornerSize.BORDER, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE);
     }
 
-    public static Shape createRoundRectangle(final CornerSize size, final int x, final int y, final int w, final int h) {
-        return createQuad(size, x, y, w, h, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+    public static Shape createRoundRectangle(final int x, final int y, final int w, final int h, final CornerSize size) {
+        return createQuad(x, y, w, h, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
-    public static Shape createQuad(final CornerSize size, final int x, final int y, final int w, final int h, final CornerStyle topLeft,
+    public static Shape createQuad(final int x, final int y, final int w, final int h, final CornerSize size, final CornerStyle topLeft,
         final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
-        int right = x + w;
-        int bottom = y + h;
-        double arcSize = size.arcSize;
+        return createQuadInternal(x, y, w, h, topLeft, bottomLeft, bottomRight, topRight, size.arcSize);
+    }
+
+    public static Shape createQuad(final int x, final int y, final int w, final int h, final double radius, final CornerStyle topLeft,
+        final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
+        return createQuadInternal(x, y, w, h, topLeft, bottomLeft, bottomRight, topRight, radius);
+    }
+
+    /**
+     * @param left
+     * @param top
+     * @param w
+     * @param h
+     * @param topLeft
+     * @param bottomLeft
+     * @param bottomRight
+     * @param topRight
+     * @param radius
+     * @return
+     */
+    private static Shape createQuadInternal(final int left, final int top, final int w, final int h, final CornerStyle topLeft,
+        final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight, final double radius) {
+        final int right = left + w;
+        final int bottom = top + h;
 
         // Start the path.
         path.reset();
         // Move to top left and draw rounded corner if requested.
         switch (topLeft) {
         case SQUARE:
-            path.moveTo(x, y);
+            path.moveTo(left, top);
             break;
         case ROUNDED:
-            path.moveTo(x + arcSize, y);
-            path.quadTo(x, y, x, y + arcSize);
+            path.moveTo(left + radius, top);
+            path.quadTo(left, top, left, top + radius);
             break;
         }
         // Draw through bottom left corner.
         switch (bottomLeft) {
         case SQUARE:
-            path.lineTo(x, bottom);
+            path.lineTo(left, bottom);
             break;
         case ROUNDED:
-            path.lineTo(x, bottom - arcSize);
-            path.quadTo(x, bottom, x + arcSize, bottom);
+            path.lineTo(left, bottom - radius);
+            path.quadTo(left, bottom, left + radius, bottom);
             break;
         }
         // Draw through bottom right corner.
@@ -107,17 +133,17 @@ public class ShapeUtil {
             path.lineTo(right, bottom);
             break;
         case ROUNDED:
-            path.lineTo(right - arcSize, bottom);
-            path.quadTo(right, bottom, right, bottom - arcSize);
+            path.lineTo(right - radius, bottom);
+            path.quadTo(right, bottom, right, bottom - radius);
         }
         // Draw through top right corner.
         switch (topRight) {
         case SQUARE:
-            path.lineTo(right, y);
+            path.lineTo(right, top);
             break;
         case ROUNDED:
-            path.lineTo(right, y + arcSize);
-            path.quadTo(right, y, right - arcSize, y);
+            path.lineTo(right, top + radius);
+            path.quadTo(right, top, right - radius, top);
             break;
         }
         // Close the path.
@@ -173,6 +199,50 @@ public class ShapeUtil {
         path.lineTo(x + w / 2, y + h);
         path.lineTo(x + w, y);
         path.closePath();
+        return path;
+    }
+
+    public static Shape createProgressBarIndeterminateDark(int width, int height) {
+        double half = width / 2.0;
+        path.reset();
+        path.moveTo(0, 0);
+        path.lineTo(3, 0);
+        path.lineTo(half, height);
+        path.lineTo(0, height);
+        path.closePath();
+        path.moveTo(half + 3, 0);
+        path.lineTo(width, 0);
+        path.lineTo(width, height);
+        path.closePath();
+        return path;
+    }
+
+    public static Shape createProgressBarIndeterminatePathLight(int width, int height) {
+        double half = width / 2.0;
+        path.reset();
+        path.moveTo(3, 0);
+        path.lineTo(half + 3, 0);
+        path.lineTo(width, height);
+        path.lineTo(half, height);
+        path.closePath();
+        return path;
+    }
+
+    public static Shape createRoundedInternalDropShadowDark(int width, int height) {
+        path.reset();
+        path.moveTo(4, (height - 5) / 2 - 1);
+        path.quadTo(5, 3, 8, 3);
+        path.lineTo(width - 11, 3);
+        path.quadTo(width - 5, 3, width - 5, (height - 5) / 2 - 1);
+        return path;
+    }
+
+    public static Shape createRoundedInternalDropShadowLight(int width, int height) {
+        path.reset();
+        path.moveTo(4, (height - 5) / 2);
+        path.quadTo(5, 4, 8, 4);
+        path.lineTo(width - 11, 4);
+        path.quadTo(width - 5, 4, width - 5, (height - 5) / 2);
         return path;
     }
 }
