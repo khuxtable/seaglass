@@ -202,19 +202,20 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     }
 
     private void paintDropShadow(Graphics2D g, int width, int height, boolean full) {
-        Shape s = g.getClip();
-        if (full) {
-            g.setClip(0, 0, width, height);
-        } else {
-            g.setClip(width - buttonWidth, 0, buttonWidth, height);
-        }
-        g.setColor(outerShadowColor);
-        s = setPath(CornerSize.OUTER_FOCUS, 1, 2, width - 2, height - 2);
-        g.fill(s);
-        g.setColor(innerShadowColor);
-        s = setPath(CornerSize.INNER_FOCUS, 2, 2, width - 4, height - 3);
-        g.fill(s);
-        g.setClip(s);
+        // FIXME Make this work again.
+//        Shape s = g.getClip();
+//        if (full) {
+//            g.setClip(0, 0, width, height);
+//        } else {
+//            g.setClip(width - buttonWidth, 0, buttonWidth, height);
+//        }
+//        g.setColor(outerShadowColor);
+//        s = setPath(CornerSize.OUTER_FOCUS, 1, 2, width - 2, height - 2);
+//        g.fill(s);
+//        g.setColor(innerShadowColor);
+//        s = setPath(CornerSize.INNER_FOCUS, 2, 2, width - 4, height - 3);
+//        g.fill(s);
+//        g.setClip(s);
     }
 
     private Shape decodeBorder(int width, int height) {
