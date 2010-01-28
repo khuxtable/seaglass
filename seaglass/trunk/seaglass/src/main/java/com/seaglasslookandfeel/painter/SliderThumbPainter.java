@@ -173,20 +173,20 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
         Shape s;
         if (focused) {
-            s = ShapeUtil.createSliderThumbContinuous(0, 1, width, width);
+            s = ShapeUtil.createSliderThumbContinuous(0, 1, width);
             g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
             g.fill(s);
-            s = ShapeUtil.createSliderThumbContinuous(1, 2, width - 2, width - 2);
+            s = ShapeUtil.createSliderThumbContinuous(1, 2, width - 2);
             g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
             g.fill(s);
         }
-        s = ShapeUtil.createSliderThumbContinuous(2, 3, width - 4, width - 4);
+        s = ShapeUtil.createSliderThumbContinuous(2, 3, width - 4);
         if (!focused) {
             dropShadow.fill(g, s);
         }
         g.setPaint(decodeBorderGradient(s, colors.border1, colors.border2));
         g.fill(s);
-        s = ShapeUtil.createSliderThumbContinuous(3, 4, width - 6, width - 6);
+        s = ShapeUtil.createSliderThumbContinuous(3, 4, width - 6);
         g.setPaint(decodeInteriorGradient(s, colors.interior1, colors.interior2, colors.interior3, colors.interior4));
         g.fill(s);
     }

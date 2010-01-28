@@ -85,73 +85,96 @@ public class ShapeUtil {
 
     private static final double baseArcSize = 4d;
 
+    /**
+     * Return a path for a rectangle with square corners.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the rectangle
+     * @param y
+     *            the Y coordinate of the upper-left corner of the rectangle
+     * @param w
+     *            the width of the rectangle
+     * @param h
+     *            the height of the rectangle
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createRectangle(final int x, final int y, final int w, final int h) {
         return createRoundRectangleInternal(x, y, w, h, 0, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE);
     }
 
+    /**
+     * Return a path for a rectangle with rounded corners.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the rectangle
+     * @param y
+     *            the Y coordinate of the upper-left corner of the rectangle
+     * @param w
+     *            the width of the rectangle
+     * @param h
+     *            the height of the rectangle
+     * @param size
+     *            the CornerSize value representing the amount of rounding
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createRoundRectangle(final int x, final int y, final int w, final int h, final CornerSize size) {
         return createRoundRectangle(x, y, w, h, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
+    /**
+     * Return a path for a rectangle with rounded corners.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the rectangle
+     * @param y
+     *            the Y coordinate of the upper-left corner of the rectangle
+     * @param w
+     *            the width of the rectangle
+     * @param h
+     *            the height of the rectangle
+     * @param size
+     *            the CornerSize value representing the amount of rounding
+     * @param topLeft
+     *            the CornerStyle of the upper-left corner. This must be one of
+     *            {@code CornerStyle.SQUARE} or {@code CornerStyle.ROUNDED}.
+     * @param bottomLeft
+     *            the CornerStyle of the lower-left corner. This must be one of
+     *            {@code CornerStyle.SQUARE} or {@code CornerStyle.ROUNDED}.
+     * @param bottomRight
+     *            the CornerStyle of the lower-right corner. This must be one of
+     *            {@code CornerStyle.SQUARE} or {@code CornerStyle.ROUNDED}.
+     * @param topRight
+     *            the CornerStyle of the upper-right corner. This must be one of
+     *            {@code CornerStyle.SQUARE} or {@code CornerStyle.ROUNDED}.
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createRoundRectangle(final int x, final int y, final int w, final int h, final CornerSize size,
         final CornerStyle topLeft, final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
         return createRoundRectangleInternal(x, y, w, h, size.getRadius(w, h), topLeft, bottomLeft, bottomRight, topRight);
     }
 
-    private static Shape createRoundRectangleInternal(final int x, final int y, final int w, final int h, final double radius,
-        final CornerStyle topLeft, final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
-        // Convenience variables.
-        final int left = x;
-        final int top = y;
-        final int right = x + w;
-        final int bottom = y + h;
-
-        // Start the path.
-        path.reset();
-        // Move to top left and draw rounded corner if requested.
-        switch (topLeft) {
-        case SQUARE:
-            path.moveTo(left, top);
-            break;
-        case ROUNDED:
-            path.moveTo(left + radius, top);
-            path.quadTo(left, top, left, top + radius);
-            break;
-        }
-        // Draw through bottom left corner.
-        switch (bottomLeft) {
-        case SQUARE:
-            path.lineTo(left, bottom);
-            break;
-        case ROUNDED:
-            path.lineTo(left, bottom - radius);
-            path.quadTo(left, bottom, left + radius, bottom);
-            break;
-        }
-        // Draw through bottom right corner.
-        switch (bottomRight) {
-        case SQUARE:
-            path.lineTo(right, bottom);
-            break;
-        case ROUNDED:
-            path.lineTo(right - radius, bottom);
-            path.quadTo(right, bottom, right, bottom - radius);
-        }
-        // Draw through top right corner.
-        switch (topRight) {
-        case SQUARE:
-            path.lineTo(right, top);
-            break;
-        case ROUNDED:
-            path.lineTo(right, top + radius);
-            path.quadTo(right, top, right - radius, top);
-            break;
-        }
-        // Close the path.
-        path.closePath();
-        return path;
-    }
-
+    /**
+     * Return a path for a rectangle with square corners and no right side. This
+     * is used for text fields that are part of a larger control, which is
+     * placed to their left, e.g. spinners and editable combo boxes.
+     * <p>
+     * This path is suitable for drawing, not for filling.
+     * </p>
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the rectangle
+     * @param y
+     *            the Y coordinate of the upper-left corner of the rectangle
+     * @param w
+     *            the width of the rectangle
+     * @param h
+     *            the height of the rectangle
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createOpenRectangle(final int x, final int y, final int w, final int h) {
         path.reset();
         path.moveTo(x + w, y);
@@ -161,6 +184,20 @@ public class ShapeUtil {
         return path;
     }
 
+    /**
+     * Return a path for a check mark.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the check mark
+     * @param y
+     *            the Y coordinate of the upper-left corner of the check mark
+     * @param w
+     *            the width of the check mark
+     * @param h
+     *            the height of the check mark
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createCheckMark(final int x, final int y, final int w, final int h) {
         double xf = w / 12.0;
         double hf = h / 12.0;
@@ -176,6 +213,20 @@ public class ShapeUtil {
         return path;
     }
 
+    /**
+     * Return a path for an arrow pointing to the left.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the arrow
+     * @param y
+     *            the Y coordinate of the upper-left corner of the arrow
+     * @param w
+     *            the width of the arrow
+     * @param h
+     *            the height of the arrow
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createArrowLeft(final double x, final double y, final double w, final double h) {
         path.reset();
         path.moveTo(x + w, y);
@@ -185,6 +236,20 @@ public class ShapeUtil {
         return path;
     }
 
+    /**
+     * Return a path for an arrow pointing to the right.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the arrow
+     * @param y
+     *            the Y coordinate of the upper-left corner of the arrow
+     * @param w
+     *            the width of the arrow
+     * @param h
+     *            the height of the arrow
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createArrowRight(final double x, final double y, final double w, final double h) {
         path.reset();
         path.moveTo(x, y);
@@ -194,6 +259,20 @@ public class ShapeUtil {
         return path;
     }
 
+    /**
+     * Return a path for an arrow pointing up.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the arrow
+     * @param y
+     *            the Y coordinate of the upper-left corner of the arrow
+     * @param w
+     *            the width of the arrow
+     * @param h
+     *            the height of the arrow
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createArrowUp(final double x, final double y, final double w, final double h) {
         path.reset();
         path.moveTo(x, y + h);
@@ -203,6 +282,20 @@ public class ShapeUtil {
         return path;
     }
 
+    /**
+     * Return a path for an arrow pointing down.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the arrow
+     * @param y
+     *            the Y coordinate of the upper-left corner of the arrow
+     * @param w
+     *            the width of the arrow
+     * @param h
+     *            the height of the arrow
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createArrowDown(final double x, final double y, final double w, final double h) {
         path.reset();
         path.moveTo(x, y);
@@ -212,29 +305,31 @@ public class ShapeUtil {
         return path;
     }
 
-    public static Shape createProgressBarIndeterminateDark(int width, int height) {
-        double half = width / 2.0;
-        path.reset();
-        path.moveTo(0, 0);
-        path.lineTo(3, 0);
-        path.lineTo(half, height);
-        path.lineTo(0, height);
-        path.closePath();
-        path.moveTo(half + 3, 0);
-        path.lineTo(width, 0);
-        path.lineTo(width, height);
-        path.closePath();
-        return path;
-    }
+    /**
+     * Return a path for the patterned portion of an indeterminate progress bar.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the region
+     * @param y
+     *            the Y coordinate of the upper-left corner of the region
+     * @param w
+     *            the width of the region
+     * @param h
+     *            the height of the region
+     * 
+     * @return a path representing the shape.
+     */
+    public static Shape createProgressBarIndeterminatePattern(int x, int y, int width, int height) {
+        final double half = width / 2.0;
+        final int offset = 3;
 
-    public static Shape createProgressBarIndeterminateLight(int width, int height) {
-        double half = width / 2.0;
         path.reset();
-        path.moveTo(3, 0);
-        path.lineTo(half + 3, 0);
+        path.moveTo(offset, 0);
+        path.lineTo(half + offset, 0);
         path.lineTo(width, height);
         path.lineTo(half, height);
         path.closePath();
+
         return path;
     }
 
@@ -277,15 +372,23 @@ public class ShapeUtil {
         return path;
     }
 
-    public static Shape createEllipse(int x, int y, int w, int h) {
-        ellipse.setFrame(x, y, w, h);
-        return ellipse;
-    }
-
-    public static Shape createBullet(int x, int y, int radius) {
-        return createEllipse(x, y, radius, radius);
-    }
-
+    /**
+     * Return a path for a focus rectangle.
+     * <p>
+     * This path is suitable for filling.
+     * </p>
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the rectangle
+     * @param y
+     *            the Y coordinate of the upper-left corner of the rectangle
+     * @param w
+     *            the width of the rectangle
+     * @param h
+     *            the height of the rectangle
+     * 
+     * @return a path representing the shape.
+     */
     public static Shape createFillableFocusRectangle(int x, int y, int width, int height) {
         final int left = x;
         final int top = y;
@@ -316,8 +419,16 @@ public class ShapeUtil {
         return path;
     }
 
-    public static Shape createSliderThumbContinuous(final int x, final int y, final int w, final int h) {
-        return createEllipse(x, y, w, h);
+    public static Shape createBullet(int x, int y, int diameter) {
+        return createEllipseInternal(x, y, diameter, diameter);
+    }
+
+    public static Shape createRadioButton(int x, int y, int diameter) {
+        return createEllipseInternal(x, y, diameter, diameter);
+    }
+
+    public static Shape createSliderThumbContinuous(final int x, final int y, final int diameter) {
+        return createEllipseInternal(x, y, diameter, diameter);
     }
 
     public static Shape createSliderThumbDiscrete(final int x, final int y, final int w, final int h, final CornerSize size) {
@@ -412,5 +523,64 @@ public class ShapeUtil {
     private static void addScrollGapPathBackwards(int x, int y, int height) {
         path.quadTo(x + height / 2.0, y + height, x + height / 2.0, y + height / 2.0);
         path.quadTo(x + height / 2.0, y, x, y);
+    }
+
+    private static Shape createEllipseInternal(int x, int y, int w, int h) {
+        ellipse.setFrame(x, y, w, h);
+        return ellipse;
+    }
+
+    private static Shape createRoundRectangleInternal(final int x, final int y, final int w, final int h, final double radius,
+        final CornerStyle topLeft, final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
+        // Convenience variables.
+        final int left = x;
+        final int top = y;
+        final int right = x + w;
+        final int bottom = y + h;
+
+        // Start the path.
+        path.reset();
+        // Move to top left and draw rounded corner if requested.
+        switch (topLeft) {
+        case SQUARE:
+            path.moveTo(left, top);
+            break;
+        case ROUNDED:
+            path.moveTo(left + radius, top);
+            path.quadTo(left, top, left, top + radius);
+            break;
+        }
+        // Draw through bottom left corner.
+        switch (bottomLeft) {
+        case SQUARE:
+            path.lineTo(left, bottom);
+            break;
+        case ROUNDED:
+            path.lineTo(left, bottom - radius);
+            path.quadTo(left, bottom, left + radius, bottom);
+            break;
+        }
+        // Draw through bottom right corner.
+        switch (bottomRight) {
+        case SQUARE:
+            path.lineTo(right, bottom);
+            break;
+        case ROUNDED:
+            path.lineTo(right - radius, bottom);
+            path.quadTo(right, bottom, right, bottom - radius);
+        }
+        // Draw through top right corner.
+        switch (topRight) {
+        case SQUARE:
+            path.lineTo(right, top);
+            break;
+        case ROUNDED:
+            path.lineTo(right, top + radius);
+            path.quadTo(right, top, right - radius, top);
+            break;
+        }
+        // Close the path.
+        path.closePath();
+        return path;
     }
 }
