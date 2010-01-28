@@ -21,12 +21,12 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public final class TreeTreeCellPainter extends AbstractRegionPainter {
     public enum Which {
@@ -36,11 +36,8 @@ public final class TreeTreeCellPainter extends AbstractRegionPainter {
     private Which        state;
     private PaintContext ctx;
 
-    private Path2D       path   = new Path2D.Float();
-    private Rectangle2D  rect   = new Rectangle2D.Float(0, 0, 0, 0);
-
-    private Color        color1 = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
-    private Color        color2 = decodeColor("nimbusSelectionBackground", 0.0f, 0.0f, 0.0f, 0);
+    private Color        focusColor      = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
+    private Color        backgroundColor = decodeColor("nimbusSelectionBackground", 0.0f, 0.0f, 0.0f, 0);
 
     public TreeTreeCellPainter(Which state) {
         super();
@@ -69,46 +66,32 @@ public final class TreeTreeCellPainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundEnabledAndFocused(Graphics2D g, int width, int height) {
-        path = decodePath1(width, height);
-        g.setPaint(color1);
-        g.fill(path);
+        Shape s = decodeFocus(width, height);
+        g.setPaint(focusColor);
+        g.fill(s);
     }
 
     private void paintBackgroundEnabledAndSelected(Graphics2D g, int width, int height) {
-        rect = decodeRect1(width, height);
-        g.setPaint(color2);
-        g.fill(rect);
+        Shape s = decodeBackground(width, height);
+        g.setPaint(backgroundColor);
+        g.fill(s);
     }
 
     private void paintBackgroundSelectedAndFocused(Graphics2D g, int width, int height) {
-        rect = decodeRect1(width, height);
-        g.setPaint(color2);
-        g.fill(rect);
-        path = decodePath1(width, height);
-        g.setPaint(color1);
-        g.fill(path);
+        Shape s = decodeBackground(width, height);
+        g.setPaint(backgroundColor);
+        g.fill(s);
+        s = decodeFocus(width, height);
+        g.setPaint(focusColor);
+        g.fill(s);
     }
 
-    private Path2D decodePath1(int width, int height) {
-        path.reset();
-        path.moveTo(0, 0);
-        path.lineTo(0, height);
-        path.lineTo(width, height);
-        path.lineTo(width, 0);
-        path.lineTo(1.2f, 0);
-        path.lineTo(1.2f, 1.2f);
-        path.lineTo(width - 1.2f, 1.2f);
-        path.lineTo(width - 1.2f, height - 1.2f);
-        path.lineTo(1.2f, height - 1.2f);
-        path.lineTo(1.2f, 0);
-        path.lineTo(0, 0);
-        path.closePath();
-        return path;
+    private Shape decodeFocus(int width, int height) {
+        return ShapeUtil.createFillableFocusPath(0, 0, width, height);
     }
 
-    private Rectangle2D decodeRect1(int width, int height) {
-        rect.setRect(0, 0, width, height);
-        return rect;
+    private Shape decodeBackground(int width, int height) {
+        return ShapeUtil.createRectangle(0, 0, width, height);
     }
 
 }
