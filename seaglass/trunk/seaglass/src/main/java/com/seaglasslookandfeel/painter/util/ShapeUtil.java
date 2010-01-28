@@ -320,14 +320,14 @@ public class ShapeUtil {
      * @return a path representing the shape.
      */
     public static Shape createProgressBarIndeterminatePattern(int x, int y, int width, int height) {
-        final double half = width / 2.0;
-        final int offset = 3;
+        final double wHalf = width / 2.0;
+        final double xOffset = wHalf / 4.0;
 
         path.reset();
-        path.moveTo(offset, 0);
-        path.lineTo(half + offset, 0);
+        path.moveTo(xOffset, 0);
+        path.lineTo(wHalf + xOffset, 0);
         path.lineTo(width, height);
-        path.lineTo(half, height);
+        path.lineTo(wHalf, height);
         path.closePath();
 
         return path;
