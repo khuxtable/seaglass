@@ -1,6 +1,7 @@
 package com.seaglasslookandfeel.demo;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
@@ -35,6 +36,8 @@ public class TestButtons {
                 button3.putClientProperty("JButton.segmentPosition", "last");
 
                 JPanel panel = new JPanel();
+                panel.setOpaque(true);
+                panel.setBackground(new Color(panel.getBackground().getRGB()));
                 panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 FlowLayout layout = new FlowLayout(FlowLayout.CENTER, 0, 0);
                 panel.setLayout(layout);
