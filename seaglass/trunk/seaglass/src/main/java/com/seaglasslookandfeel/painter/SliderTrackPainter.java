@@ -24,11 +24,11 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * Nimbus's SliderTrackPainter.
@@ -38,20 +38,18 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
-    private Which            state;
-    private PaintContext     ctx;
+    private Which        state;
+    private PaintContext ctx;
 
-    private RoundRectangle2D roundRect              = new RoundRectangle2D.Double();
+    private Color        disabledBorderTop      = new Color(0x80909090, true);
+    private Color        disabledBorderBottom   = new Color(0x80b4b4b4, true);
+    private Color        disabledInteriorTop    = new Color(0x80c4c4c4, true);
+    private Color        disabledInteriorBottom = new Color(0x80ebebeb, true);
 
-    private Color            disabledBorderTop      = new Color(0x80909090, true);
-    private Color            disabledBorderBottom   = new Color(0x80b4b4b4, true);
-    private Color            disabledInteriorTop    = new Color(0x80c4c4c4, true);
-    private Color            disabledInteriorBottom = new Color(0x80ebebeb, true);
-
-    private Color            enabledBorderTop       = new Color(0x636363);
-    private Color            enabledBorderBottom    = new Color(0xaeaeae);
-    private Color            enabledInteriorTop     = new Color(0xc4c4c4);
-    private Color            enabledInteriorBottom  = new Color(0xebebeb);
+    private Color        enabledBorderTop       = new Color(0x636363);
+    private Color        enabledBorderBottom    = new Color(0xaeaeae);
+    private Color        enabledInteriorTop     = new Color(0xc4c4c4);
+    private Color        enabledInteriorBottom  = new Color(0xebebeb);
 
     public SliderTrackPainter(Which state) {
         super();
@@ -101,12 +99,10 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeBorder(int width, int height) {
-        roundRect.setRoundRect(0, 0, width, height, height, height);
-        return roundRect;
+        return ShapeUtil.createRoundRectangle(0, 0, width, height, height / 2.0);
     }
 
     private Shape decodeInterior(int width, int height) {
-        roundRect.setRoundRect(1, 1, width - 2, height - 2, height - 2, height - 2);
-        return roundRect;
+        return ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, height / 2.0 - 1);
     }
 }
