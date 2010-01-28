@@ -55,6 +55,15 @@ public class ShapeUtil {
 
     private static final double baseArcSize = 4d;
 
+    public static Shape createRectangleNoRightSide(final int x, final int y, final int w, final int h) {
+        path.reset();
+        path.moveTo(x + w, y);
+        path.lineTo(x, y);
+        path.lineTo(x, y + h);
+        path.lineTo(x + w, y + h);
+        return path;
+    }
+
     public static Shape createRectangle(final int x, final int y, final int w, final int h) {
         // The corner size doesn't matter, but must not be null.
         return createQuad(CornerSize.BORDER, x, y, w, h, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE);

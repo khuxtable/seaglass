@@ -21,12 +21,12 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Path2D;
+import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * ComboBoxTextFieldPainter implementation.
@@ -43,9 +43,6 @@ public final class ComboBoxTextFieldPainter extends AbstractRegionPainter {
 
     private Which              state;
     private PaintContext       ctx;
-
-    private Rectangle          rect            = new Rectangle();
-    private Path2D             path            = new Path2D.Double();
 
     public ComboBoxTextFieldPainter(Which state) {
         super();
@@ -86,15 +83,15 @@ public final class ComboBoxTextFieldPainter extends AbstractRegionPainter {
     }
 
     private void paintButton(Graphics2D g, JComponent c, int width, int height, Color borderColor) {
-        rect.setBounds(3, 3, width - 3, height - 6);
+        Shape s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
         g.setColor(c.getBackground());
-        g.fill(rect);
+        g.fill(s);
 
         paintInternalDropShadow(g, width, height);
 
+        s = ShapeUtil.createRectangleNoRightSide(2, 2, width - 3, height - 5);
         g.setColor(borderColor);
-        setRect(2, 2, width - 2, height - 4);
-        g.draw(path);
+        g.draw(s);
     }
 
     private void paintInternalDropShadow(Graphics2D g, int width, int height) {
@@ -102,13 +99,5 @@ public final class ComboBoxTextFieldPainter extends AbstractRegionPainter {
         g.drawLine(3, 3, width - 1, 3);
         g.setColor(LIGHTER_SHADOW);
         g.drawLine(3, 4, width - 1, 4);
-    }
-
-    private void setRect(int x, int y, int width, int height) {
-        path.reset();
-        path.moveTo(x + width - 1, y);
-        path.lineTo(x, y);
-        path.lineTo(x, y + height - 1);
-        path.lineTo(x + width - 1, y + height - 1);
     }
 }
