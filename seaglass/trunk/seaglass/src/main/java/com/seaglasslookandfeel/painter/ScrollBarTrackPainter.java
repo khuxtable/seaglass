@@ -24,7 +24,6 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -46,8 +45,6 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
     private static final Color trackInner2      = new Color(0x15000000, true);
     private static final Color trackInner3      = new Color(0x00000000, true);
     private static final Color trackInner4      = new Color(0x12000000, true);
-
-    private Rectangle2D        rect             = new Rectangle2D.Double();
 
     private PaintContext       ctx;
 
