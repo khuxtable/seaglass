@@ -264,7 +264,7 @@ public class ShapeUtil {
         return ellipse;
     }
 
-    public static Shape createFillableFocusPath(int x, int y, int width, int height) {
+    public static Shape createFillableFocusRectangle(int x, int y, int width, int height) {
         final int left = x;
         final int top = y;
         final int right = x + width;

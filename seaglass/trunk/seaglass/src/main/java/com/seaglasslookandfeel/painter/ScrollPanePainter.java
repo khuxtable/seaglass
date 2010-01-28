@@ -83,7 +83,7 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
     private void paintBorderFocused(Graphics2D g, int width, int height) {
         paintBorderEnabled(g, width, height);
 
-        Shape s = ShapeUtil.createFillableFocusPath(2, 2, width - 4, height - 4);
+        Shape s = ShapeUtil.createFillableFocusRectangle(2, 2, width - 4, height - 4);
         g.setPaint(focusColor);
         g.fill(s);
     }

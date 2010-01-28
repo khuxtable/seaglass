@@ -87,7 +87,7 @@ public final class TreeTreeCellPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeFocus(int width, int height) {
-        return ShapeUtil.createFillableFocusPath(0, 0, width, height);
+        return ShapeUtil.createFillableFocusRectangle(0, 0, width, height);
     }
 
     private Shape decodeBackground(int width, int height) {
