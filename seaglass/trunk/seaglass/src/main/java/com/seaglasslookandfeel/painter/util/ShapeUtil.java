@@ -282,6 +282,10 @@ public class ShapeUtil {
         return ellipse;
     }
 
+    public static Shape createBullet(int x, int y, int radius) {
+        return createEllipse(x, y, radius, radius);
+    }
+
     public static Shape createFillableFocusRectangle(int x, int y, int width, int height) {
         final int left = x;
         final int top = y;
