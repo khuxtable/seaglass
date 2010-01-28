@@ -80,32 +80,22 @@ public class ShapeUtil {
         return createQuad(x, y, w, h, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
+    public static Shape createRoundRectangle(final int x, final int y, final int w, final int h, final double radius) {
+        return ShapeUtil.createQuad(x, y, w, h, radius, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+    }
+
     public static Shape createQuad(final int x, final int y, final int w, final int h, final CornerSize size, final CornerStyle topLeft,
         final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
-        return createQuadInternal(x, y, w, h, topLeft, bottomLeft, bottomRight, topRight, size.arcSize);
+        return createQuad(x, y, w, h, size.arcSize, topLeft, bottomLeft, bottomRight, topRight);
     }
 
     public static Shape createQuad(final int x, final int y, final int w, final int h, final double radius, final CornerStyle topLeft,
         final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
-        return createQuadInternal(x, y, w, h, topLeft, bottomLeft, bottomRight, topRight, radius);
-    }
-
-    /**
-     * @param left
-     * @param top
-     * @param w
-     * @param h
-     * @param topLeft
-     * @param bottomLeft
-     * @param bottomRight
-     * @param topRight
-     * @param radius
-     * @return
-     */
-    private static Shape createQuadInternal(final int left, final int top, final int w, final int h, final CornerStyle topLeft,
-        final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight, final double radius) {
-        final int right = left + w;
-        final int bottom = top + h;
+        // Convenience variables.
+        final int left = x;
+        final int top = y;
+        final int right = x + w;
+        final int bottom = y + h;
 
         // Start the path.
         path.reset();
