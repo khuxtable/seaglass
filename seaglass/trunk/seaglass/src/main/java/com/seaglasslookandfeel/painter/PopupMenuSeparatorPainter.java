@@ -21,7 +21,6 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -39,8 +38,6 @@ public final class PopupMenuSeparatorPainter extends AbstractRegionPainter {
 
     private Which        state;
     private PaintContext ctx;
-
-    private Rectangle2D  rect   = new Rectangle2D.Float(0, 0, 0, 0);
 
     private Color        color1 = new Color(0xdddddd);
 
@@ -65,14 +62,8 @@ public final class PopupMenuSeparatorPainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
-        rect = decodeRect1(width, height);
         g.setPaint(color1);
-        g.fill(rect);
+        g.fillRect(0, height / 2, width, 1);
 
-    }
-
-    private Rectangle2D decodeRect1(int width, int height) {
-        rect.setRect(0, height / 2, width, 1);
-        return rect;
     }
 }
