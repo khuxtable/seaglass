@@ -42,6 +42,7 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
     private final Color        MEDIUM_GRAY = new Color(0xb3b3b3);
     private final Color        DARK_GRAY   = Color.DARK_GRAY;
 
+    // FIXME Factor out shape code.
     private Path2D             path        = new Path2D.Float();
 
     private Which              state;

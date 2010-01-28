@@ -87,6 +87,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
 
     private Effect            dropShadow               = new ScrollButtonDropShadowEffect();
 
+    // FIXME Factor out shape code.
     private Path2D            path                     = new Path2D.Double();
 
     private Which             state;
