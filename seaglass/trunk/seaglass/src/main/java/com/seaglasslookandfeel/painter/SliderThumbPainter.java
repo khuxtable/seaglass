@@ -24,7 +24,6 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 
 import javax.swing.JComponent;
 
@@ -32,6 +31,7 @@ import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
  * SliderThumbPainter implementation.
@@ -68,8 +68,6 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
     private Color                 innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
     private static final Effect   dropShadow             = new SeaGlassDropShadowEffect();
-
-    private Path2D                path                   = new Path2D.Double();
 
     private Which                 state;
     private PaintContext          ctx;
@@ -153,20 +151,20 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
         Shape s;
         if (focused) {
-            s = decodeDiscreteOuterFocus(0, 0, width, height);
+            s = ShapeUtil.createDiscreteSliderThumb(0, 0, width, height, CornerSize.OUTER_FOCUS);
             g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
             g.fill(s);
-            s = decodeDiscreteInnerFocus(1, 1, width - 2, height - 2);
+            s = ShapeUtil.createDiscreteSliderThumb(1, 1, width - 2, height - 2, CornerSize.INNER_FOCUS);
             g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
             g.fill(s);
         }
-        s = decodeDiscreteBorder(2, 2, width - 4, height - 4);
+        s = ShapeUtil.createDiscreteSliderThumb(2, 2, width - 4, height - 4, CornerSize.BORDER);
         if (!focused) {
             dropShadow.fill(g, s);
         }
         g.setPaint(decodeBorderGradient(s, colors.border1, colors.border2));
         g.fill(s);
-        s = decodeDiscreteInterior(3, 3, width - 6, height - 6);
+        s = ShapeUtil.createDiscreteSliderThumb(3, 3, width - 6, height - 6, CornerSize.INTERIOR);
         g.setPaint(decodeInteriorGradient(s, colors.interior1, colors.interior2, colors.interior3, colors.interior4));
         g.fill(s);
     }
@@ -219,58 +217,6 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
 
     private Shape decodeContinuousInterior(int width, int height) {
         return ShapeUtil.createEllipse(3, 4, width - 6, width - 6);
-    }
-
-    private Shape decodeDiscreteOuterFocus(int x, int y, int width, int height) {
-        path.reset();
-        path.moveTo(x, y + 7);
-        path.quadTo(x, y, x + 7, y);
-        path.lineTo(x + width - 6, y);
-        path.quadTo(x + width, y, x + width, y + 7);
-        path.lineTo(x + width, y + height / 2);
-        path.quadTo(x + width - 3, y + height - 1, x + width / 2, y + height);
-        path.quadTo(x + 3, y + height - 1, x, y + height / 2);
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodeDiscreteInnerFocus(int x, int y, int width, int height) {
-        path.reset();
-        path.moveTo(x, y + 5);
-        path.quadTo(x, y, x + 5, y);
-        path.lineTo(x + width - 4, y);
-        path.quadTo(x + width, y, x + width, y + 5);
-        path.lineTo(x + width, y + height / 2);
-        path.quadTo(x + width - 3, y + height - 1, x + width / 2, y + height);
-        path.quadTo(x + 3, y + height - 1, x, y + height / 2);
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodeDiscreteBorder(int x, int y, int width, int height) {
-        path.reset();
-        path.moveTo(x, y + 3);
-        path.quadTo(x, y, x + 3, y);
-        path.lineTo(x + width - 2, y);
-        path.quadTo(x + width, y, x + width, y + 3);
-        path.lineTo(x + width, y + height / 2);
-        path.quadTo(x + width - 3, y + height - 1, x + width / 2, y + height);
-        path.quadTo(x + 3, y + height - 1, x, y + height / 2);
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodeDiscreteInterior(int x, int y, int width, int height) {
-        path.reset();
-        path.moveTo(x, y + 2);
-        path.quadTo(x, y, x + 2, y);
-        path.lineTo(x + width - 2, y);
-        path.quadTo(x + width, y, x + width, y + 2);
-        path.lineTo(x + width, y + height / 2);
-        path.quadTo(x + width - 3, y + height, x + width / 2, y + height);
-        path.quadTo(x + 3, y + height, x, y + height / 2);
-        path.closePath();
-        return path;
     }
 
     private static class ColorSet {
