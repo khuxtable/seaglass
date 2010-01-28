@@ -45,6 +45,11 @@ public class ShapeUtil {
         INNER_FOCUS(baseArcSize + 1),
         OUTER_FOCUS(baseArcSize + 2),
 
+        SLIDER_INTERIOR(baseArcSize - 2),
+        SLIDER_BORDER(baseArcSize - 1),
+        SLIDER_INNER_FOCUS(baseArcSize),
+        SLIDER_OUTER_FOCUS(baseArcSize + 1),
+
         CHECKBOX_INTERIOR(baseArcSize / 2),
         CHECKBOX_BORDER((baseArcSize + 1) / 2),
         CHECKBOX_INNER_FOCUS((baseArcSize + 2) / 2),
@@ -53,7 +58,7 @@ public class ShapeUtil {
         POPUP_BORDER(3),
         POPUP_INTERIOR(2.5);
 
-        public double radius;
+        private double radius;
 
         CornerSize(double radius) {
             this.radius = radius;
@@ -79,15 +84,6 @@ public class ShapeUtil {
     private static Ellipse2D    ellipse     = new Ellipse2D.Float();
 
     private static final double baseArcSize = 4d;
-
-    public static Shape createOpenRectangle(final int x, final int y, final int w, final int h) {
-        path.reset();
-        path.moveTo(x + w, y);
-        path.lineTo(x, y);
-        path.lineTo(x, y + h);
-        path.lineTo(x + w, y + h);
-        return path;
-    }
 
     public static Shape createRectangle(final int x, final int y, final int w, final int h) {
         return createRoundRectangleInternal(x, y, w, h, 0, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE);
@@ -153,6 +149,15 @@ public class ShapeUtil {
         }
         // Close the path.
         path.closePath();
+        return path;
+    }
+
+    public static Shape createOpenRectangle(final int x, final int y, final int w, final int h) {
+        path.reset();
+        path.moveTo(x + w, y);
+        path.lineTo(x, y);
+        path.lineTo(x, y + h);
+        path.lineTo(x + w, y + h);
         return path;
     }
 
@@ -307,20 +312,23 @@ public class ShapeUtil {
         return path;
     }
 
-    public static Shape createDiscreteSliderThumb(final int x, final int y, final int width, final int height, final CornerSize size) {
-        // FIXME This minus one is a magic number.
-        final double topArc = size.radius - 1.0;
+    public static Shape createSliderThumbContinuous(final int x, final int y, final int w, final int h) {
+        return createEllipse(x, y, w, h);
+    }
+
+    public static Shape createSliderThumbDiscrete(final int x, final int y, final int w, final int h, final CornerSize size) {
+        final double topArc = size.getRadius(w, h);
         final double bottomArcH = size == CornerSize.INTERIOR ? 0 : 1;
         final double bottomArcW = 3;
 
         path.reset();
         path.moveTo(x, y + topArc);
         path.quadTo(x, y, x + topArc, y);
-        path.lineTo(x + width - topArc, y);
-        path.quadTo(x + width, y, x + width, y + topArc);
-        path.lineTo(x + width, y + height / 2.0);
-        path.quadTo(x + width - bottomArcW, y + height - bottomArcH, x + width / 2.0, y + height);
-        path.quadTo(x + bottomArcW, y + height - bottomArcH, x, y + height / 2.0);
+        path.lineTo(x + w - topArc, y);
+        path.quadTo(x + w, y, x + w, y + topArc);
+        path.lineTo(x + w, y + h / 2.0);
+        path.quadTo(x + w - bottomArcW, y + h - bottomArcH, x + w / 2.0, y + h);
+        path.quadTo(x + bottomArcW, y + h - bottomArcH, x, y + h / 2.0);
         path.closePath();
         return path;
     }
