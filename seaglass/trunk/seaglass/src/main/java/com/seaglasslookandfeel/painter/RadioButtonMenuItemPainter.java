@@ -22,11 +22,11 @@ package com.seaglasslookandfeel.painter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public final class RadioButtonMenuItemPainter extends MenuItemPainter {
     public static enum Which {
@@ -41,8 +41,6 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
 
     private Which        state;
     private PaintContext ctx;
-
-    private Ellipse2D    ellipse               = new Ellipse2D.Float();
 
     private Color        iconDisabledSelected  = decodeColor("nimbusDisabledText");
     private Color        iconEnabledSelected   = decodeColor("text");
@@ -110,8 +108,7 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
     }
 
     private Shape decodeRadioPath(int width, int height) {
-        int size = Math.min(width, height);
-        ellipse.setFrame(0, 1, size - 1, size - 1);
-        return ellipse;
+        int size = Math.min(width, height) - 1;
+        return ShapeUtil.createEllipse(0, 1, size, size);
     }
 }

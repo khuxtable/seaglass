@@ -20,6 +20,7 @@
 package com.seaglasslookandfeel.painter.util;
 
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 
 /**
@@ -57,6 +58,7 @@ public class ShapeUtil {
     }
 
     private static Path2D       path        = new Path2D.Double();
+    private static Ellipse2D    ellipse     = new Ellipse2D.Float();
 
     private static final double baseArcSize = 4d;
 
@@ -244,5 +246,10 @@ public class ShapeUtil {
         path.lineTo(width - 11, 4);
         path.quadTo(width - 5, 4, width - 5, (height - 5) / 2);
         return path;
+    }
+
+    public static Shape createEllipse(int x, int y, int w, int h) {
+        ellipse.setFrame(0, 1, w, h);
+        return ellipse;
     }
 }
