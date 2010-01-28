@@ -191,10 +191,10 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
 
     private void paintIndeterminate(Graphics2D g, int width, int height, Color dark1, Color dark2, Color dark3, Color dark4, Color light1,
         Color light2, Color light3, Color light4) {
-        Shape s = ShapeUtil.createProgressBarIndeterminateLight(width, height);
+        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
         g.setPaint(decodeBarGradient(s, light1, light2, light3, light4));
         g.fill(s);
-        s = ShapeUtil.createProgressBarIndeterminateDark(width, height);
+        s = ShapeUtil.createProgressBarIndeterminatePattern(0, 0, width, height);
         g.setPaint(decodeBarGradient(s, dark1, dark2, dark3, dark4));
         g.fill(s);
     }

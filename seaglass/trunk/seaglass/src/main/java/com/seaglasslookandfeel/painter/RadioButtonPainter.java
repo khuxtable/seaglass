@@ -169,10 +169,10 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
      * @param height
      */
     private void paintFocus(Graphics2D g, JComponent c, int width, int height) {
-        Shape s = setOuterFocus(width, height);
+        Shape s = createRadoButton(width, width, height);
         g.setColor(isInToolBar(c) ? outerToolBarFocusColor : outerFocusColor);
         g.fill(s);
-        s = setInnerFocus(width, height);
+        s = createRadoButton(width - 2, width, height);
         g.setColor(isInToolBar(c) ? innerToolBarFocusColor : innerFocusColor);
         g.fill(s);
     }
@@ -217,14 +217,14 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
 
     private void paintTwoLayeredButton(Graphics2D g, int width, int height, Color border1, Color border2, Color internal1, Color internal2,
         Color internal3, Color internal4) {
-        Shape s = setBorder(width, height);
+        Shape s = createRadoButton(width - 4, width, height);
         if (!focused) {
             dropShadow.fill(g, s);
         }
         Paint p = setGradient2(s, border1, border2);
         g.setPaint(p);
         g.fill(s);
-        s = setInternal(width, height);
+        s = createRadoButton(width - 6, width, height);
         p = setGradient4(s, internal1, internal2, internal3, internal4);
         g.setPaint(p);
         g.fill(s);
@@ -232,14 +232,14 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
 
     private void paintFourLayeredButton(Graphics2D g, int width, int height, Color border1, Color border2, Color internalA1,
         Color internalA2, Color internalB1, Color internalB2, Color internalB3, Color internalC) {
-        Shape s = setBorder(width, height);
+        Shape s = createRadoButton(width - 4, width, height);
         if (!focused) {
             dropShadow.fill(g, s);
         }
         Paint p = setGradient2(s, border1, border2);
         g.setPaint(p);
         g.fill(s);
-        s = setInternal(width, height);
+        s = createRadoButton(width - 6, width, height);
         g.setColor(internalC);
         g.fill(s);
         p = setGradient3(s, internalB1, internalB2, internalB3);
@@ -251,36 +251,16 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
     }
 
     private void paintBullet(Graphics2D g, int width, int height, Color color1, Color color2, boolean shadow) {
-        Shape s = setBullet(width, height);
+        Shape s = createRadoButton(width / 4.5, width, height);
         Paint p = setGradient2(s, color1, color2);
         g.setPaint(p);
         g.fill(s);
     }
 
-    private Shape setOuterFocus(int width, int height) {
-        return setCircle(width, width, height);
-    }
-
-    private Shape setInnerFocus(int width, int height) {
-        return setCircle(width - 2, width, height);
-    }
-
-    private Shape setBorder(int width, int height) {
-        return setCircle(width - 4, width, height);
-    }
-
-    private Shape setInternal(int width, int height) {
-        return setCircle(width - 6, width, height);
-    }
-
-    private Shape setBullet(int width, int height) {
-        return setCircle(width / 4.5, width, height);
-    }
-
-    private Shape setCircle(double diameter, int width, int height) {
+    private Shape createRadoButton(double diameter, int width, int height) {
         int pos = (int) ((width - diameter) / 2.0 + 0.5);
         int iDiameter = (int) (diameter + 0.5);
-        return ShapeUtil.createEllipse(pos, pos, iDiameter, iDiameter);
+        return ShapeUtil.createRadioButton(pos, pos, iDiameter);
     }
 
     private Paint setGradient2(Shape s, Color color1, Color color2) {
