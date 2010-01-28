@@ -24,11 +24,12 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
  * Nimbus's DesktopIconPainter.
@@ -39,9 +40,6 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
     }
 
     private PaintContext     ctx;
-
-    private Rectangle2D      rect                = new Rectangle2D.Float(0, 0, 0, 0);
-    private RoundRectangle2D roundRect           = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
 
     private Color            borderColor         = new Color(0x545454);
 
@@ -74,18 +72,15 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeRoundRect1(int width, int height) {
-        roundRect.setRoundRect(2, 0, width - 3, height - 2, 4.8333335f, 4.8333335f);
-        return roundRect;
+        return ShapeUtil.createRoundRectangle(CornerSize.INNER_FOCUS, 2, 0, width - 3, height - 2);
     }
 
     private Shape decodeRoundRect2(int width, int height) {
-        roundRect.setRoundRect(3, 1, width - 5, height - 4, 3.1f, 3.1f);
-        return roundRect;
+        return ShapeUtil.createRoundRectangle(CornerSize.BORDER, 3, 1, width - 5, height - 4);
     }
 
     private Shape decodeRect1(int width, int height) {
-        rect.setRect(4, 2, width - 7, height - 6);
-        return rect;
+        return ShapeUtil.createRoundRectangle(CornerSize.INTERIOR, 4, 2, width - 7, height - 6);
     }
 
     private Paint decodeGradient2(Shape s) {
