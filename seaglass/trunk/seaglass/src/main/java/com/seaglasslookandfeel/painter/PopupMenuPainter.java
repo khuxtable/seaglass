@@ -22,11 +22,12 @@ package com.seaglasslookandfeel.painter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
  * PopupMenuPainter implementation.
@@ -38,16 +39,14 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
-    private Which            state;
-    private PaintContext     ctx;
+    private Which        state;
+    private PaintContext ctx;
 
-    private RoundRectangle2D rect                  = new RoundRectangle2D.Double();
+    private Color        disabledBorderColor   = new Color(0x80dddddd, true);
+    private Color        disabledInteriorColor = new Color(0x80ffffff, true);
 
-    private Color            disabledBorderColor   = new Color(0x80dddddd, true);
-    private Color            disabledInteriorColor = new Color(0x80ffffff, true);
-
-    private Color            enabledBorderColor    = new Color(0xdddddd);
-    private Color            enabledInteriorColor  = new Color(0xffffff);
+    private Color        enabledBorderColor    = new Color(0xdddddd);
+    private Color        enabledInteriorColor  = new Color(0xffffff);
 
     public PopupMenuPainter(Which state) {
         super();
@@ -91,12 +90,10 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeBorder(int width, int height) {
-        rect.setRoundRect(0, 0, width, height, 6, 6);
-        return rect;
+        return ShapeUtil.createRoundRectangle(CornerSize.POPUP_BORDER, 0, 0, width, height);
     }
 
     private Shape decodeInterior(int width, int height) {
-        rect.setRoundRect(1, 1, width - 2, height - 2, 5, 5);
-        return rect;
+        return ShapeUtil.createRoundRectangle(CornerSize.POPUP_INTERIOR, 1, 1, width - 2, height - 2);
     }
 }
