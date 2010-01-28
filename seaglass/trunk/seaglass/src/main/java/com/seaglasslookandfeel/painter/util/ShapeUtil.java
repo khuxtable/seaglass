@@ -36,7 +36,15 @@ public class ShapeUtil {
     };
 
     public enum CornerSize {
-        INTERIOR(baseArcSize - 1), BORDER(baseArcSize), INNER_FOCUS(baseArcSize + 1), OUTER_FOCUS(baseArcSize + 2);
+        INTERIOR(baseArcSize - 1),
+        BORDER(baseArcSize),
+        INNER_FOCUS(baseArcSize + 1),
+        OUTER_FOCUS(baseArcSize + 2),
+
+        CHECKBOX_INTERIOR(baseArcSize / 2),
+        CHECKBOX_BORDER((baseArcSize + 1) / 2),
+        CHECKBOX_INNER_FOCUS((baseArcSize + 2) / 2),
+        CHECKBOX_OUTER_FOCUS((baseArcSize + 3) / 2);
 
         public double arcSize;
 
@@ -51,19 +59,19 @@ public class ShapeUtil {
 
     private static final double     baseArcSize = 4d;
 
-    public static Shape createRectangle(int x, int y, int w, int h) {
+    public static Shape createRectangle(final int x, final int y, final int w, final int h) {
         rect.setRect(x, y, w, h);
         return rect;
     }
 
-    public static Shape createRoundRectangle(CornerSize size, int x, int y, int w, int h) {
+    public static Shape createRoundRectangle(final CornerSize size, final int x, final int y, final int w, final int h) {
         double arcSize = 2 * size.arcSize;
         roundRect.setRoundRect(x, y, w, h, arcSize, arcSize);
         return roundRect;
     }
 
-    public static Shape createQuad(CornerSize size, int x, int y, int w, int h, CornerStyle topLeft, CornerStyle bottomLeft,
-        CornerStyle bottomRight, CornerStyle topRight) {
+    public static Shape createQuad(final CornerSize size, final int x, final int y, final int w, final int h, final CornerStyle topLeft,
+        final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
         if (topLeft == CornerStyle.SQUARE && bottomLeft == CornerStyle.SQUARE && bottomRight == CornerStyle.SQUARE
                 && topRight == CornerStyle.SQUARE) {
             return createRectangle(x, y, w, h);
@@ -111,5 +119,19 @@ public class ShapeUtil {
             path.closePath();
             return path;
         }
+    }
+
+    public static Shape createCheckMark(final int x, final int y, final int width, final int height) {
+        double widthMult = width / 12.0;
+        double heightMult = height / 12.0;
+        path.reset();
+        path.moveTo(x, y + 7.0 * heightMult);
+        path.lineTo(x + 2.0 * widthMult, y + 7.0 * heightMult);
+        path.lineTo(x + 4.75 * widthMult, y + 10.0 * heightMult);
+        path.lineTo(x + 9.0 * widthMult, y);
+        path.lineTo(x + 11.0 * widthMult, y);
+        path.lineTo(x + 5.0 * widthMult, y + 12.0 * heightMult);
+        path.closePath();
+        return path;
     }
 }
