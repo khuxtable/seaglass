@@ -35,7 +35,10 @@ public class ShapeUtil {
     };
 
     public enum CornerSize {
-        VARIABLE(0),
+        ROUND_HEIGHT(0),
+        ROUND_HEIGHT_DRAW(0),
+        ROUND_WIDTH(0),
+        ROUND_WIDTH_DRAW(0),
 
         INTERIOR(baseArcSize - 1),
         BORDER(baseArcSize),
@@ -80,16 +83,27 @@ public class ShapeUtil {
         return createQuad(x, y, w, h, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
-    public static Shape createRoundRectangle(final int x, final int y, final int w, final int h, final double radius) {
-        return ShapeUtil.createQuad(x, y, w, h, radius, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
-    }
-
     public static Shape createQuad(final int x, final int y, final int w, final int h, final CornerSize size, final CornerStyle topLeft,
         final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
-        return createQuad(x, y, w, h, size.arcSize, topLeft, bottomLeft, bottomRight, topRight);
+        return createQuadInternal(x, y, w, h, getRadius(w, h, size), topLeft, bottomLeft, bottomRight, topRight);
     }
 
-    public static Shape createQuad(final int x, final int y, final int w, final int h, final double radius, final CornerStyle topLeft,
+    private static double getRadius(final int w, final int h, final CornerSize size) {
+        switch (size) {
+        case ROUND_HEIGHT:
+            return h / 2.0;
+        case ROUND_HEIGHT_DRAW:
+            return (h + 1) / 2.0;
+        case ROUND_WIDTH:
+            return w / 2.0;
+        case ROUND_WIDTH_DRAW:
+            return (w + 1) / 2.0;
+        default:
+            return size.arcSize;
+        }
+    }
+
+    private static Shape createQuadInternal(final int x, final int y, final int w, final int h, final double radius, final CornerStyle topLeft,
         final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
         // Convenience variables.
         final int left = x;

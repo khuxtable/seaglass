@@ -32,6 +32,7 @@ import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
  * ProgressBarPainter implementation.
@@ -157,14 +158,14 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
     private void paintTrack(Graphics2D g, int width, int height, Color color1, Color color2, Color colorInterior) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Shape s = decodeTrackBorder(width, height);
+        Shape s = ShapeUtil.createRoundRectangle(2, 2, width - 5, height - 5, CornerSize.ROUND_HEIGHT_DRAW);
         if (state != Which.BACKGROUND_DISABLED) {
             dropShadow.fill(g, s);
         }
         g.setPaint(decodeTrackGradient(s, color1, color2));
         g.draw(s);
 
-        s = decodeTrackInterior(width, height);
+        s = ShapeUtil.createRoundRectangle(3, 3, width - 6, height - 6, CornerSize.ROUND_HEIGHT);
         g.setColor(colorInterior);
         g.fill(s);
 
@@ -178,7 +179,7 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
 
     private void paintBar(Graphics2D g, int width, int height, boolean isFinished, Color color1, Color color2, Color color3, Color color4,
         Color colorEnd) {
-        Shape s = decodeBar(width, height);
+        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
         g.setPaint(decodeBarGradient(s, color1, color2, color3, color4));
         g.fill(s);
 
@@ -196,18 +197,6 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         s = ShapeUtil.createProgressBarIndeterminateDark(width, height);
         g.setPaint(decodeBarGradient(s, dark1, dark2, dark3, dark4));
         g.fill(s);
-    }
-
-    private Shape decodeTrackBorder(int width, int height) {
-        return ShapeUtil.createRoundRectangle(2, 2, width - 5, height - 5, height / 2.0 - 2);
-    }
-
-    private Shape decodeTrackInterior(int width, int height) {
-        return ShapeUtil.createRoundRectangle(3, 3, width - 6, height - 6, height / 2.0 - 3);
-    }
-
-    private Shape decodeBar(int width, int height) {
-        return ShapeUtil.createRectangle(0, 0, width, height);
     }
 
     private Paint decodeTrackGradient(Shape s, Color color1, Color color2) {

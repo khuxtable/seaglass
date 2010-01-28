@@ -30,6 +30,7 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
  * ScrollBarThumbPainter implementation.
@@ -61,13 +62,13 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            paintDisabled(g, c, width, height);
+            paintThumb(g, c, width, height, disabledColors);
             break;
         case BACKGROUND_ENABLED:
-            paintEnabled(g, c, width, height);
+            paintThumb(g, c, width, height, enabledColors);
             break;
         case BACKGROUND_PRESSED:
-            paintPressed(g, c, width, height);
+            paintThumb(g, c, width, height, pressedColors);
             break;
         }
     }
@@ -77,46 +78,16 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintDisabled(Graphics2D g, JComponent c, int width, int height) {
-        paintThumb(g, c, width, height, disabledColors);
-    }
-
-    private void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
-        paintThumb(g, c, width, height, enabledColors);
-    }
-
-    private void paintPressed(Graphics2D g, JComponent c, int width, int height) {
-        paintThumb(g, c, width, height, pressedColors);
-    }
-
     private void paintThumb(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Shape s = decodeBorder(width, height);
+        Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
         g.setPaint(decodeGradientBackground(s, colors.background1, colors.background2));
         g.fill(s);
 
-        s = decodeInterior(width, height);
+        s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
         g.setPaint(decodeGradientInner(s, colors.inner1, colors.inner2, colors.inner3, colors.inner4, colors.midpoint2, colors.midpoint3));
         g.fill(s);
-    }
-
-    private Shape decodeBorder(int width, int height) {
-        int x = 0;
-        int y = 0;
-        return decodePath(x, y, width, height);
-    }
-
-    private Shape decodeInterior(int width, int height) {
-        int x = 1;
-        int y = 1;
-        width -= 2;
-        height -= 2;
-        return decodePath(x, y, width, height);
-    }
-
-    private Shape decodePath(int x, int y, int width, int height) {
-        return ShapeUtil.createRoundRectangle(x, y, width, height, height / 2.0);
     }
 
     /**

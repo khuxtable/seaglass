@@ -29,6 +29,7 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
  * Nimbus's SliderTrackPainter.
@@ -73,19 +74,19 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundDisabled(Graphics2D g, int width, int height) {
-        Shape s = decodeBorder(width, height);
+        Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
         g.setPaint(decodeTrackGradient(s, disabledBorderTop, disabledBorderBottom));
         g.fill(s);
-        s = decodeInterior(width, height);
+        s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
         g.setPaint(decodeTrackGradient(s, disabledInteriorTop, disabledInteriorBottom));
         g.fill(s);
     }
 
     private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
-        Shape s = decodeBorder(width, height);
+        Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
         g.setPaint(decodeTrackGradient(s, enabledBorderTop, enabledBorderBottom));
         g.fill(s);
-        s = decodeInterior(width, height);
+        s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
         g.setPaint(decodeTrackGradient(s, enabledInteriorTop, enabledInteriorBottom));
         g.fill(s);
     }
@@ -96,13 +97,5 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
         int y1 = r.y;
         int y2 = y1 + r.height;
         return decodeGradient(x, y1, x, y2, new float[] { 0f, 1f }, new Color[] { color1, color2 });
-    }
-
-    private Shape decodeBorder(int width, int height) {
-        return ShapeUtil.createRoundRectangle(0, 0, width, height, height / 2.0);
-    }
-
-    private Shape decodeInterior(int width, int height) {
-        return ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, height / 2.0 - 1);
     }
 }
