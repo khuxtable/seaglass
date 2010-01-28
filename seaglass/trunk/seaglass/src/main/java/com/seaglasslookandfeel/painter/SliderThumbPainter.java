@@ -24,7 +24,6 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 
 import javax.swing.JComponent;
@@ -32,6 +31,7 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * SliderThumbPainter implementation.
@@ -69,7 +69,6 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
 
     private static final Effect   dropShadow             = new SeaGlassDropShadowEffect();
 
-    private Ellipse2D             ellipse                = new Ellipse2D.Double();
     private Path2D                path                   = new Path2D.Double();
 
     private Which                 state;
@@ -154,20 +153,20 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
         Shape s;
         if (focused) {
-            s = decodeDiscreteOuterFocus(width, height);
+            s = decodeDiscreteOuterFocus(0, 0, width, height);
             g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
             g.fill(s);
-            s = decodeDiscreteInnerFocus(width, height);
+            s = decodeDiscreteInnerFocus(1, 1, width - 2, height - 2);
             g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
             g.fill(s);
         }
-        s = decodeDiscreteBorder(width, height);
+        s = decodeDiscreteBorder(2, 2, width - 4, height - 4);
         if (!focused) {
             dropShadow.fill(g, s);
         }
         g.setPaint(decodeBorderGradient(s, colors.border1, colors.border2));
         g.fill(s);
-        s = decodeDiscreteInterior(width, height);
+        s = decodeDiscreteInterior(3, 3, width - 6, height - 6);
         g.setPaint(decodeInteriorGradient(s, colors.interior1, colors.interior2, colors.interior3, colors.interior4));
         g.fill(s);
     }
@@ -207,73 +206,69 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeContinuousOuterFocus(int width, int height) {
-        ellipse.setFrame(0, 1, width, width);
-        return ellipse;
+        return ShapeUtil.createEllipse(0, 1, width, width);
     }
 
     private Shape decodeContinuousInnerFocus(int width, int height) {
-        ellipse.setFrame(1, 2, width - 2, width - 2);
-        return ellipse;
+        return ShapeUtil.createEllipse(1, 2, width - 2, width - 2);
     }
 
     private Shape decodeContinuousBorder(int width, int height) {
-        ellipse.setFrame(2, 3, width - 4, width - 4);
-        return ellipse;
+        return ShapeUtil.createEllipse(2, 3, width - 4, width - 4);
     }
 
     private Shape decodeContinuousInterior(int width, int height) {
-        ellipse.setFrame(3, 4, width - 6, width - 6);
-        return ellipse;
+        return ShapeUtil.createEllipse(3, 4, width - 6, width - 6);
     }
 
-    private Shape decodeDiscreteOuterFocus(int width, int height) {
+    private Shape decodeDiscreteOuterFocus(int x, int y, int width, int height) {
         path.reset();
-        path.moveTo(0, 7);
-        path.quadTo(0, 0, 7, 0);
-        path.lineTo(width - 6, 0);
-        path.quadTo(width - 0, 0, width - 0, 7);
-        path.lineTo(width - 0, height / 2);
-        path.quadTo(width - 3, height - 1, width / 2, height - 0);
-        path.quadTo(3, height - 1, 0, height / 2);
+        path.moveTo(x, y + 7);
+        path.quadTo(x, y, x + 7, y);
+        path.lineTo(x + width - 6, y);
+        path.quadTo(x + width, y, x + width, y + 7);
+        path.lineTo(x + width, y + height / 2);
+        path.quadTo(x + width - 3, y + height - 1, x + width / 2, y + height);
+        path.quadTo(x + 3, y + height - 1, x, y + height / 2);
         path.closePath();
         return path;
     }
 
-    private Shape decodeDiscreteInnerFocus(int width, int height) {
+    private Shape decodeDiscreteInnerFocus(int x, int y, int width, int height) {
         path.reset();
-        path.moveTo(1, 6);
-        path.quadTo(1, 1, 6, 1);
-        path.lineTo(width - 5, 1);
-        path.quadTo(width - 1, 1, width - 1, 6);
-        path.lineTo(width - 1, height / 2);
-        path.quadTo(width - 4, height - 2, width / 2, height - 1);
-        path.quadTo(4, height - 2, 1, height / 2);
+        path.moveTo(x, y + 5);
+        path.quadTo(x, y, x + 5, y);
+        path.lineTo(x + width - 4, y);
+        path.quadTo(x + width, y, x + width, y + 5);
+        path.lineTo(x + width, y + height / 2);
+        path.quadTo(x + width - 3, y + height - 1, x + width / 2, y + height);
+        path.quadTo(x + 3, y + height - 1, x, y + height / 2);
         path.closePath();
         return path;
     }
 
-    private Shape decodeDiscreteBorder(int width, int height) {
+    private Shape decodeDiscreteBorder(int x, int y, int width, int height) {
         path.reset();
-        path.moveTo(2, 5);
-        path.quadTo(2, 2, 5, 2);
-        path.lineTo(width - 4, 2);
-        path.quadTo(width - 2, 2, width - 2, 5);
-        path.lineTo(width - 2, height / 2);
-        path.quadTo(width - 5, height - 3, width / 2, height - 2);
-        path.quadTo(5, height - 3, 2, height / 2);
+        path.moveTo(x, y + 3);
+        path.quadTo(x, y, x + 3, y);
+        path.lineTo(x + width - 2, y);
+        path.quadTo(x + width, y, x + width, y + 3);
+        path.lineTo(x + width, y + height / 2);
+        path.quadTo(x + width - 3, y + height - 1, x + width / 2, y + height);
+        path.quadTo(x + 3, y + height - 1, x, y + height / 2);
         path.closePath();
         return path;
     }
 
-    private Shape decodeDiscreteInterior(int width, int height) {
+    private Shape decodeDiscreteInterior(int x, int y, int width, int height) {
         path.reset();
-        path.moveTo(3, 5);
-        path.quadTo(3, 3, 5, 3);
-        path.lineTo(width - 5, 3);
-        path.quadTo(width - 3, 3, width - 3, 5);
-        path.lineTo(width - 3, height / 2);
-        path.quadTo(width - 6, height - 3, width / 2, height - 3);
-        path.quadTo(6, height - 3, 3, height / 2);
+        path.moveTo(x, y + 2);
+        path.quadTo(x, y, x + 2, y);
+        path.lineTo(x + width - 2, y);
+        path.quadTo(x + width, y, x + width, y + 2);
+        path.lineTo(x + width, y + height / 2);
+        path.quadTo(x + width - 3, y + height, x + width / 2, y + height);
+        path.quadTo(x + 3, y + height, x, y + height / 2);
         path.closePath();
         return path;
     }
