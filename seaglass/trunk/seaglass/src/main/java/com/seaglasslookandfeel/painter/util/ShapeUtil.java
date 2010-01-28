@@ -80,7 +80,7 @@ public class ShapeUtil {
 
     private static final double baseArcSize = 4d;
 
-    public static Shape createRectangleNoRightSide(final int x, final int y, final int w, final int h) {
+    public static Shape createOpenRectangle(final int x, final int y, final int w, final int h) {
         path.reset();
         path.moveTo(x + w, y);
         path.lineTo(x, y);

@@ -119,6 +119,6 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
     }
 
     private Shape setRect(int x, int y, int width, int height) {
-        return ShapeUtil.createRectangleNoRightSide(x, y, width - 1, height - 1);
+        return ShapeUtil.createOpenRectangle(x, y, width - 1, height - 1);
     }
 }
