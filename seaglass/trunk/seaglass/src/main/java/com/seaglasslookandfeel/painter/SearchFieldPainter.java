@@ -28,7 +28,6 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
 /**
  * TextComponentPainter implementation.
@@ -186,14 +185,12 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
     }
 
     private void drawBorder(Graphics2D g, int x, int y, int width, int height) {
-        Shape s = ShapeUtil.createQuad(x, y, width - 1, height - 1, height / 2.0, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
-            CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+        Shape s = ShapeUtil.createRoundRectangle(x, y, width - 1, height - 1, height / 2.0);
         g.draw(s);
     }
 
     private Shape decodeRoundedFilled(int x, int y, int width, int height) {
-        return ShapeUtil.createQuad(x, y, width, height, height / 2.0, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
-            CornerStyle.ROUNDED);
+        return ShapeUtil.createRoundRectangle(x, y, width, height, height / 2.0);
     }
 
     private Paint decodeGradientRoundedTopShadow(Shape s) {
