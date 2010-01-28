@@ -90,25 +90,25 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
     }
 
     private void paintCheckIconDisabledAndSelected(Graphics2D g, int width, int height) {
-        Shape s = decodeRadioPath(width, height);
+        Shape s = createRadioBullet(width, height);
         g.setPaint(iconDisabledSelected);
         g.fill(s);
     }
 
     private void paintCheckIconEnabledAndSelected(Graphics2D g, int width, int height) {
-        Shape s = decodeRadioPath(width, height);
+        Shape s = createRadioBullet(width, height);
         g.setPaint(iconEnabledSelected);
         g.fill(s);
     }
 
     private void paintCheckIconSelectedAndMouseOver(Graphics2D g, int width, int height) {
-        Shape s = decodeRadioPath(width, height);
+        Shape s = createRadioBullet(width, height);
         g.setPaint(iconSelectedMouseOver);
         g.fill(s);
     }
 
-    private Shape decodeRadioPath(int width, int height) {
-        int size = Math.min(width, height) - 1;
-        return ShapeUtil.createEllipse(0, 1, size, size);
+    private Shape createRadioBullet(int width, int height) {
+        int radius = Math.min(width, height) - 1;
+        return ShapeUtil.createBullet(0, 1, radius);
     }
 }
