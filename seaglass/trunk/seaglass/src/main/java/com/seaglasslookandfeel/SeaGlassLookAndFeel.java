@@ -1154,10 +1154,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineScrollBars(UIDefaults d) {
-        d.put("ScrollBar.incrementButtonGap", new Integer(-5));
-        d.put("ScrollBar.decrementButtonGap", new Integer(-5));
-        d.put("ScrollBar.capSize", new Integer(9));
-        d.put("ScrollBar:\"ScrollBar.button\".size", new Integer(20));
+        d.put("ScrollBar.incrementButtonGap", new Integer(-7));
+        d.put("ScrollBar.decrementButtonGap", new Integer(-7));
+        d.put("ScrollBar.capSize", new Integer(11));
+        d.put("ScrollBar:\"ScrollBar.button\".size", new Integer(22));
 
         // Buttons
         String c = PAINTER_PREFIX + "ScrollBarButtonPainter";

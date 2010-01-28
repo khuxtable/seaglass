@@ -23,13 +23,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.DropShadowEffect;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * ScrollBarButtonPainter implementation.
@@ -86,9 +86,6 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     private Color             lightDivider             = new Color(0x3fffffff, true);
 
     private Effect            dropShadow               = new ScrollButtonDropShadowEffect();
-
-    // FIXME Factor out shape code.
-    private Path2D            path                     = new Path2D.Double();
 
     private Which             state;
     private PaintContext      ctx;
@@ -150,7 +147,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     }
 
     private void paintCap(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
-        Shape s = decodeCapPath(width, height);
+        Shape s = ShapeUtil.createScrollCap(0, 0, width, height);
         dropShadow.fill(g, s);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
@@ -159,31 +156,31 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     }
 
     private void paintIncreaseButtonApart(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
-        Shape s = decodeButtonApartBackgroundPath(width, height);
+        Shape s = ShapeUtil.createScrollButtonApart(0, 0, width, height);
         dropShadow.fill(g, s);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
         g.setColor(colors.line);
-        g.drawLine(0, 0, width - 1, 0);
-        s = decodeButtonApartForegroundPath(width, height, 5, 2);
+        g.drawLine(0, 0, width - 2, 0);
+        s = ShapeUtil.createArrowLeft(width / 2.0 - 5, height / 2.0 - 2, 4, 6);
         g.setColor(colors.foreground);
         g.fill(s);
     }
 
     private void paintDecreaseButtonApart(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
-        Shape s = decodeButtonApartBackgroundPath(width, height);
+        Shape s = ShapeUtil.createScrollButtonApart(0, 0, width, height);
         dropShadow.fill(g, s);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
         g.setColor(colors.line);
-        g.drawLine(0, 0, width - 1, 0);
-        s = decodeButtonApartForegroundPath(width, height, 4, 3);
+        g.drawLine(0, 0, width - 2, 0);
+        s = ShapeUtil.createArrowLeft(width / 2.0 - 4, height / 2.0 - 3, 4, 6);
         g.setColor(colors.foreground);
         g.fill(s);
     }
 
     private void paintIncreaseButtonTogether(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
-        Shape s = decodeIncreaseButtonTogetherBackgroundPath(width, height);
+        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
         dropShadow.fill(g, s);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
@@ -191,21 +188,21 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         g.drawLine(0, 0, width - 1, 0);
         g.setColor(lightDivider);
         g.drawLine(width - 1, 1, width - 1, height - 1);
-        s = decodeIncreaseButtonTogetherForegroundPath(width, height, 3, 3);
+        s = ShapeUtil.createArrowLeft(width / 2.0 - 3, height / 2.0 - 3, 4, 6);
         g.setColor(colors.foreground);
         g.fill(s);
     }
 
     private void paintDecreaseButtonTogether(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
-        Shape s = decodeDecreaseButtonTogetherBackgroundPath(width, height);
+        Shape s = ShapeUtil.createScrollButtonTogetherDecrease(0, 0, width, height);
         dropShadow.fill(g, s);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
         g.setColor(colors.line);
-        g.drawLine(0, 0, width - 1, 0);
+        g.drawLine(2, 0, width - 1, 0);
         g.setColor(darkDivider);
         g.drawLine(width - 1, 1, width - 1, height - 1);
-        s = decodeDecreaseButtonTogetherForegroundPath(width, height, 0, 3);
+        s = ShapeUtil.createArrowLeft(width / 2.0, height / 2.0 - 3, 4, 6);
         g.setColor(colors.foreground);
         g.fill(s);
     }
@@ -214,82 +211,6 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         int width = s.getBounds().width;
         int height = s.getBounds().height;
         return decodeGradient(0, height / 2, width - 1, height / 2, new float[] { 0f, 1f }, new Color[] { top, bottom });
-    }
-
-    private Shape decodeCapPath(int width, int height) {
-        path.reset();
-        path.moveTo(0, 0);
-        path.lineTo(0, height);
-        path.lineTo(width, height);
-        path.quadTo(width - height / 3.0, height, width - height / 3.0, height / 2.0);
-        path.quadTo(width - height / 3.0, 0, width, 0);
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodeButtonApartBackgroundPath(int width, int height) {
-        path.reset();
-        path.moveTo(0, 0);
-        path.lineTo(0, height);
-        path.lineTo(width, height);
-        path.quadTo(width - height / 3.0, height, width - height / 3.0, height / 2.0);
-        path.quadTo(width - height / 3.0, 0, width, 0);
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodeButtonApartForegroundPath(int width, int height, int xOffset, int yOffset) {
-        double x = width / 2.0 - xOffset;
-        double y = height / 2.0 - yOffset;
-        path.reset();
-        path.moveTo(x + 0, y + 3);
-        path.lineTo(x + 4, y + 6);
-        path.lineTo(x + 4, y + 0);
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodeIncreaseButtonTogetherBackgroundPath(int width, int height) {
-        path.reset();
-        path.moveTo(0, 0);
-        path.lineTo(0, height);
-        path.lineTo(width, height);
-        path.lineTo(width, 0);
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodeIncreaseButtonTogetherForegroundPath(int width, int height, int xOffset, int yOffset) {
-        double x = width / 2.0 - xOffset;
-        double y = height / 2.0 - yOffset;
-        path.reset();
-        path.moveTo(x + 0, y + 3);
-        path.lineTo(x + 4, y + 6);
-        path.lineTo(x + 4, y + 0);
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodeDecreaseButtonTogetherBackgroundPath(int width, int height) {
-        path.reset();
-        path.moveTo(width, 0);
-        path.lineTo(width, height);
-        path.lineTo(0, height);
-        path.quadTo(height / 3.0, height, height / 3.0, height / 2.0);
-        path.quadTo(height / 3.0, 0, 0, 0);
-        path.closePath();
-        return path;
-    }
-
-    private Shape decodeDecreaseButtonTogetherForegroundPath(int width, int height, int xOffset, int yOffset) {
-        double x = width / 2.0 - xOffset;
-        double y = height / 2.0 - yOffset;
-        path.reset();
-        path.moveTo(x + 0, y + 3);
-        path.lineTo(x + 4, y + 6);
-        path.lineTo(x + 4, y + 0);
-        path.closePath();
-        return path;
     }
 
     /**

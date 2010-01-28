@@ -348,4 +348,44 @@ public class ShapeUtil {
 
         return path;
     }
+
+    public static Shape createScrollCap(int x, int y, int width, int height) {
+        path.reset();
+        path.moveTo(x, y);
+        path.lineTo(x, y + height);
+        path.lineTo(x + width, y + height);
+        addScrollGapPath(x, y, width, height);
+        path.closePath();
+        return path;
+    }
+
+    public static Shape createScrollButtonApart(int x, int y, int width, int height) {
+        path.reset();
+        path.moveTo(x, y);
+        path.lineTo(x, y + height);
+        path.lineTo(x + width, y + height);
+        addScrollGapPath(x, y, width, height);
+        path.closePath();
+        return path;
+    }
+
+    public static Shape createScrollButtonTogetherDecrease(int x, int y, int width, int height) {
+        path.reset();
+        path.moveTo(x + width, y);
+        path.lineTo(x + width, y + height);
+        path.lineTo(x, y + height);
+        addScrollGapPathBackwards(x, y, height);
+        path.closePath();
+        return path;
+    }
+
+    private static void addScrollGapPath(int x, int y, int width, int height) {
+        path.quadTo(x + width - height / 2.0, y + height, x + width - height / 2.0, y + height / 2.0);
+        path.quadTo(x + width - height / 2.0, y, x + width, y);
+    }
+
+    private static void addScrollGapPathBackwards(int x, int y, int height) {
+        path.quadTo(x + height / 2.0, y + height, x + height / 2.0, y + height / 2.0);
+        path.quadTo(x + height / 2.0, y, x, y);
+    }
 }
