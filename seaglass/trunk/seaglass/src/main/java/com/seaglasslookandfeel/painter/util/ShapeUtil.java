@@ -249,7 +249,7 @@ public class ShapeUtil {
     }
 
     public static Shape createEllipse(int x, int y, int w, int h) {
-        ellipse.setFrame(0, 1, w, h);
+        ellipse.setFrame(x, y, w, h);
         return ellipse;
     }
 }
