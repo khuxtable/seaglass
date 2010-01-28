@@ -180,7 +180,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     }
 
     private void paintIncreaseButtonTogether(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
-        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
+        Shape s = ShapeUtil.createScrollButtonTogetherIncrease(0, 0, width, height);
         dropShadow.fill(g, s);
         g.setPaint(decodeButtonGradient(s, colors.top, colors.bottom));
         g.fill(s);
