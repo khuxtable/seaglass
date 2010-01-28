@@ -27,6 +27,8 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+
 /**
  * TextComponentPainter implementation.
  */
@@ -54,8 +56,6 @@ public final class TextComponentPainter extends AbstractRegionPainter {
     private Color        disabledBorder         = new Color(0xdddddd);
     private Color        enabledBorder          = new Color(0xbbbbbb);
     private Color        enabledToolBarBorder   = new Color(0x888888);
-
-    private Rectangle2D  rect                   = new Rectangle2D.Double();
 
     private Which        state;
     private PaintContext ctx;
@@ -164,36 +164,27 @@ public final class TextComponentPainter extends AbstractRegionPainter {
     }
 
     private void paintInnerShadow(Graphics2D g, int x, int y, int width, int height) {
-        Shape s = decodeSquareFilled(x + 1, y + 1, width - 2, 2);
+        Shape s = ShapeUtil.createRectangle((x + 1), (y + 1), (width - 2), 2);
         g.setPaint(decodeGradientTopShadow(s));
         g.fill(s);
-        s = decodeSquareFilled(x + 1, y + 1, 1, height - 2);
+        s = ShapeUtil.createRectangle((x + 1), (y + 1), 1, (height - 2));
         g.setPaint(decodeGradientLeftShadow(s));
         g.fill(s);
-        s = decodeSquareFilled(x + width - 2, y + 1, 1, height - 2);
+        s = ShapeUtil.createRectangle((x + width - 2), (y + 1), 1, (height - 2));
         g.setPaint(decodeGradientRightShadow(s));
         g.fill(s);
     }
 
     private Shape decodeBackground(int x, int y, int width, int height) {
-        return decodeFilledBackground(x + 1, y + 1, width - 2, height - 2);
+        return ShapeUtil.createRectangle((x + 1), (y + 1), (width - 2), (height - 2));
     }
 
     private Shape decodeSolidBackground(int x, int y, int width, int height) {
-        return decodeFilledBackground(x - 2, y - 2, width + 4, height + 4);
+        return ShapeUtil.createRectangle((x - 2), (y - 2), (width + 4), (height + 4));
     }
 
     private void drawBorder(Graphics2D g, int x, int y, int width, int height) {
         g.drawRect(x, y, width - 1, height - 1);
-    }
-
-    private Shape decodeFilledBackground(int x, int y, int width, int height) {
-        return decodeSquareFilled(x, y, width, height);
-    }
-
-    private Shape decodeSquareFilled(int x, int y, int width, int height) {
-        rect.setRect(x, y, width, height);
-        return rect;
     }
 
     private Paint decodeGradientTopShadow(Shape s) {
