@@ -21,8 +21,6 @@ package com.seaglasslookandfeel.painter.util;
 
 import java.awt.Shape;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 /**
  * Return various shapes used by the Painter classes.
@@ -53,72 +51,69 @@ public class ShapeUtil {
         }
     }
 
-    private static Path2D           path        = new Path2D.Double();
-    private static Rectangle2D      rect        = new Rectangle2D.Double();
-    private static RoundRectangle2D roundRect   = new RoundRectangle2D.Double();
+    private static Path2D       path        = new Path2D.Double();
 
-    private static final double     baseArcSize = 4d;
+    private static final double baseArcSize = 4d;
 
     public static Shape createRectangle(final int x, final int y, final int w, final int h) {
-        rect.setRect(x, y, w, h);
-        return rect;
+        // The corner size doesn't matter, but must not be null.
+        return createQuad(CornerSize.BORDER, x, y, w, h, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE);
     }
 
     public static Shape createRoundRectangle(final CornerSize size, final int x, final int y, final int w, final int h) {
-        double arcSize = 2 * size.arcSize;
-        roundRect.setRoundRect(x, y, w, h, arcSize, arcSize);
-        return roundRect;
+        return createQuad(size, x, y, w, h, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
     public static Shape createQuad(final CornerSize size, final int x, final int y, final int w, final int h, final CornerStyle topLeft,
         final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
-        if (topLeft == CornerStyle.SQUARE && bottomLeft == CornerStyle.SQUARE && bottomRight == CornerStyle.SQUARE
-                && topRight == CornerStyle.SQUARE) {
-            return createRectangle(x, y, w, h);
-        } else if (topLeft == CornerStyle.ROUNDED && bottomLeft == CornerStyle.ROUNDED && bottomRight == CornerStyle.ROUNDED
-                && topRight == CornerStyle.ROUNDED) {
-            return createRoundRectangle(size, x, y, w, h);
-        } else {
-            double arcSize = size.arcSize;
-            path.reset();
-            switch (topLeft) {
-            case SQUARE:
-                path.moveTo(x, y);
-                break;
-            case ROUNDED:
-                path.moveTo(x + arcSize, y);
-                path.quadTo(x, y, x, y + arcSize);
-                break;
-            }
-            switch (bottomLeft) {
-            case SQUARE:
-                path.lineTo(x, y + h);
-                break;
-            case ROUNDED:
-                path.lineTo(x, y + h - arcSize);
-                path.quadTo(x, y + h, x + arcSize, y + h);
-                break;
-            }
-            switch (bottomRight) {
-            case SQUARE:
-                path.lineTo(x + w, y + h);
-                break;
-            case ROUNDED:
-                path.lineTo(x + w - arcSize, y + h);
-                path.quadTo(x + w, y + h, x + w, y + h - arcSize);
-            }
-            switch (topRight) {
-            case SQUARE:
-                path.lineTo(x + w, y);
-                break;
-            case ROUNDED:
-                path.lineTo(x + w, y + arcSize);
-                path.quadTo(x + w, y, x + w - arcSize, y);
-                break;
-            }
-            path.closePath();
-            return path;
+        int right = x + w;
+        int bottom = y + h;
+        double arcSize = size.arcSize;
+
+        // Start the path.
+        path.reset();
+        // Move to top left and draw rounded corner if requested.
+        switch (topLeft) {
+        case SQUARE:
+            path.moveTo(x, y);
+            break;
+        case ROUNDED:
+            path.moveTo(x + arcSize, y);
+            path.quadTo(x, y, x, y + arcSize);
+            break;
         }
+        // Draw through bottom left corner.
+        switch (bottomLeft) {
+        case SQUARE:
+            path.lineTo(x, bottom);
+            break;
+        case ROUNDED:
+            path.lineTo(x, bottom - arcSize);
+            path.quadTo(x, bottom, x + arcSize, bottom);
+            break;
+        }
+        // Draw through bottom right corner.
+        switch (bottomRight) {
+        case SQUARE:
+            path.lineTo(right, bottom);
+            break;
+        case ROUNDED:
+            path.lineTo(right - arcSize, bottom);
+            path.quadTo(right, bottom, right, bottom - arcSize);
+        }
+        // Draw through top right corner.
+        switch (topRight) {
+        case SQUARE:
+            path.lineTo(right, y);
+            break;
+        case ROUNDED:
+            path.lineTo(right, y + arcSize);
+            path.quadTo(right, y, right - arcSize, y);
+            break;
+        }
+        // Close the path.
+        path.closePath();
+        return path;
     }
 
     public static Shape createCheckMark(final int x, final int y, final int w, final int h) {
