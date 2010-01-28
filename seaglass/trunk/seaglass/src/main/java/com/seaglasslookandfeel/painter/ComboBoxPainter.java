@@ -24,12 +24,14 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
 /**
  * ComboBoxPainter implementation.
@@ -64,8 +66,6 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
 
     // TODO Get this from the UI.
     private static final int           buttonWidth            = 21;
-
-    private Path2D                     path                   = new Path2D.Double();
 
     private Which                      state;
     private PaintContext               ctx;
@@ -180,25 +180,25 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     private void paintButton(Graphics2D g, JComponent c, int width, int height, ButtonStateColors colors) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        path = decodeBorder(width, height);
-        g.setPaint(decodeGradientBackground(path, colors.backgroundTop, colors.backgroundBottom));
-        g.fill(path);
-        path = decodeInterior(width, height);
+        Shape s = decodeBorder(width, height);
+        g.setPaint(decodeGradientBackground(s, colors.backgroundTop, colors.backgroundBottom));
+        g.fill(s);
+        s = decodeInterior(width, height);
         g.setColor(colors.mainColor);
-        g.fill(path);
-        g.setPaint(decodeGradientBottomShine(path, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
-        g.fill(path);
-        g.setPaint(decodeGradientTopShine(path, colors.upperShineTop, colors.upperShineBottom));
-        g.fill(path);
+        g.fill(s);
+        g.setPaint(decodeGradientBottomShine(s, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
+        g.fill(s);
+        g.setPaint(decodeGradientTopShine(s, colors.upperShineTop, colors.upperShineBottom));
+        g.fill(s);
     }
 
     private void paintFocus(Graphics2D g, JComponent c, int width, int height) {
         g.setColor(isInToolBar(c) ? outerToolBarFocusColor : outerFocusColor);
-        setPath(0, 0, width, height, 6);
-        g.fill(path);
+        Shape s = setPath(CornerSize.OUTER_FOCUS, 0, 0, width, height);
+        g.fill(s);
         g.setColor(isInToolBar(c) ? innerToolBarFocusColor : innerFocusColor);
-        setPath(1, 1, width - 2, height - 2, 5);
-        g.fill(path);
+        s = setPath(CornerSize.INNER_FOCUS, 1, 1, width - 2, height - 2);
+        g.fill(s);
     }
 
     private void paintDropShadow(Graphics2D g, int width, int height, boolean full) {
@@ -209,63 +209,30 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
             g.setClip(width - buttonWidth, 0, buttonWidth, height);
         }
         g.setColor(outerShadowColor);
-        setPath(1, 2, width - 2, height - 2, 5);
-        g.fill(path);
+        s = setPath(CornerSize.OUTER_FOCUS, 1, 2, width - 2, height - 2);
+        g.fill(s);
         g.setColor(innerShadowColor);
-        setPath(2, 2, width - 4, height - 3, 5);
-        g.fill(path);
+        s = setPath(CornerSize.INNER_FOCUS, 2, 2, width - 4, height - 3);
+        g.fill(s);
         g.setClip(s);
     }
 
-    private Path2D decodeBorder(double width, double height) {
-        double arcSize = 4.0;
-        double x = 2.0;
-        double y = 2.0;
-        width -= 2.0;
-        height -= 4.0;
-        decodeButtonPath(x, y, width, height, arcSize, arcSize);
-        return path;
+    private Shape decodeBorder(int width, int height) {
+        return decodeButtonPath(CornerSize.BORDER, 2, 2, width - 2, height - 4);
     }
 
-    private Path2D decodeInterior(double width, double height) {
-        double arcSize = 3.0;
-        double x = 3.0;
-        double y = 3.0;
-        width -= 3.0;
-        height -= 6.0;
-        decodeButtonPath(x, y, width, height, arcSize, arcSize);
-        return path;
+    private Shape decodeInterior(int width, int height) {
+        return decodeButtonPath(CornerSize.INTERIOR, 3, 3, width - 3, height - 6);
     }
 
-    private void decodeButtonPath(Double left, Double top, Double width, Double height, Double arcW, Double arcH) {
-        Double bottom = top + height;
-        Double right = left + width;
-        path.reset();
-        path.moveTo(left + arcW, top);
-        path.quadTo(left, top, left, top + arcH);
-        path.lineTo(left, bottom - arcH);
-        path.quadTo(left, bottom, left + arcW, bottom);
-        path.lineTo(right, bottom);
-        path.lineTo(right, top);
-        path.closePath();
+    private Shape decodeButtonPath(CornerSize size, int left, int top, int width, int height) {
+        return ShapeUtil.createQuad(size, left, top, width, height, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.SQUARE,
+            CornerStyle.SQUARE);
     }
 
-    private void setPath(int x, int y, int width, int height, int arc) {
-        path.reset();
-        if (editable) {
-            path.moveTo(x, y);
-            path.lineTo(x, y + height);
-        } else {
-            path.moveTo(x + arc, y);
-            path.quadTo(x, y, x, y + arc);
-            path.lineTo(x, y + height - arc);
-            path.quadTo(x, y + height, x + arc, y + height);
-        }
-        path.lineTo(x + width - arc, y + height);
-        path.quadTo(x + width, y + height, x + width, y + height - arc);
-        path.lineTo(x + width, y + arc);
-        path.quadTo(x + width, y, x + width - arc, y);
-        path.closePath();
+    private Shape setPath(CornerSize size, int x, int y, int width, int height) {
+        CornerStyle leftStyle = editable ? CornerStyle.SQUARE : CornerStyle.ROUNDED;
+        return ShapeUtil.createQuad(size, x, y, width, height, leftStyle, leftStyle, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
     /**
