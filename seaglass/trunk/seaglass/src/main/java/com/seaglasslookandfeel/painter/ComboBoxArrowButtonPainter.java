@@ -220,7 +220,7 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeButtonPath(CornerSize size, int x, int y, int w, int h) {
-        return ShapeUtil.createQuad(x, y, w, h, size, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+        return ShapeUtil.createRoundRectangle(x, y, w, h, size, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
     /**

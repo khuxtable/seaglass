@@ -227,13 +227,13 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeButtonPath(CornerSize size, int left, int top, int width, int height) {
-        return ShapeUtil.createQuad(left, top, width, height, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.SQUARE,
+        return ShapeUtil.createRoundRectangle(left, top, width, height, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.SQUARE,
             CornerStyle.SQUARE);
     }
 
     private Shape setPath(CornerSize size, int x, int y, int width, int height) {
         CornerStyle leftStyle = editable ? CornerStyle.SQUARE : CornerStyle.ROUNDED;
-        return ShapeUtil.createQuad(x, y, width, height, size, leftStyle, leftStyle, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+        return ShapeUtil.createRoundRectangle(x, y, width, height, size, leftStyle, leftStyle, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
     /**

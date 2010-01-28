@@ -53,10 +53,25 @@ public class ShapeUtil {
         POPUP_BORDER(3),
         POPUP_INTERIOR(2.5);
 
-        public double arcSize;
+        public double radius;
 
-        CornerSize(double arcSize) {
-            this.arcSize = arcSize;
+        CornerSize(double radius) {
+            this.radius = radius;
+        }
+
+        public double getRadius(int w, int h) {
+            switch (this) {
+            case ROUND_HEIGHT:
+                return h / 2.0;
+            case ROUND_HEIGHT_DRAW:
+                return (h + 1) / 2.0;
+            case ROUND_WIDTH:
+                return w / 2.0;
+            case ROUND_WIDTH_DRAW:
+                return (w + 1) / 2.0;
+            default:
+                return radius;
+            }
         }
     }
 
@@ -75,36 +90,20 @@ public class ShapeUtil {
     }
 
     public static Shape createRectangle(final int x, final int y, final int w, final int h) {
-        // The corner size doesn't matter, but must not be null.
-        return createQuad(x, y, w, h, CornerSize.BORDER, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE);
+        return createRoundRectangleInternal(x, y, w, h, 0, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE);
     }
 
     public static Shape createRoundRectangle(final int x, final int y, final int w, final int h, final CornerSize size) {
-        return createQuad(x, y, w, h, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+        return createRoundRectangle(x, y, w, h, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
-    public static Shape createQuad(final int x, final int y, final int w, final int h, final CornerSize size, final CornerStyle topLeft,
-        final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
-        return createQuadInternal(x, y, w, h, getRadius(w, h, size), topLeft, bottomLeft, bottomRight, topRight);
+    public static Shape createRoundRectangle(final int x, final int y, final int w, final int h, final CornerSize size,
+        final CornerStyle topLeft, final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
+        return createRoundRectangleInternal(x, y, w, h, size.getRadius(w, h), topLeft, bottomLeft, bottomRight, topRight);
     }
 
-    private static double getRadius(final int w, final int h, final CornerSize size) {
-        switch (size) {
-        case ROUND_HEIGHT:
-            return h / 2.0;
-        case ROUND_HEIGHT_DRAW:
-            return (h + 1) / 2.0;
-        case ROUND_WIDTH:
-            return w / 2.0;
-        case ROUND_WIDTH_DRAW:
-            return (w + 1) / 2.0;
-        default:
-            return size.arcSize;
-        }
-    }
-
-    private static Shape createQuadInternal(final int x, final int y, final int w, final int h, final double radius, final CornerStyle topLeft,
-        final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
+    private static Shape createRoundRectangleInternal(final int x, final int y, final int w, final int h, final double radius,
+        final CornerStyle topLeft, final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
         // Convenience variables.
         final int left = x;
         final int top = y;
@@ -310,7 +309,7 @@ public class ShapeUtil {
 
     public static Shape createDiscreteSliderThumb(final int x, final int y, final int width, final int height, final CornerSize size) {
         // FIXME This minus one is a magic number.
-        final double topArc = size.arcSize - 1.0;
+        final double topArc = size.radius - 1.0;
         final double bottomArcH = size == CornerSize.INTERIOR ? 0 : 1;
         final double bottomArcW = 3;
 
