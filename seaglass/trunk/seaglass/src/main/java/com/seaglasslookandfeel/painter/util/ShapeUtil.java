@@ -28,42 +28,147 @@ import java.awt.geom.Path2D;
  * 
  * @author Kathryn Huxtable
  */
+/**
+ * @author Kathryn Huxtable
+ * 
+ */
 public class ShapeUtil {
 
+    /**
+     * The style of a particular corner.
+     */
     public enum CornerStyle {
-        SQUARE, ROUNDED,
+        /**
+         * Make a square corner.
+         */
+        SQUARE,
+
+        /**
+         * Make a rounded corner.
+         */
+        ROUNDED,
     };
 
+    /**
+     * The rounding amount for a corner.
+     */
+    /**
+     * @author Kathryn Huxtable
+     * 
+     */
     public enum CornerSize {
+        /**
+         * Round using half the height, producing a nice quarter of a circle for
+         * the entire quarter of the rectangle. Use for horizontal lozenges that
+         * are filled.
+         */
         ROUND_HEIGHT(0),
+        /**
+         * Round using half the height plus 1, producing a nice quarter of a
+         * circle for the entire quarter of the rectangle. Use for horizontal
+         * lozenges that are drawn.
+         */
         ROUND_HEIGHT_DRAW(0),
+        /**
+         * Round using half the width, producing a nice quarter of a circle for
+         * the entire quarter of the rectangle. Use for vertical lozenges that
+         * are filled.
+         */
         ROUND_WIDTH(0),
+        /**
+         * Round using half the width plus 1, producing a nice quarter of a
+         * circle for the entire quarter of the rectangle. Use for vertical
+         * lozenges that are drawn.
+         */
         ROUND_WIDTH_DRAW(0),
 
-        INTERIOR(baseArcSize - 1),
-        BORDER(baseArcSize),
-        INNER_FOCUS(baseArcSize + 1),
-        OUTER_FOCUS(baseArcSize + 2),
+        /**
+         * Round for a generic object's interior.
+         */
+        INTERIOR(baseRadius - 1),
+        /**
+         * Round for a generic object's border.
+         */
+        BORDER(baseRadius),
+        /**
+         * Round for a generic object's inner focus ring.
+         */
+        INNER_FOCUS(baseRadius + 1),
+        /**
+         * Round for a generic object's outer focus ring.
+         */
+        OUTER_FOCUS(baseRadius + 2),
 
-        SLIDER_INTERIOR(baseArcSize - 2),
-        SLIDER_BORDER(baseArcSize - 1),
-        SLIDER_INNER_FOCUS(baseArcSize),
-        SLIDER_OUTER_FOCUS(baseArcSize + 1),
+        /**
+         * Round for a slider thumb's interior.
+         */
+        SLIDER_INTERIOR(baseRadius - 2),
+        /**
+         * Round for a slider thumb's border.
+         */
+        SLIDER_BORDER(baseRadius - 1),
+        /**
+         * Round for a slider thumb's inner focus ring.
+         */
+        SLIDER_INNER_FOCUS(baseRadius),
+        /**
+         * Round for a slider thumb's outer focus ring.
+         */
+        SLIDER_OUTER_FOCUS(baseRadius + 1),
 
-        CHECKBOX_INTERIOR(baseArcSize / 2),
-        CHECKBOX_BORDER((baseArcSize + 1) / 2),
-        CHECKBOX_INNER_FOCUS((baseArcSize + 2) / 2),
-        CHECKBOX_OUTER_FOCUS((baseArcSize + 3) / 2),
+        /**
+         * Round for a check box's interior.
+         */
+        CHECKBOX_INTERIOR(baseRadius / 2),
+        /**
+         * Round for a check box's border.
+         */
+        CHECKBOX_BORDER((baseRadius + 1) / 2),
+        /**
+         * Round for a check box's inner focus ring.
+         */
+        CHECKBOX_INNER_FOCUS((baseRadius + 2) / 2),
+        /**
+         * Round for a check box's outer focus ring.
+         */
+        CHECKBOX_OUTER_FOCUS((baseRadius + 3) / 2),
 
+        /**
+         * Round for a popup menu's border.
+         */
         POPUP_BORDER(3),
+        /**
+         * Round for a popup menu's interior.
+         */
         POPUP_INTERIOR(2.5);
 
+        /**
+         * The rounding radius.
+         */
         private double radius;
 
+        /**
+         * Create the corner size.
+         * 
+         * @param radius
+         *            the radius for rounding.
+         */
         CornerSize(double radius) {
             this.radius = radius;
         }
 
+        /**
+         * Return the rounding radius. Note that the {@code ROUND*} values are
+         * handled specially, as the rounding is dependent on the size of the
+         * rectangle.
+         * 
+         * @param w
+         *            the width of the rectangle.
+         * @param h
+         *            the height of the rectangle.
+         * 
+         * @return the radius (arc size) to use for rounding.
+         */
         public double getRadius(int w, int h) {
             switch (this) {
             case ROUND_HEIGHT:
@@ -80,10 +185,21 @@ public class ShapeUtil {
         }
     }
 
-    private static Path2D       path        = new Path2D.Double(Path2D.WIND_EVEN_ODD);
-    private static Ellipse2D    ellipse     = new Ellipse2D.Float();
+    /**
+     * The base radius (arc size) for most control's borders. This is used to
+     * calculate the rest of the arc sizes in a relative manner.
+     */
+    private static final double baseRadius = 4d;
 
-    private static final double baseArcSize = 4d;
+    /**
+     * Used for generic shapes.
+     */
+    private static Path2D       path       = new Path2D.Double(Path2D.WIND_EVEN_ODD);
+
+    /**
+     * Used for simple elliptical or circular shapes.
+     */
+    private static Ellipse2D    ellipse    = new Ellipse2D.Float();
 
     /**
      * Return a path for a rectangle with square corners.
@@ -124,7 +240,7 @@ public class ShapeUtil {
     }
 
     /**
-     * Return a path for a rectangle with rounded corners.
+     * Return a path for a rectangle with optionally rounded corners.
      * 
      * @param x
      *            the X coordinate of the upper-left corner of the rectangle
@@ -573,7 +689,7 @@ public class ShapeUtil {
         path.moveTo(x, y);
         path.lineTo(x, y + height);
         path.lineTo(x + width, y + height);
-        addScrollGapPath(x, y, width, height);
+        addScrollGapPath(x, y, width, height, true);
         path.closePath();
         return path;
     }
@@ -599,7 +715,7 @@ public class ShapeUtil {
         path.moveTo(x, y);
         path.lineTo(x, y + height);
         path.lineTo(x + width, y + height);
-        addScrollGapPath(x, y, width, height);
+        addScrollGapPath(x, y, width, height, true);
         path.closePath();
         return path;
     }
@@ -624,7 +740,7 @@ public class ShapeUtil {
         path.moveTo(x + width, y);
         path.lineTo(x + width, y + height);
         path.lineTo(x, y + height);
-        addScrollGapPathBackwards(x, y, height);
+        addScrollGapPath(x, y, width, height, false);
         path.closePath();
         return path;
     }
@@ -648,21 +764,79 @@ public class ShapeUtil {
         return createRectangle(x, y, w, h);
     }
 
-    private static void addScrollGapPath(int x, int y, int width, int height) {
-        path.quadTo(x + width - height / 2.0, y + height, x + width - height / 2.0, y + height / 2.0);
-        path.quadTo(x + width - height / 2.0, y, x + width, y);
+    /**
+     * Adds a hemispherical section to the current path. This is used to create
+     * the gap in a scroll bar button or cap into which the scroll bar thumb
+     * will fit.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the button or cap
+     * @param y
+     *            the Y coordinate of the upper-left corner of the button or cap
+     * @param w
+     *            the width of the button or cap
+     * @param h
+     *            the height of the button or cap
+     * @param isAtLeft
+     *            {@code true} if the gap is at the left end of the button,
+     *            {@code false} if it is at the right.
+     */
+    private static void addScrollGapPath(int x, int y, int width, int height, boolean isAtLeft) {
+        final double hHalf = height / 2.0;
+        final double wFull = isAtLeft ? width : 0;
+        final double wHalfOff = isAtLeft ? width - hHalf : hHalf;
+
+        path.quadTo(x + wHalfOff, y + height, x + wHalfOff, y + hHalf);
+        path.quadTo(x + wHalfOff, y, x + wFull, y);
     }
 
-    private static void addScrollGapPathBackwards(int x, int y, int height) {
-        path.quadTo(x + height / 2.0, y + height, x + height / 2.0, y + height / 2.0);
-        path.quadTo(x + height / 2.0, y, x, y);
-    }
-
+    /**
+     * Return a path for an ellipse.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the ellipse
+     * @param y
+     *            the Y coordinate of the upper-left corner of the ellipse
+     * @param w
+     *            the width of the ellipse
+     * @param h
+     *            the height of the ellipse
+     * 
+     * @return a path representing the shape.
+     */
     private static Shape createEllipseInternal(int x, int y, int w, int h) {
         ellipse.setFrame(x, y, w, h);
         return ellipse;
     }
 
+    /**
+     * Return a path for a rectangle with optionally rounded corners.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the rectangle
+     * @param y
+     *            the Y coordinate of the upper-left corner of the rectangle
+     * @param w
+     *            the width of the rectangle
+     * @param h
+     *            the height of the rectangle
+     * @param radius
+     *            the radius (arc size) used for rounding
+     * @param topLeft
+     *            the CornerStyle of the upper-left corner. This must be one of
+     *            {@code CornerStyle.SQUARE} or {@code CornerStyle.ROUNDED}.
+     * @param bottomLeft
+     *            the CornerStyle of the lower-left corner. This must be one of
+     *            {@code CornerStyle.SQUARE} or {@code CornerStyle.ROUNDED}.
+     * @param bottomRight
+     *            the CornerStyle of the lower-right corner. This must be one of
+     *            {@code CornerStyle.SQUARE} or {@code CornerStyle.ROUNDED}.
+     * @param topRight
+     *            the CornerStyle of the upper-right corner. This must be one of
+     *            {@code CornerStyle.SQUARE} or {@code CornerStyle.ROUNDED}.
+     * 
+     * @return a path representing the shape.
+     */
     private static Shape createRoundRectangleInternal(final int x, final int y, final int w, final int h, final double radius,
         final CornerStyle topLeft, final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
         // Convenience variables.
