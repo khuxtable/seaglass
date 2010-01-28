@@ -48,16 +48,7 @@ public final class MenuPainter extends MenuItemPainter {
     public MenuPainter(Which state) {
         super(MenuItemPainter.Which.BACKGROUND_ENABLED);
         this.state = state;
-        switch (state) {
-        case BACKGROUND_ENABLED_SELECTED:
-            this.ctx = new PaintContext(CacheMode.NO_CACHING);
-            break;
-        case ARROWICON_DISABLED:
-        case ARROWICON_ENABLED:
-        case ARROWICON_ENABLED_SELECTED:
-            this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
-            break;
-        }
+        this.ctx = new PaintContext(CacheMode.NO_CACHING);
     }
 
     @Override
@@ -67,13 +58,13 @@ public final class MenuPainter extends MenuItemPainter {
             paintBackgroundMouseOver(g, width, height);
             break;
         case ARROWICON_DISABLED:
-            paintArrowIconDisabled(g, width, height);
+            paintArrowIconDisabled(g, c, width, height);
             break;
         case ARROWICON_ENABLED:
-            paintArrowIconEnabled(g, width, height);
+            paintArrowIconEnabled(g, c, width, height);
             break;
         case ARROWICON_ENABLED_SELECTED:
-            paintArrowIconEnabledAndSelected(g, width, height);
+            paintArrowIconEnabledAndSelected(g, c, width, height);
             break;
         }
     }
@@ -83,25 +74,29 @@ public final class MenuPainter extends MenuItemPainter {
         return ctx;
     }
 
-    private void paintArrowIconDisabled(Graphics2D g, int width, int height) {
-        Shape s = decodeArrowPath(width, height);
+    private void paintArrowIconDisabled(Graphics2D g, JComponent c, int width, int height) {
+        Shape s = decodeArrowPath(c, width, height);
         g.setPaint(iconDisabledSelected);
         g.fill(s);
     }
 
-    private void paintArrowIconEnabled(Graphics2D g, int width, int height) {
-        Shape s = decodeArrowPath(width, height);
+    private void paintArrowIconEnabled(Graphics2D g, JComponent c, int width, int height) {
+        Shape s = decodeArrowPath(c, width, height);
         g.setPaint(iconEnabledSelected);
         g.fill(s);
     }
 
-    private void paintArrowIconEnabledAndSelected(Graphics2D g, int width, int height) {
-        Shape s = decodeArrowPath(width, height);
+    private void paintArrowIconEnabledAndSelected(Graphics2D g, JComponent c, int width, int height) {
+        Shape s = decodeArrowPath(c, width, height);
         g.setPaint(iconSelectedMouseOver);
         g.fill(s);
     }
 
-    private Shape decodeArrowPath(int width, int height) {
-        return ShapeUtil.createArrowRight(1, 1, width - 2, height - 2);
+    private Shape decodeArrowPath(JComponent c, int width, int height) {
+        if (c.getComponentOrientation().isLeftToRight()) {
+            return ShapeUtil.createArrowRight(1, 1, width - 2, height - 2);
+        } else {
+            return ShapeUtil.createArrowLeft(1, 1, width - 2, height - 2);
+        }
     }
 }
