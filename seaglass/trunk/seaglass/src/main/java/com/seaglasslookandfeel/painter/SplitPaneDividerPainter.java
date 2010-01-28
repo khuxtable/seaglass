@@ -29,6 +29,7 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
  * Nimbus's SplitPaneDividerPainter.
@@ -134,53 +135,31 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         paintForegroundFocused(g2, c, height, width);
     }
 
+    private void paintForegroundFocused(Graphics2D g, JComponent c, int width, int height) {
+        paintFocus(g, c, width, height);
+        paintForegroundEnabled(g, width, height);
+    }
+
     private void paintForegroundEnabled(Graphics2D g, int width, int height) {
-        Shape s = decodeForegroundBorder(width, height);
+        Shape s = ShapeUtil.createRoundRectangle(width / 2 - 9, height / 2 - 2, 18, 5, CornerSize.ROUND_HEIGHT);
         g.setPaint(decodeGradientForegroundBorder(s, fgBorder1, fgBorder2));
         g.fill(s);
-        s = decodeForegroundInside(width, height);
+
+        s = ShapeUtil.createRoundRectangle(width / 2 - 8, height / 2 - 1, 16, 3, CornerSize.ROUND_HEIGHT);
         g.setPaint(decodeGradientForegroundInside(s, fgInside1, fgInside2, fgInside3));
         g.fill(s);
     }
 
-    private void paintForegroundFocused(Graphics2D g, JComponent c, int width, int height) {
+    private void paintFocus(Graphics2D g, JComponent c, int width, int height) {
         boolean useToolBarColors = isInToolBar(c);
-        Shape s = decodeForegroundOuterFocus(width, height);
+
+        Shape s = ShapeUtil.createRoundRectangle(width / 2 - 11, height / 2 - 4, 22, 9, CornerSize.ROUND_HEIGHT);
         g.setPaint(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
         g.fill(s);
-        s = decodeForegroundInnerFocus(width, height);
+
+        s = ShapeUtil.createRoundRectangle(width / 2 - 10, height / 2 - 3, 20, 7, CornerSize.ROUND_HEIGHT);
         g.setPaint(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
         g.fill(s);
-        s = decodeForegroundBorder(width, height);
-        g.setPaint(decodeGradientForegroundBorder(s, fgBorder1, fgBorder2));
-        g.fill(s);
-        s = decodeForegroundInside(width, height);
-        g.setPaint(decodeGradientForegroundInside(s, fgInside1, fgInside2, fgInside3));
-        g.fill(s);
-    }
-
-    private Shape decodeForegroundOuterFocus(int width, int height) {
-        int x = width / 2 - 10;
-        int y = height / 2 - 5;
-        return ShapeUtil.createRoundRectangle(x - 1, y + 1, 22, 9, 4.5);
-    }
-
-    private Shape decodeForegroundInnerFocus(int width, int height) {
-        int x = width / 2 - 10;
-        int y = height / 2 - 5;
-        return ShapeUtil.createRoundRectangle(x, y + 2, 20, 7, 3.5);
-    }
-
-    private Shape decodeForegroundBorder(int width, int height) {
-        int x = width / 2 - 10;
-        int y = height / 2 - 5;
-        return ShapeUtil.createRoundRectangle(x + 1, y + 3, 18, 5, 2.5);
-    }
-
-    private Shape decodeForegroundInside(int width, int height) {
-        int x = width / 2 - 10;
-        int y = height / 2 - 5;
-        return ShapeUtil.createRoundRectangle(x + 2, y + 4, 16, 3, 1.5);
     }
 
     private Paint decodeGradientForegroundBorder(Shape s, Color border1, Color border2) {

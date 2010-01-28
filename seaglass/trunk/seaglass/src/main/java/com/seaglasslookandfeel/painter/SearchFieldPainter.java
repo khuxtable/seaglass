@@ -28,6 +28,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
  * TextComponentPainter implementation.
@@ -134,35 +135,40 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
     }
 
     private void paintBackground(Graphics2D g, JComponent c, int x, int y, int width, int height, Color color) {
-        Shape s = decodeBackground(x, y, width, height);
+        Shape s = ShapeUtil.createRoundRectangle(x + 1, y + 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
         g.setColor(color);
         g.fill(s);
     }
 
     private void paintSolidBackground(Graphics2D g, JComponent c, int x, int y, int width, int height, Color color) {
-        Shape s = decodeSolidBackground(x, y, width, height);
+        Shape s = ShapeUtil.createRoundRectangle(x - 2, y - 2, width + 4, height + 4, CornerSize.ROUND_HEIGHT);
         g.setColor(color);
         g.fill(s);
     }
 
     private void paintBorderDisabled(Graphics2D g, JComponent c, int x, int y, int width, int height) {
         g.setColor(DISABLED_BORDER);
-        drawBorder(g, x, y, width, height);
+        Shape s = ShapeUtil.createRoundRectangle(x, y, width - 1, height - 1, CornerSize.ROUND_HEIGHT_DRAW);
+        g.draw(s);
     }
 
     private void paintBorderEnabled(Graphics2D g, JComponent c, int x, int y, int width, int height) {
         boolean useToolBarColors = isInToolBar(c);
 
+        Shape s;
         if (focused) {
             g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
-            drawBorder(g, x - 2, y - 2, width + 4, height + 4);
+            s = ShapeUtil.createRoundRectangle(x - 2, y - 2, width + 4 - 1, height + 4 - 1, CornerSize.ROUND_HEIGHT_DRAW);
+            g.draw(s);
             g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
-            drawBorder(g, x - 1, y - 1, width + 2, height + 2);
+            s = ShapeUtil.createRoundRectangle(x - 1, y - 1, width + 2 - 1, height + 2 - 1, CornerSize.ROUND_HEIGHT_DRAW);
+            g.draw(s);
         }
         paintInternalDropShadow(g, x, y, width, height);
 
         g.setColor(!focused && useToolBarColors ? ENABLED_TOOLBAR_BORDER : ENABLED_BORDER);
-        drawBorder(g, x, y, width, height);
+        s = ShapeUtil.createRoundRectangle(x, y, width - 1, height - 1, CornerSize.ROUND_HEIGHT_DRAW);
+        g.draw(s);
     }
 
     private void paintInternalDropShadow(Graphics2D g, int x, int y, int width, int height) {
@@ -170,27 +176,10 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
     }
 
     private void paintInnerShadow(Graphics2D g, int x, int y, int width, int height) {
-        Shape s = decodeRoundedFilled(x + 1, y + 1, width - 2, height - 2);
+        Shape s = ShapeUtil.createRoundRectangle(x + 1, y + 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
         g.setPaint(decodeGradientRoundedTopShadow(s));
         s = ShapeUtil.createRoundedInternalShadow(x, y, width, height);
         g.fill(s);
-    }
-
-    private Shape decodeBackground(int x, int y, int width, int height) {
-        return decodeRoundedFilled(x + 1, y + 1, width - 2, height - 2);
-    }
-
-    private Shape decodeSolidBackground(int x, int y, int width, int height) {
-        return decodeRoundedFilled(x - 2, y - 2, width + 4, height + 4);
-    }
-
-    private void drawBorder(Graphics2D g, int x, int y, int width, int height) {
-        Shape s = ShapeUtil.createRoundRectangle(x, y, width - 1, height - 1, height / 2.0);
-        g.draw(s);
-    }
-
-    private Shape decodeRoundedFilled(int x, int y, int width, int height) {
-        return ShapeUtil.createRoundRectangle(x, y, width, height, height / 2.0);
     }
 
     private Paint decodeGradientRoundedTopShadow(Shape s) {
