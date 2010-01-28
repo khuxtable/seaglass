@@ -175,7 +175,7 @@ public final class SpinnerPreviousButtonPainter extends AbstractRegionPainter {
     }
 
     private Shape setButtonShape(int x, int y, int width, int height, CornerSize size) {
-        return ShapeUtil.createQuad(x, y, width, height, size, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED,
+        return ShapeUtil.createRoundRectangle(x, y, width, height, size, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED,
             CornerStyle.SQUARE);
     }
 
