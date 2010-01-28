@@ -23,12 +23,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
 /**
  * SpinnerPreviousButtonPainter implementation.
@@ -72,8 +74,6 @@ public final class SpinnerPreviousButtonPainter extends AbstractRegionPainter {
 
     private Color        ENABLED_ARROW_COLOR      = new Color(0x000000);
     private Color        DISABLED_ARROW_COLOR     = new Color(0x9ba8cf);
-
-    private Path2D       path                     = new Path2D.Double();
 
     private Which        state;
     private PaintContext ctx;
@@ -147,20 +147,20 @@ public final class SpinnerPreviousButtonPainter extends AbstractRegionPainter {
         Shape s;
 
         if (focused) {
-            s = setButtonShape(0, 0, width, height, 6);
+            s = setButtonShape(0, 0, width, height, CornerSize.OUTER_FOCUS);
             g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
             g.fill(s);
 
-            s = setButtonShape(0, 0, width - 1, height - 1, 5);
+            s = setButtonShape(0, 0, width - 1, height - 1, CornerSize.INNER_FOCUS);
             g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
             g.fill(s);
         }
 
-        s = setButtonShape(0, 0, width - 2, height - 2, 4);
+        s = setButtonShape(0, 0, width - 2, height - 2, CornerSize.BORDER);
         g.setPaint(decodeGradient(s, topBorder, bottomBorder));
         g.fill(s);
 
-        s = setButtonShape(1, 1, width - 4, height - 4, 3);
+        s = setButtonShape(1, 1, width - 4, height - 4, CornerSize.INTERIOR);
         g.setPaint(decodeGradient(s, topInterior, bottomInterior));
         g.fill(s);
 
@@ -174,28 +174,15 @@ public final class SpinnerPreviousButtonPainter extends AbstractRegionPainter {
         g.fill(s);
     }
 
-    private Shape setButtonShape(int left, int top, int width, int height, double arc) {
-        int right = left + width;
-        int bottom = top + height;
-        path.reset();
-        path.moveTo(left, top);
-        path.lineTo(right, top);
-        path.lineTo(right, bottom - arc);
-        path.quadTo(right, bottom, right - arc, bottom);
-        path.lineTo(left, bottom);
-        path.closePath();
-        return path;
+    private Shape setButtonShape(int x, int y, int width, int height, CornerSize size) {
+        return ShapeUtil.createQuad(x, y, width, height, size, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED,
+            CornerStyle.SQUARE);
     }
 
     private Shape setArrowShape(int left, int height) {
         int centerX = 8;
         int centerY = height / 2;
-        path.reset();
-        path.moveTo(centerX + 2, centerY + 1);
-        path.lineTo(centerX + 4, centerY - 2);
-        path.lineTo(centerX, centerY - 2);
-        path.closePath();
-        return path;
+        return ShapeUtil.createArrowDown(centerX, centerY - 2, 4, 3);
     }
 
     private Paint decodeGradient(Shape s, Color color1, Color color2) {
