@@ -22,11 +22,13 @@ package com.seaglasslookandfeel.painter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
-import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * Paint table headers.
@@ -80,8 +82,6 @@ public final class TableHeaderRendererPainter extends AbstractRegionPainter {
     private static final Color disabledSorted2 = new Color(0x807fa7cd, true);
     private static final Color disabledSorted3 = new Color(0x8082b0d6, true);
     private static final Color disabledSorted4 = new Color(0x80b0daf6, true);
-
-    private Rectangle          rectangle       = new Rectangle();
 
     public TableHeaderRendererPainter(Which state) {
         super();
@@ -142,16 +142,17 @@ public final class TableHeaderRendererPainter extends AbstractRegionPainter {
     }
 
     private void paintBackground(Graphics2D g, int width, int height, Color border, Color color1, Color color2, Color color3, Color color4) {
-        rectangle.setRect(0, 0, width - 1, height - 1);
-        Paint p = getGradient(rectangle, color1, color2, color3, color4);
+        Shape s = ShapeUtil.createRectangle(0, 0, width - 1, height - 1);
+        Paint p = getGradient(s, color1, color2, color3, color4);
         g.setPaint(p);
-        g.fill(rectangle);
+        g.fill(s);
         g.setColor(border);
         g.drawLine(0, height - 1, width, height - 1);
         g.drawLine(width - 1, 0, width - 1, height - 1);
     }
 
-    private Paint getGradient(Rectangle r, Color color1, Color color2, Color color3, Color color4) {
+    private Paint getGradient(Shape s, Color color1, Color color2, Color color3, Color color4) {
+        Rectangle2D r = s.getBounds2D();
         float x = (float) r.getX();
         float y = (float) r.getY();
         float w = (float) r.getWidth();
