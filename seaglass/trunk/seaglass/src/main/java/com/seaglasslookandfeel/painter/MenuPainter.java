@@ -21,11 +21,12 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Path2D;
+import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public final class MenuPainter extends MenuItemPainter {
     public static enum Which {
@@ -39,8 +40,6 @@ public final class MenuPainter extends MenuItemPainter {
 
     private Which        state;
     private PaintContext ctx;
-
-    private Path2D       path                  = new Path2D.Float();
 
     private Color        iconDisabledSelected  = decodeColor("nimbusDisabledText");
     private Color        iconEnabledSelected   = decodeColor("text");
@@ -85,29 +84,24 @@ public final class MenuPainter extends MenuItemPainter {
     }
 
     private void paintArrowIconDisabled(Graphics2D g, int width, int height) {
-        path = decodeArrowPath(width, height);
+        Shape s = decodeArrowPath(width, height);
         g.setPaint(iconDisabledSelected);
-        g.fill(path);
+        g.fill(s);
     }
 
     private void paintArrowIconEnabled(Graphics2D g, int width, int height) {
-        path = decodeArrowPath(width, height);
+        Shape s = decodeArrowPath(width, height);
         g.setPaint(iconEnabledSelected);
-        g.fill(path);
+        g.fill(s);
     }
 
     private void paintArrowIconEnabledAndSelected(Graphics2D g, int width, int height) {
-        path = decodeArrowPath(width, height);
+        Shape s = decodeArrowPath(width, height);
         g.setPaint(iconSelectedMouseOver);
-        g.fill(path);
+        g.fill(s);
     }
 
-    private Path2D decodeArrowPath(int width, int height) {
-        path.reset();
-        path.moveTo(0, 1);
-        path.lineTo((width - 2) * 0.9529617f + 1, (height - 2) * 0.5625f + 1);
-        path.lineTo(0, height);
-        path.closePath();
-        return path;
+    private Shape decodeArrowPath(int width, int height) {
+        return ShapeUtil.createArrowRight(1, 1, width - 2, height - 2);
     }
 }
