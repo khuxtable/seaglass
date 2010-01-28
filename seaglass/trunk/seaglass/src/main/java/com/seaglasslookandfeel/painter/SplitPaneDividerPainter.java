@@ -24,11 +24,11 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * Nimbus's SplitPaneDividerPainter.
@@ -43,25 +43,23 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         FOREGROUND_FOCUSED_VERTICAL,
     }
 
-    private Which            state;
-    private PaintContext     ctx;
+    private Which        state;
+    private PaintContext ctx;
 
-    private RoundRectangle2D roundRect              = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
+    private Color        bgOuter                = new Color(0xd9d9d9);
+    private Color        bgEnabled              = decodeColor("control", 0f, 0f, 0f, 0);
 
-    private Color            bgOuter                = new Color(0xd9d9d9);
-    private Color            bgEnabled              = decodeColor("control", 0f, 0f, 0f, 0);
+    private Color        outerFocusColor        = decodeColor("seaGlassOuterFocus");
+    private Color        innerFocusColor        = decodeColor("seaGlassFocus");
+    private Color        outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
+    private Color        innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
-    private Color            outerFocusColor        = decodeColor("seaGlassOuterFocus");
-    private Color            innerFocusColor        = decodeColor("seaGlassFocus");
-    private Color            outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
-    private Color            innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
+    private Color        fgBorder1              = new Color(0x88ade0);
+    private Color        fgBorder2              = new Color(0x5785bf);
 
-    private Color            fgBorder1              = new Color(0x88ade0);
-    private Color            fgBorder2              = new Color(0x5785bf);
-
-    private Color            fgInside1              = new Color(0xfbfdfe);
-    private Color            fgInside2              = new Color(0xd2e8f8);
-    private Color            fgInside3              = new Color(0xf5fafd);
+    private Color        fgInside1              = new Color(0xfbfdfe);
+    private Color        fgInside2              = new Color(0xd2e8f8);
+    private Color        fgInside3              = new Color(0xf5fafd);
 
     public SplitPaneDividerPainter(Which state) {
         super();
@@ -162,31 +160,27 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeForegroundOuterFocus(int width, int height) {
-        double x = width / 2 - 10;
-        double y = height / 2 - 5;
-        roundRect.setRoundRect(x - 1, y + 1, 22, 9, 9f, 9f);
-        return roundRect;
+        int x = width / 2 - 10;
+        int y = height / 2 - 5;
+        return ShapeUtil.createRoundRectangle(x - 1, y + 1, 22, 9, 4.5);
     }
 
     private Shape decodeForegroundInnerFocus(int width, int height) {
-        double x = width / 2 - 10;
-        double y = height / 2 - 5;
-        roundRect.setRoundRect(x, y + 2, 20, 7, 7f, 7f);
-        return roundRect;
+        int x = width / 2 - 10;
+        int y = height / 2 - 5;
+        return ShapeUtil.createRoundRectangle(x, y + 2, 20, 7, 3.5);
     }
 
     private Shape decodeForegroundBorder(int width, int height) {
-        double x = width / 2 - 10;
-        double y = height / 2 - 5;
-        roundRect.setRoundRect(x + 1, y + 3, 18, 5, 5f, 5f);
-        return roundRect;
+        int x = width / 2 - 10;
+        int y = height / 2 - 5;
+        return ShapeUtil.createRoundRectangle(x + 1, y + 3, 18, 5, 2.5);
     }
 
     private Shape decodeForegroundInside(int width, int height) {
-        double x = width / 2 - 10;
-        double y = height / 2 - 5;
-        roundRect.setRoundRect(x + 2, y + 4, 16, 3, 3f, 3f);
-        return roundRect;
+        int x = width / 2 - 10;
+        int y = height / 2 - 5;
+        return ShapeUtil.createRoundRectangle(x + 2, y + 4, 16, 3, 1.5);
     }
 
     private Paint decodeGradientForegroundBorder(Shape s, Color border1, Color border2) {
