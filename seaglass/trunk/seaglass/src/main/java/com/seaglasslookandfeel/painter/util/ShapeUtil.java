@@ -121,16 +121,53 @@ public class ShapeUtil {
         }
     }
 
-    public static Shape createCheckMark(final int x, final int y, final int width, final int height) {
-        double widthMult = width / 12.0;
-        double heightMult = height / 12.0;
+    public static Shape createCheckMark(final int x, final int y, final int w, final int h) {
+        double xf = w / 12.0;
+        double hf = h / 12.0;
+
         path.reset();
-        path.moveTo(x, y + 7.0 * heightMult);
-        path.lineTo(x + 2.0 * widthMult, y + 7.0 * heightMult);
-        path.lineTo(x + 4.75 * widthMult, y + 10.0 * heightMult);
-        path.lineTo(x + 9.0 * widthMult, y);
-        path.lineTo(x + 11.0 * widthMult, y);
-        path.lineTo(x + 5.0 * widthMult, y + 12.0 * heightMult);
+        path.moveTo(x, y + 7.0 * hf);
+        path.lineTo(x + 2.0 * xf, y + 7.0 * hf);
+        path.lineTo(x + 4.75 * xf, y + 10.0 * hf);
+        path.lineTo(x + 9.0 * xf, y);
+        path.lineTo(x + 11.0 * xf, y);
+        path.lineTo(x + 5.0 * xf, y + 12.0 * hf);
+        path.closePath();
+        return path;
+    }
+
+    public static Shape createArrowLeft(final double x, final double y, final double w, final double h) {
+        path.reset();
+        path.moveTo(x + w, y);
+        path.lineTo(x, y + h / 2.0);
+        path.lineTo(x + w, y + h);
+        path.closePath();
+        return path;
+    }
+
+    public static Shape createArrowRight(final double x, final double y, final double w, final double h) {
+        path.reset();
+        path.moveTo(x, y);
+        path.lineTo(x + w, y + h / 2);
+        path.lineTo(x, y + h);
+        path.closePath();
+        return path;
+    }
+
+    public static Shape createArrowUp(final double x, final double y, final double w, final double h) {
+        path.reset();
+        path.moveTo(x, y + h);
+        path.lineTo(x + w / 2, y);
+        path.lineTo(x + w, y + h);
+        path.closePath();
+        return path;
+    }
+
+    public static Shape createArrowDown(final double x, final double y, final double w, final double h) {
+        path.reset();
+        path.moveTo(x, y);
+        path.lineTo(x + w / 2, y + h);
+        path.lineTo(x + w, y);
         path.closePath();
         return path;
     }
