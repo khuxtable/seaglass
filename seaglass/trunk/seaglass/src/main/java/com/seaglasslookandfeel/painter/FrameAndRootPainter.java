@@ -24,7 +24,6 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
@@ -33,6 +32,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JRootPane;
 import javax.swing.JToolBar;
 
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.state.ToolBarNorthState;
 import com.seaglasslookandfeel.state.ToolBarSouthState;
@@ -58,8 +59,6 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
 
     private static final State    toolBarNorthState     = new ToolBarNorthState();
     private static final State    toolBarSouthState     = new ToolBarSouthState();
-
-    private Path2D                path                  = new Path2D.Double();
 
     private Which                 state;
     private PaintContext          ctx;
@@ -94,7 +93,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     }
 
     private void paintFrame(Graphics2D g, JComponent c, int width, int height, ColorSet colors) {
-        Shape s = decodePath(0, 0, width - 1, height - 1, 8.0);
+        Shape s = decodePath(CornerSize.INNER_FOCUS, 0, 0, width - 1, height - 1);
         g.setColor(borderColor);
         g.draw(s);
 
@@ -129,29 +128,18 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
             titleHeight += mb.getHeight();
         }
 
-        s = decodePath(1, 1, width - 2, height - 2, 7.0);
+        s = decodePath(CornerSize.BORDER, 1, 1, width - 2, height - 2);
         g.setPaint(decodeGradient(s, titleHeight, topToolBarHeight, bottomToolBarHeight, colors.topColorT, colors.topColorB,
             colors.bottomColorT, colors.bottomColorB));
         g.fill(s);
 
-        s = decodePath(1, 1, width - 3, height - 3, 6.0);
+        s = decodePath(CornerSize.INTERIOR, 1, 1, width - 3, height - 3);
         g.setPaint(INNER_HIGHLIGHT_COLOR);
         g.draw(s);
     }
 
-    private Shape decodePath(double x, double y, double width, double height, double arc) {
-        path.reset();
-        arc = arc / 2.0;
-        double r = x + width;
-        double b = y + height;
-        path.moveTo(x, b);
-        path.lineTo(x, y + arc);
-        path.quadTo(x, y, x + arc, y);
-        path.lineTo(r - arc, y);
-        path.quadTo(r, y, r, y + arc);
-        path.lineTo(r, b);
-        path.closePath();
-        return path;
+    private Shape decodePath(CornerSize size, int x, int y, int width, int height) {
+        return ShapeUtil.createRoundRectangle(size, x, y, width, height);
     }
 
     private Paint decodeGradient(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight, Color topColorT, Color topColorB,
