@@ -225,8 +225,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x + 2, y + 2, w + 3, h + 3, CornerStyle.SQUARE, CornerStyle.SQUARE,
                 CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x + 2, y + 2, w + 3, h + 3, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
-                CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+            return ShapeUtil.createRoundRectangle(CornerSize.OUTER_FOCUS, x + 2, y + 2, w + 3, h + 3);
         }
     }
 
@@ -241,8 +240,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x - 2, y - 1, w + 2, h + 1, CornerStyle.SQUARE, CornerStyle.SQUARE,
                 CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x - 1, y - 1, w + 1, h + 1, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
-                CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+            return ShapeUtil.createRoundRectangle(CornerSize.OUTER_FOCUS, x - 1, y - 1, w + 1, h + 1);
         }
     }
 
@@ -257,8 +255,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x - 2, y, w + 2, h, CornerStyle.SQUARE, CornerStyle.SQUARE,
                 CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x, y, w, h, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
-                CornerStyle.ROUNDED);
+            return ShapeUtil.createRoundRectangle(CornerSize.OUTER_FOCUS, x, y, w, h);
         }
     }
 
@@ -273,8 +270,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x - 2, y + 1, w + 1, h - 2, CornerStyle.SQUARE, CornerStyle.SQUARE,
                 CornerStyle.ROUNDED, CornerStyle.ROUNDED);
         default:
-            return ShapeUtil.createQuad(CornerSize.OUTER_FOCUS, x + 1, y + 1, w - 2, h - 2, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
-                CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+            return ShapeUtil.createRoundRectangle(CornerSize.OUTER_FOCUS, x + 1, y + 1, w - 2, h - 2);
         }
     }
 
