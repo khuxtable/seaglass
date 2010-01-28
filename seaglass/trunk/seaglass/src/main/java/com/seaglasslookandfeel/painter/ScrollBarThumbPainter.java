@@ -30,7 +30,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
 /**
  * ScrollBarThumbPainter implementation.
@@ -117,8 +116,7 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
     }
 
     private Shape decodePath(int x, int y, int width, int height) {
-        return ShapeUtil.createQuad(x, y, width, height, height / 2.0, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
-            CornerStyle.ROUNDED);
+        return ShapeUtil.createRoundRectangle(x, y, width, height, height / 2.0);
     }
 
     /**

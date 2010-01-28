@@ -32,7 +32,6 @@ import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
 /**
  * ProgressBarPainter implementation.
@@ -200,13 +199,11 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeTrackBorder(int width, int height) {
-        return ShapeUtil.createQuad(2, 2, width - 5, height - 5, height / 2.0 - 2, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
-            CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+        return ShapeUtil.createRoundRectangle(2, 2, width - 5, height - 5, height / 2.0 - 2);
     }
 
     private Shape decodeTrackInterior(int width, int height) {
-        return ShapeUtil.createQuad(3, 3, width - 6, height - 6, height / 2.0 - 3, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
-            CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+        return ShapeUtil.createRoundRectangle(3, 3, width - 6, height - 6, height / 2.0 - 3);
     }
 
     private Shape decodeBar(int width, int height) {
