@@ -21,11 +21,12 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Path2D;
+import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * TableHeaderPainter implementation.
@@ -39,8 +40,6 @@ public final class TableHeaderPainter extends AbstractRegionPainter {
     private PaintContext       ctx;
 
     private static final Color arrowColor = new Color(0xc02a5481, true);
-
-    private Path2D             path       = new Path2D.Double();
 
     public TableHeaderPainter(Which state) {
         super();
@@ -66,22 +65,14 @@ public final class TableHeaderPainter extends AbstractRegionPainter {
     }
 
     private void paintAscending(Graphics2D g) {
+        Shape s = ShapeUtil.createArrowUp(1, 0, 6, 6);
         g.setColor(arrowColor);
-        path.reset();
-        path.moveTo(4, 1);
-        path.lineTo(7, 7);
-        path.lineTo(1, 7);
-        path.closePath();
-        g.fill(path);
+        g.fill(s);
     }
 
     private void paintDescending(Graphics2D g) {
+        Shape s = ShapeUtil.createArrowDown(1, 2, 6, 6);
         g.setColor(arrowColor);
-        path.reset();
-        path.moveTo(4, 7);
-        path.lineTo(1, 1);
-        path.lineTo(7, 1);
-        path.closePath();
-        g.fill(path);
+        g.fill(s);
     }
 }
