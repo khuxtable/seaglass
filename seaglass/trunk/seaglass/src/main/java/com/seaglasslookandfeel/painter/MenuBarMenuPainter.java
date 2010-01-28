@@ -21,8 +21,6 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -35,8 +33,6 @@ public final class MenuBarMenuPainter extends AbstractRegionPainter {
 
     private Which        state;
     private PaintContext ctx;
-
-    private Rectangle2D  rect            = new Rectangle2D.Float(0, 0, 0, 0);
 
     private Color        backgroundColor = Color.WHITE;
 
@@ -61,14 +57,7 @@ public final class MenuBarMenuPainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundSelected(Graphics2D g, int width, int height) {
-        Shape s = decodeBackground(width, height);
         g.setPaint(backgroundColor);
-        g.fill(s);
-
-    }
-
-    private Shape decodeBackground(int width, int height) {
-        rect.setRect(0, 0, width, height);
-        return rect;
+        g.fillRect(0, 0, width, height);
     }
 }
