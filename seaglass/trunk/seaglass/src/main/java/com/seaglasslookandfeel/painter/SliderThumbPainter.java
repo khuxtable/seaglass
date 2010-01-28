@@ -151,20 +151,20 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
         Shape s;
         if (focused) {
-            s = ShapeUtil.createDiscreteSliderThumb(0, 0, width, height, CornerSize.OUTER_FOCUS);
+            s = ShapeUtil.createSliderThumbDiscrete(0, 0, width, height, CornerSize.SLIDER_OUTER_FOCUS);
             g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
             g.fill(s);
-            s = ShapeUtil.createDiscreteSliderThumb(1, 1, width - 2, height - 2, CornerSize.INNER_FOCUS);
+            s = ShapeUtil.createSliderThumbDiscrete(1, 1, width - 2, height - 2, CornerSize.SLIDER_INNER_FOCUS);
             g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
             g.fill(s);
         }
-        s = ShapeUtil.createDiscreteSliderThumb(2, 2, width - 4, height - 4, CornerSize.BORDER);
+        s = ShapeUtil.createSliderThumbDiscrete(2, 2, width - 4, height - 4, CornerSize.SLIDER_BORDER);
         if (!focused) {
             dropShadow.fill(g, s);
         }
         g.setPaint(decodeBorderGradient(s, colors.border1, colors.border2));
         g.fill(s);
-        s = ShapeUtil.createDiscreteSliderThumb(3, 3, width - 6, height - 6, CornerSize.INTERIOR);
+        s = ShapeUtil.createSliderThumbDiscrete(3, 3, width - 6, height - 6, CornerSize.SLIDER_INTERIOR);
         g.setPaint(decodeInteriorGradient(s, colors.interior1, colors.interior2, colors.interior3, colors.interior4));
         g.fill(s);
     }
@@ -173,20 +173,20 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
         Shape s;
         if (focused) {
-            s = decodeContinuousOuterFocus(width, height);
+            s = ShapeUtil.createSliderThumbContinuous(0, 1, width, width);
             g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
             g.fill(s);
-            s = decodeContinuousInnerFocus(width, height);
+            s = ShapeUtil.createSliderThumbContinuous(1, 2, width - 2, width - 2);
             g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
             g.fill(s);
         }
-        s = decodeContinuousBorder(width, height);
+        s = ShapeUtil.createSliderThumbContinuous(2, 3, width - 4, width - 4);
         if (!focused) {
             dropShadow.fill(g, s);
         }
         g.setPaint(decodeBorderGradient(s, colors.border1, colors.border2));
         g.fill(s);
-        s = decodeContinuousInterior(width, height);
+        s = ShapeUtil.createSliderThumbContinuous(3, 4, width - 6, width - 6);
         g.setPaint(decodeInteriorGradient(s, colors.interior1, colors.interior2, colors.interior3, colors.interior4));
         g.fill(s);
     }
@@ -201,22 +201,6 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         Rectangle r = s.getBounds();
         int x = r.x + r.width / 2;
         return decodeGradient(x, r.y, x, r.y + r.height, new float[] { 0f, 1f }, new Color[] { color1, color2 });
-    }
-
-    private Shape decodeContinuousOuterFocus(int width, int height) {
-        return ShapeUtil.createEllipse(0, 1, width, width);
-    }
-
-    private Shape decodeContinuousInnerFocus(int width, int height) {
-        return ShapeUtil.createEllipse(1, 2, width - 2, width - 2);
-    }
-
-    private Shape decodeContinuousBorder(int width, int height) {
-        return ShapeUtil.createEllipse(2, 3, width - 4, width - 4);
-    }
-
-    private Shape decodeContinuousInterior(int width, int height) {
-        return ShapeUtil.createEllipse(3, 4, width - 6, width - 6);
     }
 
     private static class ColorSet {
