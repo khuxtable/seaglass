@@ -21,12 +21,12 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Path2D;
+import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * ComboBoxTextFieldPainter implementation.
@@ -45,9 +45,6 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
     private Color        enabledBorder          = new Color(0xbbbbbb);
     private Color        darkerShadow           = new Color(0xe1e1e1);
     private Color        lighterShadow          = new Color(0xf5f5f5);
-
-    private Rectangle    rect                   = new Rectangle();
-    private Path2D       path                   = new Path2D.Double();
 
     private Which        state;
     private PaintContext ctx;
@@ -98,23 +95,20 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
     private void paintButton(Graphics2D g, JComponent c, int width, int height, Color borderColor) {
         boolean useFocusColors = isInToolBar(c);
         if (focused) {
-            rect.setBounds(0, 0, width, height);
             g.setColor(useFocusColors ? outerToolBarFocusColor : outerFocusColor);
-            g.fill(rect);
-            rect.setBounds(1, 1, width - 1, height - 2);
+            g.fillRect(0, 0, width, height);
             g.setColor(useFocusColors ? innerToolBarFocusColor : innerFocusColor);
-            g.fill(rect);
+            g.fillRect(1, 1, width - 1, height - 2);
         }
 
-        rect.setBounds(3, 3, width - 3, height - 6);
         g.setColor(c.getBackground());
-        g.fill(rect);
+        g.fillRect(3, 3, width - 3, height - 6);
 
         paintInternalDropShadow(g, width, height);
 
         g.setColor(borderColor);
-        setRect(2, 2, width - 2, height - 4);
-        g.draw(path);
+        Shape s = setRect(2, 2, width - 2, height - 4);
+        g.draw(s);
     }
 
     private void paintInternalDropShadow(Graphics2D g, int width, int height) {
@@ -124,11 +118,7 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
         g.drawLine(3, 4, width - 1, 4);
     }
 
-    private void setRect(int x, int y, int width, int height) {
-        path.reset();
-        path.moveTo(x + width - 1, y);
-        path.lineTo(x, y);
-        path.lineTo(x, y + height - 1);
-        path.lineTo(x + width - 1, y + height - 1);
+    private Shape setRect(int x, int y, int width, int height) {
+        return ShapeUtil.createRectangleNoRightSide(x, y, width - 1, height - 1);
     }
 }
