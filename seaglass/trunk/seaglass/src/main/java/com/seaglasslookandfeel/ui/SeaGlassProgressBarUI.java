@@ -33,7 +33,6 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -49,6 +48,8 @@ import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 import sun.swing.SwingUtilities2;
 import sun.swing.plaf.synth.SynthUI;
@@ -265,8 +266,7 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         g2d.setComposite(AlphaComposite.Src);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(bgFillColor);
-        double arcSize = pBar.getOrientation() == JProgressBar.HORIZONTAL ? bounds.height : bounds.width;
-        g2d.fill(new RoundRectangle2D.Double(0, 0, bounds.width, bounds.height, arcSize, arcSize));
+        g2d.fill(ShapeUtil.createRoundRectangle(0, 0, bounds.width, bounds.height, CornerSize.ROUND_HEIGHT));
 
         // Use SrcAtop, which effectively uses the alpha value as a coverage
         // value for each pixel stored in the destination. At the edges, the
