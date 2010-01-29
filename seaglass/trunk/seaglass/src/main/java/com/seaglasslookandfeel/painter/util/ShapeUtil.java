@@ -28,10 +28,6 @@ import java.awt.geom.Path2D;
  * 
  * @author Kathryn Huxtable
  */
-/**
- * @author Kathryn Huxtable
- * 
- */
 public class ShapeUtil {
 
     /**
