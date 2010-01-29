@@ -39,6 +39,15 @@ public class ColorUtil {
         ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED, SELECTED, PRESSED_SELECTED, ACTIVE, INACTIVE,
     }
 
+    public enum FocusType {
+        INNER_FOCUS, OUTER_FOCUS,
+    }
+
+    private static Color              outerFocusColor        = decodeColor("seaGlassOuterFocus");
+    private static Color              innerFocusColor        = decodeColor("seaGlassFocus");
+    private static Color              outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
+    private static Color              innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
+
     private static FourLayerColors    buttonEnabled;
     private static FourLayerColors    buttonEnabledPressed;
     private static FourLayerColors    buttonDefault;
@@ -88,16 +97,16 @@ public class ColorUtil {
         buttonDisabledSelected = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
             new Color(0xffF7FCFF, true), 0.4f, new Color(0xaaaaaa), new Color(0x8AAFE0), new Color(0x5785BF));
 
-        texturedButtonEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
-            true), 0.5f, new Color(0xbbbbbb), new Color(0x555555), new Color(0x4c4c4c));
+        texturedButtonEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
+            new Color(0, true), 0.5f, new Color(0xbbbbbb), new Color(0x555555), new Color(0x4c4c4c));
         texturedButtonEnabledPressed = new FourLayerColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true), new Color(
             0xffcccccc, true), 0.5f, new Color(0x777777), new Color(0x555555), new Color(0x4c4c4c));
-        texturedButtonDefault = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
-            true), 0.5f, new Color(0x999999), new Color(0x555555), new Color(0x4c4c4c));
+        texturedButtonDefault = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
+            new Color(0, true), 0.5f, new Color(0x999999), new Color(0x555555), new Color(0x4c4c4c));
         texturedButtonDefaultPressed = new FourLayerColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true), new Color(
             0xffcccccc, true), 0.5f, new Color(0x777777), new Color(0x555555), new Color(0x4c4c4c));
-        texturedButtonDisabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
-            true), 0.5f, new Color(0xbbbbbb), new Color(0x555555), new Color(0x4c4c4c));
+        texturedButtonDisabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
+            new Color(0, true), 0.5f, new Color(0xbbbbbb), new Color(0x555555), new Color(0x4c4c4c));
         texturedButtonDisabledSelected = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
             new Color(0, true), 0.5f, new Color(0xaaaaaa), new Color(0x555555), new Color(0x4c4c4c));
 
@@ -217,6 +226,15 @@ public class ColorUtil {
             return rootPaneInactive;
         }
         return null;
+    }
+
+    public static void drawFocus(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
+        if (focusType == FocusType.OUTER_FOCUS) {
+            g.setColor(useToolBarFocus ? outerToolBarFocusColor : outerFocusColor);
+        } else {
+            g.setColor(useToolBarFocus ? innerToolBarFocusColor : innerFocusColor);
+        }
+        g.draw(s);
     }
 
     public static void paintTwoColorGradientVertical(Graphics2D g, Shape s, Color color1, Color color2) {
@@ -403,14 +421,13 @@ public class ColorUtil {
      */
     public static class FourLayerColors {
 
-        public Color upperShineTop;
-        public Color upperShineBottom;
-        public Color lowerShineTop;
-        public Color lowerShineBottom;
-        public float lowerShineMidpoint;
-        public Color mainColor;
-        public Color backgroundTop;
-        public Color backgroundBottom;
+        public Color     upperShineTop;
+        public Color     upperShineBottom;
+        public Color     lowerShineTop;
+        public Color     lowerShineBottom;
+        public float     lowerShineMidpoint;
+        public Color     mainColor;
+        public TwoColors background;
 
         public FourLayerColors(Color upperShineTop, Color upperShineBottom, Color lowerShineTop, Color lowerShineBottom,
             float lowerShineMidpoint, Color mainColor, Color backgroundTop, Color backgroundBottom) {
@@ -420,8 +437,7 @@ public class ColorUtil {
             this.lowerShineBottom = lowerShineBottom;
             this.lowerShineMidpoint = lowerShineMidpoint;
             this.mainColor = mainColor;
-            this.backgroundTop = backgroundTop;
-            this.backgroundBottom = backgroundBottom;
+            this.background = new TwoColors(backgroundTop, backgroundBottom);
         }
     }
 
@@ -430,14 +446,13 @@ public class ColorUtil {
      */
     public static class TwoLayerFourColors {
 
-        public Color inner1;
-        public Color inner2;
-        public Color inner3;
-        public Color inner4;
-        public float midpoint2;
-        public float midpoint3;
-        public Color background1;
-        public Color background2;
+        public Color     inner1;
+        public Color     inner2;
+        public Color     inner3;
+        public Color     inner4;
+        public float     midpoint2;
+        public float     midpoint3;
+        public TwoColors background;
 
         public TwoLayerFourColors(Color inner1, Color inner2, Color inner3, Color inner4, float midpoint2, float midpoint3,
             Color background1, Color background2) {
@@ -447,8 +462,7 @@ public class ColorUtil {
             this.inner4 = inner4;
             this.midpoint2 = midpoint2;
             this.midpoint3 = midpoint3;
-            this.background1 = background1;
-            this.background2 = background2;
+            this.background = new TwoColors(background1, background2);
         }
     }
 }

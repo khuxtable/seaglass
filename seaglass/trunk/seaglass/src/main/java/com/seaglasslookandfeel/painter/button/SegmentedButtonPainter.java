@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.painter.button;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -32,6 +31,7 @@ import com.seaglasslookandfeel.painter.ButtonPainter.Which;
 import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ColorUtil.FourLayerColors;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
@@ -48,12 +48,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         NONE, FIRST, MIDDLE, LAST
     };
 
-    private Color          outerFocusColor        = decodeColor("seaGlassOuterFocus");
-    private Color          innerFocusColor        = decodeColor("seaGlassFocus");
-    private Color          outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
-    private Color          innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
-
-    private Effect         dropShadow             = new SeaGlassDropShadowEffect();
+    private Effect         dropShadow = new SeaGlassDropShadowEffect();
 
     public FourLayerColors colors;
 
@@ -89,12 +84,9 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         Shape s;
         if (focused) {
             s = createOuterFocus(segmentStatus, x, y, width, height);
-            g.setColor(useToolBarFocus ? outerToolBarFocusColor : outerFocusColor);
-            g.draw(s);
-
+            ColorUtil.drawFocus(g, s, FocusType.OUTER_FOCUS, useToolBarFocus);
             s = createInnerFocus(segmentStatus, x, y, width, height);
-            g.setColor(useToolBarFocus ? innerToolBarFocusColor : innerFocusColor);
-            g.draw(s);
+            ColorUtil.drawFocus(g, s, FocusType.INNER_FOCUS, useToolBarFocus);
         }
 
         if (!isInToolBar(c) || this instanceof TexturedButtonPainter) {
@@ -102,7 +94,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             if (!focused) {
                 dropShadow.fill(g, s);
             }
-            ColorUtil.paintTwoColorGradientVertical(g, s, colors.backgroundTop, colors.backgroundBottom);
+            ColorUtil.paintTwoColorGradientVertical(g, s, colors.background.topColor, colors.background.bottomColor);
 
             s = createInterior(segmentStatus, x, y, width, height);
             ColorUtil.paintThreeLayerGradientVertical(g, s, colors);

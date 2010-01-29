@@ -163,7 +163,7 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         final int leftWidth = width - buttonWidth;
 
         Shape s = createButtonPath(CornerSize.BORDER, 2, 2, leftWidth - 2, height - 4);
-        ColorUtil.paintTwoColorGradientVertical(g, s, colors.backgroundTop, colors.backgroundBottom);
+        ColorUtil.paintTwoColorGradientVertical(g, s, colors.background.topColor, colors.background.bottomColor);
 
         s = createButtonPath(CornerSize.INTERIOR, 3, 3, leftWidth - 3, height - 6);
         ColorUtil.paintThreeLayerGradientVertical(g, s, colors);

@@ -152,7 +152,7 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         if (!focused) {
             dropShadow.fill(g, s);
         }
-        ColorUtil.paintTwoColorGradientVertical(g, s, colors.background1, colors.background2);
+        ColorUtil.paintTwoColorGradientVertical(g, s, colors.background.topColor, colors.background.bottomColor);
         s = createInternal(x, y, size);
         ColorUtil.paintTwoLayerFourColorGradientVertical(g, s, colors);
     }
