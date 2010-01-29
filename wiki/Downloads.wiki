@@ -23,7 +23,7 @@ If you are using Maven, you may include the following in your `pom.xml' file:
     <dependency>
         <groupId>com.seaglasslookandfeel</groupId>
         <artifactId>seaglasslookandfeel</artifactId>
-        <version>0.1.4</version>
+        <version>0.1.5</version>
     </dependency>
 </dependencies>
 }}}
