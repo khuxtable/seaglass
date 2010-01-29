@@ -55,7 +55,7 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
-        ColorUtil.paintTwoColorGradientVertical(g, s, colors.background1, colors.background2);
+        ColorUtil.paintTwoColorGradientVertical(g, s, colors.background.topColor, colors.background.bottomColor);
 
         s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
         ColorUtil.paintTwoLayerFourColorGradientVertical(g, s, colors);
