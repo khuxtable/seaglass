@@ -19,12 +19,14 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * Sea Glass's DesktopPanePainter.
@@ -36,16 +38,14 @@ public final class DesktopPanePainter extends AbstractRegionPainter {
 
     private PaintContext ctx;
 
-    private Color        desktopPaneColor = decodeColor("seaGlassDesktopPane");
-
     public DesktopPanePainter(Which state) {
         super();
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        g.setColor(desktopPaneColor);
-        g.fillRect(0, 0, width, height);
+        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
+        ColorUtil.fillDesktopPaneColors(g, s);
     }
 
     protected final PaintContext getPaintContext() {
