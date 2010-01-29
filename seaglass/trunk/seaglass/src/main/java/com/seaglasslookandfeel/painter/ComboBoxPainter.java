@@ -30,7 +30,7 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
 import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.ColorUtil.FourLayerColors;
+import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -52,19 +52,15 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         BACKGROUND_PRESSED_EDITABLE,
     }
 
-    private Color                      outerFocusColor        = decodeColor("seaGlassOuterFocus");
-    private Color                      innerFocusColor        = decodeColor("seaGlassFocus");
-    private Color                      outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
-    private Color                      innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
-    private Color                      outerShadowColor       = new Color(0x0a000000, true);
-    private Color                      innerShadowColor       = new Color(0x1c000000, true);
+    private Color                      outerShadowColor = new Color(0x0a000000, true);
+    private Color                      innerShadowColor = new Color(0x1c000000, true);
 
-    public FourLayerColors             colors;
+    public ButtonType                  type;
 
     private ComboBoxArrowButtonPainter buttonPainter;
 
     // TODO Get this from the UI.
-    private static final int           buttonWidth            = 21;
+    private static final int           buttonWidth      = 21;
 
     private Which                      state;
     private PaintContext               ctx;
@@ -93,7 +89,7 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
             buttonPainter = new ComboBoxArrowButtonPainter(arrowState);
         }
 
-        colors = ColorUtil.getComboBoxBackgroundColors(getButtonType(state));
+        type = getButtonType(state);
     }
 
     @Override
@@ -163,10 +159,10 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         final int leftWidth = width - buttonWidth;
 
         Shape s = createButtonPath(CornerSize.BORDER, 2, 2, leftWidth - 2, height - 4);
-        ColorUtil.fillTwoColorGradientVertical(g, s, colors.background);
+        ColorUtil.fillComboBoxBackgroundBorderColors(g, s, type);
 
         s = createButtonPath(CornerSize.INTERIOR, 3, 3, leftWidth - 3, height - 6);
-        ColorUtil.fillThreeLayerGradientVertical(g, s, colors);
+        ColorUtil.fillComboBoxBackgroundInteriorColors(g, s, type);
 
         // Paint arrow button portion.
         Graphics2D g2 = (Graphics2D) g.create();
@@ -175,12 +171,11 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     }
 
     private void paintFocus(Graphics2D g, JComponent c, int width, int height) {
-        g.setColor(isInToolBar(c) ? outerToolBarFocusColor : outerFocusColor);
+        boolean useToolBarFocus = isInToolBar(c);
         Shape s = createFocusPath(CornerSize.OUTER_FOCUS, 0, 0, width, height);
-        g.fill(s);
-        g.setColor(isInToolBar(c) ? innerToolBarFocusColor : innerFocusColor);
+        ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarFocus);
         s = createFocusPath(CornerSize.INNER_FOCUS, 1, 1, width - 2, height - 2);
-        g.fill(s);
+        ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarFocus);
     }
 
     private void paintDropShadow(Graphics2D g, int width, int height, boolean full) {

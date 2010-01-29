@@ -246,12 +246,67 @@ public class ColorUtil {
         g.fill(s);
     }
 
-    public static void fillTwoColorGradientVertical(Graphics2D g, Shape s, TwoColors colors) {
+    public static void fillButtonBorderColors(Graphics2D g, Shape s, ButtonType type, boolean isTextured) {
+        TwoColors colors = getButtonColors(type, isTextured).background;
+        fillTwoColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillScrollBarThumbBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getScrollBarThumbColors(type).background;
+        fillTwoColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillCheckBoxBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getCheckBoxColors(type).background;
+        fillTwoColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillComboBoxButtonBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getComboBoxButtonColors(type).background;
+        fillTwoColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillComboBoxBackgroundBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getComboBoxBackgroundColors(type).background;
+        fillTwoColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillButtonInteriorColors(Graphics2D g, Shape s, ButtonType type, boolean isTextured) {
+        FourLayerColors colors = getButtonColors(type, isTextured);
+        fillThreeLayerGradientVertical(g, s, colors);
+    }
+
+    public static void fillScrollBarThumbInteriorColors(Graphics2D g, Shape s, ButtonType type) {
+        FourColors colors = getScrollBarThumbColors(type).interior;
+        fillFourColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillCheckBoxInteriorColors(Graphics2D g, Shape s, ButtonType type) {
+        FourColors colors = getCheckBoxColors(type).interior;
+        fillFourColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillComboBoxButtonInteriorColors(Graphics2D g, Shape s, ButtonType type) {
+        FourLayerColors colors = getComboBoxButtonColors(type);
+        fillThreeLayerGradientVertical(g, s, colors);
+    }
+
+    public static void fillComboBoxBackgroundInteriorColors(Graphics2D g, Shape s, ButtonType type) {
+        FourLayerColors colors = getComboBoxBackgroundColors(type);
+        fillThreeLayerGradientVertical(g, s, colors);
+    }
+
+    public static void fillRootPaneInteriorColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getRootPaneColors(type);
+        fillTwoColorGradientVertical(g, s, colors);
+    }
+
+    private static void fillTwoColorGradientVertical(Graphics2D g, Shape s, TwoColors colors) {
         g.setPaint(createTwoColorGradientVertical(s, colors));
         g.fill(s);
     }
 
-    public static void fillThreeLayerGradientVertical(Graphics2D g, Shape s, FourLayerColors colors) {
+    private static void fillThreeLayerGradientVertical(Graphics2D g, Shape s, FourLayerColors colors) {
         g.setColor(colors.mainColor);
         g.fill(s);
         g.setPaint(createTwoColorGradientWithMidpointVertical(s, colors.lowerShine));
@@ -260,8 +315,13 @@ public class ColorUtil {
         g.fill(s);
     }
 
-    public static void fillTwoLayerFourColorGradientVertical(Graphics2D g, Shape s, TwoLayerFourColors colors) {
+    private static void fillTwoLayerFourColorGradientVertical(Graphics2D g, Shape s, TwoLayerFourColors colors) {
         g.setPaint(createGradientFourColor(s, colors.interior));
+        g.fill(s);
+    }
+
+    private static void fillFourColorGradientVertical(Graphics2D g, Shape s, FourColors colors) {
+        g.setPaint(createGradientFourColor(s, colors));
         g.fill(s);
     }
 

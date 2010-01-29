@@ -32,7 +32,6 @@ import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
-import com.seaglasslookandfeel.painter.util.ColorUtil.FourLayerColors;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -44,13 +43,14 @@ import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
  */
 public class SegmentedButtonPainter extends ButtonVariantPainter {
 
-    enum SegmentStatus {
+    enum SegmentType {
         NONE, FIRST, MIDDLE, LAST
     };
 
-    private Effect         dropShadow = new SeaGlassDropShadowEffect();
+    private Effect     dropShadow = new SeaGlassDropShadowEffect();
 
-    public FourLayerColors colors;
+    private ButtonType type;
+    private boolean    isTextured;
 
     /**
      * Create a segmented button painter.
@@ -63,7 +63,8 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
     public SegmentedButtonPainter(Which state, PaintContext ctx) {
         super(state, ctx);
 
-        colors = ColorUtil.getButtonColors(getButtonType(state), this instanceof TexturedButtonPainter);
+        type = getButtonType(state);
+        isTextured = (this instanceof TexturedButtonPainter);
     }
 
     /**
@@ -71,7 +72,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
      */
     public void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
 
-        SegmentStatus segmentStatus = getSegmentStatus(c);
+        SegmentType segmentStatus = getSegmentType(c);
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -94,10 +95,10 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             if (!focused) {
                 dropShadow.fill(g, s);
             }
-            ColorUtil.fillTwoColorGradientVertical(g, s, colors.background);
+            ColorUtil.fillButtonBorderColors(g, s, type, isTextured);
 
             s = createInterior(segmentStatus, x, y, width, height);
-            ColorUtil.fillThreeLayerGradientVertical(g, s, colors);
+            ColorUtil.fillButtonInteriorColors(g, s, type, isTextured);
         }
     }
 
@@ -139,30 +140,30 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
     }
 
     /**
-     * Get the segment status (if any) from the component's client properties.
+     * Get the segment type (if any) from the component's client properties.
      * 
      * @param c
      *            the component.
      * @return the segment status.
      */
-    protected SegmentStatus getSegmentStatus(JComponent c) {
+    protected SegmentType getSegmentType(JComponent c) {
         Object buttonType = c.getClientProperty("JButton.buttonType");
-        SegmentStatus segmentStatus = SegmentStatus.NONE;
+        SegmentType segmentType = SegmentType.NONE;
         if (buttonType != null && buttonType instanceof String && ((String) buttonType).startsWith("segmented")) {
             String position = (String) c.getClientProperty("JButton.segmentPosition");
             if ("first".equals(position)) {
-                segmentStatus = SegmentStatus.FIRST;
+                segmentType = SegmentType.FIRST;
             } else if ("middle".equals(position)) {
-                segmentStatus = SegmentStatus.MIDDLE;
+                segmentType = SegmentType.MIDDLE;
             } else if ("last".equals(position)) {
-                segmentStatus = SegmentStatus.LAST;
+                segmentType = SegmentType.LAST;
             }
         }
-        return segmentStatus;
+        return segmentType;
     }
 
-    protected Shape createOuterFocus(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
-        switch (segmentStatus) {
+    protected Shape createOuterFocus(final SegmentType segmentType, final int x, final int y, final int w, final int h) {
+        switch (segmentType) {
         case FIRST:
             return ShapeUtil.createRoundRectangle(x - 2, y - 2, w + 3, h + 3, CornerSize.OUTER_FOCUS, CornerStyle.ROUNDED,
                 CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE);
@@ -176,8 +177,8 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         }
     }
 
-    protected Shape createInnerFocus(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
-        switch (segmentStatus) {
+    protected Shape createInnerFocus(final SegmentType segmentType, final int x, final int y, final int w, final int h) {
+        switch (segmentType) {
         case FIRST:
             return ShapeUtil.createRoundRectangle(x - 1, y - 1, w + 2, h + 1, CornerSize.INNER_FOCUS, CornerStyle.ROUNDED,
                 CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE);
@@ -191,8 +192,8 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         }
     }
 
-    protected Shape createBorder(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
-        switch (segmentStatus) {
+    protected Shape createBorder(final SegmentType segmentType, final int x, final int y, final int w, final int h) {
+        switch (segmentType) {
         case FIRST:
             return ShapeUtil.createRoundRectangle(x, y, w + 2, h, CornerSize.BORDER, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
                 CornerStyle.SQUARE, CornerStyle.SQUARE);
@@ -206,8 +207,8 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         }
     }
 
-    protected Shape createInterior(final SegmentStatus segmentStatus, final int x, final int y, final int w, final int h) {
-        switch (segmentStatus) {
+    protected Shape createInterior(final SegmentType segmentType, final int x, final int y, final int w, final int h) {
+        switch (segmentType) {
         case FIRST:
             return ShapeUtil.createRoundRectangle(x + 1, y + 1, w, h - 2, CornerSize.INTERIOR, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
                 CornerStyle.SQUARE, CornerStyle.SQUARE);
