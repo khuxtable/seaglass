@@ -32,22 +32,32 @@ import java.awt.geom.Rectangle2D;
 public class ColorUtil {
 
     public enum ButtonType {
-        ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED,
+        ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED, SELECTED, PRESSED_SELECTED,
     }
 
-    private static FourLayerColors enabled;
-    private static FourLayerColors enabledPressed;
-    private static FourLayerColors defaultButton;
-    private static FourLayerColors defaultPressed;
-    private static FourLayerColors disabled;
-    private static FourLayerColors disabledSelected;
+    private static FourLayerColors    enabled;
+    private static FourLayerColors    enabledPressed;
+    private static FourLayerColors    defaultButton;
+    private static FourLayerColors    defaultPressed;
+    private static FourLayerColors    disabled;
+    private static FourLayerColors    disabledSelected;
 
-    private static FourLayerColors texturedEnabled;
-    private static FourLayerColors texturedEnabledPressed;
-    private static FourLayerColors texturedDefaultButton;
-    private static FourLayerColors texturedDefaultPressed;
-    private static FourLayerColors texturedDisabled;
-    private static FourLayerColors texturedDisabledSelected;
+    private static FourLayerColors    texturedEnabled;
+    private static FourLayerColors    texturedEnabledPressed;
+    private static FourLayerColors    texturedDefaultButton;
+    private static FourLayerColors    texturedDefaultPressed;
+    private static FourLayerColors    texturedDisabled;
+    private static FourLayerColors    texturedDisabledSelected;
+
+    private static TwoLayerFourColors disabled2;
+    private static TwoLayerFourColors enabled2;
+    private static TwoLayerFourColors pressed2;
+
+    private static TwoLayerFourColors disabled3;
+    private static TwoLayerFourColors enabled3;
+    private static TwoLayerFourColors pressed3;
+    private static TwoLayerFourColors selected3;
+    private static TwoLayerFourColors pressedSelected3;
 
     static {
         enabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true), new Color(
@@ -75,6 +85,24 @@ public class ColorUtil {
             true), 0.5f, new Color(0xbbbbbb), new Color(0x555555), new Color(0x4c4c4c));
         texturedDisabledSelected = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
             new Color(0, true), 0.5f, new Color(0xaaaaaa), new Color(0x555555), new Color(0x4c4c4c));
+
+        disabled2 = new TwoLayerFourColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8, true),
+            new Color(0x80f5fafd, true), 0.45f, 0.62f, new Color(0x6088ade0, true), new Color(0x605785bf, true));
+        enabled2 = new TwoLayerFourColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd), 0.45f, 0.62f,
+            new Color(0x88ade0), new Color(0x5785bf));
+        pressed2 = new TwoLayerFourColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc), new Color(0xbbcedf), 0.45f, 0.62f,
+            new Color(0x4076bf), new Color(0x4f7bbf));
+
+        disabled3 = disabled2;
+        enabled3 = enabled2;
+        pressed3 = new TwoLayerFourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4), 0.45f, 0.62f,
+            new Color(0x4f7bbf), new Color(0x3f76bf));
+
+        selected3 = new TwoLayerFourColors(new Color(0xbccedf), new Color(0x7fa7cd), new Color(0x82b0d6), new Color(0xb0daf6), 0.45f,
+            0.62f, new Color(0x4f7bbf), new Color(0x3f76bf));
+
+        pressedSelected3 = new TwoLayerFourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4),
+            0.45f, 0.62f, new Color(0x4f7bbf), new Color(0x3f76bf));
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -91,6 +119,36 @@ public class ColorUtil {
             return textured ? texturedDefaultButton : defaultButton;
         case DEFAULT_PRESSED:
             return textured ? texturedDefaultPressed : defaultPressed;
+        }
+        return null;
+    }
+
+    public static TwoLayerFourColors getTwoLayerColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+        case DISABLED_SELECTED:
+            return disabled2;
+        case ENABLED:
+            return enabled2;
+        case PRESSED:
+            return pressed2;
+        }
+        return null;
+    }
+
+    public static TwoLayerFourColors getTwoLayerColors3(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+        case DISABLED_SELECTED:
+            return disabled3;
+        case ENABLED:
+            return enabled3;
+        case PRESSED:
+            return pressed3;
+        case SELECTED:
+            return selected3;
+        case PRESSED_SELECTED:
+            return pressedSelected3;
         }
         return null;
     }
@@ -118,7 +176,7 @@ public class ColorUtil {
         g.fill(s);
     }
 
-    public static Paint decodeGradientBottomShine(Shape s, Color color1, Color color2, float midpoint) {
+    private static Paint decodeGradientBottomShine(Shape s, Color color1, Color color2, float midpoint) {
         Color midColor = new Color(deriveARGB(color1, color2, midpoint) & 0xFFFFFF, true);
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
@@ -131,13 +189,33 @@ public class ColorUtil {
             color2 });
     }
 
-    public static Paint decodeGradientTopShine(Shape s, Color color1, Color color2) {
+    private static Paint decodeGradientTopShine(Shape s, Color color1, Color color2) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
         return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
+    }
+
+    public static void paintTwoLayerFourColorGradientVertical(Graphics2D g, Shape s, TwoLayerFourColors colors) {
+        g.setPaint(decodeGradientFourColor(s, colors.inner1, colors.inner2, colors.inner3, colors.inner4, colors.midpoint2,
+            colors.midpoint3));
+        g.fill(s);
+    }
+
+    private static Paint decodeGradientFourColor(Shape s, Color color1, Color color2, Color color3, Color color4, float midpoint2,
+        float midpoint3) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, midpoint2, midpoint3, 1f }, new Color[] {
+            color1,
+            color2,
+            color3,
+            color4 });
     }
 
     /**
@@ -155,7 +233,7 @@ public class ColorUtil {
      * @param colors
      * @return a valid LinearGradientPaint. This method never returns null.
      */
-    protected static final LinearGradientPaint decodeGradient(float x1, float y1, float x2, float y2, float[] midpoints, Color[] colors) {
+    private static final LinearGradientPaint decodeGradient(float x1, float y1, float x2, float y2, float[] midpoints, Color[] colors) {
         if (x1 == x2 && y1 == y2) {
             y2 += .00001f;
         }
@@ -175,7 +253,7 @@ public class ColorUtil {
      *            color 1 and 1.0 is color 2;
      * @return the ARGB value for a new color based on this derivation
      */
-    public static int deriveARGB(Color color1, Color color2, float midPoint) {
+    private static int deriveARGB(Color color1, Color color2, float midPoint) {
         int r = color1.getRed() + (int) ((color2.getRed() - color1.getRed()) * midPoint + 0.5f);
         int g = color1.getGreen() + (int) ((color2.getGreen() - color1.getGreen()) * midPoint + 0.5f);
         int b = color1.getBlue() + (int) ((color2.getBlue() - color1.getBlue()) * midPoint + 0.5f);
@@ -207,6 +285,33 @@ public class ColorUtil {
             this.mainColor = mainColor;
             this.backgroundTop = backgroundTop;
             this.backgroundBottom = backgroundBottom;
+        }
+    }
+
+    /**
+     * A set of colors to use for scrollbar thumbs and some other controls.
+     */
+    public static class TwoLayerFourColors {
+
+        public Color inner1;
+        public Color inner2;
+        public Color inner3;
+        public Color inner4;
+        public float midpoint2;
+        public float midpoint3;
+        public Color background1;
+        public Color background2;
+
+        public TwoLayerFourColors(Color inner1, Color inner2, Color inner3, Color inner4, float midpoint2, float midpoint3,
+            Color background1, Color background2) {
+            this.inner1 = inner1;
+            this.inner2 = inner2;
+            this.inner3 = inner3;
+            this.inner4 = inner4;
+            this.midpoint2 = midpoint2;
+            this.midpoint3 = midpoint3;
+            this.background1 = background1;
+            this.background2 = background2;
         }
     }
 }
