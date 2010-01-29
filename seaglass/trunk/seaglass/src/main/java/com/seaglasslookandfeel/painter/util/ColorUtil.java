@@ -455,10 +455,10 @@ public class ColorUtil {
         public FourColors interior;
         public TwoColors  background;
 
-        public TwoLayerFourColors(Color inner1, Color inner2, Color inner3, Color inner4, float midpoint2, float midpoint3,
-            Color background1, Color background2) {
-            this.interior = new FourColors(inner1, inner2, inner3, inner4, midpoint2, midpoint3);
-            this.background = new TwoColors(background1, background2);
+        public TwoLayerFourColors(Color innerTop, Color innerUpperMid, Color innerLowerMid, Color innerBottom, float innerUpperMidpoint,
+            float innerLowerMidpoint, Color backgroundTop, Color backgroundBottom) {
+            this.interior = new FourColors(innerTop, innerUpperMid, innerLowerMid, innerBottom, innerUpperMidpoint, innerLowerMidpoint);
+            this.background = new TwoColors(backgroundTop, backgroundBottom);
         }
     }
 }
