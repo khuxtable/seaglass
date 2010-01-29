@@ -110,6 +110,9 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         trackThickness = style.getInt(context, "ProgressBar.trackThickness", 19);
         tileWidth = style.getInt(context, "ProgressBar.tileWidth", 15);
         bgFillColor = (Color) style.get(context, "ProgressBar.backgroundFillColor");
+        if (bgFillColor == null) {
+            bgFillColor = Color.white;
+        }
         // handle scaling for sizeVarients for special case components. The
         // key "JComponent.sizeVariant" scales for large/small/mini
         // components are based on Apples LAF
