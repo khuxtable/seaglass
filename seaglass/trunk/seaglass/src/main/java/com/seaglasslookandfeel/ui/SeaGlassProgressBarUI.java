@@ -63,13 +63,15 @@ import sun.swing.plaf.synth.SynthUI;
 public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI, PropertyChangeListener {
     private SynthStyle style;
     private int        progressPadding;
-    private boolean    rotateText;                  // added for Nimbus LAF
+    // added for Nimbus LAF
+    private boolean    rotateText;
     private boolean    paintOutsideClip;
     private int        trackThickness;
-    private boolean    tileWhenIndeterminate;       // whether to tile
-    // indeterminate
-    // painting
-    private int        tileWidth;                   // the width of each tile
+    // whether to tile indeterminate painting
+    private boolean    tileWhenIndeterminate;
+    // the width of each tile
+    private int        tileWidth;
+    private Color      bgFillColor;
 
     private Rectangle  boundsRect = new Rectangle();
     private Rectangle  savedRect  = new Rectangle();
@@ -107,6 +109,7 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         tileWhenIndeterminate = style.getBoolean(context, "ProgressBar.tileWhenIndeterminate", false);
         trackThickness = style.getInt(context, "ProgressBar.trackThickness", 19);
         tileWidth = style.getInt(context, "ProgressBar.tileWidth", 15);
+        bgFillColor = (Color) style.get(context, "ProgressBar.backgroundFillColor");
         // handle scaling for sizeVarients for special case components. The
         // key "JComponent.sizeVariant" scales for large/small/mini
         // components are based on Apples LAF
@@ -258,7 +261,7 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         // a soft clipping effect.
         g2d.setComposite(AlphaComposite.Src);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(bgFillColor);
         double arcSize = pBar.getOrientation() == JProgressBar.HORIZONTAL ? bounds.height : bounds.width;
         g2d.fill(new RoundRectangle2D.Double(0, 0, bounds.width, bounds.height, arcSize, arcSize));
 
