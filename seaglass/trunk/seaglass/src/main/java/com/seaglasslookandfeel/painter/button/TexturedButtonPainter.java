@@ -19,8 +19,6 @@
  */
 package com.seaglasslookandfeel.painter.button;
 
-import java.awt.Color;
-
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
 
 /**
@@ -41,18 +39,5 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
      */
     public TexturedButtonPainter(Which state, PaintContext ctx) {
         super(state, ctx);
-
-        setEnabled(new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0, true),
-            0.5f, new Color(0xbbbbbb), new Color(0x555555), new Color(0x4c4c4c)));
-        setEnabledPressed(new ButtonStateColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true), new Color(0xffcccccc,
-            true), 0.5f, new Color(0x777777), new Color(0x555555), new Color(0x4c4c4c)));
-        setDefault(new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0, true),
-            0.5f, new Color(0x999999), new Color(0x555555), new Color(0x4c4c4c)));
-        setDefaultPressed(new ButtonStateColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true), new Color(0xffcccccc,
-            true), 0.5f, new Color(0x777777), new Color(0x555555), new Color(0x4c4c4c)));
-        setDisabled(new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0, true),
-            0.5f, new Color(0xbbbbbb), new Color(0x555555), new Color(0x4c4c4c)));
-        setDisabledSelected(new ButtonStateColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(
-            0, true), 0.5f, new Color(0xaaaaaa), new Color(0x555555), new Color(0x4c4c4c)));
     }
 }
