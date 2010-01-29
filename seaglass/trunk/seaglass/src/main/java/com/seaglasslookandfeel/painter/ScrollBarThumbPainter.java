@@ -29,7 +29,6 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
 import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.ColorUtil.TwoLayerFourColors;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -40,14 +39,14 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_PRESSED,
     }
 
-    private PaintContext       ctx;
-    private TwoLayerFourColors colors;
+    private PaintContext ctx;
+    private ButtonType   type;
 
     public ScrollBarThumbPainter(Which state) {
         super();
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
-        colors = ColorUtil.getScrollBarThumbColors(getButtonType(state));
+        type = getButtonType(state);
     }
 
     @Override
@@ -55,10 +54,10 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
-        ColorUtil.fillTwoColorGradientVertical(g, s, colors.background);
+        ColorUtil.fillScrollBarThumbBorderColors(g, s, type);
 
         s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
-        ColorUtil.fillTwoLayerFourColorGradientVertical(g, s, colors);
+        ColorUtil.fillScrollBarThumbInteriorColors(g, s, type);
     }
 
     @Override

@@ -28,7 +28,6 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
 import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.ColorUtil.TwoColors;
 
 /**
  * ContentPanePainter implementation.
@@ -40,18 +39,18 @@ public class ContentPanePainter extends AbstractRegionPainter {
 
     private PaintContext ctx;
 
-    private TwoColors    colors;
+    private ButtonType   type;
 
     public ContentPanePainter(Which state) {
         super();
         this.ctx = new PaintContext(CacheMode.NO_CACHING);
 
-        colors = ColorUtil.getRootPaneColors(getButtonType(state));
+        type = getButtonType(state);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        ColorUtil.fillTwoColorGradientVertical(g, s, colors);
+        ColorUtil.fillRootPaneInteriorColors(g, s, type);
     }
 
     protected PaintContext getPaintContext() {

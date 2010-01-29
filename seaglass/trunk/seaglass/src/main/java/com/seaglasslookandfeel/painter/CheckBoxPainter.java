@@ -34,7 +34,7 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
 import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.ColorUtil.TwoLayerFourColors;
+import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -54,32 +54,27 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         ICON_DISABLED_SELECTED,
     }
 
-    private Which              state;
-    private PaintContext       ctx;
-    private boolean            focused;
-    private boolean            selected;
+    private Which        state;
+    private PaintContext ctx;
+    private boolean      focused;
+    private boolean      selected;
 
-    private Color              outerFocusColor        = decodeColor("seaGlassOuterFocus");
-    private Color              innerFocusColor        = decodeColor("seaGlassFocus");
-    private Color              outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
-    private Color              innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
+    private Effect       dropShadow      = new SeaGlassDropShadowEffect();
 
-    private Effect             dropShadow             = new SeaGlassDropShadowEffect();
+    private Color        bullet1         = new Color(0x333333);
+    private Color        bullet2         = new Color(0x000000);
 
-    private Color              bullet1                = new Color(0x333333);
-    private Color              bullet2                = new Color(0x000000);
+    private Color        bulletDisabled1 = new Color(0x80333333, true);
+    private Color        bulletDisabled2 = new Color(0x80000000, true);
 
-    private Color              bulletDisabled1        = new Color(0x80333333, true);
-    private Color              bulletDisabled2        = new Color(0x80000000, true);
-
-    private TwoLayerFourColors colors;
+    private ButtonType   type;
 
     public CheckBoxPainter(Which state) {
         super();
         this.state = state;
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
-        colors = ColorUtil.getCheckBoxColors(getButtonType(state));
+        type = getButtonType(state);
 
         focused = false;
         selected = false;
@@ -102,15 +97,14 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         int y = (height - size) / 2;
 
         if (focused) {
+            boolean useToolBarFocus = isInToolBar(c);
             Shape s = createOuterFocus(x, y, size);
-            g.setColor(isInToolBar(c) ? outerToolBarFocusColor : outerFocusColor);
-            g.fill(s);
+            ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarFocus);
             s = createInnerFocus(x, y, size);
-            g.setColor(isInToolBar(c) ? innerToolBarFocusColor : innerFocusColor);
-            g.fill(s);
+            ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarFocus);
         }
 
-        paintBackground(g, x, y, size, colors);
+        paintBackground(g, x, y, size);
 
         if (selected) {
             if (state == Which.ICON_DISABLED_SELECTED) {
@@ -147,14 +141,14 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         return null;
     }
 
-    private void paintBackground(Graphics2D g, int x, int y, int size, TwoLayerFourColors colors) {
+    private void paintBackground(Graphics2D g, int x, int y, int size) {
         Shape s = createBorder(x, y, size);
         if (!focused) {
             dropShadow.fill(g, s);
         }
-        ColorUtil.fillTwoColorGradientVertical(g, s, colors.background);
+        ColorUtil.fillCheckBoxBorderColors(g, s, type);
         s = createInternal(x, y, size);
-        ColorUtil.fillTwoLayerFourColorGradientVertical(g, s, colors);
+        ColorUtil.fillCheckBoxInteriorColors(g, s, type);
     }
 
     private void paintCheckMark(Graphics2D g, int x, int y, int width, int height, Color color1, Color color2) {
