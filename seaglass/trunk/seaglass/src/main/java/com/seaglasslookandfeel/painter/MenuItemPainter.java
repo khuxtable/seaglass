@@ -19,16 +19,14 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public class MenuItemPainter extends AbstractRegionPainter {
@@ -36,12 +34,8 @@ public class MenuItemPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_MOUSEOVER,
     }
 
-    private Which              state;
-    private PaintContext       ctx;
-
-    private static final Color backgroundTop    = new Color(0x6a90b6);
-    private static final Color backgroundBottom = new Color(0x4a6b90);
-    private static final Color lineColor        = new Color(0x3a5d89);
+    private Which        state;
+    private PaintContext ctx;
 
     public MenuItemPainter(Which state) {
         super();
@@ -67,28 +61,6 @@ public class MenuItemPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        g.setPaint(decodeGradientBackground(s, backgroundTop, backgroundBottom));
-        g.fill(s);
-
-        g.setColor(lineColor);
-        g.drawLine(0, height - 1, width - 1, height - 1);
-    }
-
-    /**
-     * Create the gradient for the background of the button. This creates the
-     * border.
-     * 
-     * @param s
-     * @param color1
-     * @param upperMidColor
-     * @return
-     */
-    protected Paint decodeGradientBackground(Shape s, Color color1, Color color2) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
+        ColorUtil.fillMenuItemColors(g, s);
     }
 }

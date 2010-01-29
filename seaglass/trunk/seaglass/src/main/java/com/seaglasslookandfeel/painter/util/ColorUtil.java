@@ -23,6 +23,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
 import java.awt.Paint;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
@@ -92,6 +93,9 @@ public class ColorUtil {
     private static FrameColors        frameInactive;
 
     private static Color              desktopPaneColor;
+
+    private static TwoColors          menuItemBackground;
+    private static Color              menuItemBottomLineColor;
 
     static {
         buttonEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true),
@@ -165,6 +169,9 @@ public class ColorUtil {
         frameInactive = new FrameColors(new Color(0xededed), new Color(0xe0e0e0), new Color(0xe0e0e0), new Color(0xd3d3d3));
 
         desktopPaneColor = decodeColor("seaGlassDesktopPane");
+
+        menuItemBackground = new TwoColors(new Color(0x6a90b6), new Color(0x4a6b90));
+        menuItemBottomLineColor = new Color(0x3a5d89);
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -387,6 +394,16 @@ public class ColorUtil {
     public static void fillDesktopPaneColors(Graphics2D g, Shape s) {
         g.setColor(desktopPaneColor);
         g.fill(s);
+    }
+
+    public static void fillMenuItemColors(Graphics2D g, Shape s) {
+        fillTwoColorGradientVertical(g, s, menuItemBackground);
+
+        Rectangle b = s.getBounds();
+        int width = b.width;
+        int height = b.height;
+        g.setColor(menuItemBottomLineColor);
+        g.drawLine(0, height - 1, width - 1, height - 1);
     }
 
     private static void fillTwoColorGradientVertical(Graphics2D g, Shape s, TwoColors colors) {
