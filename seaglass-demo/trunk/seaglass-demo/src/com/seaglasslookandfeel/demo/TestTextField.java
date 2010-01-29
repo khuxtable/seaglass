@@ -54,7 +54,7 @@ public class TestTextField {
                 panel.add(tf1);
                 panel.add(tf2);
 
-                JFrame frame = new JFrame();
+                JFrame frame = new JFrame("Title");
                 frame.add(panel, BorderLayout.CENTER);
                 frame.setSize(275, 125);
                 frame.setLocationRelativeTo(null);
@@ -63,7 +63,7 @@ public class TestTextField {
             }
         });
     }
-    
+
     public static class MyLayout implements LayoutManager {
 
         public void addLayoutComponent(String name, Component comp) {
