@@ -46,12 +46,12 @@ public class ColorUtil {
     private static FourLayerColors    buttonDisabled;
     private static FourLayerColors    buttonDisabledSelected;
 
-    private static FourLayerColors    texturedEnabled;
-    private static FourLayerColors    texturedEnabledPressed;
-    private static FourLayerColors    texturedDefault;
-    private static FourLayerColors    texturedDefaultPressed;
-    private static FourLayerColors    texturedDisabled;
-    private static FourLayerColors    texturedDisabledSelected;
+    private static FourLayerColors    texturedButtonEnabled;
+    private static FourLayerColors    texturedButtonEnabledPressed;
+    private static FourLayerColors    texturedButtonDefault;
+    private static FourLayerColors    texturedButtonDefaultPressed;
+    private static FourLayerColors    texturedButtonDisabled;
+    private static FourLayerColors    texturedButtonDisabledSelected;
 
     private static TwoLayerFourColors scrollBarThumbDisabled;
     private static TwoLayerFourColors scrollBarThumbEnabled;
@@ -88,17 +88,17 @@ public class ColorUtil {
         buttonDisabledSelected = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
             new Color(0xffF7FCFF, true), 0.4f, new Color(0xaaaaaa), new Color(0x8AAFE0), new Color(0x5785BF));
 
-        texturedEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
+        texturedButtonEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
             true), 0.5f, new Color(0xbbbbbb), new Color(0x555555), new Color(0x4c4c4c));
-        texturedEnabledPressed = new FourLayerColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true), new Color(
+        texturedButtonEnabledPressed = new FourLayerColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true), new Color(
             0xffcccccc, true), 0.5f, new Color(0x777777), new Color(0x555555), new Color(0x4c4c4c));
-        texturedDefault = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
+        texturedButtonDefault = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
             true), 0.5f, new Color(0x999999), new Color(0x555555), new Color(0x4c4c4c));
-        texturedDefaultPressed = new FourLayerColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true), new Color(
+        texturedButtonDefaultPressed = new FourLayerColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true), new Color(
             0xffcccccc, true), 0.5f, new Color(0x777777), new Color(0x555555), new Color(0x4c4c4c));
-        texturedDisabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
+        texturedButtonDisabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
             true), 0.5f, new Color(0xbbbbbb), new Color(0x555555), new Color(0x4c4c4c));
-        texturedDisabledSelected = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
+        texturedButtonDisabledSelected = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
             new Color(0, true), 0.5f, new Color(0xaaaaaa), new Color(0x555555), new Color(0x4c4c4c));
 
         scrollBarThumbDisabled = new TwoLayerFourColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8,
@@ -140,22 +140,22 @@ public class ColorUtil {
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
         switch (type) {
         case DISABLED:
-            return textured ? texturedDisabled : buttonDisabled;
+            return textured ? texturedButtonDisabled : buttonDisabled;
         case DISABLED_SELECTED:
-            return textured ? texturedDisabledSelected : buttonDisabledSelected;
+            return textured ? texturedButtonDisabledSelected : buttonDisabledSelected;
         case ENABLED:
-            return textured ? texturedEnabled : buttonEnabled;
+            return textured ? texturedButtonEnabled : buttonEnabled;
         case PRESSED:
-            return textured ? texturedEnabledPressed : buttonEnabledPressed;
+            return textured ? texturedButtonEnabledPressed : buttonEnabledPressed;
         case DEFAULT:
-            return textured ? texturedDefault : buttonDefault;
+            return textured ? texturedButtonDefault : buttonDefault;
         case DEFAULT_PRESSED:
-            return textured ? texturedDefaultPressed : buttonDefaultPressed;
+            return textured ? texturedButtonDefaultPressed : buttonDefaultPressed;
         }
         return null;
     }
 
-    public static TwoLayerFourColors getTwoLayerColors(ButtonType type) {
+    public static TwoLayerFourColors getScrollBarThumbColors(ButtonType type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
@@ -168,7 +168,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoLayerFourColors getTwoLayerColors3(ButtonType type) {
+    public static TwoLayerFourColors getCheckBoxColors(ButtonType type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
@@ -185,7 +185,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static FourLayerColors getFourLayerColors4(ButtonType type) {
+    public static FourLayerColors getComboBoxButtonColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return comboBoxButtonDisabled;
@@ -197,7 +197,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static FourLayerColors getFourLayerColors5(ButtonType type) {
+    public static FourLayerColors getComboBoxBackgroundColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return comboBoxBackgroundDisabled;

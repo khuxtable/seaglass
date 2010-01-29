@@ -47,7 +47,7 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
         super();
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
-        colors = ColorUtil.getTwoLayerColors(getButtonType(state));
+        colors = ColorUtil.getScrollBarThumbColors(getButtonType(state));
     }
 
     @Override
