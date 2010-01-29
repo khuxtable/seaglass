@@ -136,7 +136,20 @@ public class ShapeUtil {
         /**
          * Round for a popup menu's interior.
          */
-        POPUP_INTERIOR(2.5);
+        POPUP_INTERIOR(2.5),
+
+        /**
+         * Round for a frame's border.
+         */
+        FRAME_BORDER(baseRadius + 1),
+        /**
+         * Round for a frame's inner highlight.
+         */
+        FRAME_INNER_HIGHLIGHT(baseRadius),
+        /**
+         * Round for a frame's interior.
+         */
+        FRAME_INTERIOR(baseRadius - 1);
 
         /**
          * The rounding radius.

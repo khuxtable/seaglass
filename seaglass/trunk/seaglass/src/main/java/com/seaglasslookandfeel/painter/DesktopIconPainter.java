@@ -19,16 +19,15 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -41,56 +40,23 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
 
     private PaintContext ctx;
 
-    private Color        borderColor         = new Color(0x545454);
-
-    private Color        innerHighLightColor = new Color(0x55ffffff, true);
-
-    private Color        inactiveColor1      = new Color(0xededed);
-    private Color        inactiveColor2      = new Color(0xe0e0e0);
-
     public DesktopIconPainter(Which state) {
         super();
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        Shape s = decodeRoundRect1(width, height);
-        g.setPaint(borderColor);
-        g.fill(s);
+        Shape s = ShapeUtil.createRoundRectangle(2, 0, width - 3, height - 2, CornerSize.FRAME_BORDER);
+        ColorUtil.fillFrameBorderColors(g, s, ButtonType.INACTIVE);
 
-        s = decodeRoundRect2(width, height);
-        g.setPaint(innerHighLightColor);
-        g.fill(s);
+        s = ShapeUtil.createRoundRectangle(3, 1, width - 5, height - 4, CornerSize.FRAME_INNER_HIGHLIGHT);
+        ColorUtil.fillFrameInnerHighlightColors(g, s, ButtonType.INACTIVE);
 
-        s = decodeRect1(width, height);
-        g.setPaint(decodeGradient2(s));
-        g.fill(s);
+        s = ShapeUtil.createRoundRectangle(4, 2, width - 7, height - 6, CornerSize.FRAME_INTERIOR);
+        ColorUtil.fillRootPaneInteriorColors(g, s, ButtonType.INACTIVE);
     }
 
     protected final PaintContext getPaintContext() {
         return ctx;
-    }
-
-    private Shape decodeRoundRect1(int width, int height) {
-        return ShapeUtil.createRoundRectangle(2, 0, width - 3, height - 2, CornerSize.INNER_FOCUS);
-    }
-
-    private Shape decodeRoundRect2(int width, int height) {
-        return ShapeUtil.createRoundRectangle(3, 1, width - 5, height - 4, CornerSize.BORDER);
-    }
-
-    private Shape decodeRect1(int width, int height) {
-        return ShapeUtil.createRoundRectangle(4, 2, width - 7, height - 6, CornerSize.INTERIOR);
-    }
-
-    private Paint decodeGradient2(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, (0.0f * h) + y, (0.5f * w) + x, (1.0f * h) + y, new float[] { 0.0f, 1.0f }, new Color[] {
-            inactiveColor1,
-            inactiveColor2 });
     }
 }
