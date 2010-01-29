@@ -52,35 +52,26 @@ public class ContentPanePainter extends AbstractRegionPainter {
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        paintBackground(g, c, width, height);
+        switch (state) {
+        case BACKGROUND_ENABLED:
+            paintBackground(g, c, width, height, inactiveTopColor, inactiveBottomColor);
+            break;
+        case BACKGROUND_ENABLED_WINDOWFOCUSED:
+            paintBackground(g, c, width, height, activeTopColor, activeBottomColor);
+            break;
+        }
     }
 
     protected PaintContext getPaintContext() {
         return ctx;
     }
 
-    private void paintBackground(Graphics2D g, JComponent c, int width, int height) {
-        g.setPaint(decodeGradient(state, c, width, height));
+    private void paintBackground(Graphics2D g, JComponent c, int width, int height, Color topColor, Color bottomColor) {
+        g.setPaint(decodeGradient(state, c, width, height, topColor, bottomColor));
         g.fillRect(0, 0, width, height);
     }
 
-    private GradientPaint decodeGradient(Which state, JComponent c, int width, int height) {
-        return new GradientPaint(0, 0, getTopColor(state, c), 0, height, getBottomColor(state));
-    }
-
-    private Color getTopColor(Which state, JComponent c) {
-        if (state == Which.BACKGROUND_ENABLED) {
-            return inactiveTopColor;
-        } else {
-            return activeTopColor;
-        }
-    }
-
-    private Color getBottomColor(Which state) {
-        if (state == Which.BACKGROUND_ENABLED) {
-            return inactiveBottomColor;
-        } else {
-            return activeBottomColor;
-        }
+    private GradientPaint decodeGradient(Which state, JComponent c, int width, int height, Color topColor, Color bottomColor) {
+        return new GradientPaint(0, 0, topColor, 0, height, bottomColor);
     }
 }
