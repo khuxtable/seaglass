@@ -21,11 +21,12 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Path2D;
+import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * Sea Glass's ArrowButtonPainter class.
@@ -41,8 +42,6 @@ public final class ArrowButtonPainter extends AbstractRegionPainter {
 
     private Which        state;
     private PaintContext ctx;
-
-    private Path2D       path          = new Path2D.Float();
 
     public ArrowButtonPainter(Which state) {
         super();
@@ -69,33 +68,27 @@ public final class ArrowButtonPainter extends AbstractRegionPainter {
     }
 
     private void paintForegroundDisabled(Graphics2D g, int width, int height) {
-        path = decodeArrowPath(width, height);
+        Shape s = decodeArrowPath(width, height);
         g.setPaint(disabledColor);
-        g.fill(path);
+        g.fill(s);
 
     }
 
     private void paintForegroundEnabled(Graphics2D g, int width, int height) {
-        path = decodeArrowPath(width, height);
+        Shape s = decodeArrowPath(width, height);
         g.setPaint(enabledColor);
-        g.fill(path);
+        g.fill(s);
 
     }
 
     private void paintForegroundPressed(Graphics2D g, int width, int height) {
-        path = decodeArrowPath(width, height);
+        Shape s = decodeArrowPath(width, height);
         g.setPaint(pressedColor);
-        g.fill(path);
+        g.fill(s);
 
     }
 
-    private Path2D decodeArrowPath(int width, int height) {
-        path.reset();
-        path.moveTo(width * 0.8f, height * 0.2f);
-        path.lineTo(width * 0.2f, height * 0.5f);
-        path.lineTo(width * 0.8f, height * 0.8f);
-        path.lineTo(width * 0.8f, height * 0.2f);
-        path.closePath();
-        return path;
+    private Shape decodeArrowPath(int width, int height) {
+        return ShapeUtil.createArrowLeft(width * .02, height * 0.2, width * 0.6, height * 0.6);
     }
 }
