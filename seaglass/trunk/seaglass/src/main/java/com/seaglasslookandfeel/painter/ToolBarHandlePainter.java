@@ -103,7 +103,7 @@ public class ToolBarHandlePainter extends AbstractRegionPainter {
      * 
      * @param s
      * @param color1
-     * @param color2
+     * @param upperMidColor
      * @return
      */
     private Paint decodeGradientBackground(Shape s, Color color1, Color color2) {
@@ -119,13 +119,13 @@ public class ToolBarHandlePainter extends AbstractRegionPainter {
      * Create the gradient for the shine at the bottom of the button.
      * 
      * @param color1
-     * @param color2
-     * @param color3
+     * @param upperMidColor
+     * @param lowerMidColor
      *            TODO
      * @param color4
      *            TODO
-     * @param midpoint2
-     * @param midpoint3
+     * @param upperMidpoint
+     * @param lowerMidpoint
      *            TODO
      */
     private Paint decodeGradientInner(Shape s, Color color1, Color color2, Color color3, Color color4, float midpoint2, float midpoint3) {

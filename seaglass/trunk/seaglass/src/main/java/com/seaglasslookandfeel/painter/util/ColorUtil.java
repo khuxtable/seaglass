@@ -237,69 +237,66 @@ public class ColorUtil {
         g.draw(s);
     }
 
-    public static void paintTwoColorGradientVertical(Graphics2D g, Shape s, Color color1, Color color2) {
-        g.setPaint(decodeTwoColorGradientVertical(s, color1, color2));
+    public static void fillFocus(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
+        if (focusType == FocusType.OUTER_FOCUS) {
+            g.setColor(useToolBarFocus ? outerToolBarFocusColor : outerFocusColor);
+        } else {
+            g.setColor(useToolBarFocus ? innerToolBarFocusColor : innerFocusColor);
+        }
         g.fill(s);
     }
 
-    private static Paint decodeTwoColorGradientVertical(Shape s, Color color1, Color color2) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
+    public static void fillTwoColorGradientVertical(Graphics2D g, Shape s, TwoColors colors) {
+        g.setPaint(decodeTwoColorGradientVertical(s, colors));
+        g.fill(s);
     }
 
-    public static void paintThreeLayerGradientVertical(Graphics2D g, Shape s, FourLayerColors colors) {
+    public static void fillThreeLayerGradientVertical(Graphics2D g, Shape s, FourLayerColors colors) {
         g.setColor(colors.mainColor);
         g.fill(s);
-        g.setPaint(decodeGradientBottomShine(s, colors.lowerShineTop, colors.lowerShineBottom, colors.lowerShineMidpoint));
+        g.setPaint(decodeTwoColorGradientWithMidpointVertical(s, colors.lowerShine));
         g.fill(s);
-        g.setPaint(decodeGradientTopShine(s, colors.upperShineTop, colors.upperShineBottom));
+        g.setPaint(decodeTwoColorGradientVertical(s, colors.upperShine));
         g.fill(s);
     }
 
-    private static Paint decodeGradientBottomShine(Shape s, Color color1, Color color2, float midpoint) {
-        Color midColor = new Color(deriveARGB(color1, color2, midpoint) & 0xFFFFFF, true);
+    public static void fillTwoLayerFourColorGradientVertical(Graphics2D g, Shape s, TwoLayerFourColors colors) {
+        g.setPaint(decodeGradientFourColor(s, colors.interior));
+        g.fill(s);
+    }
+
+    private static Paint decodeTwoColorGradientVertical(Shape s, TwoColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, midpoint, 1f }, new Color[] {
-            color1,
+        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] {
+            colors.topColor,
+            colors.bottomColor });
+    }
+
+    private static Paint decodeTwoColorGradientWithMidpointVertical(Shape s, TwoColorsWithMidpoint colors) {
+        Color midColor = new Color(deriveARGB(colors.topColor, colors.bottomColor, colors.midpoint) & 0xFFFFFF, true);
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, colors.midpoint, 1f }, new Color[] {
+            colors.topColor,
             midColor,
-            color2 });
+            colors.bottomColor });
     }
 
-    private static Paint decodeGradientTopShine(Shape s, Color color1, Color color2) {
+    private static Paint decodeGradientFourColor(Shape s, FourColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
-    }
-
-    public static void paintTwoLayerFourColorGradientVertical(Graphics2D g, Shape s, TwoLayerFourColors colors) {
-        g.setPaint(decodeGradientFourColor(s, colors.inner1, colors.inner2, colors.inner3, colors.inner4, colors.midpoint2,
-            colors.midpoint3));
-        g.fill(s);
-    }
-
-    private static Paint decodeGradientFourColor(Shape s, Color color1, Color color2, Color color3, Color color4, float midpoint2,
-        float midpoint3) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, midpoint2, midpoint3, 1f }, new Color[] {
-            color1,
-            color2,
-            color3,
-            color4 });
+        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, colors.upperMidpoint, colors.lowerMidpoint, 1f },
+            new Color[] { colors.topColor, colors.upperMidColor, colors.lowerMidColor, colors.bottomColor });
     }
 
     /**
@@ -366,29 +363,12 @@ public class ColorUtil {
     }
 
     /**
-     * Decodes and returns a color, which is derived from a offset between two
-     * other colors.
-     * 
-     * @param color1
-     *            The first color
-     * @param color2
-     *            The second color
-     * @param midPoint
-     *            The offset between color 1 and color 2, a value of 0.0 is
-     *            color 1 and 1.0 is color 2;
-     * @return The derived color
-     */
-    private static final Color decodeColor(Color color1, Color color2, float midPoint) {
-        return new Color(deriveARGB(color1, color2, midPoint));
-    }
-
-    /**
      * Derives the ARGB value for a color based on an offset between two other
      * colors.
      * 
      * @param color1
      *            The first color
-     * @param color2
+     * @param upperMidColor
      *            The second color
      * @param midPoint
      *            The offset between color 1 and color 2, a value of 0.0 is
@@ -416,26 +396,52 @@ public class ColorUtil {
         }
     }
 
+    public static class TwoColorsWithMidpoint extends TwoColors {
+        public float midpoint;
+
+        public TwoColorsWithMidpoint(Color topColor, Color bottomColor, float midpoint) {
+            super(topColor, bottomColor);
+            this.midpoint = midpoint;
+        }
+    }
+
+    /**
+     * A set of colors to use for scrollbar thumbs and some other controls.
+     */
+    public static class FourColors {
+
+        public Color topColor;
+        public Color upperMidColor;
+        public Color lowerMidColor;
+        public Color bottomColor;
+        public float upperMidpoint;
+        public float lowerMidpoint;
+
+        public FourColors(Color topColor, Color upperMidColor, Color lowerMidColor, Color bottomColor, float upperMidpoint,
+            float lowerMidpoint) {
+            this.topColor = topColor;
+            this.upperMidColor = upperMidColor;
+            this.lowerMidColor = lowerMidColor;
+            this.bottomColor = bottomColor;
+            this.upperMidpoint = upperMidpoint;
+            this.lowerMidpoint = lowerMidpoint;
+        }
+    }
+
     /**
      * A set of colors to use for many controls.
      */
     public static class FourLayerColors {
 
-        public Color     upperShineTop;
-        public Color     upperShineBottom;
-        public Color     lowerShineTop;
-        public Color     lowerShineBottom;
-        public float     lowerShineMidpoint;
-        public Color     mainColor;
-        public TwoColors background;
+        public TwoColors             upperShine;
+        public TwoColorsWithMidpoint lowerShine;
+        public Color                 mainColor;
+        public TwoColors             background;
 
         public FourLayerColors(Color upperShineTop, Color upperShineBottom, Color lowerShineTop, Color lowerShineBottom,
             float lowerShineMidpoint, Color mainColor, Color backgroundTop, Color backgroundBottom) {
-            this.upperShineTop = upperShineTop;
-            this.upperShineBottom = upperShineBottom;
-            this.lowerShineTop = lowerShineTop;
-            this.lowerShineBottom = lowerShineBottom;
-            this.lowerShineMidpoint = lowerShineMidpoint;
+            this.upperShine = new TwoColors(upperShineTop, upperShineBottom);
+            this.lowerShine = new TwoColorsWithMidpoint(lowerShineTop, lowerShineBottom, lowerShineMidpoint);
             this.mainColor = mainColor;
             this.background = new TwoColors(backgroundTop, backgroundBottom);
         }
@@ -446,22 +452,12 @@ public class ColorUtil {
      */
     public static class TwoLayerFourColors {
 
-        public Color     inner1;
-        public Color     inner2;
-        public Color     inner3;
-        public Color     inner4;
-        public float     midpoint2;
-        public float     midpoint3;
-        public TwoColors background;
+        public FourColors interior;
+        public TwoColors  background;
 
         public TwoLayerFourColors(Color inner1, Color inner2, Color inner3, Color inner4, float midpoint2, float midpoint3,
             Color background1, Color background2) {
-            this.inner1 = inner1;
-            this.inner2 = inner2;
-            this.inner3 = inner3;
-            this.inner4 = inner4;
-            this.midpoint2 = midpoint2;
-            this.midpoint3 = midpoint3;
+            this.interior = new FourColors(inner1, inner2, inner3, inner4, midpoint2, midpoint3);
             this.background = new TwoColors(background1, background2);
         }
     }
