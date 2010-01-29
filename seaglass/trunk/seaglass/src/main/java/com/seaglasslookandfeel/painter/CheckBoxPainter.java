@@ -79,7 +79,7 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         this.state = state;
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
-        colors = ColorUtil.getTwoLayerColors3(getButtonType(state));
+        colors = ColorUtil.getCheckBoxColors(getButtonType(state));
 
         focused = false;
         selected = false;

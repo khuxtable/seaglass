@@ -93,7 +93,7 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
             buttonPainter = new ComboBoxArrowButtonPainter(arrowState);
         }
 
-        colors = ColorUtil.getFourLayerColors5(getButtonType(state));
+        colors = ColorUtil.getComboBoxBackgroundColors(getButtonType(state));
     }
 
     @Override
