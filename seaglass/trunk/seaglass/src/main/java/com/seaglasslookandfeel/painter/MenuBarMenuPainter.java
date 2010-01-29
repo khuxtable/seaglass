@@ -34,7 +34,7 @@ public final class MenuBarMenuPainter extends AbstractRegionPainter {
     private Which        state;
     private PaintContext ctx;
 
-    private Color        backgroundColor = Color.WHITE;
+    private Color        backgroundColor = decodeColor("menu");
 
     public MenuBarMenuPainter(Which state) {
         super();
