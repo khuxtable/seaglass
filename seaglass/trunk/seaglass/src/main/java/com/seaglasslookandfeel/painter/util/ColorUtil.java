@@ -247,25 +247,25 @@ public class ColorUtil {
     }
 
     public static void fillTwoColorGradientVertical(Graphics2D g, Shape s, TwoColors colors) {
-        g.setPaint(decodeTwoColorGradientVertical(s, colors));
+        g.setPaint(createTwoColorGradientVertical(s, colors));
         g.fill(s);
     }
 
     public static void fillThreeLayerGradientVertical(Graphics2D g, Shape s, FourLayerColors colors) {
         g.setColor(colors.mainColor);
         g.fill(s);
-        g.setPaint(decodeTwoColorGradientWithMidpointVertical(s, colors.lowerShine));
+        g.setPaint(createTwoColorGradientWithMidpointVertical(s, colors.lowerShine));
         g.fill(s);
-        g.setPaint(decodeTwoColorGradientVertical(s, colors.upperShine));
+        g.setPaint(createTwoColorGradientVertical(s, colors.upperShine));
         g.fill(s);
     }
 
     public static void fillTwoLayerFourColorGradientVertical(Graphics2D g, Shape s, TwoLayerFourColors colors) {
-        g.setPaint(decodeGradientFourColor(s, colors.interior));
+        g.setPaint(createGradientFourColor(s, colors.interior));
         g.fill(s);
     }
 
-    private static Paint decodeTwoColorGradientVertical(Shape s, TwoColors colors) {
+    private static Paint createTwoColorGradientVertical(Shape s, TwoColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
@@ -276,7 +276,7 @@ public class ColorUtil {
             colors.bottomColor });
     }
 
-    private static Paint decodeTwoColorGradientWithMidpointVertical(Shape s, TwoColorsWithMidpoint colors) {
+    private static Paint createTwoColorGradientWithMidpointVertical(Shape s, TwoColorsWithMidpoint colors) {
         Color midColor = new Color(deriveARGB(colors.topColor, colors.bottomColor, colors.midpoint) & 0xFFFFFF, true);
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
@@ -289,7 +289,7 @@ public class ColorUtil {
             colors.bottomColor });
     }
 
-    private static Paint decodeGradientFourColor(Shape s, FourColors colors) {
+    private static Paint createGradientFourColor(Shape s, FourColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
