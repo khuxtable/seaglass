@@ -31,7 +31,7 @@ If you are using Maven, you may include the following in your `pom.xml' file:
 == Simple Download ==
 
 || Version || Jar || Javadoc ||
-|| 0.1.5 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.5/seaglasslookandfeel-0.1.5.jar seaglasslookandfeel-0.1.5.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.5/seaglasslookandfeel-0.1.-javadoc.jar seaglasslookandfeel-0.1.5-javadoc.jar] ||
+|| 0.1.5 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.5/seaglasslookandfeel-0.1.5.jar seaglasslookandfeel-0.1.5.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.5/seaglasslookandfeel-0.1.5-javadoc.jar seaglasslookandfeel-0.1.5-javadoc.jar] ||
 || 0.1.4 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.4/seaglasslookandfeel-0.1.4.jar seaglasslookandfeel-0.1.4.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.4/seaglasslookandfeel-0.1.4-javadoc.jar seaglasslookandfeel-0.1.4-javadoc.jar] ||
 || 0.1.3 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.3/seaglasslookandfeel-0.1.3.jar seaglasslookandfeel-0.1.3.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.3/seaglasslookandfeel-0.1.3-javadoc.jar seaglasslookandfeel-0.1.3-javadoc.jar] ||
 ||| 0.1.2 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.2/seaglasslookandfeel-0.1.2.jar seaglasslookandfeel-0.1.2.jar] || ||
