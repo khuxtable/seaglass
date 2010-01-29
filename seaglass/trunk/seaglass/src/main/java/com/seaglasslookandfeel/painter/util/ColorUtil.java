@@ -26,67 +26,74 @@ import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.UIManager;
+
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+
 /**
  * @author Kathryn Huxtable
  */
 public class ColorUtil {
 
     public enum ButtonType {
-        ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED, SELECTED, PRESSED_SELECTED,
+        ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED, SELECTED, PRESSED_SELECTED, ACTIVE, INACTIVE,
     }
 
-    private static FourLayerColors    enabled;
-    private static FourLayerColors    enabledPressed;
-    private static FourLayerColors    defaultButton;
-    private static FourLayerColors    defaultPressed;
-    private static FourLayerColors    disabled;
-    private static FourLayerColors    disabledSelected;
+    private static FourLayerColors    buttonEnabled;
+    private static FourLayerColors    buttonEnabledPressed;
+    private static FourLayerColors    buttonDefault;
+    private static FourLayerColors    buttonDefaultPressed;
+    private static FourLayerColors    buttonDisabled;
+    private static FourLayerColors    buttonDisabledSelected;
 
     private static FourLayerColors    texturedEnabled;
     private static FourLayerColors    texturedEnabledPressed;
-    private static FourLayerColors    texturedDefaultButton;
+    private static FourLayerColors    texturedDefault;
     private static FourLayerColors    texturedDefaultPressed;
     private static FourLayerColors    texturedDisabled;
     private static FourLayerColors    texturedDisabledSelected;
 
-    private static TwoLayerFourColors disabled2;
-    private static TwoLayerFourColors enabled2;
-    private static TwoLayerFourColors pressed2;
+    private static TwoLayerFourColors scrollBarThumbDisabled;
+    private static TwoLayerFourColors scrollBarThumbEnabled;
+    private static TwoLayerFourColors scrollBarThumbPressed;
 
-    private static TwoLayerFourColors disabled3;
-    private static TwoLayerFourColors enabled3;
-    private static TwoLayerFourColors pressed3;
-    private static TwoLayerFourColors selected3;
-    private static TwoLayerFourColors pressedSelected3;
+    private static TwoLayerFourColors checkBoxDisabled;
+    private static TwoLayerFourColors checkBoxEnabled;
+    private static TwoLayerFourColors checkBoxPressed;
+    private static TwoLayerFourColors checkBoxSelected;
+    private static TwoLayerFourColors checkBoxPressedSelected;
 
-    private static FourLayerColors    disabled4;
-    private static FourLayerColors    enabled4;
-    private static FourLayerColors    pressed4;
+    private static FourLayerColors    comboBoxButtonDisabled;
+    private static FourLayerColors    comboBoxButtonEnabled;
+    private static FourLayerColors    comboBoxButtonPressed;
 
-    private static FourLayerColors    disabled5;
-    private static FourLayerColors    enabled5;
-    private static FourLayerColors    pressed5;
+    private static FourLayerColors    comboBoxBackgroundDisabled;
+    private static FourLayerColors    comboBoxBackgroundEnabled;
+    private static FourLayerColors    comboBoxBackgroundPressed;
+
+    private static TwoColors          rootPaneActive;
+    private static TwoColors          rootPaneInactive;
 
     static {
-        enabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true), new Color(
-            0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
-        enabledPressed = new FourLayerColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
+        buttonEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true),
+            new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
+        buttonEnabledPressed = new FourLayerColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
             new Color(0xffb4d9ee, true), 0.4f, new Color(0x134D8C), new Color(0x4F7BBF), new Color(0x3F76BF));
-        defaultButton = new FourLayerColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true),
+        buttonDefault = new FourLayerColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true),
             new Color(0xffC0E8FF, true), 0.4f, new Color(0x276FB2), new Color(0x4F7BBF), new Color(0x3F76BF));
-        defaultPressed = new FourLayerColors(new Color(0xc0eeeeee, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true),
+        buttonDefaultPressed = new FourLayerColors(new Color(0xc0eeeeee, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true),
             new Color(0xffB4D9EE, true), 0.4f, new Color(0x134D8C), new Color(0x4F7BBF), new Color(0x3F76BF));
-        disabled = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true), new Color(
-            0xffF7FCFF, true), 0.4f, new Color(0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF));
-        disabledSelected = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
+        buttonDisabled = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
+            new Color(0xffF7FCFF, true), 0.4f, new Color(0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF));
+        buttonDisabledSelected = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
             new Color(0xffF7FCFF, true), 0.4f, new Color(0xaaaaaa), new Color(0x8AAFE0), new Color(0x5785BF));
 
         texturedEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
             true), 0.5f, new Color(0xbbbbbb), new Color(0x555555), new Color(0x4c4c4c));
         texturedEnabledPressed = new FourLayerColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true), new Color(
             0xffcccccc, true), 0.5f, new Color(0x777777), new Color(0x555555), new Color(0x4c4c4c));
-        texturedDefaultButton = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
-            new Color(0, true), 0.5f, new Color(0x999999), new Color(0x555555), new Color(0x4c4c4c));
+        texturedDefault = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
+            true), 0.5f, new Color(0x999999), new Color(0x555555), new Color(0x4c4c4c));
         texturedDefaultPressed = new FourLayerColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true), new Color(
             0xffcccccc, true), 0.5f, new Color(0x777777), new Color(0x555555), new Color(0x4c4c4c));
         texturedDisabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true), new Color(0,
@@ -94,53 +101,56 @@ public class ColorUtil {
         texturedDisabledSelected = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
             new Color(0, true), 0.5f, new Color(0xaaaaaa), new Color(0x555555), new Color(0x4c4c4c));
 
-        disabled2 = new TwoLayerFourColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8, true),
-            new Color(0x80f5fafd, true), 0.45f, 0.62f, new Color(0x6088ade0, true), new Color(0x605785bf, true));
-        enabled2 = new TwoLayerFourColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd), 0.45f, 0.62f,
-            new Color(0x88ade0), new Color(0x5785bf));
-        pressed2 = new TwoLayerFourColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc), new Color(0xbbcedf), 0.45f, 0.62f,
-            new Color(0x4076bf), new Color(0x4f7bbf));
+        scrollBarThumbDisabled = new TwoLayerFourColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8,
+            true), new Color(0x80f5fafd, true), 0.45f, 0.62f, new Color(0x6088ade0, true), new Color(0x605785bf, true));
+        scrollBarThumbEnabled = new TwoLayerFourColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd),
+            0.45f, 0.62f, new Color(0x88ade0), new Color(0x5785bf));
+        scrollBarThumbPressed = new TwoLayerFourColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc), new Color(0xbbcedf),
+            0.45f, 0.62f, new Color(0x4076bf), new Color(0x4f7bbf));
 
-        disabled3 = disabled2;
-        enabled3 = enabled2;
-        pressed3 = new TwoLayerFourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4), 0.45f, 0.62f,
-            new Color(0x4f7bbf), new Color(0x3f76bf));
-
-        selected3 = new TwoLayerFourColors(new Color(0xbccedf), new Color(0x7fa7cd), new Color(0x82b0d6), new Color(0xb0daf6), 0.45f,
+        checkBoxDisabled = scrollBarThumbDisabled;
+        checkBoxEnabled = scrollBarThumbEnabled;
+        checkBoxPressed = new TwoLayerFourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4), 0.45f,
             0.62f, new Color(0x4f7bbf), new Color(0x3f76bf));
 
-        pressedSelected3 = new TwoLayerFourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4),
+        checkBoxSelected = new TwoLayerFourColors(new Color(0xbccedf), new Color(0x7fa7cd), new Color(0x82b0d6), new Color(0xb0daf6),
             0.45f, 0.62f, new Color(0x4f7bbf), new Color(0x3f76bf));
 
-        disabled4 = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true), new Color(
-            0xffF7FCFF, true), 0.4f, new Color(0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF));
-        enabled4 = new FourLayerColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true), new Color(
-            0xffC0E8FF, true), 0.4f, new Color(0x276FB2), new Color(0x4F7BBF), new Color(0x3F76BF));
-        pressed4 = new FourLayerColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true), new Color(
-            0xffb4d9ee, true), 0.4f, new Color(0x134D8C), new Color(0x4F7BBF), new Color(0x3F76BF));
+        checkBoxPressedSelected = new TwoLayerFourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba),
+            new Color(0xa4cbe4), 0.45f, 0.62f, new Color(0x4f7bbf), new Color(0x3f76bf));
 
-        disabled5 = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true), new Color(
-            0xffF7FCFF, true), 0.4f, new Color(0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF));
-        enabled5 = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true), new Color(
-            0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
-        pressed5 = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true), new Color(
-            0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
+        comboBoxButtonDisabled = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
+            new Color(0xffF7FCFF, true), 0.4f, new Color(0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF));
+        comboBoxButtonEnabled = new FourLayerColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true),
+            new Color(0xffC0E8FF, true), 0.4f, new Color(0x276FB2), new Color(0x4F7BBF), new Color(0x3F76BF));
+        comboBoxButtonPressed = new FourLayerColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
+            new Color(0xffb4d9ee, true), 0.4f, new Color(0x134D8C), new Color(0x4F7BBF), new Color(0x3F76BF));
+
+        comboBoxBackgroundDisabled = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC,
+            true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF));
+        comboBoxBackgroundEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff,
+            true), new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
+        comboBoxBackgroundPressed = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff,
+            true), new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
+
+        rootPaneActive = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"), decodeColor("seaGlassToolBarActiveBottomB"));
+        rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"), decodeColor("seaGlassToolBarInactiveBottomB"));
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
         switch (type) {
         case DISABLED:
-            return textured ? texturedDisabled : disabled;
+            return textured ? texturedDisabled : buttonDisabled;
         case DISABLED_SELECTED:
-            return textured ? texturedDisabledSelected : disabledSelected;
+            return textured ? texturedDisabledSelected : buttonDisabledSelected;
         case ENABLED:
-            return textured ? texturedEnabled : enabled;
+            return textured ? texturedEnabled : buttonEnabled;
         case PRESSED:
-            return textured ? texturedEnabledPressed : enabledPressed;
+            return textured ? texturedEnabledPressed : buttonEnabledPressed;
         case DEFAULT:
-            return textured ? texturedDefaultButton : defaultButton;
+            return textured ? texturedDefault : buttonDefault;
         case DEFAULT_PRESSED:
-            return textured ? texturedDefaultPressed : defaultPressed;
+            return textured ? texturedDefaultPressed : buttonDefaultPressed;
         }
         return null;
     }
@@ -149,11 +159,11 @@ public class ColorUtil {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
-            return disabled2;
+            return scrollBarThumbDisabled;
         case ENABLED:
-            return enabled2;
+            return scrollBarThumbEnabled;
         case PRESSED:
-            return pressed2;
+            return scrollBarThumbPressed;
         }
         return null;
     }
@@ -162,15 +172,15 @@ public class ColorUtil {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
-            return disabled3;
+            return checkBoxDisabled;
         case ENABLED:
-            return enabled3;
+            return checkBoxEnabled;
         case PRESSED:
-            return pressed3;
+            return checkBoxPressed;
         case SELECTED:
-            return selected3;
+            return checkBoxSelected;
         case PRESSED_SELECTED:
-            return pressedSelected3;
+            return checkBoxPressedSelected;
         }
         return null;
     }
@@ -178,11 +188,11 @@ public class ColorUtil {
     public static FourLayerColors getFourLayerColors4(ButtonType type) {
         switch (type) {
         case DISABLED:
-            return disabled4;
+            return comboBoxButtonDisabled;
         case ENABLED:
-            return enabled4;
+            return comboBoxButtonEnabled;
         case PRESSED:
-            return pressed4;
+            return comboBoxButtonPressed;
         }
         return null;
     }
@@ -190,11 +200,21 @@ public class ColorUtil {
     public static FourLayerColors getFourLayerColors5(ButtonType type) {
         switch (type) {
         case DISABLED:
-            return disabled5;
+            return comboBoxBackgroundDisabled;
         case ENABLED:
-            return enabled5;
+            return comboBoxBackgroundEnabled;
         case PRESSED:
-            return pressed5;
+            return comboBoxBackgroundPressed;
+        }
+        return null;
+    }
+
+    public static TwoColors getRootPaneColors(ButtonType type) {
+        switch (type) {
+        case ACTIVE:
+            return rootPaneActive;
+        case INACTIVE:
+            return rootPaneInactive;
         }
         return null;
     }
@@ -287,6 +307,64 @@ public class ColorUtil {
     }
 
     /**
+     * Decodes and returns a base color in UI defaults.
+     * 
+     * @param key
+     *            A key corresponding to the value in the UI Defaults table of
+     *            UIManager where the base color is defined
+     * @return The base color.
+     */
+    private static final Color decodeColor(String key) {
+        return decodeColor(key, 0f, 0f, 0f, 0);
+    }
+
+    /**
+     * Decodes and returns a color, which is derived from a base color in UI
+     * defaults.
+     * 
+     * @param key
+     *            A key corresponding to the value in the UI Defaults table of
+     *            UIManager where the base color is defined
+     * @param hOffset
+     *            The hue offset used for derivation.
+     * @param sOffset
+     *            The saturation offset used for derivation.
+     * @param bOffset
+     *            The brightness offset used for derivation.
+     * @param aOffset
+     *            The alpha offset used for derivation. Between 0...255
+     * @return The derived color, whos color value will change if the parent
+     *         uiDefault color changes.
+     */
+    private static final Color decodeColor(String key, float hOffset, float sOffset, float bOffset, int aOffset) {
+        if (UIManager.getLookAndFeel() instanceof SeaGlassLookAndFeel) {
+            SeaGlassLookAndFeel laf = (SeaGlassLookAndFeel) UIManager.getLookAndFeel();
+            return laf.getDerivedColor(key, hOffset, sOffset, bOffset, aOffset, true);
+        } else {
+            // can not give a right answer as painter should not be used outside
+            // of nimbus laf but do the best we can
+            return Color.getHSBColor(hOffset, sOffset, bOffset);
+        }
+    }
+
+    /**
+     * Decodes and returns a color, which is derived from a offset between two
+     * other colors.
+     * 
+     * @param color1
+     *            The first color
+     * @param color2
+     *            The second color
+     * @param midPoint
+     *            The offset between color 1 and color 2, a value of 0.0 is
+     *            color 1 and 1.0 is color 2;
+     * @return The derived color
+     */
+    private static final Color decodeColor(Color color1, Color color2, float midPoint) {
+        return new Color(deriveARGB(color1, color2, midPoint));
+    }
+
+    /**
      * Derives the ARGB value for a color based on an offset between two other
      * colors.
      * 
@@ -305,6 +383,19 @@ public class ColorUtil {
         int b = color1.getBlue() + (int) ((color2.getBlue() - color1.getBlue()) * midPoint + 0.5f);
         int a = color1.getAlpha() + (int) ((color2.getAlpha() - color1.getAlpha()) * midPoint + 0.5f);
         return ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
+    }
+
+    /**
+     * Two color gradients.
+     */
+    public static class TwoColors {
+        public Color topColor;
+        public Color bottomColor;
+
+        public TwoColors(Color topColor, Color bottomColor) {
+            this.topColor = topColor;
+            this.bottomColor = bottomColor;
+        }
     }
 
     /**
