@@ -86,6 +86,8 @@ public class ColorUtil {
     private static Color              frameBorderInactive;
     private static Color              frameInnerHighlightInactive;
 
+    private static Color              desktopPaneColor;
+
     static {
         buttonEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true),
             new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
@@ -150,6 +152,8 @@ public class ColorUtil {
 
         frameBorderInactive = new Color(0x545454);
         frameInnerHighlightInactive = new Color(0x55ffffff, true);
+
+        desktopPaneColor = decodeColor("seaGlassDesktopPane");
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -325,6 +329,11 @@ public class ColorUtil {
     public static void fillRootPaneInteriorColors(Graphics2D g, Shape s, ButtonType type) {
         TwoColors colors = getRootPaneColors(type);
         fillTwoColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillDesktopPaneColors(Graphics2D g, Shape s) {
+        g.setColor(desktopPaneColor);
+        g.fill(s);
     }
 
     private static void fillTwoColorGradientVertical(Graphics2D g, Shape s, TwoColors colors) {
