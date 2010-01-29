@@ -63,6 +63,10 @@ public class ColorUtil {
     private static FourLayerColors    enabled4;
     private static FourLayerColors    pressed4;
 
+    private static FourLayerColors    disabled5;
+    private static FourLayerColors    enabled5;
+    private static FourLayerColors    pressed5;
+
     static {
         enabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true), new Color(
             0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
@@ -108,12 +112,19 @@ public class ColorUtil {
         pressedSelected3 = new TwoLayerFourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4),
             0.45f, 0.62f, new Color(0x4f7bbf), new Color(0x3f76bf));
 
+        disabled4 = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true), new Color(
+            0xffF7FCFF, true), 0.4f, new Color(0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF));
         enabled4 = new FourLayerColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true), new Color(
             0xffC0E8FF, true), 0.4f, new Color(0x276FB2), new Color(0x4F7BBF), new Color(0x3F76BF));
         pressed4 = new FourLayerColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true), new Color(
             0xffb4d9ee, true), 0.4f, new Color(0x134D8C), new Color(0x4F7BBF), new Color(0x3F76BF));
-        disabled4 = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true), new Color(
+
+        disabled5 = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true), new Color(
             0xffF7FCFF, true), 0.4f, new Color(0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF));
+        enabled5 = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true), new Color(
+            0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
+        pressed5 = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true), new Color(
+            0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -172,6 +183,18 @@ public class ColorUtil {
             return enabled4;
         case PRESSED:
             return pressed4;
+        }
+        return null;
+    }
+
+    public static FourLayerColors getFourLayerColors5(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return disabled5;
+        case ENABLED:
+            return enabled5;
+        case PRESSED:
+            return pressed5;
         }
         return null;
     }
