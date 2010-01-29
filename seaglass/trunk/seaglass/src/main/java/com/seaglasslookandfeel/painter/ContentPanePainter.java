@@ -19,13 +19,16 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
-import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.ColorUtil.TwoColors;
 
 /**
  * ContentPanePainter implementation.
@@ -35,43 +38,33 @@ public class ContentPanePainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED, BACKGROUND_ENABLED_WINDOWFOCUSED,
     };
 
-    private Color        activeTopColor      = decodeColor("seaGlassToolBarActiveTopT");
-    private Color        inactiveTopColor    = decodeColor("seaGlassToolBarInactiveTopT");
-
-    private Color        activeBottomColor   = decodeColor("seaGlassToolBarActiveBottomB");
-    private Color        inactiveBottomColor = decodeColor("seaGlassToolBarInactiveBottomB");
-
-    // Refers to one of the static final ints above
-    private Which        state;
     private PaintContext ctx;
+
+    private TwoColors    colors;
 
     public ContentPanePainter(Which state) {
         super();
-        this.state = state;
         this.ctx = new PaintContext(CacheMode.NO_CACHING);
+
+        colors = ColorUtil.getRootPaneColors(getButtonType(state));
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        switch (state) {
-        case BACKGROUND_ENABLED:
-            paintBackground(g, c, width, height, inactiveTopColor, inactiveBottomColor);
-            break;
-        case BACKGROUND_ENABLED_WINDOWFOCUSED:
-            paintBackground(g, c, width, height, activeTopColor, activeBottomColor);
-            break;
-        }
+        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
+        ColorUtil.paintTwoColorGradientVertical(g, s, colors.topColor, colors.bottomColor);
     }
 
     protected PaintContext getPaintContext() {
         return ctx;
     }
 
-    private void paintBackground(Graphics2D g, JComponent c, int width, int height, Color topColor, Color bottomColor) {
-        g.setPaint(decodeGradient(state, c, width, height, topColor, bottomColor));
-        g.fillRect(0, 0, width, height);
-    }
-
-    private GradientPaint decodeGradient(Which state, JComponent c, int width, int height, Color topColor, Color bottomColor) {
-        return new GradientPaint(0, 0, topColor, 0, height, bottomColor);
+    private ButtonType getButtonType(Which state) {
+        switch (state) {
+        case BACKGROUND_ENABLED:
+            return ButtonType.INACTIVE;
+        case BACKGROUND_ENABLED_WINDOWFOCUSED:
+            return ButtonType.ACTIVE;
+        }
+        return null;
     }
 }
