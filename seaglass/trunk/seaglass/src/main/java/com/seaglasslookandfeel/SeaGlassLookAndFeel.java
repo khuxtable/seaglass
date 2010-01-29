@@ -1111,6 +1111,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ProgressBar.progressPadding", new Integer(3));
         d.put("ProgressBar.trackThickness", new Integer(19));
         d.put("ProgressBar.tileWidth", new Integer(24));
+        d.put("ProgressBar.backgroundFillColor", Color.WHITE);
         d.put("ProgressBar[Enabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_ENABLED));
         d.put("ProgressBar[Disabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_DISABLED));
         d.put("ProgressBar[Enabled].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED));
