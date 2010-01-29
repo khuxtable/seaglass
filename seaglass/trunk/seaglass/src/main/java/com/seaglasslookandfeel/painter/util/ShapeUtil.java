@@ -449,42 +449,41 @@ public class ShapeUtil {
         return path;
     }
 
-    public static Shape createRoundedInternalShadow(int x, int y, int width, int height) {
-        double halfHeight = height / 2.0;
-
-        double top = y;
-        double left = x;
-        double right = left + width;
-
-        double midLine = top + halfHeight;
-
-        double leftCurve = left + halfHeight;
-        double rightCurve = right - halfHeight;
+    /**
+     * Return a path for a rounded internal drop shadow. This is used for
+     * progress bar tracks and search fields.
+     * 
+     * @param x
+     *            the X coordinate of the upper-left corner of the shadow
+     * @param y
+     *            the Y coordinate of the upper-left corner of the shadow
+     * @param w
+     *            the width of the shadow
+     * @param h
+     *            the height of the rectangle
+     * 
+     * @return a path representing the shadow.
+     */
+    public static Shape createInternalDropShadowRounded(final int x, final int y, final int w, final int h) {
+        final double radius = h / 2;
+        final int right = x + w;
+        final double bottom = y + radius;
 
         path.reset();
-        path.moveTo(left, midLine);
-        path.quadTo(left, top, leftCurve, top);
-        path.lineTo(rightCurve, top);
-        path.quadTo(right, top, right, midLine);
+
+        // Upper edge.
+        path.moveTo(x, bottom);
+        path.quadTo(x, y, x + radius, y);
+        path.lineTo(right - radius, y);
+        path.quadTo(right, y, right, bottom);
+
+        // Lower edge.
+        path.lineTo(right - 1, bottom);
+        path.quadTo(right - 2, y + 2, right - radius - 1, y + 2);
+        path.lineTo(x + radius + 1, y + 2);
+        path.quadTo(x + 2, y + 2, x + 1, bottom);
+
         path.closePath();
-        return path;
-    }
-
-    public static Shape createRoundedInternalDropShadowDark(int width, int height) {
-        path.reset();
-        path.moveTo(4, (height - 5) / 2 - 1);
-        path.quadTo(5, 3, 8, 3);
-        path.lineTo(width - 11, 3);
-        path.quadTo(width - 5, 3, width - 5, (height - 5) / 2 - 1);
-        return path;
-    }
-
-    public static Shape createRoundedInternalDropShadowLight(int width, int height) {
-        path.reset();
-        path.moveTo(4, (height - 5) / 2);
-        path.quadTo(5, 4, 8, 4);
-        path.lineTo(width - 11, 4);
-        path.quadTo(width - 5, 4, width - 5, (height - 5) / 2);
         return path;
     }
 

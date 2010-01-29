@@ -169,12 +169,9 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         g.setColor(colorInterior);
         g.fill(s);
 
-        s = ShapeUtil.createRoundedInternalDropShadowLight(width, height);
-        g.setColor(innerShadowColor2);
-        g.draw(s);
-        s = ShapeUtil.createRoundedInternalDropShadowDark(width, height);
-        g.setColor(innerShadowColor1);
-        g.draw(s);
+        s = ShapeUtil.createInternalDropShadowRounded(3, 3, width - 6, height - 8);
+        g.setPaint(decodeShadowGradient(s, innerShadowColor1, innerShadowColor2));
+        g.fill(s);
     }
 
     private void paintBar(Graphics2D g, int width, int height, boolean isFinished, Color color1, Color color2, Color color3, Color color4,
@@ -205,6 +202,15 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         int y1 = r.y;
         int y2 = r.y + r.height;
         return decodeGradient(x, y1, x, y2, new float[] { 0f, 1f }, new Color[] { color1, color2 });
+    }
+
+    private Paint decodeShadowGradient(Shape s, Color color1, Color color2) {
+        Rectangle r = s.getBounds();
+        int x = r.x + r.width / 2;
+        int y1 = r.y;
+        float frac = 1.0f / r.height;
+        int y2 = r.y + r.height;
+        return decodeGradient(x, y1, x, y2, new float[] { 0f, frac, 1f }, new Color[] { color1, color2, color2 });
     }
 
     private Paint decodeBarGradient(Shape s, Color color1, Color color2, Color color3, Color color4) {
