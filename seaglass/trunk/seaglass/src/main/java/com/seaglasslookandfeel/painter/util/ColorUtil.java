@@ -83,6 +83,9 @@ public class ColorUtil {
     private static TwoColors          rootPaneActive;
     private static TwoColors          rootPaneInactive;
 
+    private static Color              frameBorderInactive;
+    private static Color              frameInnerHighlightInactive;
+
     static {
         buttonEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true),
             new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
@@ -144,6 +147,9 @@ public class ColorUtil {
 
         rootPaneActive = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"), decodeColor("seaGlassToolBarActiveBottomB"));
         rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"), decodeColor("seaGlassToolBarInactiveBottomB"));
+
+        frameBorderInactive = new Color(0x545454);
+        frameInnerHighlightInactive = new Color(0x55ffffff, true);
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -228,6 +234,14 @@ public class ColorUtil {
         return null;
     }
 
+    public static Color getFrameBorderColor(ButtonType type) {
+        return frameBorderInactive;
+    }
+
+    public static Color getFrameInnerHighlightColor(ButtonType type) {
+        return frameInnerHighlightInactive;
+    }
+
     public static void drawFocus(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
         if (focusType == FocusType.OUTER_FOCUS) {
             g.setColor(useToolBarFocus ? outerToolBarFocusColor : outerFocusColor);
@@ -243,6 +257,12 @@ public class ColorUtil {
         } else {
             g.setColor(useToolBarFocus ? innerToolBarFocusColor : innerFocusColor);
         }
+        g.fill(s);
+    }
+
+    public static void fillFrameBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getFrameBorderColor(type);
+        g.setPaint(color);
         g.fill(s);
     }
 
@@ -269,6 +289,12 @@ public class ColorUtil {
     public static void fillComboBoxBackgroundBorderColors(Graphics2D g, Shape s, ButtonType type) {
         TwoColors colors = getComboBoxBackgroundColors(type).background;
         fillTwoColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillFrameInnerHighlightColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getFrameInnerHighlightColor(type);
+        g.setPaint(color);
+        g.fill(s);
     }
 
     public static void fillButtonInteriorColors(Graphics2D g, Shape s, ButtonType type, boolean isTextured) {
@@ -312,11 +338,6 @@ public class ColorUtil {
         g.setPaint(createTwoColorGradientWithMidpointVertical(s, colors.lowerShine));
         g.fill(s);
         g.setPaint(createTwoColorGradientVertical(s, colors.upperShine));
-        g.fill(s);
-    }
-
-    private static void fillTwoLayerFourColorGradientVertical(Graphics2D g, Shape s, TwoLayerFourColors colors) {
-        g.setPaint(createGradientFourColor(s, colors.interior));
         g.fill(s);
     }
 
