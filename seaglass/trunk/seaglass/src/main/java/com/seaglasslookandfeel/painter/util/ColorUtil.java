@@ -271,7 +271,7 @@ public class ColorUtil {
         float y = (float) bounds.getY();
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] {
+        return createGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] {
             colors.topColor,
             colors.bottomColor });
     }
@@ -283,7 +283,7 @@ public class ColorUtil {
         float y = (float) bounds.getY();
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, colors.midpoint, 1f }, new Color[] {
+        return createGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, colors.midpoint, 1f }, new Color[] {
             colors.topColor,
             midColor,
             colors.bottomColor });
@@ -295,7 +295,7 @@ public class ColorUtil {
         float y = (float) bounds.getY();
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, colors.upperMidpoint, colors.lowerMidpoint, 1f },
+        return createGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, colors.upperMidpoint, colors.lowerMidpoint, 1f },
             new Color[] { colors.topColor, colors.upperMidColor, colors.lowerMidColor, colors.bottomColor });
     }
 
@@ -314,7 +314,7 @@ public class ColorUtil {
      * @param colors
      * @return a valid LinearGradientPaint. This method never returns null.
      */
-    private static final LinearGradientPaint decodeGradient(float x1, float y1, float x2, float y2, float[] midpoints, Color[] colors) {
+    private static final LinearGradientPaint createGradient(float x1, float y1, float x2, float y2, float[] midpoints, Color[] colors) {
         if (x1 == x2 && y1 == y2) {
             y2 += .00001f;
         }
