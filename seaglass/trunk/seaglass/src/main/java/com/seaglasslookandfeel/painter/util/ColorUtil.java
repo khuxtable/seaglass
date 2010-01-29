@@ -83,8 +83,13 @@ public class ColorUtil {
     private static TwoColors          rootPaneActive;
     private static TwoColors          rootPaneInactive;
 
+    private static Color              frameBorderActive;
     private static Color              frameBorderInactive;
     private static Color              frameInnerHighlightInactive;
+    private static Color              frameInnerHighlightActive;
+
+    private static FrameColors        frameActive;
+    private static FrameColors        frameInactive;
 
     private static Color              desktopPaneColor;
 
@@ -150,8 +155,14 @@ public class ColorUtil {
         rootPaneActive = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"), decodeColor("seaGlassToolBarActiveBottomB"));
         rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"), decodeColor("seaGlassToolBarInactiveBottomB"));
 
+        frameBorderActive = new Color(0x545454);
         frameBorderInactive = new Color(0x545454);
+
         frameInnerHighlightInactive = new Color(0x55ffffff, true);
+        frameInnerHighlightActive = new Color(0x55ffffff, true);
+
+        frameActive = new FrameColors(new Color(0xafbecf), new Color(0x96adc4), new Color(0x96adc4), new Color(0x8ea7c0));
+        frameInactive = new FrameColors(new Color(0xededed), new Color(0xe0e0e0), new Color(0xe0e0e0), new Color(0xd3d3d3));
 
         desktopPaneColor = decodeColor("seaGlassDesktopPane");
     }
@@ -238,12 +249,34 @@ public class ColorUtil {
         return null;
     }
 
-    public static Color getFrameBorderColor(ButtonType type) {
-        return frameBorderInactive;
+    public static Color getFrameBorderColors(ButtonType type) {
+        switch (type) {
+        case INACTIVE:
+            return frameBorderInactive;
+        case ACTIVE:
+            return frameBorderActive;
+        }
+        return null;
     }
 
-    public static Color getFrameInnerHighlightColor(ButtonType type) {
-        return frameInnerHighlightInactive;
+    public static Color getFrameInnerHighlightColors(ButtonType type) {
+        switch (type) {
+        case INACTIVE:
+            return frameInnerHighlightInactive;
+        case ACTIVE:
+            return frameInnerHighlightActive;
+        }
+        return null;
+    }
+
+    public static FrameColors getFrameColors(ButtonType type) {
+        switch (type) {
+        case INACTIVE:
+            return frameInactive;
+        case ACTIVE:
+            return frameActive;
+        }
+        return null;
     }
 
     public static void drawFocus(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
@@ -264,8 +297,14 @@ public class ColorUtil {
         g.fill(s);
     }
 
+    public static void drawFrameBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getFrameBorderColors(type);
+        g.setPaint(color);
+        g.draw(s);
+    }
+
     public static void fillFrameBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getFrameBorderColor(type);
+        Color color = getFrameBorderColors(type);
         g.setPaint(color);
         g.fill(s);
     }
@@ -295,9 +334,23 @@ public class ColorUtil {
         fillTwoColorGradientVertical(g, s, colors);
     }
 
-    public static void fillFrameInnerHighlightColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getFrameInnerHighlightColor(type);
+    public static void drawFrameInnerHighlightColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getFrameInnerHighlightColors(type);
         g.setPaint(color);
+        g.draw(s);
+    }
+
+    public static void fillFrameInnerHighlightColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getFrameInnerHighlightColors(type);
+        g.setPaint(color);
+        g.fill(s);
+    }
+
+    public static void fillFrameInteriorColors(Graphics2D g, Shape s, ButtonType type, int titleHeight, int topToolBarHeight,
+        int bottomToolBarHeight) {
+        FrameColors colors = getFrameColors(type);
+        g.setPaint(createFrameGradient(s, titleHeight, topToolBarHeight, bottomToolBarHeight, colors.topColorT, colors.topColorB,
+            colors.bottomColorT, colors.bottomColorB));
         g.fill(s);
     }
 
@@ -387,6 +440,58 @@ public class ColorUtil {
         float h = (float) bounds.getHeight();
         return createGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, colors.upperMidpoint, colors.lowerMidpoint, 1f },
             new Color[] { colors.topColor, colors.upperMidColor, colors.lowerMidColor, colors.bottomColor });
+    }
+
+    private static Paint createFrameGradient(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight, Color topColorT,
+        Color topColorB, Color bottomColorT, Color bottomColorB) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+
+        float midX = x + w / 2.0f;
+        float titleBottom = titleHeight / h;
+        if (titleBottom >= 1.0f) {
+            titleBottom = 1.0f - 0.00004f;
+        }
+
+        float[] midPoints = null;
+        Color[] colors = null;
+        if (topToolBarHeight > 0 && bottomToolBarHeight > 0) {
+            float topToolBarBottom = (titleHeight + topToolBarHeight) / h;
+            if (topToolBarBottom >= 1.0f) {
+                topToolBarBottom = 1.0f - 0.00002f;
+            }
+            float bottomToolBarTop = (h - 2 - bottomToolBarHeight) / h;
+            if (bottomToolBarTop >= 1.0f) {
+                bottomToolBarTop = 1.0f - 0.00002f;
+            }
+
+            midPoints = new float[] { 0.0f, topToolBarBottom, bottomToolBarTop, 1.0f };
+            colors = new Color[] { topColorT, topColorB, bottomColorT, bottomColorB };
+        } else if (topToolBarHeight > 0) {
+            float toolBarBottom = (titleHeight + topToolBarHeight) / h;
+            if (toolBarBottom >= 1.0f) {
+                toolBarBottom = 1.0f - 0.00002f;
+            }
+
+            midPoints = new float[] { 0.0f, toolBarBottom, 1.0f };
+            colors = new Color[] { topColorT, topColorB, bottomColorT };
+        } else if (bottomToolBarHeight > 0) {
+            float bottomToolBarTop = (h - 2 - bottomToolBarHeight) / h;
+            if (bottomToolBarTop >= 1.0f) {
+                bottomToolBarTop = 1.0f - 0.00002f;
+            }
+
+            midPoints = new float[] { 0.0f, titleBottom, bottomToolBarTop, 1.0f };
+            colors = new Color[] { topColorT, topColorB, bottomColorT, bottomColorB };
+        } else {
+            midPoints = new float[] { 0.0f, titleBottom, 1.0f };
+            colors = new Color[] { topColorT, topColorB, topColorB };
+        }
+
+        return createGradient(midX, y, x + midX, y + h, midPoints, colors);
     }
 
     /**
@@ -549,6 +654,24 @@ public class ColorUtil {
             float innerLowerMidpoint, Color backgroundTop, Color backgroundBottom) {
             this.interior = new FourColors(innerTop, innerUpperMid, innerLowerMid, innerBottom, innerUpperMidpoint, innerLowerMidpoint);
             this.background = new TwoColors(backgroundTop, backgroundBottom);
+        }
+    }
+
+    /**
+     * A set of colors to use for the button.
+     */
+    public static class FrameColors {
+
+        public Color topColorT;
+        public Color topColorB;
+        public Color bottomColorT;
+        public Color bottomColorB;
+
+        public FrameColors(Color topColorT, Color topColorB, Color bottomColorT, Color bottomColorB) {
+            this.topColorT = topColorT;
+            this.topColorB = topColorB;
+            this.bottomColorT = bottomColorT;
+            this.bottomColorB = bottomColorB;
         }
     }
 }

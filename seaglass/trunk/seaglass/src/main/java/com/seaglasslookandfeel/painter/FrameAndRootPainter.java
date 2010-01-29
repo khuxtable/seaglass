@@ -19,12 +19,9 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
@@ -32,7 +29,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JRootPane;
 import javax.swing.JToolBar;
 
+import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.state.ToolBarNorthState;
@@ -46,56 +45,43 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED, BACKGROUND_ENABLED_WINDOWFOCUSED, BACKGROUND_ENABLED_NOFRAME
     };
 
-    private static final int      TITLE_BAR_HEIGHT      = 25;
+    private static final int   TITLE_BAR_HEIGHT  = 25;
 
-    private static final ColorSet active                = new ColorSet(new Color(0xafbecf), new Color(0x96adc4), new Color(0x96adc4),
-                                                            new Color(0x8ea7c0));
-    private static final ColorSet inactive              = new ColorSet(new Color(0xededed), new Color(0xe0e0e0), new Color(0xe0e0e0),
-                                                            new Color(0xd3d3d3));
+    private static final State toolBarNorthState = new ToolBarNorthState();
+    private static final State toolBarSouthState = new ToolBarSouthState();
 
-    private static final Color    borderColor           = new Color(0x545454);
-
-    private static final Color    INNER_HIGHLIGHT_COLOR = new Color(0x55ffffff, true);
-
-    private static final State    toolBarNorthState     = new ToolBarNorthState();
-    private static final State    toolBarSouthState     = new ToolBarSouthState();
-
-    private Which                 state;
-    private PaintContext          ctx;
+    private PaintContext       ctx;
+    private ButtonType         type;
 
     public FrameAndRootPainter(Which state) {
         super();
-        this.state = state;
         this.ctx = new PaintContext(PaintContext.CacheMode.FIXED_SIZES);
+        type = getButtonType(state);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        switch (state) {
-        case BACKGROUND_ENABLED:
-            paintBackgroundEnabled(g, c, width, height);
-            break;
-        case BACKGROUND_ENABLED_WINDOWFOCUSED:
-            paintBackgroundEnabledAndWindowFocused(g, c, width, height);
-            break;
-        }
+        paintFrame(g, c, width, height);
     }
 
     protected final PaintContext getPaintContext() {
         return ctx;
     }
 
-    private void paintBackgroundEnabled(Graphics2D g, JComponent c, int width, int height) {
-        paintFrame(g, c, width, height, inactive);
+    private ButtonType getButtonType(Which state) {
+        switch (state) {
+        case BACKGROUND_ENABLED:
+            return ButtonType.INACTIVE;
+        case BACKGROUND_ENABLED_WINDOWFOCUSED:
+            return ButtonType.ACTIVE;
+        }
+        return null;
     }
 
-    private void paintBackgroundEnabledAndWindowFocused(Graphics2D g, JComponent c, int width, int height) {
-        paintFrame(g, c, width, height, active);
-    }
-
-    private void paintFrame(Graphics2D g, JComponent c, int width, int height, ColorSet colors) {
-        Shape s = decodePath(CornerSize.INNER_FOCUS, 0, 0, width - 1, height - 1);
-        g.setColor(borderColor);
-        g.draw(s);
+    private void paintFrame(Graphics2D g, JComponent c, int width, int height) {
+        Shape s = ShapeUtil.createRoundRectangle(0, 0, (width - 1), (height - 1), CornerSize.FRAME_BORDER);
+        if (type != null) {
+            ColorUtil.drawFrameBorderColors(g, s, type);
+        }
 
         JMenuBar mb = null;
         Component[] cArray = null;
@@ -128,87 +114,10 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
             titleHeight += mb.getHeight();
         }
 
-        s = decodePath(CornerSize.BORDER, 1, 1, width - 2, height - 2);
-        g.setPaint(decodeGradient(s, titleHeight, topToolBarHeight, bottomToolBarHeight, colors.topColorT, colors.topColorB,
-            colors.bottomColorT, colors.bottomColorB));
-        g.fill(s);
+        s = ShapeUtil.createRoundRectangle(1, 1, (width - 2), (height - 2), CornerSize.FRAME_INNER_HIGHLIGHT);
+        ColorUtil.fillFrameInteriorColors(g, s, type, titleHeight, topToolBarHeight, bottomToolBarHeight);
 
-        s = decodePath(CornerSize.INTERIOR, 1, 1, width - 3, height - 3);
-        g.setPaint(INNER_HIGHLIGHT_COLOR);
-        g.draw(s);
-    }
-
-    private Shape decodePath(CornerSize size, int x, int y, int width, int height) {
-        return ShapeUtil.createRoundRectangle(x, y, width, height, size);
-    }
-
-    private Paint decodeGradient(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight, Color topColorT, Color topColorB,
-        Color bottomColorT, Color bottomColorB) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-
-        float midX = x + w / 2.0f;
-        float titleBottom = titleHeight / h;
-        if (titleBottom >= 1.0f) {
-            titleBottom = 1.0f - 0.00004f;
-        }
-
-        float[] midPoints = null;
-        Color[] colors = null;
-        if (topToolBarHeight > 0 && bottomToolBarHeight > 0) {
-            float topToolBarBottom = (titleHeight + topToolBarHeight) / h;
-            if (topToolBarBottom >= 1.0f) {
-                topToolBarBottom = 1.0f - 0.00002f;
-            }
-            float bottomToolBarTop = (h - 2 - bottomToolBarHeight) / h;
-            if (bottomToolBarTop >= 1.0f) {
-                bottomToolBarTop = 1.0f - 0.00002f;
-            }
-
-            midPoints = new float[] { 0.0f, topToolBarBottom, bottomToolBarTop, 1.0f };
-            colors = new Color[] { topColorT, topColorB, bottomColorT, bottomColorB };
-        } else if (topToolBarHeight > 0) {
-            float toolBarBottom = (titleHeight + topToolBarHeight) / h;
-            if (toolBarBottom >= 1.0f) {
-                toolBarBottom = 1.0f - 0.00002f;
-            }
-
-            midPoints = new float[] { 0.0f, toolBarBottom, 1.0f };
-            colors = new Color[] { topColorT, topColorB, bottomColorT };
-        } else if (bottomToolBarHeight > 0) {
-            float bottomToolBarTop = (h - 2 - bottomToolBarHeight) / h;
-            if (bottomToolBarTop >= 1.0f) {
-                bottomToolBarTop = 1.0f - 0.00002f;
-            }
-
-            midPoints = new float[] { 0.0f, titleBottom, bottomToolBarTop, 1.0f };
-            colors = new Color[] { topColorT, topColorB, bottomColorT, bottomColorB };
-        } else {
-            midPoints = new float[] { 0.0f, titleBottom, 1.0f };
-            colors = new Color[] { topColorT, topColorB, topColorB };
-        }
-
-        return decodeGradient(midX, y, x + midX, y + h, midPoints, colors);
-    }
-
-    /**
-     * A set of colors to use for the button.
-     */
-    public static class ColorSet {
-
-        public Color topColorT;
-        public Color topColorB;
-        public Color bottomColorT;
-        public Color bottomColorB;
-
-        public ColorSet(Color topColorT, Color topColorB, Color bottomColorT, Color bottomColorB) {
-            this.topColorT = topColorT;
-            this.topColorB = topColorB;
-            this.bottomColorT = bottomColorT;
-            this.bottomColorB = bottomColorB;
-        }
+        s = ShapeUtil.createRoundRectangle(1, 1, (width - 3), (height - 3), CornerSize.FRAME_INTERIOR);
+        ColorUtil.drawFrameInnerHighlightColors(g, s, type);
     }
 }
