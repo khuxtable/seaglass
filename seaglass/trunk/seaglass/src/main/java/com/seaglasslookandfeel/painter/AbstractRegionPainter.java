@@ -236,7 +236,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      * 
      * @param color1
      *            The first color
-     * @param color2
+     * @param upperMidColor
      *            The second color
      * @param midPoint
      *            The offset between color 1 and color 2, a value of 0.0 is
@@ -253,7 +253,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      * 
      * @param color1
      *            The first color
-     * @param color2
+     * @param upperMidColor
      *            The second color
      * @param midPoint
      *            The offset between color 1 and color 2, a value of 0.0 is

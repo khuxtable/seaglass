@@ -143,10 +143,10 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = createButtonPath(CornerSize.BORDER, 0, 2, width - 2, height - 4);
-        ColorUtil.paintTwoColorGradientVertical(g, s, colors.background.topColor, colors.background.bottomColor);
+        ColorUtil.fillTwoColorGradientVertical(g, s, colors.background);
 
         s = createButtonPath(CornerSize.INTERIOR, 1, 3, width - 4, height - 6);
-        ColorUtil.paintThreeLayerGradientVertical(g, s, colors);
+        ColorUtil.fillThreeLayerGradientVertical(g, s, colors);
     }
 
     private void paintArrowsEnabled(Graphics2D g, JComponent c, int width, int height) {

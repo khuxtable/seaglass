@@ -94,10 +94,10 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             if (!focused) {
                 dropShadow.fill(g, s);
             }
-            ColorUtil.paintTwoColorGradientVertical(g, s, colors.background.topColor, colors.background.bottomColor);
+            ColorUtil.fillTwoColorGradientVertical(g, s, colors.background);
 
             s = createInterior(segmentStatus, x, y, width, height);
-            ColorUtil.paintThreeLayerGradientVertical(g, s, colors);
+            ColorUtil.fillThreeLayerGradientVertical(g, s, colors);
         }
     }
 

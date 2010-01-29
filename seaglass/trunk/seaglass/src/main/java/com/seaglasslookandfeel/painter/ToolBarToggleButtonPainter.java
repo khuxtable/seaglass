@@ -103,7 +103,7 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
      * 
      * @param s
      * @param color1
-     * @param color2
+     * @param upperMidColor
      * @return
      */
     Paint decodeGradient(Shape s, Color endColor, Color middleColor) {

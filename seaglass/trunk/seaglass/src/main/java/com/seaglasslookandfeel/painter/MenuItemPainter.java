@@ -80,7 +80,7 @@ public class MenuItemPainter extends AbstractRegionPainter {
      * 
      * @param s
      * @param color1
-     * @param color2
+     * @param upperMidColor
      * @return
      */
     protected Paint decodeGradientBackground(Shape s, Color color1, Color color2) {

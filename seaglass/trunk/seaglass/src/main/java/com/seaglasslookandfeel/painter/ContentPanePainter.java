@@ -51,7 +51,7 @@ public class ContentPanePainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        ColorUtil.paintTwoColorGradientVertical(g, s, colors.topColor, colors.bottomColor);
+        ColorUtil.fillTwoColorGradientVertical(g, s, colors);
     }
 
     protected PaintContext getPaintContext() {
