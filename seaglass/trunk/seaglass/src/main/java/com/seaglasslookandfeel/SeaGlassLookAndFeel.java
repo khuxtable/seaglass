@@ -1591,33 +1591,21 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         if ((!PlatformUtils.isMac())) {
             d.put("seaGlassToolBarActiveTopT", new Color(0x466c97));
-            d.put("seaGlassToolBarActiveTopB", new Color(0x466c97));
-            d.put("seaGlassToolBarInactiveTopT", new Color(0xe9e9e9));
-            d.put("seaGlassToolBarInactiveTopB", new Color(0xe0e0e0));
-
-            d.put("seaGlassToolBarActiveBottomT", new Color(0x5f80a5));
             d.put("seaGlassToolBarActiveBottomB", new Color(0x466c97));
-            d.put("seaGlassToolBarInactiveBottomT", new Color(0xcfcfcf));
+
+            d.put("seaGlassToolBarInactiveTopT", new Color(0xe9e9e9));
             d.put("seaGlassToolBarInactiveBottomB", new Color(0xcacaca));
         } else if (PlatformUtils.isSnowLeopard()) {
             d.put("seaGlassToolBarActiveTopT", new Color(0xc9c9c9));
-            d.put("seaGlassToolBarActiveTopB", new Color(0xb7b7b7));
-            d.put("seaGlassToolBarInactiveTopT", new Color(0xe9e9e9));
-            d.put("seaGlassToolBarInactiveTopB", new Color(0xe0e0e0));
+            d.put("seaGlassToolBarActiveBottomB", new Color(0xa7a7a7));
 
-            d.put("seaGlassToolBarActiveBottomT", new Color(0x999999));
-            d.put("seaGlassToolBarActiveBottomB", new Color(0x909090));
-            d.put("seaGlassToolBarInactiveBottomT", new Color(0xcfcfcf));
+            d.put("seaGlassToolBarInactiveTopT", new Color(0xe9e9e9));
             d.put("seaGlassToolBarInactiveBottomB", new Color(0xcacaca));
         } else {
             d.put("seaGlassToolBarActiveTopT", new Color(0xbcbcbc));
-            d.put("seaGlassToolBarActiveTopB", new Color(0x9a9a9a));
-            d.put("seaGlassToolBarInactiveTopT", new Color(0xe4e4e4));
-            d.put("seaGlassToolBarInactiveTopB", new Color(0xd1d1d1));
-
-            d.put("seaGlassToolBarActiveBottomT", new Color(0xcccccc));
             d.put("seaGlassToolBarActiveBottomB", new Color(0xa7a7a7));
-            d.put("seaGlassToolBarInactiveBottomT", new Color(0xe9e9e9));
+
+            d.put("seaGlassToolBarInactiveTopT", new Color(0xe4e4e4));
             d.put("seaGlassToolBarInactiveBottomB", new Color(0xd8d8d8));
         }
 
