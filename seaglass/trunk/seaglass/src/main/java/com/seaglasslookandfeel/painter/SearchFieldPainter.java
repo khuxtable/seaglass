@@ -22,8 +22,8 @@ package com.seaglasslookandfeel.painter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -45,18 +45,17 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
         BORDER_ENABLED,
     }
 
+    private Color        innerShadowColor1      = new Color(0x20000000, true);
+    private Color        innerShadowColor2      = new Color(0x10000000, true);
+
     private Color        outerFocusColor        = decodeColor("seaGlassOuterFocus");
     private Color        innerFocusColor        = decodeColor("seaGlassFocus");
     private Color        outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
     private Color        innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
 
-    private Color        TRANSPARENT_COLOR      = new Color(0, 0, 0, 0);
-    // private Color LIGHT_SHADOW_COLOR = new Color(0, 0, 0, 0x0a);
-    private Color        DARK_SHADOW_COLOR      = new Color(0, 0, 0, 0x1e);
-
-    private Color        DISABLED_BORDER        = new Color(0xdddddd);
-    private Color        ENABLED_BORDER         = new Color(0xbbbbbb);
-    private Color        ENABLED_TOOLBAR_BORDER = new Color(0x888888);
+    private Color        disabledBorder         = new Color(0xdddddd);
+    private Color        enabledBorder          = new Color(0xbbbbbb);
+    private Color        enabledToolbarBorder   = new Color(0x888888);
 
     private Which        state;
     private PaintContext ctx;
@@ -147,7 +146,7 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
     }
 
     private void paintBorderDisabled(Graphics2D g, JComponent c, int x, int y, int width, int height) {
-        g.setColor(DISABLED_BORDER);
+        g.setColor(disabledBorder);
         Shape s = ShapeUtil.createRoundRectangle(x, y, width - 1, height - 1, CornerSize.ROUND_HEIGHT_DRAW);
         g.draw(s);
     }
@@ -164,33 +163,22 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
             s = ShapeUtil.createRoundRectangle(x - 1, y - 1, width + 2 - 1, height + 2 - 1, CornerSize.ROUND_HEIGHT_DRAW);
             g.draw(s);
         }
-        paintInternalDropShadow(g, x, y, width, height);
 
-        g.setColor(!focused && useToolBarColors ? ENABLED_TOOLBAR_BORDER : ENABLED_BORDER);
+        s = ShapeUtil.createInternalDropShadowRounded(x + 1, y + 1, width - 2, height - 2);
+        g.setPaint(decodeShadowGradient(s, innerShadowColor1, innerShadowColor2));
+        g.fill(s);
+
+        g.setColor(!focused && useToolBarColors ? enabledToolbarBorder : enabledBorder);
         s = ShapeUtil.createRoundRectangle(x, y, width - 1, height - 1, CornerSize.ROUND_HEIGHT_DRAW);
         g.draw(s);
     }
 
-    private void paintInternalDropShadow(Graphics2D g, int x, int y, int width, int height) {
-        paintInnerShadow(g, x, y, width, height);
-    }
-
-    private void paintInnerShadow(Graphics2D g, int x, int y, int width, int height) {
-        Shape s = ShapeUtil.createRoundRectangle(x + 1, y + 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
-        g.setPaint(decodeGradientRoundedTopShadow(s));
-        s = ShapeUtil.createRoundedInternalShadow(x, y, width, height);
-        g.fill(s);
-    }
-
-    private Paint decodeGradientRoundedTopShadow(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minY = (float) bounds.getMinY();
-        float maxY = (float) bounds.getMaxY();
-        float midX = (float) bounds.getCenterX();
-        float lowY = (float) (2.0 / bounds.getHeight());
-        return decodeGradient(midX, minY, midX, maxY, new float[] { 0f, lowY, 1f }, new Color[] {
-            DARK_SHADOW_COLOR,
-            TRANSPARENT_COLOR,
-            TRANSPARENT_COLOR });
+    private Paint decodeShadowGradient(Shape s, Color color1, Color color2) {
+        Rectangle r = s.getBounds();
+        int x = r.x + r.width / 2;
+        int y1 = r.y;
+        float frac = 1.0f / r.height;
+        int y2 = r.y + r.height;
+        return decodeGradient(x, y1, x, y2, new float[] { 0f, frac, 1f }, new Color[] { color1, color2, color2 });
     }
 }
