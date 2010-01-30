@@ -555,6 +555,11 @@ public class ColorUtil {
         g.fill(s);
     }
 
+    public static void fillInternalShadow(Graphics2D g, Shape s) {
+        g.setPaint(createTwoColorGradientVertical(s, innerShadow));
+        g.fill(s);
+    }
+
     public static void fillInternalShadowRounded(Graphics2D g, Shape s) {
         g.setPaint(createShadowGradient(s, innerShadow));
         g.fill(s);
