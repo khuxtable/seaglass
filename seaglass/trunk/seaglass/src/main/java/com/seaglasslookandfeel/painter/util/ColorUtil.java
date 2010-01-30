@@ -75,6 +75,9 @@ public class ColorUtil {
     private static TwoLayerFourColors checkBoxSelected;
     private static TwoLayerFourColors checkBoxPressedSelected;
 
+    private static TwoColors          checkBoxBulletEnabled;
+    private static TwoColors          checkBoxbulletDisabled;
+
     private static FourLayerColors    comboBoxButtonDisabled;
     private static FourLayerColors    comboBoxButtonEnabled;
     private static FourLayerColors    comboBoxButtonPressed;
@@ -154,23 +157,26 @@ public class ColorUtil {
         texturedButtonDisabledSelected = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
             new Color(0, true), 0.5f, new Color(0xaaaaaa), new Color(0x555555), new Color(0x4c4c4c));
 
-        scrollBarThumbDisabled = new TwoLayerFourColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8,
-            true), new Color(0x80f5fafd, true), 0.45f, 0.62f, new Color(0x6088ade0, true), new Color(0x605785bf, true));
-        scrollBarThumbEnabled = new TwoLayerFourColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd),
-            0.45f, 0.62f, new Color(0x88ade0), new Color(0x5785bf));
-        scrollBarThumbPressed = new TwoLayerFourColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc), new Color(0xbbcedf),
-            0.45f, 0.62f, new Color(0x4076bf), new Color(0x4f7bbf));
-
-        checkBoxDisabled = scrollBarThumbDisabled;
-        checkBoxEnabled = scrollBarThumbEnabled;
+        checkBoxDisabled = new TwoLayerFourColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8, true),
+            new Color(0x80f5fafd, true), 0.45f, 0.62f, new Color(0x6088ade0, true), new Color(0x605785bf, true));
+        checkBoxEnabled = new TwoLayerFourColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd), 0.45f,
+            0.62f, new Color(0x88ade0), new Color(0x5785bf));
         checkBoxPressed = new TwoLayerFourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4), 0.45f,
             0.62f, new Color(0x4f7bbf), new Color(0x3f76bf));
-
         checkBoxSelected = new TwoLayerFourColors(new Color(0xbccedf), new Color(0x7fa7cd), new Color(0x82b0d6), new Color(0xb0daf6),
             0.45f, 0.62f, new Color(0x4f7bbf), new Color(0x3f76bf));
-
         checkBoxPressedSelected = new TwoLayerFourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba),
             new Color(0xa4cbe4), 0.45f, 0.62f, new Color(0x4f7bbf), new Color(0x3f76bf));
+
+        scrollBarThumbDisabled = checkBoxDisabled;
+        scrollBarThumbEnabled = checkBoxEnabled;
+        scrollBarThumbPressed = checkBoxSelected;
+        // scrollBarThumbPressed = new TwoLayerFourColors(new Color(0xb1dbf5),
+        // new Color(0x7ca7ce), new Color(0x7ea7cc), new Color(0xbbcedf),
+        // 0.45f, 0.62f, new Color(0x4076bf), new Color(0x4f7bbf));
+
+        checkBoxBulletEnabled = new TwoColors(new Color(0x333333), new Color(0x000000));
+        checkBoxbulletDisabled = new TwoColors(new Color(0x80333333, true), new Color(0x80000000, true));
 
         comboBoxButtonDisabled = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
             new Color(0xffF7FCFF, true), 0.4f, new Color(0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF));
@@ -179,8 +185,7 @@ public class ColorUtil {
         comboBoxButtonPressed = new FourLayerColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
             new Color(0xffb4d9ee, true), 0.4f, new Color(0x134D8C), new Color(0x4F7BBF), new Color(0x3F76BF));
 
-        comboBoxBackgroundDisabled = new FourLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC,
-            true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xeeeeee), new Color(0x8AAFE0), new Color(0x5785BF));
+        comboBoxBackgroundDisabled = comboBoxButtonDisabled;
         comboBoxBackgroundEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff,
             true), new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
         comboBoxBackgroundPressed = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff,
@@ -275,6 +280,20 @@ public class ColorUtil {
             return checkBoxSelected;
         case PRESSED_SELECTED:
             return checkBoxPressedSelected;
+        }
+        return null;
+    }
+
+    public static TwoColors getCheckBoxBulletColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+        case DISABLED_SELECTED:
+            return checkBoxbulletDisabled;
+        case ENABLED:
+        case PRESSED:
+        case SELECTED:
+        case PRESSED_SELECTED:
+            return checkBoxBulletEnabled;
         }
         return null;
     }
@@ -469,6 +488,11 @@ public class ColorUtil {
         fillTwoColorGradientVertical(g, s, colors);
     }
 
+    public static void fillRadioButtonBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getCheckBoxColors(type).background;
+        fillTwoColorGradientVertical(g, s, colors);
+    }
+
     public static void fillComboBoxButtonBorderColors(Graphics2D g, Shape s, ButtonType type) {
         TwoColors colors = getComboBoxButtonColors(type).background;
         fillTwoColorGradientVertical(g, s, colors);
@@ -536,6 +560,22 @@ public class ColorUtil {
     public static void fillCheckBoxInteriorColors(Graphics2D g, Shape s, ButtonType type) {
         FourColors colors = getCheckBoxColors(type).interior;
         fillFourColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillRadioButtonInteriorColors(Graphics2D g, Shape s, ButtonType type) {
+        FourColors colors = getCheckBoxColors(type).interior;
+        fillFourColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillRadioButtonBulletColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getCheckBoxBulletColors(type);
+        fillTwoColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillCheckBoxBulletColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getCheckBoxBulletColors(type);
+        g.setPaint(createCheckMarkGradient(s, colors));
+        g.fill(s);
     }
 
     public static void fillComboBoxButtonInteriorColors(Graphics2D g, Shape s, ButtonType type) {
@@ -699,6 +739,15 @@ public class ColorUtil {
             colors.topColor,
             colors.bottomColor,
             colors.bottomColor });
+    }
+
+    private static Paint createCheckMarkGradient(Shape s, TwoColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return createGradient(x + w, y, (0.3f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { colors.topColor, colors.bottomColor });
     }
 
     /**
