@@ -28,7 +28,9 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -47,20 +49,15 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
     private Which        state;
     private PaintContext ctx;
 
-    private Color        bgOuter                = new Color(0xd9d9d9);
-    private Color        bgEnabled              = decodeColor("control", 0f, 0f, 0f, 0);
+    private Color        bgOuter   = new Color(0xd9d9d9);
+    private Color        bgEnabled = decodeColor("control", 0f, 0f, 0f, 0);
 
-    private Color        outerFocusColor        = decodeColor("seaGlassOuterFocus");
-    private Color        innerFocusColor        = decodeColor("seaGlassFocus");
-    private Color        outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
-    private Color        innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
+    private Color        fgBorder1 = new Color(0x88ade0);
+    private Color        fgBorder2 = new Color(0x5785bf);
 
-    private Color        fgBorder1              = new Color(0x88ade0);
-    private Color        fgBorder2              = new Color(0x5785bf);
-
-    private Color        fgInside1              = new Color(0xfbfdfe);
-    private Color        fgInside2              = new Color(0xd2e8f8);
-    private Color        fgInside3              = new Color(0xf5fafd);
+    private Color        fgInside1 = new Color(0xfbfdfe);
+    private Color        fgInside2 = new Color(0xd2e8f8);
+    private Color        fgInside3 = new Color(0xf5fafd);
 
     public SplitPaneDividerPainter(Which state) {
         super();
@@ -112,11 +109,11 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         g.setPaint(bgEnabled);
         g.fillRect(0, 0, width, height);
 
-        g.setPaint(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
-        g.fillRect(0, y - 1, width, 3);
+        Shape s = ShapeUtil.createRectangle(0, y - 1, width, 3);
+        ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
 
-        g.setPaint(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
-        g.drawLine(0, y, width - 1, y);
+        s = ShapeUtil.createRectangle(0, y, width, 1);
+        ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
     }
 
     private void paintForegroundEnabledAndVertical(Graphics2D g, int width, int height) {
@@ -154,12 +151,10 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
 
         Shape s = ShapeUtil.createRoundRectangle(width / 2 - 11, height / 2 - 4, 22, 9, CornerSize.ROUND_HEIGHT);
-        g.setPaint(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
-        g.fill(s);
+        ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
 
         s = ShapeUtil.createRoundRectangle(width / 2 - 10, height / 2 - 3, 20, 7, CornerSize.ROUND_HEIGHT);
-        g.setPaint(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
-        g.fill(s);
+        ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
     }
 
     private Paint decodeGradientForegroundBorder(Shape s, Color border1, Color border2) {
