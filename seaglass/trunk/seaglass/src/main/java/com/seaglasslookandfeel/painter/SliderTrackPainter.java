@@ -19,16 +19,15 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Rectangle;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -39,63 +38,33 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
-    private Which        state;
     private PaintContext ctx;
-
-    private Color        disabledBorderTop      = new Color(0x80909090, true);
-    private Color        disabledBorderBottom   = new Color(0x80b4b4b4, true);
-    private Color        disabledInteriorTop    = new Color(0x80c4c4c4, true);
-    private Color        disabledInteriorBottom = new Color(0x80ebebeb, true);
-
-    private Color        enabledBorderTop       = new Color(0x636363);
-    private Color        enabledBorderBottom    = new Color(0xaeaeae);
-    private Color        enabledInteriorTop     = new Color(0xc4c4c4);
-    private Color        enabledInteriorBottom  = new Color(0xebebeb);
+    private ButtonType   type;
 
     public SliderTrackPainter(Which state) {
         super();
-        this.state = state;
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
+        this.type = getButtonType(state);
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        switch (state) {
-        case BACKGROUND_DISABLED:
-            paintBackgroundDisabled(g, width, height);
-            break;
-        case BACKGROUND_ENABLED:
-            paintBackgroundEnabled(g, width, height);
-            break;
-        }
+        Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
+        ColorUtil.fillSliderTrackBorderColors(g, s, type);
+        s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
+        ColorUtil.fillSliderTrackInteriorColors(g, s, type);
     }
 
     protected final PaintContext getPaintContext() {
         return ctx;
     }
 
-    private void paintBackgroundDisabled(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
-        g.setPaint(decodeTrackGradient(s, disabledBorderTop, disabledBorderBottom));
-        g.fill(s);
-        s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
-        g.setPaint(decodeTrackGradient(s, disabledInteriorTop, disabledInteriorBottom));
-        g.fill(s);
-    }
-
-    private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
-        g.setPaint(decodeTrackGradient(s, enabledBorderTop, enabledBorderBottom));
-        g.fill(s);
-        s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
-        g.setPaint(decodeTrackGradient(s, enabledInteriorTop, enabledInteriorBottom));
-        g.fill(s);
-    }
-
-    private Paint decodeTrackGradient(Shape s, Color color1, Color color2) {
-        Rectangle r = s.getBounds();
-        int x = r.x + r.width / 2;
-        int y1 = r.y;
-        int y2 = y1 + r.height;
-        return decodeGradient(x, y1, x, y2, new float[] { 0f, 1f }, new Color[] { color1, color2 });
+    private ButtonType getButtonType(Which state) {
+        switch (state) {
+        case BACKGROUND_DISABLED:
+            return ButtonType.DISABLED;
+        case BACKGROUND_ENABLED:
+            return ButtonType.ENABLED;
+        }
+        return null;
     }
 }
