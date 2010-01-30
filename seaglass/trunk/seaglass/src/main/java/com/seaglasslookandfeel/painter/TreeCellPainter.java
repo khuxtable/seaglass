@@ -28,7 +28,7 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
-public final class TreeTreeCellPainter extends AbstractRegionPainter {
+public final class TreeCellPainter extends AbstractRegionPainter {
     public enum Which {
         BACKGROUND_ENABLED_FOCUSED, BACKGROUND_ENABLED_SELECTED, BACKGROUND_SELECTED_FOCUSED,
     }
@@ -39,7 +39,7 @@ public final class TreeTreeCellPainter extends AbstractRegionPainter {
     private Color        focusColor      = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
     private Color        backgroundColor = decodeColor("nimbusSelectionBackground", 0.0f, 0.0f, 0.0f, 0);
 
-    public TreeTreeCellPainter(Which state) {
+    public TreeCellPainter(Which state) {
         super();
         this.state = state;
         this.ctx = new PaintContext(CacheMode.NO_CACHING);
