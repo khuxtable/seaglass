@@ -39,9 +39,9 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
         CANCEL_ICON_DISABLED, CANCEL_ICON_ENABLED, CANCEL_ICON_PRESSED,
     }
 
-    private Color        GRAY        = Color.GRAY;
-    private Color        MEDIUM_GRAY = new Color(0xb3b3b3);
-    private Color        DARK_GRAY   = Color.DARK_GRAY;
+    private Color        searchIconColor        = decodeColor("seaGlassSearchIcon");
+    private Color        cancelIconColor        = decodeColor("seaGlassCancelIcon");
+    private Color        cancelIconPressedColor = decodeColor("seaGlassCancelIconPressed");
 
     private Which        state;
     private PaintContext ctx;
@@ -64,10 +64,10 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
             paintSearchGlass(g, 0, 0, width, height, true);
             break;
         case CANCEL_ICON_ENABLED:
-            paintCancelIcon(g, 0, 0, width, height, MEDIUM_GRAY);
+            paintCancelIcon(g, 0, 0, width, height, cancelIconColor);
             break;
         case CANCEL_ICON_PRESSED:
-            paintCancelIcon(g, 0, 0, width, height, GRAY);
+            paintCancelIcon(g, 0, 0, width, height, cancelIconPressedColor);
             break;
         }
     }
@@ -87,7 +87,7 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
         final int glassRadius = 8;
 
         g.setStroke(new BasicStroke(2));
-        g.setColor(DARK_GRAY);
+        g.setColor(searchIconColor);
         g.drawOval(glassX, glassY, glassRadius, glassRadius);
 
         final int handleOffset = 7;
@@ -102,7 +102,7 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
             final int popupY = glassY + 3;
 
             Shape s = ShapeUtil.createArrowDown(popupX, popupY, 7, 4);
-            g.setColor(DARK_GRAY);
+            g.setColor(searchIconColor);
             g.fill(s);
         }
     }
