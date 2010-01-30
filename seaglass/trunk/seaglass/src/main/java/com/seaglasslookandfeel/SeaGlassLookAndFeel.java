@@ -116,7 +116,7 @@ import com.seaglasslookandfeel.painter.ToolBarPainter;
 import com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter;
 import com.seaglasslookandfeel.painter.TreeCellEditorPainter;
 import com.seaglasslookandfeel.painter.TreePainter;
-import com.seaglasslookandfeel.painter.TreeTreeCellPainter;
+import com.seaglasslookandfeel.painter.TreeCellPainter;
 import com.seaglasslookandfeel.state.ComboBoxArrowButtonEditableState;
 import com.seaglasslookandfeel.state.ComboBoxEditableState;
 import com.seaglasslookandfeel.state.InternalFrameWindowFocusedState;
@@ -1698,15 +1698,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".openIcon", null);
 
         p = "Tree:TreeCell";
-        c = PAINTER_PREFIX + "TreeTreeCellPainter";
+        c = PAINTER_PREFIX + "TreeCellPainter";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + "[Enabled].background", d.get("nimbusLightBackground"));
         d.put(p + "[Enabled+Focused].background", d.get("nimbusLightBackground"));
-        d.put(p + "[Enabled+Focused].backgroundPainter", new LazyPainter(c, TreeTreeCellPainter.Which.BACKGROUND_ENABLED_FOCUSED));
+        d.put(p + "[Enabled+Focused].backgroundPainter", new LazyPainter(c, TreeCellPainter.Which.BACKGROUND_ENABLED_FOCUSED));
         d.put(p + "[Enabled+Selected].textForeground", Color.WHITE);
-        d.put(p + "[Enabled+Selected].backgroundPainter", new LazyPainter(c, TreeTreeCellPainter.Which.BACKGROUND_ENABLED_SELECTED));
+        d.put(p + "[Enabled+Selected].backgroundPainter", new LazyPainter(c, TreeCellPainter.Which.BACKGROUND_ENABLED_SELECTED));
         d.put(p + "[Focused+Selected].textForeground", Color.WHITE);
-        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, TreeTreeCellPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, TreeCellPainter.Which.BACKGROUND_SELECTED_FOCUSED));
 
         p = "Tree:\"Tree.cellRenderer\"";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
