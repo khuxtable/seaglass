@@ -44,10 +44,10 @@ public class ColorUtil {
         INNER_FOCUS, OUTER_FOCUS,
     }
 
-    private static Color              outerFocusColor        = decodeColor("seaGlassOuterFocus");
-    private static Color              innerFocusColor        = decodeColor("seaGlassFocus");
-    private static Color              outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
-    private static Color              innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
+    private static Color              outerFocus;
+    private static Color              innerFocus;
+    private static Color              outerToolBarFocus;
+    private static Color              innerToolBarFocus;
 
     private static FourLayerColors    buttonEnabled;
     private static FourLayerColors    buttonEnabledPressed;
@@ -92,12 +92,25 @@ public class ColorUtil {
     private static FrameColors        frameActive;
     private static FrameColors        frameInactive;
 
-    private static Color              desktopPaneColor;
+    private static Color              desktopPane;
 
     private static TwoColors          menuItemBackground;
-    private static Color              menuItemBottomLineColor;
+    private static Color              menuItemBottomLine;
+
+    private static Color              popupMenuDisabledBorder;
+    private static Color              popupMenuEnabledBorder;
+
+    private static Color              popupMenuDisabledInterior;
+    private static Color              popupMenuEnabledInterior;
+
+    private static Color              popupMenuSeparator;
 
     static {
+        outerFocus = decodeColor("seaGlassOuterFocus");
+        innerFocus = decodeColor("seaGlassFocus");
+        outerToolBarFocus = decodeColor("seaGlassToolBarOuterFocus");
+        innerToolBarFocus = decodeColor("seaGlassToolBarFocus");
+
         buttonEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true),
             new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
         buttonEnabledPressed = new FourLayerColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
@@ -168,10 +181,18 @@ public class ColorUtil {
         frameActive = new FrameColors(new Color(0xafbecf), new Color(0x96adc4), new Color(0x96adc4), new Color(0x8ea7c0));
         frameInactive = new FrameColors(new Color(0xededed), new Color(0xe0e0e0), new Color(0xe0e0e0), new Color(0xd3d3d3));
 
-        desktopPaneColor = decodeColor("seaGlassDesktopPane");
+        desktopPane = decodeColor("seaGlassDesktopPane");
 
         menuItemBackground = new TwoColors(new Color(0x6a90b6), new Color(0x4a6b90));
-        menuItemBottomLineColor = new Color(0x3a5d89);
+        menuItemBottomLine = new Color(0x3a5d89);
+
+        popupMenuDisabledBorder = new Color(0x80dddddd, true);
+        popupMenuEnabledBorder = new Color(0xdddddd);
+
+        popupMenuDisabledInterior = new Color(0x80ffffff, true);
+        popupMenuEnabledInterior = new Color(0xffffff);
+
+        popupMenuSeparator = new Color(0xdddddd);
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -286,20 +307,40 @@ public class ColorUtil {
         return null;
     }
 
+    public static Color getPopupMenuBorderColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return popupMenuEnabledBorder;
+        case DISABLED:
+            return popupMenuDisabledBorder;
+        }
+        return null;
+    }
+
+    public static Color getPopupMenuInteriorColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return popupMenuEnabledInterior;
+        case DISABLED:
+            return popupMenuDisabledInterior;
+        }
+        return null;
+    }
+
     public static void drawFocus(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
         if (focusType == FocusType.OUTER_FOCUS) {
-            g.setColor(useToolBarFocus ? outerToolBarFocusColor : outerFocusColor);
+            g.setColor(useToolBarFocus ? outerToolBarFocus : outerFocus);
         } else {
-            g.setColor(useToolBarFocus ? innerToolBarFocusColor : innerFocusColor);
+            g.setColor(useToolBarFocus ? innerToolBarFocus : innerFocus);
         }
         g.draw(s);
     }
 
     public static void fillFocus(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
         if (focusType == FocusType.OUTER_FOCUS) {
-            g.setColor(useToolBarFocus ? outerToolBarFocusColor : outerFocusColor);
+            g.setColor(useToolBarFocus ? outerToolBarFocus : outerFocus);
         } else {
-            g.setColor(useToolBarFocus ? innerToolBarFocusColor : innerFocusColor);
+            g.setColor(useToolBarFocus ? innerToolBarFocus : innerFocus);
         }
         g.fill(s);
     }
@@ -341,6 +382,12 @@ public class ColorUtil {
         fillTwoColorGradientVertical(g, s, colors);
     }
 
+    public static void fillPopupMenuBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getPopupMenuBorderColors(type);
+        g.setPaint(color);
+        g.fill(s);
+    }
+
     public static void drawFrameInnerHighlightColors(Graphics2D g, Shape s, ButtonType type) {
         Color color = getFrameInnerHighlightColors(type);
         g.setPaint(color);
@@ -349,6 +396,18 @@ public class ColorUtil {
 
     public static void fillFrameInnerHighlightColors(Graphics2D g, Shape s, ButtonType type) {
         Color color = getFrameInnerHighlightColors(type);
+        g.setPaint(color);
+        g.fill(s);
+    }
+
+    public static void fillPopupMenuInteriorColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getPopupMenuInteriorColors(type);
+        g.setPaint(color);
+        g.fill(s);
+    }
+
+    public static void fillPopupMenuSeparatorColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = popupMenuSeparator;
         g.setPaint(color);
         g.fill(s);
     }
@@ -392,7 +451,7 @@ public class ColorUtil {
     }
 
     public static void fillDesktopPaneColors(Graphics2D g, Shape s) {
-        g.setColor(desktopPaneColor);
+        g.setColor(desktopPane);
         g.fill(s);
     }
 
@@ -402,7 +461,7 @@ public class ColorUtil {
         Rectangle b = s.getBounds();
         int width = b.width;
         int height = b.height;
-        g.setColor(menuItemBottomLineColor);
+        g.setColor(menuItemBottomLine);
         g.drawLine(0, height - 1, width - 1, height - 1);
     }
 
