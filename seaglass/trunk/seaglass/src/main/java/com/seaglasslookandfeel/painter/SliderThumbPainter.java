@@ -19,10 +19,7 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Rectangle;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
@@ -30,7 +27,10 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -54,67 +54,81 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE,
     }
 
-    private static final ColorSet disabled               = new ColorSet(new Color(0x8088ade0, true), new Color(0x805785bf, true),
-                                                             new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(
-                                                                 0x80d2e8f8, true), new Color(0x80f5fafd, true));
-    private static final ColorSet enabled                = new ColorSet(new Color(0x88ade0), new Color(0x5785bf), new Color(0xfbfdfe),
-                                                             new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd));
-    private static final ColorSet pressed                = new ColorSet(new Color(0x4f7bbf), new Color(0x3f76bf), new Color(0xacbdd0),
-                                                             new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4));
+    private static final Effect dropShadow = new SeaGlassDropShadowEffect();
 
-    private Color                 outerFocusColor        = decodeColor("seaGlassOuterFocus");
-    private Color                 innerFocusColor        = decodeColor("seaGlassFocus");
-    private Color                 outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
-    private Color                 innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
-
-    private static final Effect   dropShadow             = new SeaGlassDropShadowEffect();
-
-    private Which                 state;
-    private PaintContext          ctx;
+    private PaintContext        ctx;
+    private ButtonType          type;
+    private boolean             isFocused;
+    private boolean             isDiscrete;
 
     public SliderThumbPainter(Which state) {
         super();
-        this.state = state;
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
+
+        switch (state) {
+        case BACKGROUND_DISABLED:
+            type = ButtonType.DISABLED;
+            isFocused = false;
+            isDiscrete = false;
+            break;
+        case BACKGROUND_ENABLED:
+        case BACKGROUND_MOUSEOVER:
+            type = ButtonType.ENABLED;
+            isFocused = false;
+            isDiscrete = false;
+            break;
+        case BACKGROUND_PRESSED:
+            type = ButtonType.PRESSED;
+            isFocused = false;
+            isDiscrete = false;
+            break;
+        case BACKGROUND_FOCUSED:
+        case BACKGROUND_FOCUSED_MOUSEOVER:
+            type = ButtonType.ENABLED;
+            isFocused = true;
+            isDiscrete = false;
+            break;
+        case BACKGROUND_FOCUSED_PRESSED:
+            type = ButtonType.PRESSED;
+            isFocused = true;
+            isDiscrete = false;
+            break;
+        case BACKGROUND_DISABLED_ARROWSHAPE:
+            type = ButtonType.DISABLED;
+            isFocused = false;
+            isDiscrete = true;
+            break;
+        case BACKGROUND_ENABLED_ARROWSHAPE:
+        case BACKGROUND_MOUSEOVER_ARROWSHAPE:
+            type = ButtonType.ENABLED;
+            isFocused = false;
+            isDiscrete = true;
+            break;
+        case BACKGROUND_PRESSED_ARROWSHAPE:
+            type = ButtonType.PRESSED;
+            isFocused = false;
+            isDiscrete = true;
+            break;
+        case BACKGROUND_FOCUSED_ARROWSHAPE:
+        case BACKGROUND_FOCUSED_MOUSEOVER_ARROWSHAPE:
+            type = ButtonType.ENABLED;
+            isFocused = true;
+            isDiscrete = true;
+            break;
+        case BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE:
+            type = ButtonType.PRESSED;
+            isFocused = true;
+            isDiscrete = true;
+            break;
+        }
     }
 
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        switch (state) {
-        case BACKGROUND_DISABLED:
-            paintContinuousDisabled(g, c, width, height, false);
-            break;
-        case BACKGROUND_ENABLED:
-        case BACKGROUND_MOUSEOVER:
-            paintContinuousEnabled(g, c, width, height, false);
-            break;
-        case BACKGROUND_FOCUSED:
-        case BACKGROUND_FOCUSED_MOUSEOVER:
-            paintContinuousEnabled(g, c, width, height, true);
-            break;
-        case BACKGROUND_PRESSED:
-            paintContinuousPressed(g, c, width, height, false);
-            break;
-        case BACKGROUND_FOCUSED_PRESSED:
-            paintContinuousPressed(g, c, width, height, true);
-            break;
-        case BACKGROUND_DISABLED_ARROWSHAPE:
-            paintDiscreteDisabled(g, c, width, height, false);
-            break;
-        case BACKGROUND_ENABLED_ARROWSHAPE:
-        case BACKGROUND_MOUSEOVER_ARROWSHAPE:
-            paintDiscreteEnabled(g, c, width, height, false);
-            break;
-        case BACKGROUND_FOCUSED_ARROWSHAPE:
-        case BACKGROUND_FOCUSED_MOUSEOVER_ARROWSHAPE:
-            paintDiscreteEnabled(g, c, width, height, true);
-            break;
-        case BACKGROUND_PRESSED_ARROWSHAPE:
-            paintDiscretePressed(g, c, width, height, false);
-            break;
-        case BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE:
-            paintDiscretePressed(g, c, width, height, true);
-            break;
+        if (isDiscrete) {
+            paintDiscrete(g, c, width, height);
+        } else {
+            paintContinuous(g, c, width, height);
         }
     }
 
@@ -123,101 +137,43 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private void paintContinuousDisabled(Graphics2D g, JComponent c, int width, int height, boolean focused) {
-        paintContinuous(g, c, width, height, focused, disabled);
-    }
-
-    private void paintContinuousEnabled(Graphics2D g, JComponent c, int width, int height, boolean focused) {
-        paintContinuous(g, c, width, height, focused, enabled);
-    }
-
-    private void paintContinuousPressed(Graphics2D g, JComponent c, int width, int height, boolean focused) {
-        paintContinuous(g, c, width, height, focused, pressed);
-    }
-
-    private void paintDiscreteDisabled(Graphics2D g, JComponent c, int width, int height, boolean focused) {
-        paintDiscrete(g, c, width, height, focused, disabled);
-    }
-
-    private void paintDiscreteEnabled(Graphics2D g, JComponent c, int width, int height, boolean focused) {
-        paintDiscrete(g, c, width, height, focused, enabled);
-    }
-
-    private void paintDiscretePressed(Graphics2D g, JComponent c, int width, int height, boolean focused) {
-        paintDiscrete(g, c, width, height, focused, pressed);
-    }
-
-    private void paintDiscrete(Graphics2D g, JComponent c, int width, int height, boolean focused, ColorSet colors) {
+    private void paintDiscrete(Graphics2D g, JComponent c, int width, int height) {
         boolean useToolBarColors = isInToolBar(c);
         Shape s;
-        if (focused) {
+        if (isFocused) {
             s = ShapeUtil.createSliderThumbDiscrete(0, 0, width, height, CornerSize.SLIDER_OUTER_FOCUS);
-            g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
-            g.fill(s);
+            ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
             s = ShapeUtil.createSliderThumbDiscrete(1, 1, width - 2, height - 2, CornerSize.SLIDER_INNER_FOCUS);
-            g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
-            g.fill(s);
+            ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
         }
+
         s = ShapeUtil.createSliderThumbDiscrete(2, 2, width - 4, height - 4, CornerSize.SLIDER_BORDER);
-        if (!focused) {
+        if (!isFocused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(decodeBorderGradient(s, colors.border1, colors.border2));
-        g.fill(s);
+        ColorUtil.fillCheckBoxBorderColors(g, s, type);
+
         s = ShapeUtil.createSliderThumbDiscrete(3, 3, width - 6, height - 6, CornerSize.SLIDER_INTERIOR);
-        g.setPaint(decodeInteriorGradient(s, colors.interior1, colors.interior2, colors.interior3, colors.interior4));
-        g.fill(s);
+        ColorUtil.fillCheckBoxInteriorColors(g, s, type);
     }
 
-    private void paintContinuous(Graphics2D g, JComponent c, int width, int height, boolean focused, ColorSet colors) {
+    private void paintContinuous(Graphics2D g, JComponent c, int width, int height) {
         boolean useToolBarColors = isInToolBar(c);
         Shape s;
-        if (focused) {
+        if (isFocused) {
             s = ShapeUtil.createSliderThumbContinuous(0, 1, width);
-            g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
-            g.fill(s);
+            ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
             s = ShapeUtil.createSliderThumbContinuous(1, 2, width - 2);
-            g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
-            g.fill(s);
+            ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
         }
+
         s = ShapeUtil.createSliderThumbContinuous(2, 3, width - 4);
-        if (!focused) {
+        if (!isFocused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(decodeBorderGradient(s, colors.border1, colors.border2));
-        g.fill(s);
+        ColorUtil.fillCheckBoxBorderColors(g, s, type);
+
         s = ShapeUtil.createSliderThumbContinuous(3, 4, width - 6);
-        g.setPaint(decodeInteriorGradient(s, colors.interior1, colors.interior2, colors.interior3, colors.interior4));
-        g.fill(s);
-    }
-
-    private Paint decodeInteriorGradient(Shape s, Color color1, Color color2, Color color3, Color color4) {
-        Rectangle r = s.getBounds();
-        int x = r.x + r.width / 2;
-        return decodeGradient(x, r.y, x, r.y + r.height, new float[] { 0f, 0.42f, .6f, 1f }, new Color[] { color1, color2, color3, color4 });
-    }
-
-    private Paint decodeBorderGradient(Shape s, Color color1, Color color2) {
-        Rectangle r = s.getBounds();
-        int x = r.x + r.width / 2;
-        return decodeGradient(x, r.y, x, r.y + r.height, new float[] { 0f, 1f }, new Color[] { color1, color2 });
-    }
-
-    private static class ColorSet {
-        public Color border1;
-        public Color border2;
-        public Color interior1;
-        public Color interior2;
-        public Color interior3;
-        public Color interior4;
-
-        public ColorSet(Color border1, Color border2, Color interior1, Color interior2, Color interior3, Color interior4) {
-            this.border1 = border1;
-            this.border2 = border2;
-            this.interior1 = interior1;
-            this.interior2 = interior2;
-            this.interior3 = interior3;
-            this.interior4 = interior4;
-        }
+        ColorUtil.fillCheckBoxInteriorColors(g, s, type);
     }
 }
