@@ -49,6 +49,8 @@ public class ColorUtil {
     private static Color              outerToolBarFocus;
     private static Color              innerToolBarFocus;
 
+    private static TwoColors          innerShadow;
+
     private static FourLayerColors    buttonEnabled;
     private static FourLayerColors    buttonEnabledPressed;
     private static FourLayerColors    buttonDefault;
@@ -105,11 +107,26 @@ public class ColorUtil {
 
     private static Color              popupMenuSeparator;
 
+    private static TwoColors          progressBarDisabledTrack;
+    private static Color              progressBarDisabledTrackInterior;
+
+    private static TwoColors          progressBarEnabledTrack;
+    private static Color              progressBarEnabledTrackInterior;
+
+    private static FourColors         progressBarDisabled;
+    private static FourColors         progressBarEnabled;
+    private static FourColors         progressBarIndeterminatePatternDisabled;
+    private static FourColors         progressBarIndeterminatePattern;
+    private static Color              progressBarDisabledEnd;
+    private static Color              progressBarEnabledEnd;
+
     static {
         outerFocus = decodeColor("seaGlassOuterFocus");
         innerFocus = decodeColor("seaGlassFocus");
         outerToolBarFocus = decodeColor("seaGlassToolBarOuterFocus");
         innerToolBarFocus = decodeColor("seaGlassToolBarFocus");
+
+        innerShadow = new TwoColors(new Color(0x20000000, true), new Color(0x10000000, true));
 
         buttonEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true),
             new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
@@ -193,6 +210,25 @@ public class ColorUtil {
         popupMenuEnabledInterior = new Color(0xffffff);
 
         popupMenuSeparator = new Color(0xdddddd);
+
+        progressBarDisabledTrack = new TwoColors(new Color(0x803f76bf, true), new Color(0x804076bf, true));
+        progressBarDisabledTrackInterior = new Color(0x80ffffff, true);
+
+        progressBarEnabledTrack = new TwoColors(new Color(0x3f76bf), new Color(0x4076bf));
+        progressBarEnabledTrackInterior = new Color(0xffffff);
+
+        progressBarDisabled = new FourColors(new Color(0x80bccedf, true), new Color(0x807fa7cd, true), new Color(0x8082b0d6, true),
+            new Color(0x80b0daf6, true), 0.45f, 0.6f);
+        progressBarDisabledEnd = new Color(0x804076bf, true);
+
+        progressBarIndeterminatePatternDisabled = new FourColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(
+            0x80d2e8f8, true), new Color(0x80f5fafd, true), 0.45f, 0.6f);
+
+        progressBarEnabled = new FourColors(new Color(0xbccedf), new Color(0x7fa7cd), new Color(0x82b0d6), new Color(0xb0daf6), 0.45f, 0.6f);
+        progressBarEnabledEnd = new Color(0x4076bf);
+
+        progressBarIndeterminatePattern = new FourColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8),
+            new Color(0xf5fafd), 0.45f, 0.6f);
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -327,6 +363,56 @@ public class ColorUtil {
         return null;
     }
 
+    public static TwoColors getProgressBarBorderColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return progressBarEnabledTrack;
+        case DISABLED:
+            return progressBarDisabledTrack;
+        }
+        return null;
+    }
+
+    public static Color getProgressBarTrackColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return progressBarEnabledTrackInterior;
+        case DISABLED:
+            return progressBarDisabledTrackInterior;
+        }
+        return null;
+    }
+
+    public static FourColors getProgressBarColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return progressBarEnabled;
+        case DISABLED:
+            return progressBarDisabled;
+        }
+        return null;
+    }
+
+    public static FourColors getProgressBarIndeterminateColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return progressBarIndeterminatePattern;
+        case DISABLED:
+            return progressBarIndeterminatePatternDisabled;
+        }
+        return null;
+    }
+
+    public static Color getProgressBarEndColor(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return progressBarEnabledEnd;
+        case DISABLED:
+            return progressBarDisabledEnd;
+        }
+        return null;
+    }
+
     public static void drawFocus(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
         if (focusType == FocusType.OUTER_FOCUS) {
             g.setColor(useToolBarFocus ? outerToolBarFocus : outerFocus);
@@ -343,6 +429,17 @@ public class ColorUtil {
             g.setColor(useToolBarFocus ? innerToolBarFocus : innerFocus);
         }
         g.fill(s);
+    }
+
+    public static void fillInternalShadowRounded(Graphics2D g, Shape s) {
+        g.setPaint(createShadowGradient(s, innerShadow));
+        g.fill(s);
+    }
+
+    public static void drawProgressBarBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getProgressBarBorderColors(type);
+        g.setPaint(createTwoColorGradientVertical(s, colors));
+        g.draw(s);
     }
 
     public static void drawFrameBorderColors(Graphics2D g, Shape s, ButtonType type) {
@@ -396,6 +493,12 @@ public class ColorUtil {
 
     public static void fillFrameInnerHighlightColors(Graphics2D g, Shape s, ButtonType type) {
         Color color = getFrameInnerHighlightColors(type);
+        g.setPaint(color);
+        g.fill(s);
+    }
+
+    public static void fillProgressBarTrackColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getProgressBarTrackColors(type);
         g.setPaint(color);
         g.fill(s);
     }
@@ -463,6 +566,22 @@ public class ColorUtil {
         int height = b.height;
         g.setColor(menuItemBottomLine);
         g.drawLine(0, height - 1, width - 1, height - 1);
+    }
+
+    public static void fillProgressBarColors(Graphics2D g, Shape s, ButtonType type) {
+        FourColors colors = getProgressBarColors(type);
+        fillFourColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillProgressBarIndeterminateColors(Graphics2D g, Shape s, ButtonType type) {
+        FourColors colors = getProgressBarIndeterminateColors(type);
+        fillFourColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillProgressBarEndColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getProgressBarEndColor(type);
+        g.setPaint(color);
+        g.fill(s);
     }
 
     private static void fillTwoColorGradientVertical(Graphics2D g, Shape s, TwoColors colors) {
@@ -568,6 +687,18 @@ public class ColorUtil {
         }
 
         return createGradient(midX, y, x + midX, y + h, midPoints, colors);
+    }
+
+    private static Paint createShadowGradient(Shape s, TwoColors colors) {
+        Rectangle r = s.getBounds();
+        int x = r.x + r.width / 2;
+        int y1 = r.y;
+        float frac = 1.0f / r.height;
+        int y2 = r.y + r.height;
+        return createGradient(x, y1, x, y2, new float[] { 0f, frac, 1f }, new Color[] {
+            colors.topColor,
+            colors.bottomColor,
+            colors.bottomColor });
     }
 
     /**
