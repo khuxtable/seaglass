@@ -94,7 +94,7 @@ public final class ComboBoxTextFieldPainter extends AbstractRegionPainter {
     }
 
     private void paintInternalDropShadow(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createRectangle(3, 3, width - 1, 2);
-        ColorUtil.fillInternalShadow(g, s);
+        Shape s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
+        ColorUtil.fillInternalShadow(g, s, false);
     }
 }

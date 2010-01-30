@@ -44,12 +44,17 @@ public class ColorUtil {
         INNER_FOCUS, OUTER_FOCUS,
     }
 
+    private static Color              transparentColor;
+
     private static Color              outerFocus;
     private static Color              innerFocus;
     private static Color              outerToolBarFocus;
     private static Color              innerToolBarFocus;
 
-    private static TwoColors          innerShadow;
+    private static TwoColors          innerRoundedShadow;
+
+    private static Color              rectangularShadowLight;
+    private static Color              rectangularShadowDark;
 
     private static FourLayerColors    buttonEnabled;
     private static FourLayerColors    buttonEnabledPressed;
@@ -151,12 +156,17 @@ public class ColorUtil {
     private static TwoColors          sliderTrackEnabledInterior;
 
     static {
+        transparentColor = new Color(0x0, true);
+
         outerFocus = decodeColor("seaGlassOuterFocus");
         innerFocus = decodeColor("seaGlassFocus");
         outerToolBarFocus = decodeColor("seaGlassToolBarOuterFocus");
         innerToolBarFocus = decodeColor("seaGlassToolBarFocus");
 
-        innerShadow = new TwoColors(new Color(0x20000000, true), new Color(0x10000000, true));
+        innerRoundedShadow = new TwoColors(new Color(0x20000000, true), new Color(0x10000000, true));
+
+        rectangularShadowLight = new Color(0x0a000000, true);
+        rectangularShadowDark = new Color(0x1e000000, true);
 
         buttonEnabled = new FourLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true),
             new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2), new Color(0x88ade0), new Color(0x5785bf));
@@ -555,13 +565,30 @@ public class ColorUtil {
         g.fill(s);
     }
 
-    public static void fillInternalShadow(Graphics2D g, Shape s) {
-        g.setPaint(createTwoColorGradientVertical(s, innerShadow));
+    public static void fillInternalShadow(Graphics2D g, Shape s, boolean paintRightShadow) {
+        Rectangle bounds = s.getBounds();
+        int x = bounds.x;
+        int y = bounds.y;
+        int w = bounds.width;
+        int h = bounds.height;
+
+        s = ShapeUtil.createRectangle(x, y, w, 2);
+        g.setPaint(createTopShadowGradient(s));
         g.fill(s);
+
+        s = ShapeUtil.createRectangle(x, y, 1, h);
+        g.setPaint(createLeftShadowGradient(s));
+        g.fill(s);
+
+        if (paintRightShadow) {
+            s = ShapeUtil.createRectangle(x + w - 1, y, 1, h);
+            g.setPaint(createRightShadowGradient(s));
+            g.fill(s);
+        }
     }
 
     public static void fillInternalShadowRounded(Graphics2D g, Shape s) {
-        g.setPaint(createShadowGradient(s, innerShadow));
+        g.setPaint(createRoundedShadowGradient(s, innerRoundedShadow));
         g.fill(s);
     }
 
@@ -882,7 +909,7 @@ public class ColorUtil {
         return createGradient(midX, y, x + midX, y + h, midPoints, colors);
     }
 
-    private static Paint createShadowGradient(Shape s, TwoColors colors) {
+    private static Paint createRoundedShadowGradient(Shape s, TwoColors colors) {
         Rectangle r = s.getBounds();
         int x = r.x + r.width / 2;
         int y1 = r.y;
@@ -892,6 +919,32 @@ public class ColorUtil {
             colors.topColor,
             colors.bottomColor,
             colors.bottomColor });
+    }
+
+    private static Paint createTopShadowGradient(Shape s) {
+        Rectangle2D bounds = s.getBounds2D();
+        float minY = (float) bounds.getMinY();
+        float maxY = (float) bounds.getMaxY();
+        float midX = (float) bounds.getCenterX();
+        return createGradient(midX, minY, midX, maxY, new float[] { 0f, 1f }, new Color[] { rectangularShadowDark, transparentColor });
+    }
+
+    private static Paint createLeftShadowGradient(Shape s) {
+        Rectangle2D bounds = s.getBounds2D();
+        float minX = (float) bounds.getMinX();
+        float maxX = (float) bounds.getMaxX();
+        float midY = (float) bounds.getCenterY();
+        return createGradient(minX, midY, maxX, midY, new float[] { 0f, 1f }, new Color[] { rectangularShadowLight, transparentColor });
+    }
+
+    private static Paint createRightShadowGradient(Shape s) {
+        Rectangle2D bounds = s.getBounds2D();
+        float minX = (float) bounds.getMinX();
+        float maxX = (float) bounds.getMaxX();
+        float midY = (float) bounds.getCenterY();
+        return createGradient(minX - 1, midY, maxX - 1, midY, new float[] { 0f, 1f }, new Color[] {
+            transparentColor,
+            rectangularShadowLight });
     }
 
     private static Paint createCheckMarkGradient(Shape s, TwoColors colors) {
