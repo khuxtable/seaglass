@@ -21,13 +21,13 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
+import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
 
 /**
  * TextComponentPainter implementation.
@@ -44,18 +44,9 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         BORDER_ENABLED,
     }
 
-    private Color        outerFocusColor        = decodeColor("seaGlassOuterFocus");
-    private Color        innerFocusColor        = decodeColor("seaGlassFocus");
-    private Color        outerToolBarFocusColor = decodeColor("seaGlassToolBarOuterFocus");
-    private Color        innerToolBarFocusColor = decodeColor("seaGlassToolBarFocus");
-
-    private Color        transparentColor       = new Color(0, 0, 0, 0);
-    private Color        lightShadowColor       = new Color(0, 0, 0, 0x0a);
-    private Color        darkShadowColor        = new Color(0, 0, 0, 0x1e);
-
-    private Color        disabledBorder         = new Color(0xdddddd);
-    private Color        enabledBorder          = new Color(0xbbbbbb);
-    private Color        enabledToolBarBorder   = new Color(0x888888);
+    private Color        disabledBorder       = new Color(0xdddddd);
+    private Color        enabledBorder        = new Color(0xbbbbbb);
+    private Color        enabledToolBarBorder = new Color(0x888888);
 
     private Which        state;
     private PaintContext ctx;
@@ -153,10 +144,10 @@ public final class TextComponentPainter extends AbstractRegionPainter {
     private void paintBorderEnabled(Graphics2D g, JComponent c, int x, int y, int width, int height) {
         boolean useToolBarColors = isInToolBar(c);
         if (focused) {
-            g.setColor(useToolBarColors ? outerToolBarFocusColor : outerFocusColor);
-            drawBorder(g, x - 2, y - 2, width + 4, height + 4);
-            g.setColor(useToolBarColors ? innerToolBarFocusColor : innerFocusColor);
-            drawBorder(g, x - 1, y - 1, width + 2, height + 2);
+            Shape s = ShapeUtil.createRectangle(x - 2, y - 2, width + 3, height + 3);
+            ColorUtil.drawFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
+            s = ShapeUtil.createRectangle(x - 1, y - 1, width + 1, height + 1);
+            ColorUtil.drawFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
         }
         paintInnerShadow(g, x, y, width, height);
         g.setColor(!focused && useToolBarColors ? enabledToolBarBorder : enabledBorder);
@@ -164,15 +155,8 @@ public final class TextComponentPainter extends AbstractRegionPainter {
     }
 
     private void paintInnerShadow(Graphics2D g, int x, int y, int width, int height) {
-        Shape s = ShapeUtil.createRectangle((x + 1), (y + 1), (width - 2), 2);
-        g.setPaint(decodeGradientTopShadow(s));
-        g.fill(s);
-        s = ShapeUtil.createRectangle((x + 1), (y + 1), 1, (height - 2));
-        g.setPaint(decodeGradientLeftShadow(s));
-        g.fill(s);
-        s = ShapeUtil.createRectangle((x + width - 2), (y + 1), 1, (height - 2));
-        g.setPaint(decodeGradientRightShadow(s));
-        g.fill(s);
+        Shape s = ShapeUtil.createRectangle(x + 1, x + 1, width - 2, height - 2);
+        ColorUtil.fillInternalShadow(g, s, true);
     }
 
     private Shape decodeBackground(int x, int y, int width, int height) {
@@ -185,29 +169,5 @@ public final class TextComponentPainter extends AbstractRegionPainter {
 
     private void drawBorder(Graphics2D g, int x, int y, int width, int height) {
         g.drawRect(x, y, width - 1, height - 1);
-    }
-
-    private Paint decodeGradientTopShadow(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minY = (float) bounds.getMinY();
-        float maxY = (float) bounds.getMaxY();
-        float midX = (float) bounds.getCenterX();
-        return decodeGradient(midX, minY, midX, maxY, new float[] { 0f, 1f }, new Color[] { darkShadowColor, transparentColor });
-    }
-
-    private Paint decodeGradientLeftShadow(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minX = (float) bounds.getMinX();
-        float maxX = (float) bounds.getMaxX();
-        float midY = (float) bounds.getCenterY();
-        return decodeGradient(minX, midY, maxX, midY, new float[] { 0f, 1f }, new Color[] { lightShadowColor, transparentColor });
-    }
-
-    private Paint decodeGradientRightShadow(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minX = (float) bounds.getMinX();
-        float maxX = (float) bounds.getMaxX();
-        float midY = (float) bounds.getCenterY();
-        return decodeGradient(minX - 1, midY, maxX - 1, midY, new float[] { 0f, 1f }, new Color[] { transparentColor, lightShadowColor });
     }
 }

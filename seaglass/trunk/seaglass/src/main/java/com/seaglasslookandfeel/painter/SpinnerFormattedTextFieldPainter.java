@@ -107,8 +107,8 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
     }
 
     private void paintInternalDropShadow(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createRectangle(3, 3, width - 1, 2);
-        ColorUtil.fillInternalShadow(g, s);
+        Shape s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
+        ColorUtil.fillInternalShadow(g, s, false);
     }
 
     private Shape setRect(int x, int y, int width, int height) {
