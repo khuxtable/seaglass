@@ -550,6 +550,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaGlassTableSelectionInactiveBottom", new Color(0xe0e0e0));
 
         d.put("seaGlassSearchPlaceholderText", new Color(0x808080));
+
+        d.put("seaGlassSearchIcon", new Color(0x404040));
+        d.put("seaGlassCancelIcon", new Color(0xb3b3b3));
+        d.put("seaGlassCancelIconPressed", new Color(0x808080));
     }
 
     /**
