@@ -19,12 +19,9 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -54,24 +51,16 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         ICON_DISABLED_SELECTED,
     }
 
-    private Which        state;
     private PaintContext ctx;
     private boolean      focused;
     private boolean      selected;
 
-    private Effect       dropShadow      = new SeaGlassDropShadowEffect();
-
-    private Color        bullet1         = new Color(0x333333);
-    private Color        bullet2         = new Color(0x000000);
-
-    private Color        bulletDisabled1 = new Color(0x80333333, true);
-    private Color        bulletDisabled2 = new Color(0x80000000, true);
+    private Effect       dropShadow = new SeaGlassDropShadowEffect();
 
     private ButtonType   type;
 
     public CheckBoxPainter(Which state) {
         super();
-        this.state = state;
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
         type = getButtonType(state);
@@ -96,22 +85,27 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         int x = (width - size) / 2;
         int y = (height - size) / 2;
 
+        Shape s;
         if (focused) {
             boolean useToolBarFocus = isInToolBar(c);
-            Shape s = createOuterFocus(x, y, size);
+            s = ShapeUtil.createRoundRectangle(x, y, size, size, CornerSize.CHECKBOX_OUTER_FOCUS);
             ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarFocus);
-            s = createInnerFocus(x, y, size);
+            s = ShapeUtil.createRoundRectangle(x + 1, y + 1, size - 2, size - 2, CornerSize.CHECKBOX_INNER_FOCUS);
             ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarFocus);
         }
 
-        paintBackground(g, x, y, size);
+        s = ShapeUtil.createRoundRectangle(x + 2, y + 2, size - 4, size - 4, CornerSize.CHECKBOX_BORDER);
+        if (!focused) {
+            dropShadow.fill(g, s);
+        }
+        ColorUtil.fillCheckBoxBorderColors(g, s, type);
+
+        s = ShapeUtil.createRoundRectangle(x + 3, y + 3, size - 6, size - 6, CornerSize.CHECKBOX_INTERIOR);
+        ColorUtil.fillCheckBoxInteriorColors(g, s, type);
 
         if (selected) {
-            if (state == Which.ICON_DISABLED_SELECTED) {
-                paintCheckMark(g, x, y, size, height, bulletDisabled1, bulletDisabled2);
-            } else {
-                paintCheckMark(g, x, y, size, height, bullet1, bullet2);
-            }
+            Shape s1 = createCheckMark(x, y, size);
+            ColorUtil.fillCheckBoxBulletColors(g, s1, type);
         }
     }
 
@@ -141,38 +135,6 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         return null;
     }
 
-    private void paintBackground(Graphics2D g, int x, int y, int size) {
-        Shape s = createBorder(x, y, size);
-        if (!focused) {
-            dropShadow.fill(g, s);
-        }
-        ColorUtil.fillCheckBoxBorderColors(g, s, type);
-        s = createInternal(x, y, size);
-        ColorUtil.fillCheckBoxInteriorColors(g, s, type);
-    }
-
-    private void paintCheckMark(Graphics2D g, int x, int y, int width, int height, Color color1, Color color2) {
-        Shape s = createCheckMark(x, y, width);
-        g.setPaint(setGradientCheckMark(s, color1, color2));
-        g.fill(s);
-    }
-
-    private Shape createOuterFocus(int x, int y, int size) {
-        return ShapeUtil.createRoundRectangle(x, y, size, size, CornerSize.CHECKBOX_OUTER_FOCUS);
-    }
-
-    private Shape createInnerFocus(int x, int y, int size) {
-        return ShapeUtil.createRoundRectangle(x + 1, y + 1, size - 2, size - 2, CornerSize.CHECKBOX_INNER_FOCUS);
-    }
-
-    private Shape createBorder(int x, int y, int size) {
-        return ShapeUtil.createRoundRectangle(x + 2, y + 2, size - 4, size - 4, CornerSize.CHECKBOX_BORDER);
-    }
-
-    private Shape createInternal(int x, int y, int size) {
-        return ShapeUtil.createRoundRectangle(x + 3, y + 3, size - 6, size - 6, CornerSize.CHECKBOX_INTERIOR);
-    }
-
     private static final double SIZE_MULTIPLIER = 2.0 / 3.0;
     private static final double X_MULTIPLIER    = 5.0 / 18.0;
     private static final double Y_MULTIPLIER    = 1.0 / 18.0;
@@ -183,14 +145,5 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         int markY = y + (int) (size * Y_MULTIPLIER + 0.5);
 
         return ShapeUtil.createCheckMark(markX, markY, markSize, markSize);
-    }
-
-    private Paint setGradientCheckMark(Shape s, Color color1, Color color2) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient(x + w, y, (0.3f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { color1, color2 });
     }
 }
