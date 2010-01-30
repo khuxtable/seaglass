@@ -37,7 +37,7 @@ import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 public class ColorUtil {
 
     public enum ButtonType {
-        ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED, SELECTED, PRESSED_SELECTED, ACTIVE, INACTIVE,
+        ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED, SELECTED, PRESSED_SELECTED, ACTIVE, INACTIVE, SCROLL_CAP,
     }
 
     public enum FocusType {
@@ -125,6 +125,24 @@ public class ColorUtil {
 
     private static TwoColors          scrollBarTrackBackground;
     private static FourColors         scrollBarTrackGradient;
+
+    private static TwoColors          scrollBarCapColors;
+
+    private static TwoColors          scrollBarButtonIncreaseApart;
+    private static TwoColors          scrollBarButtonIncreaseTogether;
+    private static TwoColors          scrollBarButtonIncreasePressed;
+
+    private static TwoColors          scrollBarButtonDecreaseApart;
+    private static TwoColors          scrollBarButtonDecreaseTogether;
+    private static TwoColors          scrollBarButtonDecreasePressed;
+
+    private static Color              scrollBarButtonLine          = new Color(0xbdbdbd);
+    private static Color              scrollBarButtonLinePressed   = new Color(0x82abd0);
+    private static Color              scrollBarButtonArrow         = new Color(0x555555);
+    private static Color              scrollBarButtonArrowDisabled = new Color(0x80555555, true);
+
+    private static Color              scrollBarButtonDarkDivider   = new Color(0x1f000000, true);
+    private static Color              scrollBarButtonLightDivider  = new Color(0x3fffffff, true);
 
     static {
         outerFocus = decodeColor("seaGlassOuterFocus");
@@ -241,6 +259,24 @@ public class ColorUtil {
         scrollBarTrackBackground = new TwoColors(new Color(0xeeeeee), new Color(0xffffff));
         scrollBarTrackGradient = new FourColors(new Color(0x33000000, true), new Color(0x15000000, true), new Color(0x00000000, true),
             new Color(0x12000000, true), 0f, 0f);
+
+        scrollBarCapColors = new TwoColors(new Color(0xffffff), new Color(0xbbbbbb));
+
+        scrollBarButtonIncreaseApart = new TwoColors(new Color(0xd1d1d1), new Color(0xffffff));
+        scrollBarButtonIncreaseTogether = new TwoColors(new Color(0xd1d1d1), new Color(0xe5e5e5));
+        scrollBarButtonIncreasePressed = new TwoColors(new Color(0x8fb1d1), new Color(0xcee2f5));
+
+        scrollBarButtonDecreaseApart = new TwoColors(new Color(0xffffff), new Color(0xcccccc));
+        scrollBarButtonDecreaseTogether = new TwoColors(new Color(0xffffff), new Color(0xe9e9e9));
+        scrollBarButtonDecreasePressed = new TwoColors(new Color(0xcee2f5), new Color(0x8fb1d1));
+
+        scrollBarButtonLine = new Color(0xbdbdbd);
+        scrollBarButtonLinePressed = new Color(0x82abd0);
+        scrollBarButtonArrow = new Color(0x555555);
+        scrollBarButtonArrowDisabled = new Color(0x80555555, true);
+
+        scrollBarButtonDarkDivider = new Color(0x1f000000, true);
+        scrollBarButtonLightDivider = new Color(0x3fffffff, true);
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -259,6 +295,36 @@ public class ColorUtil {
             return textured ? texturedButtonDefaultPressed : buttonDefaultPressed;
         }
         return null;
+    }
+
+    public static TwoColors getScrollBarButtonBackgroundColors(ButtonType type, boolean isIncrease, boolean buttonsTogether) {
+        if (type == ButtonType.SCROLL_CAP) {
+            return scrollBarCapColors;
+        } else if (type == ButtonType.PRESSED) {
+            return isIncrease ? scrollBarButtonIncreasePressed : scrollBarButtonDecreasePressed;
+        } else {
+            if (buttonsTogether) {
+                return isIncrease ? scrollBarButtonIncreaseTogether : scrollBarButtonDecreaseTogether;
+            } else {
+                return isIncrease ? scrollBarButtonIncreaseApart : scrollBarButtonDecreaseApart;
+            }
+        }
+    }
+
+    public static Color getScrollBarButtonLineColor(ButtonType type) {
+        if (type == ButtonType.PRESSED) {
+            return scrollBarButtonLinePressed;
+        } else {
+            return scrollBarButtonLine;
+        }
+    }
+
+    public static Color getScrollBarButtonArrowColor(ButtonType type) {
+        if (type == ButtonType.DISABLED) {
+            return scrollBarButtonArrowDisabled;
+        } else {
+            return scrollBarButtonArrow;
+        }
     }
 
     public static TwoLayerFourColors getScrollBarThumbColors(ButtonType type) {
@@ -638,6 +704,29 @@ public class ColorUtil {
         g.fill(s);
     }
 
+    public static void fillScrollBarButtonInteriorColors(Graphics2D g, Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
+        TwoColors colors = getScrollBarButtonBackgroundColors(type, isIncrease, buttonsTogether);
+        g.setPaint(createTwoColorGradientHorizontal(s, colors));
+        g.fill(s);
+
+        int width = s.getBounds().width;
+        Color color = getScrollBarButtonLineColor(type);
+        g.setPaint(color);
+        g.drawLine(0, 0, width - 1, 0);
+
+        if (type != ButtonType.SCROLL_CAP && buttonsTogether) {
+            int height = s.getBounds().height;
+            g.setColor(isIncrease ? scrollBarButtonLightDivider : scrollBarButtonDarkDivider);
+            g.drawLine(width - 1, 1, width - 1, height - 1);
+        }
+    }
+
+    public static void fillScrollBarButtonArrowColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getScrollBarButtonArrowColor(type);
+        g.setPaint(color);
+        g.fill(s);
+    }
+
     private static void fillTwoColorGradientVertical(Graphics2D g, Shape s, TwoColors colors) {
         g.setPaint(createTwoColorGradientVertical(s, colors));
         g.fill(s);
@@ -659,23 +748,27 @@ public class ColorUtil {
 
     private static Paint createTwoColorGradientVertical(Shape s, TwoColors colors) {
         Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return createGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] {
-            colors.topColor,
-            colors.bottomColor });
+        float xCenter = (float) bounds.getCenterX();
+        float yMin = (float) bounds.getMinY();
+        float yMax = (float) bounds.getMaxY();
+        return createGradient(xCenter, yMin, xCenter, yMax, new float[] { 0f, 1f }, new Color[] { colors.topColor, colors.bottomColor });
+    }
+
+    private static Paint createTwoColorGradientHorizontal(Shape s, TwoColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float xMin = (float) bounds.getMinX();
+        float xMax = (float) bounds.getMaxX();
+        float yCenter = (float) bounds.getCenterY();
+        return createGradient(xMin, yCenter, xMax, yCenter, new float[] { 0f, 1f }, new Color[] { colors.topColor, colors.bottomColor });
     }
 
     private static Paint createTwoColorGradientWithMidpointVertical(Shape s, TwoColorsWithMidpoint colors) {
         Color midColor = new Color(deriveARGB(colors.topColor, colors.bottomColor, colors.midpoint) & 0xFFFFFF, true);
         Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return createGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, colors.midpoint, 1f }, new Color[] {
+        float xCenter = (float) bounds.getCenterX();
+        float yMin = (float) bounds.getMinY();
+        float yMax = (float) bounds.getMaxY();
+        return createGradient(xCenter, yMin, xCenter, yMax, new float[] { 0f, colors.midpoint, 1f }, new Color[] {
             colors.topColor,
             midColor,
             colors.bottomColor });
@@ -683,11 +776,10 @@ public class ColorUtil {
 
     private static Paint createGradientFourColor(Shape s, FourColors colors) {
         Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return createGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, colors.upperMidpoint, colors.lowerMidpoint, 1f },
+        float xCenter = (float) bounds.getCenterX();
+        float yMin = (float) bounds.getMinY();
+        float yMax = (float) bounds.getMaxY();
+        return createGradient(xCenter, yMin, xCenter, yMax, new float[] { 0f, colors.upperMidpoint, colors.lowerMidpoint, 1f },
             new Color[] { colors.topColor, colors.upperMidColor, colors.lowerMidColor, colors.bottomColor });
     }
 
