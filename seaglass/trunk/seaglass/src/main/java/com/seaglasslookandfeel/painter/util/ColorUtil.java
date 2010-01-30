@@ -155,6 +155,29 @@ public class ColorUtil {
     private static TwoColors          sliderTrackEnabledBorder;
     private static TwoColors          sliderTrackEnabledInterior;
 
+    private static TwoColors          spinnerNextBorderDisabled;
+    private static TwoColors          spinnerNextBorderEnabled;
+    private static TwoColors          spinnerNextBorderPressed;
+
+    private static TwoColors          spinnerNextInteriorDisabled;
+    private static TwoColors          spinnerNextInteriorEnabled;
+    private static TwoColors          spinnerNextInteriorPressed;
+
+    private static TwoColors          spinnerPrevBorderDisabled;
+    private static TwoColors          spinnerPrevBorderEnabled;
+    private static TwoColors          spinnerPrevBorderPressed;
+
+    private static TwoColors          spinnerPrevInteriorDisabled;
+    private static TwoColors          spinnerPrevInteriorEnabled;
+    private static TwoColors          spinnerPrevInteriorPressed;
+
+    private static Color              spinnerPrevTopLineDisabled;
+    private static Color              spinnerPrevTopLineEnabled;
+    private static Color              spinnerPrevTopLinePressed;
+
+    private static Color              spinnerArrowDisabled;
+    private static Color              spinnerArrowEnabled;
+
     static {
         transparentColor = new Color(0x0, true);
 
@@ -208,9 +231,6 @@ public class ColorUtil {
         scrollBarThumbDisabled = checkBoxDisabled;
         scrollBarThumbEnabled = checkBoxEnabled;
         scrollBarThumbPressed = checkBoxSelected;
-        // scrollBarThumbPressed = new TwoLayerFourColors(new Color(0xb1dbf5),
-        // new Color(0x7ca7ce), new Color(0x7ea7cc), new Color(0xbbcedf),
-        // 0.45f, 0.62f, new Color(0x4076bf), new Color(0x4f7bbf));
 
         checkBoxBulletEnabled = new TwoColors(new Color(0x333333), new Color(0x000000));
         checkBoxbulletDisabled = new TwoColors(new Color(0x80333333, true), new Color(0x80000000, true));
@@ -299,6 +319,29 @@ public class ColorUtil {
 
         sliderTrackEnabledBorder = new TwoColors(new Color(0x636363), new Color(0xaeaeae));
         sliderTrackEnabledInterior = new TwoColors(new Color(0xc4c4c4), new Color(0xebebeb));
+
+        spinnerNextBorderDisabled = new TwoColors(new Color(0x80a2c2ed, true), new Color(0x807ea4d7, true));
+        spinnerNextBorderEnabled = new TwoColors(new Color(0x4f7bbf), new Color(0x4779bf));
+        spinnerNextBorderPressed = new TwoColors(new Color(0x4f7bbf), new Color(0x4879bf));
+
+        spinnerNextInteriorDisabled = new TwoColors(new Color(0xeaebf1f7, true), new Color(0xdbe2e9f2, true));
+        spinnerNextInteriorEnabled = new TwoColors(new Color(0xbccedf), new Color(0x85abcf));
+        spinnerNextInteriorPressed = new TwoColors(new Color(0xacbdd0), new Color(0x6e92b6));
+
+        spinnerPrevBorderDisabled = new TwoColors(new Color(0x807aa1d4, true), new Color(0x805987c0, true));
+        spinnerPrevBorderEnabled = new TwoColors(new Color(0x4778bf), new Color(0x4076bf));
+        spinnerPrevBorderPressed = new TwoColors(new Color(0x4778bf), new Color(0x4076bf));
+
+        spinnerPrevInteriorDisabled = new TwoColors(new Color(0xd8dbe4f0, true), new Color(0xdddae5f0, true));
+        spinnerPrevInteriorEnabled = new TwoColors(new Color(0x81aed4), new Color(0xaad4f1));
+        spinnerPrevInteriorPressed = new TwoColors(new Color(0x6c91b8), new Color(0x9cc3de));
+
+        spinnerPrevTopLineDisabled = new Color(0xe0e4ebf3, true);
+        spinnerPrevTopLineEnabled = new Color(0xacc8e0);
+        spinnerPrevTopLinePressed = new Color(0x9eb6cf);
+
+        spinnerArrowDisabled = new Color(0x9ba8cf);
+        spinnerArrowEnabled = new Color(0x000000);
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -547,6 +590,77 @@ public class ColorUtil {
         return null;
     }
 
+    public static TwoColors getSpinnerNextBorderColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return spinnerNextBorderDisabled;
+        case ENABLED:
+            return spinnerNextBorderEnabled;
+        case PRESSED:
+            return spinnerNextBorderPressed;
+        }
+        return null;
+    }
+
+    public static TwoColors getSpinnerNextInteriorColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return spinnerNextInteriorDisabled;
+        case ENABLED:
+            return spinnerNextInteriorEnabled;
+        case PRESSED:
+            return spinnerNextInteriorPressed;
+        }
+        return null;
+    }
+
+    public static TwoColors getSpinnerPrevBorderColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return spinnerPrevBorderDisabled;
+        case ENABLED:
+            return spinnerPrevBorderEnabled;
+        case PRESSED:
+            return spinnerPrevBorderPressed;
+        }
+        return null;
+    }
+
+    public static TwoColors getSpinnerPrevInteriorColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return spinnerPrevInteriorDisabled;
+        case ENABLED:
+            return spinnerPrevInteriorEnabled;
+        case PRESSED:
+            return spinnerPrevInteriorPressed;
+        }
+        return null;
+    }
+
+    public static Color getSpinnerPrevTopLineColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return spinnerPrevTopLineDisabled;
+        case ENABLED:
+            return spinnerPrevTopLineEnabled;
+        case PRESSED:
+            return spinnerPrevTopLinePressed;
+        }
+        return null;
+    }
+
+    public static Color getSpinnerArrowColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return spinnerArrowDisabled;
+        case ENABLED:
+        case PRESSED:
+            return spinnerArrowEnabled;
+        }
+        return null;
+    }
+
     public static void drawFocus(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
         if (focusType == FocusType.OUTER_FOCUS) {
             g.setColor(useToolBarFocus ? outerToolBarFocus : outerFocus);
@@ -625,6 +739,16 @@ public class ColorUtil {
         fillTwoColorGradientVertical(g, s, colors);
     }
 
+    public static void fillSpinnerNextBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerNextBorderColors(type);
+        fillTwoColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillSpinnerPrevBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerPrevBorderColors(type);
+        fillTwoColorGradientVertical(g, s, colors);
+    }
+
     public static void fillRadioButtonBorderColors(Graphics2D g, Shape s, ButtonType type) {
         TwoColors colors = getCheckBoxColors(type).background;
         fillTwoColorGradientVertical(g, s, colors);
@@ -659,6 +783,12 @@ public class ColorUtil {
 
     public static void fillFrameInnerHighlightColors(Graphics2D g, Shape s, ButtonType type) {
         Color color = getFrameInnerHighlightColors(type);
+        g.setPaint(color);
+        g.fill(s);
+    }
+
+    public static void fillSpinnerPrevTopLineColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getSpinnerPrevTopLineColors(type);
         g.setPaint(color);
         g.fill(s);
     }
@@ -714,9 +844,27 @@ public class ColorUtil {
         fillTwoColorGradientVertical(g, s, colors);
     }
 
+    public static void fillSpinnerNextInteriorColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerNextInteriorColors(type);
+        g.setPaint(createTwoColorGradientVertical(s, colors));
+        g.fill(s);
+    }
+
+    public static void fillSpinnerPrevInteriorColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerNextInteriorColors(type);
+        g.setPaint(createTwoColorGradientVertical(s, colors));
+        g.fill(s);
+    }
+
     public static void fillCheckBoxBulletColors(Graphics2D g, Shape s, ButtonType type) {
         TwoColors colors = getCheckBoxBulletColors(type);
         g.setPaint(createCheckMarkGradient(s, colors));
+        g.fill(s);
+    }
+    
+    public static void fillSpinnerArrowColors(Graphics2D g, Shape s, ButtonType type) {
+        Color color = getSpinnerArrowColors(type);
+        g.setPaint(color);
         g.fill(s);
     }
 
