@@ -123,6 +123,9 @@ public class ColorUtil {
     private static Color              progressBarDisabledEnd;
     private static Color              progressBarEnabledEnd;
 
+    private static TwoColors          scrollBarTrackBackground;
+    private static FourColors         scrollBarTrackGradient;
+
     static {
         outerFocus = decodeColor("seaGlassOuterFocus");
         innerFocus = decodeColor("seaGlassFocus");
@@ -234,6 +237,10 @@ public class ColorUtil {
 
         progressBarIndeterminatePattern = new FourColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8),
             new Color(0xf5fafd), 0.45f, 0.6f);
+
+        scrollBarTrackBackground = new TwoColors(new Color(0xeeeeee), new Color(0xffffff));
+        scrollBarTrackGradient = new FourColors(new Color(0x33000000, true), new Color(0x15000000, true), new Color(0x00000000, true),
+            new Color(0x12000000, true), 0f, 0f);
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -624,6 +631,13 @@ public class ColorUtil {
         g.fill(s);
     }
 
+    public static void fillScrollBarTrackColors(Graphics2D g, Shape s) {
+        g.setPaint(createTwoColorGradientVertical(s, scrollBarTrackBackground));
+        g.fill(s);
+        g.setPaint(createScrollBarTrackInnerShadowGradient(s, scrollBarTrackGradient));
+        g.fill(s);
+    }
+
     private static void fillTwoColorGradientVertical(Graphics2D g, Shape s, TwoColors colors) {
         g.setPaint(createTwoColorGradientVertical(s, colors));
         g.fill(s);
@@ -748,6 +762,14 @@ public class ColorUtil {
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
         return createGradient(x + w, y, (0.3f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { colors.topColor, colors.bottomColor });
+    }
+
+    private static Paint createScrollBarTrackInnerShadowGradient(Shape s, FourColors colors) {
+        Rectangle bounds = s.getBounds();
+        int width = bounds.width;
+        int height = bounds.height;
+        return createGradient(width * 0.5f, 0, width * 0.5f, height - 1, new float[] { 0f, 0.142857143f, 0.5f, 0.785714286f, 1f },
+            new Color[] { colors.topColor, colors.upperMidColor, colors.lowerMidColor, colors.lowerMidColor, colors.bottomColor });
     }
 
     /**

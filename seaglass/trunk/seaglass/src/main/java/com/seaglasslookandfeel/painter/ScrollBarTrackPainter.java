@@ -19,15 +19,13 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Rectangle;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
@@ -38,15 +36,7 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED,
     }
 
-    private static final Color trackBackground1 = new Color(0xeeeeee);
-    private static final Color trackBackground2 = new Color(0xffffff);
-
-    private static final Color trackInner1      = new Color(0x33000000, true);
-    private static final Color trackInner2      = new Color(0x15000000, true);
-    private static final Color trackInner3      = new Color(0x00000000, true);
-    private static final Color trackInner4      = new Color(0x12000000, true);
-
-    private PaintContext       ctx;
+    private PaintContext ctx;
 
     public ScrollBarTrackPainter(Which state) {
         super();
@@ -55,36 +45,12 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
 
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        paintBackgroundTrack(g, width, height);
+        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
+        ColorUtil.fillScrollBarTrackColors(g, s);
     }
 
     @Override
     protected PaintContext getPaintContext() {
         return ctx;
-    }
-
-    private void paintBackgroundTrack(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        g.setPaint(decodeGradientTrack(s));
-        g.fill(s);
-        g.setPaint(decodeGradientTrackInnerShadow(s));
-        g.fill(s);
-    }
-
-    private Paint decodeGradientTrack(Shape s) {
-        Rectangle bounds = s.getBounds();
-        int width = bounds.width;
-        int height = bounds.height;
-        return decodeGradient(width * 0.5f, 0, width * 0.5f, height - 1, new float[] { 0f, 1f }, new Color[] {
-            trackBackground1,
-            trackBackground2 });
-    }
-
-    private Paint decodeGradientTrackInnerShadow(Shape s) {
-        Rectangle bounds = s.getBounds();
-        int width = bounds.width;
-        int height = bounds.height;
-        return decodeGradient(width * 0.5f, 0, width * 0.5f, height - 1, new float[] { 0f, 0.142857143f, 0.5f, 0.785714286f, 1f },
-            new Color[] { trackInner1, trackInner2, trackInner3, trackInner3, trackInner4 });
     }
 }
