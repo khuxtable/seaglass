@@ -144,6 +144,12 @@ public class ColorUtil {
     private static Color              scrollBarButtonDarkDivider   = new Color(0x1f000000, true);
     private static Color              scrollBarButtonLightDivider  = new Color(0x3fffffff, true);
 
+    private static TwoColors          sliderTrackDisabledBorder;
+    private static TwoColors          sliderTrackDisabledInterior;
+
+    private static TwoColors          sliderTrackEnabledBorder;
+    private static TwoColors          sliderTrackEnabledInterior;
+
     static {
         outerFocus = decodeColor("seaGlassOuterFocus");
         innerFocus = decodeColor("seaGlassFocus");
@@ -277,6 +283,12 @@ public class ColorUtil {
 
         scrollBarButtonDarkDivider = new Color(0x1f000000, true);
         scrollBarButtonLightDivider = new Color(0x3fffffff, true);
+
+        sliderTrackDisabledBorder = new TwoColors(new Color(0x80909090, true), new Color(0x80b4b4b4, true));
+        sliderTrackDisabledInterior = new TwoColors(new Color(0x80c4c4c4, true), new Color(0x80ebebeb, true));
+
+        sliderTrackEnabledBorder = new TwoColors(new Color(0x636363), new Color(0xaeaeae));
+        sliderTrackEnabledInterior = new TwoColors(new Color(0xc4c4c4), new Color(0xebebeb));
     }
 
     public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -505,6 +517,26 @@ public class ColorUtil {
         return null;
     }
 
+    public static TwoColors getSliderTrackBorderColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return sliderTrackDisabledBorder;
+        case ENABLED:
+            return sliderTrackEnabledBorder;
+        }
+        return null;
+    }
+
+    public static TwoColors getSliderTrackInteriorColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return sliderTrackDisabledInterior;
+        case ENABLED:
+            return sliderTrackEnabledInterior;
+        }
+        return null;
+    }
+
     public static void drawFocus(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
         if (focusType == FocusType.OUTER_FOCUS) {
             g.setColor(useToolBarFocus ? outerToolBarFocus : outerFocus);
@@ -580,6 +612,11 @@ public class ColorUtil {
         Color color = getPopupMenuBorderColors(type);
         g.setPaint(color);
         g.fill(s);
+    }
+
+    public static void fillSliderTrackBorderColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getSliderTrackBorderColors(type);
+        fillTwoColorGradientVertical(g, s, colors);
     }
 
     public static void drawFrameInnerHighlightColors(Graphics2D g, Shape s, ButtonType type) {
@@ -663,6 +700,11 @@ public class ColorUtil {
 
     public static void fillRootPaneInteriorColors(Graphics2D g, Shape s, ButtonType type) {
         TwoColors colors = getRootPaneColors(type);
+        fillTwoColorGradientVertical(g, s, colors);
+    }
+
+    public static void fillSliderTrackInteriorColors(Graphics2D g, Shape s, ButtonType type) {
+        TwoColors colors = getSliderTrackInteriorColors(type);
         fillTwoColorGradientVertical(g, s, colors);
     }
 
