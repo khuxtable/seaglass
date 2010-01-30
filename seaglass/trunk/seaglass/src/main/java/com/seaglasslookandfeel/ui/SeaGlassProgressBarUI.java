@@ -266,7 +266,8 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         g2d.setComposite(AlphaComposite.Src);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(bgFillColor);
-        g2d.fill(ShapeUtil.createRoundRectangle(0, 0, bounds.width, bounds.height, CornerSize.ROUND_HEIGHT));
+        CornerSize cornerSize = pBar.getOrientation() == JProgressBar.HORIZONTAL ? CornerSize.ROUND_HEIGHT : CornerSize.ROUND_WIDTH;
+        g2d.fill(ShapeUtil.createRoundRectangle(0, 0, bounds.width, bounds.height, cornerSize));
 
         // Use SrcAtop, which effectively uses the alpha value as a coverage
         // value for each pixel stored in the destination. At the edges, the
