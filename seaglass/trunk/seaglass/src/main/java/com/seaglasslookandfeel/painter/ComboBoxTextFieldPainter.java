@@ -25,8 +25,8 @@ import java.awt.Shape;
 
 import javax.swing.JComponent;
 
+import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
@@ -37,11 +37,13 @@ public final class ComboBoxTextFieldPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED,
     }
 
-    private static final Color DISABLED_BORDER = new Color(0xdddddd);
-    private static final Color ENABLED_BORDER  = new Color(0xbbbbbb);
+    private SeaGlassInternalShadowEffect internalShadow  = new SeaGlassInternalShadowEffect();
 
-    private Which              state;
-    private PaintContext       ctx;
+    private static final Color           DISABLED_BORDER = new Color(0xdddddd);
+    private static final Color           ENABLED_BORDER  = new Color(0xbbbbbb);
+
+    private Which                        state;
+    private PaintContext                 ctx;
 
     public ComboBoxTextFieldPainter(Which state) {
         super();
@@ -95,6 +97,6 @@ public final class ComboBoxTextFieldPainter extends AbstractRegionPainter {
 
     private void paintInternalDropShadow(Graphics2D g, int width, int height) {
         Shape s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
-        ColorUtil.fillInternalShadow(g, s, false);
+        internalShadow.fill(g, s, false, false);
     }
 }

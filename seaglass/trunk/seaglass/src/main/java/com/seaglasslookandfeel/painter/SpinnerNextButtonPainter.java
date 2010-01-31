@@ -115,10 +115,12 @@ public final class SpinnerNextButtonPainter extends AbstractRegionPainter {
 
         if (focused) {
             s = createButtonShape(0, 0, width, height, CornerSize.OUTER_FOCUS);
-            ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarColors));
+            g.fill(s);
 
             s = createButtonShape(0, 1, width - 1, height - 1, CornerSize.INNER_FOCUS);
-            ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarColors));
+            g.fill(s);
         }
 
         s = createButtonShape(0, 2, width - 2, height - 2, CornerSize.BORDER);

@@ -661,49 +661,12 @@ public class ColorUtil {
         return null;
     }
 
-    public static void drawFocus(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
+    public static Paint getFocusPaint(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
         if (focusType == FocusType.OUTER_FOCUS) {
-            g.setColor(useToolBarFocus ? outerToolBarFocus : outerFocus);
+            return useToolBarFocus ? outerToolBarFocus : outerFocus;
         } else {
-            g.setColor(useToolBarFocus ? innerToolBarFocus : innerFocus);
+            return useToolBarFocus ? innerToolBarFocus : innerFocus;
         }
-        g.draw(s);
-    }
-
-    public static void fillFocus(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
-        if (focusType == FocusType.OUTER_FOCUS) {
-            g.setColor(useToolBarFocus ? outerToolBarFocus : outerFocus);
-        } else {
-            g.setColor(useToolBarFocus ? innerToolBarFocus : innerFocus);
-        }
-        g.fill(s);
-    }
-
-    public static void fillInternalShadow(Graphics2D g, Shape s, boolean paintRightShadow) {
-        Rectangle bounds = s.getBounds();
-        int x = bounds.x;
-        int y = bounds.y;
-        int w = bounds.width;
-        int h = bounds.height;
-
-        s = ShapeUtil.createRectangle(x, y, w, 2);
-        g.setPaint(createTopShadowGradient(s));
-        g.fill(s);
-
-        s = ShapeUtil.createRectangle(x, y, 1, h);
-        g.setPaint(createLeftShadowGradient(s));
-        g.fill(s);
-
-        if (paintRightShadow) {
-            s = ShapeUtil.createRectangle(x + w - 1, y, 1, h);
-            g.setPaint(createRightShadowGradient(s));
-            g.fill(s);
-        }
-    }
-
-    public static void fillInternalShadowRounded(Graphics2D g, Shape s) {
-        g.setPaint(createRoundedShadowGradient(s, innerRoundedShadow));
-        g.fill(s);
     }
 
     public static void drawProgressBarBorderColors(Graphics2D g, Shape s, ButtonType type) {
@@ -861,7 +824,7 @@ public class ColorUtil {
         g.setPaint(createCheckMarkGradient(s, colors));
         g.fill(s);
     }
-    
+
     public static void fillSpinnerArrowColors(Graphics2D g, Shape s, ButtonType type) {
         Color color = getSpinnerArrowColors(type);
         g.setPaint(color);
@@ -1057,19 +1020,19 @@ public class ColorUtil {
         return createGradient(midX, y, x + midX, y + h, midPoints, colors);
     }
 
-    private static Paint createRoundedShadowGradient(Shape s, TwoColors colors) {
+    public static Paint createRoundedShadowPaint(Shape s) {
         Rectangle r = s.getBounds();
         int x = r.x + r.width / 2;
         int y1 = r.y;
         float frac = 1.0f / r.height;
         int y2 = r.y + r.height;
         return createGradient(x, y1, x, y2, new float[] { 0f, frac, 1f }, new Color[] {
-            colors.topColor,
-            colors.bottomColor,
-            colors.bottomColor });
+            innerRoundedShadow.topColor,
+            innerRoundedShadow.bottomColor,
+            innerRoundedShadow.bottomColor });
     }
 
-    private static Paint createTopShadowGradient(Shape s) {
+    public static Paint createTopShadowPaint(Shape s) {
         Rectangle2D bounds = s.getBounds2D();
         float minY = (float) bounds.getMinY();
         float maxY = (float) bounds.getMaxY();
@@ -1077,7 +1040,7 @@ public class ColorUtil {
         return createGradient(midX, minY, midX, maxY, new float[] { 0f, 1f }, new Color[] { rectangularShadowDark, transparentColor });
     }
 
-    private static Paint createLeftShadowGradient(Shape s) {
+    public static Paint createLeftShadowPaint(Shape s) {
         Rectangle2D bounds = s.getBounds2D();
         float minX = (float) bounds.getMinX();
         float maxX = (float) bounds.getMaxX();
@@ -1085,7 +1048,7 @@ public class ColorUtil {
         return createGradient(minX, midY, maxX, midY, new float[] { 0f, 1f }, new Color[] { rectangularShadowLight, transparentColor });
     }
 
-    private static Paint createRightShadowGradient(Shape s) {
+    public static Paint createRightShadowPaint(Shape s) {
         Rectangle2D bounds = s.getBounds2D();
         float minX = (float) bounds.getMinX();
         float maxX = (float) bounds.getMaxX();

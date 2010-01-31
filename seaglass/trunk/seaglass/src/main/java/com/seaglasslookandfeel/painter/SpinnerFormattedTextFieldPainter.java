@@ -25,6 +25,7 @@ import java.awt.Shape;
 
 import javax.swing.JComponent;
 
+import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
@@ -38,12 +39,14 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED, BACKGROUND_FOCUSED, BACKGROUND_SELECTED_FOCUSED,
     }
 
-    private Color        disabledBorder = new Color(0xdddddd);
-    private Color        enabledBorder  = new Color(0xbbbbbb);
+    private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
-    private Which        state;
-    private PaintContext ctx;
-    private boolean      focused;
+    private Color                        disabledBorder = new Color(0xdddddd);
+    private Color                        enabledBorder  = new Color(0xbbbbbb);
+
+    private Which                        state;
+    private PaintContext                 ctx;
+    private boolean                      focused;
 
     public SpinnerFormattedTextFieldPainter(Which state) {
         super();
@@ -91,9 +94,11 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
         boolean useFocusColors = isInToolBar(c);
         if (focused) {
             Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-            ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useFocusColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useFocusColors));
+            g.fill(s);
             s = ShapeUtil.createRectangle(1, 1, width - 1, height - 2);
-            ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useFocusColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useFocusColors));
+            g.fill(s);
         }
 
         g.setColor(c.getBackground());
@@ -108,7 +113,7 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
 
     private void paintInternalDropShadow(Graphics2D g, int width, int height) {
         Shape s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
-        ColorUtil.fillInternalShadow(g, s, false);
+        internalShadow.fill(g, s, false, false);
     }
 
     private Shape setRect(int x, int y, int width, int height) {

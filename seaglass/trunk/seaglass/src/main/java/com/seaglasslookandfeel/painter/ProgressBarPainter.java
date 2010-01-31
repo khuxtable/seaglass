@@ -27,6 +27,7 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
+import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
@@ -49,11 +50,12 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         FOREGROUND_DISABLED_INDETERMINATE,
     }
 
-    private Effect       dropShadow = new SeaGlassDropShadowEffect();
+    private Effect                       dropShadow     = new SeaGlassDropShadowEffect();
+    private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
-    private Which        state;
-    private PaintContext ctx;
-    private ButtonType   type;
+    private Which                        state;
+    private PaintContext                 ctx;
+    private ButtonType                   type;
 
     public ProgressBarPainter(Which state) {
         super();
@@ -126,7 +128,7 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         ColorUtil.fillProgressBarTrackColors(g, s, type);
 
         s = ShapeUtil.createInternalDropShadowRounded(3, 3, width - 6, height - 8);
-        ColorUtil.fillInternalShadowRounded(g, s);
+        internalShadow.fill(g, s, true, true);
     }
 
     private void paintBar(Graphics2D g, int width, int height, boolean isFinished) {
