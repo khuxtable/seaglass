@@ -19,11 +19,8 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -48,16 +45,6 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
 
     private Which        state;
     private PaintContext ctx;
-
-    private Color        bgOuter   = new Color(0xd9d9d9);
-    private Color        bgEnabled = decodeColor("control", 0f, 0f, 0f, 0);
-
-    private Color        fgBorder1 = new Color(0x88ade0);
-    private Color        fgBorder2 = new Color(0x5785bf);
-
-    private Color        fgInside1 = new Color(0xfbfdfe);
-    private Color        fgInside2 = new Color(0xd2e8f8);
-    private Color        fgInside3 = new Color(0xf5fafd);
 
     public SplitPaneDividerPainter(Which state) {
         super();
@@ -95,9 +82,9 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
-        g.setPaint(bgEnabled);
+        g.setPaint(PaintUtil.getSplitPaneDividerBackgroundPaint());
         g.fillRect(0, 0, width, height);
-        g.setPaint(bgOuter);
+        g.setPaint(PaintUtil.getSplitPaneDividerBackgroundOuterPaint());
         int y = height / 2;
         g.drawLine(0, y, width - 1, y);
     }
@@ -106,7 +93,7 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
         int y = height / 2;
 
-        g.setPaint(bgEnabled);
+        g.setPaint(PaintUtil.getSplitPaneDividerBackgroundPaint());
         g.fillRect(0, 0, width, height);
 
         Shape s = ShapeUtil.createRectangle(0, y - 1, width, 3);
@@ -141,11 +128,11 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
 
     private void paintForegroundEnabled(Graphics2D g, int width, int height) {
         Shape s = ShapeUtil.createRoundRectangle(width / 2 - 9, height / 2 - 2, 18, 5, CornerSize.ROUND_HEIGHT);
-        g.setPaint(decodeGradientForegroundBorder(s, fgBorder1, fgBorder2));
+        g.setPaint(PaintUtil.getSplitPaneDividerBorderPaint(s));
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(width / 2 - 8, height / 2 - 1, 16, 3, CornerSize.ROUND_HEIGHT);
-        g.setPaint(decodeGradientForegroundInside(s, fgInside1, fgInside2, fgInside3));
+        g.setPaint(PaintUtil.getSplitPaneDividerInteriorPaint(s));
         g.fill(s);
     }
 
@@ -159,34 +146,5 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         s = ShapeUtil.createRoundRectangle(width / 2 - 10, height / 2 - 3, 20, 7, CornerSize.ROUND_HEIGHT);
         g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
         g.fill(s);
-    }
-
-    private Paint decodeGradientForegroundBorder(Shape s, Color border1, Color border2) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, (0.0f * h) + y, (0.5f * w) + x, (1.0f * h) + y,
-            new float[] { 0.20645161f, 0.5f, 0.7935484f }, new Color[] { border1, decodeColor(border1, border2, 0.5f), border2 });
-    }
-
-    private Paint decodeGradientForegroundInside(Shape s, Color inside1, Color inside2, Color inside3) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return decodeGradient((0.5f * w) + x, (0.0f * h) + y, (0.5f * w) + x, (1.0f * h) + y, new float[] {
-            0.090322584f,
-            0.2951613f,
-            0.5f,
-            0.5822581f,
-            0.66451615f }, new Color[] {
-            inside1,
-            decodeColor(inside1, inside2, 0.5f),
-            inside2,
-            decodeColor(inside2, inside3, 0.5f),
-            inside3 });
     }
 }
