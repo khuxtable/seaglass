@@ -20,13 +20,14 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public class MenuItemPainter extends AbstractRegionPainter {
@@ -61,6 +62,13 @@ public class MenuItemPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        ColorUtil.fillMenuItemColors(g, s);
+        g.setPaint(PaintUtil.getMenuItemBackgroundPaint(s));
+        g.fill(s);
+
+        Rectangle b = s.getBounds();
+        int width1 = b.width;
+        int height1 = b.height;
+        g.setColor(PaintUtil.getMenuItemBottomLinePaint());
+        g.drawLine(0, height1 - 1, width1 - 1, height1 - 1);
     }
 }

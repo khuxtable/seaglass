@@ -27,10 +27,10 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -142,10 +142,10 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         Shape s;
         if (isFocused) {
             s = ShapeUtil.createSliderThumbDiscrete(0, 0, width, height, CornerSize.SLIDER_OUTER_FOCUS);
-            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
+            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.fill(s);
             s = ShapeUtil.createSliderThumbDiscrete(1, 1, width - 2, height - 2, CornerSize.SLIDER_INNER_FOCUS);
-            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
+            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
             g.fill(s);
         }
 
@@ -153,10 +153,12 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         if (!isFocused) {
             dropShadow.fill(g, s);
         }
-        ColorUtil.fillCheckBoxBorderColors(g, s, type);
+        g.setPaint(PaintUtil.getCheckBoxBorderPaint(s, type));
+        g.fill(s);
 
         s = ShapeUtil.createSliderThumbDiscrete(3, 3, width - 6, height - 6, CornerSize.SLIDER_INTERIOR);
-        ColorUtil.fillCheckBoxInteriorColors(g, s, type);
+        g.setPaint(PaintUtil.getCheckBoxInteriorPaint(s, type));
+        g.fill(s);
     }
 
     private void paintContinuous(Graphics2D g, JComponent c, int width, int height) {
@@ -164,10 +166,10 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         Shape s;
         if (isFocused) {
             s = ShapeUtil.createSliderThumbContinuous(0, 1, width);
-            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
+            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.fill(s);
             s = ShapeUtil.createSliderThumbContinuous(1, 2, width - 2);
-            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
+            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
             g.fill(s);
         }
 
@@ -175,9 +177,11 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         if (!isFocused) {
             dropShadow.fill(g, s);
         }
-        ColorUtil.fillCheckBoxBorderColors(g, s, type);
+        g.setPaint(PaintUtil.getCheckBoxBorderPaint(s, type));
+        g.fill(s);
 
         s = ShapeUtil.createSliderThumbContinuous(3, 4, width - 6);
-        ColorUtil.fillCheckBoxInteriorColors(g, s, type);
+        g.setPaint(PaintUtil.getCheckBoxInteriorPaint(s, type));
+        g.fill(s);
     }
 }

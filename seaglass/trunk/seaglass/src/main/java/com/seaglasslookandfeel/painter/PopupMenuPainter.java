@@ -25,9 +25,9 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -49,9 +49,11 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.POPUP_BORDER);
-        ColorUtil.fillPopupMenuBorderColors(g, s, type);
+        g.setPaint(PaintUtil.getPopupMenuBorderPaint(s, type));
+        g.fill(s);
         s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.POPUP_INTERIOR);
-        ColorUtil.fillPopupMenuInteriorColors(g, s, type);
+        g.setPaint(PaintUtil.getPopupMenuInteriorPaint(s, type));
+        g.fill(s);
     }
 
     protected final PaintContext getPaintContext() {

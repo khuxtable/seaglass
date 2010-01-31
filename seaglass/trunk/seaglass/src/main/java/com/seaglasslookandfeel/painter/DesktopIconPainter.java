@@ -25,9 +25,9 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -47,13 +47,15 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRoundRectangle(2, 0, width - 3, height - 2, CornerSize.FRAME_BORDER);
-        ColorUtil.fillFrameBorderColors(g, s, ButtonType.INACTIVE);
+        PaintUtil.getFrameBorderPaint(s, ButtonType.INACTIVE);
 
         s = ShapeUtil.createRoundRectangle(3, 1, width - 5, height - 4, CornerSize.FRAME_INNER_HIGHLIGHT);
-        ColorUtil.fillFrameInnerHighlightColors(g, s, ButtonType.INACTIVE);
+        g.setPaint(PaintUtil.getFrameInnerHighlightPaint(s, ButtonType.INACTIVE));
+        g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(4, 2, width - 7, height - 6, CornerSize.FRAME_INTERIOR);
-        ColorUtil.fillRootPaneInteriorColors(g, s, ButtonType.INACTIVE);
+        g.setPaint(PaintUtil.getRootPaneInteriorPaint(s, ButtonType.INACTIVE));
+        g.fill(s);
     }
 
     protected final PaintContext getPaintContext() {
