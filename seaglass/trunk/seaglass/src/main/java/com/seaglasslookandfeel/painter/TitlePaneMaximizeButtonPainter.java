@@ -51,15 +51,15 @@ public final class TitlePaneMaximizeButtonPainter extends TitlePaneButtonPainter
         BACKGROUND_MAXIMIZED_PRESSED_WINDOWNOTFOCUSED,
     }
 
-    private ButtonColors                             enabled         = new ButtonColors(maximizeButtonTopEnabled,
-                                                                         maximizeButtonLeftEnabled, maximizeButtonEdgeEnabled,
-                                                                         maximizeButtonShadowEnabled, transparentColor);
-    private ButtonColors                             hover           = new ButtonColors(maximizeButtonTopHover, maximizeButtonLeftHover,
-                                                                         maximizeButtonEdgeEnabled, maximizeButtonShadowEnabled,
-                                                                         maximizeButtonInteriorHover);
-    private ButtonColors                             pressed         = new ButtonColors(maximizeButtonTopPressed,
-                                                                         maximizeButtonLeftPressed, maximizeButtonEdgeEnabled,
-                                                                         maximizeButtonShadowEnabled, maximizeButtonInteriorPressed);
+    private ButtonColors                             enabled         = new ButtonColors(white16,
+                                                                         white4c, black66,
+                                                                         white33, transparentColor);
+    private ButtonColors                             hover           = new ButtonColors(white68, white8c,
+                                                                         black66, white33,
+                                                                         white59);
+    private ButtonColors                             pressed         = new ButtonColors(gray_9b_82,
+                                                                         gray_a9_9e, black66,
+                                                                         white33, gray_e6_59);
 
     private TitlePaneMaximizeButtonForegroundPainter maximizePainter = new TitlePaneMaximizeButtonForegroundPainter();
     private TitlePaneRestoreButtonForegroundPainter  restorePainter  = new TitlePaneRestoreButtonForegroundPainter();
