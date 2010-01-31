@@ -27,9 +27,9 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -139,10 +139,16 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = createButtonPath(CornerSize.BORDER, 0, 2, width - 2, height - 4);
-        ColorUtil.fillComboBoxButtonBorderColors(g, s, type);
+        g.setPaint(PaintUtil.getComboBoxButtonBorderPaint(s, type));
+        g.fill(s);
 
         s = createButtonPath(CornerSize.INTERIOR, 1, 3, width - 4, height - 6);
-        ColorUtil.fillComboBoxButtonInteriorColors(g, s, type);
+        g.setPaint(PaintUtil.getComboBoxButtonInteriorMainPaint(s, type));
+        g.fill(s);
+        g.setPaint(PaintUtil.getComboBoxButtonInteriorLowerShinePaint(s, type));
+        g.fill(s);
+        g.setPaint(PaintUtil.getComboBoxButtonInteriorUpperShinePaint(s, type));
+        g.fill(s);
     }
 
     private void paintArrowsEnabled(Graphics2D g, JComponent c, int width, int height) {

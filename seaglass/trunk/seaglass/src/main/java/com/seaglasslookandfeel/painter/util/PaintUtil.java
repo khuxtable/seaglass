@@ -20,7 +20,6 @@
 package com.seaglasslookandfeel.painter.util;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
 import java.awt.Paint;
 import java.awt.Rectangle;
@@ -34,7 +33,7 @@ import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 /**
  * @author Kathryn Huxtable
  */
-public class ColorUtil {
+public class PaintUtil {
 
     public enum ButtonType {
         ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED, SELECTED, PRESSED_SELECTED, ACTIVE, INACTIVE, SCROLL_CAP,
@@ -344,7 +343,282 @@ public class ColorUtil {
         spinnerArrowEnabled = new Color(0x000000);
     }
 
-    public static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
+    public static Paint getButtonInteriorMainPaint(Shape s, ButtonType type, boolean isTextured) {
+        FourLayerColors colors = getButtonColors(type, isTextured);
+        return colors.mainColor;
+    }
+
+    public static Paint getButtonInteriorLowerShinePaint(Shape s, ButtonType type, boolean isTextured) {
+        FourLayerColors colors = getButtonColors(type, isTextured);
+        return createTwoColorGradientWithMidpointVertical(s, colors.lowerShine);
+    }
+
+    public static Paint getButtonInteriorUpperShinePaint(Shape s, ButtonType type, boolean isTextured) {
+        FourLayerColors colors = getButtonColors(type, isTextured);
+        return createTwoColorGradientVertical(s, colors.upperShine);
+    }
+
+    public static Paint getComboBoxButtonInteriorMainPaint(Shape s, ButtonType type) {
+        FourLayerColors colors = getComboBoxButtonColors(type);
+        return colors.mainColor;
+    }
+
+    public static Paint getComboBoxButtonInteriorLowerShinePaint(Shape s, ButtonType type) {
+        FourLayerColors colors = getComboBoxButtonColors(type);
+        return createTwoColorGradientWithMidpointVertical(s, colors.lowerShine);
+    }
+
+    public static Paint getComboBoxButtonInteriorUpperShinePaint(Shape s, ButtonType type) {
+        FourLayerColors colors = getComboBoxButtonColors(type);
+        return createTwoColorGradientVertical(s, colors.upperShine);
+    }
+
+    public static Paint getComboBoxBackgroundInteriorMainPaint(Shape s, ButtonType type) {
+        FourLayerColors colors = getComboBoxBackgroundColors(type);
+        return colors.mainColor;
+    }
+
+    public static Paint getComboBoxBackgroundInteriorLowerShinePaint(Shape s, ButtonType type) {
+        FourLayerColors colors = getComboBoxBackgroundColors(type);
+        return createTwoColorGradientWithMidpointVertical(s, colors.lowerShine);
+    }
+
+    public static Paint getComboBoxBackgroundInteriorUpperShinePaint(Shape s, ButtonType type) {
+        FourLayerColors colors = getComboBoxBackgroundColors(type);
+        return createTwoColorGradientVertical(s, colors.upperShine);
+    }
+
+    public static Paint getMenuItemBackgroundPaint(Shape s) {
+        return createTwoColorGradientVertical(s, menuItemBackground);
+    }
+
+    public static Color getMenuItemBottomLinePaint() {
+        return menuItemBottomLine;
+    }
+
+    public static Paint getFocusPaint(Shape s, FocusType focusType, boolean useToolBarFocus) {
+        if (focusType == FocusType.OUTER_FOCUS) {
+            return useToolBarFocus ? outerToolBarFocus : outerFocus;
+        } else {
+            return useToolBarFocus ? innerToolBarFocus : innerFocus;
+        }
+    }
+
+    public static Paint getProgressBarBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getProgressBarBorderColors(type);
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getFrameBorderPaint(Shape s, ButtonType type) {
+        return getFrameBorderColors(type);
+    }
+
+    public static Paint getButtonBorderPaint(Shape s, ButtonType type, boolean isTextured) {
+        TwoColors colors = getButtonColors(type, isTextured).background;
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getScrollBarThumbBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getScrollBarThumbColors(type).background;
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getCheckBoxBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getCheckBoxColors(type).background;
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getSpinnerNextBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerNextBorderColors(type);
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getSpinnerPrevBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerPrevBorderColors(type);
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getRadioButtonBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getCheckBoxColors(type).background;
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getComboBoxButtonBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getComboBoxButtonColors(type).background;
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getComboBoxBackgroundBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getComboBoxBackgroundColors(type).background;
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getPopupMenuBorderPaint(Shape s, ButtonType type) {
+        return getPopupMenuBorderColors(type);
+    }
+
+    public static Paint getSliderTrackBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSliderTrackBorderColors(type);
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getFrameInnerHighlightPaint(Shape s, ButtonType type) {
+        return getFrameInnerHighlightColors(type);
+    }
+
+    public static Paint getSpinnerPrevTopLinePaint(Shape s, ButtonType type) {
+        return getSpinnerPrevTopLineColors(type);
+    }
+
+    public static Paint getProgressBarTrackPaint(Shape s, ButtonType type) {
+        return getProgressBarTrackColors(type);
+    }
+
+    public static Paint getPopupMenuInteriorPaint(Shape s, ButtonType type) {
+        return getPopupMenuInteriorColors(type);
+    }
+
+    public static Paint getPopupMenuSeparatorPaint(Shape s, ButtonType type) {
+        return popupMenuSeparator;
+    }
+
+    public static Paint getFrameInteriorPaint(Shape s, ButtonType type, int titleHeight, int topToolBarHeight, int bottomToolBarHeight) {
+        FrameColors colors = getFrameColors(type);
+        return createFrameGradient(s, titleHeight, topToolBarHeight, bottomToolBarHeight, colors.topColorT, colors.topColorB,
+            colors.bottomColorT, colors.bottomColorB);
+    }
+
+    public static Paint getScrollBarThumbInteriorPaint(Shape s, ButtonType type) {
+        FourColors colors = getScrollBarThumbColors(type).interior;
+        return createGradientFourColor(s, colors);
+    }
+
+    public static Paint getCheckBoxInteriorPaint(Shape s, ButtonType type) {
+        FourColors colors = getCheckBoxColors(type).interior;
+        return createGradientFourColor(s, colors);
+    }
+
+    public static Paint getRadioButtonInteriorPaint(Shape s, ButtonType type) {
+        FourColors colors = getCheckBoxColors(type).interior;
+        return createGradientFourColor(s, colors);
+    }
+
+    public static Paint getRadioButtonBulletPaint(Shape s, ButtonType type) {
+        TwoColors colors = getCheckBoxBulletColors(type);
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getSpinnerNextInteriorPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerNextInteriorColors(type);
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getSpinnerPrevInteriorPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerPrevInteriorColors(type);
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getCheckBoxBulletPaint(Shape s, ButtonType type) {
+        TwoColors colors = getCheckBoxBulletColors(type);
+        return createCheckMarkGradient(s, colors);
+    }
+
+    public static Paint getSpinnerArrowPaint(Shape s, ButtonType type) {
+        return getSpinnerArrowColors(type);
+    }
+
+    public static Paint getRootPaneInteriorPaint(Shape s, ButtonType type) {
+        TwoColors colors = getRootPaneColors(type);
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getSliderTrackInteriorPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSliderTrackInteriorColors(type);
+        return createTwoColorGradientVertical(s, colors);
+    }
+
+    public static Paint getDesktopPanePaint(Shape s) {
+        return desktopPane;
+    }
+
+    public static Paint getProgressBarPaint(Shape s, ButtonType type) {
+        FourColors colors = getProgressBarColors(type);
+        return createGradientFourColor(s, colors);
+    }
+
+    public static Paint getProgressBarIndeterminatePaint(Shape s, ButtonType type) {
+        FourColors colors = getProgressBarIndeterminateColors(type);
+        return createGradientFourColor(s, colors);
+    }
+
+    public static Paint getProgressBarEndPaint(Shape s, ButtonType type) {
+        return getProgressBarEndColor(type);
+    }
+
+    public static Paint getScrollBarTrackBackgroundPaint(Shape s) {
+        return createTwoColorGradientVertical(s, scrollBarTrackBackground);
+    }
+
+    public static Paint getScrollBarTrackShadowPaint(Shape s) {
+        return createScrollBarTrackInnerShadowGradient(s, scrollBarTrackGradient);
+    }
+
+    public static Paint getScrollBarButtonBackgroundPaint(Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
+        TwoColors colors = getScrollBarButtonBackgroundColors(type, isIncrease, buttonsTogether);
+        return createTwoColorGradientHorizontal(s, colors);
+    }
+
+    public static Paint getScrollBarButtonLinePaint(ButtonType type) {
+        return getScrollBarButtonLineColor(type);
+    }
+
+    public static Paint getScrollBarButtonDividerPaint(boolean isIncrease) {
+        return isIncrease ? scrollBarButtonLightDivider : scrollBarButtonDarkDivider;
+    }
+
+    public static Paint getScrollBarButtonArrowPaint(Shape s, ButtonType type) {
+        return getScrollBarButtonArrowColor(type);
+    }
+
+    public static Paint getRoundedShadowPaint(Shape s) {
+        Rectangle r = s.getBounds();
+        int x = r.x + r.width / 2;
+        int y1 = r.y;
+        float frac = 1.0f / r.height;
+        int y2 = r.y + r.height;
+        return createGradient(x, y1, x, y2, new float[] { 0f, frac, 1f }, new Color[] {
+            innerRoundedShadow.topColor,
+            innerRoundedShadow.bottomColor,
+            innerRoundedShadow.bottomColor });
+    }
+
+    public static Paint getTopShadowPaint(Shape s) {
+        Rectangle2D bounds = s.getBounds2D();
+        float minY = (float) bounds.getMinY();
+        float maxY = (float) bounds.getMaxY();
+        float midX = (float) bounds.getCenterX();
+        return createGradient(midX, minY, midX, maxY, new float[] { 0f, 1f }, new Color[] { rectangularShadowDark, transparentColor });
+    }
+
+    public static Paint getLeftShadowPaint(Shape s) {
+        Rectangle2D bounds = s.getBounds2D();
+        float minX = (float) bounds.getMinX();
+        float maxX = (float) bounds.getMaxX();
+        float midY = (float) bounds.getCenterY();
+        return createGradient(minX, midY, maxX, midY, new float[] { 0f, 1f }, new Color[] { rectangularShadowLight, transparentColor });
+    }
+
+    public static Paint getRightShadowPaint(Shape s) {
+        Rectangle2D bounds = s.getBounds2D();
+        float minX = (float) bounds.getMinX();
+        float maxX = (float) bounds.getMaxX();
+        float midY = (float) bounds.getCenterY();
+        return createGradient(minX - 1, midY, maxX - 1, midY, new float[] { 0f, 1f }, new Color[] {
+            transparentColor,
+            rectangularShadowLight });
+    }
+
+    private static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
         switch (type) {
         case DISABLED:
             return textured ? texturedButtonDisabled : buttonDisabled;
@@ -362,7 +636,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoColors getScrollBarButtonBackgroundColors(ButtonType type, boolean isIncrease, boolean buttonsTogether) {
+    private static TwoColors getScrollBarButtonBackgroundColors(ButtonType type, boolean isIncrease, boolean buttonsTogether) {
         if (type == ButtonType.SCROLL_CAP) {
             return scrollBarCapColors;
         } else if (type == ButtonType.PRESSED) {
@@ -376,7 +650,7 @@ public class ColorUtil {
         }
     }
 
-    public static Color getScrollBarButtonLineColor(ButtonType type) {
+    private static Color getScrollBarButtonLineColor(ButtonType type) {
         if (type == ButtonType.PRESSED) {
             return scrollBarButtonLinePressed;
         } else {
@@ -384,7 +658,7 @@ public class ColorUtil {
         }
     }
 
-    public static Color getScrollBarButtonArrowColor(ButtonType type) {
+    private static Color getScrollBarButtonArrowColor(ButtonType type) {
         if (type == ButtonType.DISABLED) {
             return scrollBarButtonArrowDisabled;
         } else {
@@ -392,7 +666,7 @@ public class ColorUtil {
         }
     }
 
-    public static TwoLayerFourColors getScrollBarThumbColors(ButtonType type) {
+    private static TwoLayerFourColors getScrollBarThumbColors(ButtonType type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
@@ -405,7 +679,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoLayerFourColors getCheckBoxColors(ButtonType type) {
+    private static TwoLayerFourColors getCheckBoxColors(ButtonType type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
@@ -422,7 +696,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoColors getCheckBoxBulletColors(ButtonType type) {
+    private static TwoColors getCheckBoxBulletColors(ButtonType type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
@@ -436,7 +710,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static FourLayerColors getComboBoxButtonColors(ButtonType type) {
+    private static FourLayerColors getComboBoxButtonColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return comboBoxButtonDisabled;
@@ -448,7 +722,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static FourLayerColors getComboBoxBackgroundColors(ButtonType type) {
+    private static FourLayerColors getComboBoxBackgroundColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return comboBoxBackgroundDisabled;
@@ -460,7 +734,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoColors getRootPaneColors(ButtonType type) {
+    private static TwoColors getRootPaneColors(ButtonType type) {
         switch (type) {
         case ACTIVE:
             return rootPaneActive;
@@ -470,7 +744,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static Color getFrameBorderColors(ButtonType type) {
+    private static Color getFrameBorderColors(ButtonType type) {
         switch (type) {
         case INACTIVE:
             return frameBorderInactive;
@@ -480,7 +754,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static Color getFrameInnerHighlightColors(ButtonType type) {
+    private static Color getFrameInnerHighlightColors(ButtonType type) {
         switch (type) {
         case INACTIVE:
             return frameInnerHighlightInactive;
@@ -490,7 +764,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static FrameColors getFrameColors(ButtonType type) {
+    private static FrameColors getFrameColors(ButtonType type) {
         switch (type) {
         case INACTIVE:
             return frameInactive;
@@ -500,7 +774,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static Color getPopupMenuBorderColors(ButtonType type) {
+    private static Color getPopupMenuBorderColors(ButtonType type) {
         switch (type) {
         case ENABLED:
             return popupMenuEnabledBorder;
@@ -510,7 +784,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static Color getPopupMenuInteriorColors(ButtonType type) {
+    private static Color getPopupMenuInteriorColors(ButtonType type) {
         switch (type) {
         case ENABLED:
             return popupMenuEnabledInterior;
@@ -520,7 +794,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoColors getProgressBarBorderColors(ButtonType type) {
+    private static TwoColors getProgressBarBorderColors(ButtonType type) {
         switch (type) {
         case ENABLED:
             return progressBarEnabledTrack;
@@ -530,7 +804,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static Color getProgressBarTrackColors(ButtonType type) {
+    private static Color getProgressBarTrackColors(ButtonType type) {
         switch (type) {
         case ENABLED:
             return progressBarEnabledTrackInterior;
@@ -540,7 +814,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static FourColors getProgressBarColors(ButtonType type) {
+    private static FourColors getProgressBarColors(ButtonType type) {
         switch (type) {
         case ENABLED:
             return progressBarEnabled;
@@ -550,7 +824,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static FourColors getProgressBarIndeterminateColors(ButtonType type) {
+    private static FourColors getProgressBarIndeterminateColors(ButtonType type) {
         switch (type) {
         case ENABLED:
             return progressBarIndeterminatePattern;
@@ -560,7 +834,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static Color getProgressBarEndColor(ButtonType type) {
+    private static Color getProgressBarEndColor(ButtonType type) {
         switch (type) {
         case ENABLED:
             return progressBarEnabledEnd;
@@ -570,7 +844,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoColors getSliderTrackBorderColors(ButtonType type) {
+    private static TwoColors getSliderTrackBorderColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return sliderTrackDisabledBorder;
@@ -580,7 +854,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoColors getSliderTrackInteriorColors(ButtonType type) {
+    private static TwoColors getSliderTrackInteriorColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return sliderTrackDisabledInterior;
@@ -590,7 +864,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoColors getSpinnerNextBorderColors(ButtonType type) {
+    private static TwoColors getSpinnerNextBorderColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return spinnerNextBorderDisabled;
@@ -602,7 +876,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoColors getSpinnerNextInteriorColors(ButtonType type) {
+    private static TwoColors getSpinnerNextInteriorColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return spinnerNextInteriorDisabled;
@@ -614,7 +888,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoColors getSpinnerPrevBorderColors(ButtonType type) {
+    private static TwoColors getSpinnerPrevBorderColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return spinnerPrevBorderDisabled;
@@ -626,7 +900,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static TwoColors getSpinnerPrevInteriorColors(ButtonType type) {
+    private static TwoColors getSpinnerPrevInteriorColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return spinnerPrevInteriorDisabled;
@@ -638,7 +912,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static Color getSpinnerPrevTopLineColors(ButtonType type) {
+    private static Color getSpinnerPrevTopLineColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return spinnerPrevTopLineDisabled;
@@ -650,7 +924,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static Color getSpinnerArrowColors(ButtonType type) {
+    private static Color getSpinnerArrowColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return spinnerArrowDisabled;
@@ -659,275 +933,6 @@ public class ColorUtil {
             return spinnerArrowEnabled;
         }
         return null;
-    }
-
-    public static Paint getFocusPaint(Shape s, FocusType focusType, boolean useToolBarFocus) {
-        if (focusType == FocusType.OUTER_FOCUS) {
-            return useToolBarFocus ? outerToolBarFocus : outerFocus;
-        } else {
-            return useToolBarFocus ? innerToolBarFocus : innerFocus;
-        }
-    }
-
-    public static Paint getProgressBarBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getProgressBarBorderColors(type);
-        return createTwoColorGradientVertical(s, colors);
-    }
-
-    public static void drawFrameBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getFrameBorderColors(type);
-        g.setPaint(color);
-        g.draw(s);
-    }
-
-    public static void fillFrameBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getFrameBorderColors(type);
-        g.setPaint(color);
-        g.fill(s);
-    }
-
-    public static void fillButtonBorderColors(Graphics2D g, Shape s, ButtonType type, boolean isTextured) {
-        TwoColors colors = getButtonColors(type, isTextured).background;
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillScrollBarThumbBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getScrollBarThumbColors(type).background;
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillCheckBoxBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getCheckBoxColors(type).background;
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillSpinnerNextBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getSpinnerNextBorderColors(type);
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillSpinnerPrevBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getSpinnerPrevBorderColors(type);
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillRadioButtonBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getCheckBoxColors(type).background;
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillComboBoxButtonBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getComboBoxButtonColors(type).background;
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillComboBoxBackgroundBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getComboBoxBackgroundColors(type).background;
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillPopupMenuBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getPopupMenuBorderColors(type);
-        g.setPaint(color);
-        g.fill(s);
-    }
-
-    public static void fillSliderTrackBorderColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getSliderTrackBorderColors(type);
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void drawFrameInnerHighlightColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getFrameInnerHighlightColors(type);
-        g.setPaint(color);
-        g.draw(s);
-    }
-
-    public static void fillFrameInnerHighlightColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getFrameInnerHighlightColors(type);
-        g.setPaint(color);
-        g.fill(s);
-    }
-
-    public static void fillSpinnerPrevTopLineColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getSpinnerPrevTopLineColors(type);
-        g.setPaint(color);
-        g.fill(s);
-    }
-
-    public static void fillProgressBarTrackColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getProgressBarTrackColors(type);
-        g.setPaint(color);
-        g.fill(s);
-    }
-
-    public static void fillPopupMenuInteriorColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getPopupMenuInteriorColors(type);
-        g.setPaint(color);
-        g.fill(s);
-    }
-
-    public static void fillPopupMenuSeparatorColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = popupMenuSeparator;
-        g.setPaint(color);
-        g.fill(s);
-    }
-
-    public static void fillFrameInteriorColors(Graphics2D g, Shape s, ButtonType type, int titleHeight, int topToolBarHeight,
-        int bottomToolBarHeight) {
-        FrameColors colors = getFrameColors(type);
-        g.setPaint(createFrameGradient(s, titleHeight, topToolBarHeight, bottomToolBarHeight, colors.topColorT, colors.topColorB,
-            colors.bottomColorT, colors.bottomColorB));
-        g.fill(s);
-    }
-
-    public static void fillButtonInteriorColors(Graphics2D g, Shape s, ButtonType type, boolean isTextured) {
-        FourLayerColors colors = getButtonColors(type, isTextured);
-        fillThreeLayerGradientVertical(g, s, colors);
-    }
-
-    public static void fillScrollBarThumbInteriorColors(Graphics2D g, Shape s, ButtonType type) {
-        FourColors colors = getScrollBarThumbColors(type).interior;
-        fillFourColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillCheckBoxInteriorColors(Graphics2D g, Shape s, ButtonType type) {
-        FourColors colors = getCheckBoxColors(type).interior;
-        fillFourColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillRadioButtonInteriorColors(Graphics2D g, Shape s, ButtonType type) {
-        FourColors colors = getCheckBoxColors(type).interior;
-        fillFourColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillRadioButtonBulletColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getCheckBoxBulletColors(type);
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillSpinnerNextInteriorColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getSpinnerNextInteriorColors(type);
-        g.setPaint(createTwoColorGradientVertical(s, colors));
-        g.fill(s);
-    }
-
-    public static void fillSpinnerPrevInteriorColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getSpinnerNextInteriorColors(type);
-        g.setPaint(createTwoColorGradientVertical(s, colors));
-        g.fill(s);
-    }
-
-    public static void fillCheckBoxBulletColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getCheckBoxBulletColors(type);
-        g.setPaint(createCheckMarkGradient(s, colors));
-        g.fill(s);
-    }
-
-    public static void fillSpinnerArrowColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getSpinnerArrowColors(type);
-        g.setPaint(color);
-        g.fill(s);
-    }
-
-    public static void fillComboBoxButtonInteriorColors(Graphics2D g, Shape s, ButtonType type) {
-        FourLayerColors colors = getComboBoxButtonColors(type);
-        fillThreeLayerGradientVertical(g, s, colors);
-    }
-
-    public static void fillComboBoxBackgroundInteriorColors(Graphics2D g, Shape s, ButtonType type) {
-        FourLayerColors colors = getComboBoxBackgroundColors(type);
-        fillThreeLayerGradientVertical(g, s, colors);
-    }
-
-    public static void fillRootPaneInteriorColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getRootPaneColors(type);
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillSliderTrackInteriorColors(Graphics2D g, Shape s, ButtonType type) {
-        TwoColors colors = getSliderTrackInteriorColors(type);
-        fillTwoColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillDesktopPaneColors(Graphics2D g, Shape s) {
-        g.setColor(desktopPane);
-        g.fill(s);
-    }
-
-    public static void fillMenuItemColors(Graphics2D g, Shape s) {
-        fillTwoColorGradientVertical(g, s, menuItemBackground);
-
-        Rectangle b = s.getBounds();
-        int width = b.width;
-        int height = b.height;
-        g.setColor(menuItemBottomLine);
-        g.drawLine(0, height - 1, width - 1, height - 1);
-    }
-
-    public static void fillProgressBarColors(Graphics2D g, Shape s, ButtonType type) {
-        FourColors colors = getProgressBarColors(type);
-        fillFourColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillProgressBarIndeterminateColors(Graphics2D g, Shape s, ButtonType type) {
-        FourColors colors = getProgressBarIndeterminateColors(type);
-        fillFourColorGradientVertical(g, s, colors);
-    }
-
-    public static void fillProgressBarEndColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getProgressBarEndColor(type);
-        g.setPaint(color);
-        g.fill(s);
-    }
-
-    public static void fillScrollBarTrackColors(Graphics2D g, Shape s) {
-        g.setPaint(createTwoColorGradientVertical(s, scrollBarTrackBackground));
-        g.fill(s);
-        g.setPaint(createScrollBarTrackInnerShadowGradient(s, scrollBarTrackGradient));
-        g.fill(s);
-    }
-
-    public static void fillScrollBarButtonInteriorColors(Graphics2D g, Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
-        TwoColors colors = getScrollBarButtonBackgroundColors(type, isIncrease, buttonsTogether);
-        g.setPaint(createTwoColorGradientHorizontal(s, colors));
-        g.fill(s);
-
-        int width = s.getBounds().width;
-        Color color = getScrollBarButtonLineColor(type);
-        g.setPaint(color);
-        g.drawLine(0, 0, width - 1, 0);
-
-        if (type != ButtonType.SCROLL_CAP && buttonsTogether) {
-            int height = s.getBounds().height;
-            g.setColor(isIncrease ? scrollBarButtonLightDivider : scrollBarButtonDarkDivider);
-            g.drawLine(width - 1, 1, width - 1, height - 1);
-        }
-    }
-
-    public static void fillScrollBarButtonArrowColors(Graphics2D g, Shape s, ButtonType type) {
-        Color color = getScrollBarButtonArrowColor(type);
-        g.setPaint(color);
-        g.fill(s);
-    }
-
-    private static void fillTwoColorGradientVertical(Graphics2D g, Shape s, TwoColors colors) {
-        g.setPaint(createTwoColorGradientVertical(s, colors));
-        g.fill(s);
-    }
-
-    private static void fillThreeLayerGradientVertical(Graphics2D g, Shape s, FourLayerColors colors) {
-        g.setColor(colors.mainColor);
-        g.fill(s);
-        g.setPaint(createTwoColorGradientWithMidpointVertical(s, colors.lowerShine));
-        g.fill(s);
-        g.setPaint(createTwoColorGradientVertical(s, colors.upperShine));
-        g.fill(s);
-    }
-
-    private static void fillFourColorGradientVertical(Graphics2D g, Shape s, FourColors colors) {
-        g.setPaint(createGradientFourColor(s, colors));
-        g.fill(s);
     }
 
     private static Paint createTwoColorGradientVertical(Shape s, TwoColors colors) {
@@ -1017,44 +1022,6 @@ public class ColorUtil {
         }
 
         return createGradient(midX, y, x + midX, y + h, midPoints, colors);
-    }
-
-    public static Paint createRoundedShadowPaint(Shape s) {
-        Rectangle r = s.getBounds();
-        int x = r.x + r.width / 2;
-        int y1 = r.y;
-        float frac = 1.0f / r.height;
-        int y2 = r.y + r.height;
-        return createGradient(x, y1, x, y2, new float[] { 0f, frac, 1f }, new Color[] {
-            innerRoundedShadow.topColor,
-            innerRoundedShadow.bottomColor,
-            innerRoundedShadow.bottomColor });
-    }
-
-    public static Paint createTopShadowPaint(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minY = (float) bounds.getMinY();
-        float maxY = (float) bounds.getMaxY();
-        float midX = (float) bounds.getCenterX();
-        return createGradient(midX, minY, midX, maxY, new float[] { 0f, 1f }, new Color[] { rectangularShadowDark, transparentColor });
-    }
-
-    public static Paint createLeftShadowPaint(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minX = (float) bounds.getMinX();
-        float maxX = (float) bounds.getMaxX();
-        float midY = (float) bounds.getCenterY();
-        return createGradient(minX, midY, maxX, midY, new float[] { 0f, 1f }, new Color[] { rectangularShadowLight, transparentColor });
-    }
-
-    public static Paint createRightShadowPaint(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minX = (float) bounds.getMinX();
-        float maxX = (float) bounds.getMaxX();
-        float midY = (float) bounds.getCenterY();
-        return createGradient(minX - 1, midY, maxX - 1, midY, new float[] { 0f, 1f }, new Color[] {
-            transparentColor,
-            rectangularShadowLight });
     }
 
     private static Paint createCheckMarkGradient(Shape s, TwoColors colors) {
@@ -1161,7 +1128,7 @@ public class ColorUtil {
     /**
      * Two color gradients.
      */
-    public static class TwoColors {
+    private static class TwoColors {
         public Color topColor;
         public Color bottomColor;
 
@@ -1171,7 +1138,7 @@ public class ColorUtil {
         }
     }
 
-    public static class TwoColorsWithMidpoint extends TwoColors {
+    private static class TwoColorsWithMidpoint extends TwoColors {
         public float midpoint;
 
         public TwoColorsWithMidpoint(Color topColor, Color bottomColor, float midpoint) {
@@ -1183,7 +1150,7 @@ public class ColorUtil {
     /**
      * A set of colors to use for scrollbar thumbs and some other controls.
      */
-    public static class FourColors {
+    private static class FourColors {
 
         public Color topColor;
         public Color upperMidColor;
@@ -1206,7 +1173,7 @@ public class ColorUtil {
     /**
      * A set of colors to use for many controls.
      */
-    public static class FourLayerColors {
+    private static class FourLayerColors {
 
         public TwoColors             upperShine;
         public TwoColorsWithMidpoint lowerShine;
@@ -1225,7 +1192,7 @@ public class ColorUtil {
     /**
      * A set of colors to use for scrollbar thumbs and some other controls.
      */
-    public static class TwoLayerFourColors {
+    private static class TwoLayerFourColors {
 
         public FourColors interior;
         public TwoColors  background;
@@ -1240,7 +1207,7 @@ public class ColorUtil {
     /**
      * A set of colors to use for the button.
      */
-    public static class FrameColors {
+    private static class FrameColors {
 
         public Color topColorT;
         public Color topColorB;

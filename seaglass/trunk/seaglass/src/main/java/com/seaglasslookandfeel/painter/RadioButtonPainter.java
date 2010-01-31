@@ -28,10 +28,10 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 
 /**
  * RadioButtonPainter implementation.
@@ -101,10 +101,10 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
         if (focused) {
             boolean useToolBarFocus = isInToolBar(c);
             s = createBasicShape(width, width, height);
-            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
+            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
             g.fill(s);
             s = createBasicShape(width - 2, width, height);
-            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
+            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
             g.fill(s);
         }
 
@@ -112,14 +112,17 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
         if (!focused) {
             dropShadow.fill(g, s);
         }
-        ColorUtil.fillRadioButtonBorderColors(g, s, type);
+        g.setPaint(PaintUtil.getRadioButtonBorderPaint(s, type));
+        g.fill(s);
 
         s = createBasicShape(width - 6, width, height);
-        ColorUtil.fillRadioButtonInteriorColors(g, s, type);
+        g.setPaint(PaintUtil.getRadioButtonInteriorPaint(s, type));
+        g.fill(s);
 
         if (selected) {
             s = createBasicShape(width / 4.5, width, height);
-            ColorUtil.fillRadioButtonBulletColors(g, s, type);
+            g.setPaint(PaintUtil.getRadioButtonBulletPaint(s, type));
+            g.fill(s);
         }
     }
 

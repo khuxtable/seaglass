@@ -28,10 +28,10 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -85,10 +85,10 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         Shape s;
         if (focused) {
             s = createOuterFocus(segmentStatus, x, y, width, height);
-            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
+            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
             g.draw(s);
             s = createInnerFocus(segmentStatus, x, y, width, height);
-            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
+            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
             g.draw(s);
         }
 
@@ -97,10 +97,16 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             if (!focused) {
                 dropShadow.fill(g, s);
             }
-            ColorUtil.fillButtonBorderColors(g, s, type, isTextured);
+            g.setPaint(PaintUtil.getButtonBorderPaint(s, type, isTextured));
+            g.fill(s);
 
             s = createInterior(segmentStatus, x, y, width, height);
-            ColorUtil.fillButtonInteriorColors(g, s, type, isTextured);
+            g.setPaint(PaintUtil.getButtonInteriorMainPaint(s, type, isTextured));
+            g.fill(s);
+            g.setPaint(PaintUtil.getButtonInteriorLowerShinePaint(s, type, isTextured));
+            g.fill(s);
+            g.setPaint(PaintUtil.getButtonInteriorUpperShinePaint(s, type, isTextured));
+            g.fill(s);
         }
     }
 

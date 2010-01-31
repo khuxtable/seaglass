@@ -25,9 +25,9 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
 /**
  * PopupMenuSeparatorPainter implementation.
@@ -64,6 +64,7 @@ public final class PopupMenuSeparatorPainter extends AbstractRegionPainter {
 
     private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
         Shape s = ShapeUtil.createRectangle(0, height / 2, width, 1);
-        ColorUtil.fillPopupMenuSeparatorColors(g, s, ButtonType.ENABLED);
+        g.setPaint(PaintUtil.getPopupMenuSeparatorPaint(s, ButtonType.ENABLED));
+        g.fill(s);
     }
 }

@@ -25,10 +25,10 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -115,27 +115,31 @@ public final class SpinnerPreviousButtonPainter extends AbstractRegionPainter {
 
         if (focused) {
             s = createButtonShape(0, 0, width, height, CornerSize.OUTER_FOCUS);
-            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
+            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.fill(s);
 
             s = createButtonShape(0, 0, width - 1, height - 1, CornerSize.INNER_FOCUS);
-            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
+            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
             g.fill(s);
         }
 
         s = createButtonShape(0, 0, width - 2, height - 2, CornerSize.BORDER);
-        ColorUtil.fillSpinnerPrevBorderColors(g, s, type);
+        g.setPaint(PaintUtil.getSpinnerPrevBorderPaint(s, type));
+        g.fill(s);
 
         s = createButtonShape(1, 1, width - 4, height - 4, CornerSize.INTERIOR);
-        ColorUtil.fillSpinnerPrevInteriorColors(g, s, type);
+        g.setPaint(PaintUtil.getSpinnerPrevInteriorPaint(s, type));
+        g.fill(s);
 
         s = ShapeUtil.createRectangle(1, 0, width - 4, 1);
-        ColorUtil.fillSpinnerPrevTopLineColors(g, s, type);
+        g.setPaint(PaintUtil.getSpinnerPrevTopLinePaint(s, type));
+        g.fill(s);
     }
 
     private void paintArrow(Graphics2D g, int width, int height) {
         Shape s = createArrowShape(width, height);
-        ColorUtil.fillSpinnerArrowColors(g, s, type);
+        g.setPaint(PaintUtil.getSpinnerArrowPaint(s, type));
+        g.fill(s);
     }
 
     private Shape createButtonShape(int x, int y, int width, int height, CornerSize size) {

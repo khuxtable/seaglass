@@ -26,9 +26,9 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -54,10 +54,12 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
-        ColorUtil.fillScrollBarThumbBorderColors(g, s, type);
+        g.setPaint(PaintUtil.getScrollBarThumbBorderPaint(s, type));
+        g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
-        ColorUtil.fillScrollBarThumbInteriorColors(g, s, type);
+        g.setPaint(PaintUtil.getScrollBarThumbInteriorPaint(s, type));
+        g.fill(s);
     }
 
     @Override

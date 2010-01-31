@@ -29,9 +29,9 @@ import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -122,11 +122,12 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         if (state != Which.BACKGROUND_DISABLED) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(ColorUtil.getProgressBarBorderPaint(s, type));
+        g.setPaint(PaintUtil.getProgressBarBorderPaint(s, type));
         g.draw(s);
 
         s = ShapeUtil.createRoundRectangle(3, 3, width - 6, height - 6, CornerSize.ROUND_HEIGHT);
-        ColorUtil.fillProgressBarTrackColors(g, s, type);
+        g.setPaint(PaintUtil.getProgressBarTrackPaint(s, type));
+        g.fill(s);
 
         s = ShapeUtil.createInternalDropShadowRounded(3, 3, width - 6, height - 8);
         internalShadow.fill(g, s, true, true);
@@ -134,18 +135,22 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
 
     private void paintBar(Graphics2D g, int width, int height, boolean isFinished) {
         Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        ColorUtil.fillProgressBarColors(g, s, type);
+        g.setPaint(PaintUtil.getProgressBarPaint(s, type));
+        g.fill(s);
 
         if (!isFinished) {
             s = ShapeUtil.createRectangle(width - 1, 0, 1, height);
-            ColorUtil.fillProgressBarEndColors(g, s, type);
+            g.setPaint(PaintUtil.getProgressBarEndPaint(s, type));
+            g.fill(s);
         }
     }
 
     private void paintIndeterminateBar(Graphics2D g, int width, int height) {
         Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        ColorUtil.fillProgressBarColors(g, s, type);
+        g.setPaint(PaintUtil.getProgressBarPaint(s, type));
+        g.fill(s);
         s = ShapeUtil.createProgressBarIndeterminatePattern(0, 0, width, height);
-        ColorUtil.fillProgressBarIndeterminateColors(g, s, type);
+        g.setPaint(PaintUtil.getProgressBarIndeterminatePaint(s, type));
+        g.fill(s);
     }
 }

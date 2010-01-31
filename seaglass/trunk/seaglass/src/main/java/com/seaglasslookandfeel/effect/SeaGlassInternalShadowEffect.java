@@ -23,7 +23,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
 
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public class SeaGlassInternalShadowEffect {
@@ -44,22 +44,22 @@ public class SeaGlassInternalShadowEffect {
         int h = bounds.height;
 
         s = ShapeUtil.createRectangle(x, y, w, 2);
-        g.setPaint(ColorUtil.createTopShadowPaint(s));
+        g.setPaint(PaintUtil.getTopShadowPaint(s));
         g.fill(s);
 
         s = ShapeUtil.createRectangle(x, y, 1, h);
-        g.setPaint(ColorUtil.createLeftShadowPaint(s));
+        g.setPaint(PaintUtil.getLeftShadowPaint(s));
         g.fill(s);
 
         if (paintRightShadow) {
             s = ShapeUtil.createRectangle(x + w - 1, y, 1, h);
-            g.setPaint(ColorUtil.createRightShadowPaint(s));
+            g.setPaint(PaintUtil.getRightShadowPaint(s));
             g.fill(s);
         }
     }
 
     private void fillInternalShadowRounded(Graphics2D g, Shape s) {
-        g.setPaint(ColorUtil.createRoundedShadowPaint(s));
+        g.setPaint(PaintUtil.getRoundedShadowPaint(s));
         g.fill(s);
     }
 

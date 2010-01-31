@@ -25,9 +25,9 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ColorUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ColorUtil.ButtonType;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -49,9 +49,11 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
-        ColorUtil.fillSliderTrackBorderColors(g, s, type);
+        g.setPaint(PaintUtil.getSliderTrackBorderPaint(s, type));
+        g.fill(s);
         s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
-        ColorUtil.fillSliderTrackInteriorColors(g, s, type);
+        g.setPaint(PaintUtil.getSliderTrackInteriorPaint(s, type));
+        g.fill(s);
     }
 
     protected final PaintContext getPaintContext() {
