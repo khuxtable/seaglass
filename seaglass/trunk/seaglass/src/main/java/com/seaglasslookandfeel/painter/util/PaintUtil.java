@@ -140,13 +140,13 @@ public class PaintUtil {
     private static TwoColors          scrollBarButtonDecreaseTogether;
     private static TwoColors          scrollBarButtonDecreasePressed;
 
-    private static Color              scrollBarButtonLine          = new Color(0xbdbdbd);
-    private static Color              scrollBarButtonLinePressed   = new Color(0x82abd0);
-    private static Color              scrollBarButtonArrow         = new Color(0x555555);
-    private static Color              scrollBarButtonArrowDisabled = new Color(0x80555555, true);
+    private static Color              scrollBarButtonLine;
+    private static Color              scrollBarButtonLinePressed;
+    private static Color              scrollBarButtonArrow;
+    private static Color              scrollBarButtonArrowDisabled;
 
-    private static Color              scrollBarButtonDarkDivider   = new Color(0x1f000000, true);
-    private static Color              scrollBarButtonLightDivider  = new Color(0x3fffffff, true);
+    private static Color              scrollBarButtonDarkDivider;
+    private static Color              scrollBarButtonLightDivider;
 
     private static TwoColors          sliderTrackDisabledBorder;
     private static TwoColors          sliderTrackDisabledInterior;

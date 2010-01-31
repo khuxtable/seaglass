@@ -76,11 +76,11 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         } else {
             ComboBoxArrowButtonPainter.Which arrowState;
             if (state == Which.BACKGROUND_DISABLED || state == Which.BACKGROUND_DISABLED_PRESSED) {
-                arrowState = ComboBoxArrowButtonPainter.Which.BACKGROUND_DISABLED_EDITABLE;
+                arrowState = ComboBoxArrowButtonPainter.Which.BACKGROUND_DISABLED;
             } else if (state == Which.BACKGROUND_PRESSED || state == Which.BACKGROUND_PRESSED_FOCUSED) {
-                arrowState = ComboBoxArrowButtonPainter.Which.BACKGROUND_PRESSED_EDITABLE;
+                arrowState = ComboBoxArrowButtonPainter.Which.BACKGROUND_PRESSED;
             } else {
-                arrowState = ComboBoxArrowButtonPainter.Which.BACKGROUND_ENABLED_EDITABLE;
+                arrowState = ComboBoxArrowButtonPainter.Which.BACKGROUND_ENABLED;
             }
             buttonPainter = new ComboBoxArrowButtonPainter(arrowState);
         }
