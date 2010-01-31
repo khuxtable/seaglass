@@ -142,9 +142,11 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         Shape s;
         if (isFocused) {
             s = ShapeUtil.createSliderThumbDiscrete(0, 0, width, height, CornerSize.SLIDER_OUTER_FOCUS);
-            ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarColors));
+            g.fill(s);
             s = ShapeUtil.createSliderThumbDiscrete(1, 1, width - 2, height - 2, CornerSize.SLIDER_INNER_FOCUS);
-            ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarColors));
+            g.fill(s);
         }
 
         s = ShapeUtil.createSliderThumbDiscrete(2, 2, width - 4, height - 4, CornerSize.SLIDER_BORDER);
@@ -162,9 +164,11 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         Shape s;
         if (isFocused) {
             s = ShapeUtil.createSliderThumbContinuous(0, 1, width);
-            ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarColors));
+            g.fill(s);
             s = ShapeUtil.createSliderThumbContinuous(1, 2, width - 2);
-            ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarColors));
+            g.fill(s);
         }
 
         s = ShapeUtil.createSliderThumbContinuous(2, 3, width - 4);

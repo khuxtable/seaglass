@@ -110,10 +110,12 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         g.fillRect(0, 0, width, height);
 
         Shape s = ShapeUtil.createRectangle(0, y - 1, width, 3);
-        ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
+        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarColors));
+        g.fill(s);
 
         s = ShapeUtil.createRectangle(0, y, width, 1);
-        ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
+        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarColors));
+        g.fill(s);
     }
 
     private void paintForegroundEnabledAndVertical(Graphics2D g, int width, int height) {
@@ -151,10 +153,12 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
 
         Shape s = ShapeUtil.createRoundRectangle(width / 2 - 11, height / 2 - 4, 22, 9, CornerSize.ROUND_HEIGHT);
-        ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
+        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarColors));
+        g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(width / 2 - 10, height / 2 - 3, 20, 7, CornerSize.ROUND_HEIGHT);
-        ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
+        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarColors));
+        g.fill(s);
     }
 
     private Paint decodeGradientForegroundBorder(Shape s, Color border1, Color border2) {

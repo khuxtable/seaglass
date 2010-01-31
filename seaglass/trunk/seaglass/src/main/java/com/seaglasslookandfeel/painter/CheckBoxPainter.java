@@ -89,9 +89,11 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         if (focused) {
             boolean useToolBarFocus = isInToolBar(c);
             s = ShapeUtil.createRoundRectangle(x, y, size, size, CornerSize.CHECKBOX_OUTER_FOCUS);
-            ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarFocus);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarFocus));
+            g.fill(s);
             s = ShapeUtil.createRoundRectangle(x + 1, y + 1, size - 2, size - 2, CornerSize.CHECKBOX_INNER_FOCUS);
-            ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarFocus);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarFocus));
+            g.fill(s);
         }
 
         s = ShapeUtil.createRoundRectangle(x + 2, y + 2, size - 4, size - 4, CornerSize.CHECKBOX_BORDER);

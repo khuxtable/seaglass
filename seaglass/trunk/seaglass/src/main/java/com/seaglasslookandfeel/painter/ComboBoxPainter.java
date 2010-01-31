@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -51,9 +50,6 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         BACKGROUND_FOCUSED_EDITABLE,
         BACKGROUND_PRESSED_EDITABLE,
     }
-
-    private Color                      outerShadowColor = new Color(0x0a000000, true);
-    private Color                      innerShadowColor = new Color(0x1c000000, true);
 
     public ButtonType                  type;
 
@@ -173,9 +169,11 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     private void paintFocus(Graphics2D g, JComponent c, int width, int height) {
         boolean useToolBarFocus = isInToolBar(c);
         Shape s = createFocusPath(CornerSize.OUTER_FOCUS, 0, 0, width, height);
-        ColorUtil.fillFocus(g, s, FocusType.OUTER_FOCUS, useToolBarFocus);
+        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarFocus));
+        g.fill(s);
         s = createFocusPath(CornerSize.INNER_FOCUS, 1, 1, width - 2, height - 2);
-        ColorUtil.fillFocus(g, s, FocusType.INNER_FOCUS, useToolBarFocus);
+        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarFocus));
+        g.fill(s);
     }
 
     private void paintDropShadow(Graphics2D g, int width, int height, boolean full) {

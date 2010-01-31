@@ -25,6 +25,7 @@ import java.awt.Shape;
 
 import javax.swing.JComponent;
 
+import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
@@ -45,13 +46,15 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
         BORDER_ENABLED,
     }
 
-    private Color        disabledBorder       = decodeColor("seaGlassTextDisabledBorder");
-    private Color        enabledBorder        = decodeColor("seaGlassTextEnabledBorder");
-    private Color        enabledToolbarBorder = decodeColor("seaGlassTextEnabledToolbarBorder");
+    private SeaGlassInternalShadowEffect internalShadow       = new SeaGlassInternalShadowEffect();
 
-    private Which        state;
-    private PaintContext ctx;
-    private boolean      focused;
+    private Color                        disabledBorder       = decodeColor("seaGlassTextDisabledBorder");
+    private Color                        enabledBorder        = decodeColor("seaGlassTextEnabledBorder");
+    private Color                        enabledToolbarBorder = decodeColor("seaGlassTextEnabledToolbarBorder");
+
+    private Which                        state;
+    private PaintContext                 ctx;
+    private boolean                      focused;
 
     public SearchFieldPainter(Which state) {
         super();
@@ -149,13 +152,15 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
         Shape s;
         if (focused) {
             s = ShapeUtil.createRoundRectangle(x - 2, y - 2, width + 4 - 1, height + 4 - 1, CornerSize.ROUND_HEIGHT_DRAW);
-            ColorUtil.drawFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarColors));
+            g.draw(s);
             s = ShapeUtil.createRoundRectangle(x - 1, y - 1, width + 2 - 1, height + 2 - 1, CornerSize.ROUND_HEIGHT_DRAW);
-            ColorUtil.drawFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarColors));
+            g.draw(s);
         }
 
         s = ShapeUtil.createInternalDropShadowRounded(x + 1, y + 1, width - 2, height - 2);
-        ColorUtil.fillInternalShadowRounded(g, s);
+        internalShadow.fill(g, s, true, true);
 
         g.setColor(!focused && useToolBarColors ? enabledToolbarBorder : enabledBorder);
         s = ShapeUtil.createRoundRectangle(x, y, width - 1, height - 1, CornerSize.ROUND_HEIGHT_DRAW);

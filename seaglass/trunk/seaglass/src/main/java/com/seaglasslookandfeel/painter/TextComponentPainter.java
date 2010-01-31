@@ -25,6 +25,7 @@ import java.awt.Shape;
 
 import javax.swing.JComponent;
 
+import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.util.ColorUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.ColorUtil.FocusType;
@@ -44,13 +45,15 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         BORDER_ENABLED,
     }
 
-    private Color        disabledBorder       = new Color(0xdddddd);
-    private Color        enabledBorder        = new Color(0xbbbbbb);
-    private Color        enabledToolBarBorder = new Color(0x888888);
+    private SeaGlassInternalShadowEffect internalShadow       = new SeaGlassInternalShadowEffect();
 
-    private Which        state;
-    private PaintContext ctx;
-    private boolean      focused;
+    private Color                        disabledBorder       = new Color(0xdddddd);
+    private Color                        enabledBorder        = new Color(0xbbbbbb);
+    private Color                        enabledToolBarBorder = new Color(0x888888);
+
+    private Which                        state;
+    private PaintContext                 ctx;
+    private boolean                      focused;
 
     public TextComponentPainter(Which state) {
         super();
@@ -145,9 +148,11 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
         if (focused) {
             Shape s = ShapeUtil.createRectangle(x - 2, y - 2, width + 3, height + 3);
-            ColorUtil.drawFocus(g, s, FocusType.OUTER_FOCUS, useToolBarColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarColors));
+            g.draw(s);
             s = ShapeUtil.createRectangle(x - 1, y - 1, width + 1, height + 1);
-            ColorUtil.drawFocus(g, s, FocusType.INNER_FOCUS, useToolBarColors);
+            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarColors));
+            g.draw(s);
         }
         paintInnerShadow(g, x, y, width, height);
         g.setColor(!focused && useToolBarColors ? enabledToolBarBorder : enabledBorder);
@@ -156,7 +161,7 @@ public final class TextComponentPainter extends AbstractRegionPainter {
 
     private void paintInnerShadow(Graphics2D g, int x, int y, int width, int height) {
         Shape s = ShapeUtil.createRectangle(x + 1, x + 1, width - 2, height - 2);
-        ColorUtil.fillInternalShadow(g, s, true);
+        internalShadow.fill(g, s, false, true);
     }
 
     private Shape decodeBackground(int x, int y, int width, int height) {
