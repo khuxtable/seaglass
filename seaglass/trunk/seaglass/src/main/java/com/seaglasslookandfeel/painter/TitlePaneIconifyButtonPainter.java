@@ -32,7 +32,7 @@ import com.seaglasslookandfeel.painter.titlepaneforegound.TitlePaneRestoreButton
 /**
  * Title pane iconify button painter implementation.
  */
-public final class TitlePaneIconifyButtonPainter extends AbstractRegionPainter {
+public final class TitlePaneIconifyButtonPainter extends TitlePaneButtonPainter {
     public static enum Which {
         BACKGROUND_ENABLED,
         BACKGROUND_DISABLED,
@@ -51,18 +51,18 @@ public final class TitlePaneIconifyButtonPainter extends AbstractRegionPainter {
         BACKGROUND_MINIMIZED_PRESSED_WINDOWNOTFOCUSED,
     }
 
-    private static final ButtonColors               enabled        = new ButtonColors(new Color(0x16ffffff, true), new Color(0x66000000,
-                                                                       true), new Color(0x4cffffff, true), new Color(0x66000000, true),
-                                                                       new Color(0x33000000, true), new Color(0x33ffffff, true), new Color(
-                                                                           0, true));
-    private static final ButtonColors               hover          = new ButtonColors(new Color(0x68ffffff, true), new Color(0x66000000,
-                                                                       true), new Color(0x8cffffff, true), new Color(0x66000000, true),
-                                                                       new Color(0x33000000, true), new Color(0x46ffffff, true), new Color(
-                                                                           0x59ffffff, true));
-    private static final ButtonColors               pressed        = new ButtonColors(new Color(0x829b9b9b, true), new Color(0x66000000,
-                                                                       true), new Color(0x9ea9a9a9, true), new Color(0x66000000, true),
-                                                                       new Color(0x33000000, true), new Color(0x33ffffff, true), new Color(
-                                                                           0x59e6e6e6, true));
+    private ButtonColors                            enabled        = new ButtonColors(iconifyButtonTopEnabled,
+                                                                       iconifyButtonLeftOuterEnabled, iconifyButtonLeftInnerEnabled,
+                                                                       iconifyButtonLeftOuterEnabled, iconifyButtonEdgeShadeEnabled,
+                                                                       iconifyButtonShadowEnabled, transparentColor);
+    private ButtonColors                            hover          = new ButtonColors(iconifyButtonTopHover, iconifyButtonLeftOuterEnabled,
+                                                                       iconifyButtonLeftInnerHover, iconifyButtonLeftOuterEnabled,
+                                                                       iconifyButtonEdgeShadeEnabled, iconifyButtonShadowHover,
+                                                                       iconifyButtonInteriorHover);
+    private ButtonColors                            pressed        = new ButtonColors(iconifyButtonTopPressed,
+                                                                       iconifyButtonLeftOuterEnabled, iconifyButtonLeftInnerPressed,
+                                                                       iconifyButtonLeftOuterEnabled, iconifyButtonEdgeShadeEnabled,
+                                                                       iconifyButtonShadowEnabled, iconifyButtonInteriorPressed);
 
     private TitlePaneIconifyButtonForegroundPainter iconifyPainter = new TitlePaneIconifyButtonForegroundPainter();
     private TitlePaneRestoreButtonForegroundPainter restorePainter = new TitlePaneRestoreButtonForegroundPainter();

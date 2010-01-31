@@ -34,40 +34,30 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
 /**
  * Title pane close button implementation.
  */
-public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
+public final class TitlePaneCloseButtonPainter extends TitlePaneButtonPainter {
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_ENABLED,
         BACKGROUND_MOUSEOVER,
-        BACKGROUND_MODIFIED,
-        BACKGROUND_MODIFIED_MOUSEOVER,
         BACKGROUND_PRESSED,
         BACKGROUND_ENABLED_WINDOWNOTFOCUSED,
-        BACKGROUND_MODIFIED_WINDOWNOTFOCUSED,
         BACKGROUND_PRESSED_WINDOWNOTFOCUSED,
     }
 
-    private static final ButtonColors enabled       = new ButtonColors(new Color(0x16ffffff, true), new Color(0x4cffffff, true), new Color(
-                                                        0x66000000, true), new Color(0x33ffffff, true), new Color(0, true), new Color(0,
-                                                        true), new Color(0x99000000, true), new Color(0x99ffffff, true));
-    private static final ButtonColors modified      = new ButtonColors(new Color(0x16ffffff, true), new Color(0x4cffffff, true), new Color(
-                                                        0x66000000, true), new Color(0x33ffffff, true), new Color(0, true), new Color(0,
-                                                        true), new Color(0x99000000, true), new Color(0x535353));
-    private static final ButtonColors hover         = new ButtonColors(new Color(0xf39493), new Color(0xf7a2a0),
-                                                        new Color(0x9e5b0000, true), new Color(0x33ffffff, true), new Color(0xda5452),
-                                                        new Color(0xd94645), new Color(0x270908), new Color(0xffffff));
-    private static final ButtonColors hoverModified = new ButtonColors(new Color(0xf39493), new Color(0xf7a2a0),
-                                                        new Color(0x9e5b0000, true), new Color(0x33ffffff, true), new Color(0xda5452),
-                                                        new Color(0xd94645), new Color(0x270908), new Color(0x535353));
-    private static final ButtonColors pressed       = new ButtonColors(new Color(0xefa53634, true), new Color(0xf4bb6765, true), new Color(
-                                                        0x66000000, true), new Color(0x33ffffff, true), new Color(0xe8e2302d, true),
-                                                        new Color(0xe8e2302d, true), new Color(0xf4551211, true), new Color(0xfcfce9e9,
-                                                            true));
+    private ButtonColors enabled = new ButtonColors(closeButtonTopEnabled, closeButtonLeftEnabled, closeButtonEdgeEnabled,
+                                     closeButtonShadowEnabled, closeButtonTransparentColor, closeButtonTransparentColor,
+                                     closeButtonMarkBorderEnabled, closeButtonMarkInteriorEnabled);
+    private ButtonColors hover   = new ButtonColors(closeButtonTopHover, closeButtonLeftHover, closeButtonEdgeHover,
+                                     closeButtonShadowEnabled, closeButtonInteriorTopHover, closeButtonInteriorBottomHover,
+                                     closeButtonMarkBorderHover, closeButtonMarkInteriorHover);
+    private ButtonColors pressed = new ButtonColors(closeButtonTopPressed, closeButtonLeftPressed, closeButtonEdgeEnabled,
+                                     closeButtonShadowEnabled, closeButtonInteriorTopPressed, closeButtonInteriorTopPressed,
+                                     closeButtonMarkBorderPressed, closeButtonMarkInteriorPressed);
 
-    private MyPath2D                  path          = new MyPath2D();
+    private MyPath2D     path    = new MyPath2D();
 
-    private Which                     state;
-    private PaintContext              ctx;
+    private Which        state;
+    private PaintContext ctx;
 
     public TitlePaneCloseButtonPainter(Which state) {
         super();
@@ -85,13 +75,6 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
             break;
         case BACKGROUND_MOUSEOVER:
             paintCloseHover(g, c, width, height);
-            break;
-        case BACKGROUND_MODIFIED:
-        case BACKGROUND_MODIFIED_WINDOWNOTFOCUSED:
-            paintCloseModified(g, c, width, height);
-            break;
-        case BACKGROUND_MODIFIED_MOUSEOVER:
-            paintCloseHoverModified(g, c, width, height);
             break;
         case BACKGROUND_PRESSED:
         case BACKGROUND_PRESSED_WINDOWNOTFOCUSED:
@@ -111,14 +94,6 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
 
     private void paintCloseHover(Graphics2D g, JComponent c, int width, int height) {
         paintClose(g, c, width, height, hover);
-    }
-
-    private void paintCloseModified(Graphics2D g, JComponent c, int width, int height) {
-        paintClose(g, c, width, height, modified);
-    }
-
-    private void paintCloseHoverModified(Graphics2D g, JComponent c, int width, int height) {
-        paintClose(g, c, width, height, hoverModified);
     }
 
     private void paintClosePressed(Graphics2D g, JComponent c, int width, int height) {
@@ -244,6 +219,13 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
         return path;
     }
 
+    private static class MyPath2D extends Path2D.Double {
+        public void pointAt(int x, int y) {
+            moveTo(x, y);
+            lineTo(x, y);
+        }
+    }
+
     private static class ButtonColors {
         public Color top;
         public Color left;
@@ -266,12 +248,5 @@ public final class TitlePaneCloseButtonPainter extends AbstractRegionPainter {
             this.markInterior = markInterior;
         }
 
-    }
-    
-    private static class MyPath2D extends Path2D.Double {
-        public void pointAt(int x, int y) {
-            moveTo(x, y);
-            lineTo(x, y);
-        }
     }
 }

@@ -32,7 +32,7 @@ import com.seaglasslookandfeel.painter.titlepaneforegound.TitlePaneRestoreButton
 /**
  * Title pane maximize/minimize button (aka "toggleButton") painter.
  */
-public final class TitlePaneMaximizeButtonPainter extends AbstractRegionPainter {
+public final class TitlePaneMaximizeButtonPainter extends TitlePaneButtonPainter {
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_ENABLED,
@@ -51,15 +51,15 @@ public final class TitlePaneMaximizeButtonPainter extends AbstractRegionPainter 
         BACKGROUND_MAXIMIZED_PRESSED_WINDOWNOTFOCUSED,
     }
 
-    private static final ButtonColors                enabled         = new ButtonColors(new Color(0x16ffffff, true), new Color(0x4cffffff,
-                                                                         true), new Color(0x66000000, true), new Color(0x33ffffff, true),
-                                                                         new Color(0, true));
-    private static final ButtonColors                hover           = new ButtonColors(new Color(0x68ffffff, true), new Color(0x8cffffff,
-                                                                         true), new Color(0x66000000, true), new Color(0x33ffffff, true),
-                                                                         new Color(0x59ffffff, true));
-    private static final ButtonColors                pressed         = new ButtonColors(new Color(0x829b9b9b, true), new Color(0x9ea9a9a9,
-                                                                         true), new Color(0x66000000, true), new Color(0x33ffffff, true),
-                                                                         new Color(0x59e6e6e6, true));
+    private ButtonColors                             enabled         = new ButtonColors(maximizeButtonTopEnabled,
+                                                                         maximizeButtonLeftEnabled, maximizeButtonEdgeEnabled,
+                                                                         maximizeButtonShadowEnabled, transparentColor);
+    private ButtonColors                             hover           = new ButtonColors(maximizeButtonTopHover, maximizeButtonLeftHover,
+                                                                         maximizeButtonEdgeEnabled, maximizeButtonShadowEnabled,
+                                                                         maximizeButtonInteriorHover);
+    private ButtonColors                             pressed         = new ButtonColors(maximizeButtonTopPressed,
+                                                                         maximizeButtonLeftPressed, maximizeButtonEdgeEnabled,
+                                                                         maximizeButtonShadowEnabled, maximizeButtonInteriorPressed);
 
     private TitlePaneMaximizeButtonForegroundPainter maximizePainter = new TitlePaneMaximizeButtonForegroundPainter();
     private TitlePaneRestoreButtonForegroundPainter  restorePainter  = new TitlePaneRestoreButtonForegroundPainter();
