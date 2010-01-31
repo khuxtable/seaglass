@@ -191,6 +191,17 @@ public class PaintUtil {
     private static Color              textComponentBorderEnabled;
     private static Color              textComponentBorderEnabledToolbar;
 
+    private static Color              tableHeaderBorderEnabled;
+    private static Color              tableHeaderBorderDisabled;
+
+    private static Color              tableHeaderSortIndicator;
+
+    private static FourColors         tableHeaderDisabled;
+    private static FourColors         tableHeaderEnabled;
+    private static FourColors         tableHeaderSorted;
+    private static FourColors         tableHeaderPressed;
+    private static FourColors         tableHeaderDisabledSorted;
+
     static {
         transparentColor = new Color(0x0, true);
 
@@ -369,6 +380,32 @@ public class PaintUtil {
         textComponentBorderDisabled = decodeColor("seaGlassTextDisabledBorder");
         textComponentBorderEnabled = decodeColor("seaGlassTextEnabledBorder");
         textComponentBorderEnabledToolbar = decodeColor("seaGlassTextEnabledToolbarBorder");
+
+        tableHeaderBorderEnabled = new Color(0xcad3e0);
+        tableHeaderBorderDisabled = new Color(0x80cad3e0, true);
+
+        tableHeaderSortIndicator = new Color(0xc02a5481, true);
+
+        tableHeaderDisabled = new FourColors(new Color(0x80fbfdfe, true), new Color(0x80eaeff2, true), new Color(0x80eff3f7, true),
+            new Color(0x80f5fafd, true), 0.45f, 0.6f);
+        tableHeaderEnabled = new FourColors(new Color(0xfbfdfe), new Color(0xeaeff2), new Color(0xeff3f7), new Color(0xf5fafd), 0.45f, 0.6f);
+        tableHeaderSorted = new FourColors(new Color(0xbccedf), new Color(0x7fa7cd), new Color(0x82b0d6), new Color(0xb0daf6), 0.45f, 0.6f);
+        tableHeaderPressed = new FourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4), 0.45f, 0.6f);
+        tableHeaderDisabledSorted = new FourColors(new Color(0x80bccedf, true), new Color(0x807fa7cd, true), new Color(0x8082b0d6, true),
+            new Color(0x80b0daf6, true), 0.45f, 0.6f);
+    }
+
+    public static Paint getTableHeaderBorderPaint(ButtonType type) {
+        return type == ButtonType.DISABLED ? tableHeaderBorderDisabled : tableHeaderBorderEnabled;
+    }
+
+    public static Paint getTableHeaderSortIndicatorPaint() {
+        return tableHeaderSortIndicator;
+    }
+
+    public static Paint getTableHeaderPaint(Shape s, ButtonType type, boolean isSorted) {
+        FourColors colors = getTableHeaderColors(type, isSorted);
+        return createGradientFourColor(s, colors);
     }
 
     public static Paint getTextComponentBorderPaint(ButtonType type, boolean inToolbar) {
@@ -736,6 +773,18 @@ public class PaintUtil {
             return textured ? texturedButtonDefault : buttonDefault;
         case DEFAULT_PRESSED:
             return textured ? texturedButtonDefaultPressed : buttonDefaultPressed;
+        }
+        return null;
+    }
+
+    private static FourColors getTableHeaderColors(ButtonType type, boolean isSorted) {
+        switch (type) {
+        case DISABLED:
+            return isSorted ? tableHeaderDisabledSorted : tableHeaderDisabled;
+        case ENABLED:
+            return isSorted ? tableHeaderSorted : tableHeaderEnabled;
+        case PRESSED:
+            return tableHeaderPressed;
         }
         return null;
     }
