@@ -718,18 +718,18 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".size", new Integer(22));
         d.put(p + ".States", "Enabled,Pressed,Disabled,Editable");
         d.put(p + "[Disabled+Editable].backgroundPainter",
-            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_DISABLED_EDITABLE));
-        d.put(p + "[Editable+Enabled].backgroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_ENABLED_EDITABLE));
-        d.put(p + "[Editable+Pressed].backgroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_PRESSED_EDITABLE));
+            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Editable+Enabled].backgroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Editable+Pressed].backgroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Editable+Selected].backgroundPainter",
-            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_SELECTED_EDITABLE));
+            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_PRESSED));
         d.put(p + "[Selected].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_SELECTED));
-        d.put(p + "[Editable].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_EDITABLE));
+        d.put(p + "[Editable].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_ENABLED_EDITABLE));
         d.put(p + "[Editable+Disabled].foregroundPainter",
-            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_EDITABLE_DISABLED));
+            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_DISABLED_EDITABLE));
 
         // Textfield
         c = PAINTER_PREFIX + "ComboBoxTextFieldPainter";

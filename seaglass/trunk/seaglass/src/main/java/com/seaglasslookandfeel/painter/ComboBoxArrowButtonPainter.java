@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -38,28 +37,17 @@ import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
  */
 public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
     public static enum Which {
-        BACKGROUND_DISABLED,
-        BACKGROUND_ENABLED,
-        BACKGROUND_ENABLED_PRESSED,
-        BACKGROUND_DISABLED_EDITABLE,
-        BACKGROUND_ENABLED_EDITABLE,
-        BACKGROUND_PRESSED_EDITABLE,
-        BACKGROUND_SELECTED_EDITABLE,
-        FOREGROUND_ENABLED,
-        FOREGROUND_DISABLED,
-        FOREGROUND_PRESSED,
-        FOREGROUND_SELECTED,
-        FOREGROUND_EDITABLE,
-        FOREGROUND_EDITABLE_DISABLED,
+        BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_PRESSED, BACKGROUND_SELECTED,
+
+        FOREGROUND_ENABLED, FOREGROUND_DISABLED, FOREGROUND_PRESSED, FOREGROUND_SELECTED,
+
+        FOREGROUND_ENABLED_EDITABLE, FOREGROUND_DISABLED_EDITABLE,
     }
 
-    private static final Color ENABLED_ARROW_COLOR  = new Color(0x000000);
-    private static final Color DISABLED_ARROW_COLOR = new Color(0x9ba8cf);
+    private Which        state;
+    private PaintContext ctx;
 
-    private Which              state;
-    private PaintContext       ctx;
-
-    private ButtonType         type;
+    private ButtonType   type;
 
     public ComboBoxArrowButtonPainter(Which state) {
         super();
@@ -72,35 +60,21 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
-        case BACKGROUND_DISABLED_EDITABLE:
-            paintDisabledEditable(g, c, width, height);
-            break;
-        case BACKGROUND_ENABLED_EDITABLE:
-            paintEnabledEditable(g, c, width, height);
-            break;
-        case BACKGROUND_PRESSED_EDITABLE:
-            paintPressedEditable(g, c, width, height);
-            break;
-        case BACKGROUND_SELECTED_EDITABLE:
-            paintPressedEditable(g, c, width, height);
+        case BACKGROUND_DISABLED:
+        case BACKGROUND_ENABLED:
+        case BACKGROUND_PRESSED:
+        case BACKGROUND_SELECTED:
+            paintButton(g, c, width, height);
             break;
         case FOREGROUND_ENABLED:
-            paintArrowsEnabled(g, c, width, height);
-            break;
         case FOREGROUND_DISABLED:
-            paintArrowsDisabled(g, c, width, height);
-            break;
         case FOREGROUND_PRESSED:
-            paintArrowsEnabled(g, c, width, height);
-            break;
         case FOREGROUND_SELECTED:
-            paintArrowsEnabled(g, c, width, height);
+            paintArrows(g, c, width, height);
             break;
-        case FOREGROUND_EDITABLE:
-            paintArrowDownEnabled(g, c, width, height);
-            break;
-        case FOREGROUND_EDITABLE_DISABLED:
-            paintArrowDownDisabled(g, c, width, height);
+        case FOREGROUND_ENABLED_EDITABLE:
+        case FOREGROUND_DISABLED_EDITABLE:
+            paintArrowDown(g, c, width, height);
             break;
         }
     }
@@ -112,27 +86,23 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
 
     private ButtonType getButtonType(Which state) {
         switch (state) {
-        case BACKGROUND_DISABLED_EDITABLE:
+        case BACKGROUND_DISABLED:
             return ButtonType.DISABLED;
-        case BACKGROUND_ENABLED_EDITABLE:
+        case BACKGROUND_ENABLED:
             return ButtonType.ENABLED;
-        case BACKGROUND_PRESSED_EDITABLE:
-        case BACKGROUND_SELECTED_EDITABLE:
+        case BACKGROUND_PRESSED:
+        case BACKGROUND_SELECTED:
             return ButtonType.PRESSED;
+        case FOREGROUND_ENABLED:
+        case FOREGROUND_PRESSED:
+        case FOREGROUND_SELECTED:
+        case FOREGROUND_ENABLED_EDITABLE:
+            return ButtonType.ENABLED;
+        case FOREGROUND_DISABLED:
+        case FOREGROUND_DISABLED_EDITABLE:
+            return ButtonType.DISABLED;
         }
         return null;
-    }
-
-    private void paintDisabledEditable(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height);
-    }
-
-    private void paintEnabledEditable(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height);
-    }
-
-    private void paintPressedEditable(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height);
     }
 
     private void paintButton(Graphics2D g, JComponent c, int width, int height) {
@@ -151,55 +121,29 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         g.fill(s);
     }
 
-    private void paintArrowsEnabled(Graphics2D g, JComponent c, int width, int height) {
+    private void paintArrows(Graphics2D g, JComponent c, int width, int height) {
         int xOffset = width / 2 - 5;
         int yOffset = height / 2 - 3;
         g.translate(xOffset, yOffset);
 
         Shape s = ShapeUtil.createArrowLeft(0.5, 0.5, 3, 4);
-        g.setColor(ENABLED_ARROW_COLOR);
+        g.setPaint(PaintUtil.getSpinnerArrowPaint(s, type));
         g.fill(s);
 
         s = ShapeUtil.createArrowRight(6.5, 0.5, 3, 4);
+        g.setPaint(PaintUtil.getSpinnerArrowPaint(s, type));
         g.fill(s);
 
         g.translate(-xOffset, -yOffset);
     }
 
-    private void paintArrowsDisabled(Graphics2D g, JComponent c, int width, int height) {
-        int xOffset = width / 2 - 5;
-        int yOffset = height / 2 - 3;
-        g.translate(xOffset, yOffset);
-
-        Shape s = ShapeUtil.createArrowLeft(0.5, 0.5, 3, 4);
-        g.setColor(DISABLED_ARROW_COLOR);
-        g.fill(s);
-
-        s = ShapeUtil.createArrowRight(6.5, 0.5, 3, 4);
-        g.fill(s);
-
-        g.translate(-xOffset, -yOffset);
-    }
-
-    private void paintArrowDownEnabled(Graphics2D g, JComponent c, int width, int height) {
+    private void paintArrowDown(Graphics2D g, JComponent c, int width, int height) {
         int xOffset = width / 2 - 3;
         int yOffset = height / 2 - 5;
         g.translate(xOffset, yOffset);
 
         Shape s = ShapeUtil.createArrowLeft(1, 1, 4.2, 6);
-        g.setColor(ENABLED_ARROW_COLOR);
-        g.fill(s);
-
-        g.translate(-xOffset, -yOffset);
-    }
-
-    private void paintArrowDownDisabled(Graphics2D g, JComponent c, int width, int height) {
-        int xOffset = width / 2 - 3;
-        int yOffset = height / 2 - 5;
-        g.translate(xOffset, yOffset);
-
-        Shape s = ShapeUtil.createArrowLeft(1, 1, 4.2, 6);
-        g.setColor(DISABLED_ARROW_COLOR);
+        g.setPaint(PaintUtil.getSpinnerArrowPaint(s, type));
         g.fill(s);
 
         g.translate(-xOffset, -yOffset);
