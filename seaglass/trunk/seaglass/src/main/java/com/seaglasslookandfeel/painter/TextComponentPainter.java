@@ -58,7 +58,8 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         this.state = state;
         this.ctx = new PaintContext(AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES);
 
-        type = (state == Which.BACKGROUND_DISABLED || state == Which.BACKGROUND_SOLID_DISABLED) ? ButtonType.DISABLED : ButtonType.ENABLED;
+        type = (state == Which.BACKGROUND_DISABLED || state == Which.BACKGROUND_SOLID_DISABLED || state == Which.BORDER_DISABLED) ? ButtonType.DISABLED
+                : ButtonType.ENABLED;
         focused = (state == Which.BORDER_FOCUSED);
     }
 
