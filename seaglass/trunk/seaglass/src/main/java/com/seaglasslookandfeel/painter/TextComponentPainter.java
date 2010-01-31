@@ -148,10 +148,10 @@ public final class TextComponentPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
         if (focused) {
             Shape s = ShapeUtil.createRectangle(x - 2, y - 2, width + 3, height + 3);
-            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarColors));
+            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.draw(s);
             s = ShapeUtil.createRectangle(x - 1, y - 1, width + 1, height + 1);
-            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarColors));
+            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
             g.draw(s);
         }
         paintInnerShadow(g, x, y, width, height);

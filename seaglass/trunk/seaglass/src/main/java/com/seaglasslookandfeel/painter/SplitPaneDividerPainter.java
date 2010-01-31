@@ -110,11 +110,11 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         g.fillRect(0, 0, width, height);
 
         Shape s = ShapeUtil.createRectangle(0, y - 1, width, 3);
-        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarColors));
+        g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
         g.fill(s);
 
         s = ShapeUtil.createRectangle(0, y, width, 1);
-        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarColors));
+        g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
         g.fill(s);
     }
 
@@ -153,11 +153,11 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
 
         Shape s = ShapeUtil.createRoundRectangle(width / 2 - 11, height / 2 - 4, 22, 9, CornerSize.ROUND_HEIGHT);
-        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarColors));
+        g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(width / 2 - 10, height / 2 - 3, 20, 7, CornerSize.ROUND_HEIGHT);
-        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarColors));
+        g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
         g.fill(s);
     }
 

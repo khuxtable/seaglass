@@ -94,10 +94,10 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
         boolean useFocusColors = isInToolBar(c);
         if (focused) {
             Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useFocusColors));
+            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useFocusColors));
             g.fill(s);
             s = ShapeUtil.createRectangle(1, 1, width - 1, height - 2);
-            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useFocusColors));
+            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useFocusColors));
             g.fill(s);
         }
 

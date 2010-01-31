@@ -661,7 +661,7 @@ public class ColorUtil {
         return null;
     }
 
-    public static Paint getFocusPaint(Graphics2D g, Shape s, FocusType focusType, boolean useToolBarFocus) {
+    public static Paint getFocusPaint(Shape s, FocusType focusType, boolean useToolBarFocus) {
         if (focusType == FocusType.OUTER_FOCUS) {
             return useToolBarFocus ? outerToolBarFocus : outerFocus;
         } else {
@@ -669,10 +669,9 @@ public class ColorUtil {
         }
     }
 
-    public static void drawProgressBarBorderColors(Graphics2D g, Shape s, ButtonType type) {
+    public static Paint getProgressBarBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getProgressBarBorderColors(type);
-        g.setPaint(createTwoColorGradientVertical(s, colors));
-        g.draw(s);
+        return createTwoColorGradientVertical(s, colors);
     }
 
     public static void drawFrameBorderColors(Graphics2D g, Shape s, ButtonType type) {
