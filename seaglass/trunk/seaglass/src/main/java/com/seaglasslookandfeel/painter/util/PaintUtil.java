@@ -187,6 +187,10 @@ public class PaintUtil {
     private static Color              tabbedPaneTabAreaLightShadow;
     private static Color              tabbedPaneTabAreaDarkShadow;
 
+    private static Color              textComponentBorderDisabled;
+    private static Color              textComponentBorderEnabled;
+    private static Color              textComponentBorderEnabledToolbar;
+
     static {
         transparentColor = new Color(0x0, true);
 
@@ -361,6 +365,20 @@ public class PaintUtil {
         tabbedPaneTabAreaDisabledBackLine = new Color(0x80647595, true);
         tabbedPaneTabAreaLightShadow = new Color(0x55eeeeee, true);
         tabbedPaneTabAreaDarkShadow = new Color(0x55aaaaaa, true);
+
+        textComponentBorderDisabled = decodeColor("seaGlassTextDisabledBorder");
+        textComponentBorderEnabled = decodeColor("seaGlassTextEnabledBorder");
+        textComponentBorderEnabledToolbar = decodeColor("seaGlassTextEnabledToolbarBorder");
+    }
+
+    public static Paint getTextComponentBorderPaint(ButtonType type, boolean inToolbar) {
+        if (type == ButtonType.DISABLED) {
+            return textComponentBorderDisabled;
+        } else if (inToolbar) {
+            return textComponentBorderEnabledToolbar;
+        } else {
+            return textComponentBorderEnabled;
+        }
     }
 
     public static Paint getSplitPaneDividerBackgroundPaint() {

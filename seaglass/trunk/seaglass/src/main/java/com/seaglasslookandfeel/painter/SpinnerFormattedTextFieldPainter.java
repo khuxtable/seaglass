@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 
@@ -29,6 +28,7 @@ import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 
 /**
@@ -41,59 +41,24 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
 
     private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
-    private Color                        disabledBorder = new Color(0xdddddd);
-    private Color                        enabledBorder  = new Color(0xbbbbbb);
-
-    private Which                        state;
     private PaintContext                 ctx;
+    private ButtonType                   type;
     private boolean                      focused;
 
     public SpinnerFormattedTextFieldPainter(Which state) {
         super();
-        this.state = state;
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
+        type = (state == Which.BACKGROUND_DISABLED) ? ButtonType.DISABLED : ButtonType.ENABLED;
         focused = (state == Which.BACKGROUND_FOCUSED || state == Which.BACKGROUND_SELECTED_FOCUSED);
     }
 
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        switch (state) {
-        case BACKGROUND_DISABLED:
-            paintDisabled(g, c, width, height);
-            break;
-        case BACKGROUND_ENABLED:
-        case BACKGROUND_FOCUSED:
-            paintEnabled(g, c, width, height);
-            break;
-        case BACKGROUND_SELECTED:
-        case BACKGROUND_SELECTED_FOCUSED:
-            paintSelected(g, c, width, height);
-            break;
-        }
-    }
-
-    @Override
-    protected PaintContext getPaintContext() {
-        return ctx;
-    }
-
-    private void paintDisabled(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, disabledBorder);
-    }
-
-    private void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, enabledBorder);
-    }
-
-    private void paintSelected(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, enabledBorder);
-    }
-
-    private void paintButton(Graphics2D g, JComponent c, int width, int height, Color borderColor) {
         boolean useFocusColors = isInToolBar(c);
+        Shape s;
         if (focused) {
-            Shape s = ShapeUtil.createRectangle(0, 0, width, height);
+            s = ShapeUtil.createRectangle(0, 0, width, height);
             g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useFocusColors));
             g.fill(s);
             s = ShapeUtil.createRectangle(1, 1, width - 1, height - 2);
@@ -101,22 +66,19 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
             g.fill(s);
         }
 
-        g.setColor(c.getBackground());
+        g.setPaint(c.getBackground());
         g.fillRect(3, 3, width - 3, height - 6);
 
-        paintInternalDropShadow(g, width, height);
+        s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
+        internalShadow.fill(g, s, false, false);
 
-        g.setColor(borderColor);
-        Shape s = setRect(2, 2, width - 2, height - 4);
+        s = ShapeUtil.createOpenRectangle(2, 2, width - 2 - 1, height - 4 - 1);
+        g.setPaint(PaintUtil.getTextComponentBorderPaint(type, false));
         g.draw(s);
     }
 
-    private void paintInternalDropShadow(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
-        internalShadow.fill(g, s, false, false);
-    }
-
-    private Shape setRect(int x, int y, int width, int height) {
-        return ShapeUtil.createOpenRectangle(x, y, width - 1, height - 1);
+    @Override
+    protected PaintContext getPaintContext() {
+        return ctx;
     }
 }

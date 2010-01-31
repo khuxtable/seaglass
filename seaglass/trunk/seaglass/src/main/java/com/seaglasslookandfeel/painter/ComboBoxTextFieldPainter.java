@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.painter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 
@@ -27,7 +26,9 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
 /**
  * ComboBoxTextFieldPainter implementation.
@@ -37,66 +38,33 @@ public final class ComboBoxTextFieldPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED,
     }
 
-    private SeaGlassInternalShadowEffect internalShadow  = new SeaGlassInternalShadowEffect();
+    private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
-    private static final Color           DISABLED_BORDER = new Color(0xdddddd);
-    private static final Color           ENABLED_BORDER  = new Color(0xbbbbbb);
-
-    private Which                        state;
     private PaintContext                 ctx;
+    private ButtonType                   type;
 
     public ComboBoxTextFieldPainter(Which state) {
         super();
-        this.state = state;
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
+        this.type = (state == Which.BACKGROUND_DISABLED) ? ButtonType.DISABLED : ButtonType.ENABLED;
     }
 
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        switch (state) {
-        case BACKGROUND_DISABLED:
-            paintDisabled(g, c, width, height);
-            break;
-        case BACKGROUND_ENABLED:
-            paintEnabled(g, c, width, height);
-            break;
-        case BACKGROUND_SELECTED:
-            paintSelected(g, c, width, height);
-            break;
-        }
+        Shape s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
+        g.setColor(c.getBackground());
+        g.fill(s);
+
+        s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
+        internalShadow.fill(g, s, false, false);
+
+        s = ShapeUtil.createOpenRectangle(2, 2, width - 3, height - 5);
+        g.setPaint(PaintUtil.getTextComponentBorderPaint(type, false));
+        g.draw(s);
     }
 
     @Override
     protected PaintContext getPaintContext() {
         return ctx;
-    }
-
-    private void paintDisabled(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, DISABLED_BORDER);
-    }
-
-    private void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, ENABLED_BORDER);
-    }
-
-    private void paintSelected(Graphics2D g, JComponent c, int width, int height) {
-        paintButton(g, c, width, height, ENABLED_BORDER);
-    }
-
-    private void paintButton(Graphics2D g, JComponent c, int width, int height, Color borderColor) {
-        Shape s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
-        g.setColor(c.getBackground());
-        g.fill(s);
-
-        paintInternalDropShadow(g, width, height);
-
-        s = ShapeUtil.createOpenRectangle(2, 2, width - 3, height - 5);
-        g.setColor(borderColor);
-        g.draw(s);
-    }
-
-    private void paintInternalDropShadow(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
-        internalShadow.fill(g, s, false, false);
     }
 }
