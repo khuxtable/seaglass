@@ -43,6 +43,10 @@ public class PaintUtil {
         INNER_FOCUS, OUTER_FOCUS,
     }
 
+    public enum ToolbarToggleButtonType {
+        INNER, INNER_EDGE, OUTER_EDGE
+    }
+
     private static Color              transparentColor;
 
     private static Color              outerFocus;
@@ -201,6 +205,14 @@ public class PaintUtil {
     private static FourColors         tableHeaderSorted;
     private static FourColors         tableHeaderPressed;
     private static FourColors         tableHeaderDisabledSorted;
+
+    private static Color              toolbarHandleMac;
+    private static TwoColors          toolbarHandleBorder;
+    private static FourColors         toolbarHandleInterior;
+
+    private static TwoColors          toolbarToggleButtonInner;
+    private static TwoColors          toolbarToggleButtonInnerEdge;
+    private static TwoColors          toolbarToggleButtonOuterEdge;
 
     static {
         transparentColor = new Color(0x0, true);
@@ -393,6 +405,32 @@ public class PaintUtil {
         tableHeaderPressed = new FourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4), 0.45f, 0.6f);
         tableHeaderDisabledSorted = new FourColors(new Color(0x80bccedf, true), new Color(0x807fa7cd, true), new Color(0x8082b0d6, true),
             new Color(0x80b0daf6, true), 0.45f, 0.6f);
+
+        toolbarHandleMac = new Color(0xc8191919, true);
+        toolbarHandleBorder = new TwoColors(new Color(0x88ade0), new Color(0x5785bf));
+        toolbarHandleInterior = new FourColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd), 0.46f,
+            0.62f);
+
+        toolbarToggleButtonInner = new TwoColors(new Color(0x00000000, true), new Color(0x28000000, true));
+        toolbarToggleButtonInnerEdge = new TwoColors(new Color(0x00000000, true), new Color(0x20000000, true));
+        toolbarToggleButtonOuterEdge = new TwoColors(new Color(0x10000000, true), new Color(0x40000000, true));
+    }
+
+    public static Paint getToolbarToggleButtonPaint(Shape s, ToolbarToggleButtonType type) {
+        TwoColors colors = getToolbarToggleButtonColors(type);
+        return createToolbarToggleButtonGradient(s, colors);
+    }
+
+    public static Paint getToolbarHandleMacPaint() {
+        return toolbarHandleMac;
+    }
+
+    public static Paint getToolbarHandleBorderPaint(Shape s) {
+        return createTwoColorGradientHorizontal(s, toolbarHandleBorder);
+    }
+
+    public static Paint getToolbarHandleInteriorPaint(Shape s) {
+        return createGradientFourColorHorizontal(s, toolbarHandleInterior);
     }
 
     public static Paint getTableHeaderBorderPaint(ButtonType type) {
@@ -405,7 +443,7 @@ public class PaintUtil {
 
     public static Paint getTableHeaderPaint(Shape s, ButtonType type, boolean isSorted) {
         FourColors colors = getTableHeaderColors(type, isSorted);
-        return createGradientFourColor(s, colors);
+        return createGradientFourColorVertical(s, colors);
     }
 
     public static Paint getTextComponentBorderPaint(ButtonType type, boolean inToolbar) {
@@ -602,17 +640,17 @@ public class PaintUtil {
 
     public static Paint getScrollBarThumbInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getScrollBarThumbColors(type).interior;
-        return createGradientFourColor(s, colors);
+        return createGradientFourColorVertical(s, colors);
     }
 
     public static Paint getCheckBoxInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getCheckBoxColors(type).interior;
-        return createGradientFourColor(s, colors);
+        return createGradientFourColorVertical(s, colors);
     }
 
     public static Paint getRadioButtonInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getCheckBoxColors(type).interior;
-        return createGradientFourColor(s, colors);
+        return createGradientFourColorVertical(s, colors);
     }
 
     public static Paint getRadioButtonBulletPaint(Shape s, ButtonType type) {
@@ -655,12 +693,12 @@ public class PaintUtil {
 
     public static Paint getProgressBarPaint(Shape s, ButtonType type) {
         FourColors colors = getProgressBarColors(type);
-        return createGradientFourColor(s, colors);
+        return createGradientFourColorVertical(s, colors);
     }
 
     public static Paint getProgressBarIndeterminatePaint(Shape s, ButtonType type) {
         FourColors colors = getProgressBarIndeterminateColors(type);
-        return createGradientFourColor(s, colors);
+        return createGradientFourColorVertical(s, colors);
     }
 
     public static Paint getProgressBarEndPaint(Shape s, ButtonType type) {
@@ -757,6 +795,18 @@ public class PaintUtil {
             inside2,
             decodeColor(inside2, inside3, 0.5f),
             inside3 });
+    }
+
+    private static TwoColors getToolbarToggleButtonColors(ToolbarToggleButtonType type) {
+        switch (type) {
+        case INNER:
+            return toolbarToggleButtonInner;
+        case INNER_EDGE:
+            return toolbarToggleButtonInnerEdge;
+        case OUTER_EDGE:
+            return toolbarToggleButtonOuterEdge;
+        }
+        return null;
     }
 
     private static FourLayerColors getButtonColors(ButtonType type, boolean textured) {
@@ -1116,13 +1166,36 @@ public class PaintUtil {
             colors.bottomColor });
     }
 
-    private static Paint createGradientFourColor(Shape s, FourColors colors) {
+    private static Paint createGradientFourColorVertical(Shape s, FourColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float xCenter = (float) bounds.getCenterX();
         float yMin = (float) bounds.getMinY();
         float yMax = (float) bounds.getMaxY();
         return createGradient(xCenter, yMin, xCenter, yMax, new float[] { 0f, colors.upperMidpoint, colors.lowerMidpoint, 1f },
             new Color[] { colors.topColor, colors.upperMidColor, colors.lowerMidColor, colors.bottomColor });
+    }
+
+    private static Paint createGradientFourColorHorizontal(Shape s, FourColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return createGradient(x, (0.5f * h) + y, x + w, (0.5f * h) + y, new float[] { 0f, colors.upperMidpoint, colors.lowerMidpoint, 1f },
+            new Color[] { colors.topColor, colors.upperMidColor, colors.lowerMidColor, colors.bottomColor });
+    }
+
+    private static Paint createToolbarToggleButtonGradient(Shape s, TwoColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return createGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 0.35f, 0.65f, 1f }, new Color[] {
+            colors.topColor,
+            colors.bottomColor,
+            colors.bottomColor,
+            colors.topColor });
     }
 
     private static Paint createFrameGradient(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight, Color topColorT,
