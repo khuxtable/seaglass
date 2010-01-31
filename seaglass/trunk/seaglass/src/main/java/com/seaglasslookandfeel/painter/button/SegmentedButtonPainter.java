@@ -85,10 +85,10 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         Shape s;
         if (focused) {
             s = createOuterFocus(segmentStatus, x, y, width, height);
-            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarFocus));
+            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
             g.draw(s);
             s = createInnerFocus(segmentStatus, x, y, width, height);
-            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarFocus));
+            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
             g.draw(s);
         }
 

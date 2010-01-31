@@ -122,7 +122,8 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         if (state != Which.BACKGROUND_DISABLED) {
             dropShadow.fill(g, s);
         }
-        ColorUtil.drawProgressBarBorderColors(g, s, type);
+        g.setPaint(ColorUtil.getProgressBarBorderPaint(s, type));
+        g.draw(s);
 
         s = ShapeUtil.createRoundRectangle(3, 3, width - 6, height - 6, CornerSize.ROUND_HEIGHT);
         ColorUtil.fillProgressBarTrackColors(g, s, type);

@@ -169,10 +169,10 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     private void paintFocus(Graphics2D g, JComponent c, int width, int height) {
         boolean useToolBarFocus = isInToolBar(c);
         Shape s = createFocusPath(CornerSize.OUTER_FOCUS, 0, 0, width, height);
-        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarFocus));
+        g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
         g.fill(s);
         s = createFocusPath(CornerSize.INNER_FOCUS, 1, 1, width - 2, height - 2);
-        g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarFocus));
+        g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
         g.fill(s);
     }
 

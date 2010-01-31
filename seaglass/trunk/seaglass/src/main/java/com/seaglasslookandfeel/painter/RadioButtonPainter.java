@@ -101,10 +101,10 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
         if (focused) {
             boolean useToolBarFocus = isInToolBar(c);
             s = createBasicShape(width, width, height);
-            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.OUTER_FOCUS, useToolBarFocus));
+            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
             g.fill(s);
             s = createBasicShape(width - 2, width, height);
-            g.setPaint(ColorUtil.getFocusPaint(g, s, FocusType.INNER_FOCUS, useToolBarFocus));
+            g.setPaint(ColorUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
             g.fill(s);
         }
 
