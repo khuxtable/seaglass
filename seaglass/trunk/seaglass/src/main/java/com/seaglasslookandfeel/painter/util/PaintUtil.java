@@ -177,6 +177,11 @@ public class PaintUtil {
     private static Color              spinnerArrowDisabled;
     private static Color              spinnerArrowEnabled;
 
+    private static Color              splitPaneDividerBackgroundOuter;
+    private static Color              splitPaneDividerBackgroundEnabled;
+    private static TwoColors          splitPaneDividerBorder;
+    private static ThreeColors        splitPaneDividerInterior;
+
     static {
         transparentColor = new Color(0x0, true);
 
@@ -341,6 +346,57 @@ public class PaintUtil {
 
         spinnerArrowDisabled = new Color(0x9ba8cf);
         spinnerArrowEnabled = new Color(0x000000);
+
+        splitPaneDividerBackgroundOuter = new Color(0xd9d9d9);
+        splitPaneDividerBackgroundEnabled = decodeColor("control", 0f, 0f, 0f, 0);
+        splitPaneDividerBorder = new TwoColors(new Color(0x88ade0), new Color(0x5785bf));
+        splitPaneDividerInterior = new ThreeColors(new Color(0xfbfdfe), new Color(0xd2e8f8), new Color(0xf5fafd));
+    }
+
+    public static Paint getSplitPaneDividerBackgroundPaint() {
+        return splitPaneDividerBackgroundEnabled;
+    }
+
+    public static Paint getSplitPaneDividerBackgroundOuterPaint() {
+        return splitPaneDividerBackgroundOuter;
+    }
+
+    public static Paint getSplitPaneDividerBorderPaint(Shape s) {
+        return decodeGradientForegroundBorder(s, splitPaneDividerBorder.topColor, splitPaneDividerBorder.bottomColor);
+    }
+
+    public static Paint getSplitPaneDividerInteriorPaint(Shape s) {
+        return decodeGradientForegroundInside(s, splitPaneDividerInterior.topColor, splitPaneDividerInterior.midColor,
+            splitPaneDividerInterior.bottomColor);
+    }
+
+    private static Paint decodeGradientForegroundBorder(Shape s, Color border1, Color border2) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return createGradient((0.5f * w) + x, (0.0f * h) + y, (0.5f * w) + x, (1.0f * h) + y,
+            new float[] { 0.20645161f, 0.5f, 0.7935484f }, new Color[] { border1, decodeColor(border1, border2, 0.5f), border2 });
+    }
+
+    private static Paint decodeGradientForegroundInside(Shape s, Color inside1, Color inside2, Color inside3) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return createGradient((0.5f * w) + x, (0.0f * h) + y, (0.5f * w) + x, (1.0f * h) + y, new float[] {
+            0.090322584f,
+            0.2951613f,
+            0.5f,
+            0.5822581f,
+            0.66451615f }, new Color[] {
+            inside1,
+            decodeColor(inside1, inside2, 0.5f),
+            inside2,
+            decodeColor(inside2, inside3, 0.5f),
+            inside3 });
     }
 
     public static Paint getButtonInteriorMainPaint(Shape s, ButtonType type, boolean isTextured) {
@@ -1105,6 +1161,23 @@ public class PaintUtil {
     }
 
     /**
+     * Decodes and returns a color, which is derived from a offset between two
+     * other colors.
+     * 
+     * @param color1
+     *            The first color
+     * @param upperMidColor
+     *            The second color
+     * @param midPoint
+     *            The offset between color 1 and color 2, a value of 0.0 is
+     *            color 1 and 1.0 is color 2;
+     * @return The derived color
+     */
+    private static Color decodeColor(Color color1, Color color2, float midPoint) {
+        return new Color(deriveARGB(color1, color2, midPoint));
+    }
+
+    /**
      * Derives the ARGB value for a color based on an offset between two other
      * colors.
      * 
@@ -1144,6 +1217,18 @@ public class PaintUtil {
         public TwoColorsWithMidpoint(Color topColor, Color bottomColor, float midpoint) {
             super(topColor, bottomColor);
             this.midpoint = midpoint;
+        }
+    }
+
+    private static class ThreeColors {
+        public Color topColor;
+        public Color midColor;
+        public Color bottomColor;
+
+        public ThreeColors(Color topColor, Color midColor, Color bottomColor) {
+            this.topColor = topColor;
+            this.midColor = midColor;
+            this.bottomColor = bottomColor;
         }
     }
 
