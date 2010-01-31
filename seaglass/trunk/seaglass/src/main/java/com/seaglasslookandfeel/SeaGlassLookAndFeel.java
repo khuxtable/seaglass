@@ -115,8 +115,8 @@ import com.seaglasslookandfeel.painter.ToolBarHandlePainter;
 import com.seaglasslookandfeel.painter.ToolBarPainter;
 import com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter;
 import com.seaglasslookandfeel.painter.TreeCellEditorPainter;
-import com.seaglasslookandfeel.painter.TreePainter;
 import com.seaglasslookandfeel.painter.TreeCellPainter;
+import com.seaglasslookandfeel.painter.TreePainter;
 import com.seaglasslookandfeel.state.ComboBoxArrowButtonEditableState;
 import com.seaglasslookandfeel.state.ComboBoxEditableState;
 import com.seaglasslookandfeel.state.InternalFrameWindowFocusedState;
@@ -137,7 +137,6 @@ import com.seaglasslookandfeel.state.TabbedPaneTopTabState;
 import com.seaglasslookandfeel.state.TableHeaderRendererSortedState;
 import com.seaglasslookandfeel.state.TextAreaNotInScrollPaneState;
 import com.seaglasslookandfeel.state.TextFieldIsSearchState;
-import com.seaglasslookandfeel.state.TitlePaneCloseButtonWindowModifiedState;
 import com.seaglasslookandfeel.state.TitlePaneCloseButtonWindowNotFocusedState;
 import com.seaglasslookandfeel.state.TitlePaneIconifyButtonWindowMinimizedState;
 import com.seaglasslookandfeel.state.TitlePaneIconifyButtonWindowNotFocusedState;
@@ -806,17 +805,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         String c = PAINTER_PREFIX + "TitlePaneCloseButtonPainter";
 
         // Set the multiplicity of states for the Close button.
-        d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused,WindowModified");
+        d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,WindowNotFocused");
         d.put(p + ".WindowNotFocused", new TitlePaneCloseButtonWindowNotFocusedState());
-        d.put(p + ".WindowModified", new TitlePaneCloseButtonWindowModifiedState());
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Enabled+MouseOver].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
-        d.put(p + "[Enabled+MouseOver+WindowModified].backgroundPainter", new LazyPainter(c,
-            TitlePaneCloseButtonPainter.Which.BACKGROUND_MODIFIED_MOUSEOVER));
-        d.put(p + "[Enabled+WindowModified].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_MODIFIED));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(c,
             TitlePaneCloseButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));

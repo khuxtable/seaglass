@@ -32,7 +32,7 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
 /**
  * Title pane menu button painter implementation.
  */
-public final class TitlePaneMenuButtonPainter extends AbstractRegionPainter {
+public final class TitlePaneMenuButtonPainter extends TitlePaneButtonPainter {
     public static enum Which {
         ICON_ENABLED,
         ICON_DISABLED,
@@ -43,23 +43,20 @@ public final class TitlePaneMenuButtonPainter extends AbstractRegionPainter {
         ICON_PRESSED_WINDOWNOTFOCUSED,
     }
 
-    private static final ButtonColors enabled = new ButtonColors(new Color(0x16ffffff, true), new Color(0x66000000, true), new Color(
-                                                  0x4cffffff, true), new Color(0x66000000, true), new Color(0x33000000, true), new Color(
-                                                  0x33ffffff, true), new Color(0, true), new Color(0x99000000, true), new Color(0x99ffffff,
-                                                  true));
-    private static final ButtonColors hover   = new ButtonColors(new Color(0x68ffffff, true), new Color(0x66000000, true), new Color(
-                                                  0x8cffffff, true), new Color(0x66000000, true), new Color(0x33000000, true), new Color(
-                                                  0x46ffffff, true), new Color(0x59ffffff, true), new Color(0xe5101010, true), new Color(
-                                                  0xffffff));
-    private static final ButtonColors pressed = new ButtonColors(new Color(0x829b9b9b, true), new Color(0x66000000, true), new Color(
-                                                  0x9ea9a9a9, true), new Color(0x66000000, true), new Color(0x33000000, true), new Color(
-                                                  0x33ffffff, true), new Color(0x59e6e6e6, true), new Color(0xe50e0e0e, true), new Color(
-                                                  0xe6e6e6));
+    private ButtonColors enabled = new ButtonColors(menuButtonTopEnabled, menuButtonLeftOuterEnabled, menuButtonLeftInnerEnabled,
+                                     menuButtonLeftOuterEnabled, menuButtonEdgeShadeEnabled, menuButtonShadowEnabled, transparentColor,
+                                     menuButtonMarkBorderEnabled, menuButtonMarkInteriorEnabled);
+    private ButtonColors hover   = new ButtonColors(menuButtonTopHover, menuButtonLeftOuterEnabled, menuButtonLeftInnerHover,
+                                     menuButtonLeftOuterEnabled, menuButtonEdgeShadeEnabled, menuButtonShadowHover,
+                                     menuButtonInteriorHover, menuButtonMarkBorderHover, menuButtonMarkInteriorHover);
+    private ButtonColors pressed = new ButtonColors(menuButtonTopPressed, menuButtonLeftOuterEnabled, menuButtonLeftInnerPressed,
+                                     menuButtonLeftOuterEnabled, menuButtonEdgeShadeEnabled, menuButtonShadowEnabled,
+                                     menuButtonInteriorPressed, menuButtonMarkBorderPressed, menuButtonMarkInteriorPressed);
 
-    private Path2D                    path    = new Path2D.Double();
+    private Path2D       path    = new Path2D.Double();
 
-    private Which                     state;
-    private PaintContext              ctx;
+    private Which        state;
+    private PaintContext ctx;
 
     public TitlePaneMenuButtonPainter(Which state) {
         super();
