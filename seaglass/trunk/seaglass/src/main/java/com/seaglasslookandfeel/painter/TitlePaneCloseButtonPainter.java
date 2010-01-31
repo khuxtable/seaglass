@@ -44,14 +44,14 @@ public final class TitlePaneCloseButtonPainter extends TitlePaneButtonPainter {
         BACKGROUND_PRESSED_WINDOWNOTFOCUSED,
     }
 
-    private ButtonColors enabled = new ButtonColors(closeButtonTopEnabled, closeButtonLeftEnabled, closeButtonEdgeEnabled,
-                                     closeButtonShadowEnabled, closeButtonTransparentColor, closeButtonTransparentColor,
-                                     closeButtonMarkBorderEnabled, closeButtonMarkInteriorEnabled);
+    private ButtonColors enabled = new ButtonColors(white16, white4c, black66,
+                                     white33, transparentColor, transparentColor, black99,
+                                     white99);
     private ButtonColors hover   = new ButtonColors(closeButtonTopHover, closeButtonLeftHover, closeButtonEdgeHover,
-                                     closeButtonShadowEnabled, closeButtonInteriorTopHover, closeButtonInteriorBottomHover,
-                                     closeButtonMarkBorderHover, closeButtonMarkInteriorHover);
-    private ButtonColors pressed = new ButtonColors(closeButtonTopPressed, closeButtonLeftPressed, closeButtonEdgeEnabled,
-                                     closeButtonShadowEnabled, closeButtonInteriorTopPressed, closeButtonInteriorTopPressed,
+                                     white33, closeButtonInteriorTopHover, closeButtonInteriorBottomHover,
+                                     closeButtonMarkBorderHover, white);
+    private ButtonColors pressed = new ButtonColors(closeButtonTopPressed, closeButtonLeftPressed, black66,
+                                     white33, closeButtonInteriorTopPressed, closeButtonInteriorTopPressed,
                                      closeButtonMarkBorderPressed, closeButtonMarkInteriorPressed);
 
     private MyPath2D     path    = new MyPath2D();

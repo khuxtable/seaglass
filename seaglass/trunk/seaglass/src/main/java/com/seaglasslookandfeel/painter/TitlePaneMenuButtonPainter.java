@@ -43,15 +43,15 @@ public final class TitlePaneMenuButtonPainter extends TitlePaneButtonPainter {
         ICON_PRESSED_WINDOWNOTFOCUSED,
     }
 
-    private ButtonColors enabled = new ButtonColors(menuButtonTopEnabled, menuButtonLeftOuterEnabled, menuButtonLeftInnerEnabled,
-                                     menuButtonLeftOuterEnabled, menuButtonEdgeShadeEnabled, menuButtonShadowEnabled, transparentColor,
-                                     menuButtonMarkBorderEnabled, menuButtonMarkInteriorEnabled);
-    private ButtonColors hover   = new ButtonColors(menuButtonTopHover, menuButtonLeftOuterEnabled, menuButtonLeftInnerHover,
-                                     menuButtonLeftOuterEnabled, menuButtonEdgeShadeEnabled, menuButtonShadowHover,
-                                     menuButtonInteriorHover, menuButtonMarkBorderHover, menuButtonMarkInteriorHover);
-    private ButtonColors pressed = new ButtonColors(menuButtonTopPressed, menuButtonLeftOuterEnabled, menuButtonLeftInnerPressed,
-                                     menuButtonLeftOuterEnabled, menuButtonEdgeShadeEnabled, menuButtonShadowEnabled,
-                                     menuButtonInteriorPressed, menuButtonMarkBorderPressed, menuButtonMarkInteriorPressed);
+    private ButtonColors enabled = new ButtonColors(white16, black66, white4c,
+                                     black66, black33, white33, transparentColor,
+                                     black99, white99);
+    private ButtonColors hover   = new ButtonColors(white68, black66, white8c,
+                                     black66, black33, white46,
+                                     white59, gray_10_e5, white);
+    private ButtonColors pressed = new ButtonColors(gray_9b_82, black66, gray_a9_9e,
+                                     black66, black33, white33,
+                                     gray_e6_59, gray_0e_e5, gray_e6);
 
     private Path2D       path    = new Path2D.Double();
 
