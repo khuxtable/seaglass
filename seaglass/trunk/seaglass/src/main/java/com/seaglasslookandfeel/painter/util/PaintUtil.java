@@ -91,8 +91,8 @@ public class PaintUtil {
     private static TwoColors   scrollBarThumbBorderPressed;
     private static FourColors  scrollBarThumbInteriorPressed;
 
-    private static TwoColors   checkBoxBulletEnabled;
-    private static TwoColors   checkBoxbulletDisabled;
+    private static TwoColors   buttonBulletEnabled;
+    private static TwoColors   buttonbulletDisabled;
 
     private static TwoColors   comboBoxButtonBorderDisabled;
     private static TwoColors   comboBoxButtonBorderEnabled;
@@ -202,8 +202,8 @@ public class PaintUtil {
     private static TwoColors   splitPaneDividerBorder;
     private static ThreeColors splitPaneDividerInterior;
 
-    private static Color       tabbedPaneTabAreaEnabledBackLine;
-    private static Color       tabbedPaneTabAreaDisabledBackLine;
+    private static Color       tabbedPaneTabAreaBackLineEnabled;
+    private static Color       tabbedPaneTabAreaBackLineDisabled;
     private static Color       tabbedPaneTabAreaLightShadow;
     private static Color       tabbedPaneTabAreaDarkShadow;
 
@@ -299,8 +299,56 @@ public class PaintUtil {
         Color buttonInteriorLowerMidPressedSelected = new Color(0x7497c2);
         Color buttonInteriorBottomPressedSelected = new Color(0xaacbe2);
 
+        Color scrollBarThumbInteriorTopPressed = new Color(0xb1dbf5);
+        Color scrollBarThumbInteriorUpperMidPressed = new Color(0x7ca7ce);
+        Color scrollBarThumbInteriorLowerMidPressed = new Color(0x7ea7cc);
+        Color scrollBarThumbInteriorBottomPressed = new Color(0xbbcedf);
+
         Color texturedButtonBorderTopEnabled = gray99;
         Color texturedButtonBorderBottomEnabled = gray99;
+
+        Color texturedButtonInteriorTopEnabled = grayfe;
+        Color texturedButtonInteriorUpperMidEnabled = grayf2;
+        Color texturedButtonInteriorLowerMidEnabled = grayec;
+        Color texturedButtonInteriorBottomEnabled = graye0;
+        Color texturedButtonInteriorTopPressed = new Color(0xa5c9e5);
+        Color texturedButtonInteriorUpperMidPressed = new Color(0x90b5d4);
+        Color texturedButtonInteriorLowerMidPressed = new Color(0x86abcb);
+        Color texturedButtonInteriorBottomPressed = new Color(0x759bbd);
+        Color texturedButtonInteriorTopSelected = new Color(0xb0daf6);
+        Color texturedButtonInteriorUpperMidSelected = new Color(0x88b3d8);
+        Color texturedButtonInteriorLowerMidSelected = new Color(0x7da7cd);
+        Color texturedButtonInteriorBottomSelected = new Color(0x7fa7cd);
+
+        Color buttonBulletTopEnabled = gray33;
+        Color buttonBulletBottomEnabled = black;
+
+        Color frameTopActive = new Color(0xafbecf);
+        Color frameUpperMidActive = new Color(0x96adc4);
+        Color frameLowerMidActive = new Color(0x96adc4);
+        Color frameBottomActive = new Color(0x8ea7c0);
+        Color frameTopInactive = grayed;
+        Color frameUpperMidInactive = graye0;
+        Color frameLowerMidInactive = graye0;
+        Color frameBottomInactive = grayd3;
+
+        Color scrollBarButtonTopPressed = new Color(0xcee2f5);
+        Color scrollBarButtonMiddlePressed = new Color(0xb1cbe4);
+        Color scrollBarButtonBottomPressed = new Color(0x8fb1d1);
+        Color scrollBarButtonLinePressedColor = new Color(0x82abd0);
+
+        frameBorderActive = gray54;
+        frameBorderInactive = gray54;
+
+        frameInnerHighlightInactive = white55;
+        frameInnerHighlightActive = white55;
+
+        Color menuItemBackgroundTop = new Color(0x6a90b6);
+        Color menuItemBackgroundBottom = new Color(0x4a6b90);
+
+        Color progressBarEndLine = new Color(0x4076bf);
+
+        menuItemBottomLine = new Color(0x3a5d89);
 
         transparentColor = decodeColor("seaGlassTransparent");
 
@@ -308,6 +356,47 @@ public class PaintUtil {
         innerFocus = decodeColor("seaGlassFocus");
         outerToolBarFocus = decodeColor("seaGlassToolBarOuterFocus");
         innerToolBarFocus = decodeColor("seaGlassToolBarFocus");
+
+        rootPaneActive = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"), decodeColor("seaGlassToolBarActiveBottomB"));
+        rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"), decodeColor("seaGlassToolBarInactiveBottomB"));
+
+        desktopPane = decodeColor("seaGlassDesktopPane");
+
+        popupMenuBorderEnabled = graydd;
+        popupMenuInteriorEnabled = white;
+
+        popupMenuSeparator = graydd;
+
+        progressBarTrackInteriorEnabled = white;
+
+        toolbarHandleMac = new Color(0xc8191919, true);
+
+        Color spinnerNextBorderBottomEnabled = new Color(0x4779bf);
+        Color spinnerNextBorderBottomPressed = new Color(0x4879bf);
+        Color spinnerNextInteriorBottomEnabled = new Color(0x85abcf);
+        Color spinnerNextInteriorBottomPressed = new Color(0x6e92b6);
+
+        Color spinnerPrevBorderTopEnabled = new Color(0x4778bf);
+
+        Color spinnerPrevInteriorTopEnabled = new Color(0x81aed4);
+        Color spinnerPrevInteriorBottomEnabled = new Color(0xaad4f1);
+        Color spinnerPrevInteriorPressedTop = new Color(0x6c91b8);
+        Color spinnerPrevInteriorPressedBottom = new Color(0x9cc3de);
+
+        spinnerPrevTopLineEnabled = new Color(0xacc8e0);
+        spinnerPrevTopLinePressed = new Color(0x9eb6cf);
+
+        tabbedPaneTabAreaBackLineEnabled = new Color(0x647595);
+        tabbedPaneTabAreaLightShadow = new Color(0x55eeeeee, true);
+        tabbedPaneTabAreaDarkShadow = new Color(0x55aaaaaa, true);
+
+        tableHeaderBorderEnabled = new Color(0xcad3e0);
+        tableHeaderSortIndicator = new Color(0xc02a5481, true);
+
+        Color tableHeaderUpperMidEnabled = new Color(0xeaeff2);
+        Color tableHeaderLowerMidEnabled = new Color(0xeff3f7);
+
+        // ------- Assign from base colors -------
 
         innerShadow = new TwoColors(innerShadowDark, innerShadowLight);
 
@@ -348,19 +437,6 @@ public class PaintUtil {
         texturedButtonBorderDisabled = disableTwoColors(texturedButtonBorderEnabled);
         texturedButtonBorderDisabledSelected = disableTwoColors(texturedButtonBorderPressed);
 
-        Color texturedButtonInteriorTopEnabled = grayfe;
-        Color texturedButtonInteriorUpperMidEnabled = grayf2;
-        Color texturedButtonInteriorLowerMidEnabled = grayec;
-        Color texturedButtonInteriorBottomEnabled = graye0;
-        Color texturedButtonInteriorTopPressed = new Color(0xa5c9e5);
-        Color texturedButtonInteriorUpperMidPressed = new Color(0x90b5d4);
-        Color texturedButtonInteriorLowerMidPressed = new Color(0x86abcb);
-        Color texturedButtonInteriorBottomPressed = new Color(0x759bbd);
-        Color texturedButtonInteriorTopSelected = new Color(0xb0daf6);
-        Color texturedButtonInteriorUpperMidSelected = new Color(0x88b3d8);
-        Color texturedButtonInteriorLowerMidSelected = new Color(0x7da7cd);
-        Color texturedButtonInteriorBottomSelected = new Color(0x7fa7cd);
-
         texturedButtonInteriorEnabled = new FourColors(texturedButtonInteriorTopEnabled, texturedButtonInteriorUpperMidEnabled,
             texturedButtonInteriorLowerMidEnabled, texturedButtonInteriorBottomEnabled);
         texturedButtonInteriorPressed = new FourColors(texturedButtonInteriorTopPressed, texturedButtonInteriorUpperMidPressed,
@@ -372,10 +448,12 @@ public class PaintUtil {
         texturedButtonInteriorDisabledSelected = disableFourColors(texturedButtonInteriorDefault);
 
         scrollBarThumbBorderPressed = new TwoColors(scrollBarThumbBorderTopPressed, scrollBarThumbBorderBottomPressed);
-        scrollBarThumbInteriorPressed = new FourColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc), new Color(0xbbcedf));
 
-        checkBoxBulletEnabled = new TwoColors(gray33, black);
-        checkBoxbulletDisabled = disableTwoColors(checkBoxBulletEnabled);
+        scrollBarThumbInteriorPressed = new FourColors(scrollBarThumbInteriorTopPressed, scrollBarThumbInteriorUpperMidPressed,
+            scrollBarThumbInteriorLowerMidPressed, scrollBarThumbInteriorBottomPressed);
+
+        buttonBulletEnabled = new TwoColors(buttonBulletTopEnabled, buttonBulletBottomEnabled);
+        buttonbulletDisabled = disableTwoColors(buttonBulletEnabled);
 
         comboBoxButtonInteriorDisabled = buttonInteriorDisabled;
         comboBoxButtonInteriorEnabled = buttonInteriorSelected;
@@ -385,63 +463,55 @@ public class PaintUtil {
         comboBoxBackgroundInteriorEnabled = buttonInteriorEnabled;
         comboBoxBackgroundInteriorPressed = buttonInteriorEnabled;
 
-        rootPaneActive = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"), decodeColor("seaGlassToolBarActiveBottomB"));
-        rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"), decodeColor("seaGlassToolBarInactiveBottomB"));
+        frameActive = new FourColors(frameTopActive, frameUpperMidActive, frameLowerMidActive, frameBottomActive);
+        frameInactive = new FourColors(frameTopInactive, frameUpperMidInactive, frameLowerMidInactive, frameBottomInactive);
 
-        frameBorderActive = gray54;
-        frameBorderInactive = gray54;
+        menuItemBackground = new TwoColors(menuItemBackgroundTop, menuItemBackgroundBottom);
 
-        frameInnerHighlightInactive = white55;
-        frameInnerHighlightActive = white55;
-
-        frameActive = new FourColors(new Color(0xafbecf), new Color(0x96adc4), new Color(0x96adc4), new Color(0x8ea7c0));
-        frameInactive = new FourColors(grayed, graye0, graye0, grayd3);
-
-        desktopPane = decodeColor("seaGlassDesktopPane");
-
-        menuItemBackground = new TwoColors(new Color(0x6a90b6), new Color(0x4a6b90));
-        menuItemBottomLine = new Color(0x3a5d89);
-
-        popupMenuBorderEnabled = graydd;
         popupMenuBorderDisabled = disableColor(popupMenuBorderEnabled);
-
-        popupMenuInteriorEnabled = white;
         popupMenuInteriorDisabled = disableColor(popupMenuBorderEnabled);
-
-        popupMenuSeparator = graydd;
 
         progressBarTrackEnabled = new TwoColors(buttonBorderBottomPressed, scrollBarThumbBorderTopPressed);
         progressBarTrackDisabled = disableTwoColors(progressBarTrackEnabled);
 
-        progressBarTrackInteriorEnabled = white;
         progressBarTrackInteriorDisabled = disableColor(progressBarTrackInteriorEnabled);
 
         progressBarEnabled = new FourColors(buttonInteriorTopSelected, buttonInteriorUpperMidSelected, buttonInteriorLowerMidSelected,
             buttonInteriorBottomSelected);
         progressBarDisabled = disableFourColors(progressBarEnabled);
 
-        progressBarEndEnabled = scrollBarThumbBorderTopPressed;
+        progressBarEndEnabled = progressBarEndLine;
         progressBarEndDisabled = disableColor(progressBarEndEnabled);
 
         progressBarIndeterminatePatternEnabled = new FourColors(buttonInteriorTopEnabled, buttonInteriorUpperMidEnabled,
             buttonInteriorLowerMidEnabled, buttonInteriorBottomEnabled);
         progressBarIndeterminatePatternDisabled = disableFourColors(progressBarIndeterminatePatternEnabled);
 
-        scrollBarTrackBackground = new TwoColors(grayee, white);
-        scrollBarTrackGradient = new FourColors(black33, black15, transparentColor, black12);
+        Color scrollBarTrackBackgroundTop = grayee;
+        Color scrollBarTrackBackgroundBottom = white;
+        Color scrollBarTrackGradientTop = black33;
+        Color scrollBarTrackGradientUpperMid = black15;
+        Color scrollBarTrackGradientLowerMid = transparentColor;
+        Color scrollBarTrackGradientBottom = black12;
+        Color scrollBarCapTop = white;
+        Color scrollBarCapBottom = graybb;
 
-        scrollBarCapColors = new TwoColors(white, graybb);
+        scrollBarTrackBackground = new TwoColors(scrollBarTrackBackgroundTop, scrollBarTrackBackgroundBottom);
+        scrollBarTrackGradient = new FourColors(scrollBarTrackGradientTop, scrollBarTrackGradientUpperMid, scrollBarTrackGradientLowerMid,
+            scrollBarTrackGradientBottom);
+
+        scrollBarCapColors = new TwoColors(scrollBarCapTop, scrollBarCapBottom);
 
         scrollBarButtonIncreaseApart = new TwoColors(grayd1, white);
         scrollBarButtonIncreaseTogether = new TwoColors(grayd1, graye5);
-        scrollBarButtonIncreasePressed = new TwoColors(new Color(0x8fb1d1), new Color(0xcee2f5));
+        scrollBarButtonIncreasePressed = new TwoColors(scrollBarButtonMiddlePressed, scrollBarButtonBottomPressed);
 
         scrollBarButtonDecreaseApart = new TwoColors(white, graycc);
         scrollBarButtonDecreaseTogether = new TwoColors(white, graye9);
-        scrollBarButtonDecreasePressed = new TwoColors(new Color(0xcee2f5), new Color(0x8fb1d1));
+        scrollBarButtonDecreasePressed = new TwoColors(scrollBarButtonTopPressed, scrollBarButtonMiddlePressed);
 
         scrollBarButtonLine = graybd;
-        scrollBarButtonLinePressed = new Color(0x82abd0);
+        scrollBarButtonLinePressed = scrollBarButtonLinePressedColor;
         scrollBarButtonArrow = gray55;
         scrollBarButtonArrowDisabled = disableColor(scrollBarButtonArrow);
 
@@ -452,64 +522,53 @@ public class PaintUtil {
         sliderTrackBorderDisabled = new TwoColors(disableColor(gray90), disableColor(grayb4));
 
         sliderTrackInteriorEnabled = new TwoColors(grayc4, grayeb);
-        sliderTrackInteriorDisabled = new TwoColors(disableColor(grayc4), disableColor(grayeb));
+        sliderTrackInteriorDisabled = disableTwoColors(sliderTrackInteriorEnabled);
 
-        spinnerNextBorderEnabled = new TwoColors(buttonBorderTopPressed, new Color(0x4779bf));
-        spinnerNextBorderPressed = new TwoColors(buttonBorderTopPressed, new Color(0x4879bf));
-        spinnerNextBorderDisabled = new TwoColors(new Color(0x80a2c2ed, true), new Color(0x807ea4d7, true));
+        spinnerNextBorderEnabled = new TwoColors(buttonBorderTopPressed, spinnerNextBorderBottomEnabled);
+        spinnerNextBorderPressed = new TwoColors(buttonBorderTopPressed, spinnerNextBorderBottomPressed);
+        spinnerNextBorderDisabled = disableTwoColors(spinnerNextBorderEnabled);
 
-        spinnerNextInteriorEnabled = new TwoColors(buttonInteriorTopSelected, new Color(0x85abcf));
-        spinnerNextInteriorPressed = new TwoColors(buttonInteriorTopPressed, new Color(0x6e92b6));
-        spinnerNextInteriorDisabled = new TwoColors(new Color(0xeaebf1f7, true), new Color(0xdbe2e9f2, true));
+        spinnerNextInteriorEnabled = new TwoColors(buttonInteriorTopSelected, spinnerNextInteriorBottomEnabled);
+        spinnerNextInteriorPressed = new TwoColors(buttonInteriorTopPressed, spinnerNextInteriorBottomPressed);
+        spinnerNextInteriorDisabled = disableTwoColors(spinnerNextInteriorEnabled);
 
-        spinnerPrevBorderEnabled = new TwoColors(new Color(0x4778bf), scrollBarThumbBorderTopPressed);
-        spinnerPrevBorderPressed = new TwoColors(new Color(0x4778bf), scrollBarThumbBorderTopPressed);
-        spinnerPrevBorderDisabled = new TwoColors(new Color(0x807aa1d4, true), new Color(0x805987c0, true));
+        spinnerPrevBorderEnabled = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
+        spinnerPrevBorderPressed = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
+        spinnerPrevBorderDisabled = disableTwoColors(spinnerPrevBorderEnabled);
 
-        spinnerPrevInteriorEnabled = new TwoColors(new Color(0x81aed4), new Color(0xaad4f1));
-        spinnerPrevInteriorPressed = new TwoColors(new Color(0x6c91b8), new Color(0x9cc3de));
-        spinnerPrevInteriorDisabled = new TwoColors(new Color(0xd8dbe4f0, true), new Color(0xdddae5f0, true));
+        spinnerPrevInteriorEnabled = new TwoColors(spinnerPrevInteriorTopEnabled, spinnerPrevInteriorBottomEnabled);
+        spinnerPrevInteriorPressed = new TwoColors(spinnerPrevInteriorPressedTop, spinnerPrevInteriorPressedBottom);
+        spinnerPrevInteriorDisabled = disableTwoColors(spinnerPrevBorderEnabled);
 
-        spinnerPrevTopLineEnabled = new Color(0xacc8e0);
-        spinnerPrevTopLinePressed = new Color(0x9eb6cf);
-        spinnerPrevTopLineDisabled = new Color(0xe0e4ebf3, true);
+        spinnerPrevTopLineDisabled = disableColor(spinnerPrevTopLineEnabled);
 
         spinnerArrowEnabled = black;
-        spinnerArrowDisabled = new Color(0x9ba8cf);
+        spinnerArrowDisabled = disableColor(spinnerArrowEnabled);
 
         splitPaneDividerBackgroundOuter = grayd9;
-        splitPaneDividerBackgroundEnabled = decodeColor("control", 0f, 0f, 0f, 0);
+        splitPaneDividerBackgroundEnabled = decodeColor("control");
         splitPaneDividerBorder = new TwoColors(buttonBorderTopEnabled, buttonBorderBottomEnabled);
         splitPaneDividerInterior = new ThreeColors(buttonInteriorTopEnabled, buttonInteriorLowerMidEnabled, buttonInteriorBottomEnabled);
 
-        tabbedPaneTabAreaEnabledBackLine = new Color(0x647595);
-        tabbedPaneTabAreaDisabledBackLine = new Color(0x80647595, true);
-        tabbedPaneTabAreaLightShadow = new Color(0x55eeeeee, true);
-        tabbedPaneTabAreaDarkShadow = new Color(0x55aaaaaa, true);
+        tabbedPaneTabAreaBackLineDisabled = disableColor(tabbedPaneTabAreaBackLineEnabled);
 
         textComponentBorderDisabled = decodeColor("seaGlassTextDisabledBorder");
         textComponentBorderEnabled = decodeColor("seaGlassTextEnabledBorder");
         textComponentBorderEnabledToolbar = decodeColor("seaGlassTextEnabledToolbarBorder");
 
-        tableHeaderBorderEnabled = new Color(0xcad3e0);
-        tableHeaderBorderDisabled = new Color(0x80cad3e0, true);
+        tableHeaderBorderDisabled = disableColor(tableHeaderBorderEnabled);
 
-        tableHeaderSortIndicator = new Color(0xc02a5481, true);
-
-        tableHeaderDisabled = new FourColors(new Color(0x80fbfdfe, true), new Color(0x80eaeff2, true), new Color(0x80eff3f7, true),
-            new Color(0x80f5fafd, true));
-        tableHeaderEnabled = new FourColors(buttonInteriorTopEnabled, new Color(0xeaeff2), new Color(0xeff3f7), buttonInteriorBottomEnabled);
+        tableHeaderEnabled = new FourColors(buttonInteriorTopEnabled, tableHeaderUpperMidEnabled, tableHeaderLowerMidEnabled,
+            buttonInteriorBottomEnabled);
         tableHeaderSorted = new FourColors(buttonInteriorTopSelected, buttonInteriorUpperMidSelected, buttonInteriorLowerMidSelected,
             buttonInteriorBottomSelected);
         tableHeaderPressed = new FourColors(buttonInteriorTopPressed, buttonInteriorUpperMidPressed, buttonInteriorLowerMidPressed,
             buttonInteriorBottomPressed);
-        tableHeaderDisabledSorted = new FourColors(new Color(0x80bccedf, true), new Color(0x807fa7cd, true), new Color(0x8082b0d6, true),
-            new Color(0x80b0daf6, true));
+        tableHeaderDisabled = disableFourColors(tableHeaderEnabled);
+        tableHeaderDisabledSorted = disableFourColors(tableHeaderSorted);
 
-        toolbarHandleMac = new Color(0xc8191919, true);
-        toolbarHandleBorder = new TwoColors(buttonBorderTopEnabled, buttonBorderBottomEnabled);
-        toolbarHandleInterior = new FourColors(buttonInteriorTopEnabled, buttonInteriorUpperMidEnabled, buttonInteriorLowerMidEnabled,
-            buttonInteriorBottomEnabled);
+        toolbarHandleBorder = buttonBorderEnabled;
+        toolbarHandleInterior = buttonInteriorEnabled;
 
         toolbarToggleButtonInner = new TwoColors(transparentColor, black28);
         toolbarToggleButtonInnerEdge = new TwoColors(transparentColor, black20);
@@ -574,7 +633,7 @@ public class PaintUtil {
     }
 
     public static Paint getTabbedPaneTabAreaBackgroundColor(ButtonType type) {
-        return type == ButtonType.DISABLED ? tabbedPaneTabAreaDisabledBackLine : tabbedPaneTabAreaEnabledBackLine;
+        return type == ButtonType.DISABLED ? tabbedPaneTabAreaBackLineDisabled : tabbedPaneTabAreaBackLineEnabled;
     }
 
     public static Paint getTabbedPaneTabAreaHorizontalPaint(int x, int y, int width, int height) {
@@ -1020,12 +1079,12 @@ public class PaintUtil {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
-            return checkBoxbulletDisabled;
+            return buttonbulletDisabled;
         case ENABLED:
         case PRESSED:
         case SELECTED:
         case PRESSED_SELECTED:
-            return checkBoxBulletEnabled;
+            return buttonBulletEnabled;
         }
         return null;
     }
