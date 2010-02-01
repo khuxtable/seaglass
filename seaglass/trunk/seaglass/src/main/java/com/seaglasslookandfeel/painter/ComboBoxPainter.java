@@ -56,7 +56,7 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     private ComboBoxArrowButtonPainter buttonPainter;
 
     // TODO Get this from the UI.
-    private static final int           buttonWidth      = 21;
+    private static final int           buttonWidth = 21;
 
     private Which                      state;
     private PaintContext               ctx;
@@ -159,11 +159,7 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         g.fill(s);
 
         s = createButtonPath(CornerSize.INTERIOR, 3, 3, leftWidth - 3, height - 6);
-        g.setPaint(PaintUtil.getComboBoxBackgroundInteriorMainPaint(s, type));
-        g.fill(s);
-        g.setPaint(PaintUtil.getComboBoxBackgroundInteriorLowerShinePaint(s, type));
-        g.fill(s);
-        g.setPaint(PaintUtil.getComboBoxBackgroundInteriorUpperShinePaint(s, type));
+        g.setPaint(PaintUtil.getComboBoxBackgroundInteriorPaint(s, type));
         g.fill(s);
 
         // Paint arrow button portion.
