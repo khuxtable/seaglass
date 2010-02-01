@@ -113,11 +113,7 @@ public final class ComboBoxArrowButtonPainter extends AbstractRegionPainter {
         g.fill(s);
 
         s = createButtonPath(CornerSize.INTERIOR, 1, 3, width - 4, height - 6);
-        g.setPaint(PaintUtil.getComboBoxButtonInteriorMainPaint(s, type));
-        g.fill(s);
-        g.setPaint(PaintUtil.getComboBoxButtonInteriorLowerShinePaint(s, type));
-        g.fill(s);
-        g.setPaint(PaintUtil.getComboBoxButtonInteriorUpperShinePaint(s, type));
+        g.setPaint(PaintUtil.getComboBoxButtonInteriorPaint(s, type));
         g.fill(s);
     }
 

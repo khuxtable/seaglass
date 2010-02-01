@@ -106,17 +106,17 @@ public class PaintUtil {
     private static TwoColors        comboBoxButtonBorderEnabled;
     private static TwoColors        comboBoxButtonBorderPressed;
 
-    private static ThreeLayerColors comboBoxButtonInteriorDisabled;
-    private static ThreeLayerColors comboBoxButtonInteriorEnabled;
-    private static ThreeLayerColors comboBoxButtonInteriorPressed;
+    private static FourColors       comboBoxButtonInteriorDisabled;
+    private static FourColors       comboBoxButtonInteriorEnabled;
+    private static FourColors       comboBoxButtonInteriorPressed;
 
     private static TwoColors        comboBoxBackgroundBorderDisabled;
     private static TwoColors        comboBoxBackgroundBorderEnabled;
     private static TwoColors        comboBoxBackgroundBorderPressed;
 
-    private static ThreeLayerColors comboBoxBackgroundInteriorDisabled;
-    private static ThreeLayerColors comboBoxBackgroundInteriorEnabled;
-    private static ThreeLayerColors comboBoxBackgroundInteriorPressed;
+    private static FourColors       comboBoxBackgroundInteriorDisabled;
+    private static FourColors       comboBoxBackgroundInteriorEnabled;
+    private static FourColors       comboBoxBackgroundInteriorPressed;
 
     private static TwoColors        rootPaneActive;
     private static TwoColors        rootPaneInactive;
@@ -248,12 +248,37 @@ public class PaintUtil {
 
         innerShadow = new TwoColors(new Color(0x20000000, true), new Color(0x10000000, true));
 
-        buttonBorderEnabled = new TwoColors(new Color(0x88ade0), new Color(0x5785bf));
-        buttonBorderPressed = new TwoColors(new Color(0x4F7BBF), new Color(0x3F76BF));
-        buttonBorderDefault = new TwoColors(new Color(0x4F7BBF), new Color(0x3F76BF));
-        buttonBorderDefaultPressed = new TwoColors(new Color(0x4F7BBF), new Color(0x3F76BF));
-        buttonBorderDisabled = new TwoColors(new Color(0x8AAFE0), new Color(0x5785BF));
-        buttonBorderDisabledSelected = new TwoColors(new Color(0x8AAFE0), new Color(0x5785BF));
+        basicButtonBorderEnabled = new TwoColors(new Color(0x88ade0), new Color(0x5785bf));
+        basicButtonBorderPressed = new TwoColors(new Color(0x4f7bbf), new Color(0x3f76bf));
+        basicButtonBorderSelected = basicButtonBorderPressed;
+        basicButtonBorderPressedSelected = basicButtonBorderPressed;
+        basicButtonBorderDisabled = new TwoColors(new Color(0x6088ade0, true), new Color(0x605785bf, true));
+
+        buttonBorderEnabled = basicButtonBorderEnabled;
+        buttonBorderPressed = basicButtonBorderPressed;
+        buttonBorderDefault = basicButtonBorderSelected;
+        buttonBorderDefaultPressed = basicButtonBorderPressedSelected;
+        buttonBorderDisabled = basicButtonBorderDisabled;
+        buttonBorderDisabledSelected = basicButtonBorderDisabled;
+
+        comboBoxButtonBorderDisabled = buttonBorderDisabled;
+        comboBoxButtonBorderEnabled = buttonBorderPressed;
+        comboBoxButtonBorderPressed = buttonBorderPressed;
+
+        comboBoxBackgroundBorderDisabled = buttonBorderDisabled;
+        comboBoxBackgroundBorderEnabled = buttonBorderEnabled;
+        comboBoxBackgroundBorderPressed = buttonBorderEnabled;
+
+        basicButtonInteriorEnabled = new FourColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd),
+            0.45f, 0.62f);
+        basicButtonInteriorPressed = new FourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4),
+            0.45f, 0.62f);
+        basicButtonInteriorSelected = new FourColors(new Color(0xbccedf), new Color(0x7fa7cd), new Color(0x82b0d6), new Color(0xb0daf6),
+            0.45f, 0.62f);
+        basicButtonInteriorPressedSelected = new FourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(
+            0xa4cbe4), 0.45f, 0.62f);
+        basicButtonInteriorDisabled = new FourColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8, true),
+            new Color(0x80f5fafd, true), 0.45f, 0.62f);
 
         buttonInteriorEnabled = new ThreeLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true),
             new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2));
@@ -269,11 +294,11 @@ public class PaintUtil {
             0x00A8D9FC, true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xaaaaaa));
 
         texturedButtonBorderEnabled = new TwoColors(new Color(0x555555), new Color(0x4c4c4c));
-        texturedButtonBorderPressed = new TwoColors(new Color(0x555555), new Color(0x4c4c4c));
-        texturedButtonBorderDefault = new TwoColors(new Color(0x555555), new Color(0x4c4c4c));
-        texturedButtonBorderDefaultPressed = new TwoColors(new Color(0x555555), new Color(0x4c4c4c));
-        texturedButtonBorderDisabled = new TwoColors(new Color(0x555555), new Color(0x4c4c4c));
-        texturedButtonBorderDisabledSelected = new TwoColors(new Color(0x555555), new Color(0x4c4c4c));
+        texturedButtonBorderPressed = texturedButtonBorderEnabled;
+        texturedButtonBorderDefault = texturedButtonBorderEnabled;
+        texturedButtonBorderDefaultPressed = texturedButtonBorderEnabled;
+        texturedButtonBorderDisabled = texturedButtonBorderEnabled;
+        texturedButtonBorderDisabledSelected = texturedButtonBorderEnabled;
 
         texturedButtonInteriorEnabled = new ThreeLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
             new Color(0, true), 0.5f, new Color(0xbbbbbb));
@@ -288,50 +313,20 @@ public class PaintUtil {
         texturedButtonInteriorDisabledSelected = new ThreeLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(
             0, true), new Color(0, true), 0.5f, new Color(0xaaaaaa));
 
-        basicButtonBorderDisabled = new TwoColors(new Color(0x6088ade0, true), new Color(0x605785bf, true));
-        basicButtonBorderEnabled = new TwoColors(new Color(0x88ade0), new Color(0x5785bf));
-        basicButtonBorderPressed = new TwoColors(new Color(0x4f7bbf), new Color(0x3f76bf));
-        basicButtonBorderSelected = new TwoColors(new Color(0x4f7bbf), new Color(0x3f76bf));
-        basicButtonBorderPressedSelected = new TwoColors(new Color(0x4f7bbf), new Color(0x3f76bf));
-
-        basicButtonInteriorDisabled = new FourColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8, true),
-            new Color(0x80f5fafd, true), 0.45f, 0.62f);
-        basicButtonInteriorEnabled = new FourColors(new Color(0xfbfdfe), new Color(0xd6eaf9), new Color(0xd2e8f8), new Color(0xf5fafd), 0.45f,
-            0.62f);
-        basicButtonInteriorPressed = new FourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4), 0.45f,
-            0.62f);
-        basicButtonInteriorSelected = new FourColors(new Color(0xbccedf), new Color(0x7fa7cd), new Color(0x82b0d6), new Color(0xb0daf6), 0.45f,
-            0.62f);
-        basicButtonInteriorPressedSelected = new FourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(0xa4cbe4),
-            0.45f, 0.62f);
-
         scrollBarThumbBorderPressed = new TwoColors(new Color(0x4076bf), new Color(0x4f7bbf));
-        scrollBarThumbInteriorPressed = new FourColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc), new Color(0xbbcedf), 0.45f,
-            0.62f);
+        scrollBarThumbInteriorPressed = new FourColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc), new Color(0xbbcedf),
+            0.45f, 0.62f);
 
         checkBoxBulletEnabled = new TwoColors(new Color(0x333333), new Color(0x000000));
         checkBoxbulletDisabled = new TwoColors(new Color(0x80333333, true), new Color(0x80000000, true));
 
-        comboBoxButtonBorderDisabled = new TwoColors(new Color(0x8AAFE0), new Color(0x5785BF));
-        comboBoxButtonBorderEnabled = new TwoColors(new Color(0x4F7BBF), new Color(0x3F76BF));
-        comboBoxButtonBorderPressed = new TwoColors(new Color(0x4F7BBF), new Color(0x3F76BF));
+        comboBoxButtonInteriorDisabled = basicButtonInteriorDisabled;
+        comboBoxButtonInteriorEnabled = basicButtonInteriorSelected;
+        comboBoxButtonInteriorPressed = basicButtonInteriorPressed;
 
-        comboBoxButtonInteriorDisabled = new ThreeLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true),
-            new Color(0x00A8D9FC, true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xeeeeee));
-        comboBoxButtonInteriorEnabled = new ThreeLayerColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true),
-            new Color(0xffC0E8FF, true), 0.4f, new Color(0x276FB2));
-        comboBoxButtonInteriorPressed = new ThreeLayerColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
-            new Color(0xffb4d9ee, true), 0.4f, new Color(0x134D8C));
-
-        comboBoxBackgroundBorderDisabled = comboBoxButtonBorderDisabled;
-        comboBoxBackgroundBorderEnabled = new TwoColors(new Color(0x88ade0), new Color(0x5785bf));
-        comboBoxBackgroundBorderPressed = new TwoColors(new Color(0x88ade0), new Color(0x5785bf));
-
-        comboBoxBackgroundInteriorDisabled = comboBoxButtonInteriorDisabled;
-        comboBoxBackgroundInteriorEnabled = new ThreeLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff,
-            true), new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2));
-        comboBoxBackgroundInteriorPressed = new ThreeLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff,
-            true), new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2));
+        comboBoxBackgroundInteriorDisabled = basicButtonInteriorDisabled;
+        comboBoxBackgroundInteriorEnabled = basicButtonInteriorEnabled;
+        comboBoxBackgroundInteriorPressed = basicButtonInteriorEnabled;
 
         rootPaneActive = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"), decodeColor("seaGlassToolBarActiveBottomB"));
         rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"), decodeColor("seaGlassToolBarInactiveBottomB"));
@@ -557,34 +552,14 @@ public class PaintUtil {
         return createTwoColorGradientVertical(s, colors.upperShine);
     }
 
-    public static Paint getComboBoxButtonInteriorMainPaint(Shape s, ButtonType type) {
-        ThreeLayerColors colors = getComboBoxButtonColors(type);
-        return colors.mainColor;
+    public static Paint getComboBoxButtonInteriorPaint(Shape s, ButtonType type) {
+        FourColors colors = getComboBoxButtonColors(type);
+        return createGradientFourColorVertical(s, colors);
     }
 
-    public static Paint getComboBoxButtonInteriorLowerShinePaint(Shape s, ButtonType type) {
-        ThreeLayerColors colors = getComboBoxButtonColors(type);
-        return createTwoColorGradientWithMidpointVertical(s, colors.lowerShine);
-    }
-
-    public static Paint getComboBoxButtonInteriorUpperShinePaint(Shape s, ButtonType type) {
-        ThreeLayerColors colors = getComboBoxButtonColors(type);
-        return createTwoColorGradientVertical(s, colors.upperShine);
-    }
-
-    public static Paint getComboBoxBackgroundInteriorMainPaint(Shape s, ButtonType type) {
-        ThreeLayerColors colors = getComboBoxBackgroundColors(type);
-        return colors.mainColor;
-    }
-
-    public static Paint getComboBoxBackgroundInteriorLowerShinePaint(Shape s, ButtonType type) {
-        ThreeLayerColors colors = getComboBoxBackgroundColors(type);
-        return createTwoColorGradientWithMidpointVertical(s, colors.lowerShine);
-    }
-
-    public static Paint getComboBoxBackgroundInteriorUpperShinePaint(Shape s, ButtonType type) {
-        ThreeLayerColors colors = getComboBoxBackgroundColors(type);
-        return createTwoColorGradientVertical(s, colors.upperShine);
+    public static Paint getComboBoxBackgroundInteriorPaint(Shape s, ButtonType type) {
+        FourColors colors = getComboBoxBackgroundColors(type);
+        return createGradientFourColorVertical(s, colors);
     }
 
     public static Paint getMenuItemBackgroundPaint(Shape s) {
@@ -1010,7 +985,7 @@ public class PaintUtil {
         return null;
     }
 
-    private static ThreeLayerColors getComboBoxButtonColors(ButtonType type) {
+    private static FourColors getComboBoxButtonColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return comboBoxButtonInteriorDisabled;
@@ -1034,7 +1009,7 @@ public class PaintUtil {
         return null;
     }
 
-    private static ThreeLayerColors getComboBoxBackgroundColors(ButtonType type) {
+    private static FourColors getComboBoxBackgroundColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return comboBoxBackgroundInteriorDisabled;
