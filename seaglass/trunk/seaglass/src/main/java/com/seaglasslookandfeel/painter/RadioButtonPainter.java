@@ -112,11 +112,11 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
         if (!focused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(PaintUtil.getRadioButtonBorderPaint(s, type));
+        g.setPaint(PaintUtil.getBasicButtonBorderPaint(s, type));
         g.fill(s);
 
         s = createBasicShape(width - 6, width, height);
-        g.setPaint(PaintUtil.getRadioButtonInteriorPaint(s, type));
+        g.setPaint(PaintUtil.getBasicButtonInteriorPaint(s, type));
         g.fill(s);
 
         if (selected) {
