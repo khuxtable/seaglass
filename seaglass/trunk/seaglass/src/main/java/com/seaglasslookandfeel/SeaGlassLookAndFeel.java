@@ -635,7 +635,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("ToggleButton[Selected].textForeground", new ColorUIResource(Color.black));
         d.put("Button[Default+Pressed].textForeground", new ColorUIResource(Color.black));
         d.put("ToggleButton[Focused+Selected].textForeground", new ColorUIResource(Color.black));
-        d.put("ToggleButton[Disabled+Selected].textForeground", new ColorUIResource(Color.black));
+        d.put("ToggleButton[Disabled+Selected].textForeground", new ColorUIResource(new Color(0, 0, 0, 0x80)));
         d.put("ToggleButton[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
         d.put("ToggleButton[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
         d.put("ToggleButton[Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_FOCUSED));
