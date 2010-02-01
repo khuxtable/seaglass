@@ -525,12 +525,12 @@ public class PaintUtil {
     }
 
     public static Paint getComboBoxButtonInteriorPaint(Shape s, ButtonType type) {
-        FourColors colors = getComboBoxButtonColors(type);
+        FourColors colors = getComboBoxButtonInteriorColors(type);
         return createFourColorGradientVertical(s, colors);
     }
 
     public static Paint getComboBoxBackgroundInteriorPaint(Shape s, ButtonType type) {
-        FourColors colors = getComboBoxBackgroundColors(type);
+        FourColors colors = getComboBoxBackgroundInteriorColors(type);
         return createFourColorGradientVertical(s, colors);
     }
 
@@ -624,7 +624,7 @@ public class PaintUtil {
     }
 
     public static Paint getFrameInteriorPaint(Shape s, ButtonType type, int titleHeight, int topToolBarHeight, int bottomToolBarHeight) {
-        FrameColors colors = getFrameColors(type);
+        FrameColors colors = getFrameInteriorColors(type);
         return createFrameGradient(s, titleHeight, topToolBarHeight, bottomToolBarHeight, colors.topColorT, colors.topColorB,
             colors.bottomColorT, colors.bottomColorB);
     }
@@ -659,7 +659,7 @@ public class PaintUtil {
     }
 
     public static Paint getRootPaneInteriorPaint(Shape s, ButtonType type) {
-        TwoColors colors = getRootPaneColors(type);
+        TwoColors colors = getRootPaneInteriorColors(type);
         return createTwoColorGradientVertical(s, colors);
     }
 
@@ -964,7 +964,7 @@ public class PaintUtil {
         return null;
     }
 
-    private static FourColors getComboBoxButtonColors(ButtonType type) {
+    private static FourColors getComboBoxButtonInteriorColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return comboBoxButtonInteriorDisabled;
@@ -988,7 +988,7 @@ public class PaintUtil {
         return null;
     }
 
-    private static FourColors getComboBoxBackgroundColors(ButtonType type) {
+    private static FourColors getComboBoxBackgroundInteriorColors(ButtonType type) {
         switch (type) {
         case DISABLED:
             return comboBoxBackgroundInteriorDisabled;
@@ -1000,7 +1000,7 @@ public class PaintUtil {
         return null;
     }
 
-    private static TwoColors getRootPaneColors(ButtonType type) {
+    private static TwoColors getRootPaneInteriorColors(ButtonType type) {
         switch (type) {
         case ACTIVE:
             return rootPaneActive;
@@ -1030,7 +1030,7 @@ public class PaintUtil {
         return null;
     }
 
-    private static FrameColors getFrameColors(ButtonType type) {
+    private static FrameColors getFrameInteriorColors(ButtonType type) {
         switch (type) {
         case INACTIVE:
             return frameInactive;
