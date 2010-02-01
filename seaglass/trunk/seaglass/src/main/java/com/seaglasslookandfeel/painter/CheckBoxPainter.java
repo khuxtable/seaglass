@@ -100,11 +100,11 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         if (!focused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(PaintUtil.getCheckBoxBorderPaint(s, type));
+        g.setPaint(PaintUtil.getBasicButtonBorderPaint(s, type));
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(x + 3, y + 3, size - 6, size - 6, CornerSize.CHECKBOX_INTERIOR);
-        g.setPaint(PaintUtil.getCheckBoxInteriorPaint(s, type));
+        g.setPaint(PaintUtil.getBasicButtonInteriorPaint(s, type));
         g.fill(s);
 
         if (selected) {
