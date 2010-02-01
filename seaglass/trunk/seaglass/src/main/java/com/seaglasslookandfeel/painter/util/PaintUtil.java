@@ -47,196 +47,197 @@ public class PaintUtil {
         INNER, INNER_EDGE, OUTER_EDGE
     }
 
-    private static Color            transparentColor;
+    private static Color       transparentColor;
 
-    private static Color            outerFocus;
-    private static Color            innerFocus;
-    private static Color            outerToolBarFocus;
-    private static Color            innerToolBarFocus;
+    private static Color       outerFocus;
+    private static Color       innerFocus;
+    private static Color       outerToolBarFocus;
+    private static Color       innerToolBarFocus;
 
-    private static TwoColors        innerShadow;
+    private static TwoColors   innerShadow;
 
-    private static TwoColors        buttonBorderEnabled;
-    private static TwoColors        buttonBorderPressed;
-    private static TwoColors        buttonBorderDefault;
-    private static TwoColors        buttonBorderDefaultPressed;
-    private static TwoColors        buttonBorderDisabled;
-    private static TwoColors        buttonBorderDisabledSelected;
+    private static TwoColors   buttonBorderEnabled;
+    private static TwoColors   buttonBorderPressed;
+    private static TwoColors   buttonBorderDefault;
+    private static TwoColors   buttonBorderDefaultPressed;
+    private static TwoColors   buttonBorderDisabled;
+    private static TwoColors   buttonBorderDisabledSelected;
 
-    private static ThreeLayerColors buttonInteriorEnabled;
-    private static ThreeLayerColors buttonInteriorPressed;
-    private static ThreeLayerColors buttonInteriorDefault;
-    private static ThreeLayerColors buttonInteriorDefaultPressed;
-    private static ThreeLayerColors buttonInteriorDisabled;
-    private static ThreeLayerColors buttonInteriorDisabledSelected;
+    private static FourColors  buttonInteriorEnabled;
+    private static FourColors  buttonInteriorPressed;
+    private static FourColors  buttonInteriorDefault;
+    private static FourColors  buttonInteriorDefaultPressed;
+    private static FourColors  buttonInteriorDisabled;
+    private static FourColors  buttonInteriorDisabledSelected;
 
-    private static TwoColors        texturedButtonBorderEnabled;
-    private static TwoColors        texturedButtonBorderPressed;
-    private static TwoColors        texturedButtonBorderDefault;
-    private static TwoColors        texturedButtonBorderDefaultPressed;
-    private static TwoColors        texturedButtonBorderDisabled;
-    private static TwoColors        texturedButtonBorderDisabledSelected;
+    private static TwoColors   texturedButtonBorderEnabled;
+    private static TwoColors   texturedButtonBorderPressed;
+    private static TwoColors   texturedButtonBorderDefault;
+    private static TwoColors   texturedButtonBorderDefaultPressed;
+    private static TwoColors   texturedButtonBorderDisabled;
+    private static TwoColors   texturedButtonBorderDisabledSelected;
 
-    private static ThreeLayerColors texturedButtonInteriorEnabled;
-    private static ThreeLayerColors texturedButtonInteriorPressed;
-    private static ThreeLayerColors texturedButtonInteriorDefault;
-    private static ThreeLayerColors texturedButtonInteriorDefaultPressed;
-    private static ThreeLayerColors texturedButtonInteriorDisabled;
-    private static ThreeLayerColors texturedButtonInteriorDisabledSelected;
+    private static FourColors  texturedButtonInteriorEnabled;
+    private static FourColors  texturedButtonInteriorPressed;
+    private static FourColors  texturedButtonInteriorDefault;
+    private static FourColors  texturedButtonInteriorDefaultPressed;
+    private static FourColors  texturedButtonInteriorDisabled;
+    private static FourColors  texturedButtonInteriorDisabledSelected;
 
-    private static TwoColors        basicButtonBorderDisabled;
-    private static TwoColors        basicButtonBorderEnabled;
-    private static TwoColors        basicButtonBorderPressed;
-    private static TwoColors        basicButtonBorderSelected;
-    private static TwoColors        basicButtonBorderPressedSelected;
+    private static TwoColors   basicButtonBorderDisabled;
+    private static TwoColors   basicButtonBorderEnabled;
+    private static TwoColors   basicButtonBorderPressed;
+    private static TwoColors   basicButtonBorderSelected;
+    private static TwoColors   basicButtonBorderPressedSelected;
 
-    private static FourColors       basicButtonInteriorDisabled;
-    private static FourColors       basicButtonInteriorEnabled;
-    private static FourColors       basicButtonInteriorPressed;
-    private static FourColors       basicButtonInteriorSelected;
-    private static FourColors       basicButtonInteriorPressedSelected;
+    private static FourColors  basicButtonInteriorDisabled;
+    private static FourColors  basicButtonInteriorDisabledSelected;
+    private static FourColors  basicButtonInteriorEnabled;
+    private static FourColors  basicButtonInteriorPressed;
+    private static FourColors  basicButtonInteriorSelected;
+    private static FourColors  basicButtonInteriorPressedSelected;
 
-    private static TwoColors        scrollBarThumbBorderPressed;
-    private static FourColors       scrollBarThumbInteriorPressed;
+    private static TwoColors   scrollBarThumbBorderPressed;
+    private static FourColors  scrollBarThumbInteriorPressed;
 
-    private static TwoColors        checkBoxBulletEnabled;
-    private static TwoColors        checkBoxbulletDisabled;
+    private static TwoColors   checkBoxBulletEnabled;
+    private static TwoColors   checkBoxbulletDisabled;
 
-    private static TwoColors        comboBoxButtonBorderDisabled;
-    private static TwoColors        comboBoxButtonBorderEnabled;
-    private static TwoColors        comboBoxButtonBorderPressed;
+    private static TwoColors   comboBoxButtonBorderDisabled;
+    private static TwoColors   comboBoxButtonBorderEnabled;
+    private static TwoColors   comboBoxButtonBorderPressed;
 
-    private static FourColors       comboBoxButtonInteriorDisabled;
-    private static FourColors       comboBoxButtonInteriorEnabled;
-    private static FourColors       comboBoxButtonInteriorPressed;
+    private static FourColors  comboBoxButtonInteriorDisabled;
+    private static FourColors  comboBoxButtonInteriorEnabled;
+    private static FourColors  comboBoxButtonInteriorPressed;
 
-    private static TwoColors        comboBoxBackgroundBorderDisabled;
-    private static TwoColors        comboBoxBackgroundBorderEnabled;
-    private static TwoColors        comboBoxBackgroundBorderPressed;
+    private static TwoColors   comboBoxBackgroundBorderDisabled;
+    private static TwoColors   comboBoxBackgroundBorderEnabled;
+    private static TwoColors   comboBoxBackgroundBorderPressed;
 
-    private static FourColors       comboBoxBackgroundInteriorDisabled;
-    private static FourColors       comboBoxBackgroundInteriorEnabled;
-    private static FourColors       comboBoxBackgroundInteriorPressed;
+    private static FourColors  comboBoxBackgroundInteriorDisabled;
+    private static FourColors  comboBoxBackgroundInteriorEnabled;
+    private static FourColors  comboBoxBackgroundInteriorPressed;
 
-    private static TwoColors        rootPaneActive;
-    private static TwoColors        rootPaneInactive;
+    private static TwoColors   rootPaneActive;
+    private static TwoColors   rootPaneInactive;
 
-    private static Color            frameBorderActive;
-    private static Color            frameBorderInactive;
-    private static Color            frameInnerHighlightInactive;
-    private static Color            frameInnerHighlightActive;
+    private static Color       frameBorderActive;
+    private static Color       frameBorderInactive;
+    private static Color       frameInnerHighlightInactive;
+    private static Color       frameInnerHighlightActive;
 
-    private static FrameColors      frameActive;
-    private static FrameColors      frameInactive;
+    private static FrameColors frameActive;
+    private static FrameColors frameInactive;
 
-    private static Color            desktopPane;
+    private static Color       desktopPane;
 
-    private static TwoColors        menuItemBackground;
-    private static Color            menuItemBottomLine;
+    private static TwoColors   menuItemBackground;
+    private static Color       menuItemBottomLine;
 
-    private static Color            popupMenuBorderDisabled;
-    private static Color            popupMenuBorderEnabled;
+    private static Color       popupMenuBorderDisabled;
+    private static Color       popupMenuBorderEnabled;
 
-    private static Color            popupMenuInteriorDisabled;
-    private static Color            popupMenuInteriorEnabled;
+    private static Color       popupMenuInteriorDisabled;
+    private static Color       popupMenuInteriorEnabled;
 
-    private static Color            popupMenuSeparator;
+    private static Color       popupMenuSeparator;
 
-    private static TwoColors        progressBarTrackDisabled;
-    private static Color            progressBarTrackInteriorDisabled;
+    private static TwoColors   progressBarTrackDisabled;
+    private static Color       progressBarTrackInteriorDisabled;
 
-    private static TwoColors        progressBarTrackEnabled;
-    private static Color            progressBarTrackInteriorEnabled;
+    private static TwoColors   progressBarTrackEnabled;
+    private static Color       progressBarTrackInteriorEnabled;
 
-    private static FourColors       progressBarDisabled;
-    private static FourColors       progressBarEnabled;
-    private static FourColors       progressBarIndeterminatePatternDisabled;
-    private static FourColors       progressBarIndeterminatePattern;
-    private static Color            progressBarDisabledEnd;
-    private static Color            progressBarEnabledEnd;
+    private static FourColors  progressBarDisabled;
+    private static FourColors  progressBarEnabled;
+    private static FourColors  progressBarIndeterminatePatternDisabled;
+    private static FourColors  progressBarIndeterminatePattern;
+    private static Color       progressBarDisabledEnd;
+    private static Color       progressBarEnabledEnd;
 
-    private static TwoColors        scrollBarTrackBackground;
-    private static FourColors       scrollBarTrackGradient;
+    private static TwoColors   scrollBarTrackBackground;
+    private static FourColors  scrollBarTrackGradient;
 
-    private static TwoColors        scrollBarCapColors;
+    private static TwoColors   scrollBarCapColors;
 
-    private static TwoColors        scrollBarButtonIncreaseApart;
-    private static TwoColors        scrollBarButtonIncreaseTogether;
-    private static TwoColors        scrollBarButtonIncreasePressed;
+    private static TwoColors   scrollBarButtonIncreaseApart;
+    private static TwoColors   scrollBarButtonIncreaseTogether;
+    private static TwoColors   scrollBarButtonIncreasePressed;
 
-    private static TwoColors        scrollBarButtonDecreaseApart;
-    private static TwoColors        scrollBarButtonDecreaseTogether;
-    private static TwoColors        scrollBarButtonDecreasePressed;
+    private static TwoColors   scrollBarButtonDecreaseApart;
+    private static TwoColors   scrollBarButtonDecreaseTogether;
+    private static TwoColors   scrollBarButtonDecreasePressed;
 
-    private static Color            scrollBarButtonLine;
-    private static Color            scrollBarButtonLinePressed;
-    private static Color            scrollBarButtonArrow;
-    private static Color            scrollBarButtonArrowDisabled;
+    private static Color       scrollBarButtonLine;
+    private static Color       scrollBarButtonLinePressed;
+    private static Color       scrollBarButtonArrow;
+    private static Color       scrollBarButtonArrowDisabled;
 
-    private static Color            scrollBarButtonDarkDivider;
-    private static Color            scrollBarButtonLightDivider;
+    private static Color       scrollBarButtonDarkDivider;
+    private static Color       scrollBarButtonLightDivider;
 
-    private static TwoColors        sliderTrackDisabledBorder;
-    private static TwoColors        sliderTrackDisabledInterior;
+    private static TwoColors   sliderTrackDisabledBorder;
+    private static TwoColors   sliderTrackDisabledInterior;
 
-    private static TwoColors        sliderTrackEnabledBorder;
-    private static TwoColors        sliderTrackEnabledInterior;
+    private static TwoColors   sliderTrackEnabledBorder;
+    private static TwoColors   sliderTrackEnabledInterior;
 
-    private static TwoColors        spinnerNextBorderDisabled;
-    private static TwoColors        spinnerNextBorderEnabled;
-    private static TwoColors        spinnerNextBorderPressed;
+    private static TwoColors   spinnerNextBorderDisabled;
+    private static TwoColors   spinnerNextBorderEnabled;
+    private static TwoColors   spinnerNextBorderPressed;
 
-    private static TwoColors        spinnerNextInteriorDisabled;
-    private static TwoColors        spinnerNextInteriorEnabled;
-    private static TwoColors        spinnerNextInteriorPressed;
+    private static TwoColors   spinnerNextInteriorDisabled;
+    private static TwoColors   spinnerNextInteriorEnabled;
+    private static TwoColors   spinnerNextInteriorPressed;
 
-    private static TwoColors        spinnerPrevBorderDisabled;
-    private static TwoColors        spinnerPrevBorderEnabled;
-    private static TwoColors        spinnerPrevBorderPressed;
+    private static TwoColors   spinnerPrevBorderDisabled;
+    private static TwoColors   spinnerPrevBorderEnabled;
+    private static TwoColors   spinnerPrevBorderPressed;
 
-    private static TwoColors        spinnerPrevInteriorDisabled;
-    private static TwoColors        spinnerPrevInteriorEnabled;
-    private static TwoColors        spinnerPrevInteriorPressed;
+    private static TwoColors   spinnerPrevInteriorDisabled;
+    private static TwoColors   spinnerPrevInteriorEnabled;
+    private static TwoColors   spinnerPrevInteriorPressed;
 
-    private static Color            spinnerPrevTopLineDisabled;
-    private static Color            spinnerPrevTopLineEnabled;
-    private static Color            spinnerPrevTopLinePressed;
+    private static Color       spinnerPrevTopLineDisabled;
+    private static Color       spinnerPrevTopLineEnabled;
+    private static Color       spinnerPrevTopLinePressed;
 
-    private static Color            spinnerArrowDisabled;
-    private static Color            spinnerArrowEnabled;
+    private static Color       spinnerArrowDisabled;
+    private static Color       spinnerArrowEnabled;
 
-    private static Color            splitPaneDividerBackgroundOuter;
-    private static Color            splitPaneDividerBackgroundEnabled;
-    private static TwoColors        splitPaneDividerBorder;
-    private static ThreeColors      splitPaneDividerInterior;
+    private static Color       splitPaneDividerBackgroundOuter;
+    private static Color       splitPaneDividerBackgroundEnabled;
+    private static TwoColors   splitPaneDividerBorder;
+    private static ThreeColors splitPaneDividerInterior;
 
-    private static Color            tabbedPaneTabAreaEnabledBackLine;
-    private static Color            tabbedPaneTabAreaDisabledBackLine;
-    private static Color            tabbedPaneTabAreaLightShadow;
-    private static Color            tabbedPaneTabAreaDarkShadow;
+    private static Color       tabbedPaneTabAreaEnabledBackLine;
+    private static Color       tabbedPaneTabAreaDisabledBackLine;
+    private static Color       tabbedPaneTabAreaLightShadow;
+    private static Color       tabbedPaneTabAreaDarkShadow;
 
-    private static Color            textComponentBorderDisabled;
-    private static Color            textComponentBorderEnabled;
-    private static Color            textComponentBorderEnabledToolbar;
+    private static Color       textComponentBorderDisabled;
+    private static Color       textComponentBorderEnabled;
+    private static Color       textComponentBorderEnabledToolbar;
 
-    private static Color            tableHeaderBorderEnabled;
-    private static Color            tableHeaderBorderDisabled;
+    private static Color       tableHeaderBorderEnabled;
+    private static Color       tableHeaderBorderDisabled;
 
-    private static Color            tableHeaderSortIndicator;
+    private static Color       tableHeaderSortIndicator;
 
-    private static FourColors       tableHeaderDisabled;
-    private static FourColors       tableHeaderEnabled;
-    private static FourColors       tableHeaderSorted;
-    private static FourColors       tableHeaderPressed;
-    private static FourColors       tableHeaderDisabledSorted;
+    private static FourColors  tableHeaderDisabled;
+    private static FourColors  tableHeaderEnabled;
+    private static FourColors  tableHeaderSorted;
+    private static FourColors  tableHeaderPressed;
+    private static FourColors  tableHeaderDisabledSorted;
 
-    private static Color            toolbarHandleMac;
-    private static TwoColors        toolbarHandleBorder;
-    private static FourColors       toolbarHandleInterior;
+    private static Color       toolbarHandleMac;
+    private static TwoColors   toolbarHandleBorder;
+    private static FourColors  toolbarHandleInterior;
 
-    private static TwoColors        toolbarToggleButtonInner;
-    private static TwoColors        toolbarToggleButtonInnerEdge;
-    private static TwoColors        toolbarToggleButtonOuterEdge;
+    private static TwoColors   toolbarToggleButtonInner;
+    private static TwoColors   toolbarToggleButtonInnerEdge;
+    private static TwoColors   toolbarToggleButtonOuterEdge;
 
     static {
         transparentColor = new Color(0x0, true);
@@ -275,43 +276,37 @@ public class PaintUtil {
             0.45f, 0.62f);
         basicButtonInteriorSelected = new FourColors(new Color(0xbccedf), new Color(0x7fa7cd), new Color(0x82b0d6), new Color(0xb0daf6),
             0.45f, 0.62f);
-        basicButtonInteriorPressedSelected = new FourColors(new Color(0xacbdd0), new Color(0x688db3), new Color(0x6d93ba), new Color(
-            0xa4cbe4), 0.45f, 0.62f);
+        basicButtonInteriorPressedSelected = basicButtonInteriorPressed;
         basicButtonInteriorDisabled = new FourColors(new Color(0x80fbfdfe, true), new Color(0x80d6eaf9, true), new Color(0x80d2e8f8, true),
             new Color(0x80f5fafd, true), 0.45f, 0.62f);
+        basicButtonInteriorDisabledSelected = new FourColors(new Color(0x80bccedf, true), new Color(0x807fa7cd, true), new Color(
+            0x8082b0d6, true), new Color(0x80b0daf6, true), 0.45f, 0.62f);
 
-        buttonInteriorEnabled = new ThreeLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0x00f7fcff, true),
-            new Color(0xffffffff, true), 0.5f, new Color(0xa8d2f2));
-        buttonInteriorPressed = new ThreeLayerColors(new Color(0xb3eeeeee, true), new Color(0x00ffffff, true), new Color(0x00A8D9FC, true),
-            new Color(0xffb4d9ee, true), 0.4f, new Color(0x134D8C));
-        buttonInteriorDefault = new ThreeLayerColors(new Color(0xc0ffffff, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC, true),
-            new Color(0xffC0E8FF, true), 0.4f, new Color(0x276FB2));
-        buttonInteriorDefaultPressed = new ThreeLayerColors(new Color(0xc0eeeeee, true), new Color(0x00eeeeee, true), new Color(0x00A8D9FC,
-            true), new Color(0xffB4D9EE, true), 0.4f, new Color(0x134D8C));
-        buttonInteriorDisabled = new ThreeLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true),
-            new Color(0x00A8D9FC, true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xeeeeee));
-        buttonInteriorDisabledSelected = new ThreeLayerColors(new Color(0xc0F4F8FB, true), new Color(0x00ffffff, true), new Color(
-            0x00A8D9FC, true), new Color(0xffF7FCFF, true), 0.4f, new Color(0xaaaaaa));
+        buttonInteriorEnabled = basicButtonInteriorEnabled;
+        buttonInteriorPressed = basicButtonInteriorPressed;
+        buttonInteriorDefault = basicButtonInteriorSelected;
+        buttonInteriorDefaultPressed = basicButtonInteriorPressedSelected;
+        buttonInteriorDisabled = basicButtonInteriorDisabled;
+        buttonInteriorDisabledSelected = basicButtonInteriorDisabledSelected;
 
-        texturedButtonBorderEnabled = new TwoColors(new Color(0x555555), new Color(0x4c4c4c));
-        texturedButtonBorderPressed = texturedButtonBorderEnabled;
-        texturedButtonBorderDefault = texturedButtonBorderEnabled;
-        texturedButtonBorderDefaultPressed = texturedButtonBorderEnabled;
-        texturedButtonBorderDisabled = texturedButtonBorderEnabled;
-        texturedButtonBorderDisabledSelected = texturedButtonBorderEnabled;
+        texturedButtonBorderEnabled = new TwoColors(new Color(0x999999), new Color(0x999999));
+        texturedButtonBorderPressed = new TwoColors(new Color(0x4f7bbf), new Color(0x3f76bf));
+        texturedButtonBorderDefault = texturedButtonBorderPressed;
+        texturedButtonBorderDefaultPressed = texturedButtonBorderPressed;
+        texturedButtonBorderDisabled = new TwoColors(new Color(0x80999999, true), new Color(0x80999999, true));
+        texturedButtonBorderDisabledSelected = new TwoColors(new Color(0x804f7bbf, true), new Color(0x803f76bf, true));
 
-        texturedButtonInteriorEnabled = new ThreeLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
-            new Color(0, true), 0.5f, new Color(0xbbbbbb));
-        texturedButtonInteriorPressed = new ThreeLayerColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true),
-            new Color(0xffcccccc, true), 0.5f, new Color(0x777777));
-        texturedButtonInteriorDefault = new ThreeLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
-            new Color(0, true), 0.5f, new Color(0x999999));
-        texturedButtonInteriorDefaultPressed = new ThreeLayerColors(new Color(0, true), new Color(0, true), new Color(0x00888888, true),
-            new Color(0xffcccccc, true), 0.5f, new Color(0x777777));
-        texturedButtonInteriorDisabled = new ThreeLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(0, true),
-            new Color(0, true), 0.5f, new Color(0xbbbbbb));
-        texturedButtonInteriorDisabledSelected = new ThreeLayerColors(new Color(0xf3ffffff, true), new Color(0x00ffffff, true), new Color(
-            0, true), new Color(0, true), 0.5f, new Color(0xaaaaaa));
+        texturedButtonInteriorEnabled = new FourColors(new Color(0xfefefe), new Color(0xf2f2f2), new Color(0xececec), new Color(0xe0e0e0),
+            0.45f, 0.62f);
+        texturedButtonInteriorPressed = new FourColors(new Color(0xa5c9e5), new Color(0x90b5d4), new Color(0x86abcb), new Color(0x759bbd),
+            0.45f, 0.62f);
+        texturedButtonInteriorDefault = new FourColors(new Color(0xb0daf6), new Color(0x88b3d8), new Color(0x7da7cd), new Color(0x7fa7cd),
+            0.45f, 0.62f);
+        texturedButtonInteriorDefaultPressed = texturedButtonInteriorDefault;
+        texturedButtonInteriorDisabled = new FourColors(new Color(0x80fefefe, true), new Color(0x80f2f2f2, true), new Color(0x80ececec,
+            true), new Color(0x80e0e0e0, true), 0.45f, 0.62f);
+        texturedButtonInteriorDisabledSelected = new FourColors(new Color(0x80b0daf6, true), new Color(0x8088b3d8, true), new Color(
+            0x807da7cd, true), new Color(0x807fa7cd, true), 0.45f, 0.62f);
 
         scrollBarThumbBorderPressed = new TwoColors(new Color(0x4076bf), new Color(0x4f7bbf));
         scrollBarThumbInteriorPressed = new FourColors(new Color(0xb1dbf5), new Color(0x7ca7ce), new Color(0x7ea7cc), new Color(0xbbcedf),
@@ -537,19 +532,9 @@ public class PaintUtil {
             tabbedPaneTabAreaLightShadow });
     }
 
-    public static Paint getButtonInteriorMainPaint(Shape s, ButtonType type, boolean isTextured) {
-        ThreeLayerColors colors = getButtonInteriorColors(type, isTextured);
-        return colors.mainColor;
-    }
-
-    public static Paint getButtonInteriorLowerShinePaint(Shape s, ButtonType type, boolean isTextured) {
-        ThreeLayerColors colors = getButtonInteriorColors(type, isTextured);
-        return createTwoColorGradientWithMidpointVertical(s, colors.lowerShine);
-    }
-
-    public static Paint getButtonInteriorUpperShinePaint(Shape s, ButtonType type, boolean isTextured) {
-        ThreeLayerColors colors = getButtonInteriorColors(type, isTextured);
-        return createTwoColorGradientVertical(s, colors.upperShine);
+    public static Paint getButtonInteriorPaint(Shape s, ButtonType type, boolean isTextured) {
+        FourColors colors = getButtonInteriorColors(type, isTextured);
+        return createGradientFourColorVertical(s, colors);
     }
 
     public static Paint getComboBoxButtonInteriorPaint(Shape s, ButtonType type) {
@@ -839,7 +824,7 @@ public class PaintUtil {
         return null;
     }
 
-    private static ThreeLayerColors getButtonInteriorColors(ButtonType type, boolean textured) {
+    private static FourColors getButtonInteriorColors(ButtonType type, boolean textured) {
         switch (type) {
         case DISABLED:
             return textured ? texturedButtonInteriorDisabled : buttonInteriorDisabled;
@@ -1238,18 +1223,6 @@ public class PaintUtil {
         return createGradient(xMin, yCenter, xMax, yCenter, new float[] { 0f, 1f }, new Color[] { colors.topColor, colors.bottomColor });
     }
 
-    private static Paint createTwoColorGradientWithMidpointVertical(Shape s, TwoColorsWithMidpoint colors) {
-        Color midColor = new Color(deriveARGB(colors.topColor, colors.bottomColor, colors.midpoint) & 0xFFFFFF, true);
-        Rectangle2D bounds = s.getBounds2D();
-        float xCenter = (float) bounds.getCenterX();
-        float yMin = (float) bounds.getMinY();
-        float yMax = (float) bounds.getMaxY();
-        return createGradient(xCenter, yMin, xCenter, yMax, new float[] { 0f, colors.midpoint, 1f }, new Color[] {
-            colors.topColor,
-            midColor,
-            colors.bottomColor });
-    }
-
     private static Paint createGradientFourColorVertical(Shape s, FourColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float xCenter = (float) bounds.getCenterX();
@@ -1465,15 +1438,6 @@ public class PaintUtil {
         }
     }
 
-    private static class TwoColorsWithMidpoint extends TwoColors {
-        public float midpoint;
-
-        public TwoColorsWithMidpoint(Color topColor, Color bottomColor, float midpoint) {
-            super(topColor, bottomColor);
-            this.midpoint = midpoint;
-        }
-    }
-
     private static class ThreeColors {
         public Color topColor;
         public Color midColor;
@@ -1524,23 +1488,6 @@ public class PaintUtil {
             this.topColorB = topColorB;
             this.bottomColorT = bottomColorT;
             this.bottomColorB = bottomColorB;
-        }
-    }
-
-    /**
-     * A set of colors to use for many controls.
-     */
-    private static class ThreeLayerColors {
-
-        public TwoColors             upperShine;
-        public TwoColorsWithMidpoint lowerShine;
-        public Color                 mainColor;
-
-        public ThreeLayerColors(Color upperShineTop, Color upperShineBottom, Color lowerShineTop, Color lowerShineBottom,
-            float lowerShineMidpoint, Color mainColor) {
-            this.upperShine = new TwoColors(upperShineTop, upperShineBottom);
-            this.lowerShine = new TwoColorsWithMidpoint(lowerShineTop, lowerShineBottom, lowerShineMidpoint);
-            this.mainColor = mainColor;
         }
     }
 }

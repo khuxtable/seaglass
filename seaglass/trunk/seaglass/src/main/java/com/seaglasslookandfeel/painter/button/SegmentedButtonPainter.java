@@ -101,11 +101,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             g.fill(s);
 
             s = createInterior(segmentStatus, x, y, width, height);
-            g.setPaint(PaintUtil.getButtonInteriorMainPaint(s, type, isTextured));
-            g.fill(s);
-            g.setPaint(PaintUtil.getButtonInteriorLowerShinePaint(s, type, isTextured));
-            g.fill(s);
-            g.setPaint(PaintUtil.getButtonInteriorUpperShinePaint(s, type, isTextured));
+            g.setPaint(PaintUtil.getButtonInteriorPaint(s, type, isTextured));
             g.fill(s);
         }
     }
