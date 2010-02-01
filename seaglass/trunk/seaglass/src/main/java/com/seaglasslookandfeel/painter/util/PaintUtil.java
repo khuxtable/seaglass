@@ -451,7 +451,7 @@ public class PaintUtil {
     }
 
     public static Paint getToolbarHandleInteriorPaint(Shape s) {
-        return createGradientFourColorHorizontal(s, toolbarHandleInterior);
+        return createFourColorGradientHorizontal(s, toolbarHandleInterior);
     }
 
     public static Paint getTableHeaderBorderPaint(ButtonType type) {
@@ -464,7 +464,7 @@ public class PaintUtil {
 
     public static Paint getTableHeaderPaint(Shape s, ButtonType type, boolean isSorted) {
         FourColors colors = getTableHeaderColors(type, isSorted);
-        return createGradientFourColorVertical(s, colors);
+        return createFourColorGradientVertical(s, colors);
     }
 
     public static Paint getTextComponentBorderPaint(ButtonType type, boolean inToolbar) {
@@ -515,23 +515,23 @@ public class PaintUtil {
     }
 
     public static Paint getButtonInteriorPaint(Shape s, ButtonType type) {
-        FourColors colors = getButtonInteriorColors(type);
-        return createGradientFourColorVertical(s, colors);
+        FourColors colors = getButtonInteriorColors(type, false);
+        return createFourColorGradientVertical(s, colors);
     }
 
     public static Paint getButtonInteriorPaint(Shape s, ButtonType type, boolean isTextured) {
         FourColors colors = getButtonInteriorColors(type, isTextured);
-        return createGradientFourColorVertical(s, colors);
+        return createFourColorGradientVertical(s, colors);
     }
 
     public static Paint getComboBoxButtonInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getComboBoxButtonColors(type);
-        return createGradientFourColorVertical(s, colors);
+        return createFourColorGradientVertical(s, colors);
     }
 
     public static Paint getComboBoxBackgroundInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getComboBoxBackgroundColors(type);
-        return createGradientFourColorVertical(s, colors);
+        return createFourColorGradientVertical(s, colors);
     }
 
     public static Paint getMenuItemBackgroundPaint(Shape s) {
@@ -559,13 +559,13 @@ public class PaintUtil {
         return getFrameBorderColors(type);
     }
 
-    public static Paint getButtonBorderPaint(Shape s, ButtonType type, boolean isTextured) {
-        TwoColors colors = getButtonBorderColors(type, isTextured);
+    public static Paint getButtonBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getButtonBorderColors(type, false);
         return createTwoColorGradientVertical(s, colors);
     }
 
-    public static Paint getButtonBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getButtonBorderColors(type);
+    public static Paint getButtonBorderPaint(Shape s, ButtonType type, boolean isTextured) {
+        TwoColors colors = getButtonBorderColors(type, isTextured);
         return createTwoColorGradientVertical(s, colors);
     }
 
@@ -631,7 +631,7 @@ public class PaintUtil {
 
     public static Paint getScrollBarThumbInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getScrollBarThumbInteriorColors(type);
-        return createGradientFourColorVertical(s, colors);
+        return createFourColorGradientVertical(s, colors);
     }
 
     public static Paint getRadioButtonBulletPaint(Shape s, ButtonType type) {
@@ -674,12 +674,12 @@ public class PaintUtil {
 
     public static Paint getProgressBarPaint(Shape s, ButtonType type) {
         FourColors colors = getProgressBarColors(type);
-        return createGradientFourColorVertical(s, colors);
+        return createFourColorGradientVertical(s, colors);
     }
 
     public static Paint getProgressBarIndeterminatePaint(Shape s, ButtonType type) {
         FourColors colors = getProgressBarIndeterminateColors(type);
-        return createGradientFourColorVertical(s, colors);
+        return createFourColorGradientVertical(s, colors);
     }
 
     public static Paint getProgressBarEndPaint(Shape s, ButtonType type) {
@@ -788,94 +788,84 @@ public class PaintUtil {
         return null;
     }
 
-    private static TwoColors getButtonBorderColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return buttonBorderDisabled;
-        case DISABLED_SELECTED:
-            return buttonBorderDisabledSelected;
-        case ENABLED:
-            return buttonBorderEnabled;
-        case PRESSED:
-            return buttonBorderPressed;
-        case DEFAULT:
-            return buttonBorderDefault;
-        case DEFAULT_PRESSED:
-            return buttonBorderDefaultPressed;
-        case SELECTED:
-            return buttonBorderSelected;
-        case PRESSED_SELECTED:
-            return buttonBorderPressedSelected;
-        }
-        return null;
-    }
-
     private static TwoColors getButtonBorderColors(ButtonType type, boolean textured) {
-        if (!textured) {
-            return getButtonBorderColors(type);
-        }
-
-        switch (type) {
-        case DISABLED:
-            return texturedButtonBorderDisabled;
-        case DISABLED_SELECTED:
-            return texturedButtonBorderDisabledSelected;
-        case ENABLED:
-            return texturedButtonBorderEnabled;
-        case PRESSED:
-            return texturedButtonBorderPressed;
-        case DEFAULT:
-        case SELECTED:
-            return texturedButtonBorderDefault;
-        case DEFAULT_PRESSED:
-        case PRESSED_SELECTED:
-            return texturedButtonBorderDefaultPressed;
-        }
-        return null;
-    }
-
-    private static FourColors getButtonInteriorColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return buttonInteriorDisabled;
-        case DISABLED_SELECTED:
-            return buttonInteriorDisabledSelected;
-        case ENABLED:
-            return buttonInteriorEnabled;
-        case PRESSED:
-            return buttonInteriorPressed;
-        case DEFAULT:
-            return buttonInteriorDefault;
-        case DEFAULT_PRESSED:
-            return buttonInteriorDefaultPressed;
-        case SELECTED:
-            return buttonInteriorSelected;
-        case PRESSED_SELECTED:
-            return buttonInteriorPressedSelected;
+        if (textured) {
+            switch (type) {
+            case DISABLED:
+                return texturedButtonBorderDisabled;
+            case DISABLED_SELECTED:
+                return texturedButtonBorderDisabledSelected;
+            case ENABLED:
+                return texturedButtonBorderEnabled;
+            case PRESSED:
+                return texturedButtonBorderPressed;
+            case DEFAULT:
+            case SELECTED:
+                return texturedButtonBorderDefault;
+            case DEFAULT_PRESSED:
+            case PRESSED_SELECTED:
+                return texturedButtonBorderDefaultPressed;
+            }
+        } else {
+            switch (type) {
+            case DISABLED:
+                return buttonBorderDisabled;
+            case DISABLED_SELECTED:
+                return buttonBorderDisabledSelected;
+            case ENABLED:
+                return buttonBorderEnabled;
+            case PRESSED:
+                return buttonBorderPressed;
+            case DEFAULT:
+                return buttonBorderDefault;
+            case DEFAULT_PRESSED:
+                return buttonBorderDefaultPressed;
+            case SELECTED:
+                return buttonBorderSelected;
+            case PRESSED_SELECTED:
+                return buttonBorderPressedSelected;
+            }
         }
         return null;
     }
 
     private static FourColors getButtonInteriorColors(ButtonType type, boolean textured) {
-        if (!textured) {
-            return getButtonInteriorColors(type);
-        }
-
-        switch (type) {
-        case DISABLED:
-            return texturedButtonInteriorDisabled;
-        case DISABLED_SELECTED:
-            return texturedButtonInteriorDisabledSelected;
-        case ENABLED:
-            return texturedButtonInteriorEnabled;
-        case PRESSED:
-            return texturedButtonInteriorPressed;
-        case DEFAULT:
-        case SELECTED:
-            return texturedButtonInteriorDefault;
-        case DEFAULT_PRESSED:
-        case PRESSED_SELECTED:
-            return texturedButtonInteriorDefaultPressed;
+        if (textured) {
+            switch (type) {
+            case DISABLED:
+                return texturedButtonInteriorDisabled;
+            case DISABLED_SELECTED:
+                return texturedButtonInteriorDisabledSelected;
+            case ENABLED:
+                return texturedButtonInteriorEnabled;
+            case PRESSED:
+                return texturedButtonInteriorPressed;
+            case DEFAULT:
+            case SELECTED:
+                return texturedButtonInteriorDefault;
+            case DEFAULT_PRESSED:
+            case PRESSED_SELECTED:
+                return texturedButtonInteriorDefaultPressed;
+            }
+        } else {
+            switch (type) {
+            case DISABLED:
+                return buttonInteriorDisabled;
+            case DISABLED_SELECTED:
+                return buttonInteriorDisabledSelected;
+            case ENABLED:
+                return buttonInteriorEnabled;
+            case PRESSED:
+                return buttonInteriorPressed;
+            case DEFAULT:
+                return buttonInteriorDefault;
+            case DEFAULT_PRESSED:
+                return buttonInteriorDefaultPressed;
+            case SELECTED:
+                return buttonInteriorSelected;
+            case PRESSED_SELECTED:
+                return buttonInteriorPressedSelected;
+            }
         }
         return null;
     }
@@ -1227,7 +1217,7 @@ public class PaintUtil {
         return createGradient(xMin, yCenter, xMax, yCenter, new float[] { 0f, 1f }, new Color[] { colors.topColor, colors.bottomColor });
     }
 
-    private static Paint createGradientFourColorVertical(Shape s, FourColors colors) {
+    private static Paint createFourColorGradientVertical(Shape s, FourColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float xCenter = (float) bounds.getCenterX();
         float yMin = (float) bounds.getMinY();
@@ -1236,7 +1226,7 @@ public class PaintUtil {
             new Color[] { colors.topColor, colors.upperMidColor, colors.lowerMidColor, colors.bottomColor });
     }
 
-    private static Paint createGradientFourColorHorizontal(Shape s, FourColors colors) {
+    private static Paint createFourColorGradientHorizontal(Shape s, FourColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
