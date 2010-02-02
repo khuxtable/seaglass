@@ -85,22 +85,4 @@ public class GenerateDifferences {
 
         return String.format("deriveColor(src, %ff, %ff, %ff, 0)", hOffset, sOffset, bOffset);
     }
-
-    private static float clamp(float value) {
-        if (value < 0) {
-            value = 0;
-        } else if (value > 1) {
-            value = 1;
-        }
-        return value;
-    }
-
-    private static int clamp(int value) {
-        if (value < 0) {
-            value = 0;
-        } else if (value > 255) {
-            value = 255;
-        }
-        return value;
-    }
 }
