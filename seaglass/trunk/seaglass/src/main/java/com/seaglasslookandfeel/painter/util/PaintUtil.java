@@ -323,8 +323,11 @@ public class PaintUtil {
         tableHeaderBorderEnabled = new Color(0xcad3e0);
         tableHeaderSortIndicator = new Color(0xc02a5481, true);
 
-        Color tableHeaderUpperMidEnabled = new Color(0xeaeff2);
-        Color tableHeaderLowerMidEnabled = new Color(0xeff3f7);
+        Color tableHeaderInteriorBaseEnabled = new Color(0xedf1f5);
+
+        textComponentBorderEnabled = decodeColor("seaGlassTextEnabledBorder");
+        textComponentBorderEnabledToolbar = decodeColor("seaGlassTextEnabledToolbarBorder");
+        textComponentBorderDisabled = decodeColor("seaGlassTextDisabledBorder");
 
         Color toolbarToggleButtonBase = transparentColor;
 
@@ -550,14 +553,15 @@ public class PaintUtil {
 
         tabbedPaneTabAreaBackLineDisabled = disable(tabbedPaneTabAreaBackLineEnabled);
 
-        textComponentBorderDisabled = decodeColor("seaGlassTextDisabledBorder");
-        textComponentBorderEnabled = decodeColor("seaGlassTextEnabledBorder");
-        textComponentBorderEnabledToolbar = decodeColor("seaGlassTextEnabledToolbarBorder");
-
         tableHeaderBorderDisabled = disable(tableHeaderBorderEnabled);
 
-        tableHeaderEnabled = new FourColors(buttonInteriorTopEnabled, tableHeaderUpperMidEnabled, tableHeaderLowerMidEnabled,
-            buttonInteriorBottomEnabled);
+        Color tableHeaderTopEnabled = deriveColor(tableHeaderInteriorBaseEnabled, -0.027778f, -0.020842f, 0.035294f, 0);
+        Color tableHeaderUpperMidEnabled = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, 0.000405f, -0.011765f, 0);
+        Color tableHeaderLowerMidEnabled = deriveColor(tableHeaderInteriorBaseEnabled, 0f, -0.000264f, 0.007843f, 0);
+        Color tableHeaderBottomEnabled = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, -0.001033f, 0.031373f, 0);
+
+        tableHeaderEnabled = new FourColors(tableHeaderTopEnabled, tableHeaderUpperMidEnabled, tableHeaderLowerMidEnabled,
+            tableHeaderBottomEnabled);
         tableHeaderSorted = new FourColors(buttonInteriorTopSelected, buttonInteriorUpperMidSelected, buttonInteriorLowerMidSelected,
             buttonInteriorBottomSelected);
         tableHeaderPressed = new FourColors(buttonInteriorTopPressed, buttonInteriorUpperMidPressed, buttonInteriorLowerMidPressed,
