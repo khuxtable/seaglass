@@ -231,6 +231,33 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     }
 
     /**
+     * Derive and returns a color, which is based on an existing color.
+     * 
+     * @param src
+     *            The source color from which to derive the new color.
+     * @param hOffset
+     *            The hue offset used for derivation.
+     * @param sOffset
+     *            The saturation offset used for derivation.
+     * @param bOffset
+     *            The brightness offset used for derivation.
+     * @param aOffset
+     *            The alpha offset used for derivation. Between 0...255
+     * @return The derived color.
+     */
+    protected Color deriveColor(Color src, float hOffset, float sOffset, float bOffset, int aOffset) {
+        float[] tmp = Color.RGBtoHSB(src.getRed(), src.getGreen(), src.getBlue(), null);
+
+        // apply offsets
+        tmp[0] = clamp(tmp[0] + hOffset);
+        tmp[1] = clamp(tmp[1] + sOffset);
+        tmp[2] = clamp(tmp[2] + bOffset);
+        int alpha = clamp(src.getAlpha() + aOffset);
+
+        return new Color((Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (alpha << 24), true);
+    }
+
+    /**
      * Decodes and returns a color, which is derived from a offset between two
      * other colors.
      * 
@@ -283,7 +310,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      * @param colors
      * @return a valid LinearGradientPaint. This method never returns null.
      */
-    protected final LinearGradientPaint decodeGradient(float x1, float y1, float x2, float y2, float[] midpoints, Color[] colors) {
+    protected final LinearGradientPaint createGradient(float x1, float y1, float x2, float y2, float[] midpoints, Color[] colors) {
         if (x1 == x2 && y1 == y2) {
             y2 += .00001f;
         }
@@ -304,7 +331,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      * @param colors
      * @return a valid RadialGradientPaint. This method never returns null.
      */
-    protected final RadialGradientPaint decodeRadialGradient(float x, float y, float r, float[] midpoints, Color[] colors) {
+    protected final RadialGradientPaint createRadialGradient(float x, float y, float r, float[] midpoints, Color[] colors) {
         if (r == 0f) {
             r = .00001f;
         }
@@ -381,6 +408,35 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
         }
     }
 
+    protected Color disable(Color color) {
+        int alpha = color.getAlpha();
+        alpha /= 2;
+        return new Color((color.getRGB() & 0xFFFFFF) | (alpha << 24), true);
+    }
+
+    protected Color desaturate(Color color) {
+        float[] tmp = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+        tmp[1] /= 3.0f;
+        tmp[2] = clamp(1.0f - (1.0f - tmp[2]) / 3f);
+        return new Color((Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF));
+    }
+
+    protected TwoColors disable(TwoColors colors) {
+        return new TwoColors(disable(colors.top), disable(colors.bottom));
+    }
+
+    protected TwoColors desaturate(TwoColors colors) {
+        return new TwoColors(desaturate(colors.top), desaturate(colors.bottom));
+    }
+
+    protected FourColors disable(FourColors colors) {
+        return new FourColors(disable(colors.top), disable(colors.upperMid), disable(colors.lowerMid), disable(colors.bottom));
+    }
+
+    protected FourColors desaturate(FourColors colors) {
+        return new FourColors(desaturate(colors.top), desaturate(colors.upperMid), desaturate(colors.lowerMid), desaturate(colors.bottom));
+    }
+
     /**
      * A class encapsulating state useful when painting. Generally, instances of
      * this class are created once, and reused for each paint request without
@@ -407,6 +463,42 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
 
         public CacheMode getCacheMode() {
             return cacheMode;
+        }
+    }
+
+    /**
+     * Two color gradients.
+     */
+    public static class TwoColors {
+        public Color top;
+        public Color bottom;
+
+        public TwoColors(Color top, Color bottom) {
+            this.top = top;
+            this.bottom = bottom;
+        }
+    }
+
+    public static class ThreeColors extends TwoColors {
+        public Color mid;
+
+        public ThreeColors(Color top, Color mid, Color bottom) {
+            super(top, bottom);
+            this.mid = mid;
+        }
+    }
+
+    /**
+     * A set of colors to use for scrollbar thumbs and some other controls.
+     */
+    public static class FourColors extends TwoColors {
+        public Color upperMid;
+        public Color lowerMid;
+
+        public FourColors(Color top, Color upperMid, Color lowerMid, Color bottom) {
+            super(top, bottom);
+            this.upperMid = upperMid;
+            this.lowerMid = lowerMid;
         }
     }
 

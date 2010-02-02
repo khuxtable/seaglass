@@ -19,7 +19,9 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
@@ -38,6 +40,14 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED
     }
 
+    private Color        frameBorderBase             = decodeColor("frameBorderBase");
+
+    private Color        frameInnerHighlightInactive = decodeColor("frameInnerHighlightInactive");
+    private Color        frameInnerHighlightActive   = decodeColor("frameInnerHighlightActive");
+
+    private Color        frameBorderActive           = frameBorderBase;
+    private Color        frameBorderInactive         = frameBorderBase;
+
     private PaintContext ctx;
 
     public DesktopIconPainter(Which state) {
@@ -47,10 +57,10 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRoundRectangle(2, 0, width - 3, height - 2, CornerSize.FRAME_BORDER);
-        PaintUtil.getFrameBorderPaint(s, ButtonType.INACTIVE);
+        getFrameBorderPaint(s, ButtonType.INACTIVE);
 
         s = ShapeUtil.createRoundRectangle(3, 1, width - 5, height - 4, CornerSize.FRAME_INNER_HIGHLIGHT);
-        g.setPaint(PaintUtil.getFrameInnerHighlightPaint(s, ButtonType.INACTIVE));
+        g.setPaint(getFrameInnerHighlightPaint(s, ButtonType.INACTIVE));
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(4, 2, width - 7, height - 6, CornerSize.FRAME_INTERIOR);
@@ -60,5 +70,33 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
 
     protected final PaintContext getPaintContext() {
         return ctx;
+    }
+
+    private Color getFrameBorderColors(ButtonType type) {
+        switch (type) {
+        case INACTIVE:
+            return frameBorderInactive;
+        case ACTIVE:
+            return frameBorderActive;
+        }
+        return null;
+    }
+
+    public Paint getFrameBorderPaint(Shape s, ButtonType type) {
+        return getFrameBorderColors(type);
+    }
+
+    private Color getFrameInnerHighlightColors(ButtonType type) {
+        switch (type) {
+        case INACTIVE:
+            return frameInnerHighlightInactive;
+        case ACTIVE:
+            return frameInnerHighlightActive;
+        }
+        return null;
+    }
+
+    public Paint getFrameInnerHighlightPaint(Shape s, ButtonType type) {
+        return getFrameInnerHighlightColors(type);
     }
 }

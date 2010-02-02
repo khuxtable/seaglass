@@ -128,7 +128,7 @@ public final class TitlePaneCloseButtonPainter extends TitlePaneButtonPainter {
         Rectangle r = s.getBounds();
         int width = r.width;
         int height = r.height;
-        return decodeGradient(r.x + width / 2, r.y, r.x + width / 2, r.y + height - 1, new float[] { 0f, 1f }, new Color[] { top, bottom });
+        return createGradient(r.x + width / 2, r.y, r.x + width / 2, r.y + height - 1, new float[] { 0f, 1f }, new Color[] { top, bottom });
     }
 
     private Shape decodeInterior(int width, int height) {

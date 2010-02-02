@@ -117,14 +117,6 @@ public class PaintUtil {
     private static TwoColors   rootPaneActive;
     private static TwoColors   rootPaneInactive;
 
-    private static Color       frameBorderActive;
-    private static Color       frameBorderInactive;
-    private static Color       frameInnerHighlightInactive;
-    private static Color       frameInnerHighlightActive;
-
-    private static FourColors  frameActive;
-    private static FourColors  frameInactive;
-
     private static Color       desktopPane;
 
     private static TwoColors   menuItemBackground;
@@ -267,14 +259,6 @@ public class PaintUtil {
         Color texturedButtonInteriorBasePressedSelected = decodeColor("texturedButtonInteriorBasePressedSelected");
 
         Color buttonBulletBottomEnabled = decodeColor("buttonBulletBottomEnabled");
-
-        Color frameBaseActive = decodeColor("frameBaseActive");
-        Color frameBaseInactive = decodeColor("frameBaseInactive");
-
-        Color frameBorderBase = decodeColor("frameBorderBase");
-
-        frameInnerHighlightInactive = decodeColor("frameInnerHighlightInactive");
-        frameInnerHighlightActive = decodeColor("frameInnerHighlightActive");
 
         Color menuItemBackgroundBase = decodeColor("menuItemBackgroundBase");
 
@@ -443,21 +427,6 @@ public class PaintUtil {
         comboBoxBackgroundInteriorEnabled = buttonInteriorEnabled;
         comboBoxBackgroundInteriorPressed = buttonInteriorEnabled;
 
-        Color frameTopActive = deriveColor(frameBaseActive, 0.005208f, -0.080105f, 0.043137f, 0);
-        Color frameUpperMidActive = frameBaseActive;
-        Color frameLowerMidActive = frameBaseActive;
-        Color frameBottomActive = deriveColor(frameBaseActive, 0f, 0.025723f, -0.015686f, 0);
-        Color frameTopInactive = deriveColor(frameBaseInactive, 0f, 0f, 0.050980f, 0);
-        Color frameUpperMidInactive = frameBaseInactive;
-        Color frameLowerMidInactive = frameBaseInactive;
-        Color frameBottomInactive = deriveColor(frameBaseInactive, 0f, 0f, -0.050980f, 0);
-
-        frameBorderActive = frameBorderBase;
-        frameBorderInactive = frameBorderBase;
-
-        frameActive = new FourColors(frameTopActive, frameUpperMidActive, frameLowerMidActive, frameBottomActive);
-        frameInactive = new FourColors(frameTopInactive, frameUpperMidInactive, frameLowerMidInactive, frameBottomInactive);
-
         Color menuItemBackgroundTop = deriveColor(menuItemBackgroundBase, -0.003425f, -0.027540f, 0.070588f, 0);
         Color menuItemBackgroundBottom = deriveColor(menuItemBackgroundBase, 0.001337f, 0.040989f, -0.078431f, 0);
 
@@ -587,11 +556,11 @@ public class PaintUtil {
     }
 
     public static Paint getToolbarHandleBorderPaint(Shape s) {
-        return createTwoColorGradientHorizontal(s, toolbarHandleBorder);
+        return createHorizontalGradient(s, toolbarHandleBorder);
     }
 
     public static Paint getToolbarHandleInteriorPaint(Shape s) {
-        return createFourColorGradientHorizontal(s, toolbarHandleInterior);
+        return createHorizontalGradient(s, toolbarHandleInterior);
     }
 
     public static Paint getTableHeaderBorderPaint(ButtonType type) {
@@ -604,7 +573,7 @@ public class PaintUtil {
 
     public static Paint getTableHeaderPaint(Shape s, ButtonType type, boolean isSorted) {
         FourColors colors = getTableHeaderColors(type, isSorted);
-        return createFourColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getTextComponentBorderPaint(ButtonType type, boolean inToolbar) {
@@ -626,11 +595,11 @@ public class PaintUtil {
     }
 
     public static Paint getSplitPaneDividerBorderPaint(Shape s) {
-        return decodeGradientForegroundBorder(s, splitPaneDividerBorder.top, splitPaneDividerBorder.bottom);
+        return decodeSplitPaneDividerBorderGradient(s, splitPaneDividerBorder.top, splitPaneDividerBorder.bottom);
     }
 
     public static Paint getSplitPaneDividerInteriorPaint(Shape s) {
-        return decodeGradientForegroundInside(s, splitPaneDividerInterior.top, splitPaneDividerInterior.mid,
+        return decodeSplitPaneDividerInsideGradient(s, splitPaneDividerInterior.top, splitPaneDividerInterior.mid,
             splitPaneDividerInterior.bottom);
     }
 
@@ -656,31 +625,31 @@ public class PaintUtil {
 
     public static Paint getButtonInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getButtonInteriorColors(type);
-        return createFourColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getButtonInteriorPaint(Shape s, ButtonType type, boolean isTextured) {
         if (isTextured) {
             TwoColors colors = getTexturedButtonInteriorColors(type);
-            return createTwoColorGradientVertical(s, colors);
+            return createVerticalGradient(s, colors);
         } else {
             FourColors colors = getButtonInteriorColors(type);
-            return createFourColorGradientVertical(s, colors);
+            return createVerticalGradient(s, colors);
         }
     }
 
     public static Paint getComboBoxButtonInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getComboBoxButtonInteriorColors(type);
-        return createFourColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getComboBoxBackgroundInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getComboBoxBackgroundInteriorColors(type);
-        return createFourColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getMenuItemBackgroundPaint(Shape s) {
-        return createTwoColorGradientVertical(s, menuItemBackground);
+        return createVerticalGradient(s, menuItemBackground);
     }
 
     public static Color getMenuItemBottomLinePaint() {
@@ -697,46 +666,42 @@ public class PaintUtil {
 
     public static Paint getProgressBarBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getProgressBarBorderColors(type);
-        return createTwoColorGradientVertical(s, colors);
-    }
-
-    public static Paint getFrameBorderPaint(Shape s, ButtonType type) {
-        return getFrameBorderColors(type);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getButtonBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getButtonBorderColors(type, false);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getButtonBorderPaint(Shape s, ButtonType type, boolean isTextured) {
         TwoColors colors = getButtonBorderColors(type, isTextured);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getScrollBarThumbBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getScrollBarThumbBorderColors(type);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getSpinnerNextBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getSpinnerNextBorderColors(type);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getSpinnerPrevBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getSpinnerPrevBorderColors(type);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getComboBoxButtonBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getComboBoxButtonBorderColors(type);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getComboBoxBackgroundBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getComboBoxBackgroundBorderColors(type);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getPopupMenuBorderPaint(Shape s, ButtonType type) {
@@ -745,11 +710,7 @@ public class PaintUtil {
 
     public static Paint getSliderTrackBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getSliderTrackBorderColors(type);
-        return createTwoColorGradientVertical(s, colors);
-    }
-
-    public static Paint getFrameInnerHighlightPaint(Shape s, ButtonType type) {
-        return getFrameInnerHighlightColors(type);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getSpinnerPrevTopLinePaint(Shape s, ButtonType type) {
@@ -768,29 +729,24 @@ public class PaintUtil {
         return popupMenuSeparator;
     }
 
-    public static Paint getFrameInteriorPaint(Shape s, ButtonType type, int titleHeight, int topToolBarHeight, int bottomToolBarHeight) {
-        FourColors colors = getFrameInteriorColors(type);
-        return createFrameGradient(s, titleHeight, topToolBarHeight, bottomToolBarHeight, colors);
-    }
-
     public static Paint getScrollBarThumbInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getScrollBarThumbInteriorColors(type);
-        return createFourColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getRadioButtonBulletPaint(Shape s, ButtonType type) {
         TwoColors colors = getCheckBoxBulletColors(type);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getSpinnerNextInteriorPaint(Shape s, ButtonType type) {
         TwoColors colors = getSpinnerNextInteriorColors(type);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getSpinnerPrevInteriorPaint(Shape s, ButtonType type) {
         TwoColors colors = getSpinnerPrevInteriorColors(type);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getCheckBoxBulletPaint(Shape s, ButtonType type) {
@@ -804,12 +760,12 @@ public class PaintUtil {
 
     public static Paint getRootPaneInteriorPaint(Shape s, ButtonType type) {
         TwoColors colors = getRootPaneInteriorColors(type);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getSliderTrackInteriorPaint(Shape s, ButtonType type) {
         TwoColors colors = getSliderTrackInteriorColors(type);
-        return createTwoColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getDesktopPanePaint(Shape s) {
@@ -818,12 +774,12 @@ public class PaintUtil {
 
     public static Paint getProgressBarPaint(Shape s, ButtonType type) {
         FourColors colors = getProgressBarColors(type);
-        return createFourColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getProgressBarIndeterminatePaint(Shape s, ButtonType type) {
         FourColors colors = getProgressBarIndeterminateColors(type);
-        return createFourColorGradientVertical(s, colors);
+        return createVerticalGradient(s, colors);
     }
 
     public static Paint getProgressBarEndPaint(Shape s, ButtonType type) {
@@ -831,7 +787,7 @@ public class PaintUtil {
     }
 
     public static Paint getScrollBarTrackBackgroundPaint(Shape s) {
-        return createTwoColorGradientVertical(s, scrollBarTrackBackground);
+        return createVerticalGradient(s, scrollBarTrackBackground);
     }
 
     public static Paint getScrollBarTrackShadowPaint(Shape s) {
@@ -840,7 +796,7 @@ public class PaintUtil {
 
     public static Paint getScrollBarButtonBackgroundPaint(Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
         TwoColors colors = getScrollBarButtonBackgroundColors(type, isIncrease, buttonsTogether);
-        return createTwoColorGradientHorizontal(s, colors);
+        return createHorizontalGradient(s, colors);
     }
 
     public static Paint getScrollBarButtonLinePaint(ButtonType type) {
@@ -891,28 +847,23 @@ public class PaintUtil {
         return createGradient(minX, midY, maxX, midY, new float[] { 0f, 1f }, new Color[] { transparentColor, innerShadow.bottom });
     }
 
-    private static Paint decodeGradientForegroundBorder(Shape s, Color border1, Color border2) {
+    private static Paint decodeSplitPaneDividerBorderGradient(Shape s, Color border1, Color border2) {
         Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
+        float midX = (float) bounds.getCenterX();
         float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
-        return createGradient((0.5f * w) + x, (0.0f * h) + y, (0.5f * w) + x, (1.0f * h) + y,
-            new float[] { 0.20645161f, 0.5f, 0.7935484f }, new Color[] { border1, decodeColor(border1, border2, 0.5f), border2 });
+        return createGradient(midX, y, midX, y + h, new float[] { 0.20645161f, 0.5f, 0.7935484f }, new Color[] {
+            border1,
+            decodeColor(border1, border2, 0.5f),
+            border2 });
     }
 
-    private static Paint decodeGradientForegroundInside(Shape s, Color inside1, Color inside2, Color inside3) {
+    private static Paint decodeSplitPaneDividerInsideGradient(Shape s, Color inside1, Color inside2, Color inside3) {
         Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
+        float midX = (float) bounds.getCenterX();
         float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
-        return createGradient((0.5f * w) + x, (0.0f * h) + y, (0.5f * w) + x, (1.0f * h) + y, new float[] {
-            0.090322584f,
-            0.2951613f,
-            0.5f,
-            0.5822581f,
-            0.66451615f }, new Color[] {
+        return createGradient(midX, y, midX, y + h, new float[] { 0.090322584f, 0.2951613f, 0.5f, 0.5822581f, 0.66451615f }, new Color[] {
             inside1,
             decodeColor(inside1, inside2, 0.5f),
             inside2,
@@ -1159,36 +1110,6 @@ public class PaintUtil {
         return null;
     }
 
-    private static Color getFrameBorderColors(ButtonType type) {
-        switch (type) {
-        case INACTIVE:
-            return frameBorderInactive;
-        case ACTIVE:
-            return frameBorderActive;
-        }
-        return null;
-    }
-
-    private static Color getFrameInnerHighlightColors(ButtonType type) {
-        switch (type) {
-        case INACTIVE:
-            return frameInnerHighlightInactive;
-        case ACTIVE:
-            return frameInnerHighlightActive;
-        }
-        return null;
-    }
-
-    private static FourColors getFrameInteriorColors(ButtonType type) {
-        switch (type) {
-        case INACTIVE:
-            return frameInactive;
-        case ACTIVE:
-            return frameActive;
-        }
-        return null;
-    }
-
     private static Color getPopupMenuBorderColors(ButtonType type) {
         switch (type) {
         case ENABLED:
@@ -1350,7 +1271,7 @@ public class PaintUtil {
         return null;
     }
 
-    private static Paint createTwoColorGradientVertical(Shape s, TwoColors colors) {
+    private static Paint createVerticalGradient(Shape s, TwoColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float xCenter = (float) bounds.getCenterX();
         float yMin = (float) bounds.getMinY();
@@ -1358,15 +1279,7 @@ public class PaintUtil {
         return createGradient(xCenter, yMin, xCenter, yMax, new float[] { 0f, 1f }, new Color[] { colors.top, colors.bottom });
     }
 
-    private static Paint createTwoColorGradientHorizontal(Shape s, TwoColors colors) {
-        Rectangle2D bounds = s.getBounds2D();
-        float xMin = (float) bounds.getMinX();
-        float xMax = (float) bounds.getMaxX();
-        float yCenter = (float) bounds.getCenterY();
-        return createGradient(xMin, yCenter, xMax, yCenter, new float[] { 0f, 1f }, new Color[] { colors.top, colors.bottom });
-    }
-
-    private static Paint createFourColorGradientVertical(Shape s, FourColors colors) {
+    private static Paint createVerticalGradient(Shape s, FourColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float xCenter = (float) bounds.getCenterX();
         float yMin = (float) bounds.getMinY();
@@ -1378,7 +1291,15 @@ public class PaintUtil {
             colors.bottom });
     }
 
-    private static Paint createFourColorGradientHorizontal(Shape s, FourColors colors) {
+    private static Paint createHorizontalGradient(Shape s, TwoColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float xMin = (float) bounds.getMinX();
+        float xMax = (float) bounds.getMaxX();
+        float yCenter = (float) bounds.getCenterY();
+        return createGradient(xMin, yCenter, xMax, yCenter, new float[] { 0f, 1f }, new Color[] { colors.top, colors.bottom });
+    }
+
+    private static Paint createHorizontalGradient(Shape s, FourColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float x = (float) bounds.getX();
         float y = (float) bounds.getY();
@@ -1402,57 +1323,6 @@ public class PaintUtil {
             colors.bottom,
             colors.bottom,
             colors.top });
-    }
-
-    private static Paint createFrameGradient(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight, FourColors defColors) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-
-        float midX = x + w / 2.0f;
-        float titleBottom = titleHeight / h;
-        if (titleBottom >= 1.0f) {
-            titleBottom = 1.0f - 0.00004f;
-        }
-
-        float[] midPoints = null;
-        Color[] colors = null;
-        if (topToolBarHeight > 0 && bottomToolBarHeight > 0) {
-            float topToolBarBottom = (titleHeight + topToolBarHeight) / h;
-            if (topToolBarBottom >= 1.0f) {
-                topToolBarBottom = 1.0f - 0.00002f;
-            }
-            float bottomToolBarTop = (h - 2 - bottomToolBarHeight) / h;
-            if (bottomToolBarTop >= 1.0f) {
-                bottomToolBarTop = 1.0f - 0.00002f;
-            }
-
-            midPoints = new float[] { 0.0f, topToolBarBottom, bottomToolBarTop, 1.0f };
-            colors = new Color[] { defColors.top, defColors.upperMid, defColors.lowerMid, defColors.bottom };
-        } else if (topToolBarHeight > 0) {
-            float toolBarBottom = (titleHeight + topToolBarHeight) / h;
-            if (toolBarBottom >= 1.0f) {
-                toolBarBottom = 1.0f - 0.00002f;
-            }
-
-            midPoints = new float[] { 0.0f, toolBarBottom, 1.0f };
-            colors = new Color[] { defColors.top, defColors.upperMid, defColors.lowerMid };
-        } else if (bottomToolBarHeight > 0) {
-            float bottomToolBarTop = (h - 2 - bottomToolBarHeight) / h;
-            if (bottomToolBarTop >= 1.0f) {
-                bottomToolBarTop = 1.0f - 0.00002f;
-            }
-
-            midPoints = new float[] { 0.0f, titleBottom, bottomToolBarTop, 1.0f };
-            colors = new Color[] { defColors.top, defColors.upperMid, defColors.lowerMid, defColors.bottom };
-        } else {
-            midPoints = new float[] { 0.0f, titleBottom, 1.0f };
-            colors = new Color[] { defColors.top, defColors.upperMid, defColors.bottom };
-        }
-
-        return createGradient(midX, y, x + midX, y + h, midPoints, colors);
     }
 
     private static Paint createCheckMarkGradient(Shape s, TwoColors colors) {
