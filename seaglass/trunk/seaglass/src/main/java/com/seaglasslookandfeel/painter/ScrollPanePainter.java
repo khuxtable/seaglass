@@ -109,6 +109,6 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
         Rectangle2D bounds = s.getBounds2D();
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
-        return decodeGradient(1, 1, w - 2, h - 2, new float[] { 0f, 1f }, new Color[] { cornerColor1, cornerColor2 });
+        return createGradient(1, 1, w - 2, h - 2, new float[] { 0f, 1f }, new Color[] { cornerColor1, cornerColor2 });
     }
 }
