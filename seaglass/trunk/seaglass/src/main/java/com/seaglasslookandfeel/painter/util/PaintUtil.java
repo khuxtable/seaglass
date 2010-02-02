@@ -242,6 +242,8 @@ public class PaintUtil {
         outerToolBarFocus = decodeColor("seaGlassToolBarOuterFocus");
         innerToolBarFocus = decodeColor("seaGlassToolBarFocus");
 
+        Color innerShadowBase = decodeColor("seaGlassInnerShadow");
+
         desktopPane = decodeColor("seaGlassDesktopPane");
 
         rootPaneActive = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"), decodeColor("seaGlassToolBarActiveBottomB"));
@@ -249,91 +251,88 @@ public class PaintUtil {
 
         splitPaneDividerBackgroundEnabled = decodeColor("control");
 
-        Color innerShadowDark = new Color(0x20000000, true);
+        Color buttonBorderBaseEnabled = decodeColor("buttonBorderBaseEnabled");
+        Color buttonBorderBasePressed = decodeColor("buttonBorderBasePressed");
 
-        Color buttonBorderBaseEnabled = new Color(0x709ad0);
-        Color buttonBorderBasePressed = new Color(0x4879bf);
-        Color scrollBarThumbBorderBasePressed = new Color(0x4879bf);
+        Color buttonInteriorBaseEnabled = decodeColor("buttonInteriorBaseEnabled");
+        Color buttonInteriorBasePressed = decodeColor("buttonInteriorBasePressed");
+        Color buttonInteriorBaseSelected = decodeColor("buttonInteriorBaseSelected");
+        Color buttonInteriorBasePressedSelected = decodeColor("buttonInteriorBasePressedSelected");
 
-        Color buttonInteriorBaseEnabled = new Color(0xd5e8f7);
-        Color buttonInteriorBasePressed = new Color(0x6d8fba);
-        Color buttonInteriorBaseSelected = new Color(0x80a6d2);
-        Color buttonInteriorBasePressedSelected = new Color(0x7497c2);
+        Color texturedButtonBorderBaseEnabled = decodeColor("texturedButtonBorderBaseEnabled");
 
-        Color scrollBarThumbInteriorBasePressed = new Color(0x82a8ca);
+        Color texturedButtonInteriorBaseEnabled = decodeColor("texturedButtonInteriorBaseEnabled");
+        Color texturedButtonInteriorBasePressed = decodeColor("texturedButtonInteriorBasePressed");
+        Color texturedButtonInteriorBaseSelected = decodeColor("texturedButtonInteriorBaseSelected");
+        Color texturedButtonInteriorBasePressedSelected = decodeColor("texturedButtonInteriorBasePressedSelected");
 
-        Color texturedButtonBorderBaseEnabled = new Color(0x999999);
+        Color buttonBulletBottomEnabled = decodeColor("buttonBulletBottomEnabled");
 
-        Color texturedButtonInteriorBaseEnabled = new Color(0xf0f0f0);
-        Color texturedButtonInteriorBasePressed = new Color(0x8eb3d2);
-        Color texturedButtonInteriorBaseSelected = new Color(0x98c1e2);
-        Color texturedButtonInteriorBasePressedSelected = new Color(0x7e9fba);
+        Color frameBaseActive = decodeColor("frameBaseActive");
+        Color frameBaseInactive = decodeColor("frameBaseInactive");
 
-        Color buttonBulletBottomEnabled = Color.BLACK;
+        Color frameBorderBase = decodeColor("frameBorderBase");
 
-        Color frameBaseActive = new Color(0x96adc4);
-        Color frameBaseInactive = new Color(0xe0e0e0);
+        frameInnerHighlightInactive = decodeColor("frameInnerHighlightInactive");
+        frameInnerHighlightActive = decodeColor("frameInnerHighlightActive");
 
-        Color scrollBarButtonBase = Color.WHITE;
-        Color scrollBarButtonBasePressed = new Color(0xa1bfdb);
+        Color menuItemBackgroundBase = decodeColor("menuItemBackgroundBase");
 
-        Color frameBorderBase = new Color(0x545454);
+        popupMenuInteriorEnabled = decodeColor("popupMenuInteriorEnabled");
+        popupMenuBorderEnabled = decodeColor("popupMenuBorderEnabled");
 
-        frameInnerHighlightInactive = new Color(0x55ffffff, true);
-        frameInnerHighlightActive = new Color(0x55ffffff, true);
+        progressBarTrackInteriorEnabled = decodeColor("progressBarTrackInterior");
 
-        Color menuItemBackgroundBase = new Color(0x5b7ea4);
+        Color scrollBarThumbBorderBasePressed = decodeColor("scrollBarThumbBorderBasePressed");
+        Color scrollBarThumbInteriorBasePressed = decodeColor("scrollBarThumbInteriorBasePressed");
 
-        popupMenuInteriorEnabled = Color.WHITE;
-        popupMenuBorderEnabled = new Color(0xdddddd);
+        Color scrollBarButtonBase = decodeColor("scrollBarButtonBase");
+        Color scrollBarButtonBasePressed = decodeColor("scrollBarButtonBasePressed");
 
-        progressBarTrackInteriorEnabled = Color.WHITE;
+        Color scrollBarTrackBackgroundBase = decodeColor("scrollBarTrackBackgroundBase");
+        Color scrollBarTrackGradientBase = decodeColor("scrollBarTrackGradientBase");
 
-        Color scrollBarTrackBackgroundBase = Color.WHITE;
-        Color scrollBarTrackGradientBase = transparentColor;
+        Color sliderTrackBorderBase = decodeColor("sliderTrackBorderBase");
+        Color sliderTrackInteriorBase = decodeColor("sliderTrackInteriorBase");
 
-        toolbarHandleMac = new Color(0xc8191919, true);
+        Color spinnerNextBorderBottomEnabled = decodeColor("spinnerNextBorderBottomEnabled");
+        Color spinnerNextBorderBottomPressed = decodeColor("spinnerNextBorderBottomPressed");
+        Color spinnerNextInteriorBottomEnabled = decodeColor("spinnerNextInteriorBottomEnabled");
+        Color spinnerNextInteriorBottomPressed = decodeColor("spinnerNextInteriorBottomPressed");
 
-        Color spinnerNextBorderBottomEnabled = new Color(0x4779bf);
-        Color spinnerNextBorderBottomPressed = new Color(0x4879bf);
-        Color spinnerNextInteriorBottomEnabled = new Color(0x85abcf);
-        Color spinnerNextInteriorBottomPressed = new Color(0x6e92b6);
+        Color spinnerPrevBorderTopEnabled = decodeColor("spinnerPrevBorderTopEnabled");
 
-        Color spinnerPrevBorderTopEnabled = new Color(0x4778bf);
+        Color spinnerPrevInteriorTopEnabled = decodeColor("spinnerPrevInteriorTopEnabled");
+        Color spinnerPrevInteriorBottomEnabled = decodeColor("spinnerPrevInteriorBottomEnabled");
+        Color spinnerPrevInteriorPressedTop = decodeColor("spinnerPrevInteriorPressedTop");
+        Color spinnerPrevInteriorPressedBottom = decodeColor("spinnerPrevInteriorPressedBottom");
 
-        Color spinnerPrevInteriorTopEnabled = new Color(0x81aed4);
-        Color spinnerPrevInteriorBottomEnabled = new Color(0xaad4f1);
-        Color spinnerPrevInteriorPressedTop = new Color(0x6c91b8);
-        Color spinnerPrevInteriorPressedBottom = new Color(0x9cc3de);
+        spinnerPrevTopLineEnabled = decodeColor("spinnerPrevTopLineEnabled");
+        spinnerPrevTopLinePressed = decodeColor("spinnerPrevTopLinePressed");
 
-        spinnerPrevTopLineEnabled = new Color(0xacc8e0);
-        spinnerPrevTopLinePressed = new Color(0x9eb6cf);
+        spinnerArrowEnabled = decodeColor("spinnerArrow");
 
-        Color sliderTrackBorderBase = new Color(0x898989);
-        Color sliderTrackInteriorBase = new Color(0xd8d8d8);
+        splitPaneDividerBackgroundOuter = decodeColor("splitPaneDividerBackgroundOuter");
 
-        spinnerArrowEnabled = Color.BLACK;
+        tabbedPaneTabAreaBackLineEnabled = decodeColor("tabbedPaneTabAreaBackLineEnabled");
+        tabbedPaneTabAreaLightShadow = decodeColor("tabbedPaneTabAreaLightShadow");
+        tabbedPaneTabAreaDarkShadow = decodeColor("tabbedPaneTabAreaDarkShadow");
 
-        splitPaneDividerBackgroundOuter = new Color(0xd9d9d9);
+        tableHeaderBorderEnabled = decodeColor("tableHeaderBorderEnabled");
+        tableHeaderSortIndicator = decodeColor("tableHeaderSortIndicator");
 
-        tabbedPaneTabAreaBackLineEnabled = new Color(0x647595);
-        tabbedPaneTabAreaLightShadow = new Color(0x55eeeeee, true);
-        tabbedPaneTabAreaDarkShadow = new Color(0x55aaaaaa, true);
-
-        tableHeaderBorderEnabled = new Color(0xcad3e0);
-        tableHeaderSortIndicator = new Color(0xc02a5481, true);
-
-        Color tableHeaderInteriorBaseEnabled = new Color(0xedf1f5);
+        Color tableHeaderInteriorBaseEnabled = decodeColor("tableHeaderInteriorBaseEnabled");
 
         textComponentBorderEnabled = decodeColor("seaGlassTextEnabledBorder");
         textComponentBorderEnabledToolbar = decodeColor("seaGlassTextEnabledToolbarBorder");
         textComponentBorderDisabled = decodeColor("seaGlassTextDisabledBorder");
 
-        Color toolbarToggleButtonBase = transparentColor;
+        toolbarHandleMac = decodeColor("toolbarHandleMac");
+        Color toolbarToggleButtonBase = decodeColor("toolbarToggleButtonBase");
 
         // ------- Assign from base colors -------
 
-        innerShadow = new TwoColors(innerShadowDark, deriveColor(innerShadowDark, 0f, 0f, 0f, -innerShadowDark.getAlpha() / 2));
+        innerShadow = new TwoColors(innerShadowBase, deriveColor(innerShadowBase, 0f, 0f, 0f, -innerShadowBase.getAlpha() / 2));
 
         Color buttonBorderTopEnabled = deriveColor(buttonBorderBaseEnabled, 0.002841f, -0.068681f, 0.062745f, 0);
         Color buttonBorderBottomEnabled = deriveColor(buttonBorderBaseEnabled, -0.000801f, 0.082964f, -0.066667f, 0);
