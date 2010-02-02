@@ -533,6 +533,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaGlassTransparent", new Color(0x0, true));
         d.put("seaGlassTextEmphasis", new Color(255, 255, 255, 110));
         d.put("seaGlassDropShadow", new Color(211, 211, 211));
+        d.put("seaGlassInnerShadow", new Color(0x20000000, true));
         d.put("seaGlassStyleDefaultColor", new ColorUIResource(Color.BLACK));
         d.put("seaGlassFocusInsets", new Insets(2, 2, 2, 2));
         d.put("seaGlassTransparent", new Color(0, true));
@@ -615,6 +616,23 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineButtons(UIDefaults d) {
+        d.put("buttonBorderBaseEnabled", new Color(0x709ad0));
+        d.put("buttonBorderBasePressed", new Color(0x4879bf));
+
+        d.put("buttonInteriorBaseEnabled", new Color(0xd5e8f7));
+        d.put("buttonInteriorBasePressed", new Color(0x6d8fba));
+        d.put("buttonInteriorBaseSelected", new Color(0x80a6d2));
+        d.put("buttonInteriorBasePressedSelected", new Color(0x7497c2));
+
+        d.put("texturedButtonBorderBaseEnabled", new Color(0x999999));
+
+        d.put("texturedButtonInteriorBaseEnabled", new Color(0xf0f0f0));
+        d.put("texturedButtonInteriorBasePressed", new Color(0x8eb3d2));
+        d.put("texturedButtonInteriorBaseSelected", new Color(0x98c1e2));
+        d.put("texturedButtonInteriorBasePressedSelected", new Color(0x7e9fba));
+
+        d.put("buttonBulletBottomEnabled", Color.BLACK);
+
         String c = PAINTER_PREFIX + "ButtonPainter";
 
         // Initialize Button
@@ -764,6 +782,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineInternalFrames(UIDefaults d) {
+        d.put("frameBaseActive", new Color(0x96adc4));
+        d.put("frameBaseInactive", new Color(0xe0e0e0));
+
+        d.put("frameBorderBase", new Color(0x545454));
+
+        d.put("frameInnerHighlightInactive", new Color(0x55ffffff, true));
+        d.put("frameInnerHighlightActive", new Color(0x55ffffff, true));
+
         d.put("seaGlassTitlePaneButtonEnabledBorder", new Color(0x99000000, true));
         d.put("seaGlassTitlePaneButtonEnabledCorner", new Color(0x26000000, true));
         d.put("seaGlassTitlePaneButtonEnabledInterior", new Color(0x99ffffff, true));
@@ -973,6 +999,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     private void defineMenus(UIDefaults d) {
+        d.put("menuItemBackgroundBase", new Color(0x5b7ea4));
 
         // Initialize Menu
         String c = PAINTER_PREFIX + "MenuPainter";
@@ -1082,6 +1109,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void definePopups(UIDefaults d) {
         d.put("seaGlassPopupBorder", new ColorUIResource(0xbbbbbb));
 
+        d.put("popupMenuInteriorEnabled", Color.WHITE);
+        d.put("popupMenuBorderEnabled", new Color(0xdddddd));
+
         String c = PAINTER_PREFIX + "PopupMenuPainter";
         String p = "PopupMenu";
         d.put(p + ".contentMargins", new InsetsUIResource(6, 1, 6, 1));
@@ -1104,6 +1134,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineProgressBars(UIDefaults d) {
+        d.put("progressBarTrackInterior", Color.WHITE);
+
         d.put("ProgressBar.Indeterminate", new ProgressBarIndeterminateState());
         d.put("ProgressBar.Finished", new ProgressBarFinishedState());
 
@@ -1156,10 +1188,18 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineScrollBars(UIDefaults d) {
+        d.put("scrollBarThumbBorderBasePressed", new Color(0x4879bf));
+        d.put("scrollBarThumbInteriorBasePressed", new Color(0x82a8ca));
+        d.put("scrollBarButtonBase", Color.WHITE);
+        d.put("scrollBarButtonBasePressed", new Color(0xa1bfdb));
+
         d.put("ScrollBar.incrementButtonGap", new Integer(-7));
         d.put("ScrollBar.decrementButtonGap", new Integer(-7));
         d.put("ScrollBar.capSize", new Integer(11));
         d.put("ScrollBar:\"ScrollBar.button\".size", new Integer(22));
+
+        d.put("scrollBarTrackBackgroundBase", Color.WHITE);
+        d.put("scrollBarTrackGradientBase", d.get("seaGlassTransparent"));
 
         // Buttons
         String c = PAINTER_PREFIX + "ScrollBarButtonPainter";
@@ -1234,6 +1274,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineSliders(UIDefaults d) {
+        d.put("sliderTrackBorderBase", new Color(0x898989));
+        d.put("sliderTrackInteriorBase", new Color(0xd8d8d8));
+
         d.put("Slider.ArrowShape", new SliderArrowShapeState());
         d.put("Slider:SliderThumb.ArrowShape", new SliderArrowShapeState());
         d.put("Slider:SliderTrack.ArrowShape", new SliderArrowShapeState());
@@ -1279,6 +1322,23 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineSpinners(UIDefaults d) {
+        d.put("spinnerNextBorderBottomEnabled", new Color(0x4779bf));
+        d.put("spinnerNextBorderBottomPressed", new Color(0x4879bf));
+        d.put("spinnerNextInteriorBottomEnabled", new Color(0x85abcf));
+        d.put("spinnerNextInteriorBottomPressed", new Color(0x6e92b6));
+
+        d.put("spinnerPrevBorderTopEnabled", new Color(0x4778bf));
+
+        d.put("spinnerPrevInteriorTopEnabled", new Color(0x81aed4));
+        d.put("spinnerPrevInteriorBottomEnabled", new Color(0xaad4f1));
+        d.put("spinnerPrevInteriorPressedTop", new Color(0x6c91b8));
+        d.put("spinnerPrevInteriorPressedBottom", new Color(0x9cc3de));
+
+        d.put("spinnerPrevTopLineEnabled", new Color(0xacc8e0));
+        d.put("spinnerPrevTopLinePressed", new Color(0x9eb6cf));
+
+        d.put("spinnerArrow", Color.BLACK);
+
         d.put("Spinner.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("Spinner:\"Spinner.editor\".contentMargins", new InsetsUIResource(0, 0, 0, 0));
 
@@ -1330,6 +1390,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineSplitPanes(UIDefaults d) {
+        d.put("splitPaneDividerBackgroundOuter", new Color(0xd9d9d9));
+
         String p = "SplitPane";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 1, 1, 1));
         d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,Vertical");
@@ -1362,6 +1424,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineTabbedPanes(UIDefaults d) {
+        d.put("tabbedPaneTabAreaBackLineEnabled", new Color(0x647595));
+        d.put("tabbedPaneTabAreaLightShadow", new Color(0x55eeeeee, true));
+        d.put("tabbedPaneTabAreaDarkShadow", new Color(0x55aaaaaa, true));
+
         String p = "TabbedPane";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + ".tabRunOverlay", new Integer(0));
@@ -1411,6 +1477,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineTables(UIDefaults d) {
+        d.put("tableHeaderBorderEnabled", new Color(0xcad3e0));
+        d.put("tableHeaderSortIndicator", new Color(0xc02a5481, true));
+        d.put("tableHeaderInteriorBaseEnabled", new Color(0xedf1f5));
 
         String p = "TableHeader";
         String c = PAINTER_PREFIX + "TableHeaderPainter";
@@ -1587,6 +1656,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineToolBars(UIDefaults d) {
+        d.put("toolbarHandleMac", new Color(0xc8191919, true));
+        d.put("toolbarToggleButtonBase", d.get("seaGlassTransparent"));
 
         if ((!PlatformUtils.isMac())) {
             d.put("seaGlassToolBarActiveTopT", new Color(0x466c97));
