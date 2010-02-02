@@ -249,54 +249,11 @@ public class PaintUtil {
 
         splitPaneDividerBackgroundEnabled = decodeColor("control");
 
-        Color black = Color.BLACK;
-        Color black10 = new Color(0x10000000, true);
-        Color black12 = new Color(0x12000000, true);
-        Color black15 = new Color(0x15000000, true);
-        Color black1f = new Color(0x1f000000, true);
-        Color black20 = new Color(0x20000000, true);
-        Color black28 = new Color(0x28000000, true);
-        Color black33 = new Color(0x33000000, true);
-        Color black40 = new Color(0x40000000, true);
+        Color innerShadowDark = new Color(0x20000000, true);
 
-        Color gray33 = new Color(0x333333);
-        Color gray54 = new Color(0x545454);
-        Color gray55 = new Color(0x555555);
-        Color gray63 = new Color(0x636363);
-        Color gray90 = new Color(0x909090);
-        Color gray99 = new Color(0x999999);
-        Color grayae = new Color(0xaeaeae);
-        Color grayb4 = new Color(0xb4b4b4);
-        Color graybb = new Color(0xbbbbbb);
-        Color graybd = new Color(0xbdbdbd);
-        Color grayc4 = new Color(0xc4c4c4);
-        Color graycc = new Color(0xcccccc);
-        Color grayd1 = new Color(0xd1d1d1);
-        Color grayd3 = new Color(0xd3d3d3);
-        Color grayd9 = new Color(0xd9d9d9);
-        Color graydd = new Color(0xdddddd);
-        Color graye0 = new Color(0xe0e0e0);
-        Color graye5 = new Color(0xe5e5e5);
-        Color graye9 = new Color(0xe9e9e9);
-        Color grayeb = new Color(0xebebeb);
-        Color grayed = new Color(0xededed);
-        Color grayee = new Color(0xeeeeee);
-        Color grayfe = new Color(0xfefefe);
-
-        Color white = Color.WHITE;
-        Color white55 = new Color(0x55ffffff, true);
-        Color white3f = new Color(0x3fffffff, true);
-
-        Color innerShadowDark = black20;
-        Color innerShadowLight = black10;
-
-        Color buttonBorderTopEnabled = new Color(0x88ade0);
-        Color buttonBorderBottomEnabled = new Color(0x5785bf);
-        Color buttonBorderTopPressed = new Color(0x4f7bbf);
-        Color buttonBorderBottomPressed = new Color(0x3f76bf);
-
-        Color scrollBarThumbBorderTopPressed = new Color(0x4076bf);
-        Color scrollBarThumbBorderBottomPressed = buttonBorderTopPressed;
+        Color buttonBorderBaseEnabled = new Color(0x709ad0);
+        Color buttonBorderBasePressed = new Color(0x4879bf);
+        Color scrollBarThumbBorderBasePressed = new Color(0x4879bf);
 
         Color buttonInteriorBaseEnabled = new Color(0xd5e8f7);
         Color buttonInteriorBasePressed = new Color(0x6d8fba);
@@ -305,63 +262,35 @@ public class PaintUtil {
 
         Color scrollBarThumbInteriorBasePressed = new Color(0x82a8ca);
 
-        Color texturedButtonBorderTopEnabled = gray99;
-        Color texturedButtonBorderBottomEnabled = gray99;
+        Color texturedButtonBorderBaseEnabled = new Color(0x999999);
 
-        Color texturedButtonInteriorTopEnabled = grayfe;
-        Color texturedButtonInteriorBottomEnabled = graye0;
-        Color texturedButtonInteriorTopPressed = new Color(0xa5c9e5);
-        Color texturedButtonInteriorBottomPressed = new Color(0x759bbd);
-        Color texturedButtonInteriorTopSelected = new Color(0xb0daf6);
-        Color texturedButtonInteriorBottomSelected = new Color(0x7fa7cd);
-        Color texturedButtonInteriorTopPressedSelected = new Color(0x93b5cc);
-        Color texturedButtonInteriorBottomPressedSelected = new Color(0x6787a6);
+        Color texturedButtonInteriorBaseEnabled = new Color(0xf0f0f0);
+        Color texturedButtonInteriorBasePressed = new Color(0x8eb3d2);
+        Color texturedButtonInteriorBaseSelected = new Color(0x98c1e2);
+        Color texturedButtonInteriorBasePressedSelected = new Color(0x7e9fba);
 
-        Color buttonBulletTopEnabled = gray33;
-        Color buttonBulletBottomEnabled = black;
+        Color buttonBulletBottomEnabled = Color.BLACK;
 
-        Color frameTopActive = new Color(0xafbecf);
-        Color frameUpperMidActive = new Color(0x96adc4);
-        Color frameLowerMidActive = new Color(0x96adc4);
-        Color frameBottomActive = new Color(0x8ea7c0);
-        Color frameTopInactive = grayed;
-        Color frameUpperMidInactive = graye0;
-        Color frameLowerMidInactive = graye0;
-        Color frameBottomInactive = grayd3;
+        Color frameBaseActive = new Color(0x96adc4);
+        Color frameBaseInactive = new Color(0xe0e0e0);
 
-        Color scrollBarButtonTopPressed = new Color(0xcee2f5);
-        Color scrollBarButtonMiddlePressed = new Color(0xb1cbe4);
-        Color scrollBarButtonBottomPressed = new Color(0x8fb1d1);
-        Color scrollBarButtonLinePressedColor = new Color(0x82abd0);
+        Color scrollBarButtonBase = Color.WHITE;
+        Color scrollBarButtonBasePressed = new Color(0xa1bfdb);
 
-        frameBorderActive = gray54;
-        frameBorderInactive = gray54;
+        Color frameBorderBase = new Color(0x545454);
 
-        frameInnerHighlightInactive = white55;
-        frameInnerHighlightActive = white55;
+        frameInnerHighlightInactive = new Color(0x55ffffff, true);
+        frameInnerHighlightActive = new Color(0x55ffffff, true);
 
-        Color menuItemBackgroundTop = new Color(0x6a90b6);
-        Color menuItemBackgroundBottom = new Color(0x4a6b90);
+        Color menuItemBackgroundBase = new Color(0x5b7ea4);
 
-        Color progressBarEndLine = new Color(0x4076bf);
+        popupMenuInteriorEnabled = Color.WHITE;
+        popupMenuBorderEnabled = new Color(0xdddddd);
 
-        menuItemBottomLine = new Color(0x3a5d89);
+        progressBarTrackInteriorEnabled = Color.WHITE;
 
-        popupMenuBorderEnabled = graydd;
-        popupMenuInteriorEnabled = white;
-
-        popupMenuSeparator = graydd;
-
-        progressBarTrackInteriorEnabled = white;
-
-        Color scrollBarTrackBackgroundTop = grayee;
-        Color scrollBarTrackBackgroundBottom = white;
-        Color scrollBarTrackGradientTop = black33;
-        Color scrollBarTrackGradientUpperMid = black15;
-        Color scrollBarTrackGradientLowerMid = transparentColor;
-        Color scrollBarTrackGradientBottom = black12;
-        Color scrollBarCapTop = white;
-        Color scrollBarCapBottom = graybb;
+        Color scrollBarTrackBackgroundBase = Color.WHITE;
+        Color scrollBarTrackGradientBase = transparentColor;
 
         toolbarHandleMac = new Color(0xc8191919, true);
 
@@ -380,7 +309,12 @@ public class PaintUtil {
         spinnerPrevTopLineEnabled = new Color(0xacc8e0);
         spinnerPrevTopLinePressed = new Color(0x9eb6cf);
 
-        splitPaneDividerBackgroundOuter = grayd9;
+        Color sliderTrackBorderBase = new Color(0x898989);
+        Color sliderTrackInteriorBase = new Color(0xd8d8d8);
+
+        spinnerArrowEnabled = Color.BLACK;
+
+        splitPaneDividerBackgroundOuter = new Color(0xd9d9d9);
 
         tabbedPaneTabAreaBackLineEnabled = new Color(0x647595);
         tabbedPaneTabAreaLightShadow = new Color(0x55eeeeee, true);
@@ -392,9 +326,19 @@ public class PaintUtil {
         Color tableHeaderUpperMidEnabled = new Color(0xeaeff2);
         Color tableHeaderLowerMidEnabled = new Color(0xeff3f7);
 
+        Color toolbarToggleButtonBase = transparentColor;
+
         // ------- Assign from base colors -------
 
-        innerShadow = new TwoColors(innerShadowDark, innerShadowLight);
+        innerShadow = new TwoColors(innerShadowDark, deriveColor(innerShadowDark, 0f, 0f, 0f, -innerShadowDark.getAlpha() / 2));
+
+        Color buttonBorderTopEnabled = deriveColor(buttonBorderBaseEnabled, 0.002841f, -0.068681f, 0.062745f, 0);
+        Color buttonBorderBottomEnabled = deriveColor(buttonBorderBaseEnabled, -0.000801f, 0.082964f, -0.066667f, 0);
+        Color buttonBorderTopPressed = deriveColor(buttonBorderBasePressed, 0.003151f, -0.036649f, 0f, 0);
+        Color buttonBorderBottomPressed = deriveColor(buttonBorderBasePressed, -0.002987f, 0.047120f, 0f, 0);
+
+        Color scrollBarThumbBorderTopPressed = deriveColor(scrollBarThumbBorderBasePressed, -0.002239f, 0.041885f, 0f, 0);
+        Color scrollBarThumbBorderBottomPressed = deriveColor(scrollBarThumbBorderBasePressed, 0.003151f, -0.036649f, 0f, 0);
 
         buttonBorderEnabled = new TwoColors(buttonBorderTopEnabled, buttonBorderBottomEnabled);
         buttonBorderPressed = new TwoColors(buttonBorderTopPressed, buttonBorderBottomPressed);
@@ -443,6 +387,9 @@ public class PaintUtil {
         buttonInteriorDisabled = desaturate(buttonInteriorEnabled);
         buttonInteriorDisabledSelected = desaturate(buttonInteriorSelected);
 
+        Color texturedButtonBorderTopEnabled = texturedButtonBorderBaseEnabled;
+        Color texturedButtonBorderBottomEnabled = texturedButtonBorderBaseEnabled;
+
         texturedButtonBorderEnabled = new TwoColors(texturedButtonBorderTopEnabled, texturedButtonBorderBottomEnabled);
         texturedButtonBorderPressed = new TwoColors(buttonBorderTopPressed, buttonBorderBottomPressed);
         texturedButtonBorderDefault = texturedButtonBorderPressed;
@@ -451,6 +398,17 @@ public class PaintUtil {
         texturedButtonBorderPressedSelected = texturedButtonBorderDefaultPressed;
         texturedButtonBorderDisabled = disable(texturedButtonBorderEnabled);
         texturedButtonBorderDisabledSelected = disable(texturedButtonBorderPressed);
+
+        Color texturedButtonInteriorTopEnabled = deriveColor(texturedButtonInteriorBaseEnabled, 0f, 0f, 0.054902f, 0);
+        Color texturedButtonInteriorBottomEnabled = deriveColor(texturedButtonInteriorBaseEnabled, 0f, 0f, -0.062745f, 0);
+        Color texturedButtonInteriorTopPressed = deriveColor(texturedButtonInteriorBasePressed, -0.003064f, -0.044334f, 0.074510f, 0);
+        Color texturedButtonInteriorBottomPressed = deriveColor(texturedButtonInteriorBasePressed, 0.002723f, 0.057143f, -0.082353f, 0);
+        Color texturedButtonInteriorTopSelected = deriveColor(texturedButtonInteriorBaseSelected, -0.007658f, -0.042881f, 0.078431f, 0);
+        Color texturedButtonInteriorBottomSelected = deriveColor(texturedButtonInteriorBaseSelected, 0.006872f, 0.053054f, -0.082353f, 0);
+        Color texturedButtonInteriorTopPressedSelected = deriveColor(texturedButtonInteriorBasePressedSelected, -0.007749f, -0.043169f,
+            0.070588f, 0);
+        Color texturedButtonInteriorBottomPressedSelected = deriveColor(texturedButtonInteriorBasePressedSelected, 0.007011f, 0.056937f,
+            -0.078431f, 0);
 
         texturedButtonInteriorEnabled = new TwoColors(texturedButtonInteriorTopEnabled, texturedButtonInteriorBottomEnabled);
         texturedButtonInteriorPressed = new TwoColors(texturedButtonInteriorTopPressed, texturedButtonInteriorBottomPressed);
@@ -467,12 +425,12 @@ public class PaintUtil {
         Color scrollBarThumbInteriorTopPressed = deriveColor(scrollBarThumbInteriorBasePressed, -0.014978f, -0.078885f, 0.168627f, 0);
         Color scrollBarThumbInteriorUpperMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000565f, 0.041623f, 0.015686f, 0);
         Color scrollBarThumbInteriorLowerMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000356f, 0.025917f, 0.007843f, 0);
-        Color scrollBarThumbInteriorBottomPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000000f, -0.195001f, 0.082353f, 0);
+        Color scrollBarThumbInteriorBottomPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0f, -0.195001f, 0.082353f, 0);
 
         scrollBarThumbInteriorPressed = new FourColors(scrollBarThumbInteriorTopPressed, scrollBarThumbInteriorUpperMidPressed,
             scrollBarThumbInteriorLowerMidPressed, scrollBarThumbInteriorBottomPressed);
 
-        buttonBulletEnabled = new TwoColors(buttonBulletTopEnabled, buttonBulletBottomEnabled);
+        buttonBulletEnabled = new TwoColors(deriveColor(buttonBulletBottomEnabled, 0f, 0f, 0.2f, 0), buttonBulletBottomEnabled);
         buttonbulletDisabled = disable(buttonBulletEnabled);
 
         comboBoxButtonInteriorDisabled = buttonInteriorDisabled;
@@ -483,13 +441,30 @@ public class PaintUtil {
         comboBoxBackgroundInteriorEnabled = buttonInteriorEnabled;
         comboBoxBackgroundInteriorPressed = buttonInteriorEnabled;
 
+        Color frameTopActive = deriveColor(frameBaseActive, 0.005208f, -0.080105f, 0.043137f, 0);
+        Color frameUpperMidActive = frameBaseActive;
+        Color frameLowerMidActive = frameBaseActive;
+        Color frameBottomActive = deriveColor(frameBaseActive, 0f, 0.025723f, -0.015686f, 0);
+        Color frameTopInactive = deriveColor(frameBaseInactive, 0f, 0f, 0.050980f, 0);
+        Color frameUpperMidInactive = frameBaseInactive;
+        Color frameLowerMidInactive = frameBaseInactive;
+        Color frameBottomInactive = deriveColor(frameBaseInactive, 0f, 0f, -0.050980f, 0);
+
+        frameBorderActive = frameBorderBase;
+        frameBorderInactive = frameBorderBase;
+
         frameActive = new FourColors(frameTopActive, frameUpperMidActive, frameLowerMidActive, frameBottomActive);
         frameInactive = new FourColors(frameTopInactive, frameUpperMidInactive, frameLowerMidInactive, frameBottomInactive);
 
+        Color menuItemBackgroundTop = deriveColor(menuItemBackgroundBase, -0.003425f, -0.027540f, 0.070588f, 0);
+        Color menuItemBackgroundBottom = deriveColor(menuItemBackgroundBase, 0.001337f, 0.040989f, -0.078431f, 0);
+
         menuItemBackground = new TwoColors(menuItemBackgroundTop, menuItemBackgroundBottom);
+        menuItemBottomLine = deriveColor(menuItemBackgroundBase, 0.006069f, 0.131520f, -0.105882f, 0);
 
         popupMenuBorderDisabled = disable(popupMenuBorderEnabled);
         popupMenuInteriorDisabled = disable(popupMenuBorderEnabled);
+        popupMenuSeparator = popupMenuBorderEnabled;
 
         progressBarTrackEnabled = new TwoColors(buttonBorderBottomPressed, scrollBarThumbBorderTopPressed);
         progressBarTrackDisabled = disable(progressBarTrackEnabled);
@@ -500,39 +475,54 @@ public class PaintUtil {
             buttonInteriorBottomSelected);
         progressBarDisabled = disable(progressBarEnabled);
 
-        progressBarEndEnabled = progressBarEndLine;
+        progressBarEndEnabled = deriveColor(buttonInteriorBaseSelected, 0.006370f, 0.274445f, -0.074510f, 0);
         progressBarEndDisabled = disable(progressBarEndEnabled);
 
         progressBarIndeterminatePatternEnabled = new FourColors(buttonInteriorTopEnabled, buttonInteriorUpperMidEnabled,
             buttonInteriorLowerMidEnabled, buttonInteriorBottomEnabled);
         progressBarIndeterminatePatternDisabled = disable(progressBarIndeterminatePatternEnabled);
 
+        Color scrollBarTrackBackgroundTop = deriveColor(scrollBarTrackBackgroundBase, 0f, 0f, -0.066667f, 0);
+        Color scrollBarTrackBackgroundBottom = scrollBarTrackBackgroundBase;
+
+        Color scrollBarTrackGradientTop = deriveColor(scrollBarTrackGradientBase, 0f, 0f, 0f, 0x33);
+        Color scrollBarTrackGradientUpperMid = deriveColor(scrollBarTrackGradientBase, 0f, 0f, 0f, 0x15);
+        Color scrollBarTrackGradientLowerMid = scrollBarTrackGradientBase;
+        Color scrollBarTrackGradientBottom = deriveColor(scrollBarTrackGradientBase, 0f, 0f, 0f, 0x12);
+
         scrollBarTrackBackground = new TwoColors(scrollBarTrackBackgroundTop, scrollBarTrackBackgroundBottom);
         scrollBarTrackGradient = new FourColors(scrollBarTrackGradientTop, scrollBarTrackGradientUpperMid, scrollBarTrackGradientLowerMid,
             scrollBarTrackGradientBottom);
+        scrollBarCapColors = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f, -0.266667f, 0));
 
-        scrollBarCapColors = new TwoColors(scrollBarCapTop, scrollBarCapBottom);
+        Color scrollBarButtonTopPressed = deriveColor(scrollBarButtonBasePressed, 0.000737f, -0.105657f, 0.101961f, 0);
+        Color scrollBarButtonMiddlePressed = deriveColor(scrollBarButtonBasePressed, 0.001240f, -0.041156f, 0.035294f, 0);
+        Color scrollBarButtonBottomPressed = deriveColor(scrollBarButtonBasePressed, 0.000348f, 0.050949f, -0.039216f, 0);
+        Color scrollBarButtonLinePressedColor = deriveColor(scrollBarButtonBasePressed, -0.001400f, 0.110160f, -0.043137f, 0);
 
-        scrollBarButtonIncreaseApart = new TwoColors(grayd1, white);
-        scrollBarButtonIncreaseTogether = new TwoColors(grayd1, graye5);
+        scrollBarButtonIncreaseApart = new TwoColors(deriveColor(scrollBarButtonBase, 0f, 0f, -0.180392f, 0), scrollBarButtonBase);
+        scrollBarButtonIncreaseTogether = new TwoColors(deriveColor(scrollBarButtonBase, 0f, 0f, -0.180392f, 0), deriveColor(
+            scrollBarButtonBase, 0f, 0f, -0.101961f, 0));
         scrollBarButtonIncreasePressed = new TwoColors(scrollBarButtonMiddlePressed, scrollBarButtonBottomPressed);
 
-        scrollBarButtonDecreaseApart = new TwoColors(white, graycc);
-        scrollBarButtonDecreaseTogether = new TwoColors(white, graye9);
+        scrollBarButtonDecreaseApart = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f, -0.2f, 0));
+        scrollBarButtonDecreaseTogether = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f, -0.086275f, 0));
         scrollBarButtonDecreasePressed = new TwoColors(scrollBarButtonTopPressed, scrollBarButtonMiddlePressed);
 
-        scrollBarButtonLine = graybd;
+        scrollBarButtonLine = deriveColor(scrollBarButtonBase, 0f, 0f, -0.258824f, 0);
         scrollBarButtonLinePressed = scrollBarButtonLinePressedColor;
-        scrollBarButtonArrow = gray55;
+        scrollBarButtonArrow = deriveColor(scrollBarButtonBase, 0f, 0f, -0.666667f, 0);
         scrollBarButtonArrowDisabled = disable(scrollBarButtonArrow);
 
-        scrollBarButtonDarkDivider = black1f;
-        scrollBarButtonLightDivider = white3f;
+        scrollBarButtonDarkDivider = deriveColor(scrollBarButtonBase, 0f, 0f, -1f, -(int) (scrollBarButtonBase.getAlpha() * 0.87843137f));
+        scrollBarButtonLightDivider = deriveColor(scrollBarButtonBase, 0f, 0f, 0f, -(int) (scrollBarButtonBase.getAlpha() * 0.75294117647f));
 
-        sliderTrackBorderEnabled = new TwoColors(gray63, grayae);
-        sliderTrackBorderDisabled = new TwoColors(disable(gray90), disable(grayb4));
+        sliderTrackBorderEnabled = new TwoColors(deriveColor(sliderTrackBorderBase, 0f, 0f, -0.149020f, 0), deriveColor(
+            sliderTrackBorderBase, 0f, 0f, 0.145098f, 0));
+        sliderTrackBorderDisabled = desaturate(sliderTrackBorderEnabled);
 
-        sliderTrackInteriorEnabled = new TwoColors(grayc4, grayeb);
+        sliderTrackInteriorEnabled = new TwoColors(deriveColor(sliderTrackInteriorBase, 0f, 0f, -0.078431f, 0), deriveColor(
+            sliderTrackInteriorBase, 0f, 0f, 0.074510f, 0));
         sliderTrackInteriorDisabled = disable(sliderTrackInteriorEnabled);
 
         spinnerNextBorderEnabled = new TwoColors(buttonBorderTopPressed, spinnerNextBorderBottomEnabled);
@@ -553,7 +543,6 @@ public class PaintUtil {
 
         spinnerPrevTopLineDisabled = desaturate(spinnerPrevTopLineEnabled);
 
-        spinnerArrowEnabled = black;
         spinnerArrowDisabled = desaturate(spinnerArrowEnabled);
 
         splitPaneDividerBorder = new TwoColors(buttonBorderTopEnabled, buttonBorderBottomEnabled);
@@ -579,9 +568,10 @@ public class PaintUtil {
         toolbarHandleBorder = buttonBorderEnabled;
         toolbarHandleInterior = buttonInteriorEnabled;
 
-        toolbarToggleButtonInner = new TwoColors(transparentColor, black28);
-        toolbarToggleButtonInnerEdge = new TwoColors(transparentColor, black20);
-        toolbarToggleButtonOuterEdge = new TwoColors(black10, black40);
+        toolbarToggleButtonInner = new TwoColors(toolbarToggleButtonBase, deriveColor(toolbarToggleButtonBase, 0f, 0f, 0f, 0x28));
+        toolbarToggleButtonInnerEdge = new TwoColors(toolbarToggleButtonBase, deriveColor(toolbarToggleButtonBase, 0f, 0f, 0f, 0x20));
+        toolbarToggleButtonOuterEdge = new TwoColors(deriveColor(toolbarToggleButtonBase, 0f, 0f, 0f, 0x10), deriveColor(
+            toolbarToggleButtonBase, 0f, 0f, 0f, 0x40));
     }
 
     public static Paint getToolbarToggleButtonPaint(Shape s, ToolbarToggleButtonType type) {
