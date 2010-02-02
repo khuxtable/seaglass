@@ -44,7 +44,9 @@ public class DeriveColors {
                 calc.setPreferredSize(new Dimension(100, 30));
                 calc.setAction(new AbstractAction() {
                     public void actionPerformed(ActionEvent e) {
-                        Color color = new Color(Integer.parseInt(c.getText(), 16));
+                        String cStr = c.getText();
+                        if (cStr.startsWith("0x")) cStr = cStr.substring(2);
+                        Color color = new Color(Integer.parseInt(cStr, 16));
                         float hOffset = Float.parseFloat(h.getText());
                         float sOffset = Float.parseFloat(s.getText());
                         float bOffset = Float.parseFloat(b.getText());
