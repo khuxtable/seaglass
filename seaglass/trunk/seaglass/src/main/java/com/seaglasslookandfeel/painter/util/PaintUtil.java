@@ -78,6 +78,8 @@ public class PaintUtil {
     private static TwoColors   texturedButtonBorderPressed;
     private static TwoColors   texturedButtonBorderDefault;
     private static TwoColors   texturedButtonBorderDefaultPressed;
+    private static TwoColors   texturedButtonBorderSelected;
+    private static TwoColors   texturedButtonBorderPressedSelected;
     private static TwoColors   texturedButtonBorderDisabled;
     private static TwoColors   texturedButtonBorderDisabledSelected;
 
@@ -85,6 +87,8 @@ public class PaintUtil {
     private static FourColors  texturedButtonInteriorPressed;
     private static FourColors  texturedButtonInteriorDefault;
     private static FourColors  texturedButtonInteriorDefaultPressed;
+    private static FourColors  texturedButtonInteriorSelected;
+    private static FourColors  texturedButtonInteriorPressedSelected;
     private static FourColors  texturedButtonInteriorDisabled;
     private static FourColors  texturedButtonInteriorDisabledSelected;
 
@@ -334,6 +338,11 @@ public class PaintUtil {
         Color texturedButtonInteriorLowerMidSelected = new Color(0x7da7cd);
         Color texturedButtonInteriorBottomSelected = new Color(0x7fa7cd);
 
+        Color texturedButtonInteriorTopPressedSelected = new Color(0x93b5cc);
+        Color texturedButtonInteriorUpperMidPressedSelected = new Color(0x7094b3);
+        Color texturedButtonInteriorLowerMidPressedSelected = new Color(0x6588a6);
+        Color texturedButtonInteriorBottomPressedSelected = new Color(0x6787a6);
+
         Color buttonBulletTopEnabled = gray33;
         Color buttonBulletBottomEnabled = black;
 
@@ -446,7 +455,9 @@ public class PaintUtil {
         texturedButtonBorderEnabled = new TwoColors(texturedButtonBorderTopEnabled, texturedButtonBorderBottomEnabled);
         texturedButtonBorderPressed = new TwoColors(buttonBorderTopPressed, buttonBorderBottomPressed);
         texturedButtonBorderDefault = texturedButtonBorderPressed;
+        texturedButtonBorderSelected = texturedButtonBorderDefault;
         texturedButtonBorderDefaultPressed = texturedButtonBorderPressed;
+        texturedButtonBorderPressedSelected = texturedButtonBorderDefaultPressed;
         texturedButtonBorderDisabled = disable(texturedButtonBorderEnabled);
         texturedButtonBorderDisabledSelected = disable(texturedButtonBorderPressed);
 
@@ -456,7 +467,11 @@ public class PaintUtil {
             texturedButtonInteriorLowerMidPressed, texturedButtonInteriorBottomPressed);
         texturedButtonInteriorDefault = new FourColors(texturedButtonInteriorTopSelected, texturedButtonInteriorUpperMidSelected,
             texturedButtonInteriorLowerMidSelected, texturedButtonInteriorBottomSelected);
+        texturedButtonInteriorSelected = texturedButtonInteriorDefault;
         texturedButtonInteriorDefaultPressed = texturedButtonInteriorDefault;
+        texturedButtonInteriorPressedSelected = new FourColors(texturedButtonInteriorTopPressedSelected,
+            texturedButtonInteriorUpperMidPressedSelected, texturedButtonInteriorLowerMidPressedSelected,
+            texturedButtonInteriorBottomPressedSelected);
         texturedButtonInteriorDisabled = desaturate(texturedButtonInteriorEnabled);
         texturedButtonInteriorDisabledSelected = desaturate(texturedButtonInteriorDefault);
 
@@ -939,11 +954,13 @@ public class PaintUtil {
             case PRESSED:
                 return texturedButtonBorderPressed;
             case DEFAULT:
-            case SELECTED:
                 return texturedButtonBorderDefault;
+            case SELECTED:
+                return texturedButtonBorderSelected;
             case DEFAULT_PRESSED:
-            case PRESSED_SELECTED:
                 return texturedButtonBorderDefaultPressed;
+            case PRESSED_SELECTED:
+                return texturedButtonBorderPressedSelected;
             }
         } else {
             switch (type) {
@@ -980,11 +997,13 @@ public class PaintUtil {
             case PRESSED:
                 return texturedButtonInteriorPressed;
             case DEFAULT:
-            case SELECTED:
                 return texturedButtonInteriorDefault;
+            case SELECTED:
+                return texturedButtonInteriorSelected;
             case DEFAULT_PRESSED:
-            case PRESSED_SELECTED:
                 return texturedButtonInteriorDefaultPressed;
+            case PRESSED_SELECTED:
+                return texturedButtonInteriorPressedSelected;
             }
         } else {
             switch (type) {
