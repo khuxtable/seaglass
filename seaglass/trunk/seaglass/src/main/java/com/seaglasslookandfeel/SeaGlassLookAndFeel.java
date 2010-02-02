@@ -716,12 +716,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         p = "ComboBox:\"ComboBox.arrowButton\"";
         d.put(p + ".size", new Integer(22));
         d.put(p + ".States", "Enabled,Pressed,Disabled,Editable");
-        d.put(p + "[Disabled+Editable].backgroundPainter",
-            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Disabled+Editable].backgroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Editable+Enabled].backgroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Editable+Pressed].backgroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put(p + "[Editable+Selected].backgroundPainter",
-            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Editable+Selected].backgroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_PRESSED));
@@ -1413,38 +1411,35 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineTables(UIDefaults d) {
-        d.put("Table.background", new ColorUIResource(Color.WHITE));
-        d.put("Table.alternateRowColor", new ColorUIResource(0xebf5fc));
-        d.put("TableHeader:\"TableHeader.renderer\".Sorted", new TableHeaderRendererSortedState());
-        // TODO Why doesn't ColorUIResource work on these next two?
-        d.put("Table[Enabled+Selected].textBackground", new Color(0x6181a5));
-        d.put("Table[Disabled+Selected].textBackground", new Color(0x6181a5));
 
+        String p = "TableHeader";
         String c = PAINTER_PREFIX + "TableHeaderPainter";
-        d.put("TableHeader.font", defaultFont.deriveFont(11.0f));
-        d.put("TableHeader[Enabled].ascendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.ASCENDINGSORTICON_ENABLED));
-        d.put("Table.ascendingSortIcon", new SeaGlassIcon("TableHeader", "ascendingSortIconPainter", 8, 7));
-        d.put("TableHeader[Enabled].descendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.DESCENDINGSORTICON_ENABLED));
-        d.put("Table.descendingSortIcon", new SeaGlassIcon("TableHeader", "descendingSortIconPainter", 8, 7));
+        d.put(p + ".font", defaultFont.deriveFont(11.0f));
+        d.put(p + "[Enabled].ascendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.ASCENDINGSORTICON_ENABLED));
+        d.put(p + "[Enabled].descendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.DESCENDINGSORTICON_ENABLED));
+
+        p = "Table";
+        d.put(p + ".background", new ColorUIResource(Color.WHITE));
+        d.put(p + ".alternateRowColor", new ColorUIResource(0xebf5fc));
+        // TODO Why doesn't ColorUIResource work on these next two?
+        d.put(p + "[Enabled+Selected].textBackground", new Color(0x6181a5));
+        d.put(p + "[Disabled+Selected].textBackground", new Color(0x6181a5));
+        d.put(p + ".ascendingSortIcon", new SeaGlassIcon("TableHeader", "ascendingSortIconPainter", 8, 7));
+        d.put(p + ".descendingSortIcon", new SeaGlassIcon("TableHeader", "descendingSortIconPainter", 8, 7));
+        d.put(p + ".scrollPaneCornerComponent", TableScrollPaneCorner.class);
 
         c = PAINTER_PREFIX + "TableHeaderRendererPainter";
-        d.put("TableHeader:\"TableHeader.renderer\"[Disabled].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_DISABLED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Enabled].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_ENABLED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Focused].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Pressed].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_PRESSED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Sorted].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_SORTED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Enabled+Focused+Sorted].backgroundPainter", new LazyPainter(c,
+        p = "TableHeader:\"TableHeader.renderer\"";
+        d.put(p + ".States", "Enabled,Pressed,Disabled,Focused,Sorted");
+        d.put(p + ".Sorted", new TableHeaderRendererSortedState());
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Enabled+Focused].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED));
+        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[Enabled+Sorted].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_SORTED));
+        d.put(p + "[Enabled+Focused+Sorted].backgroundPainter", new LazyPainter(c,
             TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED_SORTED));
-        d.put("TableHeader:\"TableHeader.renderer\"[Disabled+Sorted].backgroundPainter", new LazyPainter(c,
-            TableHeaderRendererPainter.Which.BACKGROUND_DISABLED_SORTED));
-
-        // Store Table ScrollPane Corner Component
-        uiDefaults.put("Table.scrollPaneCornerComponent", TableScrollPaneCorner.class);
+        d.put(p + "[Disabled+Sorted].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_DISABLED_SORTED));
     }
 
     /**
