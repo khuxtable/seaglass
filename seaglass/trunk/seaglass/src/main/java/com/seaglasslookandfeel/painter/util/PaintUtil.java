@@ -83,14 +83,14 @@ public class PaintUtil {
     private static TwoColors   texturedButtonBorderDisabled;
     private static TwoColors   texturedButtonBorderDisabledSelected;
 
-    private static FourColors  texturedButtonInteriorEnabled;
-    private static FourColors  texturedButtonInteriorPressed;
-    private static FourColors  texturedButtonInteriorDefault;
-    private static FourColors  texturedButtonInteriorDefaultPressed;
-    private static FourColors  texturedButtonInteriorSelected;
-    private static FourColors  texturedButtonInteriorPressedSelected;
-    private static FourColors  texturedButtonInteriorDisabled;
-    private static FourColors  texturedButtonInteriorDisabledSelected;
+    private static TwoColors   texturedButtonInteriorEnabled;
+    private static TwoColors   texturedButtonInteriorPressed;
+    private static TwoColors   texturedButtonInteriorDefault;
+    private static TwoColors   texturedButtonInteriorDefaultPressed;
+    private static TwoColors   texturedButtonInteriorSelected;
+    private static TwoColors   texturedButtonInteriorPressedSelected;
+    private static TwoColors   texturedButtonInteriorDisabled;
+    private static TwoColors   texturedButtonInteriorDisabledSelected;
 
     private static TwoColors   scrollBarThumbBorderPressed;
     private static FourColors  scrollBarThumbInteriorPressed;
@@ -279,10 +279,8 @@ public class PaintUtil {
         Color graye5 = new Color(0xe5e5e5);
         Color graye9 = new Color(0xe9e9e9);
         Color grayeb = new Color(0xebebeb);
-        Color grayec = new Color(0xececec);
         Color grayed = new Color(0xededed);
         Color grayee = new Color(0xeeeeee);
-        Color grayf2 = new Color(0xf2f2f2);
         Color grayfe = new Color(0xfefefe);
 
         Color white = Color.WHITE;
@@ -300,47 +298,23 @@ public class PaintUtil {
         Color scrollBarThumbBorderTopPressed = new Color(0x4076bf);
         Color scrollBarThumbBorderBottomPressed = buttonBorderTopPressed;
 
-        Color buttonInteriorTopEnabled = new Color(0xfbfdfe);
-        Color buttonInteriorUpperMidEnabled = new Color(0xd6eaf9);
-        Color buttonInteriorLowerMidEnabled = new Color(0xd2e8f8);
-        Color buttonInteriorBottomEnabled = new Color(0xf5fafd);
-        Color buttonInteriorTopPressed = new Color(0xacbdd0);
-        Color buttonInteriorUpperMidPressed = new Color(0x688db3);
-        Color buttonInteriorLowerMidPressed = new Color(0x6d93ba);
-        Color buttonInteriorBottomPressed = new Color(0xa4cbe4);
-        Color buttonInteriorTopSelected = new Color(0xbccedf);
-        Color buttonInteriorUpperMidSelected = new Color(0x7fa7cd);
-        Color buttonInteriorLowerMidSelected = new Color(0x82b0d6);
-        Color buttonInteriorBottomSelected = new Color(0xb0daf6);
-        Color buttonInteriorTopPressedSelected = new Color(0xaebdce);
-        Color buttonInteriorUpperMidPressedSelected = new Color(0x6f90ba);
-        Color buttonInteriorLowerMidPressedSelected = new Color(0x7497c2);
-        Color buttonInteriorBottomPressedSelected = new Color(0xaacbe2);
+        Color buttonInteriorBaseEnabled = new Color(0xd5e8f7);
+        Color buttonInteriorBasePressed = new Color(0x6d8fba);
+        Color buttonInteriorBaseSelected = new Color(0x80a6d2);
+        Color buttonInteriorBasePressedSelected = new Color(0x7497c2);
 
-        Color scrollBarThumbInteriorTopPressed = new Color(0xb1dbf5);
-        Color scrollBarThumbInteriorUpperMidPressed = new Color(0x7ca7ce);
-        Color scrollBarThumbInteriorLowerMidPressed = new Color(0x7ea7cc);
-        Color scrollBarThumbInteriorBottomPressed = new Color(0xbbcedf);
+        Color scrollBarThumbInteriorBasePressed = new Color(0x82a8ca);
 
         Color texturedButtonBorderTopEnabled = gray99;
         Color texturedButtonBorderBottomEnabled = gray99;
 
         Color texturedButtonInteriorTopEnabled = grayfe;
-        Color texturedButtonInteriorUpperMidEnabled = grayf2;
-        Color texturedButtonInteriorLowerMidEnabled = grayec;
         Color texturedButtonInteriorBottomEnabled = graye0;
         Color texturedButtonInteriorTopPressed = new Color(0xa5c9e5);
-        Color texturedButtonInteriorUpperMidPressed = new Color(0x90b5d4);
-        Color texturedButtonInteriorLowerMidPressed = new Color(0x86abcb);
         Color texturedButtonInteriorBottomPressed = new Color(0x759bbd);
         Color texturedButtonInteriorTopSelected = new Color(0xb0daf6);
-        Color texturedButtonInteriorUpperMidSelected = new Color(0x88b3d8);
-        Color texturedButtonInteriorLowerMidSelected = new Color(0x7da7cd);
         Color texturedButtonInteriorBottomSelected = new Color(0x7fa7cd);
-
         Color texturedButtonInteriorTopPressedSelected = new Color(0x93b5cc);
-        Color texturedButtonInteriorUpperMidPressedSelected = new Color(0x7094b3);
-        Color texturedButtonInteriorLowerMidPressedSelected = new Color(0x6588a6);
         Color texturedButtonInteriorBottomPressedSelected = new Color(0x6787a6);
 
         Color buttonBulletTopEnabled = gray33;
@@ -439,6 +413,23 @@ public class PaintUtil {
         comboBoxBackgroundBorderEnabled = buttonBorderEnabled;
         comboBoxBackgroundBorderPressed = buttonBorderEnabled;
 
+        Color buttonInteriorTopEnabled = deriveColor(buttonInteriorBaseEnabled, -0.017974f, -0.125841f, 0.027451f, 0);
+        Color buttonInteriorUpperMidEnabled = deriveColor(buttonInteriorBaseEnabled, -0.002101f, 0.00291f, 0.007843f, 0);
+        Color buttonInteriorLowerMidEnabled = deriveColor(buttonInteriorBaseEnabled, -0.003354f, 0.015574f, 0.003922f, 0);
+        Color buttonInteriorBottomEnabled = deriveColor(buttonInteriorBaseEnabled, -0.011029f, -0.106031f, 0.023529f, 0);
+        Color buttonInteriorTopPressed = deriveColor(buttonInteriorBasePressed, -0.005111f, -0.240902f, 0.086275f, 0);
+        Color buttonInteriorUpperMidPressed = deriveColor(buttonInteriorBasePressed, -0.008629f, 0.005016f, -0.027451f, 0);
+        Color buttonInteriorLowerMidPressed = deriveColor(buttonInteriorBasePressed, -0.008658f, 0f, 0f, 0);
+        Color buttonInteriorBottomPressed = deriveColor(buttonInteriorBasePressed, -0.027969f, -0.133277f, 0.164706f, 0);
+        Color buttonInteriorTopSelected = deriveColor(buttonInteriorBaseSelected, -0.008478f, -0.233526f, 0.05098f, 0);
+        Color buttonInteriorUpperMidSelected = deriveColor(buttonInteriorBaseSelected, -0.008234f, -0.009988f, -0.019608f, 0);
+        Color buttonInteriorLowerMidSelected = deriveColor(buttonInteriorBaseSelected, -0.014034f, 0.002047f, 0.015686f, 0);
+        Color buttonInteriorBottomSelected = deriveColor(buttonInteriorBaseSelected, -0.022764f, -0.105923f, 0.141176f, 0);
+        Color buttonInteriorTopPressedSelected = deriveColor(buttonInteriorBasePressedSelected, -0.003339f, -0.246722f, 0.047059f, 0);
+        Color buttonInteriorUpperMidPressedSelected = deriveColor(buttonInteriorBasePressedSelected, 0.001453f, 0.001164f, -0.031373f, 0);
+        Color buttonInteriorLowerMidPressedSelected = deriveColor(buttonInteriorBasePressedSelected, 0f, 0f, 0f, 0);
+        Color buttonInteriorBottomPressedSelected = deriveColor(buttonInteriorBasePressedSelected, -0.023428f, -0.154274f, 0.12549f, 0);
+
         buttonInteriorEnabled = new FourColors(buttonInteriorTopEnabled, buttonInteriorUpperMidEnabled, buttonInteriorLowerMidEnabled,
             buttonInteriorBottomEnabled);
         buttonInteriorPressed = new FourColors(buttonInteriorTopPressed, buttonInteriorUpperMidPressed, buttonInteriorLowerMidPressed,
@@ -461,21 +452,22 @@ public class PaintUtil {
         texturedButtonBorderDisabled = disable(texturedButtonBorderEnabled);
         texturedButtonBorderDisabledSelected = disable(texturedButtonBorderPressed);
 
-        texturedButtonInteriorEnabled = new FourColors(texturedButtonInteriorTopEnabled, texturedButtonInteriorUpperMidEnabled,
-            texturedButtonInteriorLowerMidEnabled, texturedButtonInteriorBottomEnabled);
-        texturedButtonInteriorPressed = new FourColors(texturedButtonInteriorTopPressed, texturedButtonInteriorUpperMidPressed,
-            texturedButtonInteriorLowerMidPressed, texturedButtonInteriorBottomPressed);
-        texturedButtonInteriorDefault = new FourColors(texturedButtonInteriorTopSelected, texturedButtonInteriorUpperMidSelected,
-            texturedButtonInteriorLowerMidSelected, texturedButtonInteriorBottomSelected);
+        texturedButtonInteriorEnabled = new TwoColors(texturedButtonInteriorTopEnabled, texturedButtonInteriorBottomEnabled);
+        texturedButtonInteriorPressed = new TwoColors(texturedButtonInteriorTopPressed, texturedButtonInteriorBottomPressed);
+        texturedButtonInteriorDefault = new TwoColors(texturedButtonInteriorTopSelected, texturedButtonInteriorBottomSelected);
         texturedButtonInteriorSelected = texturedButtonInteriorDefault;
         texturedButtonInteriorDefaultPressed = texturedButtonInteriorDefault;
-        texturedButtonInteriorPressedSelected = new FourColors(texturedButtonInteriorTopPressedSelected,
-            texturedButtonInteriorUpperMidPressedSelected, texturedButtonInteriorLowerMidPressedSelected,
+        texturedButtonInteriorPressedSelected = new TwoColors(texturedButtonInteriorTopPressedSelected,
             texturedButtonInteriorBottomPressedSelected);
         texturedButtonInteriorDisabled = desaturate(texturedButtonInteriorEnabled);
         texturedButtonInteriorDisabledSelected = desaturate(texturedButtonInteriorDefault);
 
         scrollBarThumbBorderPressed = new TwoColors(scrollBarThumbBorderTopPressed, scrollBarThumbBorderBottomPressed);
+
+        Color scrollBarThumbInteriorTopPressed = deriveColor(scrollBarThumbInteriorBasePressed, -0.014978f, -0.078885f, 0.168627f, 0);
+        Color scrollBarThumbInteriorUpperMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000565f, 0.041623f, 0.015686f, 0);
+        Color scrollBarThumbInteriorLowerMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000356f, 0.025917f, 0.007843f, 0);
+        Color scrollBarThumbInteriorBottomPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000000f, -0.195001f, 0.082353f, 0);
 
         scrollBarThumbInteriorPressed = new FourColors(scrollBarThumbInteriorTopPressed, scrollBarThumbInteriorUpperMidPressed,
             scrollBarThumbInteriorLowerMidPressed, scrollBarThumbInteriorBottomPressed);
@@ -670,13 +662,18 @@ public class PaintUtil {
     }
 
     public static Paint getButtonInteriorPaint(Shape s, ButtonType type) {
-        FourColors colors = getButtonInteriorColors(type, false);
+        FourColors colors = getButtonInteriorColors(type);
         return createFourColorGradientVertical(s, colors);
     }
 
     public static Paint getButtonInteriorPaint(Shape s, ButtonType type, boolean isTextured) {
-        FourColors colors = getButtonInteriorColors(type, isTextured);
-        return createFourColorGradientVertical(s, colors);
+        if (isTextured) {
+            TwoColors colors = getTexturedButtonInteriorColors(type);
+            return createTwoColorGradientVertical(s, colors);
+        } else {
+            FourColors colors = getButtonInteriorColors(type);
+            return createFourColorGradientVertical(s, colors);
+        }
     }
 
     public static Paint getComboBoxButtonInteriorPaint(Shape s, ButtonType type) {
@@ -985,45 +982,46 @@ public class PaintUtil {
         return null;
     }
 
-    private static FourColors getButtonInteriorColors(ButtonType type, boolean textured) {
-        if (textured) {
-            switch (type) {
-            case DISABLED:
-                return texturedButtonInteriorDisabled;
-            case DISABLED_SELECTED:
-                return texturedButtonInteriorDisabledSelected;
-            case ENABLED:
-                return texturedButtonInteriorEnabled;
-            case PRESSED:
-                return texturedButtonInteriorPressed;
-            case DEFAULT:
-                return texturedButtonInteriorDefault;
-            case SELECTED:
-                return texturedButtonInteriorSelected;
-            case DEFAULT_PRESSED:
-                return texturedButtonInteriorDefaultPressed;
-            case PRESSED_SELECTED:
-                return texturedButtonInteriorPressedSelected;
-            }
-        } else {
-            switch (type) {
-            case DISABLED:
-                return buttonInteriorDisabled;
-            case DISABLED_SELECTED:
-                return buttonInteriorDisabledSelected;
-            case ENABLED:
-                return buttonInteriorEnabled;
-            case PRESSED:
-                return buttonInteriorPressed;
-            case DEFAULT:
-                return buttonInteriorDefault;
-            case DEFAULT_PRESSED:
-                return buttonInteriorDefaultPressed;
-            case SELECTED:
-                return buttonInteriorSelected;
-            case PRESSED_SELECTED:
-                return buttonInteriorPressedSelected;
-            }
+    private static FourColors getButtonInteriorColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return buttonInteriorDisabled;
+        case DISABLED_SELECTED:
+            return buttonInteriorDisabledSelected;
+        case ENABLED:
+            return buttonInteriorEnabled;
+        case PRESSED:
+            return buttonInteriorPressed;
+        case DEFAULT:
+            return buttonInteriorDefault;
+        case DEFAULT_PRESSED:
+            return buttonInteriorDefaultPressed;
+        case SELECTED:
+            return buttonInteriorSelected;
+        case PRESSED_SELECTED:
+            return buttonInteriorPressedSelected;
+        }
+        return null;
+    }
+
+    private static TwoColors getTexturedButtonInteriorColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return texturedButtonInteriorDisabled;
+        case DISABLED_SELECTED:
+            return texturedButtonInteriorDisabledSelected;
+        case ENABLED:
+            return texturedButtonInteriorEnabled;
+        case PRESSED:
+            return texturedButtonInteriorPressed;
+        case DEFAULT:
+            return texturedButtonInteriorDefault;
+        case SELECTED:
+            return texturedButtonInteriorSelected;
+        case DEFAULT_PRESSED:
+            return texturedButtonInteriorDefaultPressed;
+        case PRESSED_SELECTED:
+            return texturedButtonInteriorPressedSelected;
         }
         return null;
     }
