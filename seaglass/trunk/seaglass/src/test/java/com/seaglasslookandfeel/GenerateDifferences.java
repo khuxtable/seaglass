@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -52,10 +53,11 @@ public class GenerateDifferences {
                 calc.setText("Calculate");
 
                 result = new JTextPane();
-                result.setPreferredSize(new Dimension(180, 100));
+                result.setPreferredSize(new Dimension(300, 100));
                 result.setEditable(false);
 
                 JPanel panel = new JPanel();
+                panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
                 panel.setBackground(new Color(248, 248, 248));
                 panel.add(c1);
                 panel.add(c2);
@@ -64,7 +66,7 @@ public class GenerateDifferences {
 
                 JFrame frame = new JFrame("Title");
                 frame.add(panel, BorderLayout.CENTER);
-                frame.setSize(275, 225);
+                frame.setSize(325, 225);
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.setVisible(true);
@@ -81,7 +83,7 @@ public class GenerateDifferences {
         float sOffset = tmp2[1] - tmp1[1];
         float bOffset = tmp2[2] - tmp1[2];
 
-        return String.format("hOffset: %f\nsOffset: %f\nbOffset: %f", hOffset, sOffset, bOffset);
+        return String.format("deriveColor(src, %ff, %ff, %ff, 0)", hOffset, sOffset, bOffset);
     }
 
     private static float clamp(float value) {
