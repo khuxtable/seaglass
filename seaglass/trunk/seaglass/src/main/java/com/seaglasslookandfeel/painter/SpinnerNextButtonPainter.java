@@ -19,7 +19,9 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
@@ -35,7 +37,7 @@ import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 /**
  * SpinnerNextButtonPainter implementation.
  */
-public final class SpinnerNextButtonPainter extends AbstractRegionPainter {
+public final class SpinnerNextButtonPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_ENABLED,
@@ -48,6 +50,22 @@ public final class SpinnerNextButtonPainter extends AbstractRegionPainter {
         FOREGROUND_PRESSED_FOCUSED,
         FOREGROUND_PRESSED,
     }
+
+    private Color        spinnerNextBorderBottomEnabled   = decodeColor("spinnerNextBorderBottomEnabled");
+    private Color        spinnerNextBorderBottomPressed   = decodeColor("spinnerNextBorderBottomPressed");
+    private Color        spinnerNextInteriorBottomEnabled = decodeColor("spinnerNextInteriorBottomEnabled");
+    private Color        spinnerNextInteriorBottomPressed = decodeColor("spinnerNextInteriorBottomPressed");
+
+    private TwoColors    pressedButtonBorder              = getButtonBorderColors(ButtonType.PRESSED);
+    private TwoColors    spinnerNextBorderEnabled         = new TwoColors(pressedButtonBorder.top, spinnerNextBorderBottomEnabled);
+    private TwoColors    spinnerNextBorderPressed         = new TwoColors(pressedButtonBorder.top, spinnerNextBorderBottomPressed);
+    private TwoColors    spinnerNextBorderDisabled        = disable(spinnerNextBorderEnabled);
+
+    private FourColors   pressedButtonInterior            = getButtonInteriorColors(ButtonType.PRESSED);
+    private FourColors   selectedButtonInterior           = getButtonInteriorColors(ButtonType.SELECTED);
+    private TwoColors    spinnerNextInteriorEnabled       = new TwoColors(selectedButtonInterior.top, spinnerNextInteriorBottomEnabled);
+    private TwoColors    spinnerNextInteriorPressed       = new TwoColors(pressedButtonInterior.top, spinnerNextInteriorBottomPressed);
+    private TwoColors    spinnerNextInteriorDisabled      = desaturate(desaturate(spinnerNextInteriorEnabled));
 
     private PaintContext ctx;
     private ButtonType   type;
@@ -124,11 +142,11 @@ public final class SpinnerNextButtonPainter extends AbstractRegionPainter {
         }
 
         s = createButtonShape(0, 2, width - 2, height - 2, CornerSize.BORDER);
-        g.setPaint(PaintUtil.getSpinnerNextBorderPaint(s, type));
+        g.setPaint(getSpinnerNextBorderPaint(s, type));
         g.fill(s);
 
         s = createButtonShape(1, 3, width - 4, height - 4, CornerSize.INTERIOR);
-        g.setPaint(PaintUtil.getSpinnerNextInteriorPaint(s, type));
+        g.setPaint(getSpinnerNextInteriorPaint(s, type));
         g.fill(s);
     }
 
@@ -147,5 +165,39 @@ public final class SpinnerNextButtonPainter extends AbstractRegionPainter {
         int centerX = 8;
         int centerY = height / 2;
         return ShapeUtil.createArrowUp(centerX, centerY, 4, 3);
+    }
+
+    public Paint getSpinnerNextBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerNextBorderColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    public Paint getSpinnerNextInteriorPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerNextInteriorColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    private TwoColors getSpinnerNextBorderColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return spinnerNextBorderDisabled;
+        case ENABLED:
+            return spinnerNextBorderEnabled;
+        case PRESSED:
+            return spinnerNextBorderPressed;
+        }
+        return null;
+    }
+
+    private TwoColors getSpinnerNextInteriorColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return spinnerNextInteriorDisabled;
+        case ENABLED:
+            return spinnerNextInteriorEnabled;
+        case PRESSED:
+            return spinnerNextInteriorPressed;
+        }
+        return null;
     }
 }

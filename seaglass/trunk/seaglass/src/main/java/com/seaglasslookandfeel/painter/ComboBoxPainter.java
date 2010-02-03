@@ -20,6 +20,7 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 
@@ -36,7 +37,7 @@ import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 /**
  * ComboBoxPainter implementation.
  */
-public final class ComboBoxPainter extends AbstractRegionPainter {
+public final class ComboBoxPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_DISABLED_PRESSED,
@@ -155,11 +156,11 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
         final int leftWidth = width - buttonWidth;
 
         Shape s = createButtonPath(CornerSize.BORDER, 2, 2, leftWidth - 2, height - 4);
-        g.setPaint(PaintUtil.getComboBoxBackgroundBorderPaint(s, type));
+        g.setPaint(getComboBoxBackgroundBorderPaint(s, type));
         g.fill(s);
 
         s = createButtonPath(CornerSize.INTERIOR, 3, 3, leftWidth - 3, height - 6);
-        g.setPaint(PaintUtil.getComboBoxBackgroundInteriorPaint(s, type));
+        g.setPaint(getComboBoxBackgroundInteriorPaint(s, type));
         g.fill(s);
 
         // Paint arrow button portion.
@@ -203,5 +204,37 @@ public final class ComboBoxPainter extends AbstractRegionPainter {
     private Shape createFocusPath(CornerSize size, int x, int y, int width, int height) {
         CornerStyle leftStyle = editable ? CornerStyle.SQUARE : CornerStyle.ROUNDED;
         return ShapeUtil.createRoundRectangle(x, y, width, height, size, leftStyle, leftStyle, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+    }
+
+    public Paint getComboBoxBackgroundBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getButtonBorderColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    public Paint getComboBoxBackgroundInteriorPaint(Shape s, ButtonType type) {
+        FourColors colors = getButtonInteriorColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    public TwoColors getButtonBorderColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return super.getButtonBorderColors(ButtonType.DISABLED);
+        case ENABLED:
+        case PRESSED:
+            return super.getButtonBorderColors(ButtonType.ENABLED);
+        }
+        return null;
+    }
+
+    public FourColors getButtonInteriorColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return super.getButtonInteriorColors(ButtonType.DISABLED);
+        case ENABLED:
+        case PRESSED:
+            return super.getButtonInteriorColors(ButtonType.ENABLED);
+        }
+        return null;
     }
 }

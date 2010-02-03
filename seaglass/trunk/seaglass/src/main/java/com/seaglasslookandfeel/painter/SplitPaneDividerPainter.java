@@ -37,7 +37,7 @@ import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 /**
  * Nimbus's SplitPaneDividerPainter.
  */
-public final class SplitPaneDividerPainter extends AbstractRegionPainter {
+public final class SplitPaneDividerPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         BACKGROUND_ENABLED,
         BACKGROUND_FOCUSED,
@@ -47,17 +47,16 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         FOREGROUND_FOCUSED_VERTICAL,
     }
 
-    private Color                splitPaneDividerBackgroundEnabled = decodeColor("control");
-    private Color                splitPaneDividerBackgroundOuter   = decodeColor("splitPaneDividerBackgroundOuter");
+    private Color        splitPaneDividerBackgroundEnabled = decodeColor("control");
+    private Color        splitPaneDividerBackgroundOuter   = decodeColor("splitPaneDividerBackgroundOuter");
 
-    private PaintUtil.TwoColors  tmp                               = PaintUtil.getButtonBorderColors(ButtonType.ENABLED);
-    private PaintUtil.FourColors tmp2                              = PaintUtil.getButtonInteriorColors(ButtonType.ENABLED);
+    private FourColors   button                            = getButtonInteriorColors(ButtonType.ENABLED);
 
-    private TwoColors            splitPaneDividerBorder            = new TwoColors(tmp.top, tmp.bottom);
-    private ThreeColors          splitPaneDividerInterior          = new ThreeColors(tmp2.top, tmp2.lowerMid, tmp2.bottom);
+    private TwoColors    splitPaneDividerBorder            = getButtonBorderColors(ButtonType.ENABLED);
+    private ThreeColors  splitPaneDividerInterior          = new ThreeColors(button.top, button.lowerMid, button.bottom);
 
-    private Which                state;
-    private PaintContext         ctx;
+    private Which        state;
+    private PaintContext ctx;
 
     public SplitPaneDividerPainter(Which state) {
         super();

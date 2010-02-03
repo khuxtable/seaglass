@@ -40,7 +40,7 @@ import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 /**
  * CheckBoxPainter implementation.
  */
-public final class CheckBoxPainter extends AbstractRegionPainter {
+public final class CheckBoxPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         ICON_DISABLED,
         ICON_ENABLED,
@@ -109,11 +109,11 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         if (!focused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(PaintUtil.getButtonBorderPaint(s, type));
+        g.setPaint(getButtonBorderPaint(s, type));
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(x + 3, y + 3, size - 6, size - 6, CornerSize.CHECKBOX_INTERIOR);
-        g.setPaint(PaintUtil.getButtonInteriorPaint(s, type));
+        g.setPaint(getButtonInteriorPaint(s, type));
         g.fill(s);
 
         if (selected) {

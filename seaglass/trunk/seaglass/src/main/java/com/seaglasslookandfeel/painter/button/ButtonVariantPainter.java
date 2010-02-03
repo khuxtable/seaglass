@@ -23,7 +23,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
 
-import com.seaglasslookandfeel.painter.AbstractRegionPainter;
+import com.seaglasslookandfeel.painter.AbstractCommonColorsPainter;
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
 
 /**
@@ -33,7 +33,7 @@ import com.seaglasslookandfeel.painter.ButtonPainter.Which;
  * 
  * @author Kathryn Huxtable
  */
-public abstract class ButtonVariantPainter extends AbstractRegionPainter {
+public abstract class ButtonVariantPainter extends AbstractCommonColorsPainter {
 
     protected Which        state;
     protected PaintContext ctx;

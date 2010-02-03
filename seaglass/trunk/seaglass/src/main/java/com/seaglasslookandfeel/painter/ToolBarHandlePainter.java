@@ -19,14 +19,15 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.util.PlatformUtils;
 
@@ -38,10 +39,12 @@ import com.seaglasslookandfeel.util.PlatformUtils;
  * @author Ken Orr
  * @author Modified by Kathryn Huxtable for SeaGlass
  */
-public class ToolBarHandlePainter extends AbstractRegionPainter {
+public class ToolBarHandlePainter extends AbstractCommonColorsPainter {
     public static enum Which {
         HANDLEICON_ENABLED,
     };
+
+    private Color        toolbarHandleMac = decodeColor("toolbarHandleMac");
 
     private PaintContext ctx;
 
@@ -63,18 +66,18 @@ public class ToolBarHandlePainter extends AbstractRegionPainter {
     }
 
     private void paintMacHandleIcon(Graphics2D g, int width, int height) {
-        g.setPaint(PaintUtil.getToolbarHandleMacPaint());
+        g.setPaint(toolbarHandleMac);
         g.drawLine(4, 2, 4, height - 3);
         g.drawLine(6, 2, 6, height - 3);
     }
 
     private void paintNonMacHandleIcon(Graphics2D g, int width, int height) {
         Shape s = decodeNonMacHandleBorder(width, height);
-        g.setPaint(PaintUtil.getToolbarHandleBorderPaint(s));
+        g.setPaint(getButtonBorderPaint(s, ButtonType.ENABLED));
         g.fill(s);
 
         s = decodeNonMacHandleInside(width, height);
-        g.setPaint(PaintUtil.getToolbarHandleInteriorPaint(s));
+        g.setPaint(getButtonInteriorPaint(s, ButtonType.ENABLED));
         g.fill(s);
     }
 

@@ -31,7 +31,6 @@ import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
@@ -39,7 +38,7 @@ import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 /**
  * ProgressBarPainter implementation.
  */
-public final class ProgressBarPainter extends AbstractRegionPainter {
+public final class ProgressBarPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         BACKGROUND_ENABLED,
         BACKGROUND_DISABLED,
@@ -64,14 +63,10 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
                                                                                      0.274445f, -0.074510f, 0);
     private Color                        progressBarEndDisabled                  = disable(progressBarEndEnabled);
 
-    private PaintUtil.FourColors         tmp                                     = PaintUtil.getButtonInteriorColors(ButtonType.SELECTED);
-    private FourColors                   progressBarEnabled                      = new FourColors(tmp.top, tmp.upperMid, tmp.lowerMid,
-                                                                                     tmp.bottom);
+    private FourColors                   progressBarEnabled                      = getButtonInteriorColors(ButtonType.SELECTED);
     private FourColors                   progressBarDisabled                     = disable(progressBarEnabled);
 
-    private PaintUtil.FourColors         tmp2                                    = PaintUtil.getButtonInteriorColors(ButtonType.ENABLED);
-    private FourColors                   progressBarIndeterminatePatternEnabled  = new FourColors(tmp2.top, tmp2.upperMid, tmp2.lowerMid,
-                                                                                     tmp2.bottom);
+    private FourColors                   progressBarIndeterminatePatternEnabled  = getButtonInteriorColors(ButtonType.ENABLED);
     private FourColors                   progressBarIndeterminatePatternDisabled = disable(progressBarIndeterminatePatternEnabled);
 
     private Effect                       dropShadow                              = new SeaGlassDropShadowEffect();
