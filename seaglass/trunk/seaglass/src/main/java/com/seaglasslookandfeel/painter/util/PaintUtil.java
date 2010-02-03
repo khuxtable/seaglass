@@ -20,10 +20,8 @@
 package com.seaglasslookandfeel.painter.util;
 
 import java.awt.Color;
-import java.awt.LinearGradientPaint;
 import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.UIManager;
 
@@ -47,58 +45,11 @@ public class PaintUtil {
     private static Color     outerToolBarFocus;
     private static Color     innerToolBarFocus;
 
-    private static TwoColors scrollBarCapColors;
-
-    private static TwoColors scrollBarButtonIncreaseApart;
-    private static TwoColors scrollBarButtonIncreaseTogether;
-    private static TwoColors scrollBarButtonIncreasePressed;
-
-    private static TwoColors scrollBarButtonDecreaseApart;
-    private static TwoColors scrollBarButtonDecreaseTogether;
-    private static TwoColors scrollBarButtonDecreasePressed;
-
-    private static Color     scrollBarButtonLine;
-    private static Color     scrollBarButtonLinePressed;
-    private static Color     scrollBarButtonArrow;
-    private static Color     scrollBarButtonArrowDisabled;
-
-    private static Color     scrollBarButtonDarkDivider;
-    private static Color     scrollBarButtonLightDivider;
-
     static {
         outerFocus = decodeColor("seaGlassOuterFocus");
         innerFocus = decodeColor("seaGlassFocus");
         outerToolBarFocus = decodeColor("seaGlassToolBarOuterFocus");
         innerToolBarFocus = decodeColor("seaGlassToolBarFocus");
-
-        Color scrollBarButtonBase = decodeColor("scrollBarButtonBase");
-        Color scrollBarButtonBasePressed = decodeColor("scrollBarButtonBasePressed");
-
-        // ------- Assign from base colors -------
-
-        scrollBarCapColors = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f, -0.266667f, 0));
-
-        Color scrollBarButtonTopPressed = deriveColor(scrollBarButtonBasePressed, 0.000737f, -0.105657f, 0.101961f, 0);
-        Color scrollBarButtonMiddlePressed = deriveColor(scrollBarButtonBasePressed, 0.001240f, -0.041156f, 0.035294f, 0);
-        Color scrollBarButtonBottomPressed = deriveColor(scrollBarButtonBasePressed, 0.000348f, 0.050949f, -0.039216f, 0);
-        Color scrollBarButtonLinePressedColor = deriveColor(scrollBarButtonBasePressed, -0.001400f, 0.110160f, -0.043137f, 0);
-
-        scrollBarButtonIncreaseApart = new TwoColors(deriveColor(scrollBarButtonBase, 0f, 0f, -0.180392f, 0), scrollBarButtonBase);
-        scrollBarButtonIncreaseTogether = new TwoColors(deriveColor(scrollBarButtonBase, 0f, 0f, -0.180392f, 0), deriveColor(
-            scrollBarButtonBase, 0f, 0f, -0.101961f, 0));
-        scrollBarButtonIncreasePressed = new TwoColors(scrollBarButtonMiddlePressed, scrollBarButtonBottomPressed);
-
-        scrollBarButtonDecreaseApart = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f, -0.2f, 0));
-        scrollBarButtonDecreaseTogether = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f, -0.086275f, 0));
-        scrollBarButtonDecreasePressed = new TwoColors(scrollBarButtonTopPressed, scrollBarButtonMiddlePressed);
-
-        scrollBarButtonLine = deriveColor(scrollBarButtonBase, 0f, 0f, -0.258824f, 0);
-        scrollBarButtonLinePressed = scrollBarButtonLinePressedColor;
-        scrollBarButtonArrow = deriveColor(scrollBarButtonBase, 0f, 0f, -0.666667f, 0);
-        scrollBarButtonArrowDisabled = disable(scrollBarButtonArrow);
-
-        scrollBarButtonDarkDivider = deriveColor(scrollBarButtonBase, 0f, 0f, -1f, -(int) (scrollBarButtonBase.getAlpha() * 0.87843137f));
-        scrollBarButtonLightDivider = deriveColor(scrollBarButtonBase, 0f, 0f, 0f, -(int) (scrollBarButtonBase.getAlpha() * 0.75294117647f));
     }
 
     public static Paint getFocusPaint(Shape s, FocusType focusType, boolean useToolBarFocus) {
@@ -107,83 +58,6 @@ public class PaintUtil {
         } else {
             return useToolBarFocus ? innerToolBarFocus : innerFocus;
         }
-    }
-
-    public static Paint getScrollBarButtonBackgroundPaint(Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
-        TwoColors colors = getScrollBarButtonBackgroundColors(type, isIncrease, buttonsTogether);
-        return createHorizontalGradient(s, colors);
-    }
-
-    public static Paint getScrollBarButtonLinePaint(ButtonType type) {
-        return getScrollBarButtonLineColor(type);
-    }
-
-    public static Paint getScrollBarButtonDividerPaint(boolean isIncrease) {
-        return isIncrease ? scrollBarButtonLightDivider : scrollBarButtonDarkDivider;
-    }
-
-    public static Paint getScrollBarButtonArrowPaint(Shape s, ButtonType type) {
-        return getScrollBarButtonArrowColor(type);
-    }
-
-    private static TwoColors getScrollBarButtonBackgroundColors(ButtonType type, boolean isIncrease, boolean buttonsTogether) {
-        if (type == ButtonType.SCROLL_CAP) {
-            return scrollBarCapColors;
-        } else if (type == ButtonType.PRESSED) {
-            return isIncrease ? scrollBarButtonIncreasePressed : scrollBarButtonDecreasePressed;
-        } else {
-            if (buttonsTogether) {
-                return isIncrease ? scrollBarButtonIncreaseTogether : scrollBarButtonDecreaseTogether;
-            } else {
-                return isIncrease ? scrollBarButtonIncreaseApart : scrollBarButtonDecreaseApart;
-            }
-        }
-    }
-
-    private static Color getScrollBarButtonLineColor(ButtonType type) {
-        if (type == ButtonType.PRESSED) {
-            return scrollBarButtonLinePressed;
-        } else {
-            return scrollBarButtonLine;
-        }
-    }
-
-    private static Color getScrollBarButtonArrowColor(ButtonType type) {
-        if (type == ButtonType.DISABLED) {
-            return scrollBarButtonArrowDisabled;
-        } else {
-            return scrollBarButtonArrow;
-        }
-    }
-
-    private static Paint createHorizontalGradient(Shape s, TwoColors colors) {
-        Rectangle2D bounds = s.getBounds2D();
-        float xMin = (float) bounds.getMinX();
-        float xMax = (float) bounds.getMaxX();
-        float yCenter = (float) bounds.getCenterY();
-        return createGradient(xMin, yCenter, xMax, yCenter, new float[] { 0f, 1f }, new Color[] { colors.top, colors.bottom });
-    }
-
-    /**
-     * Given parameters for creating a LinearGradientPaint, this method will
-     * create and return a linear gradient paint. One primary purpose for this
-     * method is to avoid creating a LinearGradientPaint where the start and end
-     * points are equal. In such a case, the end y point is slightly increased
-     * to avoid the overlap.
-     * 
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
-     * @param midpoints
-     * @param colors
-     * @return a valid LinearGradientPaint. This method never returns null.
-     */
-    private static final LinearGradientPaint createGradient(float x1, float y1, float x2, float y2, float[] midpoints, Color[] colors) {
-        if (x1 == x2 && y1 == y2) {
-            y2 += .00001f;
-        }
-        return new LinearGradientPaint(x1, y1, x2, y2, midpoints, colors);
     }
 
     /**

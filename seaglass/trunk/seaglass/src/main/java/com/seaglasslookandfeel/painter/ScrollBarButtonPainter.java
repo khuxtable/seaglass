@@ -21,6 +21,7 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
@@ -28,7 +29,6 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.DropShadowEffect;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
@@ -54,7 +54,40 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         FOREGROUND_CAP,
     }
 
-    private Effect       dropShadow = new ScrollButtonDropShadowEffect();
+    private Color        scrollBarButtonBase             = decodeColor("scrollBarButtonBase");
+    private Color        scrollBarButtonBasePressed      = decodeColor("scrollBarButtonBasePressed");
+
+    private TwoColors    scrollBarCapColors              = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f,
+                                                             -0.266667f, 0));
+
+    private Color        scrollBarButtonTopPressed       = deriveColor(scrollBarButtonBasePressed, 0.000737f, -0.105657f, 0.101961f, 0);
+    private Color        scrollBarButtonMiddlePressed    = deriveColor(scrollBarButtonBasePressed, 0.001240f, -0.041156f, 0.035294f, 0);
+    private Color        scrollBarButtonBottomPressed    = deriveColor(scrollBarButtonBasePressed, 0.000348f, 0.050949f, -0.039216f, 0);
+    private Color        scrollBarButtonLinePressedColor = deriveColor(scrollBarButtonBasePressed, -0.001400f, 0.110160f, -0.043137f, 0);
+
+    private TwoColors    scrollBarButtonIncreaseApart    = new TwoColors(deriveColor(scrollBarButtonBase, 0f, 0f, -0.180392f, 0),
+                                                             scrollBarButtonBase);
+    private TwoColors    scrollBarButtonIncreaseTogether = new TwoColors(deriveColor(scrollBarButtonBase, 0f, 0f, -0.180392f, 0),
+                                                             deriveColor(scrollBarButtonBase, 0f, 0f, -0.101961f, 0));
+    private TwoColors    scrollBarButtonIncreasePressed  = new TwoColors(scrollBarButtonMiddlePressed, scrollBarButtonBottomPressed);
+
+    private TwoColors    scrollBarButtonDecreaseApart    = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f,
+                                                             -0.2f, 0));
+    private TwoColors    scrollBarButtonDecreaseTogether = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f,
+                                                             -0.086275f, 0));
+    private TwoColors    scrollBarButtonDecreasePressed  = new TwoColors(scrollBarButtonTopPressed, scrollBarButtonMiddlePressed);
+
+    private Color        scrollBarButtonLine             = deriveColor(scrollBarButtonBase, 0f, 0f, -0.258824f, 0);
+    private Color        scrollBarButtonLinePressed      = scrollBarButtonLinePressedColor;
+    private Color        scrollBarButtonArrow            = deriveColor(scrollBarButtonBase, 0f, 0f, -0.666667f, 0);
+    private Color        scrollBarButtonArrowDisabled    = disable(scrollBarButtonArrow);
+
+    private Color        scrollBarButtonDarkDivider      = deriveColor(scrollBarButtonBase, 0f, 0f, -1f, -(int) (scrollBarButtonBase
+                                                             .getAlpha() * 0.87843137f));
+    private Color        scrollBarButtonLightDivider     = deriveColor(scrollBarButtonBase, 0f, 0f, 0f, -(int) (scrollBarButtonBase
+                                                             .getAlpha() * 0.75294117647f));
+
+    private Effect       dropShadow                      = new ScrollButtonDropShadowEffect();
 
     private Which        state;
     private PaintContext ctx;
@@ -199,16 +232,16 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     }
 
     private void fillScrollBarButtonInteriorColors(Graphics2D g, Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
-        g.setPaint(PaintUtil.getScrollBarButtonBackgroundPaint(s, type, isIncrease, buttonsTogether));
+        g.setPaint(getScrollBarButtonBackgroundPaint(s, type, isIncrease, buttonsTogether));
         g.fill(s);
 
         int width = s.getBounds().width;
-        g.setPaint(PaintUtil.getScrollBarButtonLinePaint(type));
+        g.setPaint(getScrollBarButtonLinePaint(type));
         g.drawLine(0, 0, width - 1, 0);
 
         if (type != ButtonType.SCROLL_CAP && buttonsTogether) {
             int height = s.getBounds().height;
-            g.setPaint(PaintUtil.getScrollBarButtonDividerPaint(isIncrease));
+            g.setPaint(getScrollBarButtonDividerPaint(isIncrease));
             g.drawLine(width - 1, 1, width - 1, height - 1);
         }
     }
@@ -231,8 +264,55 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
 
     private void paintArrowButton(Graphics2D g, double x, double y) {
         Shape s = ShapeUtil.createArrowLeft(x, y, 4, 6);
-        g.setPaint(PaintUtil.getScrollBarButtonArrowPaint(s, type));
+        g.setPaint(getScrollBarButtonArrowPaint(s, type));
         g.fill(s);
+    }
+
+    public Paint getScrollBarButtonBackgroundPaint(Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
+        TwoColors colors = getScrollBarButtonBackgroundColors(type, isIncrease, buttonsTogether);
+        return createHorizontalGradient(s, colors);
+    }
+
+    public Paint getScrollBarButtonLinePaint(ButtonType type) {
+        return getScrollBarButtonLineColor(type);
+    }
+
+    public Paint getScrollBarButtonDividerPaint(boolean isIncrease) {
+        return isIncrease ? scrollBarButtonLightDivider : scrollBarButtonDarkDivider;
+    }
+
+    public Paint getScrollBarButtonArrowPaint(Shape s, ButtonType type) {
+        return getScrollBarButtonArrowColor(type);
+    }
+
+    private TwoColors getScrollBarButtonBackgroundColors(ButtonType type, boolean isIncrease, boolean buttonsTogether) {
+        if (type == ButtonType.SCROLL_CAP) {
+            return scrollBarCapColors;
+        } else if (type == ButtonType.PRESSED) {
+            return isIncrease ? scrollBarButtonIncreasePressed : scrollBarButtonDecreasePressed;
+        } else {
+            if (buttonsTogether) {
+                return isIncrease ? scrollBarButtonIncreaseTogether : scrollBarButtonDecreaseTogether;
+            } else {
+                return isIncrease ? scrollBarButtonIncreaseApart : scrollBarButtonDecreaseApart;
+            }
+        }
+    }
+
+    private Color getScrollBarButtonLineColor(ButtonType type) {
+        if (type == ButtonType.PRESSED) {
+            return scrollBarButtonLinePressed;
+        } else {
+            return scrollBarButtonLine;
+        }
+    }
+
+    private Color getScrollBarButtonArrowColor(ButtonType type) {
+        if (type == ButtonType.DISABLED) {
+            return scrollBarButtonArrowDisabled;
+        } else {
+            return scrollBarButtonArrow;
+        }
     }
 
     /**
