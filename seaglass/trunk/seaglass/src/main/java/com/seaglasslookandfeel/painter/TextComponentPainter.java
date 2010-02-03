@@ -34,7 +34,7 @@ import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 /**
  * TextComponentPainter implementation.
  */
-public final class TextComponentPainter extends AbstractRegionPainter {
+public final class TextComponentPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_ENABLED,
@@ -137,7 +137,7 @@ public final class TextComponentPainter extends AbstractRegionPainter {
             internalShadow.fill(g, s, false, true);
         }
 
-        g.setPaint(PaintUtil.getTextComponentBorderPaint(type, !focused && useToolBarColors));
+        g.setPaint(getTextBorderPaint(type, !focused && useToolBarColors));
         g.drawRect(x, y, width - 1, height - 1);
     }
 }

@@ -35,7 +35,7 @@ import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 /**
  * TextComponentPainter implementation.
  */
-public final class SearchFieldPainter extends AbstractRegionPainter {
+public final class SearchFieldPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED, BORDER_DISABLED, BORDER_FOCUSED, BORDER_ENABLED,
     }
@@ -115,7 +115,7 @@ public final class SearchFieldPainter extends AbstractRegionPainter {
             internalShadow.fill(g, s, true, true);
         }
 
-        g.setPaint(PaintUtil.getTextComponentBorderPaint(type, !focused && useToolBarColors));
+        g.setPaint(getTextBorderPaint(type, !focused && useToolBarColors));
         s = ShapeUtil.createRoundRectangle(x, y, width - 1, height - 1, CornerSize.ROUND_HEIGHT_DRAW);
         g.draw(s);
     }
