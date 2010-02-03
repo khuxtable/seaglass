@@ -53,46 +53,47 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         FOREGROUND_CAP,
     }
 
-    private Color        scrollBarButtonBase             = decodeColor("scrollBarButtonBase");
-    private Color        scrollBarButtonBasePressed      = decodeColor("scrollBarButtonBasePressed");
+    private Color             scrollBarButtonBase             = decodeColor("scrollBarButtonBase");
+    private Color             scrollBarButtonBasePressed      = decodeColor("scrollBarButtonBasePressed");
 
-    private TwoColors    scrollBarCapColors              = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f,
-                                                             -0.266667f, 0));
+    private TwoColors         scrollBarCapColors              = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f,
+                                                                  -0.266667f, 0));
 
-    private Color        scrollBarButtonTopPressed       = deriveColor(scrollBarButtonBasePressed, 0.000737f, -0.105657f, 0.101961f, 0);
-    private Color        scrollBarButtonMiddlePressed    = deriveColor(scrollBarButtonBasePressed, 0.001240f, -0.041156f, 0.035294f, 0);
-    private Color        scrollBarButtonBottomPressed    = deriveColor(scrollBarButtonBasePressed, 0.000348f, 0.050949f, -0.039216f, 0);
-    private Color        scrollBarButtonLinePressedColor = deriveColor(scrollBarButtonBasePressed, -0.001400f, 0.110160f, -0.043137f, 0);
+    private Color             scrollBarButtonTopPressed       = deriveColor(scrollBarButtonBasePressed, 0.000737f, -0.105657f, 0.101961f, 0);
+    private Color             scrollBarButtonMiddlePressed    = deriveColor(scrollBarButtonBasePressed, 0.001240f, -0.041156f, 0.035294f, 0);
+    private Color             scrollBarButtonBottomPressed    = deriveColor(scrollBarButtonBasePressed, 0.000348f, 0.050949f, -0.039216f, 0);
+    private Color             scrollBarButtonLinePressedColor = deriveColor(scrollBarButtonBasePressed, -0.001400f, 0.110160f, -0.043137f,
+                                                                  0);
 
-    private TwoColors    scrollBarButtonIncreaseApart    = new TwoColors(deriveColor(scrollBarButtonBase, 0f, 0f, -0.180392f, 0),
-                                                             scrollBarButtonBase);
-    private TwoColors    scrollBarButtonIncreaseTogether = new TwoColors(deriveColor(scrollBarButtonBase, 0f, 0f, -0.180392f, 0),
-                                                             deriveColor(scrollBarButtonBase, 0f, 0f, -0.101961f, 0));
-    private TwoColors    scrollBarButtonIncreasePressed  = new TwoColors(scrollBarButtonMiddlePressed, scrollBarButtonBottomPressed);
+    private TwoColors         scrollBarButtonIncreaseApart    = new TwoColors(deriveColor(scrollBarButtonBase, 0f, 0f, -0.180392f, 0),
+                                                                  scrollBarButtonBase);
+    private TwoColors         scrollBarButtonIncreaseTogether = new TwoColors(deriveColor(scrollBarButtonBase, 0f, 0f, -0.180392f, 0),
+                                                                  deriveColor(scrollBarButtonBase, 0f, 0f, -0.101961f, 0));
+    private TwoColors         scrollBarButtonIncreasePressed  = new TwoColors(scrollBarButtonMiddlePressed, scrollBarButtonBottomPressed);
 
-    private TwoColors    scrollBarButtonDecreaseApart    = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f,
-                                                             -0.2f, 0));
-    private TwoColors    scrollBarButtonDecreaseTogether = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f,
-                                                             -0.086275f, 0));
-    private TwoColors    scrollBarButtonDecreasePressed  = new TwoColors(scrollBarButtonTopPressed, scrollBarButtonMiddlePressed);
+    private TwoColors         scrollBarButtonDecreaseApart    = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f,
+                                                                  -0.2f, 0));
+    private TwoColors         scrollBarButtonDecreaseTogether = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f,
+                                                                  -0.086275f, 0));
+    private TwoColors         scrollBarButtonDecreasePressed  = new TwoColors(scrollBarButtonTopPressed, scrollBarButtonMiddlePressed);
 
-    private Color        scrollBarButtonLine             = deriveColor(scrollBarButtonBase, 0f, 0f, -0.258824f, 0);
-    private Color        scrollBarButtonLinePressed      = scrollBarButtonLinePressedColor;
-    private Color        scrollBarButtonArrow            = deriveColor(scrollBarButtonBase, 0f, 0f, -0.666667f, 0);
-    private Color        scrollBarButtonArrowDisabled    = disable(scrollBarButtonArrow);
+    private Color             scrollBarButtonLine             = deriveColor(scrollBarButtonBase, 0f, 0f, -0.258824f, 0);
+    private Color             scrollBarButtonLinePressed      = scrollBarButtonLinePressedColor;
+    private Color             scrollBarButtonArrow            = deriveColor(scrollBarButtonBase, 0f, 0f, -0.666667f, 0);
+    private Color             scrollBarButtonArrowDisabled    = disable(scrollBarButtonArrow);
 
-    private Color        scrollBarButtonDarkDivider      = deriveColor(scrollBarButtonBase, 0f, 0f, -1f, -(int) (scrollBarButtonBase
-                                                             .getAlpha() * 0.87843137f));
-    private Color        scrollBarButtonLightDivider     = deriveColor(scrollBarButtonBase, 0f, 0f, 0f, -(int) (scrollBarButtonBase
-                                                             .getAlpha() * 0.75294117647f));
+    private Color             scrollBarButtonDarkDivider      = deriveColor(scrollBarButtonBase, 0f, 0f, -1f, -(int) (scrollBarButtonBase
+                                                                  .getAlpha() * 0.87843137f));
+    private Color             scrollBarButtonLightDivider     = deriveColor(scrollBarButtonBase, 0f, 0f, 0f, -(int) (scrollBarButtonBase
+                                                                  .getAlpha() * 0.75294117647f));
 
-    private Effect       dropShadow                      = new ScrollButtonDropShadowEffect();
+    private Effect            dropShadow                      = new ScrollButtonDropShadowEffect();
 
-    private Which        state;
-    private PaintContext ctx;
-    private CommonControlType   type;
-    private boolean      isIncrease;
-    private boolean      buttonsTogether;
+    private Which             state;
+    private PaintContext      ctx;
+    private CommonControlType type;
+    private boolean           isIncrease;
+    private boolean           buttonsTogether;
 
     public ScrollBarButtonPainter(Which state) {
         super();
@@ -161,7 +162,8 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
             buttonsTogether = true;
             break;
         case FOREGROUND_CAP:
-            type = CommonControlType.SCROLL_CAP;
+            // The type isn't used in this case, but assign it anyway.
+            type = CommonControlType.ENABLED;
             isIncrease = false;
             buttonsTogether = true;
             break;
@@ -230,7 +232,8 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         fillScrollBarButtonInteriorColors(g, s, type, isIncrease, buttonsTogether);
     }
 
-    private void fillScrollBarButtonInteriorColors(Graphics2D g, Shape s, CommonControlType type, boolean isIncrease, boolean buttonsTogether) {
+    private void fillScrollBarButtonInteriorColors(Graphics2D g, Shape s, CommonControlType type, boolean isIncrease,
+        boolean buttonsTogether) {
         g.setPaint(getScrollBarButtonBackgroundPaint(s, type, isIncrease, buttonsTogether));
         g.fill(s);
 
@@ -238,7 +241,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         g.setPaint(getScrollBarButtonLinePaint(type));
         g.drawLine(0, 0, width - 1, 0);
 
-        if (type != CommonControlType.SCROLL_CAP && buttonsTogether) {
+        if (state != Which.FOREGROUND_CAP && buttonsTogether) {
             int height = s.getBounds().height;
             g.setPaint(getScrollBarButtonDividerPaint(isIncrease));
             g.drawLine(width - 1, 1, width - 1, height - 1);
@@ -285,7 +288,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     }
 
     private TwoColors getScrollBarButtonBackgroundColors(CommonControlType type, boolean isIncrease, boolean buttonsTogether) {
-        if (type == CommonControlType.SCROLL_CAP) {
+        if (state == Which.FOREGROUND_CAP) {
             return scrollBarCapColors;
         } else if (type == CommonControlType.PRESSED) {
             return isIncrease ? scrollBarButtonIncreasePressed : scrollBarButtonDecreasePressed;
