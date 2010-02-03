@@ -19,13 +19,14 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
@@ -38,6 +39,16 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
+    private Color        sliderTrackBorderBase       = decodeColor("sliderTrackBorderBase");
+    private Color        sliderTrackInteriorBase     = decodeColor("sliderTrackInteriorBase");
+
+    private TwoColors    sliderTrackBorderEnabled    = new TwoColors(deriveColor(sliderTrackBorderBase, 0f, 0f, -0.149020f, 0),
+                                                         deriveColor(sliderTrackBorderBase, 0f, 0f, 0.145098f, 0));
+    private TwoColors    sliderTrackInteriorEnabled  = new TwoColors(deriveColor(sliderTrackInteriorBase, 0f, 0f, -0.078431f, 0),
+                                                         deriveColor(sliderTrackInteriorBase, 0f, 0f, 0.074510f, 0));
+    private TwoColors    sliderTrackInteriorDisabled = disable(sliderTrackInteriorEnabled);
+    private TwoColors    sliderTrackBorderDisabled   = desaturate(sliderTrackBorderEnabled);
+
     private PaintContext ctx;
     private ButtonType   type;
 
@@ -49,10 +60,10 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
-        g.setPaint(PaintUtil.getSliderTrackBorderPaint(s, type));
+        g.setPaint(getSliderTrackBorderPaint(s, type));
         g.fill(s);
         s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
-        g.setPaint(PaintUtil.getSliderTrackInteriorPaint(s, type));
+        g.setPaint(getSliderTrackInteriorPaint(s, type));
         g.fill(s);
     }
 
@@ -66,6 +77,36 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
             return ButtonType.DISABLED;
         case BACKGROUND_ENABLED:
             return ButtonType.ENABLED;
+        }
+        return null;
+    }
+
+    public Paint getSliderTrackBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSliderTrackBorderColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    public Paint getSliderTrackInteriorPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSliderTrackInteriorColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    private TwoColors getSliderTrackBorderColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return sliderTrackBorderDisabled;
+        case ENABLED:
+            return sliderTrackBorderEnabled;
+        }
+        return null;
+    }
+
+    private TwoColors getSliderTrackInteriorColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return sliderTrackInteriorDisabled;
+        case ENABLED:
+            return sliderTrackInteriorEnabled;
         }
         return null;
     }

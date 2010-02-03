@@ -125,12 +125,6 @@ public class PaintUtil {
     private static Color      scrollBarButtonDarkDivider;
     private static Color      scrollBarButtonLightDivider;
 
-    private static TwoColors  sliderTrackBorderDisabled;
-    private static TwoColors  sliderTrackInteriorDisabled;
-
-    private static TwoColors  sliderTrackBorderEnabled;
-    private static TwoColors  sliderTrackInteriorEnabled;
-
     private static TwoColors  spinnerNextBorderDisabled;
     private static TwoColors  spinnerNextBorderEnabled;
     private static TwoColors  spinnerNextBorderPressed;
@@ -208,9 +202,6 @@ public class PaintUtil {
 
         Color scrollBarButtonBase = decodeColor("scrollBarButtonBase");
         Color scrollBarButtonBasePressed = decodeColor("scrollBarButtonBasePressed");
-
-        Color sliderTrackBorderBase = decodeColor("sliderTrackBorderBase");
-        Color sliderTrackInteriorBase = decodeColor("sliderTrackInteriorBase");
 
         Color spinnerNextBorderBottomEnabled = decodeColor("spinnerNextBorderBottomEnabled");
         Color spinnerNextBorderBottomPressed = decodeColor("spinnerNextBorderBottomPressed");
@@ -377,14 +368,6 @@ public class PaintUtil {
 
         scrollBarButtonDarkDivider = deriveColor(scrollBarButtonBase, 0f, 0f, -1f, -(int) (scrollBarButtonBase.getAlpha() * 0.87843137f));
         scrollBarButtonLightDivider = deriveColor(scrollBarButtonBase, 0f, 0f, 0f, -(int) (scrollBarButtonBase.getAlpha() * 0.75294117647f));
-
-        sliderTrackBorderEnabled = new TwoColors(deriveColor(sliderTrackBorderBase, 0f, 0f, -0.149020f, 0), deriveColor(
-            sliderTrackBorderBase, 0f, 0f, 0.145098f, 0));
-        sliderTrackBorderDisabled = desaturate(sliderTrackBorderEnabled);
-
-        sliderTrackInteriorEnabled = new TwoColors(deriveColor(sliderTrackInteriorBase, 0f, 0f, -0.078431f, 0), deriveColor(
-            sliderTrackInteriorBase, 0f, 0f, 0.074510f, 0));
-        sliderTrackInteriorDisabled = disable(sliderTrackInteriorEnabled);
 
         spinnerNextBorderEnabled = new TwoColors(buttonBorderTopPressed, spinnerNextBorderBottomEnabled);
         spinnerNextBorderPressed = new TwoColors(buttonBorderTopPressed, spinnerNextBorderBottomPressed);
@@ -556,11 +539,6 @@ public class PaintUtil {
         return createVerticalGradient(s, colors);
     }
 
-    public static Paint getSliderTrackBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getSliderTrackBorderColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
     public static Paint getSpinnerPrevTopLinePaint(Shape s, ButtonType type) {
         return getSpinnerPrevTopLineColors(type);
     }
@@ -582,11 +560,6 @@ public class PaintUtil {
 
     public static Paint getSpinnerArrowPaint(Shape s, ButtonType type) {
         return getSpinnerArrowColors(type);
-    }
-
-    public static Paint getSliderTrackInteriorPaint(Shape s, ButtonType type) {
-        TwoColors colors = getSliderTrackInteriorColors(type);
-        return createVerticalGradient(s, colors);
     }
 
     public static Paint getScrollBarButtonBackgroundPaint(Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
@@ -842,26 +815,6 @@ public class PaintUtil {
             return comboBoxBackgroundInteriorEnabled;
         case PRESSED:
             return comboBoxBackgroundInteriorPressed;
-        }
-        return null;
-    }
-
-    private static TwoColors getSliderTrackBorderColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return sliderTrackBorderDisabled;
-        case ENABLED:
-            return sliderTrackBorderEnabled;
-        }
-        return null;
-    }
-
-    private static TwoColors getSliderTrackInteriorColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return sliderTrackInteriorDisabled;
-        case ENABLED:
-            return sliderTrackInteriorEnabled;
         }
         return null;
     }
