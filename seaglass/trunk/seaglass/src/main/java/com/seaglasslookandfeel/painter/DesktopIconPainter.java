@@ -60,14 +60,14 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRoundRectangle(2, 0, width - 3, height - 2, CornerSize.FRAME_BORDER);
-        getFrameBorderPaint(s, CommonControlType.INACTIVE);
+        getFrameBorderPaint(s, CommonControlType.DISABLED);
 
         s = ShapeUtil.createRoundRectangle(3, 1, width - 5, height - 4, CornerSize.FRAME_INNER_HIGHLIGHT);
-        g.setPaint(getFrameInnerHighlightPaint(s, CommonControlType.INACTIVE));
+        g.setPaint(getFrameInnerHighlightPaint(s, CommonControlType.DISABLED));
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(4, 2, width - 7, height - 6, CornerSize.FRAME_INTERIOR);
-        g.setPaint(getRootPaneInteriorPaint(s, CommonControlType.INACTIVE));
+        g.setPaint(getRootPaneInteriorPaint(s, CommonControlType.DISABLED));
         g.fill(s);
     }
 
@@ -77,9 +77,9 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
 
     private Color getFrameBorderColors(CommonControlType type) {
         switch (type) {
-        case INACTIVE:
+        case DISABLED:
             return frameBorderInactive;
-        case ACTIVE:
+        case ENABLED:
             return frameBorderActive;
         }
         return null;
@@ -91,9 +91,9 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
 
     private Color getFrameInnerHighlightColors(CommonControlType type) {
         switch (type) {
-        case INACTIVE:
+        case DISABLED:
             return frameInnerHighlightInactive;
-        case ACTIVE:
+        case ENABLED:
             return frameInnerHighlightActive;
         }
         return null;
@@ -105,9 +105,9 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
 
     private TwoColors getRootPaneInteriorColors(CommonControlType type) {
         switch (type) {
-        case ACTIVE:
+        case ENABLED:
             return rootPaneActive;
-        case INACTIVE:
+        case DISABLED:
             return rootPaneInactive;
         }
         return null;

@@ -77,7 +77,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     private static final State toolBarSouthState           = new ToolBarSouthState();
 
     private PaintContext       ctx;
-    private CommonControlType         type;
+    private CommonControlType  type;
 
     public FrameAndRootPainter(Which state) {
         super();
@@ -96,9 +96,9 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_ENABLED:
-            return CommonControlType.INACTIVE;
+            return CommonControlType.DISABLED;
         case BACKGROUND_ENABLED_WINDOWFOCUSED:
-            return CommonControlType.ACTIVE;
+            return CommonControlType.ENABLED;
         }
         return null;
     }
@@ -152,9 +152,9 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
 
     private Color getFrameBorderColors(CommonControlType type) {
         switch (type) {
-        case INACTIVE:
+        case DISABLED:
             return frameBorderInactive;
-        case ACTIVE:
+        case ENABLED:
             return frameBorderActive;
         }
         return null;
@@ -166,9 +166,9 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
 
     private FourColors getFrameInteriorColors(CommonControlType type) {
         switch (type) {
-        case INACTIVE:
+        case DISABLED:
             return frameInactive;
-        case ACTIVE:
+        case ENABLED:
             return frameActive;
         }
         return null;
@@ -181,9 +181,9 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
 
     private Color getFrameInnerHighlightColors(CommonControlType type) {
         switch (type) {
-        case INACTIVE:
+        case DISABLED:
             return frameInnerHighlightInactive;
-        case ACTIVE:
+        case ENABLED:
             return frameInnerHighlightActive;
         }
         return null;
