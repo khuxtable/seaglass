@@ -20,12 +20,12 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
@@ -36,6 +36,11 @@ public class ContentPanePainter extends AbstractRegionPainter {
     public static enum Which {
         BACKGROUND_ENABLED, BACKGROUND_ENABLED_WINDOWFOCUSED,
     };
+
+    private TwoColors    rootPaneActive   = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"),
+                                              decodeColor("seaGlassToolBarActiveBottomB"));
+    private TwoColors    rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"),
+                                              decodeColor("seaGlassToolBarInactiveBottomB"));
 
     private PaintContext ctx;
 
@@ -50,7 +55,7 @@ public class ContentPanePainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        g.setPaint(PaintUtil.getRootPaneInteriorPaint(s, type));
+        g.setPaint(getRootPaneInteriorPaint(s, type));
         g.fill(s);
     }
 
@@ -66,5 +71,20 @@ public class ContentPanePainter extends AbstractRegionPainter {
             return ButtonType.ACTIVE;
         }
         return null;
+    }
+
+    private TwoColors getRootPaneInteriorColors(ButtonType type) {
+        switch (type) {
+        case ACTIVE:
+            return rootPaneActive;
+        case INACTIVE:
+            return rootPaneInactive;
+        }
+        return null;
+    }
+
+    public Paint getRootPaneInteriorPaint(Shape s, ButtonType type) {
+        TwoColors colors = getRootPaneInteriorColors(type);
+        return createVerticalGradient(s, colors);
     }
 }
