@@ -104,33 +104,33 @@ public final class ScrollBarThumbPainter extends AbstractCommonColorsPainter {
     }
 
     public Paint getScrollBarThumbBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getButtonBorderColors(type);
+        TwoColors colors = getCommonBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
     public Paint getScrollBarThumbInteriorPaint(Shape s, ButtonType type) {
-        FourColors colors = getButtonInteriorColors(type);
+        FourColors colors = getCommonInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public TwoColors getButtonBorderColors(ButtonType type) {
+    public TwoColors getCommonBorderColors(ButtonType type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
         case ENABLED:
-            return super.getButtonBorderColors(type);
+            return super.getCommonBorderColors(type);
         case PRESSED:
             return scrollBarThumbBorderPressed;
         }
         return null;
     }
 
-    public FourColors getButtonInteriorColors(ButtonType type) {
+    public FourColors getCommonInteriorColors(ButtonType type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
         case ENABLED:
-            return super.getButtonInteriorColors(type);
+            return super.getCommonInteriorColors(type);
         case PRESSED:
             return scrollBarThumbInteriorPressed;
         }

@@ -120,11 +120,11 @@ public final class RadioButtonPainter extends AbstractCommonColorsPainter {
         if (!focused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(getButtonBorderPaint(s, type));
+        g.setPaint(getCommonBorderPaint(s, type));
         g.fill(s);
 
         s = createBasicShape(width - 6, width, height);
-        g.setPaint(getButtonInteriorPaint(s, type));
+        g.setPaint(getCommonInteriorPaint(s, type));
         g.fill(s);
 
         if (selected) {

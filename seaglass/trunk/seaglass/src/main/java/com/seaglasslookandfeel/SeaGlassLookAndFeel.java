@@ -633,6 +633,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         d.put("buttonBulletBottomEnabled", Color.BLACK);
 
+        d.put("buttonArrow", Color.BLACK);
+
         String c = PAINTER_PREFIX + "ButtonPainter";
 
         // Initialize Button
@@ -1337,8 +1339,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         d.put("spinnerPrevTopLineEnabled", new Color(0xacc8e0));
         d.put("spinnerPrevTopLinePressed", new Color(0x9eb6cf));
-
-        d.put("spinnerArrow", Color.BLACK);
 
         d.put("Spinner.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("Spinner:\"Spinner.editor\".contentMargins", new InsetsUIResource(0, 0, 0, 0));

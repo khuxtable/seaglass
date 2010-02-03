@@ -73,11 +73,11 @@ public class ToolBarHandlePainter extends AbstractCommonColorsPainter {
 
     private void paintNonMacHandleIcon(Graphics2D g, int width, int height) {
         Shape s = decodeNonMacHandleBorder(width, height);
-        g.setPaint(getButtonBorderPaint(s, ButtonType.ENABLED));
+        g.setPaint(getCommonBorderPaint(s, ButtonType.ENABLED));
         g.fill(s);
 
         s = decodeNonMacHandleInside(width, height);
-        g.setPaint(getButtonInteriorPaint(s, ButtonType.ENABLED));
+        g.setPaint(getCommonInteriorPaint(s, ButtonType.ENABLED));
         g.fill(s);
     }
 

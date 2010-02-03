@@ -63,10 +63,10 @@ public final class ProgressBarPainter extends AbstractCommonColorsPainter {
                                                                                      0.274445f, -0.074510f, 0);
     private Color                        progressBarEndDisabled                  = disable(progressBarEndEnabled);
 
-    private FourColors                   progressBarEnabled                      = getButtonInteriorColors(ButtonType.SELECTED);
+    private FourColors                   progressBarEnabled                      = getCommonInteriorColors(ButtonType.SELECTED);
     private FourColors                   progressBarDisabled                     = disable(progressBarEnabled);
 
-    private FourColors                   progressBarIndeterminatePatternEnabled  = getButtonInteriorColors(ButtonType.ENABLED);
+    private FourColors                   progressBarIndeterminatePatternEnabled  = getCommonInteriorColors(ButtonType.ENABLED);
     private FourColors                   progressBarIndeterminatePatternDisabled = disable(progressBarIndeterminatePatternEnabled);
 
     private Effect                       dropShadow                              = new SeaGlassDropShadowEffect();

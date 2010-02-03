@@ -153,11 +153,11 @@ public final class SliderThumbPainter extends AbstractCommonColorsPainter {
         if (!isFocused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(getButtonBorderPaint(s, type));
+        g.setPaint(getCommonBorderPaint(s, type));
         g.fill(s);
 
         s = ShapeUtil.createSliderThumbDiscrete(3, 3, width - 6, height - 6, CornerSize.SLIDER_INTERIOR);
-        g.setPaint(getButtonInteriorPaint(s, type));
+        g.setPaint(getCommonInteriorPaint(s, type));
         g.fill(s);
     }
 
@@ -177,11 +177,11 @@ public final class SliderThumbPainter extends AbstractCommonColorsPainter {
         if (!isFocused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(getButtonBorderPaint(s, type));
+        g.setPaint(getCommonBorderPaint(s, type));
         g.fill(s);
 
         s = ShapeUtil.createSliderThumbContinuous(3, 4, width - 6);
-        g.setPaint(getButtonInteriorPaint(s, type));
+        g.setPaint(getCommonInteriorPaint(s, type));
         g.fill(s);
     }
 }
