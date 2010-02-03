@@ -36,14 +36,14 @@ public class ContentPanePainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED, BACKGROUND_ENABLED_WINDOWFOCUSED,
     };
 
-    private TwoColors    rootPaneActive   = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"),
-                                              decodeColor("seaGlassToolBarActiveBottomB"));
-    private TwoColors    rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"),
-                                              decodeColor("seaGlassToolBarInactiveBottomB"));
+    private TwoColors         rootPaneActive   = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"),
+                                                   decodeColor("seaGlassToolBarActiveBottomB"));
+    private TwoColors         rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"),
+                                                   decodeColor("seaGlassToolBarInactiveBottomB"));
 
-    private PaintContext ctx;
+    private PaintContext      ctx;
 
-    private CommonControlType   type;
+    private CommonControlType type;
 
     public ContentPanePainter(Which state) {
         super();
@@ -65,18 +65,18 @@ public class ContentPanePainter extends AbstractRegionPainter {
     private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_ENABLED:
-            return CommonControlType.INACTIVE;
+            return CommonControlType.DISABLED;
         case BACKGROUND_ENABLED_WINDOWFOCUSED:
-            return CommonControlType.ACTIVE;
+            return CommonControlType.ENABLED;
         }
         return null;
     }
 
     private TwoColors getRootPaneInteriorColors(CommonControlType type) {
         switch (type) {
-        case ACTIVE:
+        case ENABLED:
             return rootPaneActive;
-        case INACTIVE:
+        case DISABLED:
             return rootPaneInactive;
         }
         return null;

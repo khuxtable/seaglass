@@ -524,7 +524,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     }
 
     public enum CommonControlType {
-        ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED, SELECTED, PRESSED_SELECTED, ACTIVE, INACTIVE,
+        ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED, SELECTED, PRESSED_SELECTED,
     }
 
     public enum FocusType {
