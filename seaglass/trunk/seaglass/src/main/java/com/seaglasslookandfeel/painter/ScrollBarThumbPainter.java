@@ -19,14 +19,15 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
@@ -34,10 +35,33 @@ import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 /**
  * ScrollBarThumbPainter implementation.
  */
-public final class ScrollBarThumbPainter extends AbstractRegionPainter {
+public final class ScrollBarThumbPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_PRESSED,
     }
+
+    private Color        scrollBarThumbBorderBasePressed       = decodeColor("scrollBarThumbBorderBasePressed");
+    private Color        scrollBarThumbInteriorBasePressed     = decodeColor("scrollBarThumbInteriorBasePressed");
+
+    private Color        scrollBarThumbBorderTopPressed        = deriveColor(scrollBarThumbBorderBasePressed, -0.002239f, 0.041885f, 0f, 0);
+    private Color        scrollBarThumbBorderBottomPressed     = deriveColor(scrollBarThumbBorderBasePressed, 0.003151f, -0.036649f, 0f, 0);
+
+    private TwoColors    scrollBarThumbBorderPressed           = new TwoColors(scrollBarThumbBorderTopPressed,
+                                                                   scrollBarThumbBorderBottomPressed);
+
+    private Color        scrollBarThumbInteriorTopPressed      = deriveColor(scrollBarThumbInteriorBasePressed, -0.014978f, -0.078885f,
+                                                                   0.168627f, 0);
+    private Color        scrollBarThumbInteriorUpperMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000565f, 0.041623f,
+                                                                   0.015686f, 0);
+    private Color        scrollBarThumbInteriorLowerMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000356f, 0.025917f,
+                                                                   0.007843f, 0);
+    private Color        scrollBarThumbInteriorBottomPressed   = deriveColor(scrollBarThumbInteriorBasePressed, 0f, -0.195001f, 0.082353f,
+                                                                   0);
+
+    private FourColors   scrollBarThumbInteriorPressed         = new FourColors(scrollBarThumbInteriorTopPressed,
+                                                                   scrollBarThumbInteriorUpperMidPressed,
+                                                                   scrollBarThumbInteriorLowerMidPressed,
+                                                                   scrollBarThumbInteriorBottomPressed);
 
     private PaintContext ctx;
     private ButtonType   type;
@@ -54,11 +78,11 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
-        g.setPaint(PaintUtil.getScrollBarThumbBorderPaint(s, type));
+        g.setPaint(getScrollBarThumbBorderPaint(s, type));
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
-        g.setPaint(PaintUtil.getScrollBarThumbInteriorPaint(s, type));
+        g.setPaint(getScrollBarThumbInteriorPaint(s, type));
         g.fill(s);
     }
 
@@ -75,6 +99,40 @@ public final class ScrollBarThumbPainter extends AbstractRegionPainter {
             return ButtonType.ENABLED;
         case BACKGROUND_PRESSED:
             return ButtonType.PRESSED;
+        }
+        return null;
+    }
+
+    public Paint getScrollBarThumbBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getButtonBorderColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    public Paint getScrollBarThumbInteriorPaint(Shape s, ButtonType type) {
+        FourColors colors = getButtonInteriorColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    public TwoColors getButtonBorderColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+        case DISABLED_SELECTED:
+        case ENABLED:
+            return super.getButtonBorderColors(type);
+        case PRESSED:
+            return scrollBarThumbBorderPressed;
+        }
+        return null;
+    }
+
+    public FourColors getButtonInteriorColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+        case DISABLED_SELECTED:
+        case ENABLED:
+            return super.getButtonInteriorColors(type);
+        case PRESSED:
+            return scrollBarThumbInteriorPressed;
         }
         return null;
     }

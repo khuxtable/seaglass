@@ -47,61 +47,6 @@ public class PaintUtil {
     private static Color      outerToolBarFocus;
     private static Color      innerToolBarFocus;
 
-    private static TwoColors  buttonBorderEnabled;
-    private static TwoColors  buttonBorderPressed;
-    private static TwoColors  buttonBorderDefault;
-    private static TwoColors  buttonBorderDefaultPressed;
-    private static TwoColors  buttonBorderSelected;
-    private static TwoColors  buttonBorderPressedSelected;
-    private static TwoColors  buttonBorderDisabled;
-    private static TwoColors  buttonBorderDisabledSelected;
-
-    private static FourColors buttonInteriorEnabled;
-    private static FourColors buttonInteriorPressed;
-    private static FourColors buttonInteriorDefault;
-    private static FourColors buttonInteriorDefaultPressed;
-    private static FourColors buttonInteriorSelected;
-    private static FourColors buttonInteriorPressedSelected;
-    private static FourColors buttonInteriorDisabled;
-    private static FourColors buttonInteriorDisabledSelected;
-
-    private static TwoColors  texturedButtonBorderEnabled;
-    private static TwoColors  texturedButtonBorderPressed;
-    private static TwoColors  texturedButtonBorderDefault;
-    private static TwoColors  texturedButtonBorderDefaultPressed;
-    private static TwoColors  texturedButtonBorderSelected;
-    private static TwoColors  texturedButtonBorderPressedSelected;
-    private static TwoColors  texturedButtonBorderDisabled;
-    private static TwoColors  texturedButtonBorderDisabledSelected;
-
-    private static TwoColors  texturedButtonInteriorEnabled;
-    private static TwoColors  texturedButtonInteriorPressed;
-    private static TwoColors  texturedButtonInteriorDefault;
-    private static TwoColors  texturedButtonInteriorDefaultPressed;
-    private static TwoColors  texturedButtonInteriorSelected;
-    private static TwoColors  texturedButtonInteriorPressedSelected;
-    private static TwoColors  texturedButtonInteriorDisabled;
-    private static TwoColors  texturedButtonInteriorDisabledSelected;
-
-    private static TwoColors  scrollBarThumbBorderPressed;
-    private static FourColors scrollBarThumbInteriorPressed;
-
-    private static TwoColors  comboBoxButtonBorderDisabled;
-    private static TwoColors  comboBoxButtonBorderEnabled;
-    private static TwoColors  comboBoxButtonBorderPressed;
-
-    private static FourColors comboBoxButtonInteriorDisabled;
-    private static FourColors comboBoxButtonInteriorEnabled;
-    private static FourColors comboBoxButtonInteriorPressed;
-
-    private static TwoColors  comboBoxBackgroundBorderDisabled;
-    private static TwoColors  comboBoxBackgroundBorderEnabled;
-    private static TwoColors  comboBoxBackgroundBorderPressed;
-
-    private static FourColors comboBoxBackgroundInteriorDisabled;
-    private static FourColors comboBoxBackgroundInteriorEnabled;
-    private static FourColors comboBoxBackgroundInteriorPressed;
-
     private static TwoColors  scrollBarCapColors;
 
     private static TwoColors  scrollBarButtonIncreaseApart;
@@ -120,26 +65,6 @@ public class PaintUtil {
     private static Color      scrollBarButtonDarkDivider;
     private static Color      scrollBarButtonLightDivider;
 
-    private static TwoColors  spinnerNextBorderDisabled;
-    private static TwoColors  spinnerNextBorderEnabled;
-    private static TwoColors  spinnerNextBorderPressed;
-
-    private static TwoColors  spinnerNextInteriorDisabled;
-    private static TwoColors  spinnerNextInteriorEnabled;
-    private static TwoColors  spinnerNextInteriorPressed;
-
-    private static TwoColors  spinnerPrevBorderDisabled;
-    private static TwoColors  spinnerPrevBorderEnabled;
-    private static TwoColors  spinnerPrevBorderPressed;
-
-    private static TwoColors  spinnerPrevInteriorDisabled;
-    private static TwoColors  spinnerPrevInteriorEnabled;
-    private static TwoColors  spinnerPrevInteriorPressed;
-
-    private static Color      spinnerPrevTopLineDisabled;
-    private static Color      spinnerPrevTopLineEnabled;
-    private static Color      spinnerPrevTopLinePressed;
-
     private static Color      spinnerArrowDisabled;
     private static Color      spinnerArrowEnabled;
 
@@ -152,20 +77,7 @@ public class PaintUtil {
     private static Color      textComponentBorderEnabled;
     private static Color      textComponentBorderEnabledToolbar;
 
-    private static Color      tableHeaderBorderEnabled;
-    private static Color      tableHeaderBorderDisabled;
-
     private static Color      tableHeaderSortIndicator;
-
-    private static FourColors tableHeaderDisabled;
-    private static FourColors tableHeaderEnabled;
-    private static FourColors tableHeaderSorted;
-    private static FourColors tableHeaderPressed;
-    private static FourColors tableHeaderDisabledSorted;
-
-    private static Color      toolbarHandleMac;
-    private static TwoColors  toolbarHandleBorder;
-    private static FourColors toolbarHandleInterior;
 
     static {
         outerFocus = decodeColor("seaGlassOuterFocus");
@@ -173,41 +85,8 @@ public class PaintUtil {
         outerToolBarFocus = decodeColor("seaGlassToolBarOuterFocus");
         innerToolBarFocus = decodeColor("seaGlassToolBarFocus");
 
-        Color buttonBorderBaseEnabled = decodeColor("buttonBorderBaseEnabled");
-        Color buttonBorderBasePressed = decodeColor("buttonBorderBasePressed");
-
-        Color buttonInteriorBaseEnabled = decodeColor("buttonInteriorBaseEnabled");
-        Color buttonInteriorBasePressed = decodeColor("buttonInteriorBasePressed");
-        Color buttonInteriorBaseSelected = decodeColor("buttonInteriorBaseSelected");
-        Color buttonInteriorBasePressedSelected = decodeColor("buttonInteriorBasePressedSelected");
-
-        Color texturedButtonBorderBaseEnabled = decodeColor("texturedButtonBorderBaseEnabled");
-
-        Color texturedButtonInteriorBaseEnabled = decodeColor("texturedButtonInteriorBaseEnabled");
-        Color texturedButtonInteriorBasePressed = decodeColor("texturedButtonInteriorBasePressed");
-        Color texturedButtonInteriorBaseSelected = decodeColor("texturedButtonInteriorBaseSelected");
-        Color texturedButtonInteriorBasePressedSelected = decodeColor("texturedButtonInteriorBasePressedSelected");
-
-        Color scrollBarThumbBorderBasePressed = decodeColor("scrollBarThumbBorderBasePressed");
-        Color scrollBarThumbInteriorBasePressed = decodeColor("scrollBarThumbInteriorBasePressed");
-
         Color scrollBarButtonBase = decodeColor("scrollBarButtonBase");
         Color scrollBarButtonBasePressed = decodeColor("scrollBarButtonBasePressed");
-
-        Color spinnerNextBorderBottomEnabled = decodeColor("spinnerNextBorderBottomEnabled");
-        Color spinnerNextBorderBottomPressed = decodeColor("spinnerNextBorderBottomPressed");
-        Color spinnerNextInteriorBottomEnabled = decodeColor("spinnerNextInteriorBottomEnabled");
-        Color spinnerNextInteriorBottomPressed = decodeColor("spinnerNextInteriorBottomPressed");
-
-        Color spinnerPrevBorderTopEnabled = decodeColor("spinnerPrevBorderTopEnabled");
-
-        Color spinnerPrevInteriorTopEnabled = decodeColor("spinnerPrevInteriorTopEnabled");
-        Color spinnerPrevInteriorBottomEnabled = decodeColor("spinnerPrevInteriorBottomEnabled");
-        Color spinnerPrevInteriorPressedTop = decodeColor("spinnerPrevInteriorPressedTop");
-        Color spinnerPrevInteriorPressedBottom = decodeColor("spinnerPrevInteriorPressedBottom");
-
-        spinnerPrevTopLineEnabled = decodeColor("spinnerPrevTopLineEnabled");
-        spinnerPrevTopLinePressed = decodeColor("spinnerPrevTopLinePressed");
 
         spinnerArrowEnabled = decodeColor("spinnerArrow");
 
@@ -215,124 +94,13 @@ public class PaintUtil {
         tabbedPaneTabAreaLightShadow = decodeColor("tabbedPaneTabAreaLightShadow");
         tabbedPaneTabAreaDarkShadow = decodeColor("tabbedPaneTabAreaDarkShadow");
 
-        tableHeaderBorderEnabled = decodeColor("tableHeaderBorderEnabled");
         tableHeaderSortIndicator = decodeColor("tableHeaderSortIndicator");
-
-        Color tableHeaderInteriorBaseEnabled = decodeColor("tableHeaderInteriorBaseEnabled");
 
         textComponentBorderEnabled = decodeColor("seaGlassTextEnabledBorder");
         textComponentBorderEnabledToolbar = decodeColor("seaGlassTextEnabledToolbarBorder");
         textComponentBorderDisabled = decodeColor("seaGlassTextDisabledBorder");
 
-        toolbarHandleMac = decodeColor("toolbarHandleMac");
-
         // ------- Assign from base colors -------
-
-        Color buttonBorderTopEnabled = deriveColor(buttonBorderBaseEnabled, 0.002841f, -0.068681f, 0.062745f, 0);
-        Color buttonBorderBottomEnabled = deriveColor(buttonBorderBaseEnabled, -0.000801f, 0.082964f, -0.066667f, 0);
-        Color buttonBorderTopPressed = deriveColor(buttonBorderBasePressed, 0.003151f, -0.036649f, 0f, 0);
-        Color buttonBorderBottomPressed = deriveColor(buttonBorderBasePressed, -0.002987f, 0.047120f, 0f, 0);
-
-        Color scrollBarThumbBorderTopPressed = deriveColor(scrollBarThumbBorderBasePressed, -0.002239f, 0.041885f, 0f, 0);
-        Color scrollBarThumbBorderBottomPressed = deriveColor(scrollBarThumbBorderBasePressed, 0.003151f, -0.036649f, 0f, 0);
-
-        buttonBorderEnabled = new TwoColors(buttonBorderTopEnabled, buttonBorderBottomEnabled);
-        buttonBorderPressed = new TwoColors(buttonBorderTopPressed, buttonBorderBottomPressed);
-        buttonBorderSelected = buttonBorderPressed;
-        buttonBorderPressedSelected = buttonBorderPressed;
-        buttonBorderDefault = buttonBorderSelected;
-        buttonBorderDefaultPressed = buttonBorderPressedSelected;
-        buttonBorderDisabled = disable(buttonBorderEnabled);
-        buttonBorderDisabledSelected = buttonBorderDisabled;
-
-        comboBoxButtonBorderDisabled = buttonBorderDisabled;
-        comboBoxButtonBorderEnabled = buttonBorderPressed;
-        comboBoxButtonBorderPressed = buttonBorderPressed;
-
-        comboBoxBackgroundBorderDisabled = buttonBorderDisabled;
-        comboBoxBackgroundBorderEnabled = buttonBorderEnabled;
-        comboBoxBackgroundBorderPressed = buttonBorderEnabled;
-
-        Color buttonInteriorTopEnabled = deriveColor(buttonInteriorBaseEnabled, -0.017974f, -0.125841f, 0.027451f, 0);
-        Color buttonInteriorUpperMidEnabled = deriveColor(buttonInteriorBaseEnabled, -0.002101f, 0.00291f, 0.007843f, 0);
-        Color buttonInteriorLowerMidEnabled = deriveColor(buttonInteriorBaseEnabled, -0.003354f, 0.015574f, 0.003922f, 0);
-        Color buttonInteriorBottomEnabled = deriveColor(buttonInteriorBaseEnabled, -0.011029f, -0.106031f, 0.023529f, 0);
-        Color buttonInteriorTopPressed = deriveColor(buttonInteriorBasePressed, -0.005111f, -0.240902f, 0.086275f, 0);
-        Color buttonInteriorUpperMidPressed = deriveColor(buttonInteriorBasePressed, -0.008629f, 0.005016f, -0.027451f, 0);
-        Color buttonInteriorLowerMidPressed = deriveColor(buttonInteriorBasePressed, -0.008658f, 0f, 0f, 0);
-        Color buttonInteriorBottomPressed = deriveColor(buttonInteriorBasePressed, -0.027969f, -0.133277f, 0.164706f, 0);
-        Color buttonInteriorTopSelected = deriveColor(buttonInteriorBaseSelected, -0.008478f, -0.233526f, 0.05098f, 0);
-        Color buttonInteriorUpperMidSelected = deriveColor(buttonInteriorBaseSelected, -0.008234f, -0.009988f, -0.019608f, 0);
-        Color buttonInteriorLowerMidSelected = deriveColor(buttonInteriorBaseSelected, -0.014034f, 0.002047f, 0.015686f, 0);
-        Color buttonInteriorBottomSelected = deriveColor(buttonInteriorBaseSelected, -0.022764f, -0.105923f, 0.141176f, 0);
-        Color buttonInteriorTopPressedSelected = deriveColor(buttonInteriorBasePressedSelected, -0.003339f, -0.246722f, 0.047059f, 0);
-        Color buttonInteriorUpperMidPressedSelected = deriveColor(buttonInteriorBasePressedSelected, 0.001453f, 0.001164f, -0.031373f, 0);
-        Color buttonInteriorLowerMidPressedSelected = deriveColor(buttonInteriorBasePressedSelected, 0f, 0f, 0f, 0);
-        Color buttonInteriorBottomPressedSelected = deriveColor(buttonInteriorBasePressedSelected, -0.023428f, -0.154274f, 0.12549f, 0);
-
-        buttonInteriorEnabled = new FourColors(buttonInteriorTopEnabled, buttonInteriorUpperMidEnabled, buttonInteriorLowerMidEnabled,
-            buttonInteriorBottomEnabled);
-        buttonInteriorPressed = new FourColors(buttonInteriorTopPressed, buttonInteriorUpperMidPressed, buttonInteriorLowerMidPressed,
-            buttonInteriorBottomPressed);
-        buttonInteriorSelected = new FourColors(buttonInteriorTopSelected, buttonInteriorUpperMidSelected, buttonInteriorLowerMidSelected,
-            buttonInteriorBottomSelected);
-        buttonInteriorPressedSelected = new FourColors(buttonInteriorTopPressedSelected, buttonInteriorUpperMidPressedSelected,
-            buttonInteriorLowerMidPressedSelected, buttonInteriorBottomPressedSelected);
-        buttonInteriorDefault = buttonInteriorSelected;
-        buttonInteriorDefaultPressed = buttonInteriorPressedSelected;
-        buttonInteriorDisabled = desaturate(buttonInteriorEnabled);
-        buttonInteriorDisabledSelected = desaturate(buttonInteriorSelected);
-
-        Color texturedButtonBorderTopEnabled = texturedButtonBorderBaseEnabled;
-        Color texturedButtonBorderBottomEnabled = texturedButtonBorderBaseEnabled;
-
-        texturedButtonBorderEnabled = new TwoColors(texturedButtonBorderTopEnabled, texturedButtonBorderBottomEnabled);
-        texturedButtonBorderPressed = new TwoColors(buttonBorderTopPressed, buttonBorderBottomPressed);
-        texturedButtonBorderDefault = texturedButtonBorderPressed;
-        texturedButtonBorderSelected = texturedButtonBorderDefault;
-        texturedButtonBorderDefaultPressed = texturedButtonBorderPressed;
-        texturedButtonBorderPressedSelected = texturedButtonBorderDefaultPressed;
-        texturedButtonBorderDisabled = disable(texturedButtonBorderEnabled);
-        texturedButtonBorderDisabledSelected = disable(texturedButtonBorderPressed);
-
-        Color texturedButtonInteriorTopEnabled = deriveColor(texturedButtonInteriorBaseEnabled, 0f, 0f, 0.054902f, 0);
-        Color texturedButtonInteriorBottomEnabled = deriveColor(texturedButtonInteriorBaseEnabled, 0f, 0f, -0.062745f, 0);
-        Color texturedButtonInteriorTopPressed = deriveColor(texturedButtonInteriorBasePressed, -0.003064f, -0.044334f, 0.074510f, 0);
-        Color texturedButtonInteriorBottomPressed = deriveColor(texturedButtonInteriorBasePressed, 0.002723f, 0.057143f, -0.082353f, 0);
-        Color texturedButtonInteriorTopSelected = deriveColor(texturedButtonInteriorBaseSelected, -0.007658f, -0.042881f, 0.078431f, 0);
-        Color texturedButtonInteriorBottomSelected = deriveColor(texturedButtonInteriorBaseSelected, 0.006872f, 0.053054f, -0.082353f, 0);
-        Color texturedButtonInteriorTopPressedSelected = deriveColor(texturedButtonInteriorBasePressedSelected, -0.007749f, -0.043169f,
-            0.070588f, 0);
-        Color texturedButtonInteriorBottomPressedSelected = deriveColor(texturedButtonInteriorBasePressedSelected, 0.007011f, 0.056937f,
-            -0.078431f, 0);
-
-        texturedButtonInteriorEnabled = new TwoColors(texturedButtonInteriorTopEnabled, texturedButtonInteriorBottomEnabled);
-        texturedButtonInteriorPressed = new TwoColors(texturedButtonInteriorTopPressed, texturedButtonInteriorBottomPressed);
-        texturedButtonInteriorDefault = new TwoColors(texturedButtonInteriorTopSelected, texturedButtonInteriorBottomSelected);
-        texturedButtonInteriorSelected = texturedButtonInteriorDefault;
-        texturedButtonInteriorDefaultPressed = texturedButtonInteriorDefault;
-        texturedButtonInteriorPressedSelected = new TwoColors(texturedButtonInteriorTopPressedSelected,
-            texturedButtonInteriorBottomPressedSelected);
-        texturedButtonInteriorDisabled = desaturate(texturedButtonInteriorEnabled);
-        texturedButtonInteriorDisabledSelected = desaturate(texturedButtonInteriorDefault);
-
-        scrollBarThumbBorderPressed = new TwoColors(scrollBarThumbBorderTopPressed, scrollBarThumbBorderBottomPressed);
-
-        Color scrollBarThumbInteriorTopPressed = deriveColor(scrollBarThumbInteriorBasePressed, -0.014978f, -0.078885f, 0.168627f, 0);
-        Color scrollBarThumbInteriorUpperMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000565f, 0.041623f, 0.015686f, 0);
-        Color scrollBarThumbInteriorLowerMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000356f, 0.025917f, 0.007843f, 0);
-        Color scrollBarThumbInteriorBottomPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0f, -0.195001f, 0.082353f, 0);
-
-        scrollBarThumbInteriorPressed = new FourColors(scrollBarThumbInteriorTopPressed, scrollBarThumbInteriorUpperMidPressed,
-            scrollBarThumbInteriorLowerMidPressed, scrollBarThumbInteriorBottomPressed);
-
-        comboBoxButtonInteriorDisabled = buttonInteriorDisabled;
-        comboBoxButtonInteriorEnabled = buttonInteriorSelected;
-        comboBoxButtonInteriorPressed = buttonInteriorPressed;
-
-        comboBoxBackgroundInteriorDisabled = buttonInteriorDisabled;
-        comboBoxBackgroundInteriorEnabled = buttonInteriorEnabled;
-        comboBoxBackgroundInteriorPressed = buttonInteriorEnabled;
 
         scrollBarCapColors = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f, -0.266667f, 0));
 
@@ -358,71 +126,13 @@ public class PaintUtil {
         scrollBarButtonDarkDivider = deriveColor(scrollBarButtonBase, 0f, 0f, -1f, -(int) (scrollBarButtonBase.getAlpha() * 0.87843137f));
         scrollBarButtonLightDivider = deriveColor(scrollBarButtonBase, 0f, 0f, 0f, -(int) (scrollBarButtonBase.getAlpha() * 0.75294117647f));
 
-        spinnerNextBorderEnabled = new TwoColors(buttonBorderTopPressed, spinnerNextBorderBottomEnabled);
-        spinnerNextBorderPressed = new TwoColors(buttonBorderTopPressed, spinnerNextBorderBottomPressed);
-        spinnerNextBorderDisabled = disable(spinnerNextBorderEnabled);
-
-        spinnerNextInteriorEnabled = new TwoColors(buttonInteriorTopSelected, spinnerNextInteriorBottomEnabled);
-        spinnerNextInteriorPressed = new TwoColors(buttonInteriorTopPressed, spinnerNextInteriorBottomPressed);
-        spinnerNextInteriorDisabled = desaturate(desaturate(spinnerNextInteriorEnabled));
-
-        spinnerPrevBorderEnabled = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
-        spinnerPrevBorderPressed = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
-        spinnerPrevBorderDisabled = disable(spinnerPrevBorderEnabled);
-
-        spinnerPrevInteriorEnabled = new TwoColors(spinnerPrevInteriorTopEnabled, spinnerPrevInteriorBottomEnabled);
-        spinnerPrevInteriorPressed = new TwoColors(spinnerPrevInteriorPressedTop, spinnerPrevInteriorPressedBottom);
-        spinnerPrevInteriorDisabled = desaturate(desaturate(spinnerPrevInteriorEnabled));
-
-        spinnerPrevTopLineDisabled = desaturate(spinnerPrevTopLineEnabled);
-
         spinnerArrowDisabled = desaturate(spinnerArrowEnabled);
 
         tabbedPaneTabAreaBackLineDisabled = disable(tabbedPaneTabAreaBackLineEnabled);
-
-        tableHeaderBorderDisabled = disable(tableHeaderBorderEnabled);
-
-        Color tableHeaderTopEnabled = deriveColor(tableHeaderInteriorBaseEnabled, -0.027778f, -0.020842f, 0.035294f, 0);
-        Color tableHeaderUpperMidEnabled = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, 0.000405f, -0.011765f, 0);
-        Color tableHeaderLowerMidEnabled = deriveColor(tableHeaderInteriorBaseEnabled, 0f, -0.000264f, 0.007843f, 0);
-        Color tableHeaderBottomEnabled = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, -0.001033f, 0.031373f, 0);
-
-        tableHeaderEnabled = new FourColors(tableHeaderTopEnabled, tableHeaderUpperMidEnabled, tableHeaderLowerMidEnabled,
-            tableHeaderBottomEnabled);
-        tableHeaderSorted = new FourColors(buttonInteriorTopSelected, buttonInteriorUpperMidSelected, buttonInteriorLowerMidSelected,
-            buttonInteriorBottomSelected);
-        tableHeaderPressed = new FourColors(buttonInteriorTopPressed, buttonInteriorUpperMidPressed, buttonInteriorLowerMidPressed,
-            buttonInteriorBottomPressed);
-        tableHeaderDisabled = disable(tableHeaderEnabled);
-        tableHeaderDisabledSorted = disable(tableHeaderSorted);
-
-        toolbarHandleBorder = buttonBorderEnabled;
-        toolbarHandleInterior = buttonInteriorEnabled;
-    }
-
-    public static Paint getToolbarHandleMacPaint() {
-        return toolbarHandleMac;
-    }
-
-    public static Paint getToolbarHandleBorderPaint(Shape s) {
-        return createHorizontalGradient(s, toolbarHandleBorder);
-    }
-
-    public static Paint getToolbarHandleInteriorPaint(Shape s) {
-        return createHorizontalGradient(s, toolbarHandleInterior);
-    }
-
-    public static Paint getTableHeaderBorderPaint(ButtonType type) {
-        return type == ButtonType.DISABLED ? tableHeaderBorderDisabled : tableHeaderBorderEnabled;
     }
 
     public static Paint getTableHeaderSortIndicatorPaint() {
         return tableHeaderSortIndicator;
-    }
-
-    public static Paint getTableHeaderPaint(Shape s, ButtonType type, boolean isSorted) {
-        FourColors colors = getTableHeaderColors(type, isSorted);
-        return createVerticalGradient(s, colors);
     }
 
     public static Paint getTextComponentBorderPaint(ButtonType type, boolean inToolbar) {
@@ -455,96 +165,12 @@ public class PaintUtil {
             tabbedPaneTabAreaLightShadow });
     }
 
-    public static Paint getButtonInteriorPaint(Shape s, ButtonType type) {
-        FourColors colors = getButtonInteriorColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getButtonInteriorPaint(Shape s, ButtonType type, boolean isTextured) {
-        if (isTextured) {
-            TwoColors colors = getTexturedButtonInteriorColors(type);
-            return createVerticalGradient(s, colors);
-        } else {
-            FourColors colors = getButtonInteriorColors(type);
-            return createVerticalGradient(s, colors);
-        }
-    }
-
-    public static Paint getComboBoxButtonInteriorPaint(Shape s, ButtonType type) {
-        FourColors colors = getComboBoxButtonInteriorColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getComboBoxBackgroundInteriorPaint(Shape s, ButtonType type) {
-        FourColors colors = getComboBoxBackgroundInteriorColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
     public static Paint getFocusPaint(Shape s, FocusType focusType, boolean useToolBarFocus) {
         if (focusType == FocusType.OUTER_FOCUS) {
             return useToolBarFocus ? outerToolBarFocus : outerFocus;
         } else {
             return useToolBarFocus ? innerToolBarFocus : innerFocus;
         }
-    }
-
-    public static Paint getButtonBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getButtonBorderColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getButtonBorderPaint(Shape s, ButtonType type, boolean isTextured) {
-        if (isTextured) {
-            TwoColors colors = getTexturedButtonBorderColors(type);
-            return createVerticalGradient(s, colors);
-        } else {
-            TwoColors colors = getButtonBorderColors(type);
-            return createVerticalGradient(s, colors);
-        }
-    }
-
-    public static Paint getScrollBarThumbBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getScrollBarThumbBorderColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getSpinnerNextBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getSpinnerNextBorderColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getSpinnerPrevBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getSpinnerPrevBorderColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getComboBoxButtonBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getComboBoxButtonBorderColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getComboBoxBackgroundBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getComboBoxBackgroundBorderColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getSpinnerPrevTopLinePaint(Shape s, ButtonType type) {
-        return getSpinnerPrevTopLineColors(type);
-    }
-
-    public static Paint getScrollBarThumbInteriorPaint(Shape s, ButtonType type) {
-        FourColors colors = getScrollBarThumbInteriorColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getSpinnerNextInteriorPaint(Shape s, ButtonType type) {
-        TwoColors colors = getSpinnerNextInteriorColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getSpinnerPrevInteriorPaint(Shape s, ButtonType type) {
-        TwoColors colors = getSpinnerPrevInteriorColors(type);
-        return createVerticalGradient(s, colors);
     }
 
     public static Paint getSpinnerArrowPaint(Shape s, ButtonType type) {
@@ -566,106 +192,6 @@ public class PaintUtil {
 
     public static Paint getScrollBarButtonArrowPaint(Shape s, ButtonType type) {
         return getScrollBarButtonArrowColor(type);
-    }
-
-    public static TwoColors getButtonBorderColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return buttonBorderDisabled;
-        case DISABLED_SELECTED:
-            return buttonBorderDisabledSelected;
-        case ENABLED:
-            return buttonBorderEnabled;
-        case PRESSED:
-            return buttonBorderPressed;
-        case DEFAULT:
-            return buttonBorderDefault;
-        case DEFAULT_PRESSED:
-            return buttonBorderDefaultPressed;
-        case SELECTED:
-            return buttonBorderSelected;
-        case PRESSED_SELECTED:
-            return buttonBorderPressedSelected;
-        }
-        return null;
-    }
-
-    public static TwoColors getTexturedButtonBorderColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return texturedButtonBorderDisabled;
-        case DISABLED_SELECTED:
-            return texturedButtonBorderDisabledSelected;
-        case ENABLED:
-            return texturedButtonBorderEnabled;
-        case PRESSED:
-            return texturedButtonBorderPressed;
-        case DEFAULT:
-            return texturedButtonBorderDefault;
-        case SELECTED:
-            return texturedButtonBorderSelected;
-        case DEFAULT_PRESSED:
-            return texturedButtonBorderDefaultPressed;
-        case PRESSED_SELECTED:
-            return texturedButtonBorderPressedSelected;
-        }
-        return null;
-    }
-
-    public static FourColors getButtonInteriorColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return buttonInteriorDisabled;
-        case DISABLED_SELECTED:
-            return buttonInteriorDisabledSelected;
-        case ENABLED:
-            return buttonInteriorEnabled;
-        case PRESSED:
-            return buttonInteriorPressed;
-        case DEFAULT:
-            return buttonInteriorDefault;
-        case DEFAULT_PRESSED:
-            return buttonInteriorDefaultPressed;
-        case SELECTED:
-            return buttonInteriorSelected;
-        case PRESSED_SELECTED:
-            return buttonInteriorPressedSelected;
-        }
-        return null;
-    }
-
-    private static TwoColors getTexturedButtonInteriorColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return texturedButtonInteriorDisabled;
-        case DISABLED_SELECTED:
-            return texturedButtonInteriorDisabledSelected;
-        case ENABLED:
-            return texturedButtonInteriorEnabled;
-        case PRESSED:
-            return texturedButtonInteriorPressed;
-        case DEFAULT:
-            return texturedButtonInteriorDefault;
-        case SELECTED:
-            return texturedButtonInteriorSelected;
-        case DEFAULT_PRESSED:
-            return texturedButtonInteriorDefaultPressed;
-        case PRESSED_SELECTED:
-            return texturedButtonInteriorPressedSelected;
-        }
-        return null;
-    }
-
-    private static FourColors getTableHeaderColors(ButtonType type, boolean isSorted) {
-        switch (type) {
-        case DISABLED:
-            return isSorted ? tableHeaderDisabledSorted : tableHeaderDisabled;
-        case ENABLED:
-            return isSorted ? tableHeaderSorted : tableHeaderEnabled;
-        case PRESSED:
-            return tableHeaderPressed;
-        }
-        return null;
     }
 
     private static TwoColors getScrollBarButtonBackgroundColors(ButtonType type, boolean isIncrease, boolean buttonsTogether) {
@@ -698,140 +224,6 @@ public class PaintUtil {
         }
     }
 
-    private static TwoColors getScrollBarThumbBorderColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-        case DISABLED_SELECTED:
-            return buttonBorderDisabled;
-        case ENABLED:
-            return buttonBorderEnabled;
-        case PRESSED:
-            return scrollBarThumbBorderPressed;
-        }
-        return null;
-    }
-
-    private static FourColors getScrollBarThumbInteriorColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-        case DISABLED_SELECTED:
-            return buttonInteriorDisabled;
-        case ENABLED:
-            return buttonInteriorEnabled;
-        case PRESSED:
-            return scrollBarThumbInteriorPressed;
-        }
-        return null;
-    }
-
-    private static TwoColors getComboBoxButtonBorderColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return comboBoxButtonBorderDisabled;
-        case ENABLED:
-            return comboBoxButtonBorderEnabled;
-        case PRESSED:
-            return comboBoxButtonBorderPressed;
-        }
-        return null;
-    }
-
-    private static FourColors getComboBoxButtonInteriorColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return comboBoxButtonInteriorDisabled;
-        case ENABLED:
-            return comboBoxButtonInteriorEnabled;
-        case PRESSED:
-            return comboBoxButtonInteriorPressed;
-        }
-        return null;
-    }
-
-    private static TwoColors getComboBoxBackgroundBorderColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return comboBoxBackgroundBorderDisabled;
-        case ENABLED:
-            return comboBoxBackgroundBorderEnabled;
-        case PRESSED:
-            return comboBoxBackgroundBorderPressed;
-        }
-        return null;
-    }
-
-    private static FourColors getComboBoxBackgroundInteriorColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return comboBoxBackgroundInteriorDisabled;
-        case ENABLED:
-            return comboBoxBackgroundInteriorEnabled;
-        case PRESSED:
-            return comboBoxBackgroundInteriorPressed;
-        }
-        return null;
-    }
-
-    private static TwoColors getSpinnerNextBorderColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return spinnerNextBorderDisabled;
-        case ENABLED:
-            return spinnerNextBorderEnabled;
-        case PRESSED:
-            return spinnerNextBorderPressed;
-        }
-        return null;
-    }
-
-    private static TwoColors getSpinnerNextInteriorColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return spinnerNextInteriorDisabled;
-        case ENABLED:
-            return spinnerNextInteriorEnabled;
-        case PRESSED:
-            return spinnerNextInteriorPressed;
-        }
-        return null;
-    }
-
-    private static TwoColors getSpinnerPrevBorderColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return spinnerPrevBorderDisabled;
-        case ENABLED:
-            return spinnerPrevBorderEnabled;
-        case PRESSED:
-            return spinnerPrevBorderPressed;
-        }
-        return null;
-    }
-
-    private static TwoColors getSpinnerPrevInteriorColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return spinnerPrevInteriorDisabled;
-        case ENABLED:
-            return spinnerPrevInteriorEnabled;
-        case PRESSED:
-            return spinnerPrevInteriorPressed;
-        }
-        return null;
-    }
-
-    private static Color getSpinnerPrevTopLineColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return spinnerPrevTopLineDisabled;
-        case ENABLED:
-            return spinnerPrevTopLineEnabled;
-        case PRESSED:
-            return spinnerPrevTopLinePressed;
-        }
-        return null;
-    }
-
     private static Color getSpinnerArrowColors(ButtonType type) {
         switch (type) {
         case DISABLED:
@@ -843,45 +235,12 @@ public class PaintUtil {
         return null;
     }
 
-    private static Paint createVerticalGradient(Shape s, TwoColors colors) {
-        Rectangle2D bounds = s.getBounds2D();
-        float xCenter = (float) bounds.getCenterX();
-        float yMin = (float) bounds.getMinY();
-        float yMax = (float) bounds.getMaxY();
-        return createGradient(xCenter, yMin, xCenter, yMax, new float[] { 0f, 1f }, new Color[] { colors.top, colors.bottom });
-    }
-
-    private static Paint createVerticalGradient(Shape s, FourColors colors) {
-        Rectangle2D bounds = s.getBounds2D();
-        float xCenter = (float) bounds.getCenterX();
-        float yMin = (float) bounds.getMinY();
-        float yMax = (float) bounds.getMaxY();
-        return createGradient(xCenter, yMin, xCenter, yMax, new float[] { 0f, 0.45f, 0.62f, 1f }, new Color[] {
-            colors.top,
-            colors.upperMid,
-            colors.lowerMid,
-            colors.bottom });
-    }
-
     private static Paint createHorizontalGradient(Shape s, TwoColors colors) {
         Rectangle2D bounds = s.getBounds2D();
         float xMin = (float) bounds.getMinX();
         float xMax = (float) bounds.getMaxX();
         float yCenter = (float) bounds.getCenterY();
         return createGradient(xMin, yCenter, xMax, yCenter, new float[] { 0f, 1f }, new Color[] { colors.top, colors.bottom });
-    }
-
-    private static Paint createHorizontalGradient(Shape s, FourColors colors) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return createGradient(x, (0.5f * h) + y, x + w, (0.5f * h) + y, new float[] { 0f, 0.45f, 0.62f, 1f }, new Color[] {
-            colors.top,
-            colors.upperMid,
-            colors.lowerMid,
-            colors.bottom });
     }
 
     /**
@@ -985,22 +344,6 @@ public class PaintUtil {
         tmp[1] /= 3.0f;
         tmp[2] = clamp(1.0f - (1.0f - tmp[2]) / 3f);
         return new Color((Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF));
-    }
-
-    private static TwoColors disable(TwoColors colors) {
-        return new TwoColors(disable(colors.top), disable(colors.bottom));
-    }
-
-    private static TwoColors desaturate(TwoColors colors) {
-        return new TwoColors(desaturate(colors.top), desaturate(colors.bottom));
-    }
-
-    private static FourColors disable(FourColors colors) {
-        return new FourColors(disable(colors.top), disable(colors.upperMid), disable(colors.lowerMid), disable(colors.bottom));
-    }
-
-    private static FourColors desaturate(FourColors colors) {
-        return new FourColors(desaturate(colors.top), desaturate(colors.upperMid), desaturate(colors.lowerMid), desaturate(colors.bottom));
     }
 
     private static float clamp(float value) {

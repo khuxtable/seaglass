@@ -19,7 +19,9 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
@@ -35,7 +37,7 @@ import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 /**
  * SpinnerPreviousButtonPainter implementation.
  */
-public final class SpinnerPreviousButtonPainter extends AbstractRegionPainter {
+public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_ENABLED,
@@ -48,6 +50,28 @@ public final class SpinnerPreviousButtonPainter extends AbstractRegionPainter {
         FOREGROUND_PRESSED_FOCUSED,
         FOREGROUND_PRESSED,
     }
+
+    private Color        spinnerPrevBorderTopEnabled      = decodeColor("spinnerPrevBorderTopEnabled");
+
+    private Color        spinnerPrevInteriorTopEnabled    = decodeColor("spinnerPrevInteriorTopEnabled");
+    private Color        spinnerPrevInteriorBottomEnabled = decodeColor("spinnerPrevInteriorBottomEnabled");
+    private Color        spinnerPrevInteriorPressedTop    = decodeColor("spinnerPrevInteriorPressedTop");
+    private Color        spinnerPrevInteriorPressedBottom = decodeColor("spinnerPrevInteriorPressedBottom");
+
+    private Color        spinnerPrevTopLineEnabled        = decodeColor("spinnerPrevTopLineEnabled");
+    private Color        spinnerPrevTopLinePressed        = decodeColor("spinnerPrevTopLinePressed");
+
+    private Color        scrollBarThumbBorderBasePressed  = decodeColor("scrollBarThumbBorderBasePressed");
+    private Color        scrollBarThumbBorderTopPressed   = deriveColor(scrollBarThumbBorderBasePressed, -0.002239f, 0.041885f, 0f, 0);
+    private TwoColors    spinnerPrevBorderEnabled         = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
+    private TwoColors    spinnerPrevBorderPressed         = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
+    private TwoColors    spinnerPrevBorderDisabled        = disable(spinnerPrevBorderEnabled);
+
+    private TwoColors    spinnerPrevInteriorEnabled       = new TwoColors(spinnerPrevInteriorTopEnabled, spinnerPrevInteriorBottomEnabled);
+    private TwoColors    spinnerPrevInteriorPressed       = new TwoColors(spinnerPrevInteriorPressedTop, spinnerPrevInteriorPressedBottom);
+    private TwoColors    spinnerPrevInteriorDisabled      = desaturate(desaturate(spinnerPrevInteriorEnabled));
+
+    private Color        spinnerPrevTopLineDisabled       = desaturate(spinnerPrevTopLineEnabled);
 
     private PaintContext ctx;
     private ButtonType   type;
@@ -124,15 +148,15 @@ public final class SpinnerPreviousButtonPainter extends AbstractRegionPainter {
         }
 
         s = createButtonShape(0, 0, width - 2, height - 2, CornerSize.BORDER);
-        g.setPaint(PaintUtil.getSpinnerPrevBorderPaint(s, type));
+        g.setPaint(getSpinnerPrevBorderPaint(s, type));
         g.fill(s);
 
         s = createButtonShape(1, 1, width - 4, height - 4, CornerSize.INTERIOR);
-        g.setPaint(PaintUtil.getSpinnerPrevInteriorPaint(s, type));
+        g.setPaint(getSpinnerPrevInteriorPaint(s, type));
         g.fill(s);
 
         s = ShapeUtil.createRectangle(1, 0, width - 4, 1);
-        g.setPaint(PaintUtil.getSpinnerPrevTopLinePaint(s, type));
+        g.setPaint(getSpinnerPrevTopLinePaint(s, type));
         g.fill(s);
     }
 
@@ -151,5 +175,55 @@ public final class SpinnerPreviousButtonPainter extends AbstractRegionPainter {
         int centerX = 8;
         int centerY = height / 2;
         return ShapeUtil.createArrowDown(centerX, centerY - 2, 4, 3);
+    }
+
+    public Paint getSpinnerPrevBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerPrevBorderColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    public Paint getSpinnerPrevTopLinePaint(Shape s, ButtonType type) {
+        return getSpinnerPrevTopLineColors(type);
+    }
+
+    public Paint getSpinnerPrevInteriorPaint(Shape s, ButtonType type) {
+        TwoColors colors = getSpinnerPrevInteriorColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    private TwoColors getSpinnerPrevBorderColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return spinnerPrevBorderDisabled;
+        case ENABLED:
+            return spinnerPrevBorderEnabled;
+        case PRESSED:
+            return spinnerPrevBorderPressed;
+        }
+        return null;
+    }
+
+    private TwoColors getSpinnerPrevInteriorColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return spinnerPrevInteriorDisabled;
+        case ENABLED:
+            return spinnerPrevInteriorEnabled;
+        case PRESSED:
+            return spinnerPrevInteriorPressed;
+        }
+        return null;
+    }
+
+    private Color getSpinnerPrevTopLineColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+            return spinnerPrevTopLineDisabled;
+        case ENABLED:
+            return spinnerPrevTopLineEnabled;
+        case PRESSED:
+            return spinnerPrevTopLinePressed;
+        }
+        return null;
     }
 }

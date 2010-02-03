@@ -36,7 +36,7 @@ import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 /**
  * SliderThumbPainter implementation.
  */
-public final class SliderThumbPainter extends AbstractRegionPainter {
+public final class SliderThumbPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_ENABLED,
@@ -153,11 +153,11 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         if (!isFocused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(PaintUtil.getButtonBorderPaint(s, type));
+        g.setPaint(getButtonBorderPaint(s, type));
         g.fill(s);
 
         s = ShapeUtil.createSliderThumbDiscrete(3, 3, width - 6, height - 6, CornerSize.SLIDER_INTERIOR);
-        g.setPaint(PaintUtil.getButtonInteriorPaint(s, type));
+        g.setPaint(getButtonInteriorPaint(s, type));
         g.fill(s);
     }
 
@@ -177,11 +177,11 @@ public final class SliderThumbPainter extends AbstractRegionPainter {
         if (!isFocused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(PaintUtil.getButtonBorderPaint(s, type));
+        g.setPaint(getButtonBorderPaint(s, type));
         g.fill(s);
 
         s = ShapeUtil.createSliderThumbContinuous(3, 4, width - 6);
-        g.setPaint(PaintUtil.getButtonInteriorPaint(s, type));
+        g.setPaint(getButtonInteriorPaint(s, type));
         g.fill(s);
     }
 }

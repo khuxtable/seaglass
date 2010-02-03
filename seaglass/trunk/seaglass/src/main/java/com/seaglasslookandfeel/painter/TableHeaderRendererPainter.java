@@ -19,20 +19,21 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
 /**
  * Paint table headers.
  */
-public final class TableHeaderRendererPainter extends AbstractRegionPainter {
+public final class TableHeaderRendererPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         BACKGROUND_DISABLED,
         BACKGROUND_ENABLED,
@@ -42,6 +43,23 @@ public final class TableHeaderRendererPainter extends AbstractRegionPainter {
         BACKGROUND_ENABLED_FOCUSED_SORTED,
         BACKGROUND_DISABLED_SORTED,
     }
+
+    private Color        tableHeaderBorderEnabled       = decodeColor("tableHeaderBorderEnabled");
+    private Color        tableHeaderInteriorBaseEnabled = decodeColor("tableHeaderInteriorBaseEnabled");
+
+    private Color        tableHeaderBorderDisabled      = disable(tableHeaderBorderEnabled);
+
+    private Color        tableHeaderTopEnabled          = deriveColor(tableHeaderInteriorBaseEnabled, -0.027778f, -0.020842f, 0.035294f, 0);
+    private Color        tableHeaderUpperMidEnabled     = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, 0.000405f, -0.011765f, 0);
+    private Color        tableHeaderLowerMidEnabled     = deriveColor(tableHeaderInteriorBaseEnabled, 0f, -0.000264f, 0.007843f, 0);
+    private Color        tableHeaderBottomEnabled       = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, -0.001033f, 0.031373f, 0);
+
+    private FourColors   tableHeaderEnabled             = new FourColors(tableHeaderTopEnabled, tableHeaderUpperMidEnabled,
+                                                            tableHeaderLowerMidEnabled, tableHeaderBottomEnabled);
+    private FourColors   tableHeaderSorted              = getButtonInteriorColors(ButtonType.SELECTED);
+    private FourColors   tableHeaderPressed             = getButtonInteriorColors(ButtonType.PRESSED);
+    private FourColors   tableHeaderDisabled            = disable(tableHeaderEnabled);
+    private FourColors   tableHeaderDisabledSorted      = disable(tableHeaderSorted);
 
     private PaintContext ctx;
     private ButtonType   type;
@@ -57,10 +75,10 @@ public final class TableHeaderRendererPainter extends AbstractRegionPainter {
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRectangle(0, 0, width - 1, height - 1);
-        g.setPaint(PaintUtil.getTableHeaderPaint(s, type, isSorted));
+        g.setPaint(getTableHeaderInteriorPaint(s, type, isSorted));
         g.fill(s);
 
-        g.setPaint(PaintUtil.getTableHeaderBorderPaint(type));
+        g.setPaint(getTableHeaderBorderPaint(type));
         g.drawLine(0, height - 1, width, height - 1);
         g.drawLine(width - 1, 0, width - 1, height - 1);
     }
@@ -86,6 +104,27 @@ public final class TableHeaderRendererPainter extends AbstractRegionPainter {
             return ButtonType.ENABLED;
         case BACKGROUND_DISABLED_SORTED:
             return ButtonType.DISABLED;
+        }
+        return null;
+    }
+
+    public Paint getTableHeaderBorderPaint(ButtonType type) {
+        return type == ButtonType.DISABLED ? tableHeaderBorderDisabled : tableHeaderBorderEnabled;
+    }
+
+    public Paint getTableHeaderInteriorPaint(Shape s, ButtonType type, boolean isSorted) {
+        FourColors colors = getTableHeaderColors(type, isSorted);
+        return createVerticalGradient(s, colors);
+    }
+
+    private FourColors getTableHeaderColors(ButtonType type, boolean isSorted) {
+        switch (type) {
+        case DISABLED:
+            return isSorted ? tableHeaderDisabledSorted : tableHeaderDisabled;
+        case ENABLED:
+            return isSorted ? tableHeaderSorted : tableHeaderEnabled;
+        case PRESSED:
+            return tableHeaderPressed;
         }
         return null;
     }

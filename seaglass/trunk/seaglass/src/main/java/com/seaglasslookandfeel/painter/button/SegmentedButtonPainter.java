@@ -50,7 +50,6 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
     private Effect     dropShadow = new SeaGlassDropShadowEffect();
 
     private ButtonType type;
-    private boolean    isTextured;
 
     /**
      * Create a segmented button painter.
@@ -64,7 +63,6 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         super(state, ctx);
 
         type = getButtonType(state);
-        isTextured = (this instanceof TexturedButtonPainter);
     }
 
     /**
@@ -97,11 +95,11 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             if (!focused) {
                 dropShadow.fill(g, s);
             }
-            g.setPaint(PaintUtil.getButtonBorderPaint(s, type, isTextured));
+            g.setPaint(getButtonBorderPaint(s, type));
             g.fill(s);
 
             s = createInterior(segmentStatus, x, y, width, height);
-            g.setPaint(PaintUtil.getButtonInteriorPaint(s, type, isTextured));
+            g.setPaint(getButtonInteriorPaint(s, type));
             g.fill(s);
         }
     }

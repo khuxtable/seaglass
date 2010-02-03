@@ -38,7 +38,7 @@ import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 /**
  * RadioButtonPainter implementation.
  */
-public final class RadioButtonPainter extends AbstractRegionPainter {
+public final class RadioButtonPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         ICON_DISABLED,
         ICON_ENABLED,
@@ -120,11 +120,11 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
         if (!focused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(PaintUtil.getButtonBorderPaint(s, type));
+        g.setPaint(getButtonBorderPaint(s, type));
         g.fill(s);
 
         s = createBasicShape(width - 6, width, height);
-        g.setPaint(PaintUtil.getButtonInteriorPaint(s, type));
+        g.setPaint(getButtonInteriorPaint(s, type));
         g.fill(s);
 
         if (selected) {
