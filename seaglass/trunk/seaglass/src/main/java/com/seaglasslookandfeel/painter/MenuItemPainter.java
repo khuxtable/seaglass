@@ -19,7 +19,9 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -27,13 +29,20 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public class MenuItemPainter extends AbstractRegionPainter {
     public static enum Which {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_MOUSEOVER,
     }
+
+    private Color        menuItemBackgroundBase   = decodeColor("menuItemBackgroundBase");
+
+    private Color        menuItemBackgroundTop    = deriveColor(menuItemBackgroundBase, -0.003425f, -0.027540f, 0.070588f, 0);
+    private Color        menuItemBackgroundBottom = deriveColor(menuItemBackgroundBase, 0.001337f, 0.040989f, -0.078431f, 0);
+
+    private TwoColors    menuItemBackground       = new TwoColors(menuItemBackgroundTop, menuItemBackgroundBottom);
+    private Color        menuItemBottomLine       = deriveColor(menuItemBackgroundBase, 0.006069f, 0.131520f, -0.105882f, 0);
 
     private Which        state;
     private PaintContext ctx;
@@ -62,13 +71,21 @@ public class MenuItemPainter extends AbstractRegionPainter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        g.setPaint(PaintUtil.getMenuItemBackgroundPaint(s));
+        g.setPaint(getMenuItemBackgroundPaint(s));
         g.fill(s);
 
         Rectangle b = s.getBounds();
         int width1 = b.width;
         int height1 = b.height;
-        g.setColor(PaintUtil.getMenuItemBottomLinePaint());
+        g.setColor(getMenuItemBottomLinePaint());
         g.drawLine(0, height1 - 1, width1 - 1, height1 - 1);
+    }
+
+    public Paint getMenuItemBackgroundPaint(Shape s) {
+        return createVerticalGradient(s, menuItemBackground);
+    }
+
+    public Color getMenuItemBottomLinePaint() {
+        return menuItemBottomLine;
     }
 }

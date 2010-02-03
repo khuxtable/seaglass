@@ -111,9 +111,6 @@ public class PaintUtil {
     private static FourColors comboBoxBackgroundInteriorEnabled;
     private static FourColors comboBoxBackgroundInteriorPressed;
 
-    private static TwoColors  menuItemBackground;
-    private static Color      menuItemBottomLine;
-
     private static Color      popupMenuBorderDisabled;
     private static Color      popupMenuBorderEnabled;
 
@@ -230,8 +227,6 @@ public class PaintUtil {
         Color texturedButtonInteriorBasePressed = decodeColor("texturedButtonInteriorBasePressed");
         Color texturedButtonInteriorBaseSelected = decodeColor("texturedButtonInteriorBaseSelected");
         Color texturedButtonInteriorBasePressedSelected = decodeColor("texturedButtonInteriorBasePressedSelected");
-
-        Color menuItemBackgroundBase = decodeColor("menuItemBackgroundBase");
 
         popupMenuInteriorEnabled = decodeColor("popupMenuInteriorEnabled");
         popupMenuBorderEnabled = decodeColor("popupMenuBorderEnabled");
@@ -388,12 +383,6 @@ public class PaintUtil {
         comboBoxBackgroundInteriorDisabled = buttonInteriorDisabled;
         comboBoxBackgroundInteriorEnabled = buttonInteriorEnabled;
         comboBoxBackgroundInteriorPressed = buttonInteriorEnabled;
-
-        Color menuItemBackgroundTop = deriveColor(menuItemBackgroundBase, -0.003425f, -0.027540f, 0.070588f, 0);
-        Color menuItemBackgroundBottom = deriveColor(menuItemBackgroundBase, 0.001337f, 0.040989f, -0.078431f, 0);
-
-        menuItemBackground = new TwoColors(menuItemBackgroundTop, menuItemBackgroundBottom);
-        menuItemBottomLine = deriveColor(menuItemBackgroundBase, 0.006069f, 0.131520f, -0.105882f, 0);
 
         popupMenuBorderDisabled = disable(popupMenuBorderEnabled);
         popupMenuInteriorDisabled = disable(popupMenuBorderEnabled);
@@ -567,14 +556,6 @@ public class PaintUtil {
     public static Paint getComboBoxBackgroundInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getComboBoxBackgroundInteriorColors(type);
         return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getMenuItemBackgroundPaint(Shape s) {
-        return createVerticalGradient(s, menuItemBackground);
-    }
-
-    public static Color getMenuItemBottomLinePaint() {
-        return menuItemBottomLine;
     }
 
     public static Paint getFocusPaint(Shape s, FocusType focusType, boolean useToolBarFocus) {
