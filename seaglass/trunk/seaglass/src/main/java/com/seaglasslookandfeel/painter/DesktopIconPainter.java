@@ -27,7 +27,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
@@ -39,6 +38,11 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
     public static enum Which {
         BACKGROUND_ENABLED
     }
+
+    private TwoColors    rootPaneActive              = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"),
+                                                         decodeColor("seaGlassToolBarActiveBottomB"));
+    private TwoColors    rootPaneInactive            = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"),
+                                                         decodeColor("seaGlassToolBarInactiveBottomB"));
 
     private Color        frameBorderBase             = decodeColor("frameBorderBase");
 
@@ -64,7 +68,7 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(4, 2, width - 7, height - 6, CornerSize.FRAME_INTERIOR);
-        g.setPaint(PaintUtil.getRootPaneInteriorPaint(s, ButtonType.INACTIVE));
+        g.setPaint(getRootPaneInteriorPaint(s, ButtonType.INACTIVE));
         g.fill(s);
     }
 
@@ -98,5 +102,20 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
 
     public Paint getFrameInnerHighlightPaint(Shape s, ButtonType type) {
         return getFrameInnerHighlightColors(type);
+    }
+
+    private TwoColors getRootPaneInteriorColors(ButtonType type) {
+        switch (type) {
+        case ACTIVE:
+            return rootPaneActive;
+        case INACTIVE:
+            return rootPaneInactive;
+        }
+        return null;
+    }
+
+    public Paint getRootPaneInteriorPaint(Shape s, ButtonType type) {
+        TwoColors colors = getRootPaneInteriorColors(type);
+        return createVerticalGradient(s, colors);
     }
 }
