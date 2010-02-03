@@ -49,7 +49,7 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
         BACKGROUND_PRESSED_EDITABLE,
     }
 
-    public CommonControlType                  type;
+    public CommonControlType           type;
 
     private ComboBoxArrowButtonPainter buttonPainter;
 

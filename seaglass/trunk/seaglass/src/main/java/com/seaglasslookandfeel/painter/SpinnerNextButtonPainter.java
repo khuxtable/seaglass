@@ -48,26 +48,26 @@ public final class SpinnerNextButtonPainter extends AbstractCommonColorsPainter 
         FOREGROUND_PRESSED,
     }
 
-    private Color        spinnerNextBorderBottomEnabled   = decodeColor("spinnerNextBorderBottomEnabled");
-    private Color        spinnerNextBorderBottomPressed   = decodeColor("spinnerNextBorderBottomPressed");
-    private Color        spinnerNextInteriorBottomEnabled = decodeColor("spinnerNextInteriorBottomEnabled");
-    private Color        spinnerNextInteriorBottomPressed = decodeColor("spinnerNextInteriorBottomPressed");
+    private Color             spinnerNextBorderBottomEnabled   = decodeColor("spinnerNextBorderBottomEnabled");
+    private Color             spinnerNextBorderBottomPressed   = decodeColor("spinnerNextBorderBottomPressed");
+    private Color             spinnerNextInteriorBottomEnabled = decodeColor("spinnerNextInteriorBottomEnabled");
+    private Color             spinnerNextInteriorBottomPressed = decodeColor("spinnerNextInteriorBottomPressed");
 
-    private TwoColors    pressedButtonBorder              = getCommonBorderColors(CommonControlType.PRESSED);
-    private TwoColors    spinnerNextBorderEnabled         = new TwoColors(pressedButtonBorder.top, spinnerNextBorderBottomEnabled);
-    private TwoColors    spinnerNextBorderPressed         = new TwoColors(pressedButtonBorder.top, spinnerNextBorderBottomPressed);
-    private TwoColors    spinnerNextBorderDisabled        = disable(spinnerNextBorderEnabled);
+    private TwoColors         pressedButtonBorder              = getCommonBorderColors(CommonControlType.PRESSED);
+    private TwoColors         spinnerNextBorderEnabled         = new TwoColors(pressedButtonBorder.top, spinnerNextBorderBottomEnabled);
+    private TwoColors         spinnerNextBorderPressed         = new TwoColors(pressedButtonBorder.top, spinnerNextBorderBottomPressed);
+    private TwoColors         spinnerNextBorderDisabled        = disable(spinnerNextBorderEnabled);
 
-    private FourColors   pressedButtonInterior            = getCommonInteriorColors(CommonControlType.PRESSED);
-    private FourColors   selectedButtonInterior           = getCommonInteriorColors(CommonControlType.SELECTED);
-    private TwoColors    spinnerNextInteriorEnabled       = new TwoColors(selectedButtonInterior.top, spinnerNextInteriorBottomEnabled);
-    private TwoColors    spinnerNextInteriorPressed       = new TwoColors(pressedButtonInterior.top, spinnerNextInteriorBottomPressed);
-    private TwoColors    spinnerNextInteriorDisabled      = desaturate(desaturate(spinnerNextInteriorEnabled));
+    private FourColors        pressedButtonInterior            = getCommonInteriorColors(CommonControlType.PRESSED);
+    private FourColors        selectedButtonInterior           = getCommonInteriorColors(CommonControlType.SELECTED);
+    private TwoColors         spinnerNextInteriorEnabled       = new TwoColors(selectedButtonInterior.top, spinnerNextInteriorBottomEnabled);
+    private TwoColors         spinnerNextInteriorPressed       = new TwoColors(pressedButtonInterior.top, spinnerNextInteriorBottomPressed);
+    private TwoColors         spinnerNextInteriorDisabled      = desaturate(desaturate(spinnerNextInteriorEnabled));
 
-    private PaintContext ctx;
-    private CommonControlType   type;
-    private boolean      focused;
-    private boolean      isForeground;
+    private PaintContext      ctx;
+    private CommonControlType type;
+    private boolean           focused;
+    private boolean           isForeground;
 
     public SpinnerNextButtonPainter(Which state) {
         super();

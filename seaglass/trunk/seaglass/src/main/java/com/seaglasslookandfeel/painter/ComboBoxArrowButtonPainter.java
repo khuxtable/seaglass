@@ -43,10 +43,10 @@ public final class ComboBoxArrowButtonPainter extends AbstractCommonColorsPainte
         FOREGROUND_ENABLED_EDITABLE, FOREGROUND_DISABLED_EDITABLE,
     }
 
-    private Which        state;
-    private PaintContext ctx;
+    private Which             state;
+    private PaintContext      ctx;
 
-    private CommonControlType   type;
+    private CommonControlType type;
 
     public ComboBoxArrowButtonPainter(Which state) {
         super();

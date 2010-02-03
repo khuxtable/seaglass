@@ -47,7 +47,7 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
 
     private Which                        state;
     private PaintContext                 ctx;
-    private CommonControlType                   type;
+    private CommonControlType            type;
     private boolean                      focused;
 
     public TextComponentPainter(Which state) {

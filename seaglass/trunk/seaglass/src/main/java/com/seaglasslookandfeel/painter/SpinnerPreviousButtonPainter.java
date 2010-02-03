@@ -48,30 +48,32 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
         FOREGROUND_PRESSED,
     }
 
-    private Color        spinnerPrevBorderTopEnabled      = decodeColor("spinnerPrevBorderTopEnabled");
-    private Color        spinnerPrevInteriorTopEnabled    = decodeColor("spinnerPrevInteriorTopEnabled");
-    private Color        spinnerPrevInteriorBottomEnabled = decodeColor("spinnerPrevInteriorBottomEnabled");
-    private Color        spinnerPrevInteriorPressedTop    = decodeColor("spinnerPrevInteriorPressedTop");
-    private Color        spinnerPrevInteriorPressedBottom = decodeColor("spinnerPrevInteriorPressedBottom");
-    private Color        spinnerPrevTopLineEnabled        = decodeColor("spinnerPrevTopLineEnabled");
-    private Color        spinnerPrevTopLinePressed        = decodeColor("spinnerPrevTopLinePressed");
-    private Color        scrollBarThumbBorderBasePressed  = decodeColor("scrollBarThumbBorderBasePressed");
+    private Color             spinnerPrevBorderTopEnabled      = decodeColor("spinnerPrevBorderTopEnabled");
+    private Color             spinnerPrevInteriorTopEnabled    = decodeColor("spinnerPrevInteriorTopEnabled");
+    private Color             spinnerPrevInteriorBottomEnabled = decodeColor("spinnerPrevInteriorBottomEnabled");
+    private Color             spinnerPrevInteriorPressedTop    = decodeColor("spinnerPrevInteriorPressedTop");
+    private Color             spinnerPrevInteriorPressedBottom = decodeColor("spinnerPrevInteriorPressedBottom");
+    private Color             spinnerPrevTopLineEnabled        = decodeColor("spinnerPrevTopLineEnabled");
+    private Color             spinnerPrevTopLinePressed        = decodeColor("spinnerPrevTopLinePressed");
+    private Color             scrollBarThumbBorderBasePressed  = decodeColor("scrollBarThumbBorderBasePressed");
 
-    private Color        scrollBarThumbBorderTopPressed   = deriveColor(scrollBarThumbBorderBasePressed, -0.002239f, 0.041885f, 0f, 0);
-    private TwoColors    spinnerPrevBorderEnabled         = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
-    private TwoColors    spinnerPrevBorderPressed         = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
-    private TwoColors    spinnerPrevBorderDisabled        = disable(spinnerPrevBorderEnabled);
+    private Color             scrollBarThumbBorderTopPressed   = deriveColor(scrollBarThumbBorderBasePressed, -0.002239f, 0.041885f, 0f, 0);
+    private TwoColors         spinnerPrevBorderEnabled         = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
+    private TwoColors         spinnerPrevBorderPressed         = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
+    private TwoColors         spinnerPrevBorderDisabled        = disable(spinnerPrevBorderEnabled);
 
-    private TwoColors    spinnerPrevInteriorEnabled       = new TwoColors(spinnerPrevInteriorTopEnabled, spinnerPrevInteriorBottomEnabled);
-    private TwoColors    spinnerPrevInteriorPressed       = new TwoColors(spinnerPrevInteriorPressedTop, spinnerPrevInteriorPressedBottom);
-    private TwoColors    spinnerPrevInteriorDisabled      = desaturate(desaturate(spinnerPrevInteriorEnabled));
+    private TwoColors         spinnerPrevInteriorEnabled       = new TwoColors(spinnerPrevInteriorTopEnabled,
+                                                                   spinnerPrevInteriorBottomEnabled);
+    private TwoColors         spinnerPrevInteriorPressed       = new TwoColors(spinnerPrevInteriorPressedTop,
+                                                                   spinnerPrevInteriorPressedBottom);
+    private TwoColors         spinnerPrevInteriorDisabled      = desaturate(desaturate(spinnerPrevInteriorEnabled));
 
-    private Color        spinnerPrevTopLineDisabled       = desaturate(spinnerPrevTopLineEnabled);
+    private Color             spinnerPrevTopLineDisabled       = desaturate(spinnerPrevTopLineEnabled);
 
-    private PaintContext ctx;
-    private CommonControlType   type;
-    private boolean      focused;
-    private boolean      isForeground;
+    private PaintContext      ctx;
+    private CommonControlType type;
+    private boolean           focused;
+    private boolean           isForeground;
 
     public SpinnerPreviousButtonPainter(Which state) {
         super();

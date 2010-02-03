@@ -38,18 +38,18 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
-    private Color        sliderTrackBorderBase       = decodeColor("sliderTrackBorderBase");
-    private Color        sliderTrackInteriorBase     = decodeColor("sliderTrackInteriorBase");
+    private Color             sliderTrackBorderBase       = decodeColor("sliderTrackBorderBase");
+    private Color             sliderTrackInteriorBase     = decodeColor("sliderTrackInteriorBase");
 
-    private TwoColors    sliderTrackBorderEnabled    = new TwoColors(deriveColor(sliderTrackBorderBase, 0f, 0f, -0.149020f, 0),
-                                                         deriveColor(sliderTrackBorderBase, 0f, 0f, 0.145098f, 0));
-    private TwoColors    sliderTrackInteriorEnabled  = new TwoColors(deriveColor(sliderTrackInteriorBase, 0f, 0f, -0.078431f, 0),
-                                                         deriveColor(sliderTrackInteriorBase, 0f, 0f, 0.074510f, 0));
-    private TwoColors    sliderTrackInteriorDisabled = disable(sliderTrackInteriorEnabled);
-    private TwoColors    sliderTrackBorderDisabled   = desaturate(sliderTrackBorderEnabled);
+    private TwoColors         sliderTrackBorderEnabled    = new TwoColors(deriveColor(sliderTrackBorderBase, 0f, 0f, -0.149020f, 0),
+                                                              deriveColor(sliderTrackBorderBase, 0f, 0f, 0.145098f, 0));
+    private TwoColors         sliderTrackInteriorEnabled  = new TwoColors(deriveColor(sliderTrackInteriorBase, 0f, 0f, -0.078431f, 0),
+                                                              deriveColor(sliderTrackInteriorBase, 0f, 0f, 0.074510f, 0));
+    private TwoColors         sliderTrackInteriorDisabled = disable(sliderTrackInteriorEnabled);
+    private TwoColors         sliderTrackBorderDisabled   = desaturate(sliderTrackBorderEnabled);
 
-    private PaintContext ctx;
-    private CommonControlType   type;
+    private PaintContext      ctx;
+    private CommonControlType type;
 
     public SliderTrackPainter(Which state) {
         super();

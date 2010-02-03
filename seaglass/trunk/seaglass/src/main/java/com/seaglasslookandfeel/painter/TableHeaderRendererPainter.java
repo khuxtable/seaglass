@@ -43,26 +43,29 @@ public final class TableHeaderRendererPainter extends AbstractCommonColorsPainte
         BACKGROUND_DISABLED_SORTED,
     }
 
-    private Color        tableHeaderBorderEnabled       = decodeColor("tableHeaderBorderEnabled");
-    private Color        tableHeaderInteriorBaseEnabled = decodeColor("tableHeaderInteriorBaseEnabled");
+    private Color             tableHeaderBorderEnabled       = decodeColor("tableHeaderBorderEnabled");
+    private Color             tableHeaderInteriorBaseEnabled = decodeColor("tableHeaderInteriorBaseEnabled");
 
-    private Color        tableHeaderBorderDisabled      = disable(tableHeaderBorderEnabled);
+    private Color             tableHeaderBorderDisabled      = disable(tableHeaderBorderEnabled);
 
-    private Color        tableHeaderTopEnabled          = deriveColor(tableHeaderInteriorBaseEnabled, -0.027778f, -0.020842f, 0.035294f, 0);
-    private Color        tableHeaderUpperMidEnabled     = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, 0.000405f, -0.011765f, 0);
-    private Color        tableHeaderLowerMidEnabled     = deriveColor(tableHeaderInteriorBaseEnabled, 0f, -0.000264f, 0.007843f, 0);
-    private Color        tableHeaderBottomEnabled       = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, -0.001033f, 0.031373f, 0);
+    private Color             tableHeaderTopEnabled          = deriveColor(tableHeaderInteriorBaseEnabled, -0.027778f, -0.020842f,
+                                                                 0.035294f, 0);
+    private Color             tableHeaderUpperMidEnabled     = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, 0.000405f,
+                                                                 -0.011765f, 0);
+    private Color             tableHeaderLowerMidEnabled     = deriveColor(tableHeaderInteriorBaseEnabled, 0f, -0.000264f, 0.007843f, 0);
+    private Color             tableHeaderBottomEnabled       = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, -0.001033f,
+                                                                 0.031373f, 0);
 
-    private FourColors   tableHeaderEnabled             = new FourColors(tableHeaderTopEnabled, tableHeaderUpperMidEnabled,
-                                                            tableHeaderLowerMidEnabled, tableHeaderBottomEnabled);
-    private FourColors   tableHeaderSorted              = getCommonInteriorColors(CommonControlType.SELECTED);
-    private FourColors   tableHeaderPressed             = getCommonInteriorColors(CommonControlType.PRESSED);
-    private FourColors   tableHeaderDisabled            = disable(tableHeaderEnabled);
-    private FourColors   tableHeaderDisabledSorted      = disable(tableHeaderSorted);
+    private FourColors        tableHeaderEnabled             = new FourColors(tableHeaderTopEnabled, tableHeaderUpperMidEnabled,
+                                                                 tableHeaderLowerMidEnabled, tableHeaderBottomEnabled);
+    private FourColors        tableHeaderSorted              = getCommonInteriorColors(CommonControlType.SELECTED);
+    private FourColors        tableHeaderPressed             = getCommonInteriorColors(CommonControlType.PRESSED);
+    private FourColors        tableHeaderDisabled            = disable(tableHeaderEnabled);
+    private FourColors        tableHeaderDisabledSorted      = disable(tableHeaderSorted);
 
-    private PaintContext ctx;
-    private CommonControlType   type;
-    private boolean      isSorted;
+    private PaintContext      ctx;
+    private CommonControlType type;
+    private boolean           isSorted;
 
     public TableHeaderRendererPainter(Which state) {
         super();

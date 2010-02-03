@@ -41,7 +41,7 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
 
     private Which                        state;
     private PaintContext                 ctx;
-    private CommonControlType                   type;
+    private CommonControlType            type;
     private boolean                      focused;
 
     public SearchFieldPainter(Which state) {
@@ -49,7 +49,8 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
         this.state = state;
         this.ctx = new PaintContext(AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES);
 
-        type = (state == Which.BACKGROUND_DISABLED || state == Which.BORDER_DISABLED) ? CommonControlType.DISABLED : CommonControlType.ENABLED;
+        type = (state == Which.BACKGROUND_DISABLED || state == Which.BORDER_DISABLED) ? CommonControlType.DISABLED
+                : CommonControlType.ENABLED;
         focused = (state == Which.BORDER_FOCUSED);
     }
 

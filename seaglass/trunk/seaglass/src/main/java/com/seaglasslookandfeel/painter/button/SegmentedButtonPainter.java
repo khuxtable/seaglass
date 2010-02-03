@@ -44,7 +44,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         NONE, FIRST, MIDDLE, LAST
     };
 
-    private Effect     dropShadow = new SeaGlassDropShadowEffect();
+    private Effect            dropShadow = new SeaGlassDropShadowEffect();
 
     private CommonControlType type;
 

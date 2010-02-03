@@ -39,7 +39,7 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractCommonColors
     private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
     private PaintContext                 ctx;
-    private CommonControlType                   type;
+    private CommonControlType            type;
     private boolean                      focused;
 
     public SpinnerFormattedTextFieldPainter(Which state) {

@@ -51,19 +51,19 @@ public final class CheckBoxPainter extends AbstractCommonColorsPainter {
         ICON_DISABLED_SELECTED,
     }
 
-    private Color        buttonBulletBottomEnabled = decodeColor("buttonBulletBottomEnabled");
+    private Color             buttonBulletBottomEnabled = decodeColor("buttonBulletBottomEnabled");
 
-    private TwoColors    buttonBulletEnabled       = new TwoColors(deriveColor(buttonBulletBottomEnabled, 0f, 0f, 0.2f, 0),
-                                                       buttonBulletBottomEnabled);
-    private TwoColors    buttonbulletDisabled      = disable(buttonBulletEnabled);
+    private TwoColors         buttonBulletEnabled       = new TwoColors(deriveColor(buttonBulletBottomEnabled, 0f, 0f, 0.2f, 0),
+                                                            buttonBulletBottomEnabled);
+    private TwoColors         buttonbulletDisabled      = disable(buttonBulletEnabled);
 
-    private PaintContext ctx;
-    private boolean      focused;
-    private boolean      selected;
+    private PaintContext      ctx;
+    private boolean           focused;
+    private boolean           selected;
 
-    private Effect       dropShadow                = new SeaGlassDropShadowEffect();
+    private Effect            dropShadow                = new SeaGlassDropShadowEffect();
 
-    private CommonControlType   type;
+    private CommonControlType type;
 
     public CheckBoxPainter(Which state) {
         super();

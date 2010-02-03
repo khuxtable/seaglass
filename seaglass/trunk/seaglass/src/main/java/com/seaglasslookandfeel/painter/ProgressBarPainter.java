@@ -73,7 +73,7 @@ public final class ProgressBarPainter extends AbstractCommonColorsPainter {
 
     private Which                        state;
     private PaintContext                 ctx;
-    private CommonControlType                   type;
+    private CommonControlType            type;
 
     public ProgressBarPainter(Which state) {
         super();
