@@ -3,7 +3,7 @@
 	<groupId>com.seaglasslookandfeel</groupId>
 	<artifactId>seaglasslookandfeel</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.6-SNAPSHOT</version>
+	<version>0.1.6</version>
 	<name>Sea Glass Look and Feel</name>
 	<description>A Java cross-platform look and feel for JRE 1.6 and later.
 	This is developed from Synth, and is based on forms seen in sea glass,
