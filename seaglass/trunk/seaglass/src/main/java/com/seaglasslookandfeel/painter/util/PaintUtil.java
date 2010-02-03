@@ -22,7 +22,6 @@ package com.seaglasslookandfeel.painter.util;
 import java.awt.Color;
 import java.awt.LinearGradientPaint;
 import java.awt.Paint;
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
@@ -43,14 +42,10 @@ public class PaintUtil {
         INNER_FOCUS, OUTER_FOCUS,
     }
 
-    private static Color      transparentColor;
-
     private static Color      outerFocus;
     private static Color      innerFocus;
     private static Color      outerToolBarFocus;
     private static Color      innerToolBarFocus;
-
-    private static TwoColors  innerShadow;
 
     private static TwoColors  buttonBorderEnabled;
     private static TwoColors  buttonBorderPressed;
@@ -173,14 +168,10 @@ public class PaintUtil {
     private static FourColors toolbarHandleInterior;
 
     static {
-        transparentColor = decodeColor("seaGlassTransparent");
-
         outerFocus = decodeColor("seaGlassOuterFocus");
         innerFocus = decodeColor("seaGlassFocus");
         outerToolBarFocus = decodeColor("seaGlassToolBarOuterFocus");
         innerToolBarFocus = decodeColor("seaGlassToolBarFocus");
-
-        Color innerShadowBase = decodeColor("seaGlassInnerShadow");
 
         Color buttonBorderBaseEnabled = decodeColor("buttonBorderBaseEnabled");
         Color buttonBorderBasePressed = decodeColor("buttonBorderBasePressed");
@@ -236,8 +227,6 @@ public class PaintUtil {
         toolbarHandleMac = decodeColor("toolbarHandleMac");
 
         // ------- Assign from base colors -------
-
-        innerShadow = new TwoColors(innerShadowBase, deriveColor(innerShadowBase, 0f, 0f, 0f, -innerShadowBase.getAlpha() / 2));
 
         Color buttonBorderTopEnabled = deriveColor(buttonBorderBaseEnabled, 0.002841f, -0.068681f, 0.062745f, 0);
         Color buttonBorderBottomEnabled = deriveColor(buttonBorderBaseEnabled, -0.000801f, 0.082964f, -0.066667f, 0);
@@ -577,42 +566,6 @@ public class PaintUtil {
 
     public static Paint getScrollBarButtonArrowPaint(Shape s, ButtonType type) {
         return getScrollBarButtonArrowColor(type);
-    }
-
-    public static Paint getRoundedShadowPaint(Shape s) {
-        Rectangle r = s.getBounds();
-        int x = r.x + r.width / 2;
-        int y1 = r.y;
-        float frac = 1.0f / r.height;
-        int y2 = r.y + r.height;
-        return createGradient(x, y1, x, y2, new float[] { 0f, frac, 1f }, new Color[] {
-            innerShadow.top,
-            innerShadow.bottom,
-            innerShadow.bottom });
-    }
-
-    public static Paint getTopShadowPaint(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minY = (float) bounds.getMinY();
-        float maxY = (float) bounds.getMaxY();
-        float midX = (float) bounds.getCenterX();
-        return createGradient(midX, minY, midX, maxY, new float[] { 0f, 1f }, new Color[] { innerShadow.top, transparentColor });
-    }
-
-    public static Paint getLeftShadowPaint(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minX = (float) bounds.getMinX();
-        float maxX = (float) bounds.getMaxX();
-        float midY = (float) bounds.getCenterY();
-        return createGradient(minX, midY, maxX, midY, new float[] { 0f, 1f }, new Color[] { innerShadow.bottom, transparentColor });
-    }
-
-    public static Paint getRightShadowPaint(Shape s) {
-        Rectangle2D bounds = s.getBounds2D();
-        float minX = (float) bounds.getMinX() - 1;
-        float maxX = (float) bounds.getMaxX() - 1;
-        float midY = (float) bounds.getCenterY();
-        return createGradient(minX, midY, maxX, midY, new float[] { 0f, 1f }, new Color[] { transparentColor, innerShadow.bottom });
     }
 
     public static TwoColors getButtonBorderColors(ButtonType type) {
