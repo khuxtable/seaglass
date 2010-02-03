@@ -1135,6 +1135,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineProgressBars(UIDefaults d) {
         d.put("progressBarTrackInterior", Color.WHITE);
+        d.put("progressBarTrackBase", new Color(0x4076bf));
 
         d.put("ProgressBar.Indeterminate", new ProgressBarIndeterminateState());
         d.put("ProgressBar.Finished", new ProgressBarFinishedState());

@@ -107,19 +107,6 @@ public class PaintUtil {
     private static FourColors comboBoxBackgroundInteriorEnabled;
     private static FourColors comboBoxBackgroundInteriorPressed;
 
-    private static TwoColors  progressBarTrackDisabled;
-    private static Color      progressBarTrackInteriorDisabled;
-
-    private static TwoColors  progressBarTrackEnabled;
-    private static Color      progressBarTrackInteriorEnabled;
-
-    private static FourColors progressBarDisabled;
-    private static FourColors progressBarEnabled;
-    private static FourColors progressBarIndeterminatePatternDisabled;
-    private static FourColors progressBarIndeterminatePatternEnabled;
-    private static Color      progressBarEndDisabled;
-    private static Color      progressBarEndEnabled;
-
     private static TwoColors  scrollBarCapColors;
 
     private static TwoColors  scrollBarButtonIncreaseApart;
@@ -215,8 +202,6 @@ public class PaintUtil {
         Color texturedButtonInteriorBasePressed = decodeColor("texturedButtonInteriorBasePressed");
         Color texturedButtonInteriorBaseSelected = decodeColor("texturedButtonInteriorBaseSelected");
         Color texturedButtonInteriorBasePressedSelected = decodeColor("texturedButtonInteriorBasePressedSelected");
-
-        progressBarTrackInteriorEnabled = decodeColor("progressBarTrackInterior");
 
         Color scrollBarThumbBorderBasePressed = decodeColor("scrollBarThumbBorderBasePressed");
         Color scrollBarThumbInteriorBasePressed = decodeColor("scrollBarThumbInteriorBasePressed");
@@ -368,22 +353,6 @@ public class PaintUtil {
         comboBoxBackgroundInteriorDisabled = buttonInteriorDisabled;
         comboBoxBackgroundInteriorEnabled = buttonInteriorEnabled;
         comboBoxBackgroundInteriorPressed = buttonInteriorEnabled;
-
-        progressBarTrackEnabled = new TwoColors(buttonBorderBottomPressed, scrollBarThumbBorderTopPressed);
-        progressBarTrackDisabled = disable(progressBarTrackEnabled);
-
-        progressBarTrackInteriorDisabled = disable(progressBarTrackInteriorEnabled);
-
-        progressBarEnabled = new FourColors(buttonInteriorTopSelected, buttonInteriorUpperMidSelected, buttonInteriorLowerMidSelected,
-            buttonInteriorBottomSelected);
-        progressBarDisabled = disable(progressBarEnabled);
-
-        progressBarEndEnabled = deriveColor(buttonInteriorBaseSelected, 0.006370f, 0.274445f, -0.074510f, 0);
-        progressBarEndDisabled = disable(progressBarEndEnabled);
-
-        progressBarIndeterminatePatternEnabled = new FourColors(buttonInteriorTopEnabled, buttonInteriorUpperMidEnabled,
-            buttonInteriorLowerMidEnabled, buttonInteriorBottomEnabled);
-        progressBarIndeterminatePatternDisabled = disable(progressBarIndeterminatePatternEnabled);
 
         scrollBarCapColors = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f, -0.266667f, 0));
 
@@ -547,11 +516,6 @@ public class PaintUtil {
         }
     }
 
-    public static Paint getProgressBarBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getProgressBarBorderColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
     public static Paint getButtonBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getButtonBorderColors(type);
         return createVerticalGradient(s, colors);
@@ -601,10 +565,6 @@ public class PaintUtil {
         return getSpinnerPrevTopLineColors(type);
     }
 
-    public static Paint getProgressBarTrackPaint(Shape s, ButtonType type) {
-        return getProgressBarTrackColors(type);
-    }
-
     public static Paint getScrollBarThumbInteriorPaint(Shape s, ButtonType type) {
         FourColors colors = getScrollBarThumbInteriorColors(type);
         return createVerticalGradient(s, colors);
@@ -627,20 +587,6 @@ public class PaintUtil {
     public static Paint getSliderTrackInteriorPaint(Shape s, ButtonType type) {
         TwoColors colors = getSliderTrackInteriorColors(type);
         return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getProgressBarPaint(Shape s, ButtonType type) {
-        FourColors colors = getProgressBarColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getProgressBarIndeterminatePaint(Shape s, ButtonType type) {
-        FourColors colors = getProgressBarIndeterminateColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getProgressBarEndPaint(Shape s, ButtonType type) {
-        return getProgressBarEndColor(type);
     }
 
     public static Paint getScrollBarButtonBackgroundPaint(Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
@@ -896,56 +842,6 @@ public class PaintUtil {
             return comboBoxBackgroundInteriorEnabled;
         case PRESSED:
             return comboBoxBackgroundInteriorPressed;
-        }
-        return null;
-    }
-
-    private static TwoColors getProgressBarBorderColors(ButtonType type) {
-        switch (type) {
-        case ENABLED:
-            return progressBarTrackEnabled;
-        case DISABLED:
-            return progressBarTrackDisabled;
-        }
-        return null;
-    }
-
-    private static Color getProgressBarTrackColors(ButtonType type) {
-        switch (type) {
-        case ENABLED:
-            return progressBarTrackInteriorEnabled;
-        case DISABLED:
-            return progressBarTrackInteriorDisabled;
-        }
-        return null;
-    }
-
-    private static FourColors getProgressBarColors(ButtonType type) {
-        switch (type) {
-        case ENABLED:
-            return progressBarEnabled;
-        case DISABLED:
-            return progressBarDisabled;
-        }
-        return null;
-    }
-
-    private static FourColors getProgressBarIndeterminateColors(ButtonType type) {
-        switch (type) {
-        case ENABLED:
-            return progressBarIndeterminatePatternEnabled;
-        case DISABLED:
-            return progressBarIndeterminatePatternDisabled;
-        }
-        return null;
-    }
-
-    private static Color getProgressBarEndColor(ButtonType type) {
-        switch (type) {
-        case ENABLED:
-            return progressBarEndEnabled;
-        case DISABLED:
-            return progressBarEndDisabled;
         }
         return null;
     }

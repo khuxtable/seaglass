@@ -19,7 +19,9 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 
@@ -50,8 +52,30 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         FOREGROUND_DISABLED_INDETERMINATE,
     }
 
-    private Effect                       dropShadow     = new SeaGlassDropShadowEffect();
-    private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
+    private Color                        progressBarTrackInteriorEnabled         = decodeColor("progressBarTrackInterior");
+    private Color                        buttonInteriorBaseSelected              = decodeColor("buttonInteriorBaseSelected");
+    private Color                        progressBarTrackBase                    = decodeColor("progressBarTrackBase");
+
+    private Color                        progressBarTrackInteriorDisabled        = disable(progressBarTrackInteriorEnabled);
+    private TwoColors                    progressBarTrackEnabled                 = new TwoColors(deriveColor(progressBarTrackBase,
+                                                                                     -0.000749f, 0.005236f, 0f, 0), progressBarTrackBase);
+    private TwoColors                    progressBarTrackDisabled                = disable(progressBarTrackEnabled);
+    private Color                        progressBarEndEnabled                   = deriveColor(buttonInteriorBaseSelected, 0.006370f,
+                                                                                     0.274445f, -0.074510f, 0);
+    private Color                        progressBarEndDisabled                  = disable(progressBarEndEnabled);
+
+    private PaintUtil.FourColors         tmp                                     = PaintUtil.getButtonInteriorColors(ButtonType.SELECTED);
+    private FourColors                   progressBarEnabled                      = new FourColors(tmp.top, tmp.upperMid, tmp.lowerMid,
+                                                                                     tmp.bottom);
+    private FourColors                   progressBarDisabled                     = disable(progressBarEnabled);
+
+    private PaintUtil.FourColors         tmp2                                    = PaintUtil.getButtonInteriorColors(ButtonType.ENABLED);
+    private FourColors                   progressBarIndeterminatePatternEnabled  = new FourColors(tmp2.top, tmp2.upperMid, tmp2.lowerMid,
+                                                                                     tmp2.bottom);
+    private FourColors                   progressBarIndeterminatePatternDisabled = disable(progressBarIndeterminatePatternEnabled);
+
+    private Effect                       dropShadow                              = new SeaGlassDropShadowEffect();
+    private SeaGlassInternalShadowEffect internalShadow                          = new SeaGlassInternalShadowEffect();
 
     private Which                        state;
     private PaintContext                 ctx;
@@ -122,11 +146,11 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
         if (state != Which.BACKGROUND_DISABLED) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(PaintUtil.getProgressBarBorderPaint(s, type));
+        g.setPaint(getProgressBarBorderPaint(s, type));
         g.draw(s);
 
         s = ShapeUtil.createRoundRectangle(3, 3, width - 6, height - 6, CornerSize.ROUND_HEIGHT);
-        g.setPaint(PaintUtil.getProgressBarTrackPaint(s, type));
+        g.setPaint(getProgressBarTrackPaint(s, type));
         g.fill(s);
 
         s = ShapeUtil.createInternalDropShadowRounded(3, 3, width - 6, height - 8);
@@ -135,22 +159,95 @@ public final class ProgressBarPainter extends AbstractRegionPainter {
 
     private void paintBar(Graphics2D g, int width, int height, boolean isFinished) {
         Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        g.setPaint(PaintUtil.getProgressBarPaint(s, type));
+        g.setPaint(getProgressBarPaint(s, type));
         g.fill(s);
 
         if (!isFinished) {
             s = ShapeUtil.createRectangle(width - 1, 0, 1, height);
-            g.setPaint(PaintUtil.getProgressBarEndPaint(s, type));
+            g.setPaint(getProgressBarEndPaint(s, type));
             g.fill(s);
         }
     }
 
     private void paintIndeterminateBar(Graphics2D g, int width, int height) {
         Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        g.setPaint(PaintUtil.getProgressBarPaint(s, type));
+        g.setPaint(getProgressBarPaint(s, type));
         g.fill(s);
         s = ShapeUtil.createProgressBarIndeterminatePattern(0, 0, width, height);
-        g.setPaint(PaintUtil.getProgressBarIndeterminatePaint(s, type));
+        g.setPaint(getProgressBarIndeterminatePaint(s, type));
         g.fill(s);
+    }
+
+    public Paint getProgressBarEndPaint(Shape s, ButtonType type) {
+        return getProgressBarEndColor(type);
+    }
+
+    private Color getProgressBarEndColor(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return progressBarEndEnabled;
+        case DISABLED:
+            return progressBarEndDisabled;
+        }
+        return null;
+    }
+
+    public Paint getProgressBarBorderPaint(Shape s, ButtonType type) {
+        TwoColors colors = getProgressBarBorderColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    private TwoColors getProgressBarBorderColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return progressBarTrackEnabled;
+        case DISABLED:
+            return progressBarTrackDisabled;
+        }
+        return null;
+    }
+
+    public Paint getProgressBarTrackPaint(Shape s, ButtonType type) {
+        return getProgressBarTrackColors(type);
+    }
+
+    private Color getProgressBarTrackColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return progressBarTrackInteriorEnabled;
+        case DISABLED:
+            return progressBarTrackInteriorDisabled;
+        }
+        return null;
+    }
+
+    public Paint getProgressBarPaint(Shape s, ButtonType type) {
+        FourColors colors = getProgressBarColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    public Paint getProgressBarIndeterminatePaint(Shape s, ButtonType type) {
+        FourColors colors = getProgressBarIndeterminateColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    private FourColors getProgressBarColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return progressBarEnabled;
+        case DISABLED:
+            return progressBarDisabled;
+        }
+        return null;
+    }
+
+    private FourColors getProgressBarIndeterminateColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return progressBarIndeterminatePatternEnabled;
+        case DISABLED:
+            return progressBarIndeterminatePatternDisabled;
+        }
+        return null;
     }
 }
