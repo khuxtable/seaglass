@@ -57,26 +57,26 @@ public class SeaGlassInternalShadowEffect {
         int h = bounds.height;
 
         s = ShapeUtil.createRectangle(x, y, w, 2);
-        g.setPaint(getTopShadowPaint(s));
+        g.setPaint(getTopShadowGradient(s));
         g.fill(s);
 
         s = ShapeUtil.createRectangle(x, y, 1, h);
-        g.setPaint(getLeftShadowPaint(s));
+        g.setPaint(getLeftShadowGradient(s));
         g.fill(s);
 
         if (paintRightShadow) {
             s = ShapeUtil.createRectangle(x + w - 1, y, 1, h);
-            g.setPaint(getRightShadowPaint(s));
+            g.setPaint(getRightShadowGradient(s));
             g.fill(s);
         }
     }
 
     private void fillInternalShadowRounded(Graphics2D g, Shape s) {
-        g.setPaint(getRoundedShadowPaint(s));
+        g.setPaint(getRoundedShadowGradient(s));
         g.fill(s);
     }
 
-    public Paint getRoundedShadowPaint(Shape s) {
+    public Paint getRoundedShadowGradient(Shape s) {
         Rectangle r = s.getBounds();
         int x = r.x + r.width / 2;
         int y1 = r.y;
@@ -88,7 +88,7 @@ public class SeaGlassInternalShadowEffect {
             innerShadow.bottom }));
     }
 
-    public Paint getTopShadowPaint(Shape s) {
+    public Paint getTopShadowGradient(Shape s) {
         Rectangle2D bounds = s.getBounds2D();
         float minY = (float) bounds.getMinY();
         float maxY = (float) bounds.getMaxY();
@@ -97,7 +97,7 @@ public class SeaGlassInternalShadowEffect {
             (new Color[] { innerShadow.top, transparentColor }));
     }
 
-    public Paint getLeftShadowPaint(Shape s) {
+    public Paint getLeftShadowGradient(Shape s) {
         Rectangle2D bounds = s.getBounds2D();
         float minX = (float) bounds.getMinX();
         float maxX = (float) bounds.getMaxX();
@@ -107,7 +107,7 @@ public class SeaGlassInternalShadowEffect {
             transparentColor }));
     }
 
-    public Paint getRightShadowPaint(Shape s) {
+    public Paint getRightShadowGradient(Shape s) {
         Rectangle2D bounds = s.getBounds2D();
         float minX = (float) bounds.getMinX() - 1;
         float maxX = (float) bounds.getMaxX() - 1;
