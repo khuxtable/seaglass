@@ -27,7 +27,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
 /**
  * ContentPanePainter implementation.
@@ -44,7 +43,7 @@ public class ContentPanePainter extends AbstractRegionPainter {
 
     private PaintContext ctx;
 
-    private ButtonType   type;
+    private CommonControlType   type;
 
     public ContentPanePainter(Which state) {
         super();
@@ -63,17 +62,17 @@ public class ContentPanePainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_ENABLED:
-            return ButtonType.INACTIVE;
+            return CommonControlType.INACTIVE;
         case BACKGROUND_ENABLED_WINDOWFOCUSED:
-            return ButtonType.ACTIVE;
+            return CommonControlType.ACTIVE;
         }
         return null;
     }
 
-    private TwoColors getRootPaneInteriorColors(ButtonType type) {
+    private TwoColors getRootPaneInteriorColors(CommonControlType type) {
         switch (type) {
         case ACTIVE:
             return rootPaneActive;
@@ -83,7 +82,7 @@ public class ContentPanePainter extends AbstractRegionPainter {
         return null;
     }
 
-    public Paint getRootPaneInteriorPaint(Shape s, ButtonType type) {
+    public Paint getRootPaneInteriorPaint(Shape s, CommonControlType type) {
         TwoColors colors = getRootPaneInteriorColors(type);
         return createVerticalGradient(s, colors);
     }

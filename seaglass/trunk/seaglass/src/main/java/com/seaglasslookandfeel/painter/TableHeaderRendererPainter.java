@@ -28,7 +28,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
 /**
  * Paint table headers.
@@ -56,13 +55,13 @@ public final class TableHeaderRendererPainter extends AbstractCommonColorsPainte
 
     private FourColors   tableHeaderEnabled             = new FourColors(tableHeaderTopEnabled, tableHeaderUpperMidEnabled,
                                                             tableHeaderLowerMidEnabled, tableHeaderBottomEnabled);
-    private FourColors   tableHeaderSorted              = getCommonInteriorColors(ButtonType.SELECTED);
-    private FourColors   tableHeaderPressed             = getCommonInteriorColors(ButtonType.PRESSED);
+    private FourColors   tableHeaderSorted              = getCommonInteriorColors(CommonControlType.SELECTED);
+    private FourColors   tableHeaderPressed             = getCommonInteriorColors(CommonControlType.PRESSED);
     private FourColors   tableHeaderDisabled            = disable(tableHeaderEnabled);
     private FourColors   tableHeaderDisabledSorted      = disable(tableHeaderSorted);
 
     private PaintContext ctx;
-    private ButtonType   type;
+    private CommonControlType   type;
     private boolean      isSorted;
 
     public TableHeaderRendererPainter(Which state) {
@@ -88,36 +87,36 @@ public final class TableHeaderRendererPainter extends AbstractCommonColorsPainte
         return ctx;
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         case BACKGROUND_ENABLED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         case BACKGROUND_ENABLED_FOCUSED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         case BACKGROUND_PRESSED:
-            return ButtonType.PRESSED;
+            return CommonControlType.PRESSED;
         case BACKGROUND_ENABLED_SORTED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         case BACKGROUND_ENABLED_FOCUSED_SORTED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         case BACKGROUND_DISABLED_SORTED:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         }
         return null;
     }
 
-    public Paint getTableHeaderBorderPaint(ButtonType type) {
-        return type == ButtonType.DISABLED ? tableHeaderBorderDisabled : tableHeaderBorderEnabled;
+    public Paint getTableHeaderBorderPaint(CommonControlType type) {
+        return type == CommonControlType.DISABLED ? tableHeaderBorderDisabled : tableHeaderBorderEnabled;
     }
 
-    public Paint getTableHeaderInteriorPaint(Shape s, ButtonType type, boolean isSorted) {
+    public Paint getTableHeaderInteriorPaint(Shape s, CommonControlType type, boolean isSorted) {
         FourColors colors = getTableHeaderColors(type, isSorted);
         return createVerticalGradient(s, colors);
     }
 
-    private FourColors getTableHeaderColors(ButtonType type, boolean isSorted) {
+    private FourColors getTableHeaderColors(CommonControlType type, boolean isSorted) {
         switch (type) {
         case DISABLED:
             return isSorted ? tableHeaderDisabledSorted : tableHeaderDisabled;

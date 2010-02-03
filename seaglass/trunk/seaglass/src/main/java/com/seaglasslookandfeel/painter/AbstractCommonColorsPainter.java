@@ -23,8 +23,6 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
 
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
-
 public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter {
 
     private Color      arrowEnabled                    = decodeColor("buttonArrow");
@@ -90,21 +88,21 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
         super();
     }
 
-    public Paint getCommonArrowPaint(Shape s, ButtonType type) {
+    public Paint getCommonArrowPaint(Shape s, CommonControlType type) {
         return getCommonArrowColors(type);
     }
 
-    public Paint getCommonBorderPaint(Shape s, ButtonType type) {
+    public Paint getCommonBorderPaint(Shape s, CommonControlType type) {
         TwoColors colors = getCommonBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Paint getCommonInteriorPaint(Shape s, ButtonType type) {
+    public Paint getCommonInteriorPaint(Shape s, CommonControlType type) {
         FourColors colors = getCommonInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Color getCommonArrowColors(ButtonType type) {
+    public Color getCommonArrowColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return arrowDisabled;
@@ -115,7 +113,7 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
         return null;
     }
 
-    public TwoColors getCommonBorderColors(ButtonType type) {
+    public TwoColors getCommonBorderColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return borderDisabled;
@@ -137,7 +135,7 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
         return null;
     }
 
-    public FourColors getCommonInteriorColors(ButtonType type) {
+    public FourColors getCommonInteriorColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return interiorDisabled;
@@ -159,8 +157,8 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
         return null;
     }
 
-    public Paint getTextBorderPaint(ButtonType type, boolean inToolbar) {
-        if (type == ButtonType.DISABLED) {
+    public Paint getTextBorderPaint(CommonControlType type, boolean inToolbar) {
+        if (type == CommonControlType.DISABLED) {
             return textBorderDisabled;
         } else if (inToolbar) {
             return textBorderEnabledToolbar;

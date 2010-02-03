@@ -28,7 +28,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -50,7 +49,7 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
     private TwoColors    sliderTrackBorderDisabled   = desaturate(sliderTrackBorderEnabled);
 
     private PaintContext ctx;
-    private ButtonType   type;
+    private CommonControlType   type;
 
     public SliderTrackPainter(Which state) {
         super();
@@ -71,27 +70,27 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         case BACKGROUND_ENABLED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         }
         return null;
     }
 
-    public Paint getSliderTrackBorderPaint(Shape s, ButtonType type) {
+    public Paint getSliderTrackBorderPaint(Shape s, CommonControlType type) {
         TwoColors colors = getSliderTrackBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Paint getSliderTrackInteriorPaint(Shape s, ButtonType type) {
+    public Paint getSliderTrackInteriorPaint(Shape s, CommonControlType type) {
         TwoColors colors = getSliderTrackInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    private TwoColors getSliderTrackBorderColors(ButtonType type) {
+    private TwoColors getSliderTrackBorderColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return sliderTrackBorderDisabled;
@@ -101,7 +100,7 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
         return null;
     }
 
-    private TwoColors getSliderTrackInteriorColors(ButtonType type) {
+    private TwoColors getSliderTrackInteriorColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return sliderTrackInteriorDisabled;

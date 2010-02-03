@@ -24,7 +24,6 @@ import java.awt.Paint;
 import java.awt.Shape;
 
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
 /**
  * Paint a "textured" button. This is suitable for placing on darker grey
@@ -46,7 +45,7 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
 
     private TwoColors texturedButtonBorderEnabled                 = new TwoColors(texturedButtonBorderTopEnabled,
                                                                       texturedButtonBorderBottomEnabled);
-    private TwoColors texturedButtonBorderPressed                 = super.getCommonBorderColors(ButtonType.PRESSED);
+    private TwoColors texturedButtonBorderPressed                 = super.getCommonBorderColors(CommonControlType.PRESSED);
     private TwoColors texturedButtonBorderDefault                 = texturedButtonBorderPressed;
     private TwoColors texturedButtonBorderSelected                = texturedButtonBorderDefault;
     private TwoColors texturedButtonBorderDefaultPressed          = texturedButtonBorderPressed;
@@ -94,17 +93,17 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
         super(state, ctx);
     }
 
-    public Paint getCommonBorderPaint(Shape s, ButtonType type) {
+    public Paint getCommonBorderPaint(Shape s, CommonControlType type) {
         TwoColors colors = getTexturedButtonBorderColors(type);
         return createVerticalGradient(s, new TwoColors(colors.top, colors.bottom));
     }
 
-    public Paint getCommonInteriorPaint(Shape s, ButtonType type) {
+    public Paint getCommonInteriorPaint(Shape s, CommonControlType type) {
         TwoColors colors = getTexturedButtonInteriorColors(type);
         return createVerticalGradient(s, new TwoColors(colors.top, colors.bottom));
     }
 
-    public TwoColors getTexturedButtonBorderColors(ButtonType type) {
+    public TwoColors getTexturedButtonBorderColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return texturedButtonBorderDisabled;
@@ -126,7 +125,7 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
         return null;
     }
 
-    public TwoColors getTexturedButtonInteriorColors(ButtonType type) {
+    public TwoColors getTexturedButtonInteriorColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return texturedButtonInteriorDisabled;

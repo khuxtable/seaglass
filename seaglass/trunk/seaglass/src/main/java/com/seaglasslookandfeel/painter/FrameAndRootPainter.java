@@ -33,7 +33,6 @@ import javax.swing.JRootPane;
 import javax.swing.JToolBar;
 
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.state.ToolBarNorthState;
@@ -78,7 +77,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     private static final State toolBarSouthState           = new ToolBarSouthState();
 
     private PaintContext       ctx;
-    private ButtonType         type;
+    private CommonControlType         type;
 
     public FrameAndRootPainter(Which state) {
         super();
@@ -94,12 +93,12 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_ENABLED:
-            return ButtonType.INACTIVE;
+            return CommonControlType.INACTIVE;
         case BACKGROUND_ENABLED_WINDOWFOCUSED:
-            return ButtonType.ACTIVE;
+            return CommonControlType.ACTIVE;
         }
         return null;
     }
@@ -151,7 +150,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         g.draw(s);
     }
 
-    private Color getFrameBorderColors(ButtonType type) {
+    private Color getFrameBorderColors(CommonControlType type) {
         switch (type) {
         case INACTIVE:
             return frameBorderInactive;
@@ -161,11 +160,11 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         return null;
     }
 
-    public Paint getFrameBorderPaint(Shape s, ButtonType type) {
+    public Paint getFrameBorderPaint(Shape s, CommonControlType type) {
         return getFrameBorderColors(type);
     }
 
-    private FourColors getFrameInteriorColors(ButtonType type) {
+    private FourColors getFrameInteriorColors(CommonControlType type) {
         switch (type) {
         case INACTIVE:
             return frameInactive;
@@ -175,12 +174,12 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         return null;
     }
 
-    public Paint getFrameInteriorPaint(Shape s, ButtonType type, int titleHeight, int topToolBarHeight, int bottomToolBarHeight) {
+    public Paint getFrameInteriorPaint(Shape s, CommonControlType type, int titleHeight, int topToolBarHeight, int bottomToolBarHeight) {
         FourColors colors = getFrameInteriorColors(type);
         return createFrameGradient(s, titleHeight, topToolBarHeight, bottomToolBarHeight, colors);
     }
 
-    private Color getFrameInnerHighlightColors(ButtonType type) {
+    private Color getFrameInnerHighlightColors(CommonControlType type) {
         switch (type) {
         case INACTIVE:
             return frameInnerHighlightInactive;
@@ -190,7 +189,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         return null;
     }
 
-    public Paint getFrameInnerHighlightPaint(Shape s, ButtonType type) {
+    public Paint getFrameInnerHighlightPaint(Shape s, CommonControlType type) {
         return getFrameInnerHighlightColors(type);
     }
 

@@ -28,7 +28,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -61,14 +60,14 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRoundRectangle(2, 0, width - 3, height - 2, CornerSize.FRAME_BORDER);
-        getFrameBorderPaint(s, ButtonType.INACTIVE);
+        getFrameBorderPaint(s, CommonControlType.INACTIVE);
 
         s = ShapeUtil.createRoundRectangle(3, 1, width - 5, height - 4, CornerSize.FRAME_INNER_HIGHLIGHT);
-        g.setPaint(getFrameInnerHighlightPaint(s, ButtonType.INACTIVE));
+        g.setPaint(getFrameInnerHighlightPaint(s, CommonControlType.INACTIVE));
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(4, 2, width - 7, height - 6, CornerSize.FRAME_INTERIOR);
-        g.setPaint(getRootPaneInteriorPaint(s, ButtonType.INACTIVE));
+        g.setPaint(getRootPaneInteriorPaint(s, CommonControlType.INACTIVE));
         g.fill(s);
     }
 
@@ -76,7 +75,7 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private Color getFrameBorderColors(ButtonType type) {
+    private Color getFrameBorderColors(CommonControlType type) {
         switch (type) {
         case INACTIVE:
             return frameBorderInactive;
@@ -86,11 +85,11 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
         return null;
     }
 
-    public Paint getFrameBorderPaint(Shape s, ButtonType type) {
+    public Paint getFrameBorderPaint(Shape s, CommonControlType type) {
         return getFrameBorderColors(type);
     }
 
-    private Color getFrameInnerHighlightColors(ButtonType type) {
+    private Color getFrameInnerHighlightColors(CommonControlType type) {
         switch (type) {
         case INACTIVE:
             return frameInnerHighlightInactive;
@@ -100,11 +99,11 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
         return null;
     }
 
-    public Paint getFrameInnerHighlightPaint(Shape s, ButtonType type) {
+    public Paint getFrameInnerHighlightPaint(Shape s, CommonControlType type) {
         return getFrameInnerHighlightColors(type);
     }
 
-    private TwoColors getRootPaneInteriorColors(ButtonType type) {
+    private TwoColors getRootPaneInteriorColors(CommonControlType type) {
         switch (type) {
         case ACTIVE:
             return rootPaneActive;
@@ -114,7 +113,7 @@ public final class DesktopIconPainter extends AbstractRegionPainter {
         return null;
     }
 
-    public Paint getRootPaneInteriorPaint(Shape s, ButtonType type) {
+    public Paint getRootPaneInteriorPaint(Shape s, CommonControlType type) {
         TwoColors colors = getRootPaneInteriorColors(type);
         return createVerticalGradient(s, colors);
     }

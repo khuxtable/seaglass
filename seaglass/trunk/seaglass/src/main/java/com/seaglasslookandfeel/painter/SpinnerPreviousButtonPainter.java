@@ -28,7 +28,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -70,7 +69,7 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
     private Color        spinnerPrevTopLineDisabled       = desaturate(spinnerPrevTopLineEnabled);
 
     private PaintContext ctx;
-    private ButtonType   type;
+    private CommonControlType   type;
     private boolean      focused;
     private boolean      isForeground;
 
@@ -97,21 +96,21 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
         return ctx;
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
         case FOREGROUND_DISABLED:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         case BACKGROUND_ENABLED:
         case BACKGROUND_FOCUSED:
         case FOREGROUND_ENABLED:
         case FOREGROUND_FOCUSED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         case BACKGROUND_PRESSED_FOCUSED:
         case BACKGROUND_PRESSED:
         case FOREGROUND_PRESSED_FOCUSED:
         case FOREGROUND_PRESSED:
-            return ButtonType.PRESSED;
+            return CommonControlType.PRESSED;
         }
         return null;
     }
@@ -173,21 +172,21 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
         return ShapeUtil.createArrowDown(centerX, centerY - 2, 4, 3);
     }
 
-    public Paint getSpinnerPrevBorderPaint(Shape s, ButtonType type) {
+    public Paint getSpinnerPrevBorderPaint(Shape s, CommonControlType type) {
         TwoColors colors = getSpinnerPrevBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Paint getSpinnerPrevTopLinePaint(Shape s, ButtonType type) {
+    public Paint getSpinnerPrevTopLinePaint(Shape s, CommonControlType type) {
         return getSpinnerPrevTopLineColors(type);
     }
 
-    public Paint getSpinnerPrevInteriorPaint(Shape s, ButtonType type) {
+    public Paint getSpinnerPrevInteriorPaint(Shape s, CommonControlType type) {
         TwoColors colors = getSpinnerPrevInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    private TwoColors getSpinnerPrevBorderColors(ButtonType type) {
+    private TwoColors getSpinnerPrevBorderColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return spinnerPrevBorderDisabled;
@@ -199,7 +198,7 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
         return null;
     }
 
-    private TwoColors getSpinnerPrevInteriorColors(ButtonType type) {
+    private TwoColors getSpinnerPrevInteriorColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return spinnerPrevInteriorDisabled;
@@ -211,7 +210,7 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
         return null;
     }
 
-    private Color getSpinnerPrevTopLineColors(ButtonType type) {
+    private Color getSpinnerPrevTopLineColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return spinnerPrevTopLineDisabled;

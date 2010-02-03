@@ -28,7 +28,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -45,7 +44,7 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
     private Color        popupMenuInteriorDisabled = disable(popupMenuBorderEnabled);
 
     private PaintContext ctx;
-    private ButtonType   type;
+    private CommonControlType   type;
 
     public PopupMenuPainter(Which state) {
         super();
@@ -66,25 +65,25 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         case BACKGROUND_ENABLED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         }
         return null;
     }
 
-    public Paint getPopupMenuBorderPaint(Shape s, ButtonType type) {
+    public Paint getPopupMenuBorderPaint(Shape s, CommonControlType type) {
         return getPopupMenuBorderColors(type);
     }
 
-    public Paint getPopupMenuInteriorPaint(Shape s, ButtonType type) {
+    public Paint getPopupMenuInteriorPaint(Shape s, CommonControlType type) {
         return getPopupMenuInteriorColors(type);
     }
 
-    private Color getPopupMenuBorderColors(ButtonType type) {
+    private Color getPopupMenuBorderColors(CommonControlType type) {
         switch (type) {
         case ENABLED:
             return popupMenuBorderEnabled;
@@ -94,7 +93,7 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
         return null;
     }
 
-    private Color getPopupMenuInteriorColors(ButtonType type) {
+    private Color getPopupMenuInteriorColors(CommonControlType type) {
         switch (type) {
         case ENABLED:
             return popupMenuInteriorEnabled;

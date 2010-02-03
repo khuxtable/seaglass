@@ -30,7 +30,6 @@ import com.seaglasslookandfeel.effect.DropShadowEffect;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
 /**
  * ScrollBarButtonPainter implementation.
@@ -91,7 +90,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
 
     private Which        state;
     private PaintContext ctx;
-    private ButtonType   type;
+    private CommonControlType   type;
     private boolean      isIncrease;
     private boolean      buttonsTogether;
 
@@ -102,67 +101,67 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
 
         switch (state) {
         case FOREGROUND_DISABLED:
-            type = ButtonType.DISABLED;
+            type = CommonControlType.DISABLED;
             isIncrease = false;
             buttonsTogether = false;
             break;
         case FOREGROUND_DISABLED_TOGETHER:
-            type = ButtonType.DISABLED;
+            type = CommonControlType.DISABLED;
             isIncrease = false;
             buttonsTogether = true;
             break;
         case FOREGROUND_ENABLED:
-            type = ButtonType.ENABLED;
+            type = CommonControlType.ENABLED;
             isIncrease = false;
             buttonsTogether = false;
             break;
         case FOREGROUND_ENABLED_TOGETHER:
-            type = ButtonType.ENABLED;
+            type = CommonControlType.ENABLED;
             isIncrease = false;
             buttonsTogether = true;
             break;
         case FOREGROUND_PRESSED:
-            type = ButtonType.PRESSED;
+            type = CommonControlType.PRESSED;
             isIncrease = false;
             buttonsTogether = false;
             break;
         case FOREGROUND_PRESSED_TOGETHER:
-            type = ButtonType.PRESSED;
+            type = CommonControlType.PRESSED;
             isIncrease = false;
             buttonsTogether = true;
             break;
         case FOREGROUND_INCREASE_DISABLED:
-            type = ButtonType.DISABLED;
+            type = CommonControlType.DISABLED;
             isIncrease = true;
             buttonsTogether = false;
             break;
         case FOREGROUND_INCREASE_DISABLED_TOGETHER:
-            type = ButtonType.DISABLED;
+            type = CommonControlType.DISABLED;
             isIncrease = true;
             buttonsTogether = true;
             break;
         case FOREGROUND_INCREASE_ENABLED:
-            type = ButtonType.ENABLED;
+            type = CommonControlType.ENABLED;
             isIncrease = true;
             buttonsTogether = false;
             break;
         case FOREGROUND_INCREASE_ENABLED_TOGETHER:
-            type = ButtonType.ENABLED;
+            type = CommonControlType.ENABLED;
             isIncrease = true;
             buttonsTogether = true;
             break;
         case FOREGROUND_INCREASE_PRESSED:
-            type = ButtonType.PRESSED;
+            type = CommonControlType.PRESSED;
             isIncrease = true;
             buttonsTogether = false;
             break;
         case FOREGROUND_INCREASE_PRESSED_TOGETHER:
-            type = ButtonType.PRESSED;
+            type = CommonControlType.PRESSED;
             isIncrease = true;
             buttonsTogether = true;
             break;
         case FOREGROUND_CAP:
-            type = ButtonType.SCROLL_CAP;
+            type = CommonControlType.SCROLL_CAP;
             isIncrease = false;
             buttonsTogether = true;
             break;
@@ -231,7 +230,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         fillScrollBarButtonInteriorColors(g, s, type, isIncrease, buttonsTogether);
     }
 
-    private void fillScrollBarButtonInteriorColors(Graphics2D g, Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
+    private void fillScrollBarButtonInteriorColors(Graphics2D g, Shape s, CommonControlType type, boolean isIncrease, boolean buttonsTogether) {
         g.setPaint(getScrollBarButtonBackgroundPaint(s, type, isIncrease, buttonsTogether));
         g.fill(s);
 
@@ -239,7 +238,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         g.setPaint(getScrollBarButtonLinePaint(type));
         g.drawLine(0, 0, width - 1, 0);
 
-        if (type != ButtonType.SCROLL_CAP && buttonsTogether) {
+        if (type != CommonControlType.SCROLL_CAP && buttonsTogether) {
             int height = s.getBounds().height;
             g.setPaint(getScrollBarButtonDividerPaint(isIncrease));
             g.drawLine(width - 1, 1, width - 1, height - 1);
@@ -268,12 +267,12 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         g.fill(s);
     }
 
-    public Paint getScrollBarButtonBackgroundPaint(Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
+    public Paint getScrollBarButtonBackgroundPaint(Shape s, CommonControlType type, boolean isIncrease, boolean buttonsTogether) {
         TwoColors colors = getScrollBarButtonBackgroundColors(type, isIncrease, buttonsTogether);
         return createHorizontalGradient(s, colors);
     }
 
-    public Paint getScrollBarButtonLinePaint(ButtonType type) {
+    public Paint getScrollBarButtonLinePaint(CommonControlType type) {
         return getScrollBarButtonLineColor(type);
     }
 
@@ -281,14 +280,14 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         return isIncrease ? scrollBarButtonLightDivider : scrollBarButtonDarkDivider;
     }
 
-    public Paint getScrollBarButtonArrowPaint(Shape s, ButtonType type) {
+    public Paint getScrollBarButtonArrowPaint(Shape s, CommonControlType type) {
         return getScrollBarButtonArrowColor(type);
     }
 
-    private TwoColors getScrollBarButtonBackgroundColors(ButtonType type, boolean isIncrease, boolean buttonsTogether) {
-        if (type == ButtonType.SCROLL_CAP) {
+    private TwoColors getScrollBarButtonBackgroundColors(CommonControlType type, boolean isIncrease, boolean buttonsTogether) {
+        if (type == CommonControlType.SCROLL_CAP) {
             return scrollBarCapColors;
-        } else if (type == ButtonType.PRESSED) {
+        } else if (type == CommonControlType.PRESSED) {
             return isIncrease ? scrollBarButtonIncreasePressed : scrollBarButtonDecreasePressed;
         } else {
             if (buttonsTogether) {
@@ -299,16 +298,16 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
         }
     }
 
-    private Color getScrollBarButtonLineColor(ButtonType type) {
-        if (type == ButtonType.PRESSED) {
+    private Color getScrollBarButtonLineColor(CommonControlType type) {
+        if (type == CommonControlType.PRESSED) {
             return scrollBarButtonLinePressed;
         } else {
             return scrollBarButtonLine;
         }
     }
 
-    private Color getScrollBarButtonArrowColor(ButtonType type) {
-        if (type == ButtonType.DISABLED) {
+    private Color getScrollBarButtonArrowColor(CommonControlType type) {
+        if (type == CommonControlType.DISABLED) {
             return scrollBarButtonArrowDisabled;
         } else {
             return scrollBarButtonArrow;

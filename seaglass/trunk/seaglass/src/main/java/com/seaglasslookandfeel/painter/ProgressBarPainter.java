@@ -32,7 +32,6 @@ import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -63,10 +62,10 @@ public final class ProgressBarPainter extends AbstractCommonColorsPainter {
                                                                                      0.274445f, -0.074510f, 0);
     private Color                        progressBarEndDisabled                  = disable(progressBarEndEnabled);
 
-    private FourColors                   progressBarEnabled                      = getCommonInteriorColors(ButtonType.SELECTED);
+    private FourColors                   progressBarEnabled                      = getCommonInteriorColors(CommonControlType.SELECTED);
     private FourColors                   progressBarDisabled                     = disable(progressBarEnabled);
 
-    private FourColors                   progressBarIndeterminatePatternEnabled  = getCommonInteriorColors(ButtonType.ENABLED);
+    private FourColors                   progressBarIndeterminatePatternEnabled  = getCommonInteriorColors(CommonControlType.ENABLED);
     private FourColors                   progressBarIndeterminatePatternDisabled = disable(progressBarIndeterminatePatternEnabled);
 
     private Effect                       dropShadow                              = new SeaGlassDropShadowEffect();
@@ -74,7 +73,7 @@ public final class ProgressBarPainter extends AbstractCommonColorsPainter {
 
     private Which                        state;
     private PaintContext                 ctx;
-    private ButtonType                   type;
+    private CommonControlType                   type;
 
     public ProgressBarPainter(Which state) {
         super();
@@ -118,18 +117,18 @@ public final class ProgressBarPainter extends AbstractCommonColorsPainter {
         return ctx;
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
         case FOREGROUND_DISABLED:
         case FOREGROUND_DISABLED_FINISHED:
         case FOREGROUND_DISABLED_INDETERMINATE:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         case BACKGROUND_ENABLED:
         case FOREGROUND_ENABLED:
         case FOREGROUND_ENABLED_FINISHED:
         case FOREGROUND_ENABLED_INDETERMINATE:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         }
         return null;
     }
@@ -173,11 +172,11 @@ public final class ProgressBarPainter extends AbstractCommonColorsPainter {
         g.fill(s);
     }
 
-    public Paint getProgressBarEndPaint(Shape s, ButtonType type) {
+    public Paint getProgressBarEndPaint(Shape s, CommonControlType type) {
         return getProgressBarEndColor(type);
     }
 
-    private Color getProgressBarEndColor(ButtonType type) {
+    private Color getProgressBarEndColor(CommonControlType type) {
         switch (type) {
         case ENABLED:
             return progressBarEndEnabled;
@@ -187,12 +186,12 @@ public final class ProgressBarPainter extends AbstractCommonColorsPainter {
         return null;
     }
 
-    public Paint getProgressBarBorderPaint(Shape s, ButtonType type) {
+    public Paint getProgressBarBorderPaint(Shape s, CommonControlType type) {
         TwoColors colors = getProgressBarBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    private TwoColors getProgressBarBorderColors(ButtonType type) {
+    private TwoColors getProgressBarBorderColors(CommonControlType type) {
         switch (type) {
         case ENABLED:
             return progressBarTrackEnabled;
@@ -202,11 +201,11 @@ public final class ProgressBarPainter extends AbstractCommonColorsPainter {
         return null;
     }
 
-    public Paint getProgressBarTrackPaint(Shape s, ButtonType type) {
+    public Paint getProgressBarTrackPaint(Shape s, CommonControlType type) {
         return getProgressBarTrackColors(type);
     }
 
-    private Color getProgressBarTrackColors(ButtonType type) {
+    private Color getProgressBarTrackColors(CommonControlType type) {
         switch (type) {
         case ENABLED:
             return progressBarTrackInteriorEnabled;
@@ -216,17 +215,17 @@ public final class ProgressBarPainter extends AbstractCommonColorsPainter {
         return null;
     }
 
-    public Paint getProgressBarPaint(Shape s, ButtonType type) {
+    public Paint getProgressBarPaint(Shape s, CommonControlType type) {
         FourColors colors = getProgressBarColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Paint getProgressBarIndeterminatePaint(Shape s, ButtonType type) {
+    public Paint getProgressBarIndeterminatePaint(Shape s, CommonControlType type) {
         FourColors colors = getProgressBarIndeterminateColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    private FourColors getProgressBarColors(ButtonType type) {
+    private FourColors getProgressBarColors(CommonControlType type) {
         switch (type) {
         case ENABLED:
             return progressBarEnabled;
@@ -236,7 +235,7 @@ public final class ProgressBarPainter extends AbstractCommonColorsPainter {
         return null;
     }
 
-    private FourColors getProgressBarIndeterminateColors(ButtonType type) {
+    private FourColors getProgressBarIndeterminateColors(CommonControlType type) {
         switch (type) {
         case ENABLED:
             return progressBarIndeterminatePatternEnabled;

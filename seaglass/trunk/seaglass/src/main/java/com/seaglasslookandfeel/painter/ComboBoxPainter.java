@@ -28,7 +28,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -50,7 +49,7 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
         BACKGROUND_PRESSED_EDITABLE,
     }
 
-    public ButtonType                  type;
+    public CommonControlType                  type;
 
     private ComboBoxArrowButtonPainter buttonPainter;
 
@@ -128,22 +127,22 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
         return ctx;
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
         case BACKGROUND_DISABLED_PRESSED:
         case BACKGROUND_DISABLED_EDITABLE:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         case BACKGROUND_ENABLED:
         case BACKGROUND_FOCUSED:
         case BACKGROUND_FOCUSED_EDITABLE:
         case BACKGROUND_ENABLED_EDITABLE:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         case BACKGROUND_PRESSED_FOCUSED:
         case BACKGROUND_PRESSED:
         case BACKGROUND_ENABLED_SELECTED:
         case BACKGROUND_PRESSED_EDITABLE:
-            return ButtonType.PRESSED;
+            return CommonControlType.PRESSED;
         }
         return null;
     }
@@ -204,34 +203,34 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
         return ShapeUtil.createRoundRectangle(x, y, width, height, size, leftStyle, leftStyle, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
-    public Paint getComboBoxBackgroundBorderPaint(Shape s, ButtonType type) {
+    public Paint getComboBoxBackgroundBorderPaint(Shape s, CommonControlType type) {
         TwoColors colors = getCommonBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Paint getComboBoxBackgroundInteriorPaint(Shape s, ButtonType type) {
+    public Paint getComboBoxBackgroundInteriorPaint(Shape s, CommonControlType type) {
         FourColors colors = getCommonInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public TwoColors getCommonBorderColors(ButtonType type) {
+    public TwoColors getCommonBorderColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
-            return super.getCommonBorderColors(ButtonType.DISABLED);
+            return super.getCommonBorderColors(CommonControlType.DISABLED);
         case ENABLED:
         case PRESSED:
-            return super.getCommonBorderColors(ButtonType.ENABLED);
+            return super.getCommonBorderColors(CommonControlType.ENABLED);
         }
         return null;
     }
 
-    public FourColors getCommonInteriorColors(ButtonType type) {
+    public FourColors getCommonInteriorColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
-            return super.getCommonInteriorColors(ButtonType.DISABLED);
+            return super.getCommonInteriorColors(CommonControlType.DISABLED);
         case ENABLED:
         case PRESSED:
-            return super.getCommonInteriorColors(ButtonType.ENABLED);
+            return super.getCommonInteriorColors(CommonControlType.ENABLED);
         }
         return null;
     }

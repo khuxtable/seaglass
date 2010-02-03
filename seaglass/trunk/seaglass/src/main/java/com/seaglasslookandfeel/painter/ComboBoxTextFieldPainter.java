@@ -27,7 +27,6 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
 /**
  * ComboBoxTextFieldPainter implementation.
@@ -40,12 +39,12 @@ public final class ComboBoxTextFieldPainter extends AbstractCommonColorsPainter 
     private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
     private PaintContext                 ctx;
-    private ButtonType                   type;
+    private CommonControlType                   type;
 
     public ComboBoxTextFieldPainter(Which state) {
         super();
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
-        this.type = (state == Which.BACKGROUND_DISABLED) ? ButtonType.DISABLED : ButtonType.ENABLED;
+        this.type = (state == Which.BACKGROUND_DISABLED) ? CommonControlType.DISABLED : CommonControlType.ENABLED;
     }
 
     @Override

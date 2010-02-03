@@ -27,7 +27,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.util.PlatformUtils;
 
@@ -73,11 +72,11 @@ public class ToolBarHandlePainter extends AbstractCommonColorsPainter {
 
     private void paintNonMacHandleIcon(Graphics2D g, int width, int height) {
         Shape s = decodeNonMacHandleBorder(width, height);
-        g.setPaint(getCommonBorderPaint(s, ButtonType.ENABLED));
+        g.setPaint(getCommonBorderPaint(s, CommonControlType.ENABLED));
         g.fill(s);
 
         s = decodeNonMacHandleInside(width, height);
-        g.setPaint(getCommonInteriorPaint(s, ButtonType.ENABLED));
+        g.setPaint(getCommonInteriorPaint(s, CommonControlType.ENABLED));
         g.fill(s);
     }
 
