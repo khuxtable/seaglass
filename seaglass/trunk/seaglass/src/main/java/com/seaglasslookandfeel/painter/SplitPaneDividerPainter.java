@@ -19,14 +19,18 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
@@ -43,8 +47,17 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         FOREGROUND_FOCUSED_VERTICAL,
     }
 
-    private Which        state;
-    private PaintContext ctx;
+    private Color                splitPaneDividerBackgroundEnabled = decodeColor("control");
+    private Color                splitPaneDividerBackgroundOuter   = decodeColor("splitPaneDividerBackgroundOuter");
+
+    private PaintUtil.TwoColors  tmp                               = PaintUtil.getButtonBorderColors(ButtonType.ENABLED);
+    private PaintUtil.FourColors tmp2                              = PaintUtil.getButtonInteriorColors(ButtonType.ENABLED);
+
+    private TwoColors            splitPaneDividerBorder            = new TwoColors(tmp.top, tmp.bottom);
+    private ThreeColors          splitPaneDividerInterior          = new ThreeColors(tmp2.top, tmp2.lowerMid, tmp2.bottom);
+
+    private Which                state;
+    private PaintContext         ctx;
 
     public SplitPaneDividerPainter(Which state) {
         super();
@@ -82,9 +95,9 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
-        g.setPaint(PaintUtil.getSplitPaneDividerBackgroundPaint());
+        g.setPaint(getSplitPaneDividerBackgroundPaint());
         g.fillRect(0, 0, width, height);
-        g.setPaint(PaintUtil.getSplitPaneDividerBackgroundOuterPaint());
+        g.setPaint(getSplitPaneDividerBackgroundOuterPaint());
         int y = height / 2;
         g.drawLine(0, y, width - 1, y);
     }
@@ -93,7 +106,7 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         boolean useToolBarColors = isInToolBar(c);
         int y = height / 2;
 
-        g.setPaint(PaintUtil.getSplitPaneDividerBackgroundPaint());
+        g.setPaint(getSplitPaneDividerBackgroundPaint());
         g.fillRect(0, 0, width, height);
 
         Shape s = ShapeUtil.createRectangle(0, y - 1, width, 3);
@@ -128,11 +141,11 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
 
     private void paintForegroundEnabled(Graphics2D g, int width, int height) {
         Shape s = ShapeUtil.createRoundRectangle(width / 2 - 9, height / 2 - 2, 18, 5, CornerSize.ROUND_HEIGHT);
-        g.setPaint(PaintUtil.getSplitPaneDividerBorderPaint(s));
+        g.setPaint(getSplitPaneDividerBorderPaint(s));
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(width / 2 - 8, height / 2 - 1, 16, 3, CornerSize.ROUND_HEIGHT);
-        g.setPaint(PaintUtil.getSplitPaneDividerInteriorPaint(s));
+        g.setPaint(getSplitPaneDividerInteriorPaint(s));
         g.fill(s);
     }
 
@@ -146,5 +159,46 @@ public final class SplitPaneDividerPainter extends AbstractRegionPainter {
         s = ShapeUtil.createRoundRectangle(width / 2 - 10, height / 2 - 3, 20, 7, CornerSize.ROUND_HEIGHT);
         g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
         g.fill(s);
+    }
+
+    public Paint getSplitPaneDividerBackgroundPaint() {
+        return splitPaneDividerBackgroundEnabled;
+    }
+
+    public Paint getSplitPaneDividerBackgroundOuterPaint() {
+        return splitPaneDividerBackgroundOuter;
+    }
+
+    public Paint getSplitPaneDividerBorderPaint(Shape s) {
+        return decodeSplitPaneDividerBorderGradient(s, splitPaneDividerBorder.top, splitPaneDividerBorder.bottom);
+    }
+
+    public Paint getSplitPaneDividerInteriorPaint(Shape s) {
+        return decodeSplitPaneDividerInsideGradient(s, splitPaneDividerInterior.top, splitPaneDividerInterior.mid,
+            splitPaneDividerInterior.bottom);
+    }
+
+    private Paint decodeSplitPaneDividerBorderGradient(Shape s, Color border1, Color border2) {
+        Rectangle2D bounds = s.getBounds2D();
+        float midX = (float) bounds.getCenterX();
+        float y = (float) bounds.getY();
+        float h = (float) bounds.getHeight();
+        return createGradient(midX, y, midX, y + h, new float[] { 0.20645161f, 0.5f, 0.7935484f }, new Color[] {
+            border1,
+            decodeColor(border1, border2, 0.5f),
+            border2 });
+    }
+
+    private Paint decodeSplitPaneDividerInsideGradient(Shape s, Color inside1, Color inside2, Color inside3) {
+        Rectangle2D bounds = s.getBounds2D();
+        float midX = (float) bounds.getCenterX();
+        float y = (float) bounds.getY();
+        float h = (float) bounds.getHeight();
+        return createGradient(midX, y, midX, y + h, new float[] { 0.090322584f, 0.2951613f, 0.5f, 0.5822581f, 0.66451615f }, new Color[] {
+            inside1,
+            decodeColor(inside1, inside2, 0.5f),
+            inside2,
+            decodeColor(inside2, inside3, 0.5f),
+            inside3 });
     }
 }
