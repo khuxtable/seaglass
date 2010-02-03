@@ -19,13 +19,14 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
@@ -38,6 +39,11 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
+    private Color        popupMenuInteriorEnabled  = decodeColor("popupMenuInteriorEnabled");
+    private Color        popupMenuBorderEnabled    = decodeColor("popupMenuBorderEnabled");
+    private Color        popupMenuBorderDisabled   = disable(popupMenuBorderEnabled);
+    private Color        popupMenuInteriorDisabled = disable(popupMenuBorderEnabled);
+
     private PaintContext ctx;
     private ButtonType   type;
 
@@ -49,10 +55,10 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.POPUP_BORDER);
-        g.setPaint(PaintUtil.getPopupMenuBorderPaint(s, type));
+        g.setPaint(getPopupMenuBorderPaint(s, type));
         g.fill(s);
         s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.POPUP_INTERIOR);
-        g.setPaint(PaintUtil.getPopupMenuInteriorPaint(s, type));
+        g.setPaint(getPopupMenuInteriorPaint(s, type));
         g.fill(s);
     }
 
@@ -66,6 +72,34 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
             return ButtonType.DISABLED;
         case BACKGROUND_ENABLED:
             return ButtonType.ENABLED;
+        }
+        return null;
+    }
+
+    public Paint getPopupMenuBorderPaint(Shape s, ButtonType type) {
+        return getPopupMenuBorderColors(type);
+    }
+
+    public Paint getPopupMenuInteriorPaint(Shape s, ButtonType type) {
+        return getPopupMenuInteriorColors(type);
+    }
+
+    private Color getPopupMenuBorderColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return popupMenuBorderEnabled;
+        case DISABLED:
+            return popupMenuBorderDisabled;
+        }
+        return null;
+    }
+
+    private Color getPopupMenuInteriorColors(ButtonType type) {
+        switch (type) {
+        case ENABLED:
+            return popupMenuInteriorEnabled;
+        case DISABLED:
+            return popupMenuInteriorDisabled;
         }
         return null;
     }

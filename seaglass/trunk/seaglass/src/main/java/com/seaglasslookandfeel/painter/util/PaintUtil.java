@@ -111,14 +111,6 @@ public class PaintUtil {
     private static FourColors comboBoxBackgroundInteriorEnabled;
     private static FourColors comboBoxBackgroundInteriorPressed;
 
-    private static Color      popupMenuBorderDisabled;
-    private static Color      popupMenuBorderEnabled;
-
-    private static Color      popupMenuInteriorDisabled;
-    private static Color      popupMenuInteriorEnabled;
-
-    private static Color      popupMenuSeparator;
-
     private static TwoColors  progressBarTrackDisabled;
     private static Color      progressBarTrackInteriorDisabled;
 
@@ -227,9 +219,6 @@ public class PaintUtil {
         Color texturedButtonInteriorBasePressed = decodeColor("texturedButtonInteriorBasePressed");
         Color texturedButtonInteriorBaseSelected = decodeColor("texturedButtonInteriorBaseSelected");
         Color texturedButtonInteriorBasePressedSelected = decodeColor("texturedButtonInteriorBasePressedSelected");
-
-        popupMenuInteriorEnabled = decodeColor("popupMenuInteriorEnabled");
-        popupMenuBorderEnabled = decodeColor("popupMenuBorderEnabled");
 
         progressBarTrackInteriorEnabled = decodeColor("progressBarTrackInterior");
 
@@ -383,10 +372,6 @@ public class PaintUtil {
         comboBoxBackgroundInteriorDisabled = buttonInteriorDisabled;
         comboBoxBackgroundInteriorEnabled = buttonInteriorEnabled;
         comboBoxBackgroundInteriorPressed = buttonInteriorEnabled;
-
-        popupMenuBorderDisabled = disable(popupMenuBorderEnabled);
-        popupMenuInteriorDisabled = disable(popupMenuBorderEnabled);
-        popupMenuSeparator = popupMenuBorderEnabled;
 
         progressBarTrackEnabled = new TwoColors(buttonBorderBottomPressed, scrollBarThumbBorderTopPressed);
         progressBarTrackDisabled = disable(progressBarTrackEnabled);
@@ -611,10 +596,6 @@ public class PaintUtil {
         return createVerticalGradient(s, colors);
     }
 
-    public static Paint getPopupMenuBorderPaint(Shape s, ButtonType type) {
-        return getPopupMenuBorderColors(type);
-    }
-
     public static Paint getSliderTrackBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getSliderTrackBorderColors(type);
         return createVerticalGradient(s, colors);
@@ -626,14 +607,6 @@ public class PaintUtil {
 
     public static Paint getProgressBarTrackPaint(Shape s, ButtonType type) {
         return getProgressBarTrackColors(type);
-    }
-
-    public static Paint getPopupMenuInteriorPaint(Shape s, ButtonType type) {
-        return getPopupMenuInteriorColors(type);
-    }
-
-    public static Paint getPopupMenuSeparatorPaint(Shape s, ButtonType type) {
-        return popupMenuSeparator;
     }
 
     public static Paint getScrollBarThumbInteriorPaint(Shape s, ButtonType type) {
@@ -927,26 +900,6 @@ public class PaintUtil {
             return comboBoxBackgroundInteriorEnabled;
         case PRESSED:
             return comboBoxBackgroundInteriorPressed;
-        }
-        return null;
-    }
-
-    private static Color getPopupMenuBorderColors(ButtonType type) {
-        switch (type) {
-        case ENABLED:
-            return popupMenuBorderEnabled;
-        case DISABLED:
-            return popupMenuBorderDisabled;
-        }
-        return null;
-    }
-
-    private static Color getPopupMenuInteriorColors(ButtonType type) {
-        switch (type) {
-        case ENABLED:
-            return popupMenuInteriorEnabled;
-        case DISABLED:
-            return popupMenuInteriorDisabled;
         }
         return null;
     }
