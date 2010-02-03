@@ -117,8 +117,6 @@ public class PaintUtil {
     private static TwoColors   rootPaneActive;
     private static TwoColors   rootPaneInactive;
 
-    private static Color       desktopPane;
-
     private static TwoColors   menuItemBackground;
     private static Color       menuItemBottomLine;
 
@@ -235,8 +233,6 @@ public class PaintUtil {
         innerToolBarFocus = decodeColor("seaGlassToolBarFocus");
 
         Color innerShadowBase = decodeColor("seaGlassInnerShadow");
-
-        desktopPane = decodeColor("seaGlassDesktopPane");
 
         rootPaneActive = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"), decodeColor("seaGlassToolBarActiveBottomB"));
         rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"), decodeColor("seaGlassToolBarInactiveBottomB"));
@@ -766,10 +762,6 @@ public class PaintUtil {
     public static Paint getSliderTrackInteriorPaint(Shape s, ButtonType type) {
         TwoColors colors = getSliderTrackInteriorColors(type);
         return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getDesktopPanePaint(Shape s) {
-        return desktopPane;
     }
 
     public static Paint getProgressBarPaint(Shape s, ButtonType type) {
