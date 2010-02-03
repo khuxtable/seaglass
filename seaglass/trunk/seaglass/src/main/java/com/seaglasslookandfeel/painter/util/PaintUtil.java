@@ -214,10 +214,6 @@ public class PaintUtil {
     private static TwoColors   toolbarHandleBorder;
     private static FourColors  toolbarHandleInterior;
 
-    private static TwoColors   toolbarToggleButtonInner;
-    private static TwoColors   toolbarToggleButtonInnerEdge;
-    private static TwoColors   toolbarToggleButtonOuterEdge;
-
     static {
         transparentColor = decodeColor("seaGlassTransparent");
 
@@ -296,7 +292,6 @@ public class PaintUtil {
         textComponentBorderDisabled = decodeColor("seaGlassTextDisabledBorder");
 
         toolbarHandleMac = decodeColor("toolbarHandleMac");
-        Color toolbarToggleButtonBase = decodeColor("toolbarToggleButtonBase");
 
         // ------- Assign from base colors -------
 
@@ -512,16 +507,6 @@ public class PaintUtil {
 
         toolbarHandleBorder = buttonBorderEnabled;
         toolbarHandleInterior = buttonInteriorEnabled;
-
-        toolbarToggleButtonInner = new TwoColors(toolbarToggleButtonBase, deriveColor(toolbarToggleButtonBase, 0f, 0f, 0f, 0x28));
-        toolbarToggleButtonInnerEdge = new TwoColors(toolbarToggleButtonBase, deriveColor(toolbarToggleButtonBase, 0f, 0f, 0f, 0x20));
-        toolbarToggleButtonOuterEdge = new TwoColors(deriveColor(toolbarToggleButtonBase, 0f, 0f, 0f, 0x10), deriveColor(
-            toolbarToggleButtonBase, 0f, 0f, 0f, 0x40));
-    }
-
-    public static Paint getToolbarToggleButtonPaint(Shape s, ToolbarToggleButtonType type) {
-        TwoColors colors = getToolbarToggleButtonColors(type);
-        return createToolbarToggleButtonGradient(s, colors);
     }
 
     public static Paint getToolbarHandleMacPaint() {
@@ -825,18 +810,6 @@ public class PaintUtil {
             inside2,
             decodeColor(inside2, inside3, 0.5f),
             inside3 });
-    }
-
-    private static TwoColors getToolbarToggleButtonColors(ToolbarToggleButtonType type) {
-        switch (type) {
-        case INNER:
-            return toolbarToggleButtonInner;
-        case INNER_EDGE:
-            return toolbarToggleButtonInnerEdge;
-        case OUTER_EDGE:
-            return toolbarToggleButtonOuterEdge;
-        }
-        return null;
     }
 
     private static TwoColors getButtonBorderColors(ButtonType type, boolean textured) {
@@ -1256,19 +1229,6 @@ public class PaintUtil {
             colors.upperMid,
             colors.lowerMid,
             colors.bottom });
-    }
-
-    private static Paint createToolbarToggleButtonGradient(Shape s, TwoColors colors) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return createGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 0.35f, 0.65f, 1f }, new Color[] {
-            colors.top,
-            colors.bottom,
-            colors.bottom,
-            colors.top });
     }
 
     private static Paint createCheckMarkGradient(Shape s, TwoColors colors) {

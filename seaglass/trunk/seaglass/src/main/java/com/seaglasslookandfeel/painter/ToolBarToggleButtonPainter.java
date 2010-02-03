@@ -19,13 +19,15 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ToolbarToggleButtonType;
 
@@ -44,6 +46,15 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
         BACKGROUND_PRESSED_SELECTED_FOCUSED,
         BACKGROUND_DISABLED_SELECTED,
     }
+
+    private Color        toolbarToggleButtonBase      = decodeColor("toolbarToggleButtonBase");
+
+    private TwoColors    toolbarToggleButtonInner     = new TwoColors(toolbarToggleButtonBase, deriveColor(toolbarToggleButtonBase, 0f, 0f,
+                                                          0f, 0x28));
+    private TwoColors    toolbarToggleButtonInnerEdge = new TwoColors(toolbarToggleButtonBase, deriveColor(toolbarToggleButtonBase, 0f, 0f,
+                                                          0f, 0x20));
+    private TwoColors    toolbarToggleButtonOuterEdge = new TwoColors(deriveColor(toolbarToggleButtonBase, 0f, 0f, 0f, 0x10), deriveColor(
+                                                          toolbarToggleButtonBase, 0f, 0f, 0f, 0x40));
 
     private PaintContext ctx;
     private boolean      isSelected;
@@ -70,21 +81,21 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         if (isSelected) {
             Shape s = ShapeUtil.createRectangle(0, 0, 1, height);
-            g.setPaint(PaintUtil.getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.INNER));
+            g.setPaint(getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.INNER));
             g.fill(s);
 
             s = ShapeUtil.createRectangle(1, 0, 1, height);
-            g.setPaint(PaintUtil.getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.INNER_EDGE));
+            g.setPaint(getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.INNER_EDGE));
             g.fill(s);
             s = ShapeUtil.createRectangle((width - 2), 0, 1, height);
-            g.setPaint(PaintUtil.getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.INNER_EDGE));
+            g.setPaint(getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.INNER_EDGE));
             g.fill(s);
 
             s = ShapeUtil.createRectangle(0, 0, 1, height);
-            g.setPaint(PaintUtil.getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.OUTER_EDGE));
+            g.setPaint(getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.OUTER_EDGE));
             g.fill(s);
             s = ShapeUtil.createRectangle((width - 1), 0, 1, height);
-            g.setPaint(PaintUtil.getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.OUTER_EDGE));
+            g.setPaint(getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.OUTER_EDGE));
             g.fill(s);
         }
     }
@@ -92,5 +103,35 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
     @Override
     protected PaintContext getPaintContext() {
         return ctx;
+    }
+
+    private TwoColors getToolbarToggleButtonColors(ToolbarToggleButtonType type) {
+        switch (type) {
+        case INNER:
+            return toolbarToggleButtonInner;
+        case INNER_EDGE:
+            return toolbarToggleButtonInnerEdge;
+        case OUTER_EDGE:
+            return toolbarToggleButtonOuterEdge;
+        }
+        return null;
+    }
+
+    public Paint getToolbarToggleButtonPaint(Shape s, ToolbarToggleButtonType type) {
+        TwoColors colors = getToolbarToggleButtonColors(type);
+        return createToolbarToggleButtonGradient(s, colors);
+    }
+
+    private Paint createToolbarToggleButtonGradient(Shape s, TwoColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return createGradient((0.5f * w) + x, y, (0.5f * w) + x, h + y, new float[] { 0f, 0.35f, 0.65f, 1f }, new Color[] {
+            colors.top,
+            colors.bottom,
+            colors.bottom,
+            colors.top });
     }
 }
