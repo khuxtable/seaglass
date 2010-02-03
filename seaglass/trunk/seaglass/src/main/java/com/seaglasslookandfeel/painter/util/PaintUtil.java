@@ -42,42 +42,40 @@ public class PaintUtil {
         INNER_FOCUS, OUTER_FOCUS,
     }
 
-    private static Color      outerFocus;
-    private static Color      innerFocus;
-    private static Color      outerToolBarFocus;
-    private static Color      innerToolBarFocus;
+    private static Color     outerFocus;
+    private static Color     innerFocus;
+    private static Color     outerToolBarFocus;
+    private static Color     innerToolBarFocus;
 
-    private static TwoColors  scrollBarCapColors;
+    private static TwoColors scrollBarCapColors;
 
-    private static TwoColors  scrollBarButtonIncreaseApart;
-    private static TwoColors  scrollBarButtonIncreaseTogether;
-    private static TwoColors  scrollBarButtonIncreasePressed;
+    private static TwoColors scrollBarButtonIncreaseApart;
+    private static TwoColors scrollBarButtonIncreaseTogether;
+    private static TwoColors scrollBarButtonIncreasePressed;
 
-    private static TwoColors  scrollBarButtonDecreaseApart;
-    private static TwoColors  scrollBarButtonDecreaseTogether;
-    private static TwoColors  scrollBarButtonDecreasePressed;
+    private static TwoColors scrollBarButtonDecreaseApart;
+    private static TwoColors scrollBarButtonDecreaseTogether;
+    private static TwoColors scrollBarButtonDecreasePressed;
 
-    private static Color      scrollBarButtonLine;
-    private static Color      scrollBarButtonLinePressed;
-    private static Color      scrollBarButtonArrow;
-    private static Color      scrollBarButtonArrowDisabled;
+    private static Color     scrollBarButtonLine;
+    private static Color     scrollBarButtonLinePressed;
+    private static Color     scrollBarButtonArrow;
+    private static Color     scrollBarButtonArrowDisabled;
 
-    private static Color      scrollBarButtonDarkDivider;
-    private static Color      scrollBarButtonLightDivider;
+    private static Color     scrollBarButtonDarkDivider;
+    private static Color     scrollBarButtonLightDivider;
 
-    private static Color      spinnerArrowDisabled;
-    private static Color      spinnerArrowEnabled;
+    private static Color     spinnerArrowDisabled;
+    private static Color     spinnerArrowEnabled;
 
-    private static Color      tabbedPaneTabAreaBackLineEnabled;
-    private static Color      tabbedPaneTabAreaBackLineDisabled;
-    private static Color      tabbedPaneTabAreaLightShadow;
-    private static Color      tabbedPaneTabAreaDarkShadow;
+    private static Color     tabbedPaneTabAreaBackLineEnabled;
+    private static Color     tabbedPaneTabAreaBackLineDisabled;
+    private static Color     tabbedPaneTabAreaLightShadow;
+    private static Color     tabbedPaneTabAreaDarkShadow;
 
-    private static Color      textComponentBorderDisabled;
-    private static Color      textComponentBorderEnabled;
-    private static Color      textComponentBorderEnabledToolbar;
-
-    private static Color      tableHeaderSortIndicator;
+    private static Color     textComponentBorderDisabled;
+    private static Color     textComponentBorderEnabled;
+    private static Color     textComponentBorderEnabledToolbar;
 
     static {
         outerFocus = decodeColor("seaGlassOuterFocus");
@@ -93,8 +91,6 @@ public class PaintUtil {
         tabbedPaneTabAreaBackLineEnabled = decodeColor("tabbedPaneTabAreaBackLineEnabled");
         tabbedPaneTabAreaLightShadow = decodeColor("tabbedPaneTabAreaLightShadow");
         tabbedPaneTabAreaDarkShadow = decodeColor("tabbedPaneTabAreaDarkShadow");
-
-        tableHeaderSortIndicator = decodeColor("tableHeaderSortIndicator");
 
         textComponentBorderEnabled = decodeColor("seaGlassTextEnabledBorder");
         textComponentBorderEnabledToolbar = decodeColor("seaGlassTextEnabledToolbarBorder");
@@ -129,10 +125,6 @@ public class PaintUtil {
         spinnerArrowDisabled = desaturate(spinnerArrowEnabled);
 
         tabbedPaneTabAreaBackLineDisabled = disable(tabbedPaneTabAreaBackLineEnabled);
-    }
-
-    public static Paint getTableHeaderSortIndicatorPaint() {
-        return tableHeaderSortIndicator;
     }
 
     public static Paint getTextComponentBorderPaint(ButtonType type, boolean inToolbar) {
