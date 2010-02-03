@@ -19,7 +19,9 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 
@@ -50,7 +52,13 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
         ICON_DISABLED_SELECTED,
     }
 
-    private Effect       dropShadow = new SeaGlassDropShadowEffect();
+    private Color        buttonBulletBottomEnabled = decodeColor("buttonBulletBottomEnabled");
+
+    private TwoColors    buttonBulletEnabled       = new TwoColors(deriveColor(buttonBulletBottomEnabled, 0f, 0f, 0.2f, 0),
+                                                       buttonBulletBottomEnabled);
+    private TwoColors    buttonbulletDisabled      = disable(buttonBulletEnabled);
+
+    private Effect       dropShadow                = new SeaGlassDropShadowEffect();
 
     private PaintContext ctx;
     private boolean      focused;
@@ -121,7 +129,7 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
 
         if (selected) {
             s = createBasicShape(width / 4.5, width, height);
-            g.setPaint(PaintUtil.getRadioButtonBulletPaint(s, type));
+            g.setPaint(getRadioButtonBulletPaint(s, type));
             g.fill(s);
         }
     }
@@ -156,5 +164,24 @@ public final class RadioButtonPainter extends AbstractRegionPainter {
         int pos = (int) ((width - diameter) / 2.0 + 0.5);
         int iDiameter = (int) (diameter + 0.5);
         return ShapeUtil.createRadioButton(pos, pos, iDiameter);
+    }
+
+    public Paint getRadioButtonBulletPaint(Shape s, ButtonType type) {
+        TwoColors colors = getRadioButtonBulletColors(type);
+        return createVerticalGradient(s, colors);
+    }
+
+    private TwoColors getRadioButtonBulletColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+        case DISABLED_SELECTED:
+            return buttonbulletDisabled;
+        case ENABLED:
+        case PRESSED:
+        case SELECTED:
+        case PRESSED_SELECTED:
+            return buttonBulletEnabled;
+        }
+        return null;
     }
 }
