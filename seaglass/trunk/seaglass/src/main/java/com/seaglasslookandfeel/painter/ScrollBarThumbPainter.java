@@ -39,31 +39,33 @@ public final class ScrollBarThumbPainter extends AbstractCommonColorsPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_PRESSED,
     }
 
-    private Color        scrollBarThumbBorderBasePressed       = decodeColor("scrollBarThumbBorderBasePressed");
-    private Color        scrollBarThumbInteriorBasePressed     = decodeColor("scrollBarThumbInteriorBasePressed");
+    private Color             scrollBarThumbBorderBasePressed       = decodeColor("scrollBarThumbBorderBasePressed");
+    private Color             scrollBarThumbInteriorBasePressed     = decodeColor("scrollBarThumbInteriorBasePressed");
 
-    private Color        scrollBarThumbBorderTopPressed        = deriveColor(scrollBarThumbBorderBasePressed, -0.002239f, 0.041885f, 0f, 0);
-    private Color        scrollBarThumbBorderBottomPressed     = deriveColor(scrollBarThumbBorderBasePressed, 0.003151f, -0.036649f, 0f, 0);
+    private Color             scrollBarThumbBorderTopPressed        = deriveColor(scrollBarThumbBorderBasePressed, -0.002239f, 0.041885f,
+                                                                        0f, 0);
+    private Color             scrollBarThumbBorderBottomPressed     = deriveColor(scrollBarThumbBorderBasePressed, 0.003151f, -0.036649f,
+                                                                        0f, 0);
 
-    private TwoColors    scrollBarThumbBorderPressed           = new TwoColors(scrollBarThumbBorderTopPressed,
-                                                                   scrollBarThumbBorderBottomPressed);
+    private TwoColors         scrollBarThumbBorderPressed           = new TwoColors(scrollBarThumbBorderTopPressed,
+                                                                        scrollBarThumbBorderBottomPressed);
 
-    private Color        scrollBarThumbInteriorTopPressed      = deriveColor(scrollBarThumbInteriorBasePressed, -0.014978f, -0.078885f,
-                                                                   0.168627f, 0);
-    private Color        scrollBarThumbInteriorUpperMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000565f, 0.041623f,
-                                                                   0.015686f, 0);
-    private Color        scrollBarThumbInteriorLowerMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000356f, 0.025917f,
-                                                                   0.007843f, 0);
-    private Color        scrollBarThumbInteriorBottomPressed   = deriveColor(scrollBarThumbInteriorBasePressed, 0f, -0.195001f, 0.082353f,
-                                                                   0);
+    private Color             scrollBarThumbInteriorTopPressed      = deriveColor(scrollBarThumbInteriorBasePressed, -0.014978f,
+                                                                        -0.078885f, 0.168627f, 0);
+    private Color             scrollBarThumbInteriorUpperMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000565f, 0.041623f,
+                                                                        0.015686f, 0);
+    private Color             scrollBarThumbInteriorLowerMidPressed = deriveColor(scrollBarThumbInteriorBasePressed, 0.000356f, 0.025917f,
+                                                                        0.007843f, 0);
+    private Color             scrollBarThumbInteriorBottomPressed   = deriveColor(scrollBarThumbInteriorBasePressed, 0f, -0.195001f,
+                                                                        0.082353f, 0);
 
-    private FourColors   scrollBarThumbInteriorPressed         = new FourColors(scrollBarThumbInteriorTopPressed,
-                                                                   scrollBarThumbInteriorUpperMidPressed,
-                                                                   scrollBarThumbInteriorLowerMidPressed,
-                                                                   scrollBarThumbInteriorBottomPressed);
+    private FourColors        scrollBarThumbInteriorPressed         = new FourColors(scrollBarThumbInteriorTopPressed,
+                                                                        scrollBarThumbInteriorUpperMidPressed,
+                                                                        scrollBarThumbInteriorLowerMidPressed,
+                                                                        scrollBarThumbInteriorBottomPressed);
 
-    private PaintContext ctx;
-    private CommonControlType   type;
+    private PaintContext      ctx;
+    private CommonControlType type;
 
     public ScrollBarThumbPainter(Which state) {
         super();

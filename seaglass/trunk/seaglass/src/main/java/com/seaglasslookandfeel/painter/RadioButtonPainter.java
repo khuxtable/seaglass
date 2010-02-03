@@ -49,18 +49,18 @@ public final class RadioButtonPainter extends AbstractCommonColorsPainter {
         ICON_DISABLED_SELECTED,
     }
 
-    private Color        buttonBulletBottomEnabled = decodeColor("buttonBulletBottomEnabled");
+    private Color             buttonBulletBottomEnabled = decodeColor("buttonBulletBottomEnabled");
 
-    private TwoColors    buttonBulletEnabled       = new TwoColors(deriveColor(buttonBulletBottomEnabled, 0f, 0f, 0.2f, 0),
-                                                       buttonBulletBottomEnabled);
-    private TwoColors    buttonbulletDisabled      = disable(buttonBulletEnabled);
+    private TwoColors         buttonBulletEnabled       = new TwoColors(deriveColor(buttonBulletBottomEnabled, 0f, 0f, 0.2f, 0),
+                                                            buttonBulletBottomEnabled);
+    private TwoColors         buttonbulletDisabled      = disable(buttonBulletEnabled);
 
-    private Effect       dropShadow                = new SeaGlassDropShadowEffect();
+    private Effect            dropShadow                = new SeaGlassDropShadowEffect();
 
-    private PaintContext ctx;
-    private boolean      focused;
-    private boolean      selected;
-    private CommonControlType   type;
+    private PaintContext      ctx;
+    private boolean           focused;
+    private boolean           selected;
+    private CommonControlType type;
 
     public RadioButtonPainter(Which state) {
         super();

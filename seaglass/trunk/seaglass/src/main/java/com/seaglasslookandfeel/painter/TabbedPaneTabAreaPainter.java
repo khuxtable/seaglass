@@ -40,15 +40,15 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED_TOP, BACKGROUND_DISABLED_LEFT, BACKGROUND_DISABLED_BOTTOM, BACKGROUND_DISABLED_RIGHT,
     }
 
-    private Color        tabbedPaneTabAreaBackLineEnabled  = decodeColor("tabbedPaneTabAreaBackLineEnabled");
-    private Color        tabbedPaneTabAreaLightShadow      = decodeColor("tabbedPaneTabAreaLightShadow");
-    private Color        tabbedPaneTabAreaDarkShadow       = decodeColor("tabbedPaneTabAreaDarkShadow");
+    private Color             tabbedPaneTabAreaBackLineEnabled  = decodeColor("tabbedPaneTabAreaBackLineEnabled");
+    private Color             tabbedPaneTabAreaLightShadow      = decodeColor("tabbedPaneTabAreaLightShadow");
+    private Color             tabbedPaneTabAreaDarkShadow       = decodeColor("tabbedPaneTabAreaDarkShadow");
 
-    private Color        tabbedPaneTabAreaBackLineDisabled = disable(tabbedPaneTabAreaBackLineEnabled);
+    private Color             tabbedPaneTabAreaBackLineDisabled = disable(tabbedPaneTabAreaBackLineEnabled);
 
-    public Which         state;
-    private PaintContext ctx;
-    private CommonControlType   type;
+    public Which              state;
+    private PaintContext      ctx;
+    private CommonControlType type;
 
     public TabbedPaneTabAreaPainter(Which state) {
         super();

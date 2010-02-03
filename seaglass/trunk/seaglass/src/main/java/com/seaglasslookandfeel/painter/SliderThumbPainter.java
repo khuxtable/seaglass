@@ -54,7 +54,7 @@ public final class SliderThumbPainter extends AbstractCommonColorsPainter {
     private static final Effect dropShadow = new SeaGlassDropShadowEffect();
 
     private PaintContext        ctx;
-    private CommonControlType          type;
+    private CommonControlType   type;
     private boolean             isFocused;
     private boolean             isDiscrete;
 

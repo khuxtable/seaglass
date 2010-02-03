@@ -51,17 +51,11 @@ public final class TitlePaneIconifyButtonPainter extends TitlePaneButtonPainter 
         BACKGROUND_MINIMIZED_PRESSED_WINDOWNOTFOCUSED,
     }
 
-    private ButtonColors                            enabled        = new ButtonColors(white16,
-                                                                       black66, white4c,
-                                                                       black66, black33,
-                                                                       white33, transparentColor);
-    private ButtonColors                            hover          = new ButtonColors(white68, black66,
-                                                                       white8c, black66,
-                                                                       black33, white46,
+    private ButtonColors                            enabled        = new ButtonColors(white16, black66, white4c, black66, black33, white33,
+                                                                       transparentColor);
+    private ButtonColors                            hover          = new ButtonColors(white68, black66, white8c, black66, black33, white46,
                                                                        white59);
-    private ButtonColors                            pressed        = new ButtonColors(gray_9b_82,
-                                                                       black66, gray_a9_9e,
-                                                                       black66, black33,
+    private ButtonColors                            pressed        = new ButtonColors(gray_9b_82, black66, gray_a9_9e, black66, black33,
                                                                        white33, gray_e6_59);
 
     private TitlePaneIconifyButtonForegroundPainter iconifyPainter = new TitlePaneIconifyButtonForegroundPainter();

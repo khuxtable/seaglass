@@ -39,7 +39,7 @@ public final class ComboBoxTextFieldPainter extends AbstractCommonColorsPainter 
     private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
     private PaintContext                 ctx;
-    private CommonControlType                   type;
+    private CommonControlType            type;
 
     public ComboBoxTextFieldPainter(Which state) {
         super();

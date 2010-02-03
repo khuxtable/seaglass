@@ -38,7 +38,7 @@ public class ToolBarPainter extends AbstractRegionPainter {
         BORDER_ENABLED,
     };
 
-    private PaintContext       ctx;
+    private PaintContext ctx;
 
     public ToolBarPainter(Which state) {
         super();

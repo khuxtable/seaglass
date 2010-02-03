@@ -38,13 +38,13 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
-    private Color        popupMenuInteriorEnabled  = decodeColor("popupMenuInteriorEnabled");
-    private Color        popupMenuBorderEnabled    = decodeColor("popupMenuBorderEnabled");
-    private Color        popupMenuBorderDisabled   = disable(popupMenuBorderEnabled);
-    private Color        popupMenuInteriorDisabled = disable(popupMenuBorderEnabled);
+    private Color             popupMenuInteriorEnabled  = decodeColor("popupMenuInteriorEnabled");
+    private Color             popupMenuBorderEnabled    = decodeColor("popupMenuBorderEnabled");
+    private Color             popupMenuBorderDisabled   = disable(popupMenuBorderEnabled);
+    private Color             popupMenuInteriorDisabled = disable(popupMenuBorderEnabled);
 
-    private PaintContext ctx;
-    private CommonControlType   type;
+    private PaintContext      ctx;
+    private CommonControlType type;
 
     public PopupMenuPainter(Which state) {
         super();
