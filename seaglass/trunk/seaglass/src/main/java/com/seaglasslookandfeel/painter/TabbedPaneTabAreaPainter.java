@@ -19,14 +19,15 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Paint;
 
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.ui.SeaGlassTabbedPaneUI;
 
@@ -39,6 +40,12 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
 
         BACKGROUND_DISABLED_TOP, BACKGROUND_DISABLED_LEFT, BACKGROUND_DISABLED_BOTTOM, BACKGROUND_DISABLED_RIGHT,
     }
+
+    private Color        tabbedPaneTabAreaBackLineEnabled  = decodeColor("tabbedPaneTabAreaBackLineEnabled");
+    private Color        tabbedPaneTabAreaLightShadow      = decodeColor("tabbedPaneTabAreaLightShadow");
+    private Color        tabbedPaneTabAreaDarkShadow       = decodeColor("tabbedPaneTabAreaDarkShadow");
+
+    private Color        tabbedPaneTabAreaBackLineDisabled = disable(tabbedPaneTabAreaBackLineEnabled);
 
     public Which         state;
     private PaintContext ctx;
@@ -91,16 +98,36 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
     }
 
     private void paintHorizontalLine(Graphics2D g, JComponent c, int x, int y, int width, int height) {
-        g.setPaint(PaintUtil.getTabbedPaneTabAreaHorizontalPaint(x, y - 1, width, 4));
+        g.setPaint(getTabbedPaneTabAreaHorizontalPaint(x, y - 1, width, 4));
         g.fillRect(x, y - 1, width, 4);
-        g.setPaint(PaintUtil.getTabbedPaneTabAreaBackgroundColor(type));
+        g.setPaint(getTabbedPaneTabAreaBackgroundPaint(type));
         g.drawLine(x, y, x + width - 1, y);
     }
 
     private void paintVerticalLine(Graphics2D g, JComponent c, int x, int y, int width, int height) {
-        g.setPaint(PaintUtil.getTabbedPaneTabAreaVerticalPaint(x - 1, y, 3, height));
+        g.setPaint(getTabbedPaneTabAreaVerticalPaint(x - 1, y, 3, height));
         g.fillRect(x - 1, y, 3, height);
-        g.setPaint(PaintUtil.getTabbedPaneTabAreaBackgroundColor(type));
+        g.setPaint(getTabbedPaneTabAreaBackgroundPaint(type));
         g.drawLine(x, y, x, y + height - 1);
+    }
+
+    public Paint getTabbedPaneTabAreaHorizontalPaint(int x, int y, int width, int height) {
+        float midX = x + width / 2;
+        return createGradient(midX, y, midX, y + height, new float[] { 0f, 0.5f, 1f }, new Color[] {
+            tabbedPaneTabAreaLightShadow,
+            tabbedPaneTabAreaDarkShadow,
+            tabbedPaneTabAreaLightShadow });
+    }
+
+    public Paint getTabbedPaneTabAreaVerticalPaint(int x, int y, int width, int height) {
+        float midY = y + height / 2;
+        return createGradient(x, midY, x + width, midY, new float[] { 0f, 0.5f, 1f }, new Color[] {
+            tabbedPaneTabAreaLightShadow,
+            tabbedPaneTabAreaDarkShadow,
+            tabbedPaneTabAreaLightShadow });
+    }
+
+    public Paint getTabbedPaneTabAreaBackgroundPaint(ButtonType type) {
+        return type == ButtonType.DISABLED ? tabbedPaneTabAreaBackLineDisabled : tabbedPaneTabAreaBackLineEnabled;
     }
 }
