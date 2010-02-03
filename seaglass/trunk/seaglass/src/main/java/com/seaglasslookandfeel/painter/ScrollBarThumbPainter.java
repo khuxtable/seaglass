@@ -29,7 +29,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -64,7 +63,7 @@ public final class ScrollBarThumbPainter extends AbstractCommonColorsPainter {
                                                                    scrollBarThumbInteriorBottomPressed);
 
     private PaintContext ctx;
-    private ButtonType   type;
+    private CommonControlType   type;
 
     public ScrollBarThumbPainter(Which state) {
         super();
@@ -91,29 +90,29 @@ public final class ScrollBarThumbPainter extends AbstractCommonColorsPainter {
         return ctx;
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         case BACKGROUND_ENABLED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         case BACKGROUND_PRESSED:
-            return ButtonType.PRESSED;
+            return CommonControlType.PRESSED;
         }
         return null;
     }
 
-    public Paint getScrollBarThumbBorderPaint(Shape s, ButtonType type) {
+    public Paint getScrollBarThumbBorderPaint(Shape s, CommonControlType type) {
         TwoColors colors = getCommonBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Paint getScrollBarThumbInteriorPaint(Shape s, ButtonType type) {
+    public Paint getScrollBarThumbInteriorPaint(Shape s, CommonControlType type) {
         FourColors colors = getCommonInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public TwoColors getCommonBorderColors(ButtonType type) {
+    public TwoColors getCommonBorderColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
@@ -125,7 +124,7 @@ public final class ScrollBarThumbPainter extends AbstractCommonColorsPainter {
         return null;
     }
 
-    public FourColors getCommonInteriorColors(ButtonType type) {
+    public FourColors getCommonInteriorColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:

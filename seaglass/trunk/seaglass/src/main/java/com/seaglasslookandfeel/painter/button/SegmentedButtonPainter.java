@@ -29,7 +29,6 @@ import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -47,7 +46,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
 
     private Effect     dropShadow = new SeaGlassDropShadowEffect();
 
-    private ButtonType type;
+    private CommonControlType type;
 
     /**
      * Create a segmented button painter.
@@ -107,33 +106,33 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
      * 
      * @return the button color set.
      */
-    protected ButtonType getButtonType(Which state) {
+    protected CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DEFAULT:
         case BACKGROUND_DEFAULT_FOCUSED:
         case BACKGROUND_SELECTED:
         case BACKGROUND_SELECTED_FOCUSED:
-            return ButtonType.DEFAULT;
+            return CommonControlType.DEFAULT;
 
         case BACKGROUND_PRESSED_DEFAULT:
         case BACKGROUND_PRESSED_DEFAULT_FOCUSED:
-            return ButtonType.DEFAULT_PRESSED;
+            return CommonControlType.DEFAULT_PRESSED;
 
         case BACKGROUND_DISABLED:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
 
         case BACKGROUND_ENABLED:
         case BACKGROUND_FOCUSED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
 
         case BACKGROUND_PRESSED:
         case BACKGROUND_PRESSED_FOCUSED:
         case BACKGROUND_PRESSED_SELECTED:
         case BACKGROUND_PRESSED_SELECTED_FOCUSED:
-            return ButtonType.PRESSED;
+            return CommonControlType.PRESSED;
 
         case BACKGROUND_DISABLED_SELECTED:
-            return ButtonType.DISABLED_SELECTED;
+            return CommonControlType.DISABLED_SELECTED;
         }
 
         return null;

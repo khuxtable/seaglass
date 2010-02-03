@@ -28,7 +28,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -54,19 +53,19 @@ public final class SpinnerNextButtonPainter extends AbstractCommonColorsPainter 
     private Color        spinnerNextInteriorBottomEnabled = decodeColor("spinnerNextInteriorBottomEnabled");
     private Color        spinnerNextInteriorBottomPressed = decodeColor("spinnerNextInteriorBottomPressed");
 
-    private TwoColors    pressedButtonBorder              = getCommonBorderColors(ButtonType.PRESSED);
+    private TwoColors    pressedButtonBorder              = getCommonBorderColors(CommonControlType.PRESSED);
     private TwoColors    spinnerNextBorderEnabled         = new TwoColors(pressedButtonBorder.top, spinnerNextBorderBottomEnabled);
     private TwoColors    spinnerNextBorderPressed         = new TwoColors(pressedButtonBorder.top, spinnerNextBorderBottomPressed);
     private TwoColors    spinnerNextBorderDisabled        = disable(spinnerNextBorderEnabled);
 
-    private FourColors   pressedButtonInterior            = getCommonInteriorColors(ButtonType.PRESSED);
-    private FourColors   selectedButtonInterior           = getCommonInteriorColors(ButtonType.SELECTED);
+    private FourColors   pressedButtonInterior            = getCommonInteriorColors(CommonControlType.PRESSED);
+    private FourColors   selectedButtonInterior           = getCommonInteriorColors(CommonControlType.SELECTED);
     private TwoColors    spinnerNextInteriorEnabled       = new TwoColors(selectedButtonInterior.top, spinnerNextInteriorBottomEnabled);
     private TwoColors    spinnerNextInteriorPressed       = new TwoColors(pressedButtonInterior.top, spinnerNextInteriorBottomPressed);
     private TwoColors    spinnerNextInteriorDisabled      = desaturate(desaturate(spinnerNextInteriorEnabled));
 
     private PaintContext ctx;
-    private ButtonType   type;
+    private CommonControlType   type;
     private boolean      focused;
     private boolean      isForeground;
 
@@ -93,21 +92,21 @@ public final class SpinnerNextButtonPainter extends AbstractCommonColorsPainter 
         return ctx;
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
         case FOREGROUND_DISABLED:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         case BACKGROUND_ENABLED:
         case BACKGROUND_FOCUSED:
         case FOREGROUND_ENABLED:
         case FOREGROUND_FOCUSED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         case BACKGROUND_PRESSED_FOCUSED:
         case BACKGROUND_PRESSED:
         case FOREGROUND_PRESSED_FOCUSED:
         case FOREGROUND_PRESSED:
-            return ButtonType.PRESSED;
+            return CommonControlType.PRESSED;
         }
         return null;
     }
@@ -165,17 +164,17 @@ public final class SpinnerNextButtonPainter extends AbstractCommonColorsPainter 
         return ShapeUtil.createArrowUp(centerX, centerY, 4, 3);
     }
 
-    public Paint getSpinnerNextBorderPaint(Shape s, ButtonType type) {
+    public Paint getSpinnerNextBorderPaint(Shape s, CommonControlType type) {
         TwoColors colors = getSpinnerNextBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Paint getSpinnerNextInteriorPaint(Shape s, ButtonType type) {
+    public Paint getSpinnerNextInteriorPaint(Shape s, CommonControlType type) {
         TwoColors colors = getSpinnerNextInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    private TwoColors getSpinnerNextBorderColors(ButtonType type) {
+    private TwoColors getSpinnerNextBorderColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return spinnerNextBorderDisabled;
@@ -187,7 +186,7 @@ public final class SpinnerNextButtonPainter extends AbstractCommonColorsPainter 
         return null;
     }
 
-    private TwoColors getSpinnerNextInteriorColors(ButtonType type) {
+    private TwoColors getSpinnerNextInteriorColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
             return spinnerNextInteriorDisabled;

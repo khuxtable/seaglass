@@ -29,7 +29,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -48,9 +47,9 @@ public final class SplitPaneDividerPainter extends AbstractCommonColorsPainter {
     private Color        splitPaneDividerBackgroundEnabled = decodeColor("control");
     private Color        splitPaneDividerBackgroundOuter   = decodeColor("splitPaneDividerBackgroundOuter");
 
-    private FourColors   button                            = getCommonInteriorColors(ButtonType.ENABLED);
+    private FourColors   button                            = getCommonInteriorColors(CommonControlType.ENABLED);
 
-    private TwoColors    splitPaneDividerBorder            = getCommonBorderColors(ButtonType.ENABLED);
+    private TwoColors    splitPaneDividerBorder            = getCommonBorderColors(CommonControlType.ENABLED);
     private ThreeColors  splitPaneDividerInterior          = new ThreeColors(button.top, button.lowerMid, button.bottom);
 
     private Which        state;

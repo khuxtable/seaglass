@@ -31,7 +31,6 @@ import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
 /**
  * RadioButtonPainter implementation.
@@ -61,7 +60,7 @@ public final class RadioButtonPainter extends AbstractCommonColorsPainter {
     private PaintContext ctx;
     private boolean      focused;
     private boolean      selected;
-    private ButtonType   type;
+    private CommonControlType   type;
 
     public RadioButtonPainter(Which state) {
         super();
@@ -132,23 +131,23 @@ public final class RadioButtonPainter extends AbstractCommonColorsPainter {
         }
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case ICON_DISABLED:
         case ICON_DISABLED_SELECTED:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         case ICON_ENABLED:
         case ICON_FOCUSED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         case ICON_PRESSED:
         case ICON_PRESSED_FOCUSED:
-            return ButtonType.PRESSED;
+            return CommonControlType.PRESSED;
         case ICON_SELECTED:
         case ICON_SELECTED_FOCUSED:
-            return ButtonType.SELECTED;
+            return CommonControlType.SELECTED;
         case ICON_PRESSED_SELECTED:
         case ICON_PRESSED_SELECTED_FOCUSED:
-            return ButtonType.PRESSED_SELECTED;
+            return CommonControlType.PRESSED_SELECTED;
         }
         return null;
     }
@@ -164,12 +163,12 @@ public final class RadioButtonPainter extends AbstractCommonColorsPainter {
         return ShapeUtil.createRadioButton(pos, pos, iDiameter);
     }
 
-    public Paint getRadioButtonBulletPaint(Shape s, ButtonType type) {
+    public Paint getRadioButtonBulletPaint(Shape s, CommonControlType type) {
         TwoColors colors = getRadioButtonBulletColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    private TwoColors getRadioButtonBulletColors(ButtonType type) {
+    private TwoColors getRadioButtonBulletColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:

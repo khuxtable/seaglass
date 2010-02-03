@@ -27,7 +27,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -42,7 +41,7 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
 
     private Which                        state;
     private PaintContext                 ctx;
-    private ButtonType                   type;
+    private CommonControlType                   type;
     private boolean                      focused;
 
     public SearchFieldPainter(Which state) {
@@ -50,7 +49,7 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
         this.state = state;
         this.ctx = new PaintContext(AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES);
 
-        type = (state == Which.BACKGROUND_DISABLED || state == Which.BORDER_DISABLED) ? ButtonType.DISABLED : ButtonType.ENABLED;
+        type = (state == Which.BACKGROUND_DISABLED || state == Which.BORDER_DISABLED) ? CommonControlType.DISABLED : CommonControlType.ENABLED;
         focused = (state == Which.BORDER_FOCUSED);
     }
 
@@ -86,7 +85,7 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
 
     private void paintBackground(Graphics2D g, JComponent c, int x, int y, int width, int height) {
         Color color = c.getBackground();
-        if (type == ButtonType.DISABLED) {
+        if (type == CommonControlType.DISABLED) {
             color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0x80);
         }
 
@@ -108,7 +107,7 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
             g.draw(s);
         }
 
-        if (type != ButtonType.DISABLED) {
+        if (type != CommonControlType.DISABLED) {
             s = ShapeUtil.createInternalDropShadowRounded(x + 1, y + 1, width - 2, height - 2);
             internalShadow.fill(g, s, true, true);
         }

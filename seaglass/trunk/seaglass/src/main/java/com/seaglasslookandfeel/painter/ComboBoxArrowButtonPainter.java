@@ -28,7 +28,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -47,7 +46,7 @@ public final class ComboBoxArrowButtonPainter extends AbstractCommonColorsPainte
     private Which        state;
     private PaintContext ctx;
 
-    private ButtonType   type;
+    private CommonControlType   type;
 
     public ComboBoxArrowButtonPainter(Which state) {
         super();
@@ -84,23 +83,23 @@ public final class ComboBoxArrowButtonPainter extends AbstractCommonColorsPainte
         return ctx;
     }
 
-    private ButtonType getButtonType(Which state) {
+    private CommonControlType getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         case BACKGROUND_ENABLED:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         case BACKGROUND_PRESSED:
         case BACKGROUND_SELECTED:
-            return ButtonType.PRESSED;
+            return CommonControlType.PRESSED;
         case FOREGROUND_ENABLED:
         case FOREGROUND_PRESSED:
         case FOREGROUND_SELECTED:
         case FOREGROUND_ENABLED_EDITABLE:
-            return ButtonType.ENABLED;
+            return CommonControlType.ENABLED;
         case FOREGROUND_DISABLED:
         case FOREGROUND_DISABLED_EDITABLE:
-            return ButtonType.DISABLED;
+            return CommonControlType.DISABLED;
         }
         return null;
     }
@@ -150,36 +149,36 @@ public final class ComboBoxArrowButtonPainter extends AbstractCommonColorsPainte
             CornerStyle.ROUNDED);
     }
 
-    public Paint getComboBoxButtonBorderPaint(Shape s, ButtonType type) {
+    public Paint getComboBoxButtonBorderPaint(Shape s, CommonControlType type) {
         TwoColors colors = getCommonBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Paint getComboBoxButtonInteriorPaint(Shape s, ButtonType type) {
+    public Paint getComboBoxButtonInteriorPaint(Shape s, CommonControlType type) {
         FourColors colors = getCommonInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public TwoColors getCommonBorderColors(ButtonType type) {
+    public TwoColors getCommonBorderColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
-            return super.getCommonBorderColors(ButtonType.DISABLED);
+            return super.getCommonBorderColors(CommonControlType.DISABLED);
         case ENABLED:
-            return super.getCommonBorderColors(ButtonType.PRESSED);
+            return super.getCommonBorderColors(CommonControlType.PRESSED);
         case PRESSED:
-            return super.getCommonBorderColors(ButtonType.PRESSED_SELECTED);
+            return super.getCommonBorderColors(CommonControlType.PRESSED_SELECTED);
         }
         return null;
     }
 
-    public FourColors getCommonInteriorColors(ButtonType type) {
+    public FourColors getCommonInteriorColors(CommonControlType type) {
         switch (type) {
         case DISABLED:
-            return super.getCommonInteriorColors(ButtonType.DISABLED);
+            return super.getCommonInteriorColors(CommonControlType.DISABLED);
         case ENABLED:
-            return super.getCommonInteriorColors(ButtonType.PRESSED);
+            return super.getCommonInteriorColors(CommonControlType.PRESSED);
         case PRESSED:
-            return super.getCommonInteriorColors(ButtonType.PRESSED_SELECTED);
+            return super.getCommonInteriorColors(CommonControlType.PRESSED_SELECTED);
         }
         return null;
     }

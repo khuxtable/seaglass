@@ -28,7 +28,6 @@ import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -55,7 +54,7 @@ public final class SliderThumbPainter extends AbstractCommonColorsPainter {
     private static final Effect dropShadow = new SeaGlassDropShadowEffect();
 
     private PaintContext        ctx;
-    private ButtonType          type;
+    private CommonControlType          type;
     private boolean             isFocused;
     private boolean             isDiscrete;
 
@@ -65,56 +64,56 @@ public final class SliderThumbPainter extends AbstractCommonColorsPainter {
 
         switch (state) {
         case BACKGROUND_DISABLED:
-            type = ButtonType.DISABLED;
+            type = CommonControlType.DISABLED;
             isFocused = false;
             isDiscrete = false;
             break;
         case BACKGROUND_ENABLED:
         case BACKGROUND_MOUSEOVER:
-            type = ButtonType.ENABLED;
+            type = CommonControlType.ENABLED;
             isFocused = false;
             isDiscrete = false;
             break;
         case BACKGROUND_PRESSED:
-            type = ButtonType.PRESSED;
+            type = CommonControlType.PRESSED;
             isFocused = false;
             isDiscrete = false;
             break;
         case BACKGROUND_FOCUSED:
         case BACKGROUND_FOCUSED_MOUSEOVER:
-            type = ButtonType.ENABLED;
+            type = CommonControlType.ENABLED;
             isFocused = true;
             isDiscrete = false;
             break;
         case BACKGROUND_FOCUSED_PRESSED:
-            type = ButtonType.PRESSED;
+            type = CommonControlType.PRESSED;
             isFocused = true;
             isDiscrete = false;
             break;
         case BACKGROUND_DISABLED_ARROWSHAPE:
-            type = ButtonType.DISABLED;
+            type = CommonControlType.DISABLED;
             isFocused = false;
             isDiscrete = true;
             break;
         case BACKGROUND_ENABLED_ARROWSHAPE:
         case BACKGROUND_MOUSEOVER_ARROWSHAPE:
-            type = ButtonType.ENABLED;
+            type = CommonControlType.ENABLED;
             isFocused = false;
             isDiscrete = true;
             break;
         case BACKGROUND_PRESSED_ARROWSHAPE:
-            type = ButtonType.PRESSED;
+            type = CommonControlType.PRESSED;
             isFocused = false;
             isDiscrete = true;
             break;
         case BACKGROUND_FOCUSED_ARROWSHAPE:
         case BACKGROUND_FOCUSED_MOUSEOVER_ARROWSHAPE:
-            type = ButtonType.ENABLED;
+            type = CommonControlType.ENABLED;
             isFocused = true;
             isDiscrete = true;
             break;
         case BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE:
-            type = ButtonType.PRESSED;
+            type = CommonControlType.PRESSED;
             isFocused = true;
             isDiscrete = true;
             break;

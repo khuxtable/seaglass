@@ -28,7 +28,6 @@ import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 import com.seaglasslookandfeel.ui.SeaGlassTabbedPaneUI;
 
 /**
@@ -49,7 +48,7 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
 
     public Which         state;
     private PaintContext ctx;
-    private ButtonType   type;
+    private CommonControlType   type;
 
     public TabbedPaneTabAreaPainter(Which state) {
         super();
@@ -61,13 +60,13 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
         case BACKGROUND_DISABLED_LEFT:
         case BACKGROUND_DISABLED_BOTTOM:
         case BACKGROUND_DISABLED_RIGHT:
-            type = ButtonType.DISABLED;
+            type = CommonControlType.DISABLED;
             break;
         case BACKGROUND_ENABLED_TOP:
         case BACKGROUND_ENABLED_LEFT:
         case BACKGROUND_ENABLED_BOTTOM:
         case BACKGROUND_ENABLED_RIGHT:
-            type = ButtonType.ENABLED;
+            type = CommonControlType.ENABLED;
             break;
         }
     }
@@ -127,7 +126,7 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
             tabbedPaneTabAreaLightShadow });
     }
 
-    public Paint getTabbedPaneTabAreaBackgroundPaint(ButtonType type) {
-        return type == ButtonType.DISABLED ? tabbedPaneTabAreaBackLineDisabled : tabbedPaneTabAreaBackLineEnabled;
+    public Paint getTabbedPaneTabAreaBackgroundPaint(CommonControlType type) {
+        return type == CommonControlType.DISABLED ? tabbedPaneTabAreaBackLineDisabled : tabbedPaneTabAreaBackLineEnabled;
     }
 }

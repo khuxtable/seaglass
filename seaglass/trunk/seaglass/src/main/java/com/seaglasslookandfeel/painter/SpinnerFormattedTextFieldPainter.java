@@ -27,7 +27,6 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
 
 /**
  * ComboBoxTextFieldPainter implementation.
@@ -40,14 +39,14 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractCommonColors
     private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
     private PaintContext                 ctx;
-    private ButtonType                   type;
+    private CommonControlType                   type;
     private boolean                      focused;
 
     public SpinnerFormattedTextFieldPainter(Which state) {
         super();
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
-        type = (state == Which.BACKGROUND_DISABLED) ? ButtonType.DISABLED : ButtonType.ENABLED;
+        type = (state == Which.BACKGROUND_DISABLED) ? CommonControlType.DISABLED : CommonControlType.ENABLED;
         focused = (state == Which.BACKGROUND_FOCUSED || state == Which.BACKGROUND_SELECTED_FOCUSED);
     }
 
