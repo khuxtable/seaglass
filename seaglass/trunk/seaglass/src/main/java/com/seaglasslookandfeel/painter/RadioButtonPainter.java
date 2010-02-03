@@ -30,10 +30,8 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 
 /**
  * RadioButtonPainter implementation.
@@ -109,10 +107,10 @@ public final class RadioButtonPainter extends AbstractCommonColorsPainter {
         if (focused) {
             boolean useToolBarFocus = isInToolBar(c);
             s = createBasicShape(width, width, height);
-            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
+            g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
             g.fill(s);
             s = createBasicShape(width - 2, width, height);
-            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
+            g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
             g.fill(s);
         }
 

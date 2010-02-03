@@ -26,10 +26,8 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 
 /**
  * ComboBoxTextFieldPainter implementation.
@@ -59,10 +57,10 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractCommonColors
         Shape s;
         if (focused) {
             s = ShapeUtil.createRectangle(0, 0, width, height);
-            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useFocusColors));
+            g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useFocusColors));
             g.fill(s);
             s = ShapeUtil.createRectangle(1, 1, width - 1, height - 2);
-            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useFocusColors));
+            g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useFocusColors));
             g.fill(s);
         }
 

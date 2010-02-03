@@ -29,8 +29,8 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.UIManager;
 
+import com.seaglasslookandfeel.painter.AbstractRegionPainter.TwoColors;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.TwoColors;
 
 public class SeaGlassInternalShadowEffect {
 

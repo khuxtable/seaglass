@@ -26,10 +26,8 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 
 /**
  * TextComponentPainter implementation.
@@ -125,10 +123,10 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
 
         if (focused) {
             s = ShapeUtil.createRectangle(x - 2, y - 2, width + 3, height + 3);
-            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
+            g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.draw(s);
             s = ShapeUtil.createRectangle(x - 1, y - 1, width + 1, height + 1);
-            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
+            g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
             g.draw(s);
         }
 

@@ -28,10 +28,8 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -83,10 +81,10 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         Shape s;
         if (focused) {
             s = createOuterFocus(segmentStatus, x, y, width, height);
-            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
+            g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
             g.draw(s);
             s = createInnerFocus(segmentStatus, x, y, width, height);
-            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
+            g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
             g.draw(s);
         }
 

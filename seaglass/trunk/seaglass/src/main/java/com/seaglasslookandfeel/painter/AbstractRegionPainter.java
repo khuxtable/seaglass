@@ -57,7 +57,7 @@ import com.seaglasslookandfeel.util.ImageCache;
  * @see com.sun.java.swing.plaf.nimbus.AbstractRegionPainter
  */
 public abstract class AbstractRegionPainter implements Painter<JComponent> {
-    private static final State inToolBarState = new ControlInToolBarState();
+    private static final State inToolBarState    = new ControlInToolBarState();
 
     /**
      * PaintContext, which holds a lot of the state needed for cache hinting and
@@ -77,6 +77,11 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      * room for the focus indicator.
      */
     protected Insets           focusInsets;
+
+    private Color              outerFocus        = decodeColor("seaGlassOuterFocus");
+    private Color              innerFocus        = decodeColor("seaGlassFocus");
+    private Color              outerToolBarFocus = decodeColor("seaGlassToolBarOuterFocus");
+    private Color              innerToolBarFocus = decodeColor("seaGlassToolBarFocus");
 
     /**
      * Create a new AbstractRegionPainter
@@ -145,6 +150,14 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      * @return a PaintContext associated with this paint operation.
      */
     protected abstract PaintContext getPaintContext();
+
+    public Paint getFocusPaint(Shape s, FocusType focusType, boolean useToolBarFocus) {
+        if (focusType == FocusType.OUTER_FOCUS) {
+            return useToolBarFocus ? outerToolBarFocus : outerFocus;
+        } else {
+            return useToolBarFocus ? innerToolBarFocus : innerFocus;
+        }
+    }
 
     /**
      * <p>
@@ -508,6 +521,10 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
         public CacheMode getCacheMode() {
             return cacheMode;
         }
+    }
+
+    public enum FocusType {
+        INNER_FOCUS, OUTER_FOCUS,
     }
 
     /**
