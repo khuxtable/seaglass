@@ -19,13 +19,13 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
@@ -36,8 +36,10 @@ public final class TableHeaderPainter extends AbstractRegionPainter {
         ASCENDINGSORTICON_ENABLED, DESCENDINGSORTICON_ENABLED
     }
 
-    private Which              state;
-    private PaintContext       ctx;
+    private Color        tableHeaderSortIndicator = decodeColor("tableHeaderSortIndicator");
+
+    private Which        state;
+    private PaintContext ctx;
 
     public TableHeaderPainter(Which state) {
         super();
@@ -64,13 +66,13 @@ public final class TableHeaderPainter extends AbstractRegionPainter {
 
     private void paintAscending(Graphics2D g) {
         Shape s = ShapeUtil.createArrowUp(1, 0, 6, 6);
-        g.setPaint(PaintUtil.getTableHeaderSortIndicatorPaint());
+        g.setPaint(tableHeaderSortIndicator);
         g.fill(s);
     }
 
     private void paintDescending(Graphics2D g) {
         Shape s = ShapeUtil.createArrowDown(1, 2, 6, 6);
-        g.setPaint(PaintUtil.getTableHeaderSortIndicatorPaint());
+        g.setPaint(tableHeaderSortIndicator);
         g.fill(s);
     }
 }
