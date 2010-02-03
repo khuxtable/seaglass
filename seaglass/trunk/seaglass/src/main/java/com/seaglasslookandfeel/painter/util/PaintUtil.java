@@ -114,9 +114,6 @@ public class PaintUtil {
     private static FourColors  comboBoxBackgroundInteriorEnabled;
     private static FourColors  comboBoxBackgroundInteriorPressed;
 
-    private static TwoColors   rootPaneActive;
-    private static TwoColors   rootPaneInactive;
-
     private static TwoColors   menuItemBackground;
     private static Color       menuItemBottomLine;
 
@@ -140,9 +137,6 @@ public class PaintUtil {
     private static FourColors  progressBarIndeterminatePatternEnabled;
     private static Color       progressBarEndDisabled;
     private static Color       progressBarEndEnabled;
-
-    private static TwoColors   scrollBarTrackBackground;
-    private static FourColors  scrollBarTrackGradient;
 
     private static TwoColors   scrollBarCapColors;
 
@@ -234,9 +228,6 @@ public class PaintUtil {
 
         Color innerShadowBase = decodeColor("seaGlassInnerShadow");
 
-        rootPaneActive = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"), decodeColor("seaGlassToolBarActiveBottomB"));
-        rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"), decodeColor("seaGlassToolBarInactiveBottomB"));
-
         splitPaneDividerBackgroundEnabled = decodeColor("control");
 
         Color buttonBorderBaseEnabled = decodeColor("buttonBorderBaseEnabled");
@@ -268,9 +259,6 @@ public class PaintUtil {
 
         Color scrollBarButtonBase = decodeColor("scrollBarButtonBase");
         Color scrollBarButtonBasePressed = decodeColor("scrollBarButtonBasePressed");
-
-        Color scrollBarTrackBackgroundBase = decodeColor("scrollBarTrackBackgroundBase");
-        Color scrollBarTrackGradientBase = decodeColor("scrollBarTrackGradientBase");
 
         Color sliderTrackBorderBase = decodeColor("sliderTrackBorderBase");
         Color sliderTrackInteriorBase = decodeColor("sliderTrackInteriorBase");
@@ -449,17 +437,6 @@ public class PaintUtil {
             buttonInteriorLowerMidEnabled, buttonInteriorBottomEnabled);
         progressBarIndeterminatePatternDisabled = disable(progressBarIndeterminatePatternEnabled);
 
-        Color scrollBarTrackBackgroundTop = deriveColor(scrollBarTrackBackgroundBase, 0f, 0f, -0.066667f, 0);
-        Color scrollBarTrackBackgroundBottom = scrollBarTrackBackgroundBase;
-
-        Color scrollBarTrackGradientTop = deriveColor(scrollBarTrackGradientBase, 0f, 0f, 0f, 0x33);
-        Color scrollBarTrackGradientUpperMid = deriveColor(scrollBarTrackGradientBase, 0f, 0f, 0f, 0x15);
-        Color scrollBarTrackGradientLowerMid = scrollBarTrackGradientBase;
-        Color scrollBarTrackGradientBottom = deriveColor(scrollBarTrackGradientBase, 0f, 0f, 0f, 0x12);
-
-        scrollBarTrackBackground = new TwoColors(scrollBarTrackBackgroundTop, scrollBarTrackBackgroundBottom);
-        scrollBarTrackGradient = new FourColors(scrollBarTrackGradientTop, scrollBarTrackGradientUpperMid, scrollBarTrackGradientLowerMid,
-            scrollBarTrackGradientBottom);
         scrollBarCapColors = new TwoColors(scrollBarButtonBase, deriveColor(scrollBarButtonBase, 0f, 0f, -0.266667f, 0));
 
         Color scrollBarButtonTopPressed = deriveColor(scrollBarButtonBasePressed, 0.000737f, -0.105657f, 0.101961f, 0);
@@ -754,11 +731,6 @@ public class PaintUtil {
         return getSpinnerArrowColors(type);
     }
 
-    public static Paint getRootPaneInteriorPaint(Shape s, ButtonType type) {
-        TwoColors colors = getRootPaneInteriorColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
     public static Paint getSliderTrackInteriorPaint(Shape s, ButtonType type) {
         TwoColors colors = getSliderTrackInteriorColors(type);
         return createVerticalGradient(s, colors);
@@ -776,14 +748,6 @@ public class PaintUtil {
 
     public static Paint getProgressBarEndPaint(Shape s, ButtonType type) {
         return getProgressBarEndColor(type);
-    }
-
-    public static Paint getScrollBarTrackBackgroundPaint(Shape s) {
-        return createVerticalGradient(s, scrollBarTrackBackground);
-    }
-
-    public static Paint getScrollBarTrackShadowPaint(Shape s) {
-        return createScrollBarTrackInnerShadowGradient(s, scrollBarTrackGradient);
     }
 
     public static Paint getScrollBarButtonBackgroundPaint(Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
@@ -1092,16 +1056,6 @@ public class PaintUtil {
         return null;
     }
 
-    private static TwoColors getRootPaneInteriorColors(ButtonType type) {
-        switch (type) {
-        case ACTIVE:
-            return rootPaneActive;
-        case INACTIVE:
-            return rootPaneInactive;
-        }
-        return null;
-    }
-
     private static Color getPopupMenuBorderColors(ButtonType type) {
         switch (type) {
         case ENABLED:
@@ -1324,14 +1278,6 @@ public class PaintUtil {
         float w = (float) bounds.getWidth();
         float h = (float) bounds.getHeight();
         return createGradient(x + w, y, (0.3f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { colors.top, colors.bottom });
-    }
-
-    private static Paint createScrollBarTrackInnerShadowGradient(Shape s, FourColors colors) {
-        Rectangle bounds = s.getBounds();
-        int width = bounds.width;
-        int height = bounds.height;
-        return createGradient(width * 0.5f, 0, width * 0.5f, height - 1, new float[] { 0f, 0.142857143f, 0.5f, 0.785714286f, 1f },
-            new Color[] { colors.top, colors.upperMid, colors.lowerMid, colors.lowerMid, colors.bottom });
     }
 
     /**

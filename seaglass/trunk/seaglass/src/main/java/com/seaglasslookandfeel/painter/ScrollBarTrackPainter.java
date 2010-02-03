@@ -19,13 +19,15 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Rectangle;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
@@ -35,6 +37,21 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
     public static enum Which {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED,
     }
+
+    private Color        scrollBarTrackBackgroundBase   = decodeColor("scrollBarTrackBackgroundBase");
+    private Color        scrollBarTrackGradientBase     = decodeColor("scrollBarTrackGradientBase");
+
+    private Color        scrollBarTrackBackgroundTop    = deriveColor(scrollBarTrackBackgroundBase, 0f, 0f, -0.066667f, 0);
+    private Color        scrollBarTrackBackgroundBottom = scrollBarTrackBackgroundBase;
+
+    private Color        scrollBarTrackGradientTop      = deriveColor(scrollBarTrackGradientBase, 0f, 0f, 0f, 0x33);
+    private Color        scrollBarTrackGradientUpperMid = deriveColor(scrollBarTrackGradientBase, 0f, 0f, 0f, 0x15);
+    private Color        scrollBarTrackGradientLowerMid = scrollBarTrackGradientBase;
+    private Color        scrollBarTrackGradientBottom   = deriveColor(scrollBarTrackGradientBase, 0f, 0f, 0f, 0x12);
+
+    private TwoColors    scrollBarTrackBackground       = new TwoColors(scrollBarTrackBackgroundTop, scrollBarTrackBackgroundBottom);
+    private FourColors   scrollBarTrackGradient         = new FourColors(scrollBarTrackGradientTop, scrollBarTrackGradientUpperMid,
+                                                            scrollBarTrackGradientLowerMid, scrollBarTrackGradientBottom);
 
     private PaintContext ctx;
 
@@ -46,14 +63,30 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = ShapeUtil.createRectangle(0, 0, width, height);
-        g.setPaint(PaintUtil.getScrollBarTrackBackgroundPaint(s));
+        g.setPaint(getScrollBarTrackBackgroundPaint(s));
         g.fill(s);
-        g.setPaint(PaintUtil.getScrollBarTrackShadowPaint(s));
+        g.setPaint(getScrollBarTrackShadowPaint(s));
         g.fill(s);
     }
 
     @Override
     protected PaintContext getPaintContext() {
         return ctx;
+    }
+
+    public Paint getScrollBarTrackBackgroundPaint(Shape s) {
+        return createVerticalGradient(s, scrollBarTrackBackground);
+    }
+
+    public Paint getScrollBarTrackShadowPaint(Shape s) {
+        return createScrollBarTrackInnerShadowGradient(s, scrollBarTrackGradient);
+    }
+
+    private Paint createScrollBarTrackInnerShadowGradient(Shape s, FourColors colors) {
+        Rectangle bounds = s.getBounds();
+        int width = bounds.width;
+        int height = bounds.height;
+        return createGradient(width * 0.5f, 0, width * 0.5f, height - 1, new float[] { 0f, 0.142857143f, 0.5f, 0.785714286f, 1f },
+            new Color[] { colors.top, colors.upperMid, colors.lowerMid, colors.lowerMid, colors.bottom });
     }
 }
