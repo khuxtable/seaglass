@@ -19,9 +19,12 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -51,11 +54,17 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         ICON_DISABLED_SELECTED,
     }
 
+    private Color        buttonBulletBottomEnabled = decodeColor("buttonBulletBottomEnabled");
+
+    private TwoColors    buttonBulletEnabled       = new TwoColors(deriveColor(buttonBulletBottomEnabled, 0f, 0f, 0.2f, 0),
+                                                       buttonBulletBottomEnabled);
+    private TwoColors    buttonbulletDisabled      = disable(buttonBulletEnabled);
+
     private PaintContext ctx;
     private boolean      focused;
     private boolean      selected;
 
-    private Effect       dropShadow = new SeaGlassDropShadowEffect();
+    private Effect       dropShadow                = new SeaGlassDropShadowEffect();
 
     private ButtonType   type;
 
@@ -109,7 +118,7 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
 
         if (selected) {
             s = createCheckMark(x, y, size);
-            g.setPaint(PaintUtil.getCheckBoxBulletPaint(s, type));
+            g.setPaint(getCheckBoxBulletPaint(s, type));
             g.fill(s);
         }
     }
@@ -150,5 +159,33 @@ public final class CheckBoxPainter extends AbstractRegionPainter {
         int markY = y + (int) (size * Y_MULTIPLIER + 0.5);
 
         return ShapeUtil.createCheckMark(markX, markY, markSize, markSize);
+    }
+
+    public Paint getCheckBoxBulletPaint(Shape s, ButtonType type) {
+        TwoColors colors = getCheckBoxBulletColors(type);
+        return createCheckMarkGradient(s, colors);
+    }
+
+    private TwoColors getCheckBoxBulletColors(ButtonType type) {
+        switch (type) {
+        case DISABLED:
+        case DISABLED_SELECTED:
+            return buttonbulletDisabled;
+        case ENABLED:
+        case PRESSED:
+        case SELECTED:
+        case PRESSED_SELECTED:
+            return buttonBulletEnabled;
+        }
+        return null;
+    }
+
+    private Paint createCheckMarkGradient(Shape s, TwoColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return createGradient(x + w, y, (0.3f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { colors.top, colors.bottom });
     }
 }

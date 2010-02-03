@@ -95,9 +95,6 @@ public class PaintUtil {
     private static TwoColors  scrollBarThumbBorderPressed;
     private static FourColors scrollBarThumbInteriorPressed;
 
-    private static TwoColors  buttonBulletEnabled;
-    private static TwoColors  buttonbulletDisabled;
-
     private static TwoColors  comboBoxButtonBorderDisabled;
     private static TwoColors  comboBoxButtonBorderEnabled;
     private static TwoColors  comboBoxButtonBorderPressed;
@@ -233,8 +230,6 @@ public class PaintUtil {
         Color texturedButtonInteriorBasePressed = decodeColor("texturedButtonInteriorBasePressed");
         Color texturedButtonInteriorBaseSelected = decodeColor("texturedButtonInteriorBaseSelected");
         Color texturedButtonInteriorBasePressedSelected = decodeColor("texturedButtonInteriorBasePressedSelected");
-
-        Color buttonBulletBottomEnabled = decodeColor("buttonBulletBottomEnabled");
 
         Color menuItemBackgroundBase = decodeColor("menuItemBackgroundBase");
 
@@ -385,9 +380,6 @@ public class PaintUtil {
 
         scrollBarThumbInteriorPressed = new FourColors(scrollBarThumbInteriorTopPressed, scrollBarThumbInteriorUpperMidPressed,
             scrollBarThumbInteriorLowerMidPressed, scrollBarThumbInteriorBottomPressed);
-
-        buttonBulletEnabled = new TwoColors(deriveColor(buttonBulletBottomEnabled, 0f, 0f, 0.2f, 0), buttonBulletBottomEnabled);
-        buttonbulletDisabled = disable(buttonBulletEnabled);
 
         comboBoxButtonInteriorDisabled = buttonInteriorDisabled;
         comboBoxButtonInteriorEnabled = buttonInteriorSelected;
@@ -668,11 +660,6 @@ public class PaintUtil {
         return createVerticalGradient(s, colors);
     }
 
-    public static Paint getRadioButtonBulletPaint(Shape s, ButtonType type) {
-        TwoColors colors = getCheckBoxBulletColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
     public static Paint getSpinnerNextInteriorPaint(Shape s, ButtonType type) {
         TwoColors colors = getSpinnerNextInteriorColors(type);
         return createVerticalGradient(s, colors);
@@ -681,11 +668,6 @@ public class PaintUtil {
     public static Paint getSpinnerPrevInteriorPaint(Shape s, ButtonType type) {
         TwoColors colors = getSpinnerPrevInteriorColors(type);
         return createVerticalGradient(s, colors);
-    }
-
-    public static Paint getCheckBoxBulletPaint(Shape s, ButtonType type) {
-        TwoColors colors = getCheckBoxBulletColors(type);
-        return createCheckMarkGradient(s, colors);
     }
 
     public static Paint getSpinnerArrowPaint(Shape s, ButtonType type) {
@@ -916,20 +898,6 @@ public class PaintUtil {
             return buttonInteriorEnabled;
         case PRESSED:
             return scrollBarThumbInteriorPressed;
-        }
-        return null;
-    }
-
-    private static TwoColors getCheckBoxBulletColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-        case DISABLED_SELECTED:
-            return buttonbulletDisabled;
-        case ENABLED:
-        case PRESSED:
-        case SELECTED:
-        case PRESSED_SELECTED:
-            return buttonBulletEnabled;
         }
         return null;
     }
@@ -1182,15 +1150,6 @@ public class PaintUtil {
             colors.upperMid,
             colors.lowerMid,
             colors.bottom });
-    }
-
-    private static Paint createCheckMarkGradient(Shape s, TwoColors colors) {
-        Rectangle2D bounds = s.getBounds2D();
-        float x = (float) bounds.getX();
-        float y = (float) bounds.getY();
-        float w = (float) bounds.getWidth();
-        float h = (float) bounds.getHeight();
-        return createGradient(x + w, y, (0.3f * w) + x, h + y, new float[] { 0f, 1f }, new Color[] { colors.top, colors.bottom });
     }
 
     /**
