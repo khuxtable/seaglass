@@ -25,9 +25,12 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.Insets;
 import java.awt.LinearGradientPaint;
+import java.awt.Paint;
 import java.awt.RadialGradientPaint;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.Transparency;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.VolatileImage;
 import java.awt.print.PrinterGraphics;
 import java.lang.reflect.Method;
@@ -336,6 +339,47 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
             r = .00001f;
         }
         return new RadialGradientPaint(x, y, r, midpoints, colors);
+    }
+
+    protected Paint createVerticalGradient(Shape s, TwoColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float xCenter = (float) bounds.getCenterX();
+        float yMin = (float) bounds.getMinY();
+        float yMax = (float) bounds.getMaxY();
+        return createGradient(xCenter, yMin, xCenter, yMax, new float[] { 0f, 1f }, new Color[] { colors.top, colors.bottom });
+    }
+
+    protected Paint createVerticalGradient(Shape s, FourColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float xCenter = (float) bounds.getCenterX();
+        float yMin = (float) bounds.getMinY();
+        float yMax = (float) bounds.getMaxY();
+        return createGradient(xCenter, yMin, xCenter, yMax, new float[] { 0f, 0.45f, 0.62f, 1f }, new Color[] {
+            colors.top,
+            colors.upperMid,
+            colors.lowerMid,
+            colors.bottom });
+    }
+
+    protected Paint createHorizontalGradient(Shape s, TwoColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float xMin = (float) bounds.getMinX();
+        float xMax = (float) bounds.getMaxX();
+        float yCenter = (float) bounds.getCenterY();
+        return createGradient(xMin, yCenter, xMax, yCenter, new float[] { 0f, 1f }, new Color[] { colors.top, colors.bottom });
+    }
+
+    protected Paint createHorizontalGradient(Shape s, FourColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        float h = (float) bounds.getHeight();
+        return createGradient(x, (0.5f * h) + y, x + w, (0.5f * h) + y, new float[] { 0f, 0.45f, 0.62f, 1f }, new Color[] {
+            colors.top,
+            colors.upperMid,
+            colors.lowerMid,
+            colors.bottom });
     }
 
     /**
