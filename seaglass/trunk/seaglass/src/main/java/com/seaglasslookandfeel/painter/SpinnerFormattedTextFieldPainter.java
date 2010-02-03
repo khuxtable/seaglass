@@ -34,7 +34,7 @@ import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 /**
  * ComboBoxTextFieldPainter implementation.
  */
-public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainter {
+public final class SpinnerFormattedTextFieldPainter extends AbstractCommonColorsPainter {
     public static enum Which {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_SELECTED, BACKGROUND_FOCUSED, BACKGROUND_SELECTED_FOCUSED,
     }
@@ -73,7 +73,7 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractRegionPainte
         internalShadow.fill(g, s, false, false);
 
         s = ShapeUtil.createOpenRectangle(2, 2, width - 2 - 1, height - 4 - 1);
-        g.setPaint(PaintUtil.getTextComponentBorderPaint(type, false));
+        g.setPaint(getTextBorderPaint(type, false));
         g.draw(s);
     }
 

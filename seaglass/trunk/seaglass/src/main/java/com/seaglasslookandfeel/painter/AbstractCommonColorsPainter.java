@@ -82,6 +82,10 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
     private FourColors interiorDisabled                = desaturate(interiorEnabled);
     private FourColors interiorDisabledSelected        = desaturate(interiorSelected);
 
+    private Color      textBorderEnabled               = decodeColor("seaGlassTextEnabledBorder");
+    private Color      textBorderEnabledToolbar        = decodeColor("seaGlassTextEnabledToolbarBorder");
+    private Color      textBorderDisabled              = decodeColor("seaGlassTextDisabledBorder");
+
     public AbstractCommonColorsPainter() {
         super();
     }
@@ -153,5 +157,15 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
             return interiorPressedSelected;
         }
         return null;
+    }
+
+    public Paint getTextBorderPaint(ButtonType type, boolean inToolbar) {
+        if (type == ButtonType.DISABLED) {
+            return textBorderDisabled;
+        } else if (inToolbar) {
+            return textBorderEnabledToolbar;
+        } else {
+            return textBorderEnabled;
+        }
     }
 }

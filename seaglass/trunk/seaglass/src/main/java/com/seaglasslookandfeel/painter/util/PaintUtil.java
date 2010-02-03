@@ -65,10 +65,6 @@ public class PaintUtil {
     private static Color     scrollBarButtonDarkDivider;
     private static Color     scrollBarButtonLightDivider;
 
-    private static Color     textComponentBorderDisabled;
-    private static Color     textComponentBorderEnabled;
-    private static Color     textComponentBorderEnabledToolbar;
-
     static {
         outerFocus = decodeColor("seaGlassOuterFocus");
         innerFocus = decodeColor("seaGlassFocus");
@@ -77,10 +73,6 @@ public class PaintUtil {
 
         Color scrollBarButtonBase = decodeColor("scrollBarButtonBase");
         Color scrollBarButtonBasePressed = decodeColor("scrollBarButtonBasePressed");
-
-        textComponentBorderEnabled = decodeColor("seaGlassTextEnabledBorder");
-        textComponentBorderEnabledToolbar = decodeColor("seaGlassTextEnabledToolbarBorder");
-        textComponentBorderDisabled = decodeColor("seaGlassTextDisabledBorder");
 
         // ------- Assign from base colors -------
 
@@ -107,16 +99,6 @@ public class PaintUtil {
 
         scrollBarButtonDarkDivider = deriveColor(scrollBarButtonBase, 0f, 0f, -1f, -(int) (scrollBarButtonBase.getAlpha() * 0.87843137f));
         scrollBarButtonLightDivider = deriveColor(scrollBarButtonBase, 0f, 0f, 0f, -(int) (scrollBarButtonBase.getAlpha() * 0.75294117647f));
-    }
-
-    public static Paint getTextComponentBorderPaint(ButtonType type, boolean inToolbar) {
-        if (type == ButtonType.DISABLED) {
-            return textComponentBorderDisabled;
-        } else if (inToolbar) {
-            return textComponentBorderEnabledToolbar;
-        } else {
-            return textComponentBorderEnabled;
-        }
     }
 
     public static Paint getFocusPaint(Shape s, FocusType focusType, boolean useToolBarFocus) {
