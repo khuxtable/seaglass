@@ -29,7 +29,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.PaintUtil.ToolbarToggleButtonType;
 
 /**
  * ToolBarToggleButtonPainter implementation.
@@ -45,6 +44,10 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
         BACKGROUND_PRESSED_SELECTED,
         BACKGROUND_PRESSED_SELECTED_FOCUSED,
         BACKGROUND_DISABLED_SELECTED,
+    }
+
+    public enum ToolbarToggleButtonType {
+        INNER, INNER_EDGE, OUTER_EDGE
     }
 
     private Color        toolbarToggleButtonBase      = decodeColor("toolbarToggleButtonBase");
