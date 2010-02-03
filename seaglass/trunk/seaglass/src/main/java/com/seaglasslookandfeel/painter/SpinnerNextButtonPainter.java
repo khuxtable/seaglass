@@ -27,10 +27,8 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -133,11 +131,11 @@ public final class SpinnerNextButtonPainter extends AbstractCommonColorsPainter 
 
         if (focused) {
             s = createButtonShape(0, 0, width, height, CornerSize.OUTER_FOCUS);
-            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
+            g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.fill(s);
 
             s = createButtonShape(0, 1, width - 1, height - 1, CornerSize.INNER_FOCUS);
-            g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
+            g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
             g.fill(s);
         }
 

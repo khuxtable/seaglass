@@ -28,10 +28,8 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 
 /**
@@ -109,11 +107,11 @@ public final class SplitPaneDividerPainter extends AbstractCommonColorsPainter {
         g.fillRect(0, 0, width, height);
 
         Shape s = ShapeUtil.createRectangle(0, y - 1, width, 3);
-        g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
+        g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
         g.fill(s);
 
         s = ShapeUtil.createRectangle(0, y, width, 1);
-        g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
+        g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
         g.fill(s);
     }
 
@@ -152,11 +150,11 @@ public final class SplitPaneDividerPainter extends AbstractCommonColorsPainter {
         boolean useToolBarColors = isInToolBar(c);
 
         Shape s = ShapeUtil.createRoundRectangle(width / 2 - 11, height / 2 - 4, 22, 9, CornerSize.ROUND_HEIGHT);
-        g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
+        g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(width / 2 - 10, height / 2 - 3, 20, 7, CornerSize.ROUND_HEIGHT);
-        g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
+        g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
         g.fill(s);
     }
 

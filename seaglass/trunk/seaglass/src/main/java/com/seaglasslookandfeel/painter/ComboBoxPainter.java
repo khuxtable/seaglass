@@ -27,10 +27,8 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.PaintUtil;
 import com.seaglasslookandfeel.painter.util.ShapeUtil;
 import com.seaglasslookandfeel.painter.util.PaintUtil.ButtonType;
-import com.seaglasslookandfeel.painter.util.PaintUtil.FocusType;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
 
@@ -172,10 +170,10 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
     private void paintFocus(Graphics2D g, JComponent c, int width, int height) {
         boolean useToolBarFocus = isInToolBar(c);
         Shape s = createFocusPath(CornerSize.OUTER_FOCUS, 0, 0, width, height);
-        g.setPaint(PaintUtil.getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
+        g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
         g.fill(s);
         s = createFocusPath(CornerSize.INNER_FOCUS, 1, 1, width - 2, height - 2);
-        g.setPaint(PaintUtil.getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
+        g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
         g.fill(s);
     }
 
