@@ -65,11 +65,6 @@ public class PaintUtil {
     private static Color     scrollBarButtonDarkDivider;
     private static Color     scrollBarButtonLightDivider;
 
-    private static Color     tabbedPaneTabAreaBackLineEnabled;
-    private static Color     tabbedPaneTabAreaBackLineDisabled;
-    private static Color     tabbedPaneTabAreaLightShadow;
-    private static Color     tabbedPaneTabAreaDarkShadow;
-
     private static Color     textComponentBorderDisabled;
     private static Color     textComponentBorderEnabled;
     private static Color     textComponentBorderEnabledToolbar;
@@ -82,10 +77,6 @@ public class PaintUtil {
 
         Color scrollBarButtonBase = decodeColor("scrollBarButtonBase");
         Color scrollBarButtonBasePressed = decodeColor("scrollBarButtonBasePressed");
-
-        tabbedPaneTabAreaBackLineEnabled = decodeColor("tabbedPaneTabAreaBackLineEnabled");
-        tabbedPaneTabAreaLightShadow = decodeColor("tabbedPaneTabAreaLightShadow");
-        tabbedPaneTabAreaDarkShadow = decodeColor("tabbedPaneTabAreaDarkShadow");
 
         textComponentBorderEnabled = decodeColor("seaGlassTextEnabledBorder");
         textComponentBorderEnabledToolbar = decodeColor("seaGlassTextEnabledToolbarBorder");
@@ -116,8 +107,6 @@ public class PaintUtil {
 
         scrollBarButtonDarkDivider = deriveColor(scrollBarButtonBase, 0f, 0f, -1f, -(int) (scrollBarButtonBase.getAlpha() * 0.87843137f));
         scrollBarButtonLightDivider = deriveColor(scrollBarButtonBase, 0f, 0f, 0f, -(int) (scrollBarButtonBase.getAlpha() * 0.75294117647f));
-
-        tabbedPaneTabAreaBackLineDisabled = disable(tabbedPaneTabAreaBackLineEnabled);
     }
 
     public static Paint getTextComponentBorderPaint(ButtonType type, boolean inToolbar) {
@@ -128,26 +117,6 @@ public class PaintUtil {
         } else {
             return textComponentBorderEnabled;
         }
-    }
-
-    public static Paint getTabbedPaneTabAreaBackgroundColor(ButtonType type) {
-        return type == ButtonType.DISABLED ? tabbedPaneTabAreaBackLineDisabled : tabbedPaneTabAreaBackLineEnabled;
-    }
-
-    public static Paint getTabbedPaneTabAreaHorizontalPaint(int x, int y, int width, int height) {
-        float midX = x + width / 2;
-        return createGradient(midX, y, midX, y + height, new float[] { 0f, 0.5f, 1f }, new Color[] {
-            tabbedPaneTabAreaLightShadow,
-            tabbedPaneTabAreaDarkShadow,
-            tabbedPaneTabAreaLightShadow });
-    }
-
-    public static Paint getTabbedPaneTabAreaVerticalPaint(int x, int y, int width, int height) {
-        float midY = y + height / 2;
-        return createGradient(x, midY, x + width, midY, new float[] { 0f, 0.5f, 1f }, new Color[] {
-            tabbedPaneTabAreaLightShadow,
-            tabbedPaneTabAreaDarkShadow,
-            tabbedPaneTabAreaLightShadow });
     }
 
     public static Paint getFocusPaint(Shape s, FocusType focusType, boolean useToolBarFocus) {
@@ -307,13 +276,6 @@ public class PaintUtil {
         int alpha = color.getAlpha();
         alpha /= 2;
         return new Color((color.getRGB() & 0xFFFFFF) | (alpha << 24), true);
-    }
-
-    private static Color desaturate(Color color) {
-        float[] tmp = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-        tmp[1] /= 3.0f;
-        tmp[2] = clamp(1.0f - (1.0f - tmp[2]) / 3f);
-        return new Color((Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF));
     }
 
     private static float clamp(float value) {
