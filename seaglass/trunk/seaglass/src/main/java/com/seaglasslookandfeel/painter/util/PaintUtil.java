@@ -65,9 +65,6 @@ public class PaintUtil {
     private static Color     scrollBarButtonDarkDivider;
     private static Color     scrollBarButtonLightDivider;
 
-    private static Color     spinnerArrowDisabled;
-    private static Color     spinnerArrowEnabled;
-
     private static Color     tabbedPaneTabAreaBackLineEnabled;
     private static Color     tabbedPaneTabAreaBackLineDisabled;
     private static Color     tabbedPaneTabAreaLightShadow;
@@ -85,8 +82,6 @@ public class PaintUtil {
 
         Color scrollBarButtonBase = decodeColor("scrollBarButtonBase");
         Color scrollBarButtonBasePressed = decodeColor("scrollBarButtonBasePressed");
-
-        spinnerArrowEnabled = decodeColor("spinnerArrow");
 
         tabbedPaneTabAreaBackLineEnabled = decodeColor("tabbedPaneTabAreaBackLineEnabled");
         tabbedPaneTabAreaLightShadow = decodeColor("tabbedPaneTabAreaLightShadow");
@@ -121,8 +116,6 @@ public class PaintUtil {
 
         scrollBarButtonDarkDivider = deriveColor(scrollBarButtonBase, 0f, 0f, -1f, -(int) (scrollBarButtonBase.getAlpha() * 0.87843137f));
         scrollBarButtonLightDivider = deriveColor(scrollBarButtonBase, 0f, 0f, 0f, -(int) (scrollBarButtonBase.getAlpha() * 0.75294117647f));
-
-        spinnerArrowDisabled = desaturate(spinnerArrowEnabled);
 
         tabbedPaneTabAreaBackLineDisabled = disable(tabbedPaneTabAreaBackLineEnabled);
     }
@@ -163,10 +156,6 @@ public class PaintUtil {
         } else {
             return useToolBarFocus ? innerToolBarFocus : innerFocus;
         }
-    }
-
-    public static Paint getSpinnerArrowPaint(Shape s, ButtonType type) {
-        return getSpinnerArrowColors(type);
     }
 
     public static Paint getScrollBarButtonBackgroundPaint(Shape s, ButtonType type, boolean isIncrease, boolean buttonsTogether) {
@@ -214,17 +203,6 @@ public class PaintUtil {
         } else {
             return scrollBarButtonArrow;
         }
-    }
-
-    private static Color getSpinnerArrowColors(ButtonType type) {
-        switch (type) {
-        case DISABLED:
-            return spinnerArrowDisabled;
-        case ENABLED:
-        case PRESSED:
-            return spinnerArrowEnabled;
-        }
-        return null;
     }
 
     private static Paint createHorizontalGradient(Shape s, TwoColors colors) {

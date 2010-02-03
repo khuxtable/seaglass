@@ -207,33 +207,33 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
     }
 
     public Paint getComboBoxBackgroundBorderPaint(Shape s, ButtonType type) {
-        TwoColors colors = getButtonBorderColors(type);
+        TwoColors colors = getCommonBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
     public Paint getComboBoxBackgroundInteriorPaint(Shape s, ButtonType type) {
-        FourColors colors = getButtonInteriorColors(type);
+        FourColors colors = getCommonInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public TwoColors getButtonBorderColors(ButtonType type) {
+    public TwoColors getCommonBorderColors(ButtonType type) {
         switch (type) {
         case DISABLED:
-            return super.getButtonBorderColors(ButtonType.DISABLED);
+            return super.getCommonBorderColors(ButtonType.DISABLED);
         case ENABLED:
         case PRESSED:
-            return super.getButtonBorderColors(ButtonType.ENABLED);
+            return super.getCommonBorderColors(ButtonType.ENABLED);
         }
         return null;
     }
 
-    public FourColors getButtonInteriorColors(ButtonType type) {
+    public FourColors getCommonInteriorColors(ButtonType type) {
         switch (type) {
         case DISABLED:
-            return super.getButtonInteriorColors(ButtonType.DISABLED);
+            return super.getCommonInteriorColors(ButtonType.DISABLED);
         case ENABLED:
         case PRESSED:
-            return super.getButtonInteriorColors(ButtonType.ENABLED);
+            return super.getCommonInteriorColors(ButtonType.ENABLED);
         }
         return null;
     }

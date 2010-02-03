@@ -56,13 +56,13 @@ public final class SpinnerNextButtonPainter extends AbstractCommonColorsPainter 
     private Color        spinnerNextInteriorBottomEnabled = decodeColor("spinnerNextInteriorBottomEnabled");
     private Color        spinnerNextInteriorBottomPressed = decodeColor("spinnerNextInteriorBottomPressed");
 
-    private TwoColors    pressedButtonBorder              = getButtonBorderColors(ButtonType.PRESSED);
+    private TwoColors    pressedButtonBorder              = getCommonBorderColors(ButtonType.PRESSED);
     private TwoColors    spinnerNextBorderEnabled         = new TwoColors(pressedButtonBorder.top, spinnerNextBorderBottomEnabled);
     private TwoColors    spinnerNextBorderPressed         = new TwoColors(pressedButtonBorder.top, spinnerNextBorderBottomPressed);
     private TwoColors    spinnerNextBorderDisabled        = disable(spinnerNextBorderEnabled);
 
-    private FourColors   pressedButtonInterior            = getButtonInteriorColors(ButtonType.PRESSED);
-    private FourColors   selectedButtonInterior           = getButtonInteriorColors(ButtonType.SELECTED);
+    private FourColors   pressedButtonInterior            = getCommonInteriorColors(ButtonType.PRESSED);
+    private FourColors   selectedButtonInterior           = getCommonInteriorColors(ButtonType.SELECTED);
     private TwoColors    spinnerNextInteriorEnabled       = new TwoColors(selectedButtonInterior.top, spinnerNextInteriorBottomEnabled);
     private TwoColors    spinnerNextInteriorPressed       = new TwoColors(pressedButtonInterior.top, spinnerNextInteriorBottomPressed);
     private TwoColors    spinnerNextInteriorDisabled      = desaturate(desaturate(spinnerNextInteriorEnabled));
@@ -152,7 +152,7 @@ public final class SpinnerNextButtonPainter extends AbstractCommonColorsPainter 
 
     private void paintArrow(Graphics2D g, int width, int height) {
         Shape s = createArrowShape(width, height);
-        g.setPaint(PaintUtil.getSpinnerArrowPaint(s, type));
+        g.setPaint(getCommonArrowPaint(s, type));
         g.fill(s);
     }
 

@@ -56,8 +56,8 @@ public final class TableHeaderRendererPainter extends AbstractCommonColorsPainte
 
     private FourColors   tableHeaderEnabled             = new FourColors(tableHeaderTopEnabled, tableHeaderUpperMidEnabled,
                                                             tableHeaderLowerMidEnabled, tableHeaderBottomEnabled);
-    private FourColors   tableHeaderSorted              = getButtonInteriorColors(ButtonType.SELECTED);
-    private FourColors   tableHeaderPressed             = getButtonInteriorColors(ButtonType.PRESSED);
+    private FourColors   tableHeaderSorted              = getCommonInteriorColors(ButtonType.SELECTED);
+    private FourColors   tableHeaderPressed             = getCommonInteriorColors(ButtonType.PRESSED);
     private FourColors   tableHeaderDisabled            = disable(tableHeaderEnabled);
     private FourColors   tableHeaderDisabledSorted      = disable(tableHeaderSorted);
 

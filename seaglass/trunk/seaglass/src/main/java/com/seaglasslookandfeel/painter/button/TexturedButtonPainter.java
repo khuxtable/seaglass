@@ -46,7 +46,7 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
 
     private TwoColors texturedButtonBorderEnabled                 = new TwoColors(texturedButtonBorderTopEnabled,
                                                                       texturedButtonBorderBottomEnabled);
-    private TwoColors texturedButtonBorderPressed                 = super.getButtonBorderColors(ButtonType.PRESSED);
+    private TwoColors texturedButtonBorderPressed                 = super.getCommonBorderColors(ButtonType.PRESSED);
     private TwoColors texturedButtonBorderDefault                 = texturedButtonBorderPressed;
     private TwoColors texturedButtonBorderSelected                = texturedButtonBorderDefault;
     private TwoColors texturedButtonBorderDefaultPressed          = texturedButtonBorderPressed;
@@ -94,12 +94,12 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
         super(state, ctx);
     }
 
-    public Paint getButtonBorderPaint(Shape s, ButtonType type) {
+    public Paint getCommonBorderPaint(Shape s, ButtonType type) {
         TwoColors colors = getTexturedButtonBorderColors(type);
         return createVerticalGradient(s, new TwoColors(colors.top, colors.bottom));
     }
 
-    public Paint getButtonInteriorPaint(Shape s, ButtonType type) {
+    public Paint getCommonInteriorPaint(Shape s, ButtonType type) {
         TwoColors colors = getTexturedButtonInteriorColors(type);
         return createVerticalGradient(s, new TwoColors(colors.top, colors.bottom));
     }

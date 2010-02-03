@@ -52,16 +52,14 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
     }
 
     private Color        spinnerPrevBorderTopEnabled      = decodeColor("spinnerPrevBorderTopEnabled");
-
     private Color        spinnerPrevInteriorTopEnabled    = decodeColor("spinnerPrevInteriorTopEnabled");
     private Color        spinnerPrevInteriorBottomEnabled = decodeColor("spinnerPrevInteriorBottomEnabled");
     private Color        spinnerPrevInteriorPressedTop    = decodeColor("spinnerPrevInteriorPressedTop");
     private Color        spinnerPrevInteriorPressedBottom = decodeColor("spinnerPrevInteriorPressedBottom");
-
     private Color        spinnerPrevTopLineEnabled        = decodeColor("spinnerPrevTopLineEnabled");
     private Color        spinnerPrevTopLinePressed        = decodeColor("spinnerPrevTopLinePressed");
-
     private Color        scrollBarThumbBorderBasePressed  = decodeColor("scrollBarThumbBorderBasePressed");
+
     private Color        scrollBarThumbBorderTopPressed   = deriveColor(scrollBarThumbBorderBasePressed, -0.002239f, 0.041885f, 0f, 0);
     private TwoColors    spinnerPrevBorderEnabled         = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
     private TwoColors    spinnerPrevBorderPressed         = new TwoColors(spinnerPrevBorderTopEnabled, scrollBarThumbBorderTopPressed);
@@ -162,7 +160,7 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
 
     private void paintArrow(Graphics2D g, int width, int height) {
         Shape s = createArrowShape(width, height);
-        g.setPaint(PaintUtil.getSpinnerArrowPaint(s, type));
+        g.setPaint(getCommonArrowPaint(s, type));
         g.fill(s);
     }
 

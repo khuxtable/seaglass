@@ -109,11 +109,11 @@ public final class CheckBoxPainter extends AbstractCommonColorsPainter {
         if (!focused) {
             dropShadow.fill(g, s);
         }
-        g.setPaint(getButtonBorderPaint(s, type));
+        g.setPaint(getCommonBorderPaint(s, type));
         g.fill(s);
 
         s = ShapeUtil.createRoundRectangle(x + 3, y + 3, size - 6, size - 6, CornerSize.CHECKBOX_INTERIOR);
-        g.setPaint(getButtonInteriorPaint(s, type));
+        g.setPaint(getCommonInteriorPaint(s, type));
         g.fill(s);
 
         if (selected) {

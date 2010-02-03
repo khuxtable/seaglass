@@ -95,11 +95,11 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             if (!focused) {
                 dropShadow.fill(g, s);
             }
-            g.setPaint(getButtonBorderPaint(s, type));
+            g.setPaint(getCommonBorderPaint(s, type));
             g.fill(s);
 
             s = createInterior(segmentStatus, x, y, width, height);
-            g.setPaint(getButtonInteriorPaint(s, type));
+            g.setPaint(getCommonInteriorPaint(s, type));
             g.fill(s);
         }
     }

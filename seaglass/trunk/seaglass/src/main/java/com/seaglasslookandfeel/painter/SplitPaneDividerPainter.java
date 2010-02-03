@@ -50,9 +50,9 @@ public final class SplitPaneDividerPainter extends AbstractCommonColorsPainter {
     private Color        splitPaneDividerBackgroundEnabled = decodeColor("control");
     private Color        splitPaneDividerBackgroundOuter   = decodeColor("splitPaneDividerBackgroundOuter");
 
-    private FourColors   button                            = getButtonInteriorColors(ButtonType.ENABLED);
+    private FourColors   button                            = getCommonInteriorColors(ButtonType.ENABLED);
 
-    private TwoColors    splitPaneDividerBorder            = getButtonBorderColors(ButtonType.ENABLED);
+    private TwoColors    splitPaneDividerBorder            = getCommonBorderColors(ButtonType.ENABLED);
     private ThreeColors  splitPaneDividerInterior          = new ThreeColors(button.top, button.lowerMid, button.bottom);
 
     private Which        state;
