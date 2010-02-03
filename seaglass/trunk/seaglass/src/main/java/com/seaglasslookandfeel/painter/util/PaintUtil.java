@@ -43,10 +43,6 @@ public class PaintUtil {
         INNER_FOCUS, OUTER_FOCUS,
     }
 
-    public enum ToolbarToggleButtonType {
-        INNER, INNER_EDGE, OUTER_EDGE
-    }
-
     private static Color      transparentColor;
 
     private static Color      outerFocus;
