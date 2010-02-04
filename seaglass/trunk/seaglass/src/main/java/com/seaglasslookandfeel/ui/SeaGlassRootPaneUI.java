@@ -45,7 +45,6 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JRootPane;
 import javax.swing.LookAndFeel;
@@ -468,8 +467,6 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             Container toplevelContainer = c.getParent();
             if (toplevelContainer instanceof JFrame) {
                 shouldPaint = !((JFrame) toplevelContainer).isUndecorated();
-            } else if (toplevelContainer instanceof JInternalFrame) {
-                shouldPaint = true;
             }
             if (shouldPaint) {
                 if (isWindowFocused.isInState(c)) {
