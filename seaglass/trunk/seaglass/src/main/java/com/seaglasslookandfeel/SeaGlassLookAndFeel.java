@@ -406,10 +406,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "FormattedTextField");
             useOurUI(uiDefaults, "Label");
             useOurUI(uiDefaults, "MenuItem");
-            if (!PlatformUtils.isMac()) {
-                useOurUI(uiDefaults, "InternalFrame");
-                useOurUI(uiDefaults, "DesktopIcon");
-            }
+            useOurUI(uiDefaults, "InternalFrame");
+            useOurUI(uiDefaults, "DesktopIcon");
             useOurUI(uiDefaults, "Panel");
             useOurUI(uiDefaults, "PopupMenu");
             useOurUI(uiDefaults, "ProgressBar");
@@ -433,6 +431,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             defineButtons(uiDefaults);
             defineComboBoxes(uiDefaults);
             defineDesktopPanes(uiDefaults);
+            defineInternalFrames(uiDefaults);
+            defineInternalFrameMenuButtons(uiDefaults);
+            defineInternalFrameCloseButtons(uiDefaults);
+            defineInternalFrameIconifyButtons(uiDefaults);
+            defineInternalFrameMaximizeButton(uiDefaults);
             defineLists(uiDefaults);
             defineMenus(uiDefaults);
             definePanels(uiDefaults);
@@ -450,11 +453,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             defineTrees(uiDefaults);
 
             if (!PlatformUtils.isMac()) {
-                defineInternalFrames(uiDefaults);
-                defineInternalFrameMenuButtons(uiDefaults);
-                defineInternalFrameCloseButtons(uiDefaults);
-                defineInternalFrameIconifyButtons(uiDefaults);
-                defineInternalFrameMaximizeButton(uiDefaults);
                 uiDefaults.put("MenuBar[Enabled].backgroundPainter", null);
                 uiDefaults.put("MenuBar[Enabled].borderPainter", null);
 
@@ -574,17 +572,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             LookAndFeel aqua = (LookAndFeel) lnfClass.newInstance();
             UIDefaults aquaDefaults = aqua.getDefaults();
 
-            d.put("Desktop.background", aquaDefaults.getColor("Desktop.background"));
-            d.put("InternalFrame.activeTitleForeground", aquaDefaults.getColor("InternalFrame.activeTitleForeground"));
-            d.put("InternalFrame.inactiveTitleForeground", aquaDefaults.getColor("InternalFrame.inactiveTitleForeground"));
-
             // Use Aqua for any menu UI classes.
             d.put("MenuBarUI", aquaDefaults.get("MenuBarUI"));
             d.put("MenuUI", aquaDefaults.get("MenuUI"));
-            d.put("InternalFrameUI", aquaDefaults.get("InternalFrameUI"));
-            d.put("InternalFrameTitlePaneUI", aquaDefaults.get("InternalFrameTitlePaneUI"));
-            d.put("DesktopIconUI", aquaDefaults.get("DesktopIconUI"));
-            d.put("DesktopPaneUI", aquaDefaults.get("DesktopPaneUI"));
         } catch (Exception e) {
             // TODO Should we do something with this exception?
             e.printStackTrace();
@@ -784,7 +774,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *            the UI defaults map.
      */
     private void defineInternalFrames(UIDefaults d) {
-        d.put("frameBaseActive", new Color(0x96adc4));
+        if (PlatformUtils.isMac()) {
+            d.put("frameBaseActive", new Color(0xa8a8a8));
+        } else {
+            d.put("frameBaseActive", new Color(0x96adc4));
+        }
         d.put("frameBaseInactive", new Color(0xe0e0e0));
 
         d.put("frameBorderBase", new Color(0x545454));
