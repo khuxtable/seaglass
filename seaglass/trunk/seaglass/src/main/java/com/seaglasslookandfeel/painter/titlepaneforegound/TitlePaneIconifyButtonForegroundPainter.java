@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.painter.titlepaneforegound;
@@ -24,33 +24,19 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
-import javax.swing.UIManager;
 
-public class TitlePaneIconifyButtonForegroundPainter {
+/**
+ * Painter for iconify foreground shape.
+ *
+ * @author Kathryn Huxtable
+ */
+public class TitlePaneIconifyButtonForegroundPainter extends TitlePaneButtonForegroundPainter {
 
-    private Color enabledBorder   = UIManager.getColor("seaGlassTitlePaneButtonEnabledBorder");
-    private Color enabledInterior = UIManager.getColor("seaGlassTitlePaneButtonEnabledInterior");
-
-    private Color hoverBorder     = UIManager.getColor("seaGlassTitlePaneButtonHoverBorder");
-    private Color hoverInterior   = UIManager.getColor("seaGlassTitlePaneButtonHoverInterior");
-
-    private Color pressedBorder   = UIManager.getColor("seaGlassTitlePaneButtonPressedBorder");
-    private Color pressedInterior = UIManager.getColor("seaGlassTitlePaneButtonPressedInterior");
-
-    public void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
-        paint(g, c, width, height, enabledBorder, enabledInterior);
-    }
-
-    public void paintHover(Graphics2D g, JComponent c, int width, int height) {
-        paint(g, c, width, height, hoverBorder, hoverInterior);
-    }
-
-    public void paintPressed(Graphics2D g, JComponent c, int width, int height) {
-        paint(g, c, width, height, pressedBorder, pressedInterior);
-    }
-
-    private void paint(Graphics2D g, JComponent c, int width, int height, Color border, Color interior) {
-        int top = (height - 2) / 2;
+    /**
+     * {@inheritDoc}
+     */
+    protected void paint(Graphics2D g, JComponent c, int width, int height, Color border, Color corner, Color interior) {
+        int top  = (height - 2) / 2;
         int left = (width - 3) / 2 - 4;
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
