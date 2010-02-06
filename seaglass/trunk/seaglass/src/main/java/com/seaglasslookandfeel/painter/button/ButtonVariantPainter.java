@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.painter.button;
@@ -30,29 +30,33 @@ import com.seaglasslookandfeel.painter.ButtonPainter.Which;
  * Base class for button variant painters. This knows about focus states, and
  * accepts the paint context and other state information from
  * {@link org.seaglass.painter.ButtonPainter}.
- * 
+ *
  * @author Kathryn Huxtable
  */
 public abstract class ButtonVariantPainter extends AbstractCommonColorsPainter {
 
-    protected Which        state;
+    /** The button state to paint. */
+    protected Which state;
+
+    /** The PaintContext containing cache information. */
     protected PaintContext ctx;
-    protected boolean      focused;
+
+    /** Are we in a focused state? */
+    protected boolean focused;
 
     /**
      * Sets the button painter properties. Initializes the focus state.
-     * 
-     * @param state
-     *            the button state.
-     * @param ctx
-     *            the paint context.
+     *
+     * @param state the button state.
+     * @param ctx   the paint context.
      */
     public ButtonVariantPainter(Which state, PaintContext ctx) {
         super();
         this.state = state;
-        this.ctx = ctx;
+        this.ctx   = ctx;
 
         switch (state) {
+
         case BACKGROUND_DEFAULT_FOCUSED:
         case BACKGROUND_PRESSED_DEFAULT_FOCUSED:
         case BACKGROUND_FOCUSED:
@@ -61,6 +65,7 @@ public abstract class ButtonVariantPainter extends AbstractCommonColorsPainter {
         case BACKGROUND_PRESSED_SELECTED_FOCUSED:
             focused = true;
             break;
+
         default:
             focused = false;
             break;
@@ -77,6 +82,7 @@ public abstract class ButtonVariantPainter extends AbstractCommonColorsPainter {
      */
     protected Object[] getExtendedCacheKeys(JComponent c) {
         Object[] extendedCacheKeys = new Object[] {};
+
         return extendedCacheKeys;
     }
 
