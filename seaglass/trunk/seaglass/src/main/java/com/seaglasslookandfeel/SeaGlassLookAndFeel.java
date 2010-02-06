@@ -157,7 +157,7 @@ import sun.swing.plaf.synth.SynthUI;
 
 /**
  * This is the main Sea Glass Look and Feel class.
- * 
+ * <p/>
  * At the moment, it customizes Nimbus, and includes some code from
  * NimbusLookAndFeel and SynthLookAndFeel where those methods were package
  * local.
@@ -1834,7 +1834,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * Returns {@code true} if the <code>LookAndFeel</code> returned
      * <code>RootPaneUI</code> instances support providing {@code Window}
      * decorations in a <code>JRootPane</code>.
-     * <p>
+     * <p/>
      * Sea Glass returns {@code false} on a Macintosh, {@code true} otherwise.
      * 
      * @return {@code true} if the {@code RootPaneUI} instances created by this
@@ -1888,11 +1888,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * PAGE_START, PAGE_END, CENTER, or some other position, but will be
      * resolved to either NORTH,SOUTH,EAST, or WEST based on where the toolbar
      * actually IS, with CENTER being NORTH.
-     * 
+     * <p/>
      * This code is used to determine where the border line should be drawn by
      * the custom toolbar states, and also used by SeaGlassIcon to determine
      * whether the handle icon needs to be shifted to look correct.
-     * 
+     * <p/>
      * Toollbars are unfortunately odd in the way these things are handled, and
      * so this code exists to unify the logic related to toolbars so it can be
      * shared among the static files such as SeaGlassIcon and generated files
@@ -1976,17 +1976,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
-     * <p>
      * Registers the given region and prefix. The prefix, if it contains quoted
      * sections, refers to certain named components. If there are not quoted
      * sections, then the prefix refers to a generic component type.
-     * </p>
-     * 
-     * <p>
+     * <p/>
      * If the given region/prefix combo has already been registered, then it
      * will not be registered twice. The second registration attempt will fail
      * silently.
-     * </p>
      * 
      * @param region
      *            The Synth Region that is being registered. Such as Button, or
@@ -2024,19 +2020,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     }
 
     /**
-     * <p>
      * Locate the style associated with the given region, and component. This is
      * called from SeaGlassLookAndFeel in the SynthStyleFactory implementation.
-     * </p>
-     * 
-     * <p>
+     * <p/>
      * Lookup occurs as follows:<br/>
      * Check the map of styles <code>styleMap</code>. If the map contains no
      * styles at all, then simply return the defaultStyle. If the map contains
      * styles, then iterate over all of the styles for the Region <code>r</code>
      * looking for the best match, based on prefix. If a match was made, then
      * return that SynthStyle. Otherwise, return the defaultStyle.
-     * </p>
      * 
      * @param c
      *            The component associated with this region. For example, if the
@@ -2088,7 +2080,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * also manages a lot more information about the style. It is less of a
      * LazyValue type of class, and more of an Entry or Item type of class, as
      * it represents an entry in the list of LazyStyles in the map styleMap.
-     * 
+     * <p/>
      * The primary responsibilities of this class include:
      * <ul>
      * <li>Determining whether a given component/region pair matches this style</li>
