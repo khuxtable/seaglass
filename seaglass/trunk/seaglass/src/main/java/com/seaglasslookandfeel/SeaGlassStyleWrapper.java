@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel;
@@ -35,8 +35,11 @@ import javax.swing.plaf.synth.SynthPainter;
 import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.component.SeaGlassBorder;
+
 import com.seaglasslookandfeel.painter.Painter;
+
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
+
 import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 
 import sun.swing.plaf.synth.SynthUI;
@@ -45,60 +48,45 @@ import sun.swing.plaf.synth.SynthUI;
  * A SynthStyle implementation used by SeaGlass. This just wraps a SynthStyle
  * with a SeaGlass style in order to get at some SynthStyle methods that are
  * package local.
- * 
+ *
  * @see javax.swing.plaf.synth.SynthStyle
  */
 public final class SeaGlassStyleWrapper extends SeaGlassStyle {
-    /* Keys and scales for large/small/mini components, based on Apple's sizes */
-    public static final String              LARGE_KEY         = "large";
-    public static final String              SMALL_KEY         = "small";
-    public static final String              MINI_KEY          = "mini";
-    public static final double              LARGE_SCALE       = 1.15;
-    public static final double              SMALL_SCALE       = 0.857;
-    public static final double              MINI_SCALE        = 0.714;
 
-    /**
-     * Shared SynthGraphics.
-     */
+    /** Shared SynthGraphics. */
     private static final SynthGraphicsUtils SEAGLASS_GRAPHICS = new SeaGlassGraphicsUtils();
 
     /**
-     * The SynthPainter that will be returned from this NimbusStyle. The
+     * The SynthPainter that will be returned from this SeaGlassStyle. The
      * SynthPainter returned will be a SeaGlassSynthPainterImpl, which will in
-     * turn delegate back to this NimbusStyle for the proper Painter (not
+     * turn delegate back to this SeaGlassStyle for the proper Painter (not
      * SynthPainter) to use for painting the foreground, background, or border.
      */
-    private SynthPainter                    painter;
+    private SynthPainter painter;
 
-    private SynthStyle                      style;
+    private SynthStyle style;
 
     /**
-     * Create a new NimbusStyle. Only the prefix must be supplied. At the
+     * Create a new SeaGlassStyle. Only the prefix must be supplied. At the
      * appropriate time, installDefaults will be called. At that point, all of
      * the state information will be pulled from UIManager and stored locally
      * within this style.
-     * 
-     * @param prefix
-     *            Something like Button or Slider.Thumb or
-     *            org.jdesktop.swingx.JXStatusBar or
-     *            ComboBox."ComboBox.arrowButton"
-     * @param c
-     *            an optional reference to a component that this NimbusStyle
-     *            should be associated with. This is only used when the
-     *            component has Nimbus overrides registered in its client
-     *            properties and should be null otherwise.
+     *
+     * @param style Something like Button or Slider.Thumb or
+     *              org.jdesktop.swingx.JXStatusBar or
+     *              ComboBox."ComboBox.arrowButton"
      */
     SeaGlassStyleWrapper(SynthStyle style) {
         super(null, null);
-        this.style = style;
+        this.style   = style;
         this.painter = new SeaGlassSynthPainterImpl(this);
     }
 
     /**
      * Returns the <code>SynthGraphicUtils</code> for the specified context.
-     * 
-     * @param context
-     *            SynthContext identifying requester
+     *
+     * @param  context SynthContext identifying requester
+     *
      * @return SynthGraphicsUtils
      */
     public SynthGraphicsUtils getGraphicsUtils(SynthContext context) {
@@ -108,18 +96,22 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
     /**
      * Re-implements SynthStyle.installDefaults(SynthContext, SynthUI) because
      * it's package local.
+     *
+     * @param context the context.
+     * @param ui      the UI delegate.
      */
     public void installDefaults(SeaGlassContext context, SynthUI ui) {
         // Special case the Border as this will likely change when the LAF
         // can have more control over this.
         if (!context.isSubregion()) {
-            JComponent c = context.getComponent();
-            Border border = c.getBorder();
+            JComponent c      = context.getComponent();
+            Border     border = c.getBorder();
 
             if (border == null || border instanceof UIResource) {
                 c.setBorder(new SeaGlassBorder(ui, getInsets(context, null)));
             }
         }
+
         installDefaults(context);
     }
 
@@ -155,12 +147,16 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
     @Override
     protected Font getFontForState(SynthContext ctx) {
         Font f = (Font) get(ctx, "font");
-        if (f == null) f = UIManager.getFont("defaultFont");
+
+        if (f == null)
+            f = UIManager.getFont("defaultFont");
 
         // Account for scale
         // The key "JComponent.sizeVariant" is used to match Apple's LAF
         String scaleKey = (String) ctx.getComponent().getClientProperty("JComponent.sizeVariant");
+
         if (scaleKey != null) {
+
             if (LARGE_KEY.equals(scaleKey)) {
                 f = f.deriveFont(Math.round(f.getSize2D() * LARGE_SCALE));
             } else if (SMALL_KEY.equals(scaleKey)) {
@@ -169,6 +165,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
                 f = f.deriveFont(Math.round(f.getSize2D() * MINI_SCALE));
             }
         }
+
         return f;
 
     }
@@ -201,9 +198,9 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      * Gets the appropriate background Painter, if there is one, for the state
      * specified in the given SynthContext. This method does appropriate
      * fallback searching, as described in #get.
-     * 
-     * @param ctx
-     *            The SynthContext. Must not be null.
+     *
+     * @param  ctx The SynthContext. Must not be null.
+     *
      * @return The background painter associated for the given state, or null if
      *         none could be found.
      */
@@ -212,6 +209,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
         if (!(style instanceof NimbusStyle)) {
             return null;
         }
+
         return new PainterWrapper(((NimbusStyle) style).getBackgroundPainter(ctx));
     }
 
@@ -219,9 +217,9 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      * Gets the appropriate foreground Painter, if there is one, for the state
      * specified in the given SynthContext. This method does appropriate
      * fallback searching, as described in #get.
-     * 
-     * @param ctx
-     *            The SynthContext. Must not be null.
+     *
+     * @param  ctx The SynthContext. Must not be null.
+     *
      * @return The foreground painter associated for the given state, or null if
      *         none could be found.
      */
@@ -230,6 +228,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
         if (!(style instanceof NimbusStyle)) {
             return null;
         }
+
         return new PainterWrapper(((NimbusStyle) style).getForegroundPainter(ctx));
     }
 
@@ -237,9 +236,9 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      * Gets the appropriate border Painter, if there is one, for the state
      * specified in the given SynthContext. This method does appropriate
      * fallback searching, as described in #get.
-     * 
-     * @param ctx
-     *            The SynthContext. Must not be null.
+     *
+     * @param  ctx The SynthContext. Must not be null.
+     *
      * @return The border painter associated for the given state, or null if
      *         none could be found.
      */
@@ -248,6 +247,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
         if (!(style instanceof NimbusStyle)) {
             return null;
         }
+
         return new PainterWrapper(((NimbusStyle) style).getBorderPainter(ctx));
     }
 
@@ -257,10 +257,19 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
     public class PainterWrapper implements Painter {
         private com.sun.java.swing.Painter painter;
 
+        /**
+         * Creates a new PainterWrapper object.
+         *
+         * @param painter the painter to be wrapped.
+         */
         public PainterWrapper(com.sun.java.swing.Painter painter) {
             this.painter = painter;
         }
 
+        /**
+         * @see com.seaglasslookandfeel.painter.Painter#paint(java.awt.Graphics2D,
+         *      java.lang.Object, int, int)
+         */
         public void paint(Graphics2D g, Object object, int width, int height) {
             painter.paint(g, object, width, height);
         }
