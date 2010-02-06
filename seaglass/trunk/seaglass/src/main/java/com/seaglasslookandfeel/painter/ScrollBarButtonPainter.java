@@ -29,7 +29,6 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.DropShadowEffect;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * ScrollBarButtonPainter implementation.
@@ -209,25 +208,25 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     }
 
     private void paintBackgroundCap(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createScrollCap(0, 0, width, height);
+        Shape s = shapeGenerator.createScrollCap(0, 0, width, height);
         dropShadow.fill(g, s);
         fillScrollBarButtonInteriorColors(g, s, type, isIncrease, buttonsTogether);
     }
 
     private void paintBackgroundApart(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createScrollButtonApart(0, 0, width, height);
+        Shape s = shapeGenerator.createScrollButtonApart(0, 0, width, height);
         dropShadow.fill(g, s);
         fillScrollBarButtonInteriorColors(g, s, type, isIncrease, buttonsTogether);
     }
 
     private void paintBackgroundTogetherDecrease(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createScrollButtonTogetherDecrease(0, 0, width, height);
+        Shape s = shapeGenerator.createScrollButtonTogetherDecrease(0, 0, width, height);
         dropShadow.fill(g, s);
         fillScrollBarButtonInteriorColors(g, s, type, isIncrease, buttonsTogether);
     }
 
     private void paintBackgroundTogetherIncrease(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createScrollButtonTogetherIncrease(0, 0, width, height);
+        Shape s = shapeGenerator.createScrollButtonTogetherIncrease(0, 0, width, height);
         dropShadow.fill(g, s);
         fillScrollBarButtonInteriorColors(g, s, type, isIncrease, buttonsTogether);
     }
@@ -265,7 +264,7 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     }
 
     private void paintArrowButton(Graphics2D g, double x, double y) {
-        Shape s = ShapeUtil.createArrowLeft(x, y, 4, 6);
+        Shape s = shapeGenerator.createArrowLeft(x, y, 4, 6);
         g.setPaint(getScrollBarButtonArrowPaint(s, type));
         g.fill(s);
     }

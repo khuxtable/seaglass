@@ -27,9 +27,8 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerStyle;
 
 /**
  * SpinnerNextButtonPainter implementation.
@@ -154,14 +153,14 @@ public final class SpinnerNextButtonPainter extends AbstractCommonColorsPainter 
     }
 
     private Shape createButtonShape(int x, int y, int width, int height, CornerSize size) {
-        return ShapeUtil.createRoundRectangle(x, y, width, height, size, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE,
+        return shapeGenerator.createRoundRectangle(x, y, width, height, size, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE,
             CornerStyle.ROUNDED);
     }
 
     private Shape createArrowShape(int left, int height) {
         int centerX = 8;
         int centerY = height / 2;
-        return ShapeUtil.createArrowUp(centerX, centerY, 4, 3);
+        return shapeGenerator.createArrowUp(centerX, centerY, 4, 3);
     }
 
     public Paint getSpinnerNextBorderPaint(Shape s, CommonControlType type) {

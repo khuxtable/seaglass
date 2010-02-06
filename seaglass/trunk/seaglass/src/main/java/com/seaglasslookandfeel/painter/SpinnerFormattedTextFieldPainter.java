@@ -26,7 +26,6 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * ComboBoxTextFieldPainter implementation.
@@ -55,10 +54,10 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractCommonColors
         boolean useFocusColors = isInToolBar(c);
         Shape s;
         if (focused) {
-            s = ShapeUtil.createRectangle(0, 0, width, height);
+            s = shapeGenerator.createRectangle(0, 0, width, height);
             g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useFocusColors));
             g.fill(s);
-            s = ShapeUtil.createRectangle(1, 1, width - 1, height - 2);
+            s = shapeGenerator.createRectangle(1, 1, width - 1, height - 2);
             g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useFocusColors));
             g.fill(s);
         }
@@ -66,10 +65,10 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractCommonColors
         g.setPaint(c.getBackground());
         g.fillRect(3, 3, width - 3, height - 6);
 
-        s = ShapeUtil.createRectangle(3, 3, width - 3, height - 6);
+        s = shapeGenerator.createRectangle(3, 3, width - 3, height - 6);
         internalShadow.fill(g, s, false, false);
 
-        s = ShapeUtil.createOpenRectangle(2, 2, width - 2 - 1, height - 4 - 1);
+        s = shapeGenerator.createOpenRectangle(2, 2, width - 2 - 1, height - 4 - 1);
         g.setPaint(getTextBorderPaint(type, false));
         g.draw(s);
     }

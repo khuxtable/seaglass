@@ -28,7 +28,6 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * Nimbus's ScrollPanePainter.
@@ -83,7 +82,7 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
     private void paintBorderFocused(Graphics2D g, int width, int height) {
         paintBorderEnabled(g, width, height);
 
-        Shape s = ShapeUtil.createFillableFocusRectangle(2, 2, width - 4, height - 4);
+        Shape s = shapeGenerator.createFillableFocusRectangle(2, 2, width - 4, height - 4);
         g.setPaint(focusColor);
         g.fill(s);
     }
@@ -98,11 +97,11 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
     }
 
     private Shape decodeCornerBorder(int width, int height) {
-        return ShapeUtil.createRectangle(0, 0, width, height);
+        return shapeGenerator.createRectangle(0, 0, width, height);
     }
 
     private Shape decodeCornerInside(int width, int height) {
-        return ShapeUtil.createRectangle(1, 1, width - 2, height - 2);
+        return shapeGenerator.createRectangle(1, 1, width - 2, height - 2);
     }
 
     private Paint decodeCornerGradient(Shape s) {

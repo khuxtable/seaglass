@@ -26,7 +26,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * TableHeaderPainter implementation.
@@ -65,13 +64,13 @@ public final class TableHeaderPainter extends AbstractRegionPainter {
     }
 
     private void paintAscending(Graphics2D g) {
-        Shape s = ShapeUtil.createArrowUp(1, 0, 6, 6);
+        Shape s = shapeGenerator.createArrowUp(1, 0, 6, 6);
         g.setPaint(tableHeaderSortIndicator);
         g.fill(s);
     }
 
     private void paintDescending(Graphics2D g) {
-        Shape s = ShapeUtil.createArrowDown(1, 2, 6, 6);
+        Shape s = shapeGenerator.createArrowDown(1, 2, 6, 6);
         g.setPaint(tableHeaderSortIndicator);
         g.fill(s);
     }

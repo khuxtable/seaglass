@@ -29,7 +29,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public class MenuItemPainter extends AbstractRegionPainter {
     public static enum Which {
@@ -70,7 +69,7 @@ public class MenuItemPainter extends AbstractRegionPainter {
     protected void paintBackgroundMouseOver(Graphics2D g, int width, int height) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
+        Shape s = shapeGenerator.createRectangle(0, 0, width, height);
         g.setPaint(getMenuItemBackgroundPaint(s));
         g.fill(s);
 

@@ -32,8 +32,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JRootPane;
 import javax.swing.JToolBar;
 
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.state.ToolBarNorthState;
 import com.seaglasslookandfeel.state.ToolBarSouthState;
@@ -104,7 +103,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     }
 
     private void paintFrame(Graphics2D g, JComponent c, int width, int height) {
-        Shape s = ShapeUtil.createRoundRectangle(0, 0, (width - 1), (height - 1), CornerSize.FRAME_BORDER);
+        Shape s = shapeGenerator.createRoundRectangle(0, 0, (width - 1), (height - 1), CornerSize.FRAME_BORDER);
         if (type != null) {
             g.setPaint(getFrameBorderPaint(s, type));
             g.draw(s);
@@ -141,11 +140,11 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
             titleHeight += mb.getHeight();
         }
 
-        s = ShapeUtil.createRoundRectangle(1, 1, (width - 2), (height - 2), CornerSize.FRAME_INNER_HIGHLIGHT);
+        s = shapeGenerator.createRoundRectangle(1, 1, (width - 2), (height - 2), CornerSize.FRAME_INNER_HIGHLIGHT);
         g.setPaint(getFrameInteriorPaint(s, type, titleHeight, topToolBarHeight, bottomToolBarHeight));
         g.fill(s);
 
-        s = ShapeUtil.createRoundRectangle(1, 1, (width - 3), (height - 3), CornerSize.FRAME_INTERIOR);
+        s = shapeGenerator.createRoundRectangle(1, 1, (width - 3), (height - 3), CornerSize.FRAME_INTERIOR);
         g.setPaint(getFrameInnerHighlightPaint(s, type));
         g.draw(s);
     }

@@ -27,8 +27,6 @@ import java.awt.Shape;
 
 import javax.swing.JComponent;
 
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
-
 /**
  * Search field icon implementation.
  */
@@ -101,7 +99,7 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
             final int popupX = glassX + glassRadius + 3;
             final int popupY = glassY + 3;
 
-            Shape s = ShapeUtil.createArrowDown(popupX, popupY, 7, 4);
+            Shape s = shapeGenerator.createArrowDown(popupX, popupY, 7, 4);
             g.setColor(searchIconColor);
             g.fill(s);
         }
@@ -110,7 +108,7 @@ public final class SearchFieldIconPainter extends AbstractRegionPainter {
     private void paintCancelIcon(Graphics2D g, int x, int y, int width, int height, Color color) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Shape s = ShapeUtil.createCancelIcon(2, 2, width - 4, height - 4);
+        Shape s = shapeGenerator.createCancelIcon(2, 2, width - 4, height - 4);
         g.setColor(color);
         g.fill(s);
     }

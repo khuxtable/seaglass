@@ -26,7 +26,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public final class TreePainter extends AbstractRegionPainter {
     public enum Which {
@@ -94,10 +93,10 @@ public final class TreePainter extends AbstractRegionPainter {
     }
 
     private Shape decodeCollapsedPath(int width, int height) {
-        return ShapeUtil.createArrowRight(0, 0, width, height);
+        return shapeGenerator.createArrowRight(0, 0, width, height);
     }
 
     private Shape decodeExpandedPath(int width, int height) {
-        return ShapeUtil.createArrowDown(0, 0, width, height);
+        return shapeGenerator.createArrowDown(0, 0, width, height);
     }
 }

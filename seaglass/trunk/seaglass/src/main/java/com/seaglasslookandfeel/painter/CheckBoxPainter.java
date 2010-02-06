@@ -31,8 +31,7 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 
 /**
  * CheckBoxPainter implementation.
@@ -94,22 +93,22 @@ public final class CheckBoxPainter extends AbstractCommonColorsPainter {
         Shape s;
         if (focused) {
             boolean useToolBarFocus = isInToolBar(c);
-            s = ShapeUtil.createRoundRectangle(x, y, size, size, CornerSize.CHECKBOX_OUTER_FOCUS);
+            s = shapeGenerator.createRoundRectangle(x, y, size, size, CornerSize.CHECKBOX_OUTER_FOCUS);
             g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarFocus));
             g.fill(s);
-            s = ShapeUtil.createRoundRectangle(x + 1, y + 1, size - 2, size - 2, CornerSize.CHECKBOX_INNER_FOCUS);
+            s = shapeGenerator.createRoundRectangle(x + 1, y + 1, size - 2, size - 2, CornerSize.CHECKBOX_INNER_FOCUS);
             g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarFocus));
             g.fill(s);
         }
 
-        s = ShapeUtil.createRoundRectangle(x + 2, y + 2, size - 4, size - 4, CornerSize.CHECKBOX_BORDER);
+        s = shapeGenerator.createRoundRectangle(x + 2, y + 2, size - 4, size - 4, CornerSize.CHECKBOX_BORDER);
         if (!focused) {
             dropShadow.fill(g, s);
         }
         g.setPaint(getCommonBorderPaint(s, type));
         g.fill(s);
 
-        s = ShapeUtil.createRoundRectangle(x + 3, y + 3, size - 6, size - 6, CornerSize.CHECKBOX_INTERIOR);
+        s = shapeGenerator.createRoundRectangle(x + 3, y + 3, size - 6, size - 6, CornerSize.CHECKBOX_INTERIOR);
         g.setPaint(getCommonInteriorPaint(s, type));
         g.fill(s);
 
@@ -155,7 +154,7 @@ public final class CheckBoxPainter extends AbstractCommonColorsPainter {
         int markX = x + (int) (size * X_MULTIPLIER + 0.5);
         int markY = y + (int) (size * Y_MULTIPLIER + 0.5);
 
-        return ShapeUtil.createCheckMark(markX, markY, markSize, markSize);
+        return shapeGenerator.createCheckMark(markX, markY, markSize, markSize);
     }
 
     public Paint getCheckBoxBulletPaint(Shape s, CommonControlType type) {

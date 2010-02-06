@@ -26,7 +26,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * Sea Glass's DesktopPanePainter.
@@ -46,7 +45,7 @@ public final class DesktopPanePainter extends AbstractRegionPainter {
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
+        Shape s = shapeGenerator.createRectangle(0, 0, width, height);
         g.setPaint(desktopPane);
         g.fill(s);
     }

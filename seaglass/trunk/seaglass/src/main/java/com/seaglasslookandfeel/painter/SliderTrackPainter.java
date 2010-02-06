@@ -27,8 +27,7 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 
 /**
  * Nimbus's SliderTrackPainter.
@@ -58,10 +57,10 @@ public final class SliderTrackPainter extends AbstractRegionPainter {
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        Shape s = ShapeUtil.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
+        Shape s = shapeGenerator.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
         g.setPaint(getSliderTrackBorderPaint(s, type));
         g.fill(s);
-        s = ShapeUtil.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
+        s = shapeGenerator.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
         g.setPaint(getSliderTrackInteriorPaint(s, type));
         g.fill(s);
     }

@@ -28,7 +28,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * ScrollBarTrackPainter implementation.
@@ -62,7 +61,7 @@ public final class ScrollBarTrackPainter extends AbstractRegionPainter {
 
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        Shape s = ShapeUtil.createRectangle(0, 0, width, height);
+        Shape s = shapeGenerator.createRectangle(0, 0, width, height);
         g.setPaint(getScrollBarTrackBackgroundPaint(s));
         g.fill(s);
         g.setPaint(getScrollBarTrackShadowPaint(s));
