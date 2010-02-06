@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.painter.titlepaneforegound;
@@ -24,36 +24,19 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
-import javax.swing.UIManager;
 
-public class TitlePaneRestoreButtonForegroundPainter {
+/**
+ * Painter for restore foreground shape.
+ *
+ * @author Kathryn Huxtable
+ */
+public class TitlePaneRestoreButtonForegroundPainter extends TitlePaneButtonForegroundPainter {
 
-    private Color enabledBorder   = UIManager.getColor("seaGlassTitlePaneButtonEnabledBorder");
-    private Color enabledCorner   = UIManager.getColor("seaGlassTitlePaneButtonEnabledCorner");
-    private Color enabledInterior = UIManager.getColor("seaGlassTitlePaneButtonEnabledInterior");
-
-    private Color hoverBorder     = UIManager.getColor("seaGlassTitlePaneButtonHoverBorder");
-    private Color hoverCorner     = UIManager.getColor("seaGlassTitlePaneButtonHoverCorner");
-    private Color hoverInterior   = UIManager.getColor("seaGlassTitlePaneButtonHoverInterior");
-
-    private Color pressedBorder   = UIManager.getColor("seaGlassTitlePaneButtonPressedBorder");
-    private Color pressedCorner   = UIManager.getColor("seaGlassTitlePaneButtonPressedCorner");
-    private Color pressedInterior = UIManager.getColor("seaGlassTitlePaneButtonPressedInterior");
-
-    public void paintEnabled(Graphics2D g, JComponent c, int width, int height) {
-        paint(g, c, width, height, enabledBorder, enabledCorner, enabledInterior);
-    }
-
-    public void paintHover(Graphics2D g, JComponent c, int width, int height) {
-        paint(g, c, width, height, hoverBorder, hoverCorner, hoverInterior);
-    }
-
-    public void paintPressed(Graphics2D g, JComponent c, int width, int height) {
-        paint(g, c, width, height, pressedBorder, pressedCorner, pressedInterior);
-    }
-
-    public void paint(Graphics2D g, JComponent c, int width, int height, Color border, Color corner, Color interior) {
-        int top = (height - 2) / 2 - 6;
+    /**
+     * {@inheritDoc}
+     */
+    protected void paint(Graphics2D g, JComponent c, int width, int height, Color border, Color corner, Color interior) {
+        int top  = (height - 2) / 2 - 6;
         int left = (width - 2) / 2 - 5;
 
         g = (Graphics2D) g.create();
