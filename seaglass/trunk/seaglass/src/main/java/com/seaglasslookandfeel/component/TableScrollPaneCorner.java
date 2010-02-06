@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.component;
@@ -32,22 +32,27 @@ import com.seaglasslookandfeel.painter.Painter;
  * TableScrollPaneCorner - A simple component that paints itself using the table
  * header background painter. It is used to fill the top right corner of
  * scrollpane.
- * 
- * Based on Nimbus's TableScrollPaneCorner by Jasper Potts
- * 
+ *
+ * <p>Based on Nimbus's TableScrollPaneCorner by Jasper Potts</p>
+ *
  * @see com.sun.java.swing.plaf.nimbus.TableScrollPaneCorner
  */
 public class TableScrollPaneCorner extends JComponent implements UIResource {
+    private static final long serialVersionUID = -904714225885809898L;
 
     /**
      * Paint the component using the Nimbus Table Header Background Painter
+     *
+     * @param g the Graphics context to paint with.
      */
     @Override
     protected void paintComponent(Graphics g) {
         Painter painter = (Painter) UIManager.get("TableHeader:\"TableHeader.renderer\"[Enabled].backgroundPainter");
+
         if (painter != null) {
 
             Graphics2D g2d = (Graphics2D) g;
+
             painter.paint(g2d, this, getWidth() + 1, getHeight());
         }
     }
