@@ -26,7 +26,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public final class CheckBoxMenuItemPainter extends MenuItemPainter {
     public static enum Which {
@@ -90,20 +89,20 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
     }
 
     private void paintCheckIconDisabledAndSelected(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createCheckMark(0, 0, width, height);
+        Shape s = shapeGenerator.createCheckMark(0, 0, width, height);
         g.setPaint(iconDisabledSelected);
         g.fill(s);
 
     }
 
     private void paintCheckIconEnabledAndSelected(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createCheckMark(0, 0, width, height);
+        Shape s = shapeGenerator.createCheckMark(0, 0, width, height);
         g.setPaint(iconEnabledSelected);
         g.fill(s);
     }
 
     private void paintCheckIconSelectedAndMouseOver(Graphics2D g, int width, int height) {
-        Shape s = ShapeUtil.createCheckMark(0, 0, width, height);
+        Shape s = shapeGenerator.createCheckMark(0, 0, width, height);
         g.setPaint(iconSelectedMouseOver);
         g.fill(s);
     }

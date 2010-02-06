@@ -30,7 +30,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.UIManager;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.TwoColors;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator;
 
 public class SeaGlassInternalShadowEffect {
 
@@ -40,6 +40,8 @@ public class SeaGlassInternalShadowEffect {
     private Color     innerShadowLight = new Color(innerShadowBase.getRed(), innerShadowBase.getGreen(), innerShadowBase.getBlue(),
                                            innerShadowBase.getAlpha() / 2);
     private TwoColors innerShadow      = new TwoColors(innerShadowBase, innerShadowLight);
+
+    private ShapeGenerator shapeGenerator   = new ShapeGenerator();
 
     public void fill(Graphics2D g, Shape s, boolean isRounded, boolean paintRightShadow) {
         if (isRounded) {
@@ -56,16 +58,16 @@ public class SeaGlassInternalShadowEffect {
         int w = bounds.width;
         int h = bounds.height;
 
-        s = ShapeUtil.createRectangle(x, y, w, 2);
+        s = shapeGenerator.createRectangle(x, y, w, 2);
         g.setPaint(getTopShadowGradient(s));
         g.fill(s);
 
-        s = ShapeUtil.createRectangle(x, y, 1, h);
+        s = shapeGenerator.createRectangle(x, y, 1, h);
         g.setPaint(getLeftShadowGradient(s));
         g.fill(s);
 
         if (paintRightShadow) {
-            s = ShapeUtil.createRectangle(x + w - 1, y, 1, h);
+            s = shapeGenerator.createRectangle(x + w - 1, y, 1, h);
             g.setPaint(getRightShadowGradient(s));
             g.fill(s);
         }

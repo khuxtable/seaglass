@@ -26,8 +26,7 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 import com.seaglasslookandfeel.util.PlatformUtils;
 
 /**
@@ -81,10 +80,10 @@ public class ToolBarHandlePainter extends AbstractCommonColorsPainter {
     }
 
     private Shape decodeNonMacHandleBorder(int width, int height) {
-        return ShapeUtil.createRoundRectangle(4, 2, width - 4, height - 4, CornerSize.ROUND_WIDTH);
+        return shapeGenerator.createRoundRectangle(4, 2, width - 4, height - 4, CornerSize.ROUND_WIDTH);
     }
 
     private Shape decodeNonMacHandleInside(int width, int height) {
-        return ShapeUtil.createRoundRectangle(5, 3, width - 6, height - 6, CornerSize.ROUND_WIDTH);
+        return shapeGenerator.createRoundRectangle(5, 3, width - 6, height - 6, CornerSize.ROUND_WIDTH);
     }
 }

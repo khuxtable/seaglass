@@ -48,8 +48,8 @@ import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 
 import sun.swing.SwingUtilities2;
 import sun.swing.plaf.synth.SynthUI;
@@ -74,8 +74,10 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
     private int        tileWidth;
     private Color      bgFillColor;
 
-    private Rectangle  boundsRect = new Rectangle();
-    private Rectangle  savedRect  = new Rectangle();
+    private Rectangle  boundsRect     = new Rectangle();
+    private Rectangle  savedRect      = new Rectangle();
+
+    private ShapeGenerator  shapeGenerator = new ShapeGenerator();
 
     public static ComponentUI createUI(JComponent x) {
         return new SeaGlassProgressBarUI();
@@ -267,7 +269,7 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(bgFillColor);
         CornerSize cornerSize = pBar.getOrientation() == JProgressBar.HORIZONTAL ? CornerSize.ROUND_HEIGHT : CornerSize.ROUND_WIDTH;
-        g2d.fill(ShapeUtil.createRoundRectangle(0, 0, bounds.width, bounds.height, cornerSize));
+        g2d.fill(shapeGenerator.createRoundRectangle(0, 0, bounds.width, bounds.height, cornerSize));
 
         // Use SrcAtop, which effectively uses the alpha value as a coverage
         // value for each pixel stored in the destination. At the edges, the

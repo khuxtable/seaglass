@@ -30,7 +30,6 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * RadioButtonPainter implementation.
@@ -160,7 +159,7 @@ public final class RadioButtonPainter extends AbstractCommonColorsPainter {
     private Shape createBasicShape(double diameter, int width, int height) {
         int pos = (int) ((width - diameter) / 2.0 + 0.5);
         int iDiameter = (int) (diameter + 0.5);
-        return ShapeUtil.createRadioButton(pos, pos, iDiameter);
+        return shapeGenerator.createRadioButton(pos, pos, iDiameter);
     }
 
     public Paint getRadioButtonBulletPaint(Shape s, CommonControlType type) {

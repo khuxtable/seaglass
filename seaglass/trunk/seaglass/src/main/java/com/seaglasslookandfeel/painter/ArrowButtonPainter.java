@@ -26,7 +26,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * Sea Glass's ArrowButtonPainter class.
@@ -89,6 +88,6 @@ public final class ArrowButtonPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeArrowPath(int width, int height) {
-        return ShapeUtil.createArrowLeft(width * .02, height * 0.2, width * 0.6, height * 0.6);
+        return shapeGenerator.createArrowLeft(width * .02, height * 0.2, width * 0.6, height * 0.6);
     }
 }

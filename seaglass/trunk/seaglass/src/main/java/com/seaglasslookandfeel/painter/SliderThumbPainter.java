@@ -27,8 +27,7 @@ import javax.swing.JComponent;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 
 /**
  * SliderThumbPainter implementation.
@@ -138,22 +137,22 @@ public final class SliderThumbPainter extends AbstractCommonColorsPainter {
         boolean useToolBarColors = isInToolBar(c);
         Shape s;
         if (isFocused) {
-            s = ShapeUtil.createSliderThumbDiscrete(0, 0, width, height, CornerSize.SLIDER_OUTER_FOCUS);
+            s = shapeGenerator.createSliderThumbDiscrete(0, 0, width, height, CornerSize.SLIDER_OUTER_FOCUS);
             g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.fill(s);
-            s = ShapeUtil.createSliderThumbDiscrete(1, 1, width - 2, height - 2, CornerSize.SLIDER_INNER_FOCUS);
+            s = shapeGenerator.createSliderThumbDiscrete(1, 1, width - 2, height - 2, CornerSize.SLIDER_INNER_FOCUS);
             g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
             g.fill(s);
         }
 
-        s = ShapeUtil.createSliderThumbDiscrete(2, 2, width - 4, height - 4, CornerSize.SLIDER_BORDER);
+        s = shapeGenerator.createSliderThumbDiscrete(2, 2, width - 4, height - 4, CornerSize.SLIDER_BORDER);
         if (!isFocused) {
             dropShadow.fill(g, s);
         }
         g.setPaint(getCommonBorderPaint(s, type));
         g.fill(s);
 
-        s = ShapeUtil.createSliderThumbDiscrete(3, 3, width - 6, height - 6, CornerSize.SLIDER_INTERIOR);
+        s = shapeGenerator.createSliderThumbDiscrete(3, 3, width - 6, height - 6, CornerSize.SLIDER_INTERIOR);
         g.setPaint(getCommonInteriorPaint(s, type));
         g.fill(s);
     }
@@ -162,22 +161,22 @@ public final class SliderThumbPainter extends AbstractCommonColorsPainter {
         boolean useToolBarColors = isInToolBar(c);
         Shape s;
         if (isFocused) {
-            s = ShapeUtil.createSliderThumbContinuous(0, 1, width);
+            s = shapeGenerator.createSliderThumbContinuous(0, 1, width);
             g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.fill(s);
-            s = ShapeUtil.createSliderThumbContinuous(1, 2, width - 2);
+            s = shapeGenerator.createSliderThumbContinuous(1, 2, width - 2);
             g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
             g.fill(s);
         }
 
-        s = ShapeUtil.createSliderThumbContinuous(2, 3, width - 4);
+        s = shapeGenerator.createSliderThumbContinuous(2, 3, width - 4);
         if (!isFocused) {
             dropShadow.fill(g, s);
         }
         g.setPaint(getCommonBorderPaint(s, type));
         g.fill(s);
 
-        s = ShapeUtil.createSliderThumbContinuous(3, 4, width - 6);
+        s = shapeGenerator.createSliderThumbContinuous(3, 4, width - 6);
         g.setPaint(getCommonInteriorPaint(s, type));
         g.fill(s);
     }

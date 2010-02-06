@@ -26,7 +26,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public final class RadioButtonMenuItemPainter extends MenuItemPainter {
     public static enum Which {
@@ -109,6 +108,6 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
 
     private Shape createRadioBullet(int width, int height) {
         int radius = Math.min(width, height) - 1;
-        return ShapeUtil.createBullet(0, 1, radius);
+        return shapeGenerator.createBullet(0, 1, radius);
     }
 }

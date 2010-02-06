@@ -27,9 +27,8 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerStyle;
 
 /**
  * SpinnerPreviousButtonPainter implementation.
@@ -152,7 +151,7 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
         g.setPaint(getSpinnerPrevInteriorPaint(s, type));
         g.fill(s);
 
-        s = ShapeUtil.createRectangle(1, 0, width - 4, 1);
+        s = shapeGenerator.createRectangle(1, 0, width - 4, 1);
         g.setPaint(getSpinnerPrevTopLinePaint(s, type));
         g.fill(s);
     }
@@ -164,14 +163,14 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
     }
 
     private Shape createButtonShape(int x, int y, int width, int height, CornerSize size) {
-        return ShapeUtil.createRoundRectangle(x, y, width, height, size, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED,
+        return shapeGenerator.createRoundRectangle(x, y, width, height, size, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED,
             CornerStyle.SQUARE);
     }
 
     private Shape createArrowShape(int left, int height) {
         int centerX = 8;
         int centerY = height / 2;
-        return ShapeUtil.createArrowDown(centerX, centerY - 2, 4, 3);
+        return shapeGenerator.createArrowDown(centerX, centerY - 2, 4, 3);
     }
 
     public Paint getSpinnerPrevBorderPaint(Shape s, CommonControlType type) {

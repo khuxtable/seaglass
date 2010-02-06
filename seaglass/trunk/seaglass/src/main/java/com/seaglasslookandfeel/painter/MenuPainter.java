@@ -26,7 +26,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public final class MenuPainter extends MenuItemPainter {
     public static enum Which {
@@ -94,9 +93,9 @@ public final class MenuPainter extends MenuItemPainter {
 
     private Shape decodeArrowPath(JComponent c, int width, int height) {
         if (c.getComponentOrientation().isLeftToRight()) {
-            return ShapeUtil.createArrowRight(1, 1, width - 2, height - 2);
+            return shapeGenerator.createArrowRight(1, 1, width - 2, height - 2);
         } else {
-            return ShapeUtil.createArrowLeft(1, 1, width - 2, height - 2);
+            return shapeGenerator.createArrowLeft(1, 1, width - 2, height - 2);
         }
     }
 }

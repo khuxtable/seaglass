@@ -27,7 +27,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * Paint table headers.
@@ -76,7 +75,7 @@ public final class TableHeaderRendererPainter extends AbstractCommonColorsPainte
 
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        Shape s = ShapeUtil.createRectangle(0, 0, width - 1, height - 1);
+        Shape s = shapeGenerator.createRectangle(0, 0, width - 1, height - 1);
         g.setPaint(getTableHeaderInteriorPaint(s, type, isSorted));
         g.fill(s);
 

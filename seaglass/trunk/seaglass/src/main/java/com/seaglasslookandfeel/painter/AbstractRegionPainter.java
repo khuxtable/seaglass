@@ -43,6 +43,7 @@ import javax.swing.plaf.UIResource;
 
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator;
 import com.seaglasslookandfeel.state.ControlInToolBarState;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.util.ImageCache;
@@ -71,6 +72,11 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      * calls.
      */
     private PaintContext       ctx;
+
+    /**
+     * The generator for almost all of the shapes we use to draw controls.
+     */
+    protected ShapeGenerator        shapeGenerator    = new ShapeGenerator();
 
     /**
      * Insets used for positioning the control border in order to leave enough

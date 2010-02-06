@@ -28,7 +28,6 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * ToolBarToggleButtonPainter implementation.
@@ -83,21 +82,21 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         if (isSelected) {
-            Shape s = ShapeUtil.createRectangle(0, 0, 1, height);
+            Shape s = shapeGenerator.createRectangle(0, 0, 1, height);
             g.setPaint(getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.INNER));
             g.fill(s);
 
-            s = ShapeUtil.createRectangle(1, 0, 1, height);
+            s = shapeGenerator.createRectangle(1, 0, 1, height);
             g.setPaint(getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.INNER_EDGE));
             g.fill(s);
-            s = ShapeUtil.createRectangle((width - 2), 0, 1, height);
+            s = shapeGenerator.createRectangle((width - 2), 0, 1, height);
             g.setPaint(getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.INNER_EDGE));
             g.fill(s);
 
-            s = ShapeUtil.createRectangle(0, 0, 1, height);
+            s = shapeGenerator.createRectangle(0, 0, 1, height);
             g.setPaint(getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.OUTER_EDGE));
             g.fill(s);
-            s = ShapeUtil.createRectangle((width - 1), 0, 1, height);
+            s = shapeGenerator.createRectangle((width - 1), 0, 1, height);
             g.setPaint(getToolbarToggleButtonPaint(s, ToolbarToggleButtonType.OUTER_EDGE));
             g.fill(s);
         }

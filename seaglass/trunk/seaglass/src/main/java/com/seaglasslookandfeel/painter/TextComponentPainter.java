@@ -26,7 +26,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 /**
  * TextComponentPainter implementation.
@@ -100,7 +99,7 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
             color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0x80);
         }
 
-        Shape s = ShapeUtil.createRectangle(x + 1, y + 1, width - 2, height - 2);
+        Shape s = shapeGenerator.createRectangle(x + 1, y + 1, width - 2, height - 2);
         g.setPaint(color);
         g.fill(s);
     }
@@ -111,7 +110,7 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
             color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0x80);
         }
 
-        Shape s = ShapeUtil.createRectangle(x - 2, y - 2, width + 4, height + 4);
+        Shape s = shapeGenerator.createRectangle(x - 2, y - 2, width + 4, height + 4);
         g.setPaint(color);
         g.fill(s);
     }
@@ -121,16 +120,16 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
         Shape s;
 
         if (focused) {
-            s = ShapeUtil.createRectangle(x - 2, y - 2, width + 3, height + 3);
+            s = shapeGenerator.createRectangle(x - 2, y - 2, width + 3, height + 3);
             g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.draw(s);
-            s = ShapeUtil.createRectangle(x - 1, y - 1, width + 1, height + 1);
+            s = shapeGenerator.createRectangle(x - 1, y - 1, width + 1, height + 1);
             g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
             g.draw(s);
         }
 
         if (type != CommonControlType.DISABLED) {
-            s = ShapeUtil.createRectangle(x + 1, x + 1, width - 2, height - 2);
+            s = shapeGenerator.createRectangle(x + 1, x + 1, width - 2, height - 2);
             internalShadow.fill(g, s, false, true);
         }
 

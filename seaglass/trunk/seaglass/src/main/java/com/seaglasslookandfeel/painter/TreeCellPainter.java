@@ -26,7 +26,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
 
 public final class TreeCellPainter extends AbstractRegionPainter {
     public enum Which {
@@ -87,11 +86,11 @@ public final class TreeCellPainter extends AbstractRegionPainter {
     }
 
     private Shape decodeFocus(int width, int height) {
-        return ShapeUtil.createFillableFocusRectangle(0, 0, width, height);
+        return shapeGenerator.createFillableFocusRectangle(0, 0, width, height);
     }
 
     private Shape decodeBackground(int width, int height) {
-        return ShapeUtil.createRectangle(0, 0, width, height);
+        return shapeGenerator.createRectangle(0, 0, width, height);
     }
 
 }

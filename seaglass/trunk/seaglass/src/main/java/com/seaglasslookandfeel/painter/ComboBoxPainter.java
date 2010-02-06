@@ -27,9 +27,8 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerStyle;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerStyle;
 
 /**
  * ComboBoxPainter implementation.
@@ -194,13 +193,14 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
     }
 
     private Shape createButtonPath(CornerSize size, int left, int top, int width, int height) {
-        return ShapeUtil.createRoundRectangle(left, top, width, height, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.SQUARE,
-            CornerStyle.SQUARE);
+        return shapeGenerator.createRoundRectangle(left, top, width, height, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            CornerStyle.SQUARE, CornerStyle.SQUARE);
     }
 
     private Shape createFocusPath(CornerSize size, int x, int y, int width, int height) {
         CornerStyle leftStyle = editable ? CornerStyle.SQUARE : CornerStyle.ROUNDED;
-        return ShapeUtil.createRoundRectangle(x, y, width, height, size, leftStyle, leftStyle, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+        return shapeGenerator.createRoundRectangle(x, y, width, height, size, leftStyle, leftStyle, CornerStyle.ROUNDED,
+            CornerStyle.ROUNDED);
     }
 
     public Paint getComboBoxBackgroundBorderPaint(Shape s, CommonControlType type) {

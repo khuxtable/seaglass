@@ -26,8 +26,7 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
-import com.seaglasslookandfeel.painter.util.ShapeUtil;
-import com.seaglasslookandfeel.painter.util.ShapeUtil.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 
 /**
  * TextComponentPainter implementation.
@@ -90,7 +89,7 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
             color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0x80);
         }
 
-        Shape s = ShapeUtil.createRoundRectangle(x + 1, y + 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
+        Shape s = shapeGenerator.createRoundRectangle(x + 1, y + 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
         g.setPaint(color);
         g.fill(s);
     }
@@ -100,21 +99,21 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
         Shape s;
 
         if (focused) {
-            s = ShapeUtil.createRoundRectangle(x - 2, y - 2, width + 4 - 1, height + 4 - 1, CornerSize.ROUND_HEIGHT_DRAW);
+            s = shapeGenerator.createRoundRectangle(x - 2, y - 2, width + 4 - 1, height + 4 - 1, CornerSize.ROUND_HEIGHT_DRAW);
             g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.draw(s);
-            s = ShapeUtil.createRoundRectangle(x - 1, y - 1, width + 2 - 1, height + 2 - 1, CornerSize.ROUND_HEIGHT_DRAW);
+            s = shapeGenerator.createRoundRectangle(x - 1, y - 1, width + 2 - 1, height + 2 - 1, CornerSize.ROUND_HEIGHT_DRAW);
             g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
             g.draw(s);
         }
 
         if (type != CommonControlType.DISABLED) {
-            s = ShapeUtil.createInternalDropShadowRounded(x + 1, y + 1, width - 2, height - 2);
+            s = shapeGenerator.createInternalDropShadowRounded(x + 1, y + 1, width - 2, height - 2);
             internalShadow.fill(g, s, true, true);
         }
 
         g.setPaint(getTextBorderPaint(type, !focused && useToolBarColors));
-        s = ShapeUtil.createRoundRectangle(x, y, width - 1, height - 1, CornerSize.ROUND_HEIGHT_DRAW);
+        s = shapeGenerator.createRoundRectangle(x, y, width - 1, height - 1, CornerSize.ROUND_HEIGHT_DRAW);
         g.draw(s);
     }
 }
