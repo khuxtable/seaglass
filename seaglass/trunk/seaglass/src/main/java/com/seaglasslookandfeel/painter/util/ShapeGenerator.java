@@ -31,8 +31,8 @@ import java.awt.geom.Path2D;
 public class ShapeGenerator {
 
     /**
-     * The base radius (arc size) for most control's borders. This is used to calculate the rest of the arc sizes in a relative
-     * manner.
+     * The base radius (arc size) for most control's borders. This is used to
+     * calculate the rest of the arc sizes in a relative manner.
      */
     private static final double baseRadius = 4d;
 
@@ -54,26 +54,30 @@ public class ShapeGenerator {
     public enum CornerSize {
 
         /**
-         * Round using half the height, producing a nice quarter of a circle for the entire quarter of the rectangle. Use for
-         * horizontal lozenges that are filled.
+         * Round using half the height, producing a nice quarter of a circle for
+         * the entire quarter of the rectangle. Use for horizontal lozenges that
+         * are filled.
          */
         ROUND_HEIGHT(0),
 
         /**
-         * Round using half the height plus 1, producing a nice quarter of a circle for the entire quarter of the rectangle. Use
-         * for horizontal lozenges that are drawn.
+         * Round using half the height plus 1, producing a nice quarter of a
+         * circle for the entire quarter of the rectangle. Use for horizontal
+         * lozenges that are drawn.
          */
         ROUND_HEIGHT_DRAW(0),
 
         /**
-         * Round using half the width, producing a nice quarter of a circle for the entire quarter of the rectangle. Use for
-         * vertical lozenges that are filled.
+         * Round using half the width, producing a nice quarter of a circle for
+         * the entire quarter of the rectangle. Use for vertical lozenges that
+         * are filled.
          */
         ROUND_WIDTH(0),
 
         /**
-         * Round using half the width plus 1, producing a nice quarter of a circle for the entire quarter of the rectangle. Use
-         * for vertical lozenges that are drawn.
+         * Round using half the width plus 1, producing a nice quarter of a
+         * circle for the entire quarter of the rectangle. Use for vertical
+         * lozenges that are drawn.
          */
         ROUND_WIDTH_DRAW(0),
 
@@ -141,8 +145,9 @@ public class ShapeGenerator {
         }
 
         /**
-         * Return the rounding radius. Note that the {@code ROUND*} values are handled specially, as the rounding is dependent on
-         * the size of the rectangle.
+         * Return the rounding radius. Note that the {@code ROUND*} values are
+         * handled specially, as the rounding is dependent on the size of the
+         * rectangle.
          *
          * @param  w the width of the rectangle.
          * @param  h the height of the rectangle.
@@ -210,30 +215,38 @@ public class ShapeGenerator {
     /**
      * Return a path for a rectangle with optionally rounded corners.
      *
-     * @param  x           the X coordinate of the upper-left corner of the rectangle
-     * @param  y           the Y coordinate of the upper-left corner of the rectangle
+     * @param  x           the X coordinate of the upper-left corner of the
+     *                     rectangle
+     * @param  y           the Y coordinate of the upper-left corner of the
+     *                     rectangle
      * @param  w           the width of the rectangle
      * @param  h           the height of the rectangle
-     * @param  size        the CornerSize value representing the amount of rounding
-     * @param  topLeft     the CornerStyle of the upper-left corner. This must be one of {@code CornerStyle.SQUARE} or
+     * @param  size        the CornerSize value representing the amount of
+     *                     rounding
+     * @param  topLeft     the CornerStyle of the upper-left corner. This must
+     *                     be one of {@code CornerStyle.SQUARE} or
      *                     {@code CornerStyle.ROUNDED}.
-     * @param  bottomLeft  the CornerStyle of the lower-left corner. This must be one of {@code CornerStyle.SQUARE} or
+     * @param  bottomLeft  the CornerStyle of the lower-left corner. This must
+     *                     be one of {@code CornerStyle.SQUARE} or
      *                     {@code CornerStyle.ROUNDED}.
-     * @param  bottomRight the CornerStyle of the lower-right corner. This must be one of {@code CornerStyle.SQUARE} or
+     * @param  bottomRight the CornerStyle of the lower-right corner. This must
+     *                     be one of {@code CornerStyle.SQUARE} or
      *                     {@code CornerStyle.ROUNDED}.
-     * @param  topRight    the CornerStyle of the upper-right corner. This must be one of {@code CornerStyle.SQUARE} or
+     * @param  topRight    the CornerStyle of the upper-right corner. This must
+     *                     be one of {@code CornerStyle.SQUARE} or
      *                     {@code CornerStyle.ROUNDED}.
      *
      * @return a path representing the shape.
      */
-    public Shape createRoundRectangle(final int x, final int y, final int w, final int h, final CornerSize size,
-        final CornerStyle topLeft, final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
+    public Shape createRoundRectangle(final int x, final int y, final int w, final int h, final CornerSize size, final CornerStyle topLeft,
+        final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
         return createRoundRectangleInternal(x, y, w, h, size.getRadius(w, h), topLeft, bottomLeft, bottomRight, topRight);
     }
 
     /**
-     * Return a path for a rectangle with square corners and no right side. This is used for text fields that are part of a larger
-     * control, which is placed to their left, e.g. spinners and editable combo boxes.
+     * Return a path for a rectangle with square corners and no right side. This
+     * is used for text fields that are part of a larger control, which is
+     * placed to their left, e.g. spinners and editable combo boxes.
      *
      * <p>This path is suitable for drawing, not for filling.</p>
      *
@@ -385,7 +398,8 @@ public class ShapeGenerator {
     }
 
     /**
-     * Return a path for a rounded internal drop shadow. This is used for progress bar tracks and search fields.
+     * Return a path for a rounded internal drop shadow. This is used for
+     * progress bar tracks and search fields.
      *
      * @param  x the X coordinate of the upper-left corner of the shadow
      * @param  y the Y coordinate of the upper-left corner of the shadow
@@ -506,7 +520,8 @@ public class ShapeGenerator {
      * @param  y    the Y coordinate of the upper-left corner of the section
      * @param  w    the width of the section
      * @param  h    the height of the section
-     * @param  size the CornerSize representing the rounding amount for the section
+     * @param  size the CornerSize representing the rounding amount for the
+     *              section
      *
      * @return a path representing the shape.
      */
@@ -529,7 +544,8 @@ public class ShapeGenerator {
     }
 
     /**
-     * Return a path for a "cancel" icon. This is a circle with a punched out "x" in it.
+     * Return a path for a "cancel" icon. This is a circle with a punched out
+     * "x" in it.
      *
      * @param  x the X coordinate of the upper-left corner of the icon
      * @param  y the Y coordinate of the upper-left corner of the icon
@@ -576,8 +592,8 @@ public class ShapeGenerator {
     }
 
     /**
-     * Return a path for a scroll bar cap. This is used when the buttons are placed together at the opposite end of the scroll
-     * bar.
+     * Return a path for a scroll bar cap. This is used when the buttons are
+     * placed together at the opposite end of the scroll bar.
      *
      * @param  x the X coordinate of the upper-left corner of the cap
      * @param  y the Y coordinate of the upper-left corner of the cap
@@ -598,8 +614,9 @@ public class ShapeGenerator {
     }
 
     /**
-     * Return a path for a scroll bar button. This is used when the buttons are placed apart at opposite ends of the scroll bar.
-     * This is a common shape that is transformed to the appropriate button.
+     * Return a path for a scroll bar button. This is used when the buttons are
+     * placed apart at opposite ends of the scroll bar. This is a common shape
+     * that is transformed to the appropriate button.
      *
      * @param  x the X coordinate of the upper-left corner of the button
      * @param  y the Y coordinate of the upper-left corner of the button
@@ -620,8 +637,8 @@ public class ShapeGenerator {
     }
 
     /**
-     * Return a path for a scroll bar decrease button. This is used when the buttons are placed together at one end of the scroll
-     * bar.
+     * Return a path for a scroll bar decrease button. This is used when the
+     * buttons are placed together at one end of the scroll bar.
      *
      * @param  x the X coordinate of the upper-left corner of the button
      * @param  y the Y coordinate of the upper-left corner of the button
@@ -642,8 +659,8 @@ public class ShapeGenerator {
     }
 
     /**
-     * Return a path for a scroll bar increase button. This is used when the buttons are placed together at one end of the scroll
-     * bar.
+     * Return a path for a scroll bar increase button. This is used when the
+     * buttons are placed together at one end of the scroll bar.
      *
      * @param  x the X coordinate of the upper-left corner of the button
      * @param  y the Y coordinate of the upper-left corner of the button
@@ -657,14 +674,18 @@ public class ShapeGenerator {
     }
 
     /**
-     * Adds a hemispherical section to the current path. This is used to create the gap in a scroll bar button or cap into which
-     * the scroll bar thumb will fit.
+     * Adds a hemispherical section to the current path. This is used to create
+     * the gap in a scroll bar button or cap into which the scroll bar thumb
+     * will fit.
      *
-     * @param x        the X coordinate of the upper-left corner of the button or cap
-     * @param y        the Y coordinate of the upper-left corner of the button or cap
+     * @param x        the X coordinate of the upper-left corner of the button
+     *                 or cap
+     * @param y        the Y coordinate of the upper-left corner of the button
+     *                 or cap
      * @param w        the width of the button or cap
      * @param h        the height of the button or cap
-     * @param isAtLeft {@code true} if the gap is at the left end of the button, {@code false} if it is at the right.
+     * @param isAtLeft {@code true} if the gap is at the left end of the button,
+     *                 {@code false} if it is at the right.
      */
     private void addScrollGapPath(int x, int y, int w, int h, boolean isAtLeft) {
         final double hHalf    = h / 2.0;
@@ -694,18 +715,24 @@ public class ShapeGenerator {
     /**
      * Return a path for a rectangle with optionally rounded corners.
      *
-     * @param  x           the X coordinate of the upper-left corner of the rectangle
-     * @param  y           the Y coordinate of the upper-left corner of the rectangle
+     * @param  x           the X coordinate of the upper-left corner of the
+     *                     rectangle
+     * @param  y           the Y coordinate of the upper-left corner of the
+     *                     rectangle
      * @param  w           the width of the rectangle
      * @param  h           the height of the rectangle
      * @param  radius      the radius (arc size) used for rounding
-     * @param  topLeft     the CornerStyle of the upper-left corner. This must be one of {@code CornerStyle.SQUARE} or
+     * @param  topLeft     the CornerStyle of the upper-left corner. This must
+     *                     be one of {@code CornerStyle.SQUARE} or
      *                     {@code CornerStyle.ROUNDED}.
-     * @param  bottomLeft  the CornerStyle of the lower-left corner. This must be one of {@code CornerStyle.SQUARE} or
+     * @param  bottomLeft  the CornerStyle of the lower-left corner. This must
+     *                     be one of {@code CornerStyle.SQUARE} or
      *                     {@code CornerStyle.ROUNDED}.
-     * @param  bottomRight the CornerStyle of the lower-right corner. This must be one of {@code CornerStyle.SQUARE} or
+     * @param  bottomRight the CornerStyle of the lower-right corner. This must
+     *                     be one of {@code CornerStyle.SQUARE} or
      *                     {@code CornerStyle.ROUNDED}.
-     * @param  topRight    the CornerStyle of the upper-right corner. This must be one of {@code CornerStyle.SQUARE} or
+     * @param  topRight    the CornerStyle of the upper-right corner. This must
+     *                     be one of {@code CornerStyle.SQUARE} or
      *                     {@code CornerStyle.ROUNDED}.
      *
      * @return a path representing the shape.
