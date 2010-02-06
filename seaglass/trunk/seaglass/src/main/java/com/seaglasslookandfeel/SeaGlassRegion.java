@@ -14,21 +14,38 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel;
 
 import javax.swing.plaf.synth.Region;
 
+/**
+ * Sea Glass extensions to Synth's Region.
+ */
 public class SeaGlassRegion extends Region {
 
-    public static final Region SEARCH_FIELD_FIND_BUTTON   = new SeaGlassRegion("SearchFieldFindButton", null, true);
+    /** A Find button in a search field. */
+    public static final Region SEARCH_FIELD_FIND_BUTTON = new SeaGlassRegion("SearchFieldFindButton", null, true);
 
+    /** A Cancel button in a searc field. */
     public static final Region SEARCH_FIELD_CANCEL_BUTTON = new SeaGlassRegion("SearchFieldCancelButton", null, true);
 
-    public static final Region SCROLL_BAR_CAP             = new SeaGlassRegion("ScrollBarCap", null, true);
+    /**
+     * The cap for a scroll bar where the buttons are ploced together at the
+     * other end.
+     */
+    public static final Region SCROLL_BAR_CAP = new SeaGlassRegion("ScrollBarCap", null, true);
 
+    /**
+     * Creates a new SeaGlassRegion object.
+     *
+     * @param name      the region name.
+     * @param ui        the UI delegate, if any.
+     * @param subregion {@code true} if this region is a sub-region,
+     *                  {@code false} otherwise.
+     */
     protected SeaGlassRegion(String name, String ui, boolean subregion) {
         super(name, ui, subregion);
     }
