@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.util;
@@ -32,44 +32,57 @@ import javax.swing.SwingUtilities;
 /**
  * Window Dragger that can be installed on a toolbar or bottom bar, allowing it
  * to move the whole fram.
- * 
+ *
  * @author Ken Orr
  */
 public class WindowDragger {
 
-    private Window             fWindow;
+    private Window fWindow;
 
-    private Component          fComponent;
+    private Component fComponent;
 
     private MouseListener      mouseListener;
     private MouseMotionAdapter mouseMotionListener;
 
-    private int                dX;
+    private int dX;
+    private int dY;
 
-    private int                dY;
-
+    /**
+     * Creates a new WindowDragger object.
+     *
+     * @param window    the window to drag.
+     * @param component the component to drag with.
+     */
     public WindowDragger(Window window, Component component) {
-
-        fWindow = window;
+        fWindow    = window;
         fComponent = component;
 
-        mouseListener = createMouseListener();
+        mouseListener       = createMouseListener();
         mouseMotionListener = createMouseMotionListener();
 
         fComponent.addMouseListener(mouseListener);
         fComponent.addMouseMotionListener(mouseMotionListener);
     }
 
+    /**
+     * Uninstall the dragger.
+     */
     public void uninstallDragger() {
         fComponent.removeMouseListener(mouseListener);
         fComponent.removeMouseMotionListener(mouseMotionListener);
     }
 
+    /**
+     * Create the mouse listener.
+     *
+     * @return the mouse listener.
+     */
     private MouseListener createMouseListener() {
         return new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 Point clickPoint = new Point(e.getPoint());
+
                 SwingUtilities.convertPointToScreen(clickPoint, fComponent);
 
                 dX = clickPoint.x - fWindow.getX();
@@ -78,11 +91,17 @@ public class WindowDragger {
         };
     }
 
+    /**
+     * Create the mouse motion listener.
+     *
+     * @return the mouse motion listener.
+     */
     private MouseMotionAdapter createMouseMotionListener() {
         return new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 Point dragPoint = new Point(e.getPoint());
+
                 SwingUtilities.convertPointToScreen(dragPoint, fComponent);
 
                 fWindow.setLocation(dragPoint.x - dX, dragPoint.y - dY);
