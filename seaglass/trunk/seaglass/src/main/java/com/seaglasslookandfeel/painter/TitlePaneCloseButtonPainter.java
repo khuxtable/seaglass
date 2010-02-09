@@ -47,12 +47,14 @@ public final class TitlePaneCloseButtonPainter extends TitlePaneButtonPainter {
     }
 
     private ButtonColors enabled = new ButtonColors(white16, white4c, black66, white33, transparentColor, transparentColor, black99,
-            white99);
+                                                    white99);
     private ButtonColors hover   = new ButtonColors(closeButtonTopHover, closeButtonLeftHover, closeButtonEdgeHover, white33,
-            closeButtonInteriorTopHover, closeButtonInteriorBottomHover, closeButtonMarkBorderHover, white);
+                                                    closeButtonInteriorTopHover, closeButtonInteriorBottomHover, closeButtonMarkBorderHover,
+                                                    white);
     private ButtonColors pressed = new ButtonColors(closeButtonTopPressed, closeButtonLeftPressed, black66, white33,
-            closeButtonInteriorTopPressed, closeButtonInteriorTopPressed, closeButtonMarkBorderPressed,
-            closeButtonMarkInteriorPressed);
+                                                    closeButtonInteriorTopPressed, closeButtonInteriorTopPressed,
+                                                    closeButtonMarkBorderPressed,
+                                                    closeButtonMarkInteriorPressed);
 
     private MyPath2D path = new MyPath2D();
 

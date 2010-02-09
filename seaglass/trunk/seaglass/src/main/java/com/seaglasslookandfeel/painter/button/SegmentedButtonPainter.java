@@ -29,6 +29,7 @@ import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
 
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
+
 import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerStyle;
 
@@ -189,14 +190,14 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
 
         case FIRST:
             return shapeGenerator.createRoundRectangle(x - 2, y - 2, w + 3, h + 3, CornerSize.OUTER_FOCUS, CornerStyle.ROUNDED,
-                    CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE);
+                                                       CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE);
 
         case MIDDLE:
             return shapeGenerator.createRectangle(x - 2, y - 2, w + 3, h + 3);
 
         case LAST:
             return shapeGenerator.createRoundRectangle(x - 2, y - 2, w + 3, h + 3, CornerSize.OUTER_FOCUS, CornerStyle.SQUARE,
-                    CornerStyle.SQUARE, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+                                                       CornerStyle.SQUARE, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
 
         default:
             return shapeGenerator.createRoundRectangle(x - 2, y - 2, w + 3, h + 3, CornerSize.OUTER_FOCUS);
@@ -221,14 +222,14 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
 
         case FIRST:
             return shapeGenerator.createRoundRectangle(x - 1, y - 1, w + 2, h + 1, CornerSize.INNER_FOCUS, CornerStyle.ROUNDED,
-                    CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE);
+                                                       CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE);
 
         case MIDDLE:
             return shapeGenerator.createRectangle(x - 2, y - 1, w + 3, h + 1);
 
         case LAST:
             return shapeGenerator.createRoundRectangle(x - 2, y - 1, w + 2, h + 1, CornerSize.INNER_FOCUS, CornerStyle.SQUARE,
-                    CornerStyle.SQUARE, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+                                                       CornerStyle.SQUARE, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
 
         default:
             return shapeGenerator.createRoundRectangle(x - 1, y - 1, w + 1, h + 1, CornerSize.INNER_FOCUS);
@@ -251,14 +252,14 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
 
         case FIRST:
             return shapeGenerator.createRoundRectangle(x, y, w + 2, h, CornerSize.BORDER, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
-                    CornerStyle.SQUARE, CornerStyle.SQUARE);
+                                                       CornerStyle.SQUARE, CornerStyle.SQUARE);
 
         case MIDDLE:
             return shapeGenerator.createRectangle(x - 2, y, w + 4, h);
 
         case LAST:
             return shapeGenerator.createRoundRectangle(x - 2, y, w + 2, h, CornerSize.BORDER, CornerStyle.SQUARE, CornerStyle.SQUARE,
-                    CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+                                                       CornerStyle.ROUNDED, CornerStyle.ROUNDED);
 
         default:
             return shapeGenerator.createRoundRectangle(x, y, w, h, CornerSize.BORDER);
@@ -281,16 +282,14 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
 
         case FIRST:
             return shapeGenerator.createRoundRectangle(x + 1, y + 1, w, h - 2, CornerSize.INTERIOR, CornerStyle.ROUNDED,
-                    CornerStyle.ROUNDED,
-                    CornerStyle.SQUARE, CornerStyle.SQUARE);
+                                                       CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE);
 
         case MIDDLE:
             return shapeGenerator.createRectangle(x - 2, y + 1, w + 3, h - 2);
 
         case LAST:
             return shapeGenerator.createRoundRectangle(x - 2, y + 1, w + 1, h - 2, CornerSize.INTERIOR, CornerStyle.SQUARE,
-                    CornerStyle.SQUARE,
-                    CornerStyle.ROUNDED, CornerStyle.ROUNDED);
+                                                       CornerStyle.SQUARE, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
 
         default:
             return shapeGenerator.createRoundRectangle(x + 1, y + 1, w - 2, h - 2, CornerSize.INTERIOR);
