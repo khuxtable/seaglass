@@ -44,7 +44,7 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
     private Color texturedButtonBorderBottomEnabled = texturedButtonBorderBaseEnabled;
 
     private TwoColors texturedButtonBorderEnabled          = new TwoColors(texturedButtonBorderTopEnabled,
-            texturedButtonBorderBottomEnabled);
+                                                                           texturedButtonBorderBottomEnabled);
     private TwoColors texturedButtonBorderPressed          = super.getCommonBorderColors(CommonControlType.PRESSED);
     private TwoColors texturedButtonBorderDefault          = texturedButtonBorderPressed;
     private TwoColors texturedButtonBorderSelected         = texturedButtonBorderDefault;
@@ -56,28 +56,28 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
     private Color texturedButtonInteriorTopEnabled            = deriveColor(texturedButtonInteriorBaseEnabled, 0f, 0f, 0.054902f, 0);
     private Color texturedButtonInteriorBottomEnabled         = deriveColor(texturedButtonInteriorBaseEnabled, 0f, 0f, -0.062745f, 0);
     private Color texturedButtonInteriorTopPressed            = deriveColor(texturedButtonInteriorBasePressed, -0.003064f, -0.044334f,
-            0.074510f, 0);
+                                                                            0.074510f, 0);
     private Color texturedButtonInteriorBottomPressed         = deriveColor(texturedButtonInteriorBasePressed, 0.002723f, 0.057143f,
-            -0.082353f, 0);
+                                                                            -0.082353f, 0);
     private Color texturedButtonInteriorTopSelected           = deriveColor(texturedButtonInteriorBaseSelected, -0.007658f, -0.042881f,
-            0.078431f, 0);
+                                                                            0.078431f, 0);
     private Color texturedButtonInteriorBottomSelected        = deriveColor(texturedButtonInteriorBaseSelected, 0.006872f, 0.053054f,
-            -0.082353f, 0);
+                                                                            -0.082353f, 0);
     private Color texturedButtonInteriorTopPressedSelected    = deriveColor(texturedButtonInteriorBasePressedSelected, -0.007749f,
-            -0.043169f, 0.070588f, 0);
+                                                                            -0.043169f, 0.070588f, 0);
     private Color texturedButtonInteriorBottomPressedSelected = deriveColor(texturedButtonInteriorBasePressedSelected, 0.007011f,
-            0.056937f, -0.078431f, 0);
+                                                                            0.056937f, -0.078431f, 0);
 
     private TwoColors texturedButtonInteriorEnabled          = new TwoColors(texturedButtonInteriorTopEnabled,
-            texturedButtonInteriorBottomEnabled);
+                                                                             texturedButtonInteriorBottomEnabled);
     private TwoColors texturedButtonInteriorPressed          = new TwoColors(texturedButtonInteriorTopPressed,
-            texturedButtonInteriorBottomPressed);
+                                                                             texturedButtonInteriorBottomPressed);
     private TwoColors texturedButtonInteriorDefault          = new TwoColors(texturedButtonInteriorTopSelected,
-            texturedButtonInteriorBottomSelected);
+                                                                             texturedButtonInteriorBottomSelected);
     private TwoColors texturedButtonInteriorSelected         = texturedButtonInteriorDefault;
     private TwoColors texturedButtonInteriorDefaultPressed   = texturedButtonInteriorDefault;
     private TwoColors texturedButtonInteriorPressedSelected  = new TwoColors(texturedButtonInteriorTopPressedSelected,
-            texturedButtonInteriorBottomPressedSelected);
+                                                                             texturedButtonInteriorBottomPressedSelected);
     private TwoColors texturedButtonInteriorDisabled         = desaturate(texturedButtonInteriorEnabled);
     private TwoColors texturedButtonInteriorDisabledSelected = desaturate(texturedButtonInteriorDefault);
 
