@@ -48,8 +48,8 @@ public class ImageCache {
     private static final ImageCache instance = new ImageCache();
 
     // Ordered Map keyed by args hash, ordered by most recent accessed entry.
-    private final LinkedHashMap<Integer, PixelCountSoftReference> map = new LinkedHashMap<Integer, PixelCountSoftReference>(
-            16, 0.75f, true);
+    private final LinkedHashMap<Integer, PixelCountSoftReference> map = new LinkedHashMap<Integer, PixelCountSoftReference>(16, 0.75f,
+                                                                                                                            true);
 
     // Maximum number of pixels to cache, this is used if maxCount
     private final int maxPixelCount;

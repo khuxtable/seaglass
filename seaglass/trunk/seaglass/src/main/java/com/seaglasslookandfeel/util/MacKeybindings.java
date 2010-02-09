@@ -34,12 +34,15 @@ public class MacKeybindings {
      * @param table the UIDefaults table.
      */
     public static void installKeybindings(UIDefaults table) {
-        UIDefaults.LazyInputMap buttonFocusInputMap = new UIDefaults.LazyInputMap(
-                new Object[] { "SPACE", "pressed", "released SPACE", "released" });
+        UIDefaults.LazyInputMap buttonFocusInputMap = new UIDefaults.LazyInputMap(new Object[] {
+                    "SPACE",
+                    "pressed",
+                    "released SPACE",
+                    "released"
+                });
 
         // Input map for text fields
-        UIDefaults.LazyInputMap fieldInputMap = new UIDefaults.LazyInputMap(
-                new String[] {
+        UIDefaults.LazyInputMap fieldInputMap = new UIDefaults.LazyInputMap(new String[] {
                     "BACK_SPACE",
                     DefaultEditorKit.deletePrevCharAction,
                     "DELETE",
@@ -175,8 +178,7 @@ public class MacKeybindings {
                 });
 
         // Input map for password fields
-        UIDefaults.LazyInputMap passwordFieldInputMap = new UIDefaults.LazyInputMap(
-                new String[] {
+        UIDefaults.LazyInputMap passwordFieldInputMap = new UIDefaults.LazyInputMap(new String[] {
                     "BACK_SPACE",
                     DefaultEditorKit.deletePrevCharAction,
                     "DELETE",
@@ -312,8 +314,7 @@ public class MacKeybindings {
                 });
 
         // Input map for spinner editors
-        UIDefaults.LazyInputMap spinnerInputMap = new UIDefaults.LazyInputMap(
-                new String[] {
+        UIDefaults.LazyInputMap spinnerInputMap = new UIDefaults.LazyInputMap(new String[] {
                     "BACK_SPACE",
                     DefaultEditorKit.deletePrevCharAction,
                     "DELETE",
@@ -449,8 +450,7 @@ public class MacKeybindings {
                 });
 
         // Input map for multiline text fields
-        UIDefaults.LazyInputMap multilineInputMap = new UIDefaults.LazyInputMap(
-                new String[] {
+        UIDefaults.LazyInputMap multilineInputMap = new UIDefaults.LazyInputMap(new String[] {
                     "shift ENTER",
                     DefaultEditorKit.insertBreakAction,
                     "alt ENTER",
@@ -604,8 +604,7 @@ public class MacKeybindings {
                 });
 
         // Input map for the editors of combo boxes
-        UIDefaults.LazyInputMap comboEditorInputMap = new UIDefaults.LazyInputMap(
-                new String[] {
+        UIDefaults.LazyInputMap comboEditorInputMap = new UIDefaults.LazyInputMap(new String[] {
                     "BACK_SPACE",
                     DefaultEditorKit.deletePrevCharAction,
                     "DELETE",
@@ -714,8 +713,7 @@ public class MacKeybindings {
                     JTextField.notifyAction,
                 });
 
-        UIDefaults.LazyInputMap tabbedPaneFocusInputMap = new UIDefaults.LazyInputMap(
-                new Object[] {
+        UIDefaults.LazyInputMap tabbedPaneFocusInputMap = new UIDefaults.LazyInputMap(new Object[] {
                     "RIGHT",
                     "navigateRight",
                     "KP_RIGHT",
@@ -738,8 +736,7 @@ public class MacKeybindings {
                     "requestFocusForVisibleComponent",
                 });
 
-        UIDefaults.LazyInputMap tabbedPaneAncestorInputMap = new UIDefaults.LazyInputMap(
-                new Object[] {
+        UIDefaults.LazyInputMap tabbedPaneAncestorInputMap = new UIDefaults.LazyInputMap(new Object[] {
                     "ctrl PAGE_DOWN",
                     "navigatePageDown",
                     "ctrl PAGE_UP",
@@ -750,8 +747,7 @@ public class MacKeybindings {
                     "requestFocus",
                 });
 
-        UIDefaults.LazyInputMap tableAncestorInputMap = new UIDefaults.LazyInputMap(
-                new Object[] {
+        UIDefaults.LazyInputMap tableAncestorInputMap = new UIDefaults.LazyInputMap(new Object[] {
                     "meta C",
                     "copy",
                     "meta V",
@@ -888,8 +884,7 @@ public class MacKeybindings {
                     "moveSelectionTo"
                 });
 
-        UIDefaults.LazyInputMap tableAncestorInputMapRightToLeft = new UIDefaults.LazyInputMap(
-                new Object[] {
+        UIDefaults.LazyInputMap tableAncestorInputMapRightToLeft = new UIDefaults.LazyInputMap(new Object[] {
                     "RIGHT",
                     "selectPreviousColumn",
                     "KP_RIGHT",
@@ -932,8 +927,7 @@ public class MacKeybindings {
                     "scrollLeftExtendSelection",
                 });
 
-        UIDefaults.LazyInputMap comboBoxAncestorInputMap = new UIDefaults.LazyInputMap(
-                new Object[] {
+        UIDefaults.LazyInputMap comboBoxAncestorInputMap = new UIDefaults.LazyInputMap(new Object[] {
                     "ESCAPE",
                     "hidePopup",
                     "PAGE_UP",
@@ -979,11 +973,18 @@ public class MacKeybindings {
             "release"
         };
 
-        UIDefaults.LazyInputMap spinnerAncestorInputMap = new UIDefaults.LazyInputMap(
-                new Object[] { "UP", "increment", "KP_UP", "increment", "DOWN", "decrement", "KP_DOWN", "decrement", });
+        UIDefaults.LazyInputMap spinnerAncestorInputMap = new UIDefaults.LazyInputMap(new Object[] {
+                    "UP",
+                    "increment",
+                    "KP_UP",
+                    "increment",
+                    "DOWN",
+                    "decrement",
+                    "KP_DOWN",
+                    "decrement",
+                });
 
-        UIDefaults.LazyInputMap treeFocusInputMap = new UIDefaults.LazyInputMap(
-                new Object[] {
+        UIDefaults.LazyInputMap treeFocusInputMap = new UIDefaults.LazyInputMap(new Object[] {
                     "meta C",
                     "copy",
                     "meta V",

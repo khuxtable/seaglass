@@ -156,7 +156,7 @@ public class ImageScalingHelper {
                     int dy2 = Math.min(maxY, yCounter + ih - lastIY);
 
                     g.drawImage(image, xCounter, yCounter, dx2, dy2, lastIX, lastIY, lastIX + dx2 - xCounter, lastIY + dy2 - yCounter,
-                        null);
+                                null);
                 }
             }
         } else {
