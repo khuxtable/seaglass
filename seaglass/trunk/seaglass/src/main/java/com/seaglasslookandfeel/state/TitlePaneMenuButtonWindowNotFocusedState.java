@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -28,21 +28,33 @@ import javax.swing.JInternalFrame;
  * Is the window for this menu button not focused?
  */
 public class TitlePaneMenuButtonWindowNotFocusedState extends State {
+
+    /**
+     * Creates a new TitlePaneMenuButtonWindowNotFocusedState object.
+     */
     public TitlePaneMenuButtonWindowNotFocusedState() {
         super("WindowNotFocused");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         Component parent = c;
+
         while (parent.getParent() != null) {
+
             if (parent instanceof JInternalFrame) {
                 break;
             }
+
             parent = parent.getParent();
         }
+
         if (parent instanceof JInternalFrame) {
             return !(((JInternalFrame) parent).isSelected());
         }
+
         return false;
     }
 }

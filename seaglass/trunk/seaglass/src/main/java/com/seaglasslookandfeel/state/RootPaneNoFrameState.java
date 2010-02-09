@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -31,16 +31,32 @@ import javax.swing.JRootPane;
  * Does root pane have a frame?
  */
 public class RootPaneNoFrameState extends State {
+
+    /**
+     * Creates a new RootPaneNoFrameState object.
+     */
     public RootPaneNoFrameState() {
         super("Frame");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         Component parent = c.getParent();
-        if (true) return ((JRootPane) c).getWindowDecorationStyle() == JRootPane.NONE;
-        if (parent instanceof JFrame) return true;
-        if (parent instanceof JInternalFrame) return true;
-        if (parent instanceof JDialog) return true;
+
+        if (true)
+            return ((JRootPane) c).getWindowDecorationStyle() == JRootPane.NONE;
+
+        if (parent instanceof JFrame)
+            return true;
+
+        if (parent instanceof JInternalFrame)
+            return true;
+
+        if (parent instanceof JDialog)
+            return true;
+
         return false;
     }
 }

@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -26,10 +26,17 @@ import javax.swing.text.JTextComponent;
  * Is the text field a search field variant?
  */
 public class TextFieldIsSearchState extends State {
+
+    /**
+     * Creates a new TextFieldIsSearchState object.
+     */
     public TextFieldIsSearchState() {
         super("SearchField");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         return (c instanceof JTextComponent) && "search".equals(c.getClientProperty("JTextField.variant"));
     }

@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -26,10 +26,17 @@ import javax.swing.JInternalFrame;
  * Is the window for this title pane focused?
  */
 public class TitlePaneWindowFocusedState extends State {
+
+    /**
+     * Creates a new TitlePaneWindowFocusedState object.
+     */
     public TitlePaneWindowFocusedState() {
         super("WindowFocused");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         return c instanceof JInternalFrame && ((JInternalFrame) c).isSelected();
     }

@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -25,10 +25,17 @@ import javax.swing.JComponent;
  * Is the text area not in a scroll pane?
  */
 public class TextAreaNotInScrollPaneState extends State {
+
+    /**
+     * Creates a new TextAreaNotInScrollPaneState object.
+     */
     public TextAreaNotInScrollPaneState() {
         super("NotInScrollPane");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         return !(c.getParent() instanceof javax.swing.JViewport);
     }

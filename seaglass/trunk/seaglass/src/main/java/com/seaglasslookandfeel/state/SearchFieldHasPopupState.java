@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -28,10 +28,17 @@ import javax.swing.text.JTextComponent;
  * Is the text field a search field variant with a popup menu?
  */
 public class SearchFieldHasPopupState extends State {
+
+    /**
+     * Creates a new SearchFieldHasPopupState object.
+     */
     public SearchFieldHasPopupState() {
         super("HasPopup");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         if (c instanceof JButton && c.getParent() != null && c.getParent() instanceof JTextComponent) {
             c = (JComponent) c.getParent();
@@ -44,6 +51,7 @@ public class SearchFieldHasPopupState extends State {
         }
 
         Object o = c.getClientProperty("JTextField.Search.FindPopup");
+
         return (o != null && o instanceof JPopupMenu);
     }
 }

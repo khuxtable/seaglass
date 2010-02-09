@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -28,17 +28,26 @@ import com.seaglasslookandfeel.ui.SeaGlassScrollBarUI;
  * Is scroll bar button the increase button (right or down)?
  */
 public class ScrollBarButtonIsIncreaseButtonState extends State {
+
+    /**
+     * Creates a new ScrollBarButtonIsIncreaseButtonState object.
+     */
     public ScrollBarButtonIsIncreaseButtonState() {
         super("IncreaseButton");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         if (c != null && c.getParent() != null) {
             SeaGlassScrollBarUI ui = (SeaGlassScrollBarUI) ((JScrollBar) c.getParent()).getUI();
+
             if (ui.getIncreaseButton() == c) {
                 return true;
             }
         }
+
         return false;
     }
 }

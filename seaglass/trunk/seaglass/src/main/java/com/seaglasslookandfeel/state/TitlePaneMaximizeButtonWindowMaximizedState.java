@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -31,23 +31,35 @@ import javax.swing.RootPaneContainer;
  * Is the window for this maximize button in maximized state?
  */
 public class TitlePaneMaximizeButtonWindowMaximizedState extends State {
+
+    /**
+     * Creates a new TitlePaneMaximizeButtonWindowMaximizedState object.
+     */
     public TitlePaneMaximizeButtonWindowMaximizedState() {
         super("WindowMaximized");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         Component parent = c;
+
         while (parent.getParent() != null) {
+
             if (parent instanceof RootPaneContainer) {
                 break;
             }
+
             parent = parent.getParent();
         }
+
         if (parent instanceof JFrame) {
             return (((JFrame) parent).getExtendedState() & Frame.MAXIMIZED_BOTH) != 0;
         } else if (parent instanceof JInternalFrame) {
             return ((JInternalFrame) parent).isMaximum();
         }
+
         return false;
     }
 }

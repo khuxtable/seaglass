@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -28,12 +28,20 @@ import javax.swing.JComponent;
  * Is Combo Box in editable state. Called from Arrow Button.
  */
 public class ComboBoxArrowButtonEditableState extends State {
+
+    /**
+     * Creates a new ComboBoxArrowButtonEditableState object.
+     */
     public ComboBoxArrowButtonEditableState() {
         super("Editable");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         Component parent = c.getParent();
+
         return parent instanceof JComboBox && ((JComboBox) parent).isEditable();
     }
 }

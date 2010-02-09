@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -27,10 +27,17 @@ import javax.swing.UIManager;
  * Are scroll bar buttons to be placed together or apart?
  */
 public class ScrollBarButtonsTogetherState extends State {
+
+    /**
+     * Creates a new ScrollBarButtonsTogetherState object.
+     */
     public ScrollBarButtonsTogetherState() {
         super("ButtonsTogether");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         while (c != null && !(c instanceof JScrollBar)) {
             c = (JComponent) c.getParent();
@@ -38,6 +45,7 @@ public class ScrollBarButtonsTogetherState extends State {
 
         if (c != null) {
             Object clientProperty = c.getClientProperty("SeaGlass.Override.ScrollBarButtonsTogether");
+
             if (clientProperty != null && clientProperty instanceof Boolean) {
                 return (Boolean) clientProperty;
             }
