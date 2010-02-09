@@ -38,14 +38,14 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractCommonColors
     private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
     private PaintContext                 ctx;
-    private CommonControlType            type;
+    private CommonControlState            type;
     private boolean                      focused;
 
     public SpinnerFormattedTextFieldPainter(Which state) {
         super();
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
 
-        type = (state == Which.BACKGROUND_DISABLED) ? CommonControlType.DISABLED : CommonControlType.ENABLED;
+        type = (state == Which.BACKGROUND_DISABLED) ? CommonControlState.DISABLED : CommonControlState.ENABLED;
         focused = (state == Which.BACKGROUND_FOCUSED || state == Which.BACKGROUND_SELECTED_FOCUSED);
     }
 

@@ -49,7 +49,7 @@ public final class ComboBoxArrowButtonPainter extends AbstractCommonColorsPainte
     private Which        state;
     private PaintContext ctx;
 
-    private CommonControlType type;
+    private CommonControlState type;
 
     /**
      * Creates a new ComboBoxArrowButtonPainter object.
@@ -101,34 +101,34 @@ public final class ComboBoxArrowButtonPainter extends AbstractCommonColorsPainte
     }
 
     /**
-     * Get the CommonControlType for the state.
+     * Get the CommonControlState for the state.
      *
      * @param  state the control state.
      *
      * @return the common control color state.
      */
-    private CommonControlType getButtonType(Which state) {
+    private CommonControlState getButtonType(Which state) {
         switch (state) {
 
         case BACKGROUND_DISABLED:
-            return CommonControlType.DISABLED;
+            return CommonControlState.DISABLED;
 
         case BACKGROUND_ENABLED:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
 
         case BACKGROUND_PRESSED:
         case BACKGROUND_SELECTED:
-            return CommonControlType.PRESSED;
+            return CommonControlState.PRESSED;
 
         case FOREGROUND_ENABLED:
         case FOREGROUND_PRESSED:
         case FOREGROUND_SELECTED:
         case FOREGROUND_ENABLED_EDITABLE:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
 
         case FOREGROUND_DISABLED:
         case FOREGROUND_DISABLED_EDITABLE:
-            return CommonControlType.DISABLED;
+            return CommonControlState.DISABLED;
         }
 
         return null;
@@ -227,7 +227,7 @@ public final class ComboBoxArrowButtonPainter extends AbstractCommonColorsPainte
      *
      * @return DOCUMENT ME!
      */
-    public Paint getComboBoxButtonBorderPaint(Shape s, CommonControlType type) {
+    public Paint getComboBoxButtonBorderPaint(Shape s, CommonControlState type) {
         TwoColors colors = getCommonBorderColors(type);
 
         return createVerticalGradient(s, colors);
@@ -241,45 +241,45 @@ public final class ComboBoxArrowButtonPainter extends AbstractCommonColorsPainte
      *
      * @return DOCUMENT ME!
      */
-    public Paint getComboBoxButtonInteriorPaint(Shape s, CommonControlType type) {
+    public Paint getComboBoxButtonInteriorPaint(Shape s, CommonControlState type) {
         FourColors colors = getCommonInteriorColors(type);
 
         return createVerticalGradient(s, colors);
     }
 
     /**
-     * @see com.seaglasslookandfeel.painter.AbstractCommonColorsPainter#getCommonBorderColors(com.seaglasslookandfeel.painter.AbstractRegionPainter$CommonControlType)
+     * @see com.seaglasslookandfeel.painter.AbstractCommonColorsPainter#getCommonBorderColors(com.seaglasslookandfeel.painter.AbstractRegionPainter$CommonControlState)
      */
-    public TwoColors getCommonBorderColors(CommonControlType type) {
+    public TwoColors getCommonBorderColors(CommonControlState type) {
         switch (type) {
 
         case DISABLED:
-            return super.getCommonBorderColors(CommonControlType.DISABLED);
+            return super.getCommonBorderColors(CommonControlState.DISABLED);
 
         case ENABLED:
-            return super.getCommonBorderColors(CommonControlType.PRESSED);
+            return super.getCommonBorderColors(CommonControlState.PRESSED);
 
         case PRESSED:
-            return super.getCommonBorderColors(CommonControlType.PRESSED_SELECTED);
+            return super.getCommonBorderColors(CommonControlState.PRESSED_SELECTED);
         }
 
         return null;
     }
 
     /**
-     * @see com.seaglasslookandfeel.painter.AbstractCommonColorsPainter#getCommonInteriorColors(com.seaglasslookandfeel.painter.AbstractRegionPainter$CommonControlType)
+     * @see com.seaglasslookandfeel.painter.AbstractCommonColorsPainter#getCommonInteriorColors(com.seaglasslookandfeel.painter.AbstractRegionPainter$CommonControlState)
      */
-    public FourColors getCommonInteriorColors(CommonControlType type) {
+    public FourColors getCommonInteriorColors(CommonControlState type) {
         switch (type) {
 
         case DISABLED:
-            return super.getCommonInteriorColors(CommonControlType.DISABLED);
+            return super.getCommonInteriorColors(CommonControlState.DISABLED);
 
         case ENABLED:
-            return super.getCommonInteriorColors(CommonControlType.PRESSED);
+            return super.getCommonInteriorColors(CommonControlState.PRESSED);
 
         case PRESSED:
-            return super.getCommonInteriorColors(CommonControlType.PRESSED_SELECTED);
+            return super.getCommonInteriorColors(CommonControlState.PRESSED_SELECTED);
         }
 
         return null;

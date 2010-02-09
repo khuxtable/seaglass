@@ -62,7 +62,7 @@ public final class CheckBoxPainter extends AbstractCommonColorsPainter {
 
     private Effect dropShadow = new SeaGlassDropShadowEffect();
 
-    private CommonControlType type;
+    private CommonControlState type;
 
     /**
      * Creates a new CheckBoxPainter object.
@@ -141,36 +141,36 @@ public final class CheckBoxPainter extends AbstractCommonColorsPainter {
     }
 
     /**
-     * Get the CommonControlType for the state.
+     * Get the CommonControlState for the state.
      *
      * @param  state the control state.
      *
      * @return the common control color state.
      */
-    private CommonControlType getControlType(Which state) {
+    private CommonControlState getControlType(Which state) {
         switch (state) {
 
         case ICON_DISABLED:
-            return CommonControlType.DISABLED;
+            return CommonControlState.DISABLED;
 
         case ICON_ENABLED:
         case ICON_FOCUSED:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
 
         case ICON_PRESSED:
         case ICON_PRESSED_FOCUSED:
-            return CommonControlType.PRESSED;
+            return CommonControlState.PRESSED;
 
         case ICON_SELECTED:
         case ICON_SELECTED_FOCUSED:
-            return CommonControlType.SELECTED;
+            return CommonControlState.SELECTED;
 
         case ICON_PRESSED_SELECTED:
         case ICON_PRESSED_SELECTED_FOCUSED:
-            return CommonControlType.PRESSED_SELECTED;
+            return CommonControlState.PRESSED_SELECTED;
 
         case ICON_DISABLED_SELECTED:
-            return CommonControlType.DISABLED_SELECTED;
+            return CommonControlState.DISABLED_SELECTED;
         }
 
         return null;
@@ -201,7 +201,7 @@ public final class CheckBoxPainter extends AbstractCommonColorsPainter {
      *
      * @return the paint to use for the check mark.
      */
-    public Paint getCheckBoxBulletPaint(Shape s, CommonControlType type) {
+    public Paint getCheckBoxBulletPaint(Shape s, CommonControlState type) {
         return createCheckMarkGradient(s, getCheckBoxBulletColors(type));
     }
 
@@ -212,7 +212,7 @@ public final class CheckBoxPainter extends AbstractCommonColorsPainter {
      *
      * @return the color set.
      */
-    private TwoColors getCheckBoxBulletColors(CommonControlType type) {
+    private TwoColors getCheckBoxBulletColors(CommonControlState type) {
         switch (type) {
 
         case DISABLED:

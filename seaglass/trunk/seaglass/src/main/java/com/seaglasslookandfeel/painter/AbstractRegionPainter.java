@@ -62,20 +62,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     private static final State inToolBarState = new ControlInToolBarState();
 
     /**
-     * DOCUMENT ME!
-     *
-     * @author  $author$
-     * @version $Revision$, $Date$
-     */
-    public enum CommonControlType {
-        ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED, SELECTED, PRESSED_SELECTED,
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @author  $author$
-     * @version $Revision$, $Date$
+     * Focus ring color state.
      */
     public enum FocusType {
         INNER_FOCUS, OUTER_FOCUS,
@@ -177,13 +164,13 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     protected abstract PaintContext getPaintContext();
 
     /**
-     * DOCUMENT ME!
+     * Get the paint to use for a focus ring.
      *
-     * @param  s               DOCUMENT ME!
-     * @param  focusType       DOCUMENT ME!
-     * @param  useToolBarFocus DOCUMENT ME!
+     * @param  s               the shape to paint.
+     * @param  focusType       the focus type.
+     * @param  useToolBarFocus whether we should use the colors for a toolbar control.
      *
-     * @return DOCUMENT ME!
+     * @return the paint to use to paint the focus ring.
      */
     public Paint getFocusPaint(Shape s, FocusType focusType, boolean useToolBarFocus) {
         if (focusType == FocusType.OUTER_FOCUS) {

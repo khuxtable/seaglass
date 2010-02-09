@@ -57,13 +57,13 @@ public final class TableHeaderRendererPainter extends AbstractCommonColorsPainte
 
     private FourColors        tableHeaderEnabled             = new FourColors(tableHeaderTopEnabled, tableHeaderUpperMidEnabled,
                                                                  tableHeaderLowerMidEnabled, tableHeaderBottomEnabled);
-    private FourColors        tableHeaderSorted              = getCommonInteriorColors(CommonControlType.SELECTED);
-    private FourColors        tableHeaderPressed             = getCommonInteriorColors(CommonControlType.PRESSED);
+    private FourColors        tableHeaderSorted              = getCommonInteriorColors(CommonControlState.SELECTED);
+    private FourColors        tableHeaderPressed             = getCommonInteriorColors(CommonControlState.PRESSED);
     private FourColors        tableHeaderDisabled            = disable(tableHeaderEnabled);
     private FourColors        tableHeaderDisabledSorted      = disable(tableHeaderSorted);
 
     private PaintContext      ctx;
-    private CommonControlType type;
+    private CommonControlState type;
     private boolean           isSorted;
 
     public TableHeaderRendererPainter(Which state) {
@@ -89,36 +89,36 @@ public final class TableHeaderRendererPainter extends AbstractCommonColorsPainte
         return ctx;
     }
 
-    private CommonControlType getButtonType(Which state) {
+    private CommonControlState getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return CommonControlType.DISABLED;
+            return CommonControlState.DISABLED;
         case BACKGROUND_ENABLED:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
         case BACKGROUND_ENABLED_FOCUSED:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
         case BACKGROUND_PRESSED:
-            return CommonControlType.PRESSED;
+            return CommonControlState.PRESSED;
         case BACKGROUND_ENABLED_SORTED:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
         case BACKGROUND_ENABLED_FOCUSED_SORTED:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
         case BACKGROUND_DISABLED_SORTED:
-            return CommonControlType.DISABLED;
+            return CommonControlState.DISABLED;
         }
         return null;
     }
 
-    public Paint getTableHeaderBorderPaint(CommonControlType type) {
-        return type == CommonControlType.DISABLED ? tableHeaderBorderDisabled : tableHeaderBorderEnabled;
+    public Paint getTableHeaderBorderPaint(CommonControlState type) {
+        return type == CommonControlState.DISABLED ? tableHeaderBorderDisabled : tableHeaderBorderEnabled;
     }
 
-    public Paint getTableHeaderInteriorPaint(Shape s, CommonControlType type, boolean isSorted) {
+    public Paint getTableHeaderInteriorPaint(Shape s, CommonControlState type, boolean isSorted) {
         FourColors colors = getTableHeaderColors(type, isSorted);
         return createVerticalGradient(s, colors);
     }
 
-    private FourColors getTableHeaderColors(CommonControlType type, boolean isSorted) {
+    private FourColors getTableHeaderColors(CommonControlState type, boolean isSorted) {
         switch (type) {
         case DISABLED:
             return isSorted ? tableHeaderDisabledSorted : tableHeaderDisabled;
