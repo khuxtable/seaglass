@@ -30,7 +30,6 @@ import javax.swing.SwingConstants;
 import javax.swing.plaf.UIResource;
 
 import com.seaglasslookandfeel.SeaGlassContext;
-
 import com.seaglasslookandfeel.ui.SeaGlassButtonUI;
 
 /**
@@ -123,7 +122,7 @@ public class SeaGlassArrowButton extends JButton implements SwingConstants, UIRe
             SeaGlassArrowButton button = (SeaGlassArrowButton) context.getComponent();
 
             context.getPainter().paintArrowButtonForeground(context, g, 0, 0, button.getWidth(), button.getHeight(),
-                button.getDirection());
+                                                            button.getDirection());
         }
 
         /**

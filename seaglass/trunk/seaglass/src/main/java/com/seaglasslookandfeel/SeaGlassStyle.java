@@ -54,11 +54,8 @@ import javax.swing.plaf.synth.SynthPainter;
 import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.component.SeaGlassBorder;
-
 import com.seaglasslookandfeel.painter.Painter;
-
 import com.seaglasslookandfeel.state.State;
-
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
 import sun.awt.AppContext;

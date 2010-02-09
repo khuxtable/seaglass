@@ -76,7 +76,6 @@ import javax.swing.plaf.synth.SynthStyleFactory;
 import com.seaglasslookandfeel.component.SeaGlassIcon;
 import com.seaglasslookandfeel.component.SeaGlassTitlePane;
 import com.seaglasslookandfeel.component.TableScrollPaneCorner;
-
 import com.seaglasslookandfeel.painter.ArrowButtonPainter;
 import com.seaglasslookandfeel.painter.ButtonPainter;
 import com.seaglasslookandfeel.painter.CheckBoxMenuItemPainter;
@@ -121,7 +120,6 @@ import com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter;
 import com.seaglasslookandfeel.painter.TreeCellEditorPainter;
 import com.seaglasslookandfeel.painter.TreeCellPainter;
 import com.seaglasslookandfeel.painter.TreePainter;
-
 import com.seaglasslookandfeel.state.ComboBoxArrowButtonEditableState;
 import com.seaglasslookandfeel.state.ComboBoxEditableState;
 import com.seaglasslookandfeel.state.InternalFrameWindowFocusedState;
@@ -150,7 +148,6 @@ import com.seaglasslookandfeel.state.TitlePaneMaximizeButtonWindowNotFocusedStat
 import com.seaglasslookandfeel.state.TitlePaneMenuButtonWindowNotFocusedState;
 import com.seaglasslookandfeel.state.TitlePaneWindowFocusedState;
 import com.seaglasslookandfeel.state.ToolBarWindowIsActiveState;
-
 import com.seaglasslookandfeel.util.MacKeybindings;
 import com.seaglasslookandfeel.util.PlatformUtils;
 
@@ -584,7 +581,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             // Instantiate Aqua but don't install it.
             Class<?>    lnfClass     = Class.forName(UIManager.getSystemLookAndFeelClassName(), true,
-                    Thread.currentThread().getContextClassLoader());
+                                                     Thread.currentThread().getContextClassLoader());
             LookAndFeel aqua         = (LookAndFeel) lnfClass.newInstance();
             UIDefaults  aquaDefaults = aqua.getDefaults();
 
@@ -651,8 +648,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Default+Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DEFAULT_FOCUSED));
         d.put(p + "[Default+Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_DEFAULT));
         d.put(p + "[Default+Focused+Pressed].backgroundPainter",
-            new LazyPainter(c,
-                ButtonPainter.Which.BACKGROUND_PRESSED_DEFAULT_FOCUSED));
+              new LazyPainter(c,
+                              ButtonPainter.Which.BACKGROUND_PRESSED_DEFAULT_FOCUSED));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_FOCUSED));
@@ -671,17 +668,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_FOCUSED));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Focused+Pressed].backgroundPainter",
-            new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+              new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Focused+Selected].backgroundPainter",
-            new LazyPainter(c, ButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+              new LazyPainter(c, ButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
         d.put(p + "[Pressed+Selected].backgroundPainter",
-            new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
+              new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
         d.put(p + "[Focused+Pressed+Selected].backgroundPainter",
-            new LazyPainter(c,
-                ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
+              new LazyPainter(c,
+                              ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
         d.put(p + "[Disabled+Selected].backgroundPainter",
-            new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
+              new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
 
         // Initialize CheckBox
         p = "CheckBox";
@@ -697,7 +694,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Focused+Selected].iconPainter", new LazyPainter(c, CheckBoxPainter.Which.ICON_SELECTED_FOCUSED));
         d.put(p + "[Pressed+Selected].iconPainter", new LazyPainter(c, CheckBoxPainter.Which.ICON_PRESSED_SELECTED));
         d.put(p + "[Focused+Pressed+Selected].iconPainter",
-            new LazyPainter(c, CheckBoxPainter.Which.ICON_PRESSED_SELECTED_FOCUSED));
+              new LazyPainter(c, CheckBoxPainter.Which.ICON_PRESSED_SELECTED_FOCUSED));
         d.put(p + "[Disabled+Selected].iconPainter", new LazyPainter(c, CheckBoxPainter.Which.ICON_DISABLED_SELECTED));
         d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 18, 18));
 
@@ -715,8 +712,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Focused+Selected].iconPainter", new LazyPainter(c, RadioButtonPainter.Which.ICON_SELECTED_FOCUSED));
         d.put(p + "[Pressed+Selected].iconPainter", new LazyPainter(c, RadioButtonPainter.Which.ICON_PRESSED_SELECTED));
         d.put(p + "[Focused+Pressed+Selected].iconPainter",
-            new LazyPainter(c,
-                RadioButtonPainter.Which.ICON_PRESSED_SELECTED_FOCUSED));
+              new LazyPainter(c,
+                              RadioButtonPainter.Which.ICON_PRESSED_SELECTED_FOCUSED));
         d.put(p + "[Disabled+Selected].iconPainter", new LazyPainter(c, RadioButtonPainter.Which.ICON_DISABLED_SELECTED));
         d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 18, 18));
     }
@@ -746,7 +743,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Enabled+Selected].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_ENABLED_SELECTED));
 
         d.put(p + "[Disabled+Editable].backgroundPainter",
-            new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_DISABLED_EDITABLE));
+              new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_DISABLED_EDITABLE));
         d.put(p + "[Editable+Enabled].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_ENABLED_EDITABLE));
         d.put(p + "[Editable+Focused].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_FOCUSED_EDITABLE));
         d.put(p + "[Editable+Pressed].backgroundPainter", new LazyPainter(c, ComboBoxPainter.Which.BACKGROUND_PRESSED_EDITABLE));
@@ -757,21 +754,21 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".size", new Integer(22));
         d.put(p + ".States", "Enabled,Pressed,Disabled,Editable");
         d.put(p + "[Disabled+Editable].backgroundPainter",
-            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_DISABLED));
+              new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Editable+Enabled].backgroundPainter",
-            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_ENABLED));
+              new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Editable+Pressed].backgroundPainter",
-            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_PRESSED));
+              new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Editable+Selected].backgroundPainter",
-            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_SELECTED));
+              new LazyPainter(c, ComboBoxArrowButtonPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_PRESSED));
         d.put(p + "[Selected].foregroundPainter", new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_SELECTED));
         d.put(p + "[Editable].foregroundPainter",
-            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_ENABLED_EDITABLE));
+              new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_ENABLED_EDITABLE));
         d.put(p + "[Editable+Disabled].foregroundPainter",
-            new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_DISABLED_EDITABLE));
+              new LazyPainter(c, ComboBoxArrowButtonPainter.Which.FOREGROUND_DISABLED_EDITABLE));
 
         // Textfield
         c = PAINTER_PREFIX + "ComboBoxTextFieldPainter";
@@ -844,8 +841,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Enabled+WindowFocused].backgroundPainter",
-            new LazyPainter(c,
-                FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
+              new LazyPainter(c,
+                              FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
 
         p = "InternalFrameTitlePane";
         d.put(p + ".buttonSpacing", 0);
@@ -872,17 +869,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Enabled+MouseOver].backgroundPainter",
-            new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
+              new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Enabled+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneCloseButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneCloseButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
         d.put(p + "[Enabled+WindowNotFocused+MouseOver].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
+              new LazyPainter(c,
+                              TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[Pressed+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneCloseButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneCloseButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
 
         d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 43, 18));
     }
@@ -907,37 +904,37 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Enabled+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneIconifyButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
         d.put(p + "[MouseOver+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneIconifyButtonPainter.Which.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED));
         d.put(p + "[Pressed+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneIconifyButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
 
         // Set the restore button states.
         d.put(p + "[Disabled+WindowMinimized].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_DISABLED));
+              new LazyPainter(c,
+                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_DISABLED));
         d.put(p + "[Enabled+WindowMinimized].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_ENABLED));
+              new LazyPainter(c,
+                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_ENABLED));
         d.put(p + "[MouseOver+WindowMinimized].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_MOUSEOVER));
+              new LazyPainter(c,
+                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_MOUSEOVER));
         d.put(p + "[Pressed+WindowMinimized].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_PRESSED));
+              new LazyPainter(c,
+                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_PRESSED));
         d.put(p + "[Enabled+WindowMinimized+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_ENABLED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_ENABLED_WINDOWNOTFOCUSED));
         d.put(p + "[MouseOver+WindowMinimized+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_MOUSEOVER_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_MOUSEOVER_WINDOWNOTFOCUSED));
         d.put(p + "[Pressed+WindowMinimized+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_PRESSED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_MINIMIZED_PRESSED_WINDOWNOTFOCUSED));
 
         d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 26, 18));
     }
@@ -961,37 +958,37 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TitlePaneMaximizeButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Enabled+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneMaximizeButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneMaximizeButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
         d.put(p + "[MouseOver+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED));
         d.put(p + "[Pressed+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneMaximizeButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneMaximizeButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
 
         // Set the restore button states.
         d.put(p + "[Disabled+WindowMaximized].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_DISABLED));
+              new LazyPainter(c,
+                              TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_DISABLED));
         d.put(p + "[Enabled+WindowMaximized].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_ENABLED));
+              new LazyPainter(c,
+                              TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_ENABLED));
         d.put(p + "[MouseOver+WindowMaximized].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_MOUSEOVER));
+              new LazyPainter(c,
+                              TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_MOUSEOVER));
         d.put(p + "[Pressed+WindowMaximized].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_PRESSED));
+              new LazyPainter(c,
+                              TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_PRESSED));
         d.put(p + "[Enabled+WindowMaximized+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_ENABLED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_ENABLED_WINDOWNOTFOCUSED));
         d.put(p + "[MouseOver+WindowMaximized+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_MOUSEOVER_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_MOUSEOVER_WINDOWNOTFOCUSED));
         d.put(p + "[Pressed+WindowMaximized+WindowNotFocused].backgroundPainter",
-            new LazyPainter(c,
-                TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_PRESSED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneMaximizeButtonPainter.Which.BACKGROUND_MAXIMIZED_PRESSED_WINDOWNOTFOCUSED));
 
         d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 25, 18));
     }
@@ -1014,14 +1011,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[MouseOver].iconPainter", new LazyPainter(c, TitlePaneMenuButtonPainter.Which.ICON_MOUSEOVER));
         d.put(p + "[Pressed].iconPainter", new LazyPainter(c, TitlePaneMenuButtonPainter.Which.ICON_PRESSED));
         d.put(p + "[Enabled+WindowNotFocused].iconPainter",
-            new LazyPainter(c,
-                TitlePaneMenuButtonPainter.Which.ICON_ENABLED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneMenuButtonPainter.Which.ICON_ENABLED_WINDOWNOTFOCUSED));
         d.put(p + "[MouseOver+WindowNotFocused].iconPainter",
-            new LazyPainter(c,
-                TitlePaneMenuButtonPainter.Which.ICON_MOUSEOVER_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneMenuButtonPainter.Which.ICON_MOUSEOVER_WINDOWNOTFOCUSED));
         d.put(p + "[Pressed+WindowNotFocused].iconPainter",
-            new LazyPainter(c,
-                TitlePaneMenuButtonPainter.Which.ICON_PRESSED_WINDOWNOTFOCUSED));
+              new LazyPainter(c,
+                              TitlePaneMenuButtonPainter.Which.ICON_PRESSED_WINDOWNOTFOCUSED));
 
         d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 19, 18));
     }
@@ -1043,8 +1040,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".rendererUseUIBorder", Boolean.TRUE);
         d.put(p + ".cellNoFocusBorder", new BorderUIResource(BorderFactory.createEmptyBorder(2, 5, 2, 5)));
         d.put(p + ".focusCellHighlightBorder",
-            new BorderUIResource(new PainterBorder("Tree:TreeCell[Enabled+Focused].backgroundPainter",
-                    new Insets(2, 5, 2, 5))));
+              new BorderUIResource(new PainterBorder("Tree:TreeCell[Enabled+Focused].backgroundPainter",
+                                                     new Insets(2, 5, 2, 5))));
 
         // TODO Why doesn't ColorUIResource work here?
         d.put(p + "[Selected].textForeground", Color.WHITE);
@@ -1135,14 +1132,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, CheckBoxMenuItemPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[MouseOver+Selected].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[MouseOver+Selected].backgroundPainter",
-            new LazyPainter(c,
-                CheckBoxMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
+              new LazyPainter(c,
+                              CheckBoxMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
         d.put(p + "[Disabled+Selected].checkIconPainter",
-            new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_DISABLED_SELECTED));
+              new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_DISABLED_SELECTED));
         d.put(p + "[Enabled+Selected].checkIconPainter",
-            new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_ENABLED_SELECTED));
+              new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_ENABLED_SELECTED));
         d.put(p + "[MouseOver+Selected].checkIconPainter",
-            new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_SELECTED_MOUSEOVER));
+              new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_SELECTED_MOUSEOVER));
         d.put(p + ".checkIcon", new SeaGlassIcon(p, "checkIconPainter", 9, 10));
 
         p = "CheckBoxMenuItem:MenuItemAccelerator";
@@ -1160,14 +1157,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, RadioButtonMenuItemPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[MouseOver+Selected].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[MouseOver+Selected].backgroundPainter",
-            new LazyPainter(c,
-                RadioButtonMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
+              new LazyPainter(c,
+                              RadioButtonMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
         d.put(p + "[Disabled+Selected].checkIconPainter",
-            new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_DISABLED_SELECTED));
+              new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_DISABLED_SELECTED));
         d.put(p + "[Enabled+Selected].checkIconPainter",
-            new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_ENABLED_SELECTED));
+              new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_ENABLED_SELECTED));
         d.put(p + "[MouseOver+Selected].checkIconPainter",
-            new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_SELECTED_MOUSEOVER));
+              new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_SELECTED_MOUSEOVER));
         d.put(p + ".checkIcon", new SeaGlassIcon(p, "checkIconPainter", 9, 10));
 
         p = "RadioButtonMenuItem:MenuItemAccelerator";
@@ -1238,17 +1235,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Enabled+Finished].foregroundPainter",
-            new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED_FINISHED));
+              new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED_FINISHED));
         d.put(p + "[Enabled+Indeterminate].foregroundPainter",
-            new LazyPainter(c,
-                ProgressBarPainter.Which.FOREGROUND_ENABLED_INDETERMINATE));
+              new LazyPainter(c,
+                              ProgressBarPainter.Which.FOREGROUND_ENABLED_INDETERMINATE));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Disabled+Finished].foregroundPainter",
-            new LazyPainter(c,
-                ProgressBarPainter.Which.FOREGROUND_DISABLED_FINISHED));
+              new LazyPainter(c,
+                              ProgressBarPainter.Which.FOREGROUND_DISABLED_FINISHED));
         d.put(p + "[Disabled+Indeterminate].foregroundPainter",
-            new LazyPainter(c,
-                ProgressBarPainter.Which.FOREGROUND_DISABLED_INDETERMINATE));
+              new LazyPainter(c,
+                              ProgressBarPainter.Which.FOREGROUND_DISABLED_INDETERMINATE));
     }
 
     /**
@@ -1267,11 +1264,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".WindowFocused", new RootPaneWindowFocusedState());
 
         d.put(p + "[Enabled+NoFrame].backgroundPainter",
-            new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED_NOFRAME));
+              new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED_NOFRAME));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Enabled+WindowFocused].backgroundPainter",
-            new LazyPainter(c,
-                FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
+              new LazyPainter(c,
+                              FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
     }
 
     /**
@@ -1304,31 +1301,31 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_PRESSED));
         d.put(p + "[IncreaseButton+Enabled].foregroundPainter",
-            new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED));
+              new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED));
         d.put(p + "[IncreaseButton+Disabled].foregroundPainter",
-            new LazyPainter(c,
-                ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED));
+              new LazyPainter(c,
+                              ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED));
         d.put(p + "[IncreaseButton+Pressed].foregroundPainter",
-            new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED));
+              new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED));
 
         d.put(p + "[Enabled+ButtonsTogether].foregroundPainter",
-            new LazyPainter(c,
-                ScrollBarButtonPainter.Which.FOREGROUND_ENABLED_TOGETHER));
+              new LazyPainter(c,
+                              ScrollBarButtonPainter.Which.FOREGROUND_ENABLED_TOGETHER));
         d.put(p + "[Disabled+ButtonsTogether].foregroundPainter",
-            new LazyPainter(c,
-                ScrollBarButtonPainter.Which.FOREGROUND_DISABLED_TOGETHER));
+              new LazyPainter(c,
+                              ScrollBarButtonPainter.Which.FOREGROUND_DISABLED_TOGETHER));
         d.put(p + "[Pressed+ButtonsTogether].foregroundPainter",
-            new LazyPainter(c,
-                ScrollBarButtonPainter.Which.FOREGROUND_PRESSED_TOGETHER));
+              new LazyPainter(c,
+                              ScrollBarButtonPainter.Which.FOREGROUND_PRESSED_TOGETHER));
         d.put(p + "[IncreaseButton+Enabled+ButtonsTogether].foregroundPainter",
-            new LazyPainter(c,
-                ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED_TOGETHER));
+              new LazyPainter(c,
+                              ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED_TOGETHER));
         d.put(p + "[IncreaseButton+Disabled+ButtonsTogether].foregroundPainter",
-            new LazyPainter(c,
-                ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED_TOGETHER));
+              new LazyPainter(c,
+                              ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED_TOGETHER));
         d.put(p + "[IncreaseButton+Pressed+ButtonsTogether].foregroundPainter",
-            new LazyPainter(c,
-                ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED_TOGETHER));
+              new LazyPainter(c,
+                              ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED_TOGETHER));
 
         // Thumb
         // Seems to be a bug somewhere where MouseOver is always delivered even
@@ -1393,34 +1390,34 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_FOCUSED));
         d.put(p + "[Focused+MouseOver].backgroundPainter",
-            new LazyPainter(c,
-                SliderThumbPainter.Which.BACKGROUND_FOCUSED_MOUSEOVER));
+              new LazyPainter(c,
+                              SliderThumbPainter.Which.BACKGROUND_FOCUSED_MOUSEOVER));
         d.put(p + "[Focused+Pressed].backgroundPainter",
-            new LazyPainter(c,
-                SliderThumbPainter.Which.BACKGROUND_FOCUSED_PRESSED));
+              new LazyPainter(c,
+                              SliderThumbPainter.Which.BACKGROUND_FOCUSED_PRESSED));
         d.put(p + "[MouseOver].backgroundPainter",
-            new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_MOUSEOVER));
+              new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[ArrowShape+Enabled].backgroundPainter",
-            new LazyPainter(c,
-                SliderThumbPainter.Which.BACKGROUND_ENABLED_ARROWSHAPE));
+              new LazyPainter(c,
+                              SliderThumbPainter.Which.BACKGROUND_ENABLED_ARROWSHAPE));
         d.put(p + "[ArrowShape+Disabled].backgroundPainter",
-            new LazyPainter(c,
-                SliderThumbPainter.Which.BACKGROUND_DISABLED_ARROWSHAPE));
+              new LazyPainter(c,
+                              SliderThumbPainter.Which.BACKGROUND_DISABLED_ARROWSHAPE));
         d.put(p + "[ArrowShape+MouseOver].backgroundPainter",
-            new LazyPainter(c,
-                SliderThumbPainter.Which.BACKGROUND_MOUSEOVER_ARROWSHAPE));
+              new LazyPainter(c,
+                              SliderThumbPainter.Which.BACKGROUND_MOUSEOVER_ARROWSHAPE));
         d.put(p + "[ArrowShape+Pressed].backgroundPainter",
-            new LazyPainter(c,
-                SliderThumbPainter.Which.BACKGROUND_PRESSED_ARROWSHAPE));
+              new LazyPainter(c,
+                              SliderThumbPainter.Which.BACKGROUND_PRESSED_ARROWSHAPE));
         d.put(p + "[ArrowShape+Focused].backgroundPainter",
-            new LazyPainter(c,
-                SliderThumbPainter.Which.BACKGROUND_FOCUSED_ARROWSHAPE));
+              new LazyPainter(c,
+                              SliderThumbPainter.Which.BACKGROUND_FOCUSED_ARROWSHAPE));
         d.put(p + "[ArrowShape+Focused+MouseOver].backgroundPainter",
-            new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_FOCUSED_MOUSEOVER_ARROWSHAPE));
+              new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_FOCUSED_MOUSEOVER_ARROWSHAPE));
         d.put(p + "[ArrowShape+Focused+Pressed].backgroundPainter",
-            new LazyPainter(c,
-                SliderThumbPainter.Which.BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE));
+              new LazyPainter(c,
+                              SliderThumbPainter.Which.BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE));
 
         p = "Slider:SliderTrack";
         c = PAINTER_PREFIX + "SliderTrackPainter";
@@ -1461,8 +1458,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_FOCUSED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Focused+Selected].backgroundPainter",
-            new LazyPainter(c,
-                SpinnerFormattedTextFieldPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+              new LazyPainter(c,
+                              SpinnerFormattedTextFieldPainter.Which.BACKGROUND_SELECTED_FOCUSED));
 
         c = PAINTER_PREFIX + "SpinnerPreviousButtonPainter";
         p = "Spinner:\"Spinner.previousButton\"";
@@ -1472,13 +1469,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_FOCUSED));
         d.put(p + "[Focused+Pressed].backgroundPainter",
-            new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+              new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_FOCUSED));
         d.put(p + "[Focused+Pressed].foregroundPainter",
-            new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
+              new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED));
 
         c = PAINTER_PREFIX + "SpinnerNextButtonPainter";
@@ -1489,13 +1486,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_FOCUSED));
         d.put(p + "[Focused+Pressed].backgroundPainter",
-            new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+              new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_FOCUSED));
         d.put(p + "[Focused+Pressed].foregroundPainter",
-            new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
+              new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED));
     }
 
@@ -1530,10 +1527,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.BACKGROUND_FOCUSED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Enabled+Vertical].foregroundPainter",
-            new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_ENABLED_VERTICAL));
+              new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_ENABLED_VERTICAL));
         d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_FOCUSED));
         d.put(p + "[Focused+Vertical].foregroundPainter",
-            new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_FOCUSED_VERTICAL));
+              new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_FOCUSED_VERTICAL));
     }
 
     /**
@@ -1564,8 +1561,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
         d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
         d.put(p + "[Focused+Pressed+Selected].backgroundPainter",
-            new LazyPainter(c,
-                ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
+              new LazyPainter(c,
+                              ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
         d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
         d.put(p + "[Pressed+Selected].textForeground", Color.BLACK);
         d.put(p + "[Focused+Pressed+Selected].textForeground", Color.BLACK);
@@ -1582,15 +1579,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled+Top].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_TOP));
         d.put(p + "[Enabled+Left].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_LEFT));
         d.put(p + "[Disabled+Left].backgroundPainter",
-            new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_LEFT));
+              new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_LEFT));
         d.put(p + "[Enabled+Bottom].backgroundPainter",
-            new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_BOTTOM));
+              new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_BOTTOM));
         d.put(p + "[Disabled+Bottom].backgroundPainter",
-            new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_BOTTOM));
+              new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_BOTTOM));
         d.put(p + "[Enabled+Right].backgroundPainter",
-            new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_RIGHT));
+              new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_RIGHT));
         d.put(p + "[Disabled+Right].backgroundPainter",
-            new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_RIGHT));
+              new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_RIGHT));
 
         p = "TabbedPane:TabbedPaneContent";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
@@ -1631,15 +1628,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Enabled+Focused].backgroundPainter",
-            new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED));
+              new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Enabled+Sorted].backgroundPainter",
-            new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_SORTED));
+              new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_SORTED));
         d.put(p + "[Enabled+Focused+Sorted].backgroundPainter",
-            new LazyPainter(c,
-                TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED_SORTED));
+              new LazyPainter(c,
+                              TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED_SORTED));
         d.put(p + "[Disabled+Sorted].backgroundPainter",
-            new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_DISABLED_SORTED));
+              new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_DISABLED_SORTED));
     }
 
     /**
@@ -1662,9 +1659,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED));
         d.put(p + "[Enabled+HasPopup].foregroundPainter",
-            new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
+              new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
         d.put(p + "[Pressed+HasPopup].foregroundPainter",
-            new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
+              new LazyPainter(ci, SearchFieldIconPainter.Which.FIND_ICON_ENABLED_POPUP));
 
         // Initialize search field "cancel" button
         p = "TextField:SearchFieldCancelButton";
@@ -1764,9 +1761,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // TextArea not in scroll pane is visually the same as TextField.
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Disabled+NotInScrollPane].backgroundPainter",
-            new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
+              new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled+NotInScrollPane].backgroundPainter",
-            new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
+              new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Disabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_DISABLED));
         d.put(p + "[Focused+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_FOCUSED));
         d.put(p + "[Enabled+NotInScrollPane].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
@@ -1846,17 +1843,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_FOCUSED));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Focused+Pressed].backgroundPainter",
-            new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+              new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Focused+Selected].backgroundPainter",
-            new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+              new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
         d.put(p + "[Pressed+Selected].backgroundPainter",
-            new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
+              new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
         d.put(p + "[Focused+Pressed+Selected].backgroundPainter",
-            new LazyPainter(c,
-                ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
+              new LazyPainter(c,
+                              ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
         d.put(p + "[Disabled+Selected].backgroundPainter",
-            new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
+              new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
 
         uiDefaults.put("ToolBarSeparator[Enabled].backgroundPainter", null);
     }
@@ -1891,7 +1888,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         d.put(p + "[Enabled].collapsedIconPainter", new LazyPainter(c, TreePainter.Which.COLLAPSEDICON_ENABLED));
         d.put(p + "[Enabled+Selected].collapsedIconPainter",
-            new LazyPainter(c, TreePainter.Which.COLLAPSEDICON_ENABLED_SELECTED));
+              new LazyPainter(c, TreePainter.Which.COLLAPSEDICON_ENABLED_SELECTED));
         d.put(p + "[Enabled].expandedIconPainter", new LazyPainter(c, TreePainter.Which.EXPANDEDICON_ENABLED));
         d.put(p + "[Enabled+Selected].expandedIconPainter", new LazyPainter(c, TreePainter.Which.EXPANDEDICON_ENABLED_SELECTED));
         d.put(p + ".collapsedIcon", new SeaGlassIcon(p, "collapsedIconPainter", 7, 7));
@@ -1925,7 +1922,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Selected].textBackground", new ColorUIResource((Color) d.get("nimbusSelection")));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TreeCellEditorPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Enabled+Focused].backgroundPainter",
-            new LazyPainter(c, TreeCellEditorPainter.Which.BACKGROUND_ENABLED_FOCUSED));
+              new LazyPainter(c, TreeCellEditorPainter.Which.BACKGROUND_ENABLED_FOCUSED));
     }
 
     /**

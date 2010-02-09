@@ -33,7 +33,6 @@ import javax.swing.plaf.synth.SynthContext;
 
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
-
 import com.seaglasslookandfeel.painter.Painter;
 
 import sun.swing.plaf.synth.SynthIcon;

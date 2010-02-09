@@ -419,7 +419,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
             systemPopupMenu.show(frame, insets.left, getY() + getHeight());
         } else {
             systemPopupMenu.show(menuButton, getX() - insets.left - insets.right,
-                getY() - systemPopupMenu.getPreferredSize().height - insets.bottom - insets.top);
+                                 getY() - systemPopupMenu.getPreferredSize().height - insets.bottom - insets.top);
         }
     }
 
@@ -668,7 +668,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     private void enableActions() {
         restoreAction.setEnabled(frame.isMaximum() || frame.isIcon());
         maximizeAction.setEnabled((frame.isMaximizable() && !frame.isMaximum() && !frame.isIcon())
-                || (frame.isMaximizable() && frame.isIcon()));
+                                      || (frame.isMaximizable() && frame.isIcon()));
         iconifyAction.setEnabled(frame.isIconifiable() && !frame.isIcon());
         closeAction.setEnabled(frame.isClosable());
         sizeAction.setEnabled(false);

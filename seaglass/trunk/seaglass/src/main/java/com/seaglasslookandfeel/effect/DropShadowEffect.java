@@ -71,12 +71,12 @@ public class DropShadowEffect extends ShadowEffect {
     @Override
     public BufferedImage applyEffect(BufferedImage src, BufferedImage dst, int w, int h) {
         if (src == null || (src.getType() != BufferedImage.TYPE_INT_ARGB && src.getType() != BufferedImage.TYPE_INT_ARGB_PRE)) {
-            throw new IllegalArgumentException("Effect only works with " + "source images of type BufferedImage.TYPE_INT_ARGB. Type is "
-                + src.getType());
+            throw new IllegalArgumentException("Effect only works with source images of type BufferedImage.TYPE_INT_ARGB. Type is "
+                                               + src.getType());
         }
 
         if (dst != null && dst.getType() != BufferedImage.TYPE_INT_ARGB) {
-            throw new IllegalArgumentException("Effect only works with " + "destination images of type BufferedImage.TYPE_INT_ARGB.");
+            throw new IllegalArgumentException("Effect only works with destination images of type BufferedImage.TYPE_INT_ARGB.");
         }
 
         // calculate offset
