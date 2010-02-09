@@ -40,7 +40,7 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
 
     private Which                        state;
     private PaintContext                 ctx;
-    private CommonControlType            type;
+    private CommonControlState            type;
     private boolean                      focused;
 
     public SearchFieldPainter(Which state) {
@@ -48,8 +48,8 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
         this.state = state;
         this.ctx = new PaintContext(AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES);
 
-        type = (state == Which.BACKGROUND_DISABLED || state == Which.BORDER_DISABLED) ? CommonControlType.DISABLED
-                : CommonControlType.ENABLED;
+        type = (state == Which.BACKGROUND_DISABLED || state == Which.BORDER_DISABLED) ? CommonControlState.DISABLED
+                : CommonControlState.ENABLED;
         focused = (state == Which.BORDER_FOCUSED);
     }
 
@@ -85,7 +85,7 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
 
     private void paintBackground(Graphics2D g, JComponent c, int x, int y, int width, int height) {
         Color color = c.getBackground();
-        if (type == CommonControlType.DISABLED) {
+        if (type == CommonControlState.DISABLED) {
             color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0x80);
         }
 
@@ -107,7 +107,7 @@ public final class SearchFieldPainter extends AbstractCommonColorsPainter {
             g.draw(s);
         }
 
-        if (type != CommonControlType.DISABLED) {
+        if (type != CommonControlState.DISABLED) {
             s = shapeGenerator.createInternalDropShadowRounded(x + 1, y + 1, width - 2, height - 2);
             internalShadow.fill(g, s, true, true);
         }

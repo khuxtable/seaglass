@@ -70,7 +70,7 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
     private Color             spinnerPrevTopLineDisabled       = desaturate(spinnerPrevTopLineEnabled);
 
     private PaintContext      ctx;
-    private CommonControlType type;
+    private CommonControlState type;
     private boolean           focused;
     private boolean           isForeground;
 
@@ -97,21 +97,21 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
         return ctx;
     }
 
-    private CommonControlType getButtonType(Which state) {
+    private CommonControlState getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
         case FOREGROUND_DISABLED:
-            return CommonControlType.DISABLED;
+            return CommonControlState.DISABLED;
         case BACKGROUND_ENABLED:
         case BACKGROUND_FOCUSED:
         case FOREGROUND_ENABLED:
         case FOREGROUND_FOCUSED:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
         case BACKGROUND_PRESSED_FOCUSED:
         case BACKGROUND_PRESSED:
         case FOREGROUND_PRESSED_FOCUSED:
         case FOREGROUND_PRESSED:
-            return CommonControlType.PRESSED;
+            return CommonControlState.PRESSED;
         }
         return null;
     }
@@ -173,21 +173,21 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
         return shapeGenerator.createArrowDown(centerX, centerY - 2, 4, 3);
     }
 
-    public Paint getSpinnerPrevBorderPaint(Shape s, CommonControlType type) {
+    public Paint getSpinnerPrevBorderPaint(Shape s, CommonControlState type) {
         TwoColors colors = getSpinnerPrevBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Paint getSpinnerPrevTopLinePaint(Shape s, CommonControlType type) {
+    public Paint getSpinnerPrevTopLinePaint(Shape s, CommonControlState type) {
         return getSpinnerPrevTopLineColors(type);
     }
 
-    public Paint getSpinnerPrevInteriorPaint(Shape s, CommonControlType type) {
+    public Paint getSpinnerPrevInteriorPaint(Shape s, CommonControlState type) {
         TwoColors colors = getSpinnerPrevInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    private TwoColors getSpinnerPrevBorderColors(CommonControlType type) {
+    private TwoColors getSpinnerPrevBorderColors(CommonControlState type) {
         switch (type) {
         case DISABLED:
             return spinnerPrevBorderDisabled;
@@ -199,7 +199,7 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
         return null;
     }
 
-    private TwoColors getSpinnerPrevInteriorColors(CommonControlType type) {
+    private TwoColors getSpinnerPrevInteriorColors(CommonControlState type) {
         switch (type) {
         case DISABLED:
             return spinnerPrevInteriorDisabled;
@@ -211,7 +211,7 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
         return null;
     }
 
-    private Color getSpinnerPrevTopLineColors(CommonControlType type) {
+    private Color getSpinnerPrevTopLineColors(CommonControlState type) {
         switch (type) {
         case DISABLED:
             return spinnerPrevTopLineDisabled;

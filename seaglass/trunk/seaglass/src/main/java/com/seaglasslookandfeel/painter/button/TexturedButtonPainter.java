@@ -45,7 +45,7 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
 
     private TwoColors texturedButtonBorderEnabled          = new TwoColors(texturedButtonBorderTopEnabled,
                                                                            texturedButtonBorderBottomEnabled);
-    private TwoColors texturedButtonBorderPressed          = super.getCommonBorderColors(CommonControlType.PRESSED);
+    private TwoColors texturedButtonBorderPressed          = super.getCommonBorderColors(CommonControlState.PRESSED);
     private TwoColors texturedButtonBorderDefault          = texturedButtonBorderPressed;
     private TwoColors texturedButtonBorderSelected         = texturedButtonBorderDefault;
     private TwoColors texturedButtonBorderDefaultPressed   = texturedButtonBorderPressed;
@@ -94,7 +94,7 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
     /**
      * {@inheritDoc}
      */
-    public Paint getCommonBorderPaint(Shape s, CommonControlType type) {
+    public Paint getCommonBorderPaint(Shape s, CommonControlState type) {
         TwoColors colors = getTexturedButtonBorderColors(type);
 
         return createVerticalGradient(s, new TwoColors(colors.top, colors.bottom));
@@ -103,7 +103,7 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
     /**
      * {@inheritDoc}
      */
-    public Paint getCommonInteriorPaint(Shape s, CommonControlType type) {
+    public Paint getCommonInteriorPaint(Shape s, CommonControlState type) {
         TwoColors colors = getTexturedButtonInteriorColors(type);
 
         return createVerticalGradient(s, new TwoColors(colors.top, colors.bottom));
@@ -116,7 +116,7 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
      *
      * @return a two-tuple of colors for top and bottom gradient.
      */
-    public TwoColors getTexturedButtonBorderColors(CommonControlType type) {
+    public TwoColors getTexturedButtonBorderColors(CommonControlState type) {
         switch (type) {
 
         case DISABLED:
@@ -154,7 +154,7 @@ public class TexturedButtonPainter extends SegmentedButtonPainter {
      *
      * @return a two-tuple of colors for top and bottom gradient.
      */
-    public TwoColors getTexturedButtonInteriorColors(CommonControlType type) {
+    public TwoColors getTexturedButtonInteriorColors(CommonControlState type) {
         switch (type) {
 
         case DISABLED:

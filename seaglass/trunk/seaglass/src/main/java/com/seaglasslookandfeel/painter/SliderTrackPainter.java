@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.painter;
@@ -33,79 +33,116 @@ import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
  * Nimbus's SliderTrackPainter.
  */
 public final class SliderTrackPainter extends AbstractRegionPainter {
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @author  $author$
+     * @version $Revision$, $Date$
+     */
     public static enum Which {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
-    private Color             sliderTrackBorderBase       = decodeColor("sliderTrackBorderBase");
-    private Color             sliderTrackInteriorBase     = decodeColor("sliderTrackInteriorBase");
+    private Color sliderTrackBorderBase   = decodeColor("sliderTrackBorderBase");
+    private Color sliderTrackInteriorBase = decodeColor("sliderTrackInteriorBase");
 
-    private TwoColors         sliderTrackBorderEnabled    = new TwoColors(deriveColor(sliderTrackBorderBase, 0f, 0f, -0.149020f, 0),
-                                                              deriveColor(sliderTrackBorderBase, 0f, 0f, 0.145098f, 0));
-    private TwoColors         sliderTrackInteriorEnabled  = new TwoColors(deriveColor(sliderTrackInteriorBase, 0f, 0f, -0.078431f, 0),
-                                                              deriveColor(sliderTrackInteriorBase, 0f, 0f, 0.074510f, 0));
-    private TwoColors         sliderTrackInteriorDisabled = disable(sliderTrackInteriorEnabled);
-    private TwoColors         sliderTrackBorderDisabled   = desaturate(sliderTrackBorderEnabled);
+    private TwoColors sliderTrackBorderEnabled    = new TwoColors(deriveColor(sliderTrackBorderBase, 0f, 0f, -0.149020f, 0),
+                                                                  deriveColor(sliderTrackBorderBase, 0f, 0f, 0.145098f, 0));
+    private TwoColors sliderTrackInteriorEnabled  = new TwoColors(deriveColor(sliderTrackInteriorBase, 0f, 0f, -0.078431f, 0),
+                                                                  deriveColor(sliderTrackInteriorBase, 0f, 0f, 0.074510f, 0));
+    private TwoColors sliderTrackInteriorDisabled = disable(sliderTrackInteriorEnabled);
+    private TwoColors sliderTrackBorderDisabled   = desaturate(sliderTrackBorderEnabled);
 
-    private PaintContext      ctx;
-    private CommonControlType type;
+    private Which        state;
+    private PaintContext ctx;
 
+    /**
+     * Creates a new SliderTrackPainter object.
+     *
+     * @param state DOCUMENT ME!
+     */
     public SliderTrackPainter(Which state) {
         super();
-        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
-        this.type = getButtonType(state);
+        this.state = state;
+        this.ctx   = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = shapeGenerator.createRoundRectangle(0, 0, width, height, CornerSize.ROUND_HEIGHT);
-        g.setPaint(getSliderTrackBorderPaint(s, type));
+
+        g.setPaint(getSliderTrackBorderPaint(s));
         g.fill(s);
         s = shapeGenerator.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.ROUND_HEIGHT);
-        g.setPaint(getSliderTrackInteriorPaint(s, type));
+        g.setPaint(getSliderTrackInteriorPaint(s));
         g.fill(s);
     }
 
-    protected final PaintContext getPaintContext() {
+    /**
+     * {@inheritDoc}
+     */
+    protected PaintContext getPaintContext() {
         return ctx;
     }
 
-    private CommonControlType getButtonType(Which state) {
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  s DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    public Paint getSliderTrackBorderPaint(Shape s) {
+        return createVerticalGradient(s, getSliderTrackBorderColors());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  s DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    public Paint getSliderTrackInteriorPaint(Shape s) {
+        return createVerticalGradient(s, getSliderTrackInteriorColors());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    private TwoColors getSliderTrackBorderColors() {
         switch (state) {
+
         case BACKGROUND_DISABLED:
-            return CommonControlType.DISABLED;
-        case BACKGROUND_ENABLED:
-            return CommonControlType.ENABLED;
-        }
-        return null;
-    }
-
-    public Paint getSliderTrackBorderPaint(Shape s, CommonControlType type) {
-        TwoColors colors = getSliderTrackBorderColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    public Paint getSliderTrackInteriorPaint(Shape s, CommonControlType type) {
-        TwoColors colors = getSliderTrackInteriorColors(type);
-        return createVerticalGradient(s, colors);
-    }
-
-    private TwoColors getSliderTrackBorderColors(CommonControlType type) {
-        switch (type) {
-        case DISABLED:
             return sliderTrackBorderDisabled;
-        case ENABLED:
+
+        case BACKGROUND_ENABLED:
             return sliderTrackBorderEnabled;
         }
+
         return null;
     }
 
-    private TwoColors getSliderTrackInteriorColors(CommonControlType type) {
-        switch (type) {
-        case DISABLED:
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    private TwoColors getSliderTrackInteriorColors() {
+        switch (state) {
+
+        case BACKGROUND_DISABLED:
             return sliderTrackInteriorDisabled;
-        case ENABLED:
+
+        case BACKGROUND_ENABLED:
             return sliderTrackInteriorEnabled;
         }
+
         return null;
     }
 }

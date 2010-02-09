@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.painter;
@@ -33,72 +33,112 @@ import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
  * PopupMenuPainter implementation.
  */
 public final class PopupMenuPainter extends AbstractRegionPainter {
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @author  $author$
+     * @version $Revision$, $Date$
+     */
     public static enum Which {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED
     }
 
-    private Color             popupMenuInteriorEnabled  = decodeColor("popupMenuInteriorEnabled");
-    private Color             popupMenuBorderEnabled    = decodeColor("popupMenuBorderEnabled");
-    private Color             popupMenuBorderDisabled   = disable(popupMenuBorderEnabled);
-    private Color             popupMenuInteriorDisabled = disable(popupMenuBorderEnabled);
+    private Color popupMenuInteriorEnabled  = decodeColor("popupMenuInteriorEnabled");
+    private Color popupMenuBorderEnabled    = decodeColor("popupMenuBorderEnabled");
+    private Color popupMenuBorderDisabled   = disable(popupMenuBorderEnabled);
+    private Color popupMenuInteriorDisabled = disable(popupMenuBorderEnabled);
 
-    private PaintContext      ctx;
-    private CommonControlType type;
+    private Which        state;
+    private PaintContext ctx;
 
+    /**
+     * Creates a new PopupMenuPainter object.
+     *
+     * @param state DOCUMENT ME!
+     */
     public PopupMenuPainter(Which state) {
         super();
+        this.state = state;
         this.ctx = new PaintContext(CacheMode.NO_CACHING);
-        type = getButtonType(state);
     }
 
+    /**
+     * @see com.seaglasslookandfeel.painter.AbstractRegionPainter#doPaint(java.awt.Graphics2D,
+     *      javax.swing.JComponent, int, int, java.lang.Object[])
+     */
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = shapeGenerator.createRoundRectangle(0, 0, width, height, CornerSize.POPUP_BORDER);
-        g.setPaint(getPopupMenuBorderPaint(s, type));
+
+        g.setPaint(getPopupMenuBorderPaint(s));
         g.fill(s);
         s = shapeGenerator.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.POPUP_INTERIOR);
-        g.setPaint(getPopupMenuInteriorPaint(s, type));
+        g.setPaint(getPopupMenuInteriorPaint(s));
         g.fill(s);
     }
 
-    protected final PaintContext getPaintContext() {
+    /**
+     * @see com.seaglasslookandfeel.painter.AbstractRegionPainter#getPaintContext()
+     */
+    protected PaintContext getPaintContext() {
         return ctx;
     }
 
-    private CommonControlType getButtonType(Which state) {
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  s DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    public Paint getPopupMenuBorderPaint(Shape s) {
+        return getPopupMenuBorderColors();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  s DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    public Paint getPopupMenuInteriorPaint(Shape s) {
+        return getPopupMenuInteriorColors();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    private Color getPopupMenuBorderColors() {
         switch (state) {
-        case BACKGROUND_DISABLED:
-            return CommonControlType.DISABLED;
+
         case BACKGROUND_ENABLED:
-            return CommonControlType.ENABLED;
-        }
-        return null;
-    }
-
-    public Paint getPopupMenuBorderPaint(Shape s, CommonControlType type) {
-        return getPopupMenuBorderColors(type);
-    }
-
-    public Paint getPopupMenuInteriorPaint(Shape s, CommonControlType type) {
-        return getPopupMenuInteriorColors(type);
-    }
-
-    private Color getPopupMenuBorderColors(CommonControlType type) {
-        switch (type) {
-        case ENABLED:
             return popupMenuBorderEnabled;
-        case DISABLED:
+
+        case BACKGROUND_DISABLED:
             return popupMenuBorderDisabled;
         }
+
         return null;
     }
 
-    private Color getPopupMenuInteriorColors(CommonControlType type) {
-        switch (type) {
-        case ENABLED:
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    private Color getPopupMenuInteriorColors() {
+        switch (state) {
+
+        case BACKGROUND_ENABLED:
             return popupMenuInteriorEnabled;
-        case DISABLED:
+
+        case BACKGROUND_DISABLED:
             return popupMenuInteriorDisabled;
         }
+
         return null;
     }
 }

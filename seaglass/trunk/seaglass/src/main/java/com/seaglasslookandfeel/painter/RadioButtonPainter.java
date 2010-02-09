@@ -59,7 +59,7 @@ public final class RadioButtonPainter extends AbstractCommonColorsPainter {
     private PaintContext      ctx;
     private boolean           focused;
     private boolean           selected;
-    private CommonControlType type;
+    private CommonControlState type;
 
     public RadioButtonPainter(Which state) {
         super();
@@ -130,23 +130,23 @@ public final class RadioButtonPainter extends AbstractCommonColorsPainter {
         }
     }
 
-    private CommonControlType getButtonType(Which state) {
+    private CommonControlState getButtonType(Which state) {
         switch (state) {
         case ICON_DISABLED:
         case ICON_DISABLED_SELECTED:
-            return CommonControlType.DISABLED;
+            return CommonControlState.DISABLED;
         case ICON_ENABLED:
         case ICON_FOCUSED:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
         case ICON_PRESSED:
         case ICON_PRESSED_FOCUSED:
-            return CommonControlType.PRESSED;
+            return CommonControlState.PRESSED;
         case ICON_SELECTED:
         case ICON_SELECTED_FOCUSED:
-            return CommonControlType.SELECTED;
+            return CommonControlState.SELECTED;
         case ICON_PRESSED_SELECTED:
         case ICON_PRESSED_SELECTED_FOCUSED:
-            return CommonControlType.PRESSED_SELECTED;
+            return CommonControlState.PRESSED_SELECTED;
         }
         return null;
     }
@@ -162,12 +162,12 @@ public final class RadioButtonPainter extends AbstractCommonColorsPainter {
         return shapeGenerator.createRadioButton(pos, pos, iDiameter);
     }
 
-    public Paint getRadioButtonBulletPaint(Shape s, CommonControlType type) {
+    public Paint getRadioButtonBulletPaint(Shape s, CommonControlState type) {
         TwoColors colors = getRadioButtonBulletColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    private TwoColors getRadioButtonBulletColors(CommonControlType type) {
+    private TwoColors getRadioButtonBulletColors(CommonControlState type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:

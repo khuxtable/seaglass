@@ -64,7 +64,7 @@ public final class ScrollBarThumbPainter extends AbstractCommonColorsPainter {
                                                                         scrollBarThumbInteriorBottomPressed);
 
     private PaintContext      ctx;
-    private CommonControlType type;
+    private CommonControlState type;
 
     public ScrollBarThumbPainter(Which state) {
         super();
@@ -91,29 +91,29 @@ public final class ScrollBarThumbPainter extends AbstractCommonColorsPainter {
         return ctx;
     }
 
-    private CommonControlType getButtonType(Which state) {
+    private CommonControlState getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
-            return CommonControlType.DISABLED;
+            return CommonControlState.DISABLED;
         case BACKGROUND_ENABLED:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
         case BACKGROUND_PRESSED:
-            return CommonControlType.PRESSED;
+            return CommonControlState.PRESSED;
         }
         return null;
     }
 
-    public Paint getScrollBarThumbBorderPaint(Shape s, CommonControlType type) {
+    public Paint getScrollBarThumbBorderPaint(Shape s, CommonControlState type) {
         TwoColors colors = getCommonBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Paint getScrollBarThumbInteriorPaint(Shape s, CommonControlType type) {
+    public Paint getScrollBarThumbInteriorPaint(Shape s, CommonControlState type) {
         FourColors colors = getCommonInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public TwoColors getCommonBorderColors(CommonControlType type) {
+    public TwoColors getCommonBorderColors(CommonControlState type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:
@@ -125,7 +125,7 @@ public final class ScrollBarThumbPainter extends AbstractCommonColorsPainter {
         return null;
     }
 
-    public FourColors getCommonInteriorColors(CommonControlType type) {
+    public FourColors getCommonInteriorColors(CommonControlState type) {
         switch (type) {
         case DISABLED:
         case DISABLED_SELECTED:

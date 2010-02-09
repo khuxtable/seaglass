@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.painter;
@@ -33,87 +33,125 @@ import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
  * Nimbus's DesktopIconPainter.
  */
 public final class DesktopIconPainter extends AbstractRegionPainter {
+
+    /**
+     * Control state.
+     */
     public static enum Which {
-        BACKGROUND_ENABLED
+        BACKGROUND_ENABLED, BACKGROUND_ENABLED_WINDOWFOCUSED,
     }
 
-    private TwoColors    rootPaneActive              = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"),
-                                                         decodeColor("seaGlassToolBarActiveBottomB"));
-    private TwoColors    rootPaneInactive            = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"),
-                                                         decodeColor("seaGlassToolBarInactiveBottomB"));
+    private TwoColors rootPaneActive   = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"),
+                                                       decodeColor("seaGlassToolBarActiveBottomB"));
+    private TwoColors rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"),
+                                                       decodeColor("seaGlassToolBarInactiveBottomB"));
 
-    private Color        frameBorderBase             = decodeColor("frameBorderBase");
+    private Color frameBorderBase = decodeColor("frameBorderBase");
 
-    private Color        frameInnerHighlightInactive = decodeColor("frameInnerHighlightInactive");
-    private Color        frameInnerHighlightActive   = decodeColor("frameInnerHighlightActive");
+    private Color frameInnerHighlightInactive = decodeColor("frameInnerHighlightInactive");
+    private Color frameInnerHighlightActive   = decodeColor("frameInnerHighlightActive");
 
-    private Color        frameBorderActive           = frameBorderBase;
-    private Color        frameBorderInactive         = frameBorderBase;
+    private Color frameBorderActive   = frameBorderBase;
+    private Color frameBorderInactive = frameBorderBase;
 
+    private Which        state;
     private PaintContext ctx;
 
+    /**
+     * Creates a new DesktopIconPainter object.
+     *
+     * @param state DOCUMENT ME!
+     */
     public DesktopIconPainter(Which state) {
         super();
-        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
+        this.state = state;
+        this.ctx   = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = shapeGenerator.createRoundRectangle(2, 0, width - 3, height - 2, CornerSize.FRAME_BORDER);
-        getFrameBorderPaint(s, CommonControlType.DISABLED);
+
+        getFrameBorderPaint(s);
 
         s = shapeGenerator.createRoundRectangle(3, 1, width - 5, height - 4, CornerSize.FRAME_INNER_HIGHLIGHT);
-        g.setPaint(getFrameInnerHighlightPaint(s, CommonControlType.DISABLED));
+        g.setPaint(getFrameInnerHighlightPaint(s));
         g.fill(s);
 
         s = shapeGenerator.createRoundRectangle(4, 2, width - 7, height - 6, CornerSize.FRAME_INTERIOR);
-        g.setPaint(getRootPaneInteriorPaint(s, CommonControlType.DISABLED));
+        g.setPaint(getRootPaneInteriorPaint(s));
         g.fill(s);
     }
 
-    protected final PaintContext getPaintContext() {
+    /**
+     * {@inheritDoc}
+     */
+    protected PaintContext getPaintContext() {
         return ctx;
     }
 
-    private Color getFrameBorderColors(CommonControlType type) {
-        switch (type) {
-        case DISABLED:
-            return frameBorderInactive;
-        case ENABLED:
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  s    DOCUMENT ME!
+     * @return DOCUMENT ME!
+     */
+    public Paint getFrameBorderPaint(Shape s) {
+        switch (state) {
+
+        case BACKGROUND_ENABLED_WINDOWFOCUSED:
             return frameBorderActive;
+
+        case BACKGROUND_ENABLED:
+        default:
+            return frameBorderInactive;
         }
-        return null;
     }
 
-    public Paint getFrameBorderPaint(Shape s, CommonControlType type) {
-        return getFrameBorderColors(type);
-    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  s    DOCUMENT ME!
+     * @return DOCUMENT ME!
+     */
+    public Paint getFrameInnerHighlightPaint(Shape s) {
+        switch (state) {
 
-    private Color getFrameInnerHighlightColors(CommonControlType type) {
-        switch (type) {
-        case DISABLED:
-            return frameInnerHighlightInactive;
-        case ENABLED:
+        case BACKGROUND_ENABLED_WINDOWFOCUSED:
             return frameInnerHighlightActive;
+
+        case BACKGROUND_ENABLED:
+        default:
+            return frameInnerHighlightInactive;
         }
-        return null;
     }
 
-    public Paint getFrameInnerHighlightPaint(Shape s, CommonControlType type) {
-        return getFrameInnerHighlightColors(type);
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  s    DOCUMENT ME!
+     * @return DOCUMENT ME!
+     */
+    public Paint getRootPaneInteriorPaint(Shape s) {
+        return createVerticalGradient(s, getRootPaneInteriorColors());
     }
 
-    private TwoColors getRootPaneInteriorColors(CommonControlType type) {
-        switch (type) {
-        case ENABLED:
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    private TwoColors getRootPaneInteriorColors() {
+        switch (state) {
+
+        case BACKGROUND_ENABLED_WINDOWFOCUSED:
             return rootPaneActive;
-        case DISABLED:
+
+        case BACKGROUND_ENABLED:
+        default:
             return rootPaneInactive;
         }
-        return null;
-    }
-
-    public Paint getRootPaneInteriorPaint(Shape s, CommonControlType type) {
-        TwoColors colors = getRootPaneInteriorColors(type);
-        return createVerticalGradient(s, colors);
     }
 }

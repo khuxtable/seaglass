@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.painter;
@@ -31,58 +31,83 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
  * ContentPanePainter implementation.
  */
 public class ContentPanePainter extends AbstractRegionPainter {
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @author  $author$
+     * @version $Revision$, $Date$
+     */
     public static enum Which {
         BACKGROUND_ENABLED, BACKGROUND_ENABLED_WINDOWFOCUSED,
-    };
-
-    private TwoColors         rootPaneActive   = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"),
-                                                   decodeColor("seaGlassToolBarActiveBottomB"));
-    private TwoColors         rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"),
-                                                   decodeColor("seaGlassToolBarInactiveBottomB"));
-
-    private PaintContext      ctx;
-
-    private CommonControlType type;
-
-    public ContentPanePainter(Which state) {
-        super();
-        this.ctx = new PaintContext(CacheMode.NO_CACHING);
-
-        type = getButtonType(state);
     }
 
+    private TwoColors rootPaneActive   = new TwoColors(decodeColor("seaGlassToolBarActiveTopT"),
+                                                       decodeColor("seaGlassToolBarActiveBottomB"));
+    private TwoColors rootPaneInactive = new TwoColors(decodeColor("seaGlassToolBarInactiveTopT"),
+                                                       decodeColor("seaGlassToolBarInactiveBottomB"));
+
+    private Which        state;
+    private PaintContext ctx;
+
+    /**
+     * Creates a new ContentPanePainter object.
+     *
+     * @param state DOCUMENT ME!
+     */
+    public ContentPanePainter(Which state) {
+        super();
+        this.state = state;
+        this.ctx   = new PaintContext(CacheMode.NO_CACHING);
+    }
+
+    /**
+     * @see com.seaglasslookandfeel.painter.AbstractRegionPainter#doPaint(java.awt.Graphics2D,
+     *      javax.swing.JComponent, int, int, java.lang.Object[])
+     */
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         Shape s = shapeGenerator.createRectangle(0, 0, width, height);
-        g.setPaint(getRootPaneInteriorPaint(s, type));
+
+        g.setPaint(getRootPaneInteriorPaint(s, state));
         g.fill(s);
     }
 
+    /**
+     * @see com.seaglasslookandfeel.painter.AbstractRegionPainter#getPaintContext()
+     */
     protected PaintContext getPaintContext() {
         return ctx;
     }
 
-    private CommonControlType getButtonType(Which state) {
-        switch (state) {
-        case BACKGROUND_ENABLED:
-            return CommonControlType.DISABLED;
-        case BACKGROUND_ENABLED_WINDOWFOCUSED:
-            return CommonControlType.ENABLED;
-        }
-        return null;
-    }
-
-    private TwoColors getRootPaneInteriorColors(CommonControlType type) {
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  type DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    private TwoColors getRootPaneInteriorColors(Which type) {
         switch (type) {
-        case ENABLED:
+
+        case BACKGROUND_ENABLED_WINDOWFOCUSED:
             return rootPaneActive;
-        case DISABLED:
+
+        case BACKGROUND_ENABLED:
             return rootPaneInactive;
         }
+
         return null;
     }
 
-    public Paint getRootPaneInteriorPaint(Shape s, CommonControlType type) {
-        TwoColors colors = getRootPaneInteriorColors(type);
-        return createVerticalGradient(s, colors);
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  s    DOCUMENT ME!
+     * @param  type DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    public Paint getRootPaneInteriorPaint(Shape s, Which type) {
+        return createVerticalGradient(s, getRootPaneInteriorColors(type));
     }
 }

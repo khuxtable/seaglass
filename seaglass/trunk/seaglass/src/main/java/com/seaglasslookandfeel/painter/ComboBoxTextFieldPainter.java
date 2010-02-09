@@ -38,12 +38,12 @@ public final class ComboBoxTextFieldPainter extends AbstractCommonColorsPainter 
     private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
     private PaintContext                 ctx;
-    private CommonControlType            type;
+    private CommonControlState            type;
 
     public ComboBoxTextFieldPainter(Which state) {
         super();
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
-        this.type = (state == Which.BACKGROUND_DISABLED) ? CommonControlType.DISABLED : CommonControlType.ENABLED;
+        this.type = (state == Which.BACKGROUND_DISABLED) ? CommonControlState.DISABLED : CommonControlState.ENABLED;
     }
 
     @Override

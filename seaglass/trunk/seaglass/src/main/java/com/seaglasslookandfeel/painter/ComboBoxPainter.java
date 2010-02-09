@@ -48,7 +48,7 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
         BACKGROUND_PRESSED_EDITABLE,
     }
 
-    public CommonControlType           type;
+    public CommonControlState           type;
 
     private ComboBoxArrowButtonPainter buttonPainter;
 
@@ -126,22 +126,22 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
         return ctx;
     }
 
-    private CommonControlType getButtonType(Which state) {
+    private CommonControlState getButtonType(Which state) {
         switch (state) {
         case BACKGROUND_DISABLED:
         case BACKGROUND_DISABLED_PRESSED:
         case BACKGROUND_DISABLED_EDITABLE:
-            return CommonControlType.DISABLED;
+            return CommonControlState.DISABLED;
         case BACKGROUND_ENABLED:
         case BACKGROUND_FOCUSED:
         case BACKGROUND_FOCUSED_EDITABLE:
         case BACKGROUND_ENABLED_EDITABLE:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
         case BACKGROUND_PRESSED_FOCUSED:
         case BACKGROUND_PRESSED:
         case BACKGROUND_ENABLED_SELECTED:
         case BACKGROUND_PRESSED_EDITABLE:
-            return CommonControlType.PRESSED;
+            return CommonControlState.PRESSED;
         }
         return null;
     }
@@ -203,34 +203,34 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
             CornerStyle.ROUNDED);
     }
 
-    public Paint getComboBoxBackgroundBorderPaint(Shape s, CommonControlType type) {
+    public Paint getComboBoxBackgroundBorderPaint(Shape s, CommonControlState type) {
         TwoColors colors = getCommonBorderColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public Paint getComboBoxBackgroundInteriorPaint(Shape s, CommonControlType type) {
+    public Paint getComboBoxBackgroundInteriorPaint(Shape s, CommonControlState type) {
         FourColors colors = getCommonInteriorColors(type);
         return createVerticalGradient(s, colors);
     }
 
-    public TwoColors getCommonBorderColors(CommonControlType type) {
+    public TwoColors getCommonBorderColors(CommonControlState type) {
         switch (type) {
         case DISABLED:
-            return super.getCommonBorderColors(CommonControlType.DISABLED);
+            return super.getCommonBorderColors(CommonControlState.DISABLED);
         case ENABLED:
         case PRESSED:
-            return super.getCommonBorderColors(CommonControlType.ENABLED);
+            return super.getCommonBorderColors(CommonControlState.ENABLED);
         }
         return null;
     }
 
-    public FourColors getCommonInteriorColors(CommonControlType type) {
+    public FourColors getCommonInteriorColors(CommonControlState type) {
         switch (type) {
         case DISABLED:
-            return super.getCommonInteriorColors(CommonControlType.DISABLED);
+            return super.getCommonInteriorColors(CommonControlState.DISABLED);
         case ENABLED:
         case PRESSED:
-            return super.getCommonInteriorColors(CommonControlType.ENABLED);
+            return super.getCommonInteriorColors(CommonControlState.ENABLED);
         }
         return null;
     }

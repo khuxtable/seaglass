@@ -50,7 +50,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
 
     private Effect dropShadow = new SeaGlassDropShadowEffect();
 
-    private CommonControlType type;
+    private CommonControlState type;
 
     /**
      * Create a segmented button painter.
@@ -113,34 +113,34 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
      *
      * @return the button color set.
      */
-    protected CommonControlType getButtonType(Which state) {
+    protected CommonControlState getButtonType(Which state) {
         switch (state) {
 
         case BACKGROUND_DEFAULT:
         case BACKGROUND_DEFAULT_FOCUSED:
         case BACKGROUND_SELECTED:
         case BACKGROUND_SELECTED_FOCUSED:
-            return CommonControlType.DEFAULT;
+            return CommonControlState.DEFAULT;
 
         case BACKGROUND_PRESSED_DEFAULT:
         case BACKGROUND_PRESSED_DEFAULT_FOCUSED:
-            return CommonControlType.DEFAULT_PRESSED;
+            return CommonControlState.DEFAULT_PRESSED;
 
         case BACKGROUND_DISABLED:
-            return CommonControlType.DISABLED;
+            return CommonControlState.DISABLED;
 
         case BACKGROUND_ENABLED:
         case BACKGROUND_FOCUSED:
-            return CommonControlType.ENABLED;
+            return CommonControlState.ENABLED;
 
         case BACKGROUND_PRESSED:
         case BACKGROUND_PRESSED_FOCUSED:
         case BACKGROUND_PRESSED_SELECTED:
         case BACKGROUND_PRESSED_SELECTED_FOCUSED:
-            return CommonControlType.PRESSED;
+            return CommonControlState.PRESSED;
 
         case BACKGROUND_DISABLED_SELECTED:
-            return CommonControlType.DISABLED_SELECTED;
+            return CommonControlState.DISABLED_SELECTED;
         }
 
         return null;

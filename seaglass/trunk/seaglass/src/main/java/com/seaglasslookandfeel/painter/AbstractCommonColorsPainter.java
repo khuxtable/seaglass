@@ -31,6 +31,13 @@ import java.awt.Shape;
  */
 public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter {
 
+    /**
+     * Common control color states.
+     */
+    public enum CommonControlState {
+        ENABLED, PRESSED, DEFAULT, DEFAULT_PRESSED, DISABLED, DISABLED_SELECTED, SELECTED, PRESSED_SELECTED,
+    }
+
     private Color arrowEnabled  = decodeColor("buttonArrow");
     private Color arrowDisabled = desaturate(arrowEnabled);
 
@@ -105,7 +112,7 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
      *
      * @return DOCUMENT ME!
      */
-    public Paint getCommonArrowPaint(Shape s, CommonControlType type) {
+    public Paint getCommonArrowPaint(Shape s, CommonControlState type) {
         return getCommonArrowColors(type);
     }
 
@@ -117,7 +124,7 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
      *
      * @return DOCUMENT ME!
      */
-    public Paint getCommonBorderPaint(Shape s, CommonControlType type) {
+    public Paint getCommonBorderPaint(Shape s, CommonControlState type) {
         TwoColors colors = getCommonBorderColors(type);
 
         return createVerticalGradient(s, colors);
@@ -131,7 +138,7 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
      *
      * @return DOCUMENT ME!
      */
-    public Paint getCommonInteriorPaint(Shape s, CommonControlType type) {
+    public Paint getCommonInteriorPaint(Shape s, CommonControlState type) {
         FourColors colors = getCommonInteriorColors(type);
 
         return createVerticalGradient(s, colors);
@@ -144,7 +151,7 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
      *
      * @return DOCUMENT ME!
      */
-    public Color getCommonArrowColors(CommonControlType type) {
+    public Color getCommonArrowColors(CommonControlState type) {
         switch (type) {
 
         case DISABLED:
@@ -165,7 +172,7 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
      *
      * @return DOCUMENT ME!
      */
-    public TwoColors getCommonBorderColors(CommonControlType type) {
+    public TwoColors getCommonBorderColors(CommonControlState type) {
         switch (type) {
 
         case DISABLED:
@@ -203,7 +210,7 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
      *
      * @return DOCUMENT ME!
      */
-    public FourColors getCommonInteriorColors(CommonControlType type) {
+    public FourColors getCommonInteriorColors(CommonControlState type) {
         switch (type) {
 
         case DISABLED:
@@ -242,8 +249,8 @@ public abstract class AbstractCommonColorsPainter extends AbstractRegionPainter 
      *
      * @return DOCUMENT ME!
      */
-    public Paint getTextBorderPaint(CommonControlType type, boolean inToolbar) {
-        if (type == CommonControlType.DISABLED) {
+    public Paint getTextBorderPaint(CommonControlState type, boolean inToolbar) {
+        if (type == CommonControlState.DISABLED) {
             return textBorderDisabled;
         } else if (inToolbar) {
             return textBorderEnabledToolbar;
