@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -28,23 +28,35 @@ import javax.swing.JFrame;
  * Is the window modified?
  */
 public class TitlePaneCloseButtonWindowModifiedState extends State {
+
+    private static final String WINDOW_DOCUMENT_MODIFIED = "Window.documentModified";
+
+    /**
+     * Creates a new TitlePaneCloseButtonWindowModifiedState object.
+     */
     public TitlePaneCloseButtonWindowModifiedState() {
         super("WindowModified");
     }
 
-    private static final String WINDOW_DOCUMENT_MODIFIED = "Window.documentModified";
-
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         Component parent = c;
+
         while (parent.getParent() != null) {
+
             if (parent instanceof JFrame) {
                 break;
             }
+
             parent = parent.getParent();
         }
+
         if (parent instanceof JFrame) {
             return ((JFrame) parent).getRootPane().getClientProperty(WINDOW_DOCUMENT_MODIFIED) == Boolean.TRUE;
         }
+
         return false;
     }
 }

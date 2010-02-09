@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -26,10 +26,17 @@ import javax.swing.JTabbedPane;
  * Are the tabs on the bottom of the pane?
  */
 public class TabbedPaneBottomTabState extends State {
+
+    /**
+     * Creates a new TabbedPaneBottomTabState object.
+     */
     public TabbedPaneBottomTabState() {
         super("Bottom");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         return (c instanceof JTabbedPane && ((JTabbedPane) c).getTabPlacement() == JTabbedPane.BOTTOM);
     }

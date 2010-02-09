@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -30,13 +30,20 @@ import com.seaglasslookandfeel.SeaGlassLookAndFeel;
  * Is the toolbar on the (top) north?
  */
 public class ToolBarNorthState extends State {
+
+    /**
+     * Creates a new ToolBarNorthState object.
+     */
     public ToolBarNorthState() {
         super("North");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
-        JToolBar toolbar = (JToolBar)c;
+        JToolBar toolbar = (JToolBar) c;
+
         return SeaGlassLookAndFeel.resolveToolbarConstraint(toolbar) == BorderLayout.NORTH;
     }
 }
-

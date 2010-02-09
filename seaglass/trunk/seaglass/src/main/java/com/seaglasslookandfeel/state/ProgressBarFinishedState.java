@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -26,10 +26,17 @@ import javax.swing.JProgressBar;
  * Is progress bar in finished state?
  */
 public class ProgressBarFinishedState extends State {
+
+    /**
+     * Creates a new ProgressBarFinishedState object.
+     */
     public ProgressBarFinishedState() {
         super("Finished");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         return ((JProgressBar) c).getPercentComplete() == 1.0;
     }

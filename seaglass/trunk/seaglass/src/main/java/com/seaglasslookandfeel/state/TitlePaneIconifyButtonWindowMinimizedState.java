@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -29,23 +29,35 @@ import javax.swing.JInternalFrame.JDesktopIcon;
  * Is the window for this iconify button in minimized state?
  */
 public class TitlePaneIconifyButtonWindowMinimizedState extends State {
+
+    /**
+     * Creates a new TitlePaneIconifyButtonWindowMinimizedState object.
+     */
     public TitlePaneIconifyButtonWindowMinimizedState() {
         super("WindowMinimized");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         Component parent = c;
+
         while (parent.getParent() != null) {
+
             if (parent instanceof JInternalFrame || parent instanceof JDesktopIcon) {
                 break;
             }
+
             parent = parent.getParent();
         }
+
         if (parent instanceof JInternalFrame) {
             return ((JInternalFrame) parent).isIcon();
         } else if (parent instanceof JDesktopIcon) {
             return true;
         }
+
         return false;
     }
 }

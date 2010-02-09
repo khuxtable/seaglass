@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -25,12 +25,20 @@ import javax.swing.JComponent;
  * Is the table column sorted?
  */
 public class TableHeaderRendererSortedState extends State {
+
+    /**
+     * Creates a new TableHeaderRendererSortedState object.
+     */
     public TableHeaderRendererSortedState() {
         super("Sorted");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         String sortOrder = (String) c.getClientProperty("Table.sortOrder");
+
         return sortOrder != null && ("ASCENDING".equals(sortOrder) || "DESCENDING".equals(sortOrder));
     }
 }

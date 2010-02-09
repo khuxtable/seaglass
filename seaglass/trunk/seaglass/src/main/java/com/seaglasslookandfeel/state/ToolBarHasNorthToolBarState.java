@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -33,20 +33,32 @@ public class ToolBarHasNorthToolBarState extends State {
 
     private static final State isNorthState = new ToolBarNorthState();
 
+    /**
+     * Creates a new ToolBarHasNorthToolBarState object.
+     */
     public ToolBarHasNorthToolBarState() {
         super("HasNorthToolBar");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         Component parent = c.getParent();
+
         while (parent.getParent() != null) {
+
             if (parent instanceof JInternalFrame || parent instanceof JRootPane) {
                 break;
             }
+
             parent = parent.getParent();
         }
+
         Component[] cArray = null;
+
         if (parent != null) {
+
             if (parent instanceof JInternalFrame) {
                 cArray = ((JInternalFrame) parent).getContentPane().getComponents();
             } else if (parent instanceof JRootPane) {
@@ -55,8 +67,11 @@ public class ToolBarHasNorthToolBarState extends State {
         }
 
         if (cArray != null) {
+
             for (Component comp : cArray) {
+
                 if (comp instanceof JToolBar) {
+
                     if (comp != c && isNorthState.isInState((JComponent) comp)) {
                         return true;
                     }

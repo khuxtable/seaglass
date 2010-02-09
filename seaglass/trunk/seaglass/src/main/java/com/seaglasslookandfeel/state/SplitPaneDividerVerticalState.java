@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.state;
@@ -26,10 +26,17 @@ import javax.swing.JSplitPane;
  * Is split pane vertical? Called from divider.
  */
 public class SplitPaneDividerVerticalState extends State {
+
+    /**
+     * Creates a new SplitPaneDividerVerticalState object.
+     */
     public SplitPaneDividerVerticalState() {
         super("Vertical");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInState(JComponent c) {
         return c instanceof JSplitPane && (((JSplitPane) c).getOrientation() == 1);
     }
