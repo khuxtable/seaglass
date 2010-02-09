@@ -192,8 +192,7 @@ public class ShapeGenerator {
      * @return a path representing the shape.
      */
     public Shape createRectangle(final int x, final int y, final int w, final int h) {
-        return createRoundRectangleInternal(x, y, w, h, 0, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE,
-                CornerStyle.SQUARE);
+        return createRoundRectangleInternal(x, y, w, h, 0, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE);
     }
 
     /**
@@ -208,8 +207,7 @@ public class ShapeGenerator {
      * @return a path representing the shape.
      */
     public Shape createRoundRectangle(final int x, final int y, final int w, final int h, final CornerSize size) {
-        return createRoundRectangle(x, y, w, h, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED,
-                CornerStyle.ROUNDED);
+        return createRoundRectangle(x, y, w, h, size, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.ROUNDED);
     }
 
     /**
@@ -239,7 +237,7 @@ public class ShapeGenerator {
      * @return a path representing the shape.
      */
     public Shape createRoundRectangle(final int x, final int y, final int w, final int h, final CornerSize size, final CornerStyle topLeft,
-        final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
+            final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
         return createRoundRectangleInternal(x, y, w, h, size.getRadius(w, h), topLeft, bottomLeft, bottomRight, topRight);
     }
 
@@ -738,7 +736,7 @@ public class ShapeGenerator {
      * @return a path representing the shape.
      */
     private Shape createRoundRectangleInternal(final int x, final int y, final int w, final int h, final double radius,
-        final CornerStyle topLeft, final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
+            final CornerStyle topLeft, final CornerStyle bottomLeft, final CornerStyle bottomRight, final CornerStyle topRight) {
         // Convenience variables.
         final int left   = x;
         final int top    = y;
