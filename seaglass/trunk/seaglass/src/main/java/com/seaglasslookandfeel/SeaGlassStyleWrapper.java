@@ -35,9 +35,7 @@ import javax.swing.plaf.synth.SynthPainter;
 import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.component.SeaGlassBorder;
-
 import com.seaglasslookandfeel.painter.Painter;
-
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
 import com.sun.java.swing.plaf.nimbus.NimbusStyle;

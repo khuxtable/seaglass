@@ -59,10 +59,8 @@ import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
-
 import com.seaglasslookandfeel.ui.SeaGlassButtonUI;
 import com.seaglasslookandfeel.ui.SeaGlassRootPaneUI;
-
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
 import sun.swing.SwingUtilities2;
@@ -600,7 +598,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
             // style.getGraphicsUtils(context).paintText(context, g,
             // clippedTitle, minX, baseline - fm.getAscent(), -1);
             ((SeaGlassGraphicsUtils) style.getGraphicsUtils(context)).drawEmphasizedText(g, color, DEFAULT_EMPHASIS_COLOR, clippedTitle,
-                minX, baseline); // - fm.getAscent());
+                                                                                         minX, baseline); // - fm.getAscent());
         }
     }
 
@@ -850,7 +848,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     private void enableActions() {
         restoreAction.setEnabled(isParentMaximum() || isParentIcon());
         maximizeAction.setEnabled((isParentMaximizable() && !isParentMaximum() && !isParentIcon())
-                || (isParentMaximizable() && isParentIcon()));
+                                      || (isParentMaximizable() && isParentIcon()));
         iconifyAction.setEnabled(isParentIconifiable() && !isParentIcon());
         closeAction.setEnabled(isParentClosable());
         sizeAction.setEnabled(false);

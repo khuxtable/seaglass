@@ -196,8 +196,7 @@ public class SeaGlassComboPopup extends BasicComboPopup {
 
         // Compute the rectangle for the popup menu
         Rectangle rect = new Rectangle(px, Math.max(py, p.y + screenBounds.y), Math.min(screenBounds.width, pw),
-                Math.min(
-                    screenBounds.height - 40, ph));
+                                       Math.min(screenBounds.height - 40, ph));
 
         // Add the preferred scroll bar width, if the popup does not fit
         // on the available rectangle.

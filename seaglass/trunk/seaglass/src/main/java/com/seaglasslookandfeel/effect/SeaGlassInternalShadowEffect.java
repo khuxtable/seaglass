@@ -44,7 +44,7 @@ public class SeaGlassInternalShadowEffect {
     private Color innerShadowBase  = UIManager.getColor("seaGlassInnerShadow");
 
     private Color     innerShadowLight = new Color(innerShadowBase.getRed(), innerShadowBase.getGreen(), innerShadowBase.getBlue(),
-            innerShadowBase.getAlpha() / 2);
+                                                   innerShadowBase.getAlpha() / 2);
     private TwoColors innerShadow      = new TwoColors(innerShadowBase, innerShadowLight);
 
     private ShapeGenerator shapeGenerator = new ShapeGenerator();
@@ -127,7 +127,7 @@ public class SeaGlassInternalShadowEffect {
         int       y2   = r.y + r.height;
 
         return new LinearGradientPaint(x, y1, x, y2, (new float[] { 0f, frac, 1f }),
-                (new Color[] { innerShadow.top, innerShadow.bottom, innerShadow.bottom }));
+                                       new Color[] { innerShadow.top, innerShadow.bottom, innerShadow.bottom });
     }
 
     /**
@@ -143,8 +143,7 @@ public class SeaGlassInternalShadowEffect {
         float       maxY   = (float) bounds.getMaxY();
         float       midX   = (float) bounds.getCenterX();
 
-        return new LinearGradientPaint(midX, minY, midX, maxY, (new float[] { 0f, 1f }),
-                (new Color[] { innerShadow.top, transparentColor }));
+        return new LinearGradientPaint(midX, minY, midX, maxY, (new float[] { 0f, 1f }), new Color[] { innerShadow.top, transparentColor });
     }
 
     /**
@@ -161,7 +160,7 @@ public class SeaGlassInternalShadowEffect {
         float       midY   = (float) bounds.getCenterY();
 
         return new LinearGradientPaint(minX, midY, maxX, midY, (new float[] { 0f, 1f }),
-                (new Color[] { innerShadow.bottom, transparentColor }));
+                                       new Color[] { innerShadow.bottom, transparentColor });
     }
 
     /**
@@ -178,6 +177,6 @@ public class SeaGlassInternalShadowEffect {
         float       midY   = (float) bounds.getCenterY();
 
         return new LinearGradientPaint(minX, midY, maxX, midY, (new float[] { 0f, 1f }),
-                (new Color[] { transparentColor, innerShadow.bottom }));
+                                       new Color[] { transparentColor, innerShadow.bottom });
     }
 }

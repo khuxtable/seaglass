@@ -105,7 +105,7 @@ class EffectUtils {
             setPixels(dst, 0, 0, width, height, srcPixels);
         } else {
             throw new IllegalArgumentException("EffectUtils.gaussianBlur() src image is not a supported type, type=[" + src.getType()
-                + "]");
+                                               + "]");
         }
 
         return dst;
@@ -420,7 +420,7 @@ class EffectUtils {
         ColorModel cm = image.getColorModel();
 
         return new BufferedImage(cm, cm.createCompatibleWritableRaster(image.getWidth(), image.getHeight()), cm.isAlphaPremultiplied(),
-                null);
+                                 null);
     }
 
     /**
