@@ -129,7 +129,7 @@ public class SeaGlassGraphicsUtils extends SynthGraphicsUtils {
         paintTextR.x = paintTextR.y = paintTextR.width = paintTextR.height = 0;
 
         String clippedText = layoutText(ss, fm, text, icon, hAlign, vAlign, hTextPosition, vTextPosition, paintViewR, paintIconR,
-                paintTextR, iconTextGap);
+                                        paintTextR, iconTextGap);
 
         if (icon != null) {
             Color color = g2d.getColor();

@@ -72,16 +72,17 @@ public class MacEditorKit extends DefaultEditorKit {
         actionMap.put(deleteNextWordAction, new MacEditorKit.DeleteNextWordAction());
         actionMap.put(deletePrevWordAction, new MacEditorKit.DeletePrevWordAction());
         actionMap.put(upAction,
-            new MacEditorKit.VerticalAction(upAction, (TextAction) dekActionMap.get(upAction), (TextAction) dekActionMap.get(beginAction)));
+                      new MacEditorKit.VerticalAction(upAction, (TextAction) dekActionMap.get(upAction),
+                                                      (TextAction) dekActionMap.get(beginAction)));
         actionMap.put(downAction,
-            new MacEditorKit.VerticalAction(downAction, (TextAction) dekActionMap.get(downAction),
-                (TextAction) dekActionMap.get(endAction)));
+                      new MacEditorKit.VerticalAction(downAction, (TextAction) dekActionMap.get(downAction),
+                                                      (TextAction) dekActionMap.get(endAction)));
         actionMap.put(selectionUpAction,
-            new MacEditorKit.VerticalAction(selectionUpAction, (TextAction) dekActionMap.get(selectionUpAction),
-                (TextAction) dekActionMap.get(selectionBeginAction)));
+                      new MacEditorKit.VerticalAction(selectionUpAction, (TextAction) dekActionMap.get(selectionUpAction),
+                                                      (TextAction) dekActionMap.get(selectionBeginAction)));
         actionMap.put(selectionDownAction,
-            new MacEditorKit.VerticalAction(selectionDownAction, (TextAction) dekActionMap.get(selectionDownAction),
-                (TextAction) dekActionMap.get(selectionEndAction)));
+                      new MacEditorKit.VerticalAction(selectionDownAction, (TextAction) dekActionMap.get(selectionDownAction),
+                                                      (TextAction) dekActionMap.get(selectionEndAction)));
 
         actions = (Action[]) actionMap.values().toArray(new Action[0]);
 
