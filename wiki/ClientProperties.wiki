@@ -1,7 +1,7 @@
 #summary Client property documentation.
 
 We currently support Mac-style properties on buttons to make them look different when used on our background gradient and to segment them.
-See http://developer.apple.com/mac/library/technotes/tn2007/tn2196.html for more information.
+See [http://developer.apple.com/mac/library/technotes/tn2007/tn2196.html Apple Technical Note TN2196] for more information.
 
 We support the {{{JComponent.sizeVariant}}} property with values of {{{large}}}, {{{regular}}} (the default), {{{small}}}, and {{{mini}}}.
 
