@@ -1,5 +1,3 @@
-#summary Usage instructions
-
 = Usage =
 
 To use the Sea Glass Look and Feel, you must either include our [http://maven.apache.org Maven] repository in your
