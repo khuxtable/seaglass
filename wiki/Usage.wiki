@@ -1,5 +1,4 @@
 #summary Usage instructions
-#sidebar TableOfContents
 
 = Usage =
 
