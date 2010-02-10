@@ -1,6 +1,6 @@
-= Downloading and Maven Access Instructions =
+#summary Downloading and Maven Access Instructions
 
-Download the Sea Glass Look and Feel.
+This page gives instructions on accessing the Sea Glass Look and Feel.
 
 See the [Usage usage] page for more information.
 
