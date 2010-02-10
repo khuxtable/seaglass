@@ -38,7 +38,7 @@ import com.seaglasslookandfeel.state.ToolBarNorthState;
 import com.seaglasslookandfeel.state.ToolBarSouthState;
 
 /**
- * Nimbus's FrameAndRootPainter.
+ * Sea Glass FrameAndRootPainter.
  */
 public final class FrameAndRootPainter extends AbstractRegionPainter {
 
@@ -48,10 +48,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     private static final State toolBarSouthState = new ToolBarSouthState();
 
     /**
-     * DOCUMENT ME!
-     *
-     * @author  $author$
-     * @version $Revision$, $Date$
+     * Control state.
      */
     public static enum Which {
         BACKGROUND_ENABLED, BACKGROUND_ENABLED_WINDOWFOCUSED, BACKGROUND_ENABLED_NOFRAME
@@ -88,7 +85,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     /**
      * Creates a new FrameAndRootPainter object.
      *
-     * @param state DOCUMENT ME!
+     * @param state the control state to paint.
      */
     public FrameAndRootPainter(Which state) {
         super();
@@ -144,7 +141,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
 
         int titleHeight = TITLE_BAR_HEIGHT;
 
-        if (mb != null && !"true".equals(c.getClientProperty("SeaGlass.JRootPane.MenuInTitle"))) {
+        if (mb != null && c.getClientProperty("SeaGlass.JRootPane.MenuInTitle") == Boolean.TRUE) {
             titleHeight += mb.getHeight();
         }
 
@@ -165,11 +162,11 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     }
 
     /**
-     * DOCUMENT ME!
+     * Get the paint for the border.
      *
-     * @param  s DOCUMENT ME!
+     * @param  s the border shape.
      *
-     * @return DOCUMENT ME!
+     * @return the paint.
      */
     public Paint getFrameBorderPaint(Shape s) {
         switch (state) {
@@ -185,9 +182,9 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     }
 
     /**
-     * DOCUMENT ME!
+     * Get the color set to paint the interior.
      *
-     * @return DOCUMENT ME!
+     * @return the color set.
      */
     private FourColors getFrameInteriorColors() {
         switch (state) {
@@ -203,23 +200,26 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     }
 
     /**
-     * DOCUMENT ME!
+     * Get the paint for the frame interior.
      *
-     * @param  s                   DOCUMENT ME!
-     * @param  titleHeight         DOCUMENT ME!
-     * @param  topToolBarHeight    DOCUMENT ME!
-     * @param  bottomToolBarHeight DOCUMENT ME!
-     * @return DOCUMENT ME!
+     * @param  s                   the frame interior shape.
+     * @param  titleHeight         the height of the title portion.
+     * @param  topToolBarHeight    the height of the top toolbar, or 0 if none.
+     * @param  bottomToolBarHeight the height of the bottom toolbar, or 0 if
+     *                             none.
+     *
+     * @return the paint.
      */
     public Paint getFrameInteriorPaint(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight) {
         return createFrameGradient(s, titleHeight, topToolBarHeight, bottomToolBarHeight, getFrameInteriorColors());
     }
 
     /**
-     * DOCUMENT ME!
+     * Get the paint to paint the inner highlight with.
      *
-     * @param  s    DOCUMENT ME!
-     * @return DOCUMENT ME!
+     * @param  s the highlight shape.
+     *
+     * @return the paint.
      */
     public Paint getFrameInnerHighlightPaint(Shape s) {
         switch (state) {
@@ -235,15 +235,16 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
     }
 
     /**
-     * DOCUMENT ME!
+     * Create the gradient to paint the frame interior.
      *
-     * @param  s                   DOCUMENT ME!
-     * @param  titleHeight         DOCUMENT ME!
-     * @param  topToolBarHeight    DOCUMENT ME!
-     * @param  bottomToolBarHeight DOCUMENT ME!
-     * @param  defColors           DOCUMENT ME!
+     * @param  s                   the interior shape.
+     * @param  titleHeight         the height of the title bar, or 0 if none.
+     * @param  topToolBarHeight    the height of the top toolbar, or 0 if none.
+     * @param  bottomToolBarHeight the height of the bottom toolbar, or 0 if
+     *                             none.
+     * @param  defColors           the color set to construct the gradient from.
      *
-     * @return DOCUMENT ME!
+     * @return the gradient.
      */
     private Paint createFrameGradient(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight, FourColors defColors) {
         Rectangle2D bounds = s.getBounds2D();
