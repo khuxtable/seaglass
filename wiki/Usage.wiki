@@ -20,6 +20,17 @@ We also support setting the UI on the command line using the VM option
 
 {{{-Dswing.defaultlaf=com.seaglasslookandfeel.SeaGlassLookAndFeel}}}
 
+= Things to note =
+
+On non-Mac systems we draw our own title bar and window frame, meaning that we set the window to "undecorated".
+This means that you can't remove the title bar and frame by setting a JFrame to undecorated.
+You should probably use a JWindow instead, though you should be able to set the window decoration style to NONE and get a similar effect.
+
+Also, we make JToolBar and JPanel non-opaque using a call to setOpaque(false) if the background color is an instance of UIResource,
+which it will be unless you have set it. We then paint our background gradient on the content pane, which is a JPanel by default.
+If you want a different background color, put your controls in a JPanel, add that to the !BorderLayout.CENTER of the content pane,
+and set your JPanel's background color.
+
 = Client properties =
 
 We currently support Mac-style properties on buttons to make them look different when used on our background gradient and to segment them.
@@ -64,14 +75,3 @@ We support the rest of the Mac JTextField search client properties as well, e.g.
 
 We have added the {{{JTextField.Search.PlaceholderText}}} property, which will display light gray text in a search-style text field
 if there is no text present. This is a paint effect only; no text is actually in the JTextField object.
-
-= Things to note =
-
-On non-Mac systems we draw our own title bar and window frame, meaning that we set the window to "undecorated".
-This means that you can't remove the title bar and frame by setting a JFrame to undecorated.
-You should probably use a JWindow instead, though you should be able to set the window decoration style to NONE and get a similar effect.
-
-Also, we make JToolBar and JPanel non-opaque using a call to setOpaque(false) if the background color is an instance of UIResource,
-which it will be unless you have set it. We then paint our background gradient on the content pane, which is a JPanel by default.
-If you want a different background color, put your controls in a JPanel, add that to the !BorderLayout.CENTER of the content pane,
-and set your JPanel's background color.
