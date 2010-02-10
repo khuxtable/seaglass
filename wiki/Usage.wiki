@@ -2,7 +2,9 @@
 
 = Usage =
 
-To use the Sea Glass Look and Feel, you must either include our [http://maven.apache.org Maven] repository in your [http://maven.apache.org/pom.html pom.xml] file or download the jar file and include it in your path. See the [Downloads downloads] page for more details.
+To use the Sea Glass Look and Feel, you must either include our [http://maven.apache.org Maven] repository in your
+[http://maven.apache.org/pom.html pom.xml] file or download the jar file and include it in your path.
+See the [Downloads downloads] page for more details.
 
 To enable the Sea Glass Look and Feel, include the following in your application before creating any controls:
 
@@ -20,12 +22,19 @@ We also support setting the UI on the command line using the VM option
 
 = Client properties =
 
-We currently support Mac-style properties on buttons to make them look different when used on our background gradient and to segment them. See http://developer.apple.com/mac/library/technotes/tn2007/tn2196.html for more information. We support textured, segmented, and segmentedTextured.
+We currently support Mac-style properties on buttons to make them look different when used on our background gradient and to segment them.
+See http://developer.apple.com/mac/library/technotes/tn2007/tn2196.html for more information.
+We support textured, segmented, and segmentedTextured.
 
 We plan on more use of client properties to control the appearance of controls.
 
 = Things to note =
 
-On non-Mac systems we draw our own title bar and window frame, meaning that we set the window to "undecorated". This means that you can't remove the title bar and frame by setting a JFrame to undecorated. You should probably use a JWindow instead, though you should be able to set the window decoration style to NONE and get a similar effect.
+On non-Mac systems we draw our own title bar and window frame, meaning that we set the window to "undecorated".
+This means that you can't remove the title bar and frame by setting a JFrame to undecorated.
+You should probably use a JWindow instead, though you should be able to set the window decoration style to NONE and get a similar effect.
 
-Also, we make JToolBar and JPanel non-opaque using a call to setOpaque(false) if the background color is an instance of UIResource, which it will be unless you have set it. We then paint our background gradient on the content pane, which is a JPanel by default. If you want a different background color, put your controls in a JPanel, add that to the !BorderLayout.CENTER of the content pane, and set your JPanel's background color.
+Also, we make JToolBar and JPanel non-opaque using a call to setOpaque(false) if the background color is an instance of UIResource,
+which it will be unless you have set it. We then paint our background gradient on the content pane, which is a JPanel by default.
+If you want a different background color, put your controls in a JPanel, add that to the !BorderLayout.CENTER of the content pane,
+and set your JPanel's background color.
