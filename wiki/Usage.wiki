@@ -24,9 +24,36 @@ We also support setting the UI on the command line using the VM option
 
 We currently support Mac-style properties on buttons to make them look different when used on our background gradient and to segment them.
 See http://developer.apple.com/mac/library/technotes/tn2007/tn2196.html for more information.
-We support textured, segmented, and segmentedTextured.
+
+Use the {{{JButton.buttonType}}} property with values of {{{textured}}}, {{{segmented}}}, or {{{segmentedTextured}}}.
+
+To segment the buttons, set the {{{JButton.segmentPosition}}} property to one of {{{first}}}, {{{middle}}}, or {{{last}}}.
+The value {{{none}}} is also supported.
 
 We also support the {{{JComponent.sizeVariant}}} property with values of {{{large}}}, {{{small}}}, and {{{mini}}}.
+
+On a non-Mac platform, setting the {{{SeaGlass.JRootPane.MenuInTitle}}} property to the String {{{true}}}
+will place the menu bar in the title bar instead of below it. Note that it is your responsibility to make sure that it fits with the title.
+
+On a scroll bar, setting the {{{SeaGlass.Override.ScrollBarButtonsTogether}}} property to {{{Boolean.TRUE}}} will
+place the scroll bar buttons together at the left or bottom of the scroll bar, as on a Mac.
+
+We support the Nimbus {{{JScrollBar.fastWheelScrolling}}} value on scroll panes such that if set to {{{Boolean.TRUE}}}
+yields a smoother and faster accelerated wheel scroll.
+
+On the Mac platform, we support the root pane property {{{Window.documentModified}}} such that if it is set to {{{Boolean.TRUE}}}
+the close button will have a bullet in it, indicating that the document has been modified.
+
+For JTextField, we support the {{{JTextField.variant}}} property being set to {{{search}}}, which
+will create a lozenge instead of a rectangular field, suitable for a search field. The lozenge will have a magnifying glass icon
+to the left, and if there is any text in the field will have a cancel icon, consisting of a gray circle with an erased "x"
+in it to the right.
+
+We support the rest of the Mac JTextField search client properties as well, e.g. {{{JTextField.Search.FindAction}}},
+{{{JTextField.Search.FindPopup}}}, and {{{JTextField.Search.CancelAction}}}.
+
+We have added the {{{JTextField.Search.PlaceholderText}}} property, which will display light gray text in a search-style text field
+if there is no text present. This is a paint effect only; no text is actually in the JTextField object.
 
 We plan on more use of client properties to control the appearance of controls.
 
