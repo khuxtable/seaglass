@@ -1,0 +1,10 @@
+#summary Test Page
+
+= Test Page =
+
+
+|| Version || Jar || Javadoc ||
+|| 0.1.6 || Foo || Bar ||
+|| 0.1.6 || Foo || Bar ||
+|| 0.1.6 || Foo || Bar ||
+
