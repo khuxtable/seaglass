@@ -29,8 +29,11 @@ public class SeaGlassRegion extends Region {
     /** A Find button in a search field. */
     public static final Region SEARCH_FIELD_FIND_BUTTON = new SeaGlassRegion("SearchFieldFindButton", null, true);
 
-    /** A Cancel button in a searc field. */
+    /** A Cancel button in a search field. */
     public static final Region SEARCH_FIELD_CANCEL_BUTTON = new SeaGlassRegion("SearchFieldCancelButton", null, true);
+
+    /** A Close button for a tab in a tabbed pane. */
+    public static final Region TABBED_PANE_TAB_CLOSE_BUTTON = new SeaGlassRegion("TabbedPaneTabClaseButton", null, true);
 
     /**
      * The cap for a scroll bar where the buttons are ploced together at the
