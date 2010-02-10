@@ -354,6 +354,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         register(Region.SPLIT_PANE_DIVIDER, "SplitPane:SplitPaneDivider");
         register(Region.TABBED_PANE, "TabbedPane");
         register(Region.TABBED_PANE_TAB, "TabbedPane:TabbedPaneTab");
+        register(SeaGlassRegion.TABBED_PANE_TAB_CLOSE_BUTTON, "TabbedPane:TabbedPaneTab:TabCloseButton");
         register(Region.TABBED_PANE_TAB_AREA, "TabbedPane:TabbedPaneTabArea");
         register(Region.TABBED_PANE_CONTENT, "TabbedPane:TabbedPaneContent");
         register(Region.TABLE, "Table");
