@@ -1570,7 +1570,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         p = "TabbedPane:TabbedPaneTabArea";
         c = PAINTER_PREFIX + "TabbedPaneTabAreaPainter";
-        d.put(p + ".contentMargins", new InsetsUIResource(3, 10, 4, 10));
+        d.put(p + ".contentMargins", new InsetsUIResource(3, 10, 3, 10));
         d.put(p + ".States", "Enabled,Disabled,Top,Left,Bottom,Right");
         d.put(p + ".Top", new TabbedPaneTopTabState());
         d.put(p + ".Left", new TabbedPaneLeftTabState());
