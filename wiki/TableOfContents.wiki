@@ -1,2 +1,2 @@
-* Downloads
-* Usage
+ * [Downloads Download instructions]
+ * [Usage Usage instructions]
