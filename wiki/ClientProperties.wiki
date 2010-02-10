@@ -1,5 +1,3 @@
-#sidebar TableOfContents
-
 = Client Properties =
 
 We currently support Mac-style properties on buttons to make them look different when used on our background gradient and to segment them.
