@@ -1,6 +1,4 @@
-#summary Downloading or Maven access instructions
-
-= Downloads =
+= Downloading and Maven Access Instructions =
 
 Download the Sea Glass Look and Feel.
 
