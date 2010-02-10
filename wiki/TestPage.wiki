@@ -3,9 +3,8 @@
 = Test Page =
 
 <table>
-<tr><th>Version</th><th>Jar</th><th>Javadoc</th></tr>
+<tr><th style="background-color: #808080">Version</th><th>Jar</th><th>Javadoc</th></tr>
 <tr><td>0.1.6</td><td>Foo</td><td>Bar</td></tr>
 <tr><td>0.1.6</td><td>Foo</td><td>Bar</td></tr>
 <tr><td>0.1.6</td><td>Foo</td><td>Bar</td></tr>
 </table>
-
