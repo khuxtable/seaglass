@@ -356,6 +356,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         register(Region.TABBED_PANE_TAB, "TabbedPane:TabbedPaneTab");
         register(SeaGlassRegion.TABBED_PANE_TAB_CLOSE_BUTTON, "TabbedPane:TabbedPaneTab:TabCloseButton");
         register(Region.TABBED_PANE_TAB_AREA, "TabbedPane:TabbedPaneTabArea");
+        register(Region.ARROW_BUTTON, "TabbedPane:TabbedPaneTabArea:\"TabbedPaneTabArea.button\"");
         register(Region.TABBED_PANE_CONTENT, "TabbedPane:TabbedPaneContent");
         register(Region.TABLE, "Table");
         register(Region.LABEL, "Table:\"Table.cellRenderer\"");
@@ -1590,6 +1591,23 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled+Right].backgroundPainter",
               new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_RIGHT));
 
+        // Buttons
+        c = PAINTER_PREFIX + "ButtonPainter";
+        p = "TabbedPane:TabbedPaneTabArea:\"TabbedPaneTabArea.button\"";
+
+        d.put(p + ".States", "Enabled,Pressed,Disabled");
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
+
+        d.put(p + "[Disabled].foreground", new ColorUIResource(0x9ba8cf));
+        d.put(p + "[Enabled].foreground", new ColorUIResource(Color.BLACK));
+        d.put(p + "[Pressed].foreground", new ColorUIResource(0x134D8C));
+        c = PAINTER_PREFIX + "ArrowButtonPainter";
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_DISABLED));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_ENABLED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_PRESSED));
+
         p = "TabbedPane:TabbedPaneContent";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
     }
@@ -1651,7 +1669,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         String ci = PAINTER_PREFIX + "SearchFieldIconPainter";
 
         // Initialize search field "find" button
-        String p = "TextField:SearchFieldFindButton";
+        String p  = "TextField:SearchFieldFindButton";
 
         d.put(p + ".States", "Enabled,Pressed,Disabled,HasPopup");
         d.put(p + ".HasPopup", new SearchFieldHasPopupState());
@@ -2762,7 +2780,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
          * A private class representing the parts of a style name.
          */
         private final class Part {
-            private String s;
+            private String  s;
 
             // true if this part represents a component name
             private boolean named;
