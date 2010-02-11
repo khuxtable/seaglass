@@ -138,6 +138,6 @@ public final class ArrowButtonPainter extends AbstractRegionPainter {
      * @return the arrow path.
      */
     private Shape decodeArrowPath(int width, int height) {
-        return shapeGenerator.createArrowLeft(width * .02, height * 0.2, width * 0.6, height * 0.6);
+        return shapeGenerator.createArrowLeft(width * 0.2, height * 0.2, width * 0.6, height * 0.6);
     }
 }
