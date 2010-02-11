@@ -41,32 +41,32 @@ public enum ControlOrientation {
 
     HORIZONTAL {
 
-        int getThickness(Dimension size) {
+        public int getThickness(Dimension size) {
             return size.height;
         }
 
-        int getLength(Dimension size) {
+        public int getLength(Dimension size) {
             return size.width;
         }
 
-        int getPosition(Point point) {
+        public int getPosition(Point point) {
             return point.x;
         }
 
-        int getOrthogonalOffset(Point point) {
+        public int getOrthogonalOffset(Point point) {
             return point.y;
         }
 
-        Rectangle updateBoundsPosition(Rectangle bounds, int newPosition) {
+        public Rectangle updateBoundsPosition(Rectangle bounds, int newPosition) {
             bounds.setLocation(newPosition, bounds.y);
             return bounds;
         }
 
-        Rectangle createBounds(Component container, int position, int length) {
+        public Rectangle createBounds(Component container, int position, int length) {
             return new Rectangle(position, 0, length, container.getHeight());
         }
 
-        Rectangle createCenteredBounds(Component container, int position, int thickness, int length) {
+        public Rectangle createCenteredBounds(Component container, int position, int thickness, int length) {
             int y = container.getHeight() / 2 - thickness / 2;
 
             return new Rectangle(position, y, length, thickness);
@@ -75,32 +75,32 @@ public enum ControlOrientation {
 
     VERTICAL {
 
-        int getThickness(Dimension size) {
+        public int getThickness(Dimension size) {
             return size.width;
         }
 
-        int getLength(Dimension size) {
+        public int getLength(Dimension size) {
             return size.height;
         }
 
-        int getPosition(Point point) {
+        public int getPosition(Point point) {
             return point.y;
         }
 
-        int getOrthogonalOffset(Point point) {
+        public int getOrthogonalOffset(Point point) {
             return point.x;
         }
 
-        Rectangle updateBoundsPosition(Rectangle bounds, int newPosition) {
+        public Rectangle updateBoundsPosition(Rectangle bounds, int newPosition) {
             bounds.setLocation(bounds.x, newPosition);
             return bounds;
         }
 
-        Rectangle createBounds(Component container, int position, int length) {
+        public Rectangle createBounds(Component container, int position, int length) {
             return new Rectangle(0, position, container.getWidth(), length);
         }
 
-        Rectangle createCenteredBounds(Component container, int position, int thickness, int length) {
+        public Rectangle createCenteredBounds(Component container, int position, int thickness, int length) {
             int x = container.getWidth() / 2 - thickness / 2;
 
             return new Rectangle(x, position, thickness, length);
@@ -137,7 +137,7 @@ public enum ControlOrientation {
      *
      * @return the thickness of the given size.
      */
-    abstract int getThickness(Dimension size);
+    public abstract int getThickness(Dimension size);
 
     /**
      * Gets the length of the given size. Length corresponds to the dimension
@@ -149,7 +149,7 @@ public enum ControlOrientation {
      *
      * @return the length of the given size.
      */
-    abstract int getLength(Dimension size);
+    public abstract int getLength(Dimension size);
 
     /**
      * Gets the position from the given {@link Point}. Position refers to the
@@ -162,7 +162,7 @@ public enum ControlOrientation {
      *
      * @return the position value of the given {@code Point}.
      */
-    abstract int getPosition(Point point);
+    public abstract int getPosition(Point point);
 
     /**
      * Gets the orthogonal offset from the given {@link Point}. Orthogonal
@@ -175,7 +175,7 @@ public enum ControlOrientation {
      *
      * @return the position value of the given {@code Point}.
      */
-    abstract int getOrthogonalOffset(Point point);
+    public abstract int getOrthogonalOffset(Point point);
 
     /**
      * Moves the given bounds to the given position. For a horiztonal scroll bar
@@ -187,7 +187,7 @@ public enum ControlOrientation {
      *
      * @return the updated bounds.
      */
-    abstract Rectangle updateBoundsPosition(Rectangle bounds, int newPosition);
+    public abstract Rectangle updateBoundsPosition(Rectangle bounds, int newPosition);
 
     /**
      * <p>Creates bounds based on the given {@link Component}, position and
@@ -213,7 +213,7 @@ public enum ControlOrientation {
      *
      * @return the created bounds.
      */
-    abstract Rectangle createBounds(Component container, int position, int length);
+    public abstract Rectangle createBounds(Component container, int position, int length);
 
     /**
      * <p>Creates bounds centered in the given {@link Component} located at the
@@ -236,5 +236,5 @@ public enum ControlOrientation {
      *
      * @return the created bounds.
      */
-    abstract Rectangle createCenteredBounds(Component container, int position, int thickness, int length);
+    public abstract Rectangle createCenteredBounds(Component container, int position, int thickness, int length);
 }
