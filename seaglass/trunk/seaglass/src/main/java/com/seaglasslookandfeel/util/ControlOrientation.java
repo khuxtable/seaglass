@@ -30,8 +30,8 @@ import java.awt.Rectangle;
  * An orientation corresponding to a {@link javax.swing.JScrollBar} or
  * {@link javax.swing.JTabbedPane}. The methods in this enumeration allow for
  * orentation-agnostic calculations, which can be used when laying out a scroll
- * bar or tabbed pane. A scroll bar, regardless of its orientation, has a
- * length and thickness, as does the tab area of a tabbed pane. These values
+ * bar or tabbed pane tab area. A scroll bar, regardless of its orientation, has
+ * a length and thickness, as does the tab area of a tabbed pane. These values
  * correspond to different dimensions (x or y) depending on the orientation.
  *
  * @author Ken Orr
@@ -51,6 +51,10 @@ public enum ControlOrientation {
 
         int getPosition(Point point) {
             return point.x;
+        }
+
+        int getOrthoPosition(Point point) {
+            return point.y;
         }
 
         Rectangle updateBoundsPosition(Rectangle bounds, int newPosition) {
@@ -83,6 +87,10 @@ public enum ControlOrientation {
             return point.y;
         }
 
+        int getOrthoPosition(Point point) {
+            return point.x;
+        }
+
         Rectangle updateBoundsPosition(Rectangle bounds, int newPosition) {
             bounds.setLocation(bounds.x, newPosition);
             return bounds;
@@ -109,8 +117,8 @@ public enum ControlOrientation {
      *                                   {@link SwingConstants#HORIZONTAL} or
      *                                   {@link SwingConstants#VERTICAL}
      *
-     * @return the {@code ControlOrientation} to the corresponding Swing
-     *         scroll bar orientation.
+     * @return the {@code ControlOrientation} to the corresponding Swing scroll
+     *         bar orientation.
      */
     public static ControlOrientation getOrientation(int swingScrollBarOrientation) {
         if (swingScrollBarOrientation != SwingConstants.HORIZONTAL && swingScrollBarOrientation != SwingConstants.VERTICAL) {
@@ -121,10 +129,10 @@ public enum ControlOrientation {
     }
 
     /**
-     * Get's the thickness of the given size. Thickness corresponds to the
-     * dimension that does not vary in size. That is, a horizontal scroll bar's
-     * thickness corresponds to the y dimension, while a vertical scroll bar's
-     * thickness corresponds to the x dimension.
+     * Gets the thickness of the given size. Thickness corresponds to the
+     * dimension that is orthogonal to the main direction of the component. That
+     * is, a horizontal scroll bar's thickness corresponds to the y dimension,
+     * while a vertical scroll bar's thickness corresponds to the x dimension.
      *
      * @param  size the 2-dimensional size to extract the thickness from.
      *
@@ -133,10 +141,10 @@ public enum ControlOrientation {
     abstract int getThickness(Dimension size);
 
     /**
-     * Get's the length of the given size. Length corresponds to the dimension
-     * that varies in size. That is, a horizontal scroll bar's length
-     * corresponds to the x dimension, while a vertical scroll bar's length
-     * corresponds to the y dimension.
+     * Gets the length of the given size. Length corresponds to the dimension
+     * that is in line with the main direction of the component. That is, a
+     * horizontal scroll bar's length corresponds to the x dimension, while a
+     * vertical scroll bar's length corresponds to the y dimension.
      *
      * @param  size the 2-dimensional size to extract the length from.
      *
@@ -145,16 +153,30 @@ public enum ControlOrientation {
     abstract int getLength(Dimension size);
 
     /**
-     * Get's the position from the given {@link Point}. Position refers to the
-     * dimension of a point on which the scroll bar scrolls. That is, a
-     * horiztonal scroll bar's position corresponds to the x dimension, while a
-     * vertical scroll bar's position corresponds to the y dimension.
+     * Gets the position from the given {@link Point}. Position refers to the
+     * dimension of a point in line with the main direction of the component.
+     * That is, a horiztonal scroll bar's position corresponds to the x
+     * dimension, while a vertical scroll bar's position corresponds to the y
+     * dimension.
      *
      * @param  point the {@code Point} from which to extrac the position from.
      *
      * @return the position value of the given {@code Point}.
      */
     abstract int getPosition(Point point);
+
+    /**
+     * Gets the orthogonal position from the given {@link Point}. Orthogonal
+     * position refers to the dimension of a point orthogonal to the main
+     * direction of the component. That is, a horiztonal scroll bar's position
+     * corresponds to the x dimension, while a vertical scroll bar's position
+     * corresponds to the y dimension.
+     *
+     * @param  point the {@code Point} from which to extrac the position from.
+     *
+     * @return the position value of the given {@code Point}.
+     */
+    abstract int getOrthoPosition(Point point);
 
     /**
      * Moves the given bounds to the given position. For a horiztonal scroll bar
@@ -216,5 +238,4 @@ public enum ControlOrientation {
      * @return the created bounds.
      */
     abstract Rectangle createCenteredBounds(Component container, int position, int thickness, int length);
-
 }
