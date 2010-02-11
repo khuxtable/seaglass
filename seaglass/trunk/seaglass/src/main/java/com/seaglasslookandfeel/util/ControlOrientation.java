@@ -19,12 +19,12 @@
  */
 package com.seaglasslookandfeel.util;
 
-import javax.swing.SwingConstants;
-
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+
+import javax.swing.SwingConstants;
 
 /**
  * An orientation corresponding to a {@link javax.swing.JScrollBar} or
@@ -53,7 +53,7 @@ public enum ControlOrientation {
             return point.x;
         }
 
-        int getOrthoPosition(Point point) {
+        int getOrthogonalOffset(Point point) {
             return point.y;
         }
 
@@ -87,7 +87,7 @@ public enum ControlOrientation {
             return point.y;
         }
 
-        int getOrthoPosition(Point point) {
+        int getOrthogonalOffset(Point point) {
             return point.x;
         }
 
@@ -108,9 +108,8 @@ public enum ControlOrientation {
     };
 
     /**
-     * Converts a Swing scroll bar orientation (either
-     * {@link SwingConstants#HORIZONTAL} or {@link SwingConstants#VERTICAL} to a
-     * {@code ControlOrientation}.
+     * Converts a Swing orientation (either {@link SwingConstants#HORIZONTAL} or
+     * {@link SwingConstants#VERTICAL} to a {@code ControlOrientation}.
      *
      * @param  swingScrollBarOrientation the Swing scroll bar orientation,
      *                                   either
@@ -122,7 +121,7 @@ public enum ControlOrientation {
      */
     public static ControlOrientation getOrientation(int swingScrollBarOrientation) {
         if (swingScrollBarOrientation != SwingConstants.HORIZONTAL && swingScrollBarOrientation != SwingConstants.VERTICAL) {
-            throw new IllegalArgumentException("The given value is not a valid scroll bar orientation.");
+            throw new IllegalArgumentException("The given value is not a valid orientation for ControlOrientation.");
         }
 
         return swingScrollBarOrientation == SwingConstants.HORIZONTAL ? HORIZONTAL : VERTICAL;
@@ -166,8 +165,8 @@ public enum ControlOrientation {
     abstract int getPosition(Point point);
 
     /**
-     * Gets the orthogonal position from the given {@link Point}. Orthogonal
-     * position refers to the dimension of a point orthogonal to the main
+     * Gets the orthogonal offset from the given {@link Point}. Orthogonal
+     * offset refers to the dimension of a point orthogonal to the main
      * direction of the component. That is, a horiztonal scroll bar's position
      * corresponds to the x dimension, while a vertical scroll bar's position
      * corresponds to the y dimension.
@@ -176,7 +175,7 @@ public enum ControlOrientation {
      *
      * @return the position value of the given {@code Point}.
      */
-    abstract int getOrthoPosition(Point point);
+    abstract int getOrthogonalOffset(Point point);
 
     /**
      * Moves the given bounds to the given position. For a horiztonal scroll bar
