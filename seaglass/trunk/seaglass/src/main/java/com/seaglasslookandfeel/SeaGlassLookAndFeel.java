@@ -1592,18 +1592,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
               new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_RIGHT));
 
         // Buttons
-        c = PAINTER_PREFIX + "ButtonPainter";
+        c = PAINTER_PREFIX + "ArrowButtonPainter";
         p = "TabbedPane:TabbedPaneTabArea:\"TabbedPaneTabArea.button\"";
-
         d.put(p + ".States", "Enabled,Pressed,Disabled");
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
-
         d.put(p + "[Disabled].foreground", new ColorUIResource(0x9ba8cf));
         d.put(p + "[Enabled].foreground", new ColorUIResource(Color.BLACK));
         d.put(p + "[Pressed].foreground", new ColorUIResource(0x134D8C));
-        c = PAINTER_PREFIX + "ArrowButtonPainter";
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_PRESSED));

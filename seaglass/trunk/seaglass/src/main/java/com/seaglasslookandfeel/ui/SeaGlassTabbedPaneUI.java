@@ -573,6 +573,14 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             return;
         }
 
+        if (leadingTabIndex > 0) {
+            paintScrollButtonBackground(ss, g, tabPlacement, scrollBackwardButton);
+        }
+
+        if (trailingTabIndex < tabPane.getTabCount() - 1) {
+            paintScrollButtonBackground(ss, g, tabPlacement, scrollForwardButton);
+        }
+
         for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
             if (rects[i].intersects(clipRect) && selectedIndex != i) {
                 paintTab(tabContext, g, tabPlacement, rects, i, iconRect, textRect);
@@ -673,6 +681,35 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
             paintIcon(g, tabPlacement, tabIndex, icon, iconRect, isSelected);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param ss           DOCUMENT ME!
+     * @param g            DOCUMENT ME!
+     * @param tabPlacement DOCUMENT ME!
+     * @param scrollButton DOCUMENT ME!
+     */
+    protected void paintScrollButtonBackground(SeaGlassContext ss, Graphics g, int tabPlacement, JButton scrollButton) {
+        Rectangle  tabRect = scrollButton.getBounds();
+        JComponent b       = ss.getComponent();
+
+        if (!"segmented".equals(b.getClientProperty("JButton.buttonType"))) {
+            b.putClientProperty("JButton.buttonType", "segmented");
+        }
+
+        b.putClientProperty("JButton.segmentPosition", scrollButton == scrollBackwardButton ? "first" : "last");
+
+        SeaGlassLookAndFeel.updateSubregion(ss, g, tabRect);
+        int x         = tabRect.x;
+        int y         = tabRect.y;
+        int height    = tabRect.height;
+        int width     = tabRect.width;
+        int placement = tabPane.getTabPlacement();
+
+        tabContext.getPainter().paintTabbedPaneTabBackground(tabContext, g, x, y, width, height, -1, placement);
+        tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g, x, y, width, height, -1, placement);
     }
 
     /**
