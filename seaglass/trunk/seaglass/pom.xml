@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.seaglasslookandfeel</groupId>
 	<artifactId>seaglasslookandfeel</artifactId>
@@ -97,9 +98,13 @@
 	</dependencies>
 	<distributionManagement>
 		<repository>
-			<id>googlecode</id>
-			<url>svn:https://seaglass.googlecode.com/svn/repo</url>
+			<id>ossrh</id>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
 		<site>
 			<id>personal_website</id>
 			<url>scpexe://shell.sonic.net/home/k/kathryn5/public_html/projects/site/seaglass</url>
