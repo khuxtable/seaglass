@@ -1350,6 +1350,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                                                                             buttonLength,
                                                                             totalThickness));
                     scrollBackwardButton.setVisible(true);
+                    scrollBackwardButton.setEnabled(tabPane.isEnabled());
                 }
 
                 if (trailingTabIndex == tabCount - 1) {
@@ -1360,6 +1361,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                                                                            orientation.getOrthogonalOffset(rects[trailingTabIndex]),
                                                                            buttonLength, totalThickness));
                     scrollForwardButton.setVisible(true);
+                    scrollForwardButton.setEnabled(tabPane.isEnabled());
                 }
             }
 
