@@ -86,10 +86,10 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
     private boolean selectedTabIsPressed = false;
 
-    private SynthScrollableTabButton scrollForwardButton  = (SynthScrollableTabButton) createScrollButton(EAST);
-    private SynthScrollableTabButton scrollBackwardButton = (SynthScrollableTabButton) createScrollButton(WEST);
-    private int                      leadingTabIndex      = 0;
-    private int                      trailingTabIndex     = -1;
+    private SynthScrollableTabButton scrollForwardButton;
+    private SynthScrollableTabButton scrollBackwardButton;
+    private int                      leadingTabIndex  = 0;
+    private int                      trailingTabIndex = 0;
 
     /**
      * Creates a new SeaGlassTabbedPaneUI object.
@@ -116,11 +116,21 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     @Override
     public void installUI(JComponent c) {
         super.installUI(c);
+    }
 
-        scrollBackwardButton.putClientProperty("JButton.segmentPosition", "first");
-        scrollForwardButton.putClientProperty("JButton.segmentPosition", "last");
+    /**
+     * @see javax.swing.plaf.basic.BasicTabbedPaneUI#installComponents()
+     */
+    @Override
+    protected void installComponents() {
+        super.installComponents();
+
+        scrollBackwardButton = (SynthScrollableTabButton) createScrollButton(WEST);
+        scrollForwardButton  = (SynthScrollableTabButton) createScrollButton(EAST);
         tabPane.add(scrollBackwardButton);
         tabPane.add(scrollForwardButton);
+        scrollBackwardButton.setVisible(false);
+        scrollForwardButton.setVisible(false);
     }
 
     /**
@@ -132,9 +142,30 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
+     * @see javax.swing.plaf.basic.BasicTabbedPaneUI#uninstallComponents()
+     */
+    @Override
+    protected void uninstallComponents() {
+        super.uninstallComponents();
+
+        if (scrollBackwardButton != null) {
+            tabPane.remove(scrollBackwardButton);
+            scrollBackwardButton = null;
+        }
+
+        if (scrollForwardButton != null) {
+            tabPane.remove(scrollForwardButton);
+            scrollForwardButton = null;
+        }
+    }
+
+    /**
      * @see javax.swing.plaf.basic.BasicTabbedPaneUI#installDefaults()
      */
     protected void installDefaults() {
+        leadingTabIndex  = 0;
+        trailingTabIndex = 0;
+
         updateStyle(tabPane);
     }
 
@@ -210,31 +241,45 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
         scrollBackwardButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    int selectedIndex = tabPane.getSelectedIndex();
-
-                    if (--selectedIndex < 0) {
-                        tabPane.setSelectedIndex(tabPane.getTabCount() == 0 ? -1 : 0);
-                    } else {
-                        tabPane.setSelectedIndex(selectedIndex);
-                    }
-
-                    tabPane.repaint();
+                    scrollBackward();
                 }
             });
 
         scrollForwardButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    int selectedIndex = tabPane.getSelectedIndex();
-
-                    if (++selectedIndex >= tabPane.getTabCount()) {
-                        tabPane.setSelectedIndex(tabPane.getTabCount() - 1);
-                    } else {
-                        tabPane.setSelectedIndex(selectedIndex);
-                    }
-
-                    tabPane.repaint();
+                    scrollForward();
                 }
             });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void scrollBackward() {
+        int selectedIndex = tabPane.getSelectedIndex();
+
+        if (--selectedIndex < 0) {
+            tabPane.setSelectedIndex(tabPane.getTabCount() == 0 ? -1 : 0);
+        } else {
+            tabPane.setSelectedIndex(selectedIndex);
+        }
+
+        tabPane.repaint();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void scrollForward() {
+        int selectedIndex = tabPane.getSelectedIndex();
+
+        if (++selectedIndex >= tabPane.getTabCount()) {
+            tabPane.setSelectedIndex(tabPane.getTabCount() - 1);
+        } else {
+            tabPane.setSelectedIndex(selectedIndex);
+        }
+
+        tabPane.repaint();
     }
 
     /**
@@ -345,7 +390,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     protected JButton createScrollButton(int direction) {
         SynthScrollableTabButton b = new SynthScrollableTabButton(direction);
 
-        b.putClientProperty("JButton.buttonType", "segmented");
         b.setName("TabbedPaneTabArea.button");
         return b;
     }
@@ -573,12 +617,12 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             return;
         }
 
-        if (leadingTabIndex > 0) {
-            paintScrollButtonBackground(ss, g, tabPlacement, scrollBackwardButton);
+        if (scrollBackwardButton.isVisible()) {
+            paintScrollButtonBackground(g, tabPlacement, scrollBackwardButton);
         }
 
-        if (trailingTabIndex < tabPane.getTabCount() - 1) {
-            paintScrollButtonBackground(ss, g, tabPlacement, scrollForwardButton);
+        if (scrollForwardButton.isVisible()) {
+            paintScrollButtonBackground(g, tabPlacement, scrollForwardButton);
         }
 
         for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
@@ -643,13 +687,14 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             b.putClientProperty("JButton.buttonType", "segmented");
         }
 
-        String segmentPosition = "only";
+        boolean flipSegments    = (tabPlacement != LEFT && tabPlacement != RIGHT && !tabPane.getComponentOrientation().isLeftToRight());
+        String  segmentPosition = "only";
 
         if (tabPane.getTabCount() > 1) {
-            if (tabIndex == 0 && leadingTabIndex == 0) {
-                segmentPosition = "first";
-            } else if (tabIndex == tabPane.getTabCount() - 1 && trailingTabIndex == tabPane.getTabCount() - 1) {
-                segmentPosition = "last";
+            if (tabIndex == 0 && tabIndex == leadingTabIndex) {
+                segmentPosition = flipSegments ? "last" : "first";
+            } else if (tabIndex == tabPane.getTabCount() - 1 && tabIndex == trailingTabIndex) {
+                segmentPosition = flipSegments ? "first " : "last";
             } else {
                 segmentPosition = "middle";
             }
@@ -686,30 +731,23 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     /**
      * DOCUMENT ME!
      *
-     * @param ss           DOCUMENT ME!
      * @param g            DOCUMENT ME!
      * @param tabPlacement DOCUMENT ME!
      * @param scrollButton DOCUMENT ME!
      */
-    protected void paintScrollButtonBackground(SeaGlassContext ss, Graphics g, int tabPlacement, JButton scrollButton) {
-        Rectangle  tabRect = scrollButton.getBounds();
-        JComponent b       = ss.getComponent();
+    protected void paintScrollButtonBackground(Graphics g, int tabPlacement, JButton scrollButton) {
+        Rectangle tabRect = scrollButton.getBounds();
+        int       x       = tabRect.x;
+        int       y       = tabRect.y;
+        int       height  = tabRect.height;
+        int       width   = tabRect.width;
 
-        if (!"segmented".equals(b.getClientProperty("JButton.buttonType"))) {
-            b.putClientProperty("JButton.buttonType", "segmented");
-        }
+        boolean flipSegments = (tabPlacement != LEFT && tabPlacement != RIGHT && !tabPane.getComponentOrientation().isLeftToRight());
 
-        b.putClientProperty("JButton.segmentPosition", scrollButton == scrollBackwardButton ? "first" : "last");
+        tabPane.putClientProperty("JButton.segmentPosition", ((scrollButton == scrollBackwardButton) ^ flipSegments) ? "first" : "last");
 
-        SeaGlassLookAndFeel.updateSubregion(ss, g, tabRect);
-        int x         = tabRect.x;
-        int y         = tabRect.y;
-        int height    = tabRect.height;
-        int width     = tabRect.width;
-        int placement = tabPane.getTabPlacement();
-
-        tabContext.getPainter().paintTabbedPaneTabBackground(tabContext, g, x, y, width, height, -1, placement);
-        tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g, x, y, width, height, -1, placement);
+        tabContext.getPainter().paintTabbedPaneTabBackground(tabContext, g, x, y, width, height, -1, tabPlacement);
+        tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g, x, y, width, height, -1, tabPlacement);
     }
 
     /**
@@ -1049,6 +1087,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         public void layoutContainer(Container parent) {
             setRolloverTab(-1);
 
+            int       tabCount         = tabPane.getTabCount();
             int       tabPlacement     = tabPane.getTabPlacement();
             Insets    insets           = tabPane.getInsets();
             int       selectedIndex    = tabPane.getSelectedIndex();
@@ -1062,13 +1101,21 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 if (scrollBackwardButton.getDirection() != NORTH) {
                     scrollBackwardButton.setDirection(NORTH);
                 }
-            } else {
+            } else if (tabPane.getComponentOrientation().isLeftToRight()) {
                 if (scrollForwardButton.getDirection() != EAST) {
                     scrollForwardButton.setDirection(EAST);
                 }
 
                 if (scrollBackwardButton.getDirection() != WEST) {
                     scrollBackwardButton.setDirection(WEST);
+                }
+            } else {
+                if (scrollForwardButton.getDirection() != WEST) {
+                    scrollForwardButton.setDirection(WEST);
+                }
+
+                if (scrollBackwardButton.getDirection() != EAST) {
+                    scrollBackwardButton.setDirection(EAST);
                 }
             }
 
@@ -1083,6 +1130,12 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 }
             } else {
                 selectedComponent = tabPane.getComponentAt(selectedIndex);
+            }
+
+            if (tabCount == 0) {
+                scrollForwardButton.setVisible(false);
+                scrollBackwardButton.setVisible(false);
+                return;
             }
 
             boolean shouldChangeFocus = false;
@@ -1182,7 +1235,12 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 for (int i = 0; i < numChildren; i++) {
                     Component child = tabPane.getComponent(i);
 
-                    if (child != scrollForwardButton && child != scrollBackwardButton) {
+                    if (child == scrollBackwardButton || child == scrollForwardButton) {
+                        // Ignore these buttons. They have already been positioned.
+                    } else {
+                        if (child instanceof JButton) {
+                            System.out.println("child = " + child);
+                        }
                         // All content children...
                         child.setBounds(cx, cy, cw, ch);
                     }
@@ -1260,6 +1318,8 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             }
 
             if (tabCount == 0) {
+                scrollBackwardButton.setVisible(false);
+                scrollForwardButton.setVisible(false);
                 runCount    = 0;
                 selectedRun = -1;
                 return;
@@ -1268,139 +1328,116 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             selectedRun = 0;
             runCount    = 1;
 
-            int totalLength    = calcMaxLength(tabPlacement, tabCount, verticalTabRuns);
-            int totalThickness = orientation.getOrthogonalOffset(maxTabWidth, maxTabHeight);
+            int totalLength = calcMaxLength(tabPlacement, tabCount, verticalTabRuns);
 
-            if (tabCount == 0) {
-                scrollBackwardButton.setVisible(false);
-                scrollForwardButton.setVisible(false);
+            if (leadingTabIndex > selectedIndex) {
+                leadingTabIndex = selectedIndex;
+            }
+
+            // Make use of the fact that the scroll buttons have the same preferred size. Only assign one.
+            int buttonLength         = orientation.getLength(scrollForwardButton.getPreferredSize());
+            int tabAreaLength        = orientation.getPosition(size.width - tabAreaInsets.left - tabAreaInsets.right,
+                                                               size.height - tabAreaInsets.top - tabAreaInsets.bottom);
+            int leadingTabOffset     = orientation.getPosition(rects[leadingTabIndex]);
+            int selectedTabEndOffset = orientation.getPosition(rects[selectedIndex].x + rects[selectedIndex].width,
+                                                               rects[selectedIndex].y + rects[selectedIndex].height);
+
+            if (totalLength <= tabAreaLength) {
+                // Fits with no scroll buttons.
+                leadingTabIndex  = 0;
+                trailingTabIndex = tabCount - 1;
+            } else if (totalLength + buttonLength - leadingTabOffset <= tabAreaLength) {
+                // Fits from current leading tab index, with scroll backward button. Leave leadingTabIndex alone.
+                trailingTabIndex = tabCount - 1;
+            } else if (selectedTabEndOffset - leadingTabOffset + 2 * buttonLength <= tabAreaLength) {
+                // Selected index fits with current leading tab index and two scroll button. Leave leadingTabIndex alone.
+                trailingTabIndex = -1;
+                for (int i = tabCount - 1; i > selectedIndex; i--) {
+                    int end = orientation.getPosition(rects[i].x + rects[i].width, rects[i].y + rects[i].height);
+
+                    if (end - leadingTabOffset + 2 * buttonLength <= tabAreaLength) {
+                        trailingTabIndex = i;
+                        break;
+                    }
+                }
+
+                if (trailingTabIndex == -1) {
+                    trailingTabIndex = selectedIndex;
+                }
             } else {
-                if (leadingTabIndex > selectedIndex) {
+                // Selected index does not fit with current leading index and two scroll buttons.
+                // Make selected index the trailing index and find the leading index that will fit.
+                trailingTabIndex = selectedIndex;
+                leadingTabIndex  = -1;
+                for (int i = 0; i < selectedIndex; i++) {
+                    int start = orientation.getPosition(rects[i]);
+
+                    if (selectedTabEndOffset - start + 2 * buttonLength <= tabAreaLength) {
+                        leadingTabIndex = i;
+                        break;
+                    }
+                }
+
+                if (leadingTabIndex == -1) {
                     leadingTabIndex = selectedIndex;
                 }
+            }
 
-                // Make use of the fact that the scroll buttons have the same preferred size. Only assign one.
-                int buttonLength         = orientation.getLength(scrollForwardButton.getPreferredSize());
-                int tabAreaLength        = orientation.getPosition(size.width - tabAreaInsets.left - tabAreaInsets.right,
-                                                                   size.height - tabAreaInsets.top - tabAreaInsets.bottom);
-                int leadingTabOffset     = orientation.getPosition(rects[leadingTabIndex]);
-                int selectedTabEndOffset = orientation.getPosition(rects[selectedIndex].x + rects[selectedIndex].width,
-                                                                   rects[selectedIndex].y + rects[selectedIndex].height);
+            tabRuns[0]       = leadingTabIndex;
 
-                if (totalLength <= tabAreaLength) {
-                    // Fits with no scroll buttons.
-                    leadingTabIndex  = 0;
-                    trailingTabIndex = tabCount - 1;
-                } else if (totalLength + buttonLength - leadingTabOffset <= tabAreaLength) {
-                    // Fits from current leading tab index, with scroll backward button. Leave leadingTabIndex alone.
-                    trailingTabIndex = tabCount - 1;
-                } else if (selectedTabEndOffset - leadingTabOffset + 2 * buttonLength <= tabAreaLength) {
-                    // Selected index fits with current leading tab index and two scroll button. Leave leadingTabIndex alone.
-                    trailingTabIndex = -1;
-                    for (int i = tabCount - 1; i > selectedIndex; i--) {
-                        int end = orientation.getPosition(rects[i].x + rects[i].width, rects[i].y + rects[i].height);
-
-                        if (end - leadingTabOffset + 2 * buttonLength <= tabAreaLength) {
-                            trailingTabIndex = i;
-                            break;
-                        }
-                    }
-
-                    if (trailingTabIndex == -1) {
-                        trailingTabIndex = selectedIndex;
-                    }
+            // Rebalance the layout such that the leading tab is at position 0.
+            leadingTabOffset = orientation.getPosition(rects[leadingTabIndex]);
+            for (int i = 0; i < tabCount; i++) {
+                if (i < leadingTabIndex || i > trailingTabIndex) {
+                    rects[i].setBounds(-1, -1, 0, 0);
                 } else {
-                    // Selected index does not fit with current leading index and two scroll buttons.
-                    // Make selected index the trailing index and find the leading index that will fit.
-                    trailingTabIndex = selectedIndex;
-                    leadingTabIndex  = -1;
-                    for (int i = 0; i < selectedIndex; i++) {
-                        int start = orientation.getPosition(rects[i]);
-
-                        if (selectedTabEndOffset - start + 2 * buttonLength <= tabAreaLength) {
-                            leadingTabIndex = i;
-                            break;
-                        }
-                    }
-
-                    if (leadingTabIndex == -1) {
-                        leadingTabIndex = selectedIndex;
-                    }
-                }
-
-                tabRuns[0]       = leadingTabIndex;
-
-                // Rebalance the layout such that the leading tab is at position 0.
-                leadingTabOffset = orientation.getPosition(rects[leadingTabIndex]);
-                for (int i = 0; i < tabCount; i++) {
-                    if (i < leadingTabIndex || i > trailingTabIndex) {
-                        rects[i].setBounds(-1, -1, 0, 0);
-                    } else {
-                        orientation.updateBoundsPosition(rects[i], orientation.getPosition(rects[i]) - leadingTabOffset);
-                    }
-                }
-
-                totalLength = orientation.getPosition(rects[trailingTabIndex].x + rects[trailingTabIndex].width,
-                                                      rects[trailingTabIndex].y + rects[trailingTabIndex].height);
-
-                // Subtract off the button length from the available length.
-                if (leadingTabIndex > 0) {
-                    tabAreaLength -= buttonLength;
-                }
-
-                if (trailingTabIndex < tabCount - 1) {
-                    tabAreaLength -= buttonLength;
-                }
-
-                int offset    = orientation.getOrthogonalOffset(rects[leadingTabIndex]);
-                int thickness = orientation.getThickness(rects[leadingTabIndex]);
-
-                if (leadingTabIndex > 0 || trailingTabIndex < tabCount - 1) {
-                    // Fill the tabs to the available width.
-                    float multiplier = ((float) tabAreaLength / totalLength);
-
-                    for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
-                        int position = (i == leadingTabIndex)
-                            ? (orientation.getPosition(tabAreaInsets.left, tabAreaInsets.top) + (leadingTabIndex > 0 ? buttonLength : 0))
-                            : orientation.getPosition(rects[i - 1]) + orientation.getLength(rects[i - 1]);
-                        int length   = (int) (orientation.getLength(rects[i]) * multiplier);
-
-                        rects[i].setBounds(orientation.createBounds(position, offset, length, thickness));
-                    }
-                } else {
-                    // Center the tabs.
-                    int delta = -(tabAreaLength - totalLength) / 2 - orientation.getPosition(tabAreaInsets.left, tabAreaInsets.top);
-
-                    for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
-                        int position = orientation.getPosition(rects[i]) - delta;
-                        int length   = orientation.getLength(rects[i]);
-
-                        rects[i].setBounds(orientation.createBounds(position, offset, length, thickness));
-                    }
-                }
-
-                if (leadingTabIndex == 0) {
-                    scrollBackwardButton.setVisible(false);
-                } else {
-                    scrollBackwardButton.setBounds(orientation.createBounds(orientation.getPosition(rects[leadingTabIndex]) - buttonLength,
-                                                                            orientation.getOrthogonalOffset(rects[leadingTabIndex]),
-                                                                            buttonLength,
-                                                                            totalThickness));
-                    scrollBackwardButton.setVisible(true);
-                    scrollBackwardButton.setEnabled(tabPane.isEnabled());
-                }
-
-                if (trailingTabIndex == tabCount - 1) {
-                    scrollForwardButton.setVisible(false);
-                } else {
-                    scrollForwardButton.setBounds(orientation.createBounds(orientation.getPosition(rects[trailingTabIndex])
-                                                                           + orientation.getLength(rects[trailingTabIndex]),
-                                                                           orientation.getOrthogonalOffset(rects[trailingTabIndex]),
-                                                                           buttonLength, totalThickness));
-                    scrollForwardButton.setVisible(true);
-                    scrollForwardButton.setEnabled(tabPane.isEnabled());
+                    orientation.updateBoundsPosition(rects[i], orientation.getPosition(rects[i]) - leadingTabOffset);
                 }
             }
+
+            totalLength = orientation.getPosition(rects[trailingTabIndex].x + rects[trailingTabIndex].width,
+                                                  rects[trailingTabIndex].y + rects[trailingTabIndex].height);
+
+            // Subtract off the button length from the available length.
+            if (leadingTabIndex > 0) {
+                tabAreaLength -= buttonLength;
+            }
+
+            if (trailingTabIndex < tabCount - 1) {
+                tabAreaLength -= buttonLength;
+            }
+
+            int offset    = orientation.getOrthogonalOffset(rects[leadingTabIndex]);
+            int thickness = orientation.getThickness(rects[leadingTabIndex]);
+
+            if (leadingTabIndex > 0 || trailingTabIndex < tabCount - 1) {
+                // Fill the tabs to the available width.
+                float multiplier = ((float) tabAreaLength / totalLength);
+
+                for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
+                    int position = (i == leadingTabIndex)
+                        ? (orientation.getPosition(tabAreaInsets.left, tabAreaInsets.top) + (leadingTabIndex > 0 ? buttonLength : 0))
+                        : orientation.getPosition(rects[i - 1]) + orientation.getLength(rects[i - 1]);
+                    int length   = (int) (orientation.getLength(rects[i]) * multiplier);
+
+                    rects[i].setBounds(orientation.createBounds(position, offset, length, thickness));
+                }
+            } else {
+                // Center the tabs.
+                int delta = -(tabAreaLength - totalLength) / 2 - orientation.getPosition(tabAreaInsets.left, tabAreaInsets.top);
+
+                for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
+                    int position = orientation.getPosition(rects[i]) - delta;
+                    int length   = orientation.getLength(rects[i]);
+
+                    rects[i].setBounds(orientation.createBounds(position, offset, length, thickness));
+                }
+            }
+
+            setScrollButtonPositions(scrollBackwardButton, orientation, (leadingTabIndex > 0),
+                                     orientation.getPosition(rects[leadingTabIndex]) - buttonLength);
+            setScrollButtonPositions(scrollForwardButton, orientation, (trailingTabIndex < tabCount - 1),
+                                     orientation.getPosition(rects[trailingTabIndex]) + orientation.getLength(rects[trailingTabIndex]));
 
             // if right to left and tab placement on the top or
             // the bottom, flip x positions and adjust by widths
@@ -1410,7 +1447,39 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 for (int i = 0; i < tabCount; i++) {
                     rects[i].x = rightMargin - rects[i].x - rects[i].width;
                 }
+
+                if (scrollBackwardButton.isVisible()) {
+                    Rectangle b = scrollBackwardButton.getBounds();
+
+                    scrollBackwardButton.setLocation(rightMargin - b.x - b.width, b.y);
+                }
+
+                if (scrollForwardButton.isVisible()) {
+                    Rectangle b = scrollForwardButton.getBounds();
+
+                    scrollForwardButton.setLocation(rightMargin - b.x - b.width, b.y);
+                }
             }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param child       DOCUMENT ME!
+         * @param orientation DOCUMENT ME!
+         * @param visible     DOCUMENT ME!
+         * @param position    DOCUMENT ME!
+         */
+        private void setScrollButtonPositions(Component child, ControlOrientation orientation, boolean visible, int position) {
+            if (visible) {
+                child.setBounds(orientation.createBounds(position,
+                                                         orientation.getOrthogonalOffset(rects[leadingTabIndex]),
+                                                         orientation.getLength(child.getPreferredSize()),
+                                                         orientation.getThickness(rects[leadingTabIndex])));
+            }
+
+            child.setEnabled(tabPane.isEnabled());
+            child.setVisible(visible);
         }
 
         /**
