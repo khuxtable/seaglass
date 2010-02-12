@@ -694,7 +694,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             if (tabIndex == 0 && tabIndex == leadingTabIndex) {
                 segmentPosition = flipSegments ? "last" : "first";
             } else if (tabIndex == tabPane.getTabCount() - 1 && tabIndex == trailingTabIndex) {
-                segmentPosition = flipSegments ? "first " : "last";
+                segmentPosition = flipSegments ? "first" : "last";
             } else {
                 segmentPosition = "middle";
             }
@@ -1238,9 +1238,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                     if (child == scrollBackwardButton || child == scrollForwardButton) {
                         // Ignore these buttons. They have already been positioned.
                     } else {
-                        if (child instanceof JButton) {
-                            System.out.println("child = " + child);
-                        }
                         // All content children...
                         child.setBounds(cx, cy, cw, ch);
                     }
