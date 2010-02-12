@@ -31,7 +31,6 @@ public class TestTabbedPanes {
      */
     public static void main(String[] args) {
         if (true) {
-
             try {
                 UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
             } catch (Exception e) {
