@@ -57,6 +57,7 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassRegion;
 import com.seaglasslookandfeel.component.SeaGlassArrowButton;
+import com.seaglasslookandfeel.util.ControlOrientation;
 
 import sun.swing.SwingUtilities2;
 
@@ -637,11 +638,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         String segmentPosition = "only";
 
         if (tabPane.getTabCount() > 1) {
-            boolean hasButtons = leadingTabIndex > 0 || trailingTabIndex < tabPane.getTabCount() - 1;
-
-            if (tabIndex == 0 && !hasButtons) {
+            if (tabIndex == 0 && leadingTabIndex == 0) {
                 segmentPosition = "first";
-            } else if (tabIndex == tabPane.getTabCount() - 1 && !hasButtons) {
+            } else if (tabIndex == tabPane.getTabCount() - 1 && trailingTabIndex == tabPane.getTabCount() - 1) {
                 segmentPosition = "last";
             } else {
                 segmentPosition = "middle";
@@ -841,7 +840,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         if (tabComponent != null) {
             width += tabComponent.getPreferredSize().width;
         } else {
-
             if (icon != null) {
                 width += icon.getIconWidth() + textIconGap;
             }
@@ -849,11 +847,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             View v = getTextViewForTab(tabIndex);
 
             if (v != null) {
-
                 // html
                 width += (int) v.getPreferredSpan(View.X_AXIS);
             } else {
-
                 // plain text
                 String title = tabPane.getTitleAt(tabIndex);
 
@@ -1014,17 +1010,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
          * @see com.apple.laf.AquaTabbedPaneCopyFromBasicUI$TabbedPaneLayout#layoutContainer(java.awt.Container)
          */
         public void layoutContainer(Container parent) {
-            /* Some of the code in this method deals with changing the
-             * visibility of components to hide and show the contents for the
-             * selected tab. This is older code that has since been duplicated
-             * in JTabbedPane.fireStateChanged(), so as to allow visibility
-             * changes to happen sooner (see the note there). This code remains
-             * for backward compatibility as there are some cases, such as
-             * subclasses that don't fireStateChanged() where it may be used.
-             * Any changes here need to be kept in synch with
-             * JTabbedPane.fireStateChanged().
-             */
-
             setRolloverTab(-1);
 
             int       tabPlacement     = tabPane.getTabPlacement();
@@ -1055,9 +1040,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             Component selectedComponent = null;
 
             if (selectedIndex < 0) {
-
                 if (visibleComponent != null) {
-
                     // The last tab was removed, so remove the component
                     setVisibleComponent(null);
                 }
@@ -1075,9 +1058,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             // programs are now depending on this, we're making it work.
             //
             if (selectedComponent != null) {
-
                 if (selectedComponent != visibleComponent && visibleComponent != null) {
-
                     if (findFocusOwner(visibleComponent) != null) {
                         shouldChangeFocus = true;
                     }
@@ -1086,14 +1067,16 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 setVisibleComponent(selectedComponent);
             }
 
+            // tab area bounds
             int       tx;
             int       ty;
             int       tw;
-            int       th; // tab area bounds
+            int       th;
+            // content area bounds
             int       cx;
             int       cy;
             int       cw;
-            int       ch; // content area bounds
+            int       ch;
             Insets    contentInsets = getContentBorderInsets(tabPlacement);
             Rectangle bounds        = tabPane.getBounds();
             int       numChildren   = tabPane.getComponentCount();
@@ -1103,7 +1086,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 switch (tabPlacement) {
 
                 case LEFT:
-
                     // calculate tab area bounds
                     tw = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
                     th = bounds.height - insets.top - insets.bottom;
@@ -1118,7 +1100,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                     break;
 
                 case RIGHT:
-
                     // calculate tab area bounds
                     tw = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
                     th = bounds.height - insets.top - insets.bottom;
@@ -1133,7 +1114,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                     break;
 
                 case BOTTOM:
-
                     // calculate tab area bounds
                     tw = bounds.width - insets.left - insets.right;
                     th = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
@@ -1149,7 +1129,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
                 case TOP:
                 default:
-
                     // calculate tab area bounds
                     tw = bounds.width - insets.left - insets.right;
                     th = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
@@ -1219,18 +1198,13 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
          *      int)
          */
         protected void calculateTabRects(int tabPlacement, int tabCount) {
-            FontMetrics metrics         = getFontMetrics();
-            Dimension   size            = tabPane.getSize();
-            Insets      insets          = tabPane.getInsets();
-            Insets      tabAreaInsets   = getTabAreaInsets(tabPlacement);
-            int         fontHeight      = metrics.getHeight();
-            int         selectedIndex   = tabPane.getSelectedIndex();
-            boolean     verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
-            boolean     leftToRight     = tabPane.getComponentOrientation().isLeftToRight();
-            int         x               = tabAreaInsets.left;
-            int         y               = tabAreaInsets.top;
-            int         totalWidth      = 0;
-            int         totalHeight     = 0;
+            Dimension          size            = tabPane.getSize();
+            Insets             insets          = tabPane.getInsets();
+            Insets             tabAreaInsets   = getTabAreaInsets(tabPlacement);
+            int                selectedIndex   = tabPane.getSelectedIndex();
+            boolean            verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
+            ControlOrientation orientation     = ControlOrientation.getOrientation(verticalTabRuns ? VERTICAL : HORIZONTAL);
+            boolean            leftToRight     = tabPane.getComponentOrientation().isLeftToRight();
 
             //
             // Calculate bounds within which a tab run must fit
@@ -1248,86 +1222,48 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 maxTabHeight = calculateMaxTabHeight(tabPlacement);
             }
 
-            runCount    = 0;
-            selectedRun = -1;
-
             if (tabCount == 0) {
+                runCount    = 0;
+                selectedRun = -1;
                 return;
             }
 
             selectedRun = 0;
             runCount    = 1;
 
-            // Run through tabs and lay them out in a single run
-            for (int i = 0; i < tabCount; i++) {
-                Rectangle rect = rects[i];
+            int totalLength    = calcMaxLength(tabPlacement, tabCount, verticalTabRuns);
+            int totalThickness = orientation.getOrthogonalOffset(maxTabWidth, maxTabHeight);
 
-                if (!verticalTabRuns) {
-                    // Tabs on TOP or BOTTOM....
-                    if (i > 0) {
-                        rect.x = rects[i - 1].x + rects[i - 1].width;
-                    } else {
-                        tabRuns[0]  = 0;
-                        maxTabWidth = 0;
-                        totalHeight += maxTabHeight;
-                        rect.x      = x;
-                    }
-
-                    rect.width  = calculateTabWidth(tabPlacement, i, metrics);
-                    totalWidth  = rect.x + rect.width;
-                    maxTabWidth = Math.max(maxTabWidth, rect.width);
-
-                    rect.y      = y;
-                    rect.height = maxTabHeight;
-                } else {
-                    // Tabs on LEFT or RIGHT...
-                    if (i > 0) {
-                        rect.y = rects[i - 1].y + rects[i - 1].height;
-                    } else {
-                        tabRuns[0]   = 0;
-                        maxTabHeight = 0;
-                        totalWidth   = maxTabWidth;
-                        rect.y       = y;
-                    }
-
-                    rect.height  = calculateTabHeight(tabPlacement, i, fontHeight);
-                    totalHeight  = rect.y + rect.height;
-                    maxTabHeight = Math.max(maxTabHeight, rect.height);
-
-                    rect.x     = x;
-                    rect.width = maxTabWidth;
-                }
-            }
-
-            if (tabCount > 0) {
+            if (tabCount == 0) {
+                scrollBackwardButton.setVisible(false);
+                scrollForwardButton.setVisible(false);
+            } else {
                 if (leadingTabIndex > selectedIndex) {
                     leadingTabIndex = selectedIndex;
                 }
 
-                Dimension forwardButtonSize    = scrollForwardButton.getPreferredSize();
-                Dimension backwardButtonSize   = scrollBackwardButton.getPreferredSize();
-                int       tabAreaLength        = verticalTabRuns ? size.height - tabAreaInsets.top - tabAreaInsets.bottom
-                                                                 : size.width - tabAreaInsets.left - tabAreaInsets.right;
-                int       maxLength            = verticalTabRuns ? totalHeight : totalWidth;
-                int       leadingTabOffset     = verticalTabRuns ? rects[leadingTabIndex].y : rects[leadingTabIndex].x;
-                int       selectedTabEndOffset = verticalTabRuns ? rects[selectedIndex].y + rects[selectedIndex].height
-                                                                 : rects[selectedIndex].x + rects[selectedIndex].width;
-                int       buttonLength         = verticalTabRuns ? forwardButtonSize.height + backwardButtonSize.height
-                                                                 : forwardButtonSize.width + backwardButtonSize.width;
+                // Make use of the fact that the scroll buttons have the same preferred size. Only assign one.
+                int buttonLength         = orientation.getLength(scrollForwardButton.getPreferredSize());
+                int tabAreaLength        = orientation.getPosition(size.width - tabAreaInsets.left - tabAreaInsets.right,
+                                                                   size.height - tabAreaInsets.top - tabAreaInsets.bottom);
+                int leadingTabOffset     = orientation.getPosition(rects[leadingTabIndex]);
+                int selectedTabEndOffset = orientation.getPosition(rects[selectedIndex].x + rects[selectedIndex].width,
+                                                                   rects[selectedIndex].y + rects[selectedIndex].height);
 
-                if (maxLength <= tabAreaLength) {
+                if (totalLength <= tabAreaLength) {
+                    // Fits with no scroll buttons.
                     leadingTabIndex  = 0;
                     trailingTabIndex = tabCount - 1;
-                } else if (maxLength - leadingTabOffset < tabAreaLength - buttonLength) {
-                    // Leave leadingTabIndex alone.
+                } else if (totalLength + buttonLength - leadingTabOffset <= tabAreaLength) {
+                    // Fits from current leading tab index, with scroll backward button. Leave leadingTabIndex alone.
                     trailingTabIndex = tabCount - 1;
-                } else if (selectedTabEndOffset - leadingTabOffset < tabAreaLength - buttonLength) {
-                    // Leave leadingTabIndex alone.
+                } else if (selectedTabEndOffset - leadingTabOffset + 2 * buttonLength <= tabAreaLength) {
+                    // Selected index fits with current leading tab index and two scroll button. Leave leadingTabIndex alone.
                     trailingTabIndex = -1;
                     for (int i = tabCount - 1; i > selectedIndex; i--) {
-                        int end = verticalTabRuns ? rects[i].y + rects[i].height : rects[i].x + rects[i].width;
+                        int end = orientation.getPosition(rects[i].x + rects[i].width, rects[i].y + rects[i].height);
 
-                        if (end - leadingTabOffset < tabAreaLength - buttonLength) {
+                        if (end - leadingTabOffset + 2 * buttonLength <= tabAreaLength) {
                             trailingTabIndex = i;
                             break;
                         }
@@ -1337,12 +1273,14 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                         trailingTabIndex = selectedIndex;
                     }
                 } else {
+                    // Selected index does not fit with current leading index and two scroll buttons.
+                    // Make selected index the trailing index and find the leading index that will fit.
                     trailingTabIndex = selectedIndex;
                     leadingTabIndex  = -1;
                     for (int i = 0; i < selectedIndex; i++) {
-                        int start = verticalTabRuns ? rects[i].y : rects[i].x;
+                        int start = orientation.getPosition(rects[i]);
 
-                        if (selectedTabEndOffset - start < tabAreaLength - buttonLength) {
+                        if (selectedTabEndOffset - start + 2 * buttonLength <= tabAreaLength) {
                             leadingTabIndex = i;
                             break;
                         }
@@ -1353,32 +1291,75 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                     }
                 }
 
-                tabRuns[0] = leadingTabIndex;
-                int delta = verticalTabRuns ? rects[leadingTabIndex].y - tabAreaInsets.top : rects[leadingTabIndex].x - tabAreaInsets.left;
+                tabRuns[0]       = leadingTabIndex;
+
+                // Rebalance the layout such that the leading tab is at position 0.
+                leadingTabOffset = orientation.getPosition(rects[leadingTabIndex]);
+                for (int i = 0; i < tabCount; i++) {
+                    if (i < leadingTabIndex || i > trailingTabIndex) {
+                        rects[i].setBounds(-1, -1, 0, 0);
+                    } else {
+                        orientation.updateBoundsPosition(rects[i], orientation.getPosition(rects[i]) - leadingTabOffset);
+                    }
+                }
+
+                totalLength = orientation.getPosition(rects[trailingTabIndex].x + rects[trailingTabIndex].width,
+                                                      rects[trailingTabIndex].y + rects[trailingTabIndex].height);
+
+                // Subtract off the button length from the available length.
+                if (leadingTabIndex > 0) {
+                    tabAreaLength -= buttonLength;
+                }
+
+                if (trailingTabIndex < tabCount - 1) {
+                    tabAreaLength -= buttonLength;
+                }
+
+                int offset    = orientation.getOrthogonalOffset(rects[leadingTabIndex]);
+                int thickness = orientation.getThickness(rects[leadingTabIndex]);
 
                 if (leadingTabIndex > 0 || trailingTabIndex < tabCount - 1) {
-                    delta -= verticalTabRuns ? backwardButtonSize.height : backwardButtonSize.width;
-                    repositionTabRects(tabCount, verticalTabRuns, delta);
+                    // Fill the tabs to the available width.
+                    float multiplier = ((float) tabAreaLength / totalLength);
 
-                    if (!verticalTabRuns) {
-                        scrollBackwardButton.setBounds(rects[leadingTabIndex].x - backwardButtonSize.width, rects[leadingTabIndex].y,
-                                                       backwardButtonSize.width, maxTabHeight);
-                        scrollForwardButton.setBounds(rects[trailingTabIndex].x + rects[trailingTabIndex].width, rects[trailingTabIndex].y,
-                                                      forwardButtonSize.width, maxTabHeight);
-                    } else {
-                        scrollBackwardButton.setBounds(rects[leadingTabIndex].x, rects[leadingTabIndex].y - backwardButtonSize.height,
-                                                       maxTabWidth, backwardButtonSize.height);
-                        scrollForwardButton.setBounds(rects[trailingTabIndex].x, rects[trailingTabIndex].y + rects[trailingTabIndex].height,
-                                                      maxTabWidth, forwardButtonSize.height);
+                    for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
+                        int position = (i == leadingTabIndex)
+                            ? (orientation.getPosition(tabAreaInsets.left, tabAreaInsets.top) + (leadingTabIndex > 0 ? buttonLength : 0))
+                            : orientation.getPosition(rects[i - 1]) + orientation.getLength(rects[i - 1]);
+                        int length   = (int) (orientation.getLength(rects[i]) * multiplier);
+
+                        rects[i].setBounds(orientation.createBounds(position, offset, length, thickness));
                     }
-
-                    scrollBackwardButton.setVisible(true);
-                    scrollForwardButton.setVisible(true);
                 } else {
-                    repositionTabRects(tabCount, verticalTabRuns, delta);
+                    // Center the tabs.
+                    int delta = -(tabAreaLength - totalLength) / 2 - orientation.getPosition(tabAreaInsets.left, tabAreaInsets.top);
 
+                    for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
+                        int position = orientation.getPosition(rects[i]) - delta;
+                        int length   = orientation.getLength(rects[i]);
+
+                        rects[i].setBounds(orientation.createBounds(position, offset, length, thickness));
+                    }
+                }
+
+                if (leadingTabIndex == 0) {
                     scrollBackwardButton.setVisible(false);
+                } else {
+                    scrollBackwardButton.setBounds(orientation.createBounds(orientation.getPosition(rects[leadingTabIndex]) - buttonLength,
+                                                                            orientation.getOrthogonalOffset(rects[leadingTabIndex]),
+                                                                            buttonLength,
+                                                                            totalThickness));
+                    scrollBackwardButton.setVisible(true);
+                }
+
+                if (trailingTabIndex == tabCount - 1) {
                     scrollForwardButton.setVisible(false);
+                } else {
+                    scrollForwardButton.setBounds(orientation.createBounds(orientation.getPosition(rects[trailingTabIndex])
+                                                                           + orientation.getLength(rects[trailingTabIndex]),
+                                                                           orientation.getOrthogonalOffset(rects[trailingTabIndex]),
+                                                                           buttonLength, totalThickness));
+                    scrollForwardButton.setVisible(true);
                 }
             }
 
@@ -1391,33 +1372,86 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                     rects[i].x = rightMargin - rects[i].x - rects[i].width;
                 }
             }
-
-            // tabScroller.tabPanel.setPreferredSize(new Dimension(totalWidth, totalHeight));
         }
 
         /**
-         * DOCUMENT ME!
+         * Run through tabs and lay them all out in a single run, assigning
+         * maxTabWidth and maxTabHeight.
          *
-         * @param tabCount
-         * @param verticalTabRuns
-         * @param delta
+         * @param  tabPlacement    the side the tabs are on.
+         * @param  tabCount        the number of tabs.
+         * @param  verticalTabRuns {@code true} if tabs run vertically,
+         *                         {@code false} otherwise.
+         *
+         * @return the maximum width, if tabs run horizontall, otherwise the
+         *         maximum height.
          */
-        private void repositionTabRects(int tabCount, boolean verticalTabRuns, int delta) {
-            for (int i = 0; i < leadingTabIndex; i++) {
-                rects[i].setBounds(-1, -1, 0, 0);
+        private int calcMaxLength(int tabPlacement, int tabCount, boolean verticalTabRuns) {
+            FontMetrics metrics    = getFontMetrics();
+            int         fontHeight = metrics.getHeight();
+            int         maxLength  = 0;
+            int         offset;
+
+            switch (tabPlacement) {
+
+            case LEFT:
+                offset = getTabAreaInsets(tabPlacement).left;
+                break;
+
+            case RIGHT:
+                offset = tabPane.getSize().width - maxTabWidth - getTabAreaInsets(tabPlacement).right;
+                break;
+
+            case BOTTOM:
+                offset = tabPane.getSize().height - maxTabHeight - getTabAreaInsets(tabPlacement).bottom;
+                break;
+
+            case TOP:
+            default:
+                offset = getTabAreaInsets(tabPlacement).top;
+                break;
             }
 
-            for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
+            // Run through tabs and lay them out in a single run
+            for (int i = 0; i < tabCount; i++) {
+                Rectangle rect = rects[i];
+
                 if (!verticalTabRuns) {
-                    rects[i].x -= delta;
+                    // Tabs on TOP or BOTTOM....
+                    if (i > 0) {
+                        rect.x = rects[i - 1].x + rects[i - 1].width;
+                    } else {
+                        tabRuns[0]  = 0;
+                        maxTabWidth = 0;
+                        rect.x      = 0;
+                    }
+
+                    rect.width  = calculateTabWidth(tabPlacement, i, metrics);
+                    maxLength   = rect.x + rect.width;
+                    maxTabWidth = Math.max(maxTabWidth, rect.width);
+
+                    rect.y      = offset;
+                    rect.height = maxTabHeight;
                 } else {
-                    rects[i].y -= delta;
+                    // Tabs on LEFT or RIGHT...
+                    if (i > 0) {
+                        rect.y = rects[i - 1].y + rects[i - 1].height;
+                    } else {
+                        tabRuns[0]   = 0;
+                        maxTabHeight = 0;
+                        rect.y       = 0;
+                    }
+
+                    rect.height  = calculateTabHeight(tabPlacement, i, fontHeight);
+                    maxLength    = rect.y + rect.height;
+                    maxTabHeight = Math.max(maxTabHeight, rect.height);
+
+                    rect.x     = offset;
+                    rect.width = maxTabWidth;
                 }
             }
 
-            for (int i = trailingTabIndex + 1; i < tabCount; i++) {
-                rects[i].setBounds(-1, -1, 0, 0);
-            }
+            return maxLength;
         }
 
         /**
