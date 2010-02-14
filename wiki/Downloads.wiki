@@ -41,6 +41,7 @@ Older versions:
 == Simple Download ==
 
 || Version || Jar || Javadoc ||
+|| 0.1.6.1 || [http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.6.1/seaglasslookandfeel-0.1.6.1.jar seaglasslookandfeel-0.1.6.1.jar] || [http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.6.1/seaglasslookandfeel-0.1.6.1-javadoc.jar seaglasslookandfeel-0.1.6.1-javadoc.jar] ||
 || 0.1.6 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.6/seaglasslookandfeel-0.1.6.jar seaglasslookandfeel-0.1.6.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.6/seaglasslookandfeel-0.1.6-javadoc.jar seaglasslookandfeel-0.1.6-javadoc.jar] ||
 || 0.1.5 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.5/seaglasslookandfeel-0.1.5.jar seaglasslookandfeel-0.1.5.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.5/seaglasslookandfeel-0.1.5-javadoc.jar seaglasslookandfeel-0.1.5-javadoc.jar] ||
 || 0.1.4 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.4/seaglasslookandfeel-0.1.4.jar seaglasslookandfeel-0.1.4.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.4/seaglasslookandfeel-0.1.4-javadoc.jar seaglasslookandfeel-0.1.4-javadoc.jar] ||
