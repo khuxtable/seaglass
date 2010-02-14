@@ -18,7 +18,7 @@ If you are using Maven, you may include the following in your `pom.xml' file:
 </dependencies>
 }}}
 
-For versions prior to 0.1.6.1:
+For versions prior to 0.1.6.1, you need to specify the repository as below. We will likely not support this for too much longer.
 
 {{{
 <repositories>
@@ -28,14 +28,6 @@ For versions prior to 0.1.6.1:
         <url>http://seaglass.googlecode.com/svn/repo</url>
     </repository>
 </repositories>
-...
-<dependencies>
-    <dependency>
-        <groupId>com.seaglasslookandfeel</groupId>
-        <artifactId>seaglasslookandfeel</artifactId>
-        <version>olderVersionNumber...</version>
-    </dependency>
-</dependencies>
 }}}
 
 == Simple Download ==
