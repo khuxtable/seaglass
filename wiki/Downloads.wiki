@@ -9,6 +9,18 @@ See the [Usage usage] page for more information.
 If you are using Maven, you may include the following in your `pom.xml' file:
 
 {{{
+<dependencies>
+    <dependency>
+        <groupId>com.seaglasslookandfeel</groupId>
+        <artifactId>seaglasslookandfeel</artifactId>
+        <version>0.1.6.1</version>
+    </dependency>
+</dependencies>
+}}}
+
+Older versions:
+
+{{{
 <repositories>
     <repository>
         <id>seaglasslookandfeel</id>
@@ -21,7 +33,7 @@ If you are using Maven, you may include the following in your `pom.xml' file:
     <dependency>
         <groupId>com.seaglasslookandfeel</groupId>
         <artifactId>seaglasslookandfeel</artifactId>
-        <version>0.1.6</version>
+        <version>olderVersionNumber...</version>
     </dependency>
 </dependencies>
 }}}
