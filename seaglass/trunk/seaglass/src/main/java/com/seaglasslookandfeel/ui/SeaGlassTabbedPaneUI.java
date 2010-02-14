@@ -1439,7 +1439,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             // if right to left and tab placement on the top or
             // the bottom, flip x positions and adjust by widths
             if (!leftToRight && !verticalTabRuns) {
-                int rightMargin = size.width - (insets.right + tabAreaInsets.right);
+                int rightMargin = size.width + 10 - (insets.right + tabAreaInsets.right);
 
                 for (int i = 0; i < tabCount; i++) {
                     rects[i].x = rightMargin - rects[i].x - rects[i].width;
