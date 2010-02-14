@@ -18,7 +18,7 @@ If you are using Maven, you may include the following in your `pom.xml' file:
 </dependencies>
 }}}
 
-Older versions:
+For versions prior to 0.1.6.1:
 
 {{{
 <repositories>
