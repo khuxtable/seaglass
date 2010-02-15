@@ -6,9 +6,11 @@
 	<packaging>jar</packaging>
 	<version>0.1.7-SNAPSHOT</version>
 	<name>Sea Glass Look and Feel for Swing</name>
-	<description>A Java cross-platform look and feel for JRE 1.6u17 and later.
-	This is developed from Synth, and is based on forms seen in sea glass,
-	that is, bits of glass washed up on the shore by the sea.</description>
+	<description>
+		A Java cross-platform look and feel for JRE 1.6u17 and later.
+		This is developed from Synth, and is based on forms seen in sea glass,
+		that is, bits of glass washed up on the shore by the sea.
+	</description>
 	<inceptionYear>2009</inceptionYear>
 	<url>http://seaglasslookandfeel.com</url>
 	<developers>
@@ -60,6 +62,7 @@
 	</organization>
 	<build>
 		<plugins>
+			<!-- Configure the compiler plugin to use JDK 1.6. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -69,6 +72,10 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<!--
+				Configure the jar plugin. This packages the jar for the project. The only configuration done
+				here is to add the Maven coordinate information.
+			-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -81,6 +88,10 @@
 					</archive>
 				</configuration>
 			</plugin>
+			<!--
+				Configure the release plugin. This aids in releasing versions of the software by automating
+				repetitive tasks that could otherwise be omitted or done incorrectly.
+			-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
@@ -89,6 +100,9 @@
 					<tagBase>https://seaglass.googlecode.com/svn/seaglass/tags</tagBase>
 				</configuration>
 			</plugin>
+			<!--
+				Configure the site plugin. This creates site documentation suitable for deploying to a web site.
+			-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -99,6 +113,10 @@
 					<templateFile>src/site/site.vm</templateFile>
 				</configuration>
 			</plugin>
+			<!--
+				Configure the source plugin. This creates a jar of source files for deployment to the Maven
+				repository.
+			-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -115,15 +133,9 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<extensions>
-			<extension>
-				<groupId>org.jvnet.wagon-svn</groupId>
-				<artifactId>wagon-svn</artifactId>
-				<version>1.9</version>
-			</extension>
-		</extensions>
 	</build>
 	<dependencies>
+		<!-- JUnit is the only external dependency for Sea Glass, and it is only used for testing. -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -132,22 +144,30 @@
 		</dependency>
 	</dependencies>
 	<distributionManagement>
+		<!-- Site to deploy releases to. -->
 		<repository>
 			<id>ossrh</id>
 			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
+		<!-- Site to deploy snapshots to. -->
 		<snapshotRepository>
 			<id>ossrh</id>
 			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
+		<!--
+			Site to deploy site documentation to. Note that this overwrites the previous site documentation.
+			But if someone checks out the project, they can rebuild the site documentation, so we're not too
+			concerned.
+		-->
 		<site>
 			<id>personal_website</id>
 			<url>scpexe://shell.sonic.net/home/k/kathryn5/public_html/projects/site/seaglass</url>
 		</site>
 	</distributionManagement>
+	<!-- Define Google Code site's issue management system. -->
 	<issueManagement>
 		<system>Google Code</system>
-		<url>http://code.google.com/p/seaglass/issues/</url>
+		<url>http://seaglasslookandfeel.com/issues/</url>
 	</issueManagement>
 	<reporting>
 		<plugins>
@@ -229,12 +249,21 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	<!--
+		Source control management definitions for anonymous checkout, developer checkout/checkin, and
+		browsing via the web. The developer connection is used by the release plugin, as well as in
+		generating the site documentation.
+	-->
 	<scm>
 		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</connection>
 		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</developerConnection>
 		<url>http://code.google.com/p/seaglass/source/browse/seaglass/trunk/seaglass</url>
 	</scm>
 	<profiles>
+		<!--
+			Define the profile to be activated when performing a release. This makes sure all the
+			deliverables are signed with GPG.
+		-->
 		<profile>
 			<id>release-sign-artifacts</id>
 			<activation>
@@ -264,6 +293,7 @@
 		</profile>
 	</profiles>
 	<properties>
+		<!-- Define the default encoding. We want this to be platform independent. -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 </project>
