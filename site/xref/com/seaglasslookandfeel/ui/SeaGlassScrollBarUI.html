@@ -1,0 +1,761 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+<title>SeaGlassScrollBarUI xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../apidocs/com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">View Javadoc</a></div><pre>
+
+<a name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
+<a name="2" href="#2">2</a>   <em class="jxr_comment"> * Copyright (c) 2009 Kathryn Huxtable and Kenneth Orr.</em>
+<a name="3" href="#3">3</a>   <em class="jxr_comment"> *</em>
+<a name="4" href="#4">4</a>   <em class="jxr_comment"> * This file is part of the SeaGlass Pluggable Look and Feel.</em>
+<a name="5" href="#5">5</a>   <em class="jxr_comment"> *</em>
+<a name="6" href="#6">6</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
+<a name="7" href="#7">7</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
+<a name="8" href="#8">8</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
+<a name="9" href="#9">9</a>   <em class="jxr_comment"> *</em>
+<a name="10" href="#10">10</a>  <em class="jxr_comment"> *     <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
+<a name="11" href="#11">11</a>  <em class="jxr_comment"> *</em>
+<a name="12" href="#12">12</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a name="13" href="#13">13</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a name="14" href="#14">14</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a name="15" href="#15">15</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
+<a name="16" href="#16">16</a>  <em class="jxr_comment"> * limitations under the License.</em>
+<a name="17" href="#17">17</a>  <em class="jxr_comment"> * </em>
+<a name="18" href="#18">18</a>  <em class="jxr_comment"> * $Id: SeaGlassScrollBarUI.java 900 2010-01-27 00:30:27Z kathryn@kathrynhuxtable.org $</em>
+<a name="19" href="#19">19</a>  <em class="jxr_comment"> */</em>
+<a name="20" href="#20">20</a>  <strong class="jxr_keyword">package</strong> com.seaglasslookandfeel.ui;
+<a name="21" href="#21">21</a>  
+<a name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> java.awt.Dimension;
+<a name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> java.awt.Graphics;
+<a name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> java.awt.Insets;
+<a name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> java.awt.Rectangle;
+<a name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> java.awt.event.MouseAdapter;
+<a name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> java.awt.event.MouseEvent;
+<a name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> java.awt.event.MouseListener;
+<a name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> java.beans.PropertyChangeEvent;
+<a name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> java.beans.PropertyChangeListener;
+<a name="31" href="#31">31</a>  
+<a name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> javax.swing.JButton;
+<a name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> javax.swing.JComponent;
+<a name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> javax.swing.JScrollBar;
+<a name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> javax.swing.SwingUtilities;
+<a name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.ComponentUI;
+<a name="37" href="#37">37</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.UIResource;
+<a name="38" href="#38">38</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.basic.BasicScrollBarUI;
+<a name="39" href="#39">39</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.Region;
+<a name="40" href="#40">40</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.SynthContext;
+<a name="41" href="#41">41</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.SynthLookAndFeel;
+<a name="42" href="#42">42</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.SynthStyle;
+<a name="43" href="#43">43</a>  
+<a name="44" href="#44">44</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.SeaGlassContext;
+<a name="45" href="#45">45</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.SeaGlassLookAndFeel;
+<a name="46" href="#46">46</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.SeaGlassRegion;
+<a name="47" href="#47">47</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.component.SeaGlassArrowButton;
+<a name="48" href="#48">48</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.state.ScrollBarButtonsTogetherState;
+<a name="49" href="#49">49</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.state.State;
+<a name="50" href="#50">50</a>  
+<a name="51" href="#51">51</a>  <strong class="jxr_keyword">import</strong> sun.swing.DefaultLookup;
+<a name="52" href="#52">52</a>  <strong class="jxr_keyword">import</strong> sun.swing.plaf.synth.SynthUI;
+<a name="53" href="#53">53</a>  
+<a name="54" href="#54">54</a>  <em class="jxr_javadoccomment">/**</em>
+<a name="55" href="#55">55</a>  <em class="jxr_javadoccomment"> * SeaGlassScrollBarUI implementation.</em>
+<a name="56" href="#56">56</a>  <em class="jxr_javadoccomment"> * </em>
+<a name="57" href="#57">57</a>  <em class="jxr_javadoccomment"> * Based on SynthScrollBarUI by Scott Violet.</em>
+<a name="58" href="#58">58</a>  <em class="jxr_javadoccomment"> * </em>
+<a name="59" href="#59">59</a>  <em class="jxr_javadoccomment"> * @see javax.swing.plaf.synth.SynthScrollBarUI</em>
+<a name="60" href="#60">60</a>  <em class="jxr_javadoccomment"> */</em>
+<a name="61" href="#61">61</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">SeaGlassScrollBarUI</a> <strong class="jxr_keyword">extends</strong> BasicScrollBarUI implements PropertyChangeListener, SynthUI {
+<a name="62" href="#62">62</a>  
+<a name="63" href="#63">63</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../com/seaglasslookandfeel/state/State.html">State</a>  buttonsTogether = <strong class="jxr_keyword">new</strong> ScrollBarButtonsTogetherState();
+<a name="64" href="#64">64</a>  
+<a name="65" href="#65">65</a>      <strong class="jxr_keyword">private</strong> SynthStyle          style;
+<a name="66" href="#66">66</a>      <strong class="jxr_keyword">private</strong> SynthStyle          thumbStyle;
+<a name="67" href="#67">67</a>      <strong class="jxr_keyword">private</strong> SynthStyle          trackStyle;
+<a name="68" href="#68">68</a>      <strong class="jxr_keyword">private</strong> SynthStyle          capStyle;
+<a name="69" href="#69">69</a>  
+<a name="70" href="#70">70</a>      <strong class="jxr_keyword">private</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassTextFieldUI.html">MouseButtonListener</a> mouseButtonListener;
+<a name="71" href="#71">71</a>  
+<a name="72" href="#72">72</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong>             validMinimumThumbSize;
+<a name="73" href="#73">73</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong>                 scrollBarWidth;
+<a name="74" href="#74">74</a>  
+<a name="75" href="#75">75</a>      <em class="jxr_comment">// These two variables should be removed when the corrosponding ones in</em>
+<a name="76" href="#76">76</a>      <em class="jxr_comment">// BasicScrollBarUI are made protected</em>
+<a name="77" href="#77">77</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong>                 incrGap;
+<a name="78" href="#78">78</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong>                 decrGap;
+<a name="79" href="#79">79</a>  
+<a name="80" href="#80">80</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong>                 capSize;
+<a name="81" href="#81">81</a>  
+<a name="82" href="#82">82</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> ComponentUI createUI(JComponent c) {
+<a name="83" href="#83">83</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">SeaGlassScrollBarUI</a>();
+<a name="84" href="#84">84</a>      }
+<a name="85" href="#85">85</a>  
+<a name="86" href="#86">86</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> installDefaults() {
+<a name="87" href="#87">87</a>          <em class="jxr_comment">/*</em>
+<a name="88" href="#88">88</a>  <em class="jxr_comment">         * NOTE: This next line of code was added because, since incrGap and</em>
+<a name="89" href="#89">89</a>  <em class="jxr_comment">         * decrGap in BasicScrollBarUI are private, I need to have some way of</em>
+<a name="90" href="#90">90</a>  <em class="jxr_comment">         * updating them. This is an incomplete solution (since it implies that</em>
+<a name="91" href="#91">91</a>  <em class="jxr_comment">         * the incrGap and decrGap are set once, and not reset per state.</em>
+<a name="92" href="#92">92</a>  <em class="jxr_comment">         * Probably ok, but not always ok). This line of code should be removed</em>
+<a name="93" href="#93">93</a>  <em class="jxr_comment">         * at the same time that incrGap and decrGap are removed and made</em>
+<a name="94" href="#94">94</a>  <em class="jxr_comment">         * protected in the super class.</em>
+<a name="95" href="#95">95</a>  <em class="jxr_comment">         */</em>
+<a name="96" href="#96">96</a>          <strong class="jxr_keyword">super</strong>.installDefaults();
+<a name="97" href="#97">97</a>  
+<a name="98" href="#98">98</a>          trackHighlight = NO_HIGHLIGHT;
+<a name="99" href="#99">99</a>          <strong class="jxr_keyword">if</strong> (scrollbar.getLayout() == <strong class="jxr_keyword">null</strong> || (scrollbar.getLayout() instanceof UIResource)) {
+<a name="100" href="#100">100</a>             scrollbar.setLayout(<strong class="jxr_keyword">this</strong>);
+<a name="101" href="#101">101</a>         }
+<a name="102" href="#102">102</a>         updateStyle(scrollbar);
+<a name="103" href="#103">103</a>     }
+<a name="104" href="#104">104</a> 
+<a name="105" href="#105">105</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> configureScrollBarColors() {
+<a name="106" href="#106">106</a>     }
+<a name="107" href="#107">107</a> 
+<a name="108" href="#108">108</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> updateStyle(JScrollBar c) {
+<a name="109" href="#109">109</a>         SynthStyle oldStyle = style;
+<a name="110" href="#110">110</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c, ENABLED);
+<a name="111" href="#111">111</a>         style = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
+<a name="112" href="#112">112</a>         <strong class="jxr_keyword">if</strong> (style != oldStyle) {
+<a name="113" href="#113">113</a>             scrollBarWidth = style.getInt(context, <span class="jxr_string">"ScrollBar.thumbHeight"</span>, 14);
+<a name="114" href="#114">114</a> 
+<a name="115" href="#115">115</a>             minimumThumbSize = (Dimension) style.get(context, <span class="jxr_string">"ScrollBar.minimumThumbSize"</span>);
+<a name="116" href="#116">116</a>             <strong class="jxr_keyword">if</strong> (minimumThumbSize == <strong class="jxr_keyword">null</strong>) {
+<a name="117" href="#117">117</a>                 minimumThumbSize = <strong class="jxr_keyword">new</strong> Dimension();
+<a name="118" href="#118">118</a>                 validMinimumThumbSize = false;
+<a name="119" href="#119">119</a>             } <strong class="jxr_keyword">else</strong> {
+<a name="120" href="#120">120</a>                 validMinimumThumbSize = <strong class="jxr_keyword">true</strong>;
+<a name="121" href="#121">121</a>             }
+<a name="122" href="#122">122</a>             maximumThumbSize = (Dimension) style.get(context, <span class="jxr_string">"ScrollBar.maximumThumbSize"</span>);
+<a name="123" href="#123">123</a>             <strong class="jxr_keyword">if</strong> (maximumThumbSize == <strong class="jxr_keyword">null</strong>) {
+<a name="124" href="#124">124</a>                 maximumThumbSize = <strong class="jxr_keyword">new</strong> Dimension(4096, 4097);
+<a name="125" href="#125">125</a>             }
+<a name="126" href="#126">126</a> 
+<a name="127" href="#127">127</a>             incrGap = style.getInt(context, <span class="jxr_string">"ScrollBar.incrementButtonGap"</span>, 0);
+<a name="128" href="#128">128</a>             decrGap = style.getInt(context, <span class="jxr_string">"ScrollBar.decrementButtonGap"</span>, 0);
+<a name="129" href="#129">129</a>             capSize = style.getInt(context, <span class="jxr_string">"ScrollBar.capSize"</span>, 0);
+<a name="130" href="#130">130</a> 
+<a name="131" href="#131">131</a>             <em class="jxr_comment">/*</em>
+<a name="132" href="#132">132</a> <em class="jxr_comment">             * Handle scaling for sizeVarients for special case components. The</em>
+<a name="133" href="#133">133</a> <em class="jxr_comment">             * key "JComponent.sizeVariant" scales for large/small/mini</em>
+<a name="134" href="#134">134</a> <em class="jxr_comment">             * components are based on Apples LAF</em>
+<a name="135" href="#135">135</a> <em class="jxr_comment">             */</em>
+<a name="136" href="#136">136</a>             String scaleKey = (String) scrollbar.getClientProperty(<span class="jxr_string">"JComponent.sizeVariant"</span>);
+<a name="137" href="#137">137</a>             <strong class="jxr_keyword">if</strong> (scaleKey != <strong class="jxr_keyword">null</strong>) {
+<a name="138" href="#138">138</a>                 <strong class="jxr_keyword">if</strong> (<span class="jxr_string">"large"</span>.equals(scaleKey)) {
+<a name="139" href="#139">139</a>                     scrollBarWidth *= 1.15;
+<a name="140" href="#140">140</a>                     incrGap *= 1.15;
+<a name="141" href="#141">141</a>                     decrGap *= 1.15;
+<a name="142" href="#142">142</a>                 } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<span class="jxr_string">"small"</span>.equals(scaleKey)) {
+<a name="143" href="#143">143</a>                     scrollBarWidth *= 0.857;
+<a name="144" href="#144">144</a>                     incrGap *= 0.857;
+<a name="145" href="#145">145</a>                     decrGap *= 0.857;
+<a name="146" href="#146">146</a>                 } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<span class="jxr_string">"mini"</span>.equals(scaleKey)) {
+<a name="147" href="#147">147</a>                     scrollBarWidth *= 0.714;
+<a name="148" href="#148">148</a>                     incrGap *= 0.714;
+<a name="149" href="#149">149</a>                     decrGap *= 0.714;
+<a name="150" href="#150">150</a>                 }
+<a name="151" href="#151">151</a>             }
+<a name="152" href="#152">152</a> 
+<a name="153" href="#153">153</a>             <strong class="jxr_keyword">if</strong> (oldStyle != <strong class="jxr_keyword">null</strong>) {
+<a name="154" href="#154">154</a>                 uninstallKeyboardActions();
+<a name="155" href="#155">155</a>                 installKeyboardActions();
+<a name="156" href="#156">156</a>             }
+<a name="157" href="#157">157</a>         }
+<a name="158" href="#158">158</a>         context.dispose();
+<a name="159" href="#159">159</a> 
+<a name="160" href="#160">160</a>         context = getContext(c, Region.SCROLL_BAR_TRACK, ENABLED);
+<a name="161" href="#161">161</a>         trackStyle = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
+<a name="162" href="#162">162</a>         context.dispose();
+<a name="163" href="#163">163</a> 
+<a name="164" href="#164">164</a>         context = getContext(c, Region.SCROLL_BAR_THUMB, ENABLED);
+<a name="165" href="#165">165</a>         thumbStyle = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
+<a name="166" href="#166">166</a>         context.dispose();
+<a name="167" href="#167">167</a> 
+<a name="168" href="#168">168</a>         context = getContext(c, SeaGlassRegion.SCROLL_BAR_CAP, ENABLED);
+<a name="169" href="#169">169</a>         capStyle = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
+<a name="170" href="#170">170</a>         context.dispose();
+<a name="171" href="#171">171</a>     }
+<a name="172" href="#172">172</a> 
+<a name="173" href="#173">173</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> installListeners() {
+<a name="174" href="#174">174</a>         <strong class="jxr_keyword">super</strong>.installListeners();
+<a name="175" href="#175">175</a>         scrollbar.addPropertyChangeListener(<strong class="jxr_keyword">this</strong>);
+<a name="176" href="#176">176</a>         mouseButtonListener = <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassTextFieldUI.html">MouseButtonListener</a>();
+<a name="177" href="#177">177</a>         scrollbar.addMouseListener(mouseButtonListener);
+<a name="178" href="#178">178</a>     }
+<a name="179" href="#179">179</a> 
+<a name="180" href="#180">180</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> uninstallListeners() {
+<a name="181" href="#181">181</a>         <strong class="jxr_keyword">super</strong>.uninstallListeners();
+<a name="182" href="#182">182</a>         scrollbar.removePropertyChangeListener(<strong class="jxr_keyword">this</strong>);
+<a name="183" href="#183">183</a>         scrollbar.removeMouseListener(mouseButtonListener);
+<a name="184" href="#184">184</a>     }
+<a name="185" href="#185">185</a> 
+<a name="186" href="#186">186</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> uninstallDefaults() {
+<a name="187" href="#187">187</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(scrollbar, ENABLED);
+<a name="188" href="#188">188</a>         style.uninstallDefaults(context);
+<a name="189" href="#189">189</a>         context.dispose();
+<a name="190" href="#190">190</a>         style = <strong class="jxr_keyword">null</strong>;
+<a name="191" href="#191">191</a> 
+<a name="192" href="#192">192</a>         context = getContext(scrollbar, Region.SCROLL_BAR_TRACK, ENABLED);
+<a name="193" href="#193">193</a>         trackStyle.uninstallDefaults(context);
+<a name="194" href="#194">194</a>         context.dispose();
+<a name="195" href="#195">195</a>         trackStyle = <strong class="jxr_keyword">null</strong>;
+<a name="196" href="#196">196</a> 
+<a name="197" href="#197">197</a>         context = getContext(scrollbar, Region.SCROLL_BAR_THUMB, ENABLED);
+<a name="198" href="#198">198</a>         thumbStyle.uninstallDefaults(context);
+<a name="199" href="#199">199</a>         context.dispose();
+<a name="200" href="#200">200</a>         thumbStyle = <strong class="jxr_keyword">null</strong>;
+<a name="201" href="#201">201</a> 
+<a name="202" href="#202">202</a>         context = getContext(scrollbar, SeaGlassRegion.SCROLL_BAR_CAP, ENABLED);
+<a name="203" href="#203">203</a>         capStyle.uninstallDefaults(context);
+<a name="204" href="#204">204</a>         context.dispose();
+<a name="205" href="#205">205</a>         capStyle = <strong class="jxr_keyword">null</strong>;
+<a name="206" href="#206">206</a> 
+<a name="207" href="#207">207</a>         <strong class="jxr_keyword">super</strong>.uninstallDefaults();
+<a name="208" href="#208">208</a>     }
+<a name="209" href="#209">209</a> 
+<a name="210" href="#210">210</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c) {
+<a name="211" href="#211">211</a>         <strong class="jxr_keyword">return</strong> getContext(c, getComponentState(c));
+<a name="212" href="#212">212</a>     }
+<a name="213" href="#213">213</a> 
+<a name="214" href="#214">214</a>     <strong class="jxr_keyword">private</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, <strong class="jxr_keyword">int</strong> state) {
+<a name="215" href="#215">215</a>         <strong class="jxr_keyword">return</strong> SeaGlassContext.getContext(SeaGlassContext.<strong class="jxr_keyword">class</strong>, c, SynthLookAndFeel.getRegion(c), style, state);
+<a name="216" href="#216">216</a>     }
+<a name="217" href="#217">217</a> 
+<a name="218" href="#218">218</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> getComponentState(JComponent c) {
+<a name="219" href="#219">219</a>         <strong class="jxr_keyword">return</strong> SeaGlassLookAndFeel.getComponentState(c);
+<a name="220" href="#220">220</a>     }
+<a name="221" href="#221">221</a> 
+<a name="222" href="#222">222</a>     <strong class="jxr_keyword">private</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, Region region) {
+<a name="223" href="#223">223</a>         <strong class="jxr_keyword">return</strong> getContext(c, region, getComponentState(c, region));
+<a name="224" href="#224">224</a>     }
+<a name="225" href="#225">225</a> 
+<a name="226" href="#226">226</a>     <strong class="jxr_keyword">private</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, Region region, <strong class="jxr_keyword">int</strong> state) {
+<a name="227" href="#227">227</a>         SynthStyle style = trackStyle;
+<a name="228" href="#228">228</a> 
+<a name="229" href="#229">229</a>         <strong class="jxr_keyword">if</strong> (region == Region.SCROLL_BAR_THUMB) {
+<a name="230" href="#230">230</a>             style = thumbStyle;
+<a name="231" href="#231">231</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (region == SeaGlassRegion.SCROLL_BAR_CAP) {
+<a name="232" href="#232">232</a>             style = capStyle;
+<a name="233" href="#233">233</a>         }
+<a name="234" href="#234">234</a>         <strong class="jxr_keyword">return</strong> SeaGlassContext.getContext(SeaGlassContext.<strong class="jxr_keyword">class</strong>, c, region, style, state);
+<a name="235" href="#235">235</a>     }
+<a name="236" href="#236">236</a> 
+<a name="237" href="#237">237</a>     <strong class="jxr_keyword">public</strong> JButton getDecreaseButton() {
+<a name="238" href="#238">238</a>         <strong class="jxr_keyword">return</strong> decrButton;
+<a name="239" href="#239">239</a>     }
+<a name="240" href="#240">240</a> 
+<a name="241" href="#241">241</a>     <strong class="jxr_keyword">public</strong> JButton getIncreaseButton() {
+<a name="242" href="#242">242</a>         <strong class="jxr_keyword">return</strong> incrButton;
+<a name="243" href="#243">243</a>     }
+<a name="244" href="#244">244</a> 
+<a name="245" href="#245">245</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isMouseButtonDown() {
+<a name="246" href="#246">246</a>         <strong class="jxr_keyword">return</strong> isMouseButtonDown;
+<a name="247" href="#247">247</a>     }
+<a name="248" href="#248">248</a> 
+<a name="249" href="#249">249</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> getComponentState(JComponent c, Region region) {
+<a name="250" href="#250">250</a>         <strong class="jxr_keyword">if</strong> (region == Region.SCROLL_BAR_THUMB &amp;&amp; isThumbRollover() &amp;&amp; c.isEnabled()) {
+<a name="251" href="#251">251</a>             <strong class="jxr_keyword">if</strong> (isMouseButtonDown) {
+<a name="252" href="#252">252</a>                 <strong class="jxr_keyword">return</strong> PRESSED;
+<a name="253" href="#253">253</a>             }
+<a name="254" href="#254">254</a>             <strong class="jxr_keyword">return</strong> MOUSE_OVER;
+<a name="255" href="#255">255</a>         }
+<a name="256" href="#256">256</a>         <strong class="jxr_keyword">return</strong> SeaGlassLookAndFeel.getComponentState(c);
+<a name="257" href="#257">257</a>     }
+<a name="258" href="#258">258</a> 
+<a name="259" href="#259">259</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> getSupportsAbsolutePositioning() {
+<a name="260" href="#260">260</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(scrollbar);
+<a name="261" href="#261">261</a>         <strong class="jxr_keyword">boolean</strong> value = style.getBoolean(context, <span class="jxr_string">"ScrollBar.allowsAbsolutePositioning"</span>, false);
+<a name="262" href="#262">262</a>         context.dispose();
+<a name="263" href="#263">263</a>         <strong class="jxr_keyword">return</strong> value;
+<a name="264" href="#264">264</a>     }
+<a name="265" href="#265">265</a> 
+<a name="266" href="#266">266</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> update(Graphics g, JComponent c) {
+<a name="267" href="#267">267</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c);
+<a name="268" href="#268">268</a> 
+<a name="269" href="#269">269</a>         SeaGlassLookAndFeel.update(context, g);
+<a name="270" href="#270">270</a>         context.getPainter().paintScrollBarBackground(context, g, 0, 0, c.getWidth(), c.getHeight(), scrollbar.getOrientation());
+<a name="271" href="#271">271</a>         paint(context, g);
+<a name="272" href="#272">272</a>         context.dispose();
+<a name="273" href="#273">273</a>     }
+<a name="274" href="#274">274</a> 
+<a name="275" href="#275">275</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paint(Graphics g, JComponent c) {
+<a name="276" href="#276">276</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c);
+<a name="277" href="#277">277</a> 
+<a name="278" href="#278">278</a>         paint(context, g);
+<a name="279" href="#279">279</a>         context.dispose();
+<a name="280" href="#280">280</a>     }
+<a name="281" href="#281">281</a> 
+<a name="282" href="#282">282</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> paint(<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context, Graphics g) {
+<a name="283" href="#283">283</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> subcontext = getContext(scrollbar, Region.SCROLL_BAR_TRACK);
+<a name="284" href="#284">284</a>         paintTrack(subcontext, g, getTrackBounds());
+<a name="285" href="#285">285</a>         subcontext.dispose();
+<a name="286" href="#286">286</a> 
+<a name="287" href="#287">287</a>         <strong class="jxr_keyword">if</strong> (buttonsTogether.isInState(context.getComponent())) {
+<a name="288" href="#288">288</a>             subcontext = getContext(scrollbar, SeaGlassRegion.SCROLL_BAR_CAP);
+<a name="289" href="#289">289</a>             paintCap(subcontext, g, getCapBounds());
+<a name="290" href="#290">290</a>             subcontext.dispose();
+<a name="291" href="#291">291</a>         }
+<a name="292" href="#292">292</a> 
+<a name="293" href="#293">293</a>         subcontext = getContext(scrollbar, Region.SCROLL_BAR_THUMB);
+<a name="294" href="#294">294</a>         paintThumb(subcontext, g, getThumbBounds());
+<a name="295" href="#295">295</a>         subcontext.dispose();
+<a name="296" href="#296">296</a>     }
+<a name="297" href="#297">297</a> 
+<a name="298" href="#298">298</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paintBorder(SynthContext context, Graphics g, <strong class="jxr_keyword">int</strong> x, <strong class="jxr_keyword">int</strong> y, <strong class="jxr_keyword">int</strong> w, <strong class="jxr_keyword">int</strong> h) {
+<a name="299" href="#299">299</a>         ((<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a>) context).getPainter().paintScrollBarBorder(context, g, x, y, w, h, scrollbar.getOrientation());
+<a name="300" href="#300">300</a>     }
+<a name="301" href="#301">301</a> 
+<a name="302" href="#302">302</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> paintTrack(<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> ss, Graphics g, Rectangle trackBounds) {
+<a name="303" href="#303">303</a>         SeaGlassLookAndFeel.updateSubregion(ss, g, trackBounds);
+<a name="304" href="#304">304</a>         ss.getPainter().paintScrollBarTrackBackground(ss, g, trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height,
+<a name="305" href="#305">305</a>             scrollbar.getOrientation());
+<a name="306" href="#306">306</a>         ss.getPainter().paintScrollBarTrackBorder(ss, g, trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height,
+<a name="307" href="#307">307</a>             scrollbar.getOrientation());
+<a name="308" href="#308">308</a>     }
+<a name="309" href="#309">309</a> 
+<a name="310" href="#310">310</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> paintThumb(<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> ss, Graphics g, Rectangle thumbBounds) {
+<a name="311" href="#311">311</a>         SeaGlassLookAndFeel.updateSubregion(ss, g, thumbBounds);
+<a name="312" href="#312">312</a>         <strong class="jxr_keyword">int</strong> orientation = scrollbar.getOrientation();
+<a name="313" href="#313">313</a>         ss.getPainter().paintScrollBarThumbBackground(ss, g, thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height,
+<a name="314" href="#314">314</a>             orientation);
+<a name="315" href="#315">315</a>         ss.getPainter().paintScrollBarThumbBorder(ss, g, thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height, orientation);
+<a name="316" href="#316">316</a>     }
+<a name="317" href="#317">317</a> 
+<a name="318" href="#318">318</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> paintCap(<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> ss, Graphics g, Rectangle capBounds) {
+<a name="319" href="#319">319</a>         SeaGlassLookAndFeel.updateSubregion(ss, g, capBounds);
+<a name="320" href="#320">320</a>         <strong class="jxr_keyword">int</strong> orientation = scrollbar.getOrientation();
+<a name="321" href="#321">321</a>         ss.getPainter().paintScrollBarThumbBackground(ss, g, capBounds.x, capBounds.y, capBounds.width, capBounds.height, orientation);
+<a name="322" href="#322">322</a>     }
+<a name="323" href="#323">323</a> 
+<a name="324" href="#324">324</a>     <strong class="jxr_keyword">protected</strong> Rectangle getCapBounds() {
+<a name="325" href="#325">325</a>         <strong class="jxr_keyword">if</strong> (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+<a name="326" href="#326">326</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Rectangle(0, 0, scrollBarWidth, capSize);
+<a name="327" href="#327">327</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (scrollbar.getComponentOrientation().isLeftToRight()) {
+<a name="328" href="#328">328</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Rectangle(0, 0, capSize, scrollBarWidth);
+<a name="329" href="#329">329</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="330" href="#330">330</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Rectangle(scrollbar.getWidth() - capSize, 0, capSize, scrollBarWidth);
+<a name="331" href="#331">331</a>         }
+<a name="332" href="#332">332</a>     }
+<a name="333" href="#333">333</a> 
+<a name="334" href="#334">334</a>     <em class="jxr_javadoccomment">/**</em>
+<a name="335" href="#335">335</a> <em class="jxr_javadoccomment">     * A vertical scrollbar's preferred width is the maximum of preferred widths</em>
+<a name="336" href="#336">336</a> <em class="jxr_javadoccomment">     * of the (non &lt;code&gt;null&lt;/code&gt;) increment/decrement buttons, and the</em>
+<a name="337" href="#337">337</a> <em class="jxr_javadoccomment">     * minimum width of the thumb. The preferred height is the sum of the</em>
+<a name="338" href="#338">338</a> <em class="jxr_javadoccomment">     * preferred heights of the same parts. The basis for the preferred size of</em>
+<a name="339" href="#339">339</a> <em class="jxr_javadoccomment">     * a horizontal scrollbar is similar.</em>
+<a name="340" href="#340">340</a> <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a name="341" href="#341">341</a> <em class="jxr_javadoccomment">     * The &lt;code&gt;preferredSize&lt;/code&gt; is only computed once, subsequent calls to</em>
+<a name="342" href="#342">342</a> <em class="jxr_javadoccomment">     * this method just return a cached size.</em>
+<a name="343" href="#343">343</a> <em class="jxr_javadoccomment">     * </em>
+<a name="344" href="#344">344</a> <em class="jxr_javadoccomment">     * @param c</em>
+<a name="345" href="#345">345</a> <em class="jxr_javadoccomment">     *            the &lt;code&gt;JScrollBar&lt;/code&gt; that's delegating this method to</em>
+<a name="346" href="#346">346</a> <em class="jxr_javadoccomment">     *            us</em>
+<a name="347" href="#347">347</a> <em class="jxr_javadoccomment">     * @return the preferred size of a Basic JScrollBar</em>
+<a name="348" href="#348">348</a> <em class="jxr_javadoccomment">     * @see #getMaximumSize</em>
+<a name="349" href="#349">349</a> <em class="jxr_javadoccomment">     * @see #getMinimumSize</em>
+<a name="350" href="#350">350</a> <em class="jxr_javadoccomment">     */</em>
+<a name="351" href="#351">351</a>     <strong class="jxr_keyword">public</strong> Dimension getPreferredSize(JComponent c) {
+<a name="352" href="#352">352</a>         Insets insets = c.getInsets();
+<a name="353" href="#353">353</a>         <strong class="jxr_keyword">return</strong> (scrollbar.getOrientation() == JScrollBar.VERTICAL) ? <strong class="jxr_keyword">new</strong> Dimension(scrollBarWidth + insets.left + insets.right, 48)
+<a name="354" href="#354">354</a>                 : <strong class="jxr_keyword">new</strong> Dimension(48, scrollBarWidth + insets.top + insets.bottom);
+<a name="355" href="#355">355</a>     }
+<a name="356" href="#356">356</a> 
+<a name="357" href="#357">357</a>     <strong class="jxr_keyword">protected</strong> Dimension getMinimumThumbSize() {
+<a name="358" href="#358">358</a>         <strong class="jxr_keyword">if</strong> (!validMinimumThumbSize) {
+<a name="359" href="#359">359</a>             <strong class="jxr_keyword">if</strong> (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+<a name="360" href="#360">360</a>                 minimumThumbSize.width = scrollBarWidth;
+<a name="361" href="#361">361</a>                 minimumThumbSize.height = 7;
+<a name="362" href="#362">362</a>             } <strong class="jxr_keyword">else</strong> {
+<a name="363" href="#363">363</a>                 minimumThumbSize.width = 7;
+<a name="364" href="#364">364</a>                 minimumThumbSize.height = scrollBarWidth;
+<a name="365" href="#365">365</a>             }
+<a name="366" href="#366">366</a>         }
+<a name="367" href="#367">367</a>         <strong class="jxr_keyword">return</strong> minimumThumbSize;
+<a name="368" href="#368">368</a>     }
+<a name="369" href="#369">369</a> 
+<a name="370" href="#370">370</a>     <strong class="jxr_keyword">protected</strong> JButton createDecreaseButton(<strong class="jxr_keyword">int</strong> orientation) {
+<a name="371" href="#371">371</a>         <a href="../../../com/seaglasslookandfeel/component/SeaGlassArrowButton.html">SeaGlassArrowButton</a> synthArrowButton = <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/component/SeaGlassArrowButton.html">SeaGlassArrowButton</a>(orientation) {
+<a name="372" href="#372">372</a>             @Override
+<a name="373" href="#373">373</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> contains(<strong class="jxr_keyword">int</strong> x, <strong class="jxr_keyword">int</strong> y) {
+<a name="374" href="#374">374</a>                 <em class="jxr_comment">// if there is an overlap between the track and button</em>
+<a name="375" href="#375">375</a>                 <strong class="jxr_keyword">if</strong> (decrGap &lt; 0) {
+<a name="376" href="#376">376</a>                     <em class="jxr_comment">// FIXME Need to take RtL orientation into account.</em>
+<a name="377" href="#377">377</a>                     <strong class="jxr_keyword">if</strong> (buttonsTogether.isInState(scrollbar)) {
+<a name="378" href="#378">378</a>                         <strong class="jxr_keyword">int</strong> minX = 0;
+<a name="379" href="#379">379</a>                         <strong class="jxr_keyword">int</strong> minY = 0;
+<a name="380" href="#380">380</a>                         <strong class="jxr_keyword">if</strong> (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+<a name="381" href="#381">381</a>                             <em class="jxr_comment">// adjust the height by decrGap</em>
+<a name="382" href="#382">382</a>                             <em class="jxr_comment">// Note: decrGap is negative!</em>
+<a name="383" href="#383">383</a>                             minY -= decrGap;
+<a name="384" href="#384">384</a>                         } <strong class="jxr_keyword">else</strong> {
+<a name="385" href="#385">385</a>                             <em class="jxr_comment">// adjust the width by decrGap</em>
+<a name="386" href="#386">386</a>                             <em class="jxr_comment">// Note: decrGap is negative!</em>
+<a name="387" href="#387">387</a>                             minX -= decrGap;
+<a name="388" href="#388">388</a>                         }
+<a name="389" href="#389">389</a>                         <strong class="jxr_keyword">return</strong> (x &gt;= minX) &amp;&amp; (x &lt; getWidth()) &amp;&amp; (y &gt;= minY) &amp;&amp; (y &lt; getHeight());
+<a name="390" href="#390">390</a>                     } <strong class="jxr_keyword">else</strong> {
+<a name="391" href="#391">391</a>                         <strong class="jxr_keyword">int</strong> width = getWidth();
+<a name="392" href="#392">392</a>                         <strong class="jxr_keyword">int</strong> height = getHeight();
+<a name="393" href="#393">393</a>                         <strong class="jxr_keyword">if</strong> (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+<a name="394" href="#394">394</a>                             <em class="jxr_comment">// adjust the height by decrGap</em>
+<a name="395" href="#395">395</a>                             <em class="jxr_comment">// Note: decrGap is negative!</em>
+<a name="396" href="#396">396</a>                             height += decrGap;
+<a name="397" href="#397">397</a>                         } <strong class="jxr_keyword">else</strong> {
+<a name="398" href="#398">398</a>                             <em class="jxr_comment">// adjust the width by decrGap</em>
+<a name="399" href="#399">399</a>                             <em class="jxr_comment">// Note: decrGap is negative!</em>
+<a name="400" href="#400">400</a>                             width += decrGap;
+<a name="401" href="#401">401</a>                         }
+<a name="402" href="#402">402</a>                         <strong class="jxr_keyword">return</strong> (x &gt;= 0) &amp;&amp; (x &lt; width) &amp;&amp; (y &gt;= 0) &amp;&amp; (y &lt; height);
+<a name="403" href="#403">403</a>                     }
+<a name="404" href="#404">404</a>                 }
+<a name="405" href="#405">405</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">super</strong>.contains(x, y);
+<a name="406" href="#406">406</a>             }
+<a name="407" href="#407">407</a>         };
+<a name="408" href="#408">408</a>         synthArrowButton.setName(<span class="jxr_string">"ScrollBar.button"</span>);
+<a name="409" href="#409">409</a>         <strong class="jxr_keyword">return</strong> synthArrowButton;
+<a name="410" href="#410">410</a>     }
+<a name="411" href="#411">411</a> 
+<a name="412" href="#412">412</a>     <strong class="jxr_keyword">protected</strong> JButton createIncreaseButton(<strong class="jxr_keyword">int</strong> orientation) {
+<a name="413" href="#413">413</a>         <a href="../../../com/seaglasslookandfeel/component/SeaGlassArrowButton.html">SeaGlassArrowButton</a> synthArrowButton = <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/component/SeaGlassArrowButton.html">SeaGlassArrowButton</a>(orientation) {
+<a name="414" href="#414">414</a>             @Override
+<a name="415" href="#415">415</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> contains(<strong class="jxr_keyword">int</strong> x, <strong class="jxr_keyword">int</strong> y) {
+<a name="416" href="#416">416</a>                 <em class="jxr_comment">// if there is an overlap between the track and button</em>
+<a name="417" href="#417">417</a>                 <strong class="jxr_keyword">if</strong> (incrGap &lt; 0 &amp;&amp; !buttonsTogether.isInState(scrollbar)) {
+<a name="418" href="#418">418</a>                     <strong class="jxr_keyword">int</strong> width = getWidth();
+<a name="419" href="#419">419</a>                     <strong class="jxr_keyword">int</strong> height = getHeight();
+<a name="420" href="#420">420</a>                     <strong class="jxr_keyword">if</strong> (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+<a name="421" href="#421">421</a>                         <em class="jxr_comment">// adjust the height and y by incrGap</em>
+<a name="422" href="#422">422</a>                         <em class="jxr_comment">// Note: incrGap is negative!</em>
+<a name="423" href="#423">423</a>                         height += incrGap;
+<a name="424" href="#424">424</a>                         y += incrGap;
+<a name="425" href="#425">425</a>                     } <strong class="jxr_keyword">else</strong> {
+<a name="426" href="#426">426</a>                         <em class="jxr_comment">// adjust the width and x by incrGap</em>
+<a name="427" href="#427">427</a>                         <em class="jxr_comment">// Note: incrGap is negative!</em>
+<a name="428" href="#428">428</a>                         width += incrGap;
+<a name="429" href="#429">429</a>                         x += incrGap;
+<a name="430" href="#430">430</a>                     }
+<a name="431" href="#431">431</a>                     <strong class="jxr_keyword">return</strong> (x &gt;= 0) &amp;&amp; (x &lt; width) &amp;&amp; (y &gt;= 0) &amp;&amp; (y &lt; height);
+<a name="432" href="#432">432</a>                 }
+<a name="433" href="#433">433</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">super</strong>.contains(x, y);
+<a name="434" href="#434">434</a>             }
+<a name="435" href="#435">435</a>         };
+<a name="436" href="#436">436</a>         synthArrowButton.setName(<span class="jxr_string">"ScrollBar.button"</span>);
+<a name="437" href="#437">437</a>         <strong class="jxr_keyword">return</strong> synthArrowButton;
+<a name="438" href="#438">438</a>     }
+<a name="439" href="#439">439</a> 
+<a name="440" href="#440">440</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setThumbRollover(<strong class="jxr_keyword">boolean</strong> active) {
+<a name="441" href="#441">441</a>         <strong class="jxr_keyword">if</strong> (isThumbRollover() != active) {
+<a name="442" href="#442">442</a>             scrollbar.repaint(getThumbBounds());
+<a name="443" href="#443">443</a>             <strong class="jxr_keyword">super</strong>.setThumbRollover(active);
+<a name="444" href="#444">444</a>         }
+<a name="445" href="#445">445</a>     }
+<a name="446" href="#446">446</a> 
+<a name="447" href="#447">447</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> updateButtonDirections() {
+<a name="448" href="#448">448</a>         <strong class="jxr_keyword">int</strong> orient = scrollbar.getOrientation();
+<a name="449" href="#449">449</a>         <strong class="jxr_keyword">if</strong> (scrollbar.getComponentOrientation().isLeftToRight()) {
+<a name="450" href="#450">450</a>             ((<a href="../../../com/seaglasslookandfeel/component/SeaGlassArrowButton.html">SeaGlassArrowButton</a>) incrButton).setDirection(orient == HORIZONTAL ? EAST : SOUTH);
+<a name="451" href="#451">451</a>             ((<a href="../../../com/seaglasslookandfeel/component/SeaGlassArrowButton.html">SeaGlassArrowButton</a>) decrButton).setDirection(orient == HORIZONTAL ? WEST : NORTH);
+<a name="452" href="#452">452</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="453" href="#453">453</a>             ((<a href="../../../com/seaglasslookandfeel/component/SeaGlassArrowButton.html">SeaGlassArrowButton</a>) incrButton).setDirection(orient == HORIZONTAL ? WEST : SOUTH);
+<a name="454" href="#454">454</a>             ((<a href="../../../com/seaglasslookandfeel/component/SeaGlassArrowButton.html">SeaGlassArrowButton</a>) decrButton).setDirection(orient == HORIZONTAL ? EAST : NORTH);
+<a name="455" href="#455">455</a>         }
+<a name="456" href="#456">456</a>     }
+<a name="457" href="#457">457</a> 
+<a name="458" href="#458">458</a>     <em class="jxr_comment">//</em>
+<a name="459" href="#459">459</a>     <em class="jxr_comment">// PropertyChangeListener</em>
+<a name="460" href="#460">460</a>     <em class="jxr_comment">//</em>
+<a name="461" href="#461">461</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> propertyChange(PropertyChangeEvent e) {
+<a name="462" href="#462">462</a>         String propertyName = e.getPropertyName();
+<a name="463" href="#463">463</a> 
+<a name="464" href="#464">464</a>         <strong class="jxr_keyword">if</strong> (SeaGlassLookAndFeel.shouldUpdateStyle(e)) {
+<a name="465" href="#465">465</a>             updateStyle((JScrollBar) e.getSource());
+<a name="466" href="#466">466</a>         }
+<a name="467" href="#467">467</a> 
+<a name="468" href="#468">468</a>         <strong class="jxr_keyword">if</strong> (<span class="jxr_string">"orientation"</span> == propertyName) {
+<a name="469" href="#469">469</a>             updateButtonDirections();
+<a name="470" href="#470">470</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<span class="jxr_string">"componentOrientation"</span> == propertyName) {
+<a name="471" href="#471">471</a>             updateButtonDirections();
+<a name="472" href="#472">472</a>         }
+<a name="473" href="#473">473</a>     }
+<a name="474" href="#474">474</a> 
+<a name="475" href="#475">475</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> layoutVScrollbar(JScrollBar sb) {
+<a name="476" href="#476">476</a>         <strong class="jxr_keyword">if</strong> (!buttonsTogether.isInState(sb)) {
+<a name="477" href="#477">477</a>             <strong class="jxr_keyword">super</strong>.layoutVScrollbar(sb);
+<a name="478" href="#478">478</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="479" href="#479">479</a>             layoutVScrollbarTogether(sb);
+<a name="480" href="#480">480</a>         }
+<a name="481" href="#481">481</a>     }
+<a name="482" href="#482">482</a> 
+<a name="483" href="#483">483</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> layoutHScrollbar(JScrollBar sb) {
+<a name="484" href="#484">484</a>         <strong class="jxr_keyword">if</strong> (!buttonsTogether.isInState(sb)) {
+<a name="485" href="#485">485</a>             <strong class="jxr_keyword">super</strong>.layoutHScrollbar(sb);
+<a name="486" href="#486">486</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="487" href="#487">487</a>             <strong class="jxr_keyword">if</strong> (sb.getComponentOrientation().isLeftToRight()) {
+<a name="488" href="#488">488</a>                 layoutHScrollbarTogetherLeftToRight(sb);
+<a name="489" href="#489">489</a>             } <strong class="jxr_keyword">else</strong> {
+<a name="490" href="#490">490</a>                 layoutHScrollbarTogetherRightToLeft(sb);
+<a name="491" href="#491">491</a>             }
+<a name="492" href="#492">492</a>         }
+<a name="493" href="#493">493</a>     }
+<a name="494" href="#494">494</a> 
+<a name="495" href="#495">495</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> layoutVScrollbarTogether(JScrollBar sb) {
+<a name="496" href="#496">496</a>         <a href="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">ScrollbarLayoutValues</a> lv = <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">ScrollbarLayoutValues</a>();
+<a name="497" href="#497">497</a> 
+<a name="498" href="#498">498</a>         Dimension sbSize = sb.getSize();
+<a name="499" href="#499">499</a>         Insets sbInsets = sb.getInsets();
+<a name="500" href="#500">500</a> 
+<a name="501" href="#501">501</a>         layoutScrollbarTogether(sb, lv, sbSize.height, sbSize.width, sbInsets.top, sbInsets.bottom, sbInsets.left, sbInsets.right,
+<a name="502" href="#502">502</a>             decrButton.getPreferredSize().height, getMinimumThumbSize().height, getMaximumThumbSize().height);
+<a name="503" href="#503">503</a> 
+<a name="504" href="#504">504</a>         trackRect.setBounds(lv.itemEdge, lv.trackPosition, lv.itemThickness, lv.trackLength);
+<a name="505" href="#505">505</a>         decrButton.setBounds(lv.itemEdge, lv.decrButtonPosition, lv.itemThickness, lv.decrButtonLength);
+<a name="506" href="#506">506</a>         incrButton.setBounds(lv.itemEdge, lv.incrButtonPosition, lv.itemThickness, lv.incrButtonLength);
+<a name="507" href="#507">507</a>         <strong class="jxr_keyword">if</strong> (lv.thumbLength &gt; 0) {
+<a name="508" href="#508">508</a>             setThumbBounds(lv.itemEdge, lv.thumbPosition, lv.itemThickness, lv.thumbLength);
+<a name="509" href="#509">509</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="510" href="#510">510</a>             setThumbBounds(0, 0, 0, 0);
+<a name="511" href="#511">511</a>         }
+<a name="512" href="#512">512</a>     }
+<a name="513" href="#513">513</a> 
+<a name="514" href="#514">514</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> layoutHScrollbarTogetherLeftToRight(JScrollBar sb) {
+<a name="515" href="#515">515</a>         <a href="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">ScrollbarLayoutValues</a> lv = <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">ScrollbarLayoutValues</a>();
+<a name="516" href="#516">516</a> 
+<a name="517" href="#517">517</a>         Dimension sbSize = sb.getSize();
+<a name="518" href="#518">518</a>         Insets sbInsets = sb.getInsets();
+<a name="519" href="#519">519</a> 
+<a name="520" href="#520">520</a>         layoutScrollbarTogether(sb, lv, sbSize.width, sbSize.height, sbInsets.left, sbInsets.right, sbInsets.top, sbInsets.bottom,
+<a name="521" href="#521">521</a>             decrButton.getPreferredSize().width, getMinimumThumbSize().width, getMaximumThumbSize().width);
+<a name="522" href="#522">522</a> 
+<a name="523" href="#523">523</a>         trackRect.setBounds(lv.trackPosition, lv.itemEdge, lv.trackLength, lv.itemThickness);
+<a name="524" href="#524">524</a>         decrButton.setBounds(lv.decrButtonPosition, lv.itemEdge, lv.decrButtonLength, lv.itemThickness);
+<a name="525" href="#525">525</a>         incrButton.setBounds(lv.incrButtonPosition, lv.itemEdge, lv.incrButtonLength, lv.itemThickness);
+<a name="526" href="#526">526</a>         <strong class="jxr_keyword">if</strong> (lv.thumbLength &gt; 0) {
+<a name="527" href="#527">527</a>             setThumbBounds(lv.thumbPosition, lv.itemEdge, lv.thumbLength, lv.itemThickness);
+<a name="528" href="#528">528</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="529" href="#529">529</a>             setThumbBounds(0, 0, 0, 0);
+<a name="530" href="#530">530</a>         }
+<a name="531" href="#531">531</a>     }
+<a name="532" href="#532">532</a> 
+<a name="533" href="#533">533</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> layoutHScrollbarTogetherRightToLeft(JScrollBar sb) {
+<a name="534" href="#534">534</a>         <a href="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">ScrollbarLayoutValues</a> lv = <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">ScrollbarLayoutValues</a>();
+<a name="535" href="#535">535</a> 
+<a name="536" href="#536">536</a>         Dimension sbSize = sb.getSize();
+<a name="537" href="#537">537</a>         Insets sbInsets = sb.getInsets();
+<a name="538" href="#538">538</a> 
+<a name="539" href="#539">539</a>         layoutScrollbarTogether(sb, lv, sbSize.width, sbSize.height, sbInsets.left, sbInsets.right, sbInsets.top, sbInsets.bottom,
+<a name="540" href="#540">540</a>             decrButton.getPreferredSize().width, getMinimumThumbSize().width, getMaximumThumbSize().width);
+<a name="541" href="#541">541</a> 
+<a name="542" href="#542">542</a>         <em class="jxr_comment">// Flip the positions of the buttons.</em>
+<a name="543" href="#543">543</a>         lv.incrButtonPosition = sbInsets.left;
+<a name="544" href="#544">544</a>         lv.decrButtonPosition = lv.incrButtonPosition + lv.incrButtonLength;
+<a name="545" href="#545">545</a>         <em class="jxr_comment">// Make the thumb position relative to the old track and flip it,</em>
+<a name="546" href="#546">546</a>         <em class="jxr_comment">// keeping the position at the left.</em>
+<a name="547" href="#547">547</a>         lv.thumbPosition = lv.trackPosition + lv.trackLength - lv.thumbPosition - lv.thumbLength;
+<a name="548" href="#548">548</a>         <em class="jxr_comment">// Flip the position of the track.</em>
+<a name="549" href="#549">549</a>         lv.trackPosition = lv.decrButtonPosition + lv.decrButtonLength + incrGap;
+<a name="550" href="#550">550</a>         <em class="jxr_comment">// Make the thumb position relative to the scrollbar.</em>
+<a name="551" href="#551">551</a>         lv.thumbPosition += lv.trackPosition;
+<a name="552" href="#552">552</a> 
+<a name="553" href="#553">553</a>         trackRect.setBounds(lv.trackPosition, lv.itemEdge, lv.trackLength, lv.itemThickness);
+<a name="554" href="#554">554</a>         decrButton.setBounds(lv.decrButtonPosition, lv.itemEdge, lv.decrButtonLength, lv.itemThickness);
+<a name="555" href="#555">555</a>         incrButton.setBounds(lv.incrButtonPosition, lv.itemEdge, lv.incrButtonLength, lv.itemThickness);
+<a name="556" href="#556">556</a>         <strong class="jxr_keyword">if</strong> (lv.thumbLength &gt; 0) {
+<a name="557" href="#557">557</a>             setThumbBounds(lv.thumbPosition, lv.itemEdge, lv.thumbLength, lv.itemThickness);
+<a name="558" href="#558">558</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="559" href="#559">559</a>             setThumbBounds(0, 0, 0, 0);
+<a name="560" href="#560">560</a>         }
+<a name="561" href="#561">561</a>     }
+<a name="562" href="#562">562</a> 
+<a name="563" href="#563">563</a>     <em class="jxr_javadoccomment">/**</em>
+<a name="564" href="#564">564</a> <em class="jxr_javadoccomment">     * Holds scrollbar layout values in an orientation-independent way.</em>
+<a name="565" href="#565">565</a> <em class="jxr_javadoccomment">     */</em>
+<a name="566" href="#566">566</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">ScrollbarLayoutValues</a> {
+<a name="567" href="#567">567</a>         <strong class="jxr_keyword">int</strong> itemEdge;
+<a name="568" href="#568">568</a>         <strong class="jxr_keyword">int</strong> itemThickness;
+<a name="569" href="#569">569</a>         <strong class="jxr_keyword">int</strong> trackPosition;
+<a name="570" href="#570">570</a>         <strong class="jxr_keyword">int</strong> trackLength;
+<a name="571" href="#571">571</a>         <strong class="jxr_keyword">int</strong> incrButtonPosition;
+<a name="572" href="#572">572</a>         <strong class="jxr_keyword">int</strong> incrButtonLength;
+<a name="573" href="#573">573</a>         <strong class="jxr_keyword">int</strong> decrButtonPosition;
+<a name="574" href="#574">574</a>         <strong class="jxr_keyword">int</strong> decrButtonLength;
+<a name="575" href="#575">575</a>         <strong class="jxr_keyword">int</strong> thumbPosition;
+<a name="576" href="#576">576</a>         <strong class="jxr_keyword">int</strong> thumbLength;
+<a name="577" href="#577">577</a>     }
+<a name="578" href="#578">578</a> 
+<a name="579" href="#579">579</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> layoutScrollbarTogether(JScrollBar sb, <a href="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">ScrollbarLayoutValues</a> lv, <strong class="jxr_keyword">int</strong> sbLength, <strong class="jxr_keyword">int</strong> sbThickness, <strong class="jxr_keyword">int</strong> insetLengthStart,
+<a name="580" href="#580">580</a>         <strong class="jxr_keyword">int</strong> insetLengthEnd, <strong class="jxr_keyword">int</strong> insetThicknessStart, <strong class="jxr_keyword">int</strong> insetThicknessEnd, <strong class="jxr_keyword">int</strong> decrPreferredLength, <strong class="jxr_keyword">int</strong> minThumbLength, <strong class="jxr_keyword">int</strong> maxThumbLength) {
+<a name="581" href="#581">581</a>         <em class="jxr_comment">/*</em>
+<a name="582" href="#582">582</a> <em class="jxr_comment">         * Width and left edge of the buttons and thumb.</em>
+<a name="583" href="#583">583</a> <em class="jxr_comment">         */</em>
+<a name="584" href="#584">584</a>         lv.itemThickness = sbThickness - (insetThicknessStart + insetThicknessEnd);
+<a name="585" href="#585">585</a>         lv.itemEdge = insetThicknessStart;
+<a name="586" href="#586">586</a> 
+<a name="587" href="#587">587</a>         <em class="jxr_comment">/*</em>
+<a name="588" href="#588">588</a> <em class="jxr_comment">         * Nominal locations of the buttons, assuming their preferred size will</em>
+<a name="589" href="#589">589</a> <em class="jxr_comment">         * fit.</em>
+<a name="590" href="#590">590</a> <em class="jxr_comment">         */</em>
+<a name="591" href="#591">591</a>         <strong class="jxr_keyword">boolean</strong> squareButtons = DefaultLookup.getBoolean(scrollbar, <strong class="jxr_keyword">this</strong>, <span class="jxr_string">"ScrollBar.squareButtons"</span>, false);
+<a name="592" href="#592">592</a> 
+<a name="593" href="#593">593</a>         lv.incrButtonLength = lv.itemThickness + 1;
+<a name="594" href="#594">594</a>         lv.incrButtonPosition = sbLength - insetLengthEnd - lv.incrButtonLength;
+<a name="595" href="#595">595</a> 
+<a name="596" href="#596">596</a>         lv.decrButtonLength = squareButtons ? lv.itemThickness : decrPreferredLength;
+<a name="597" href="#597">597</a>         lv.decrButtonPosition = lv.incrButtonPosition - lv.decrButtonLength;
+<a name="598" href="#598">598</a> 
+<a name="599" href="#599">599</a>         <em class="jxr_comment">/*</em>
+<a name="600" href="#600">600</a> <em class="jxr_comment">         * The thumb must fit within the height left over after we subtract the</em>
+<a name="601" href="#601">601</a> <em class="jxr_comment">         * preferredSize of the buttons and the insets and the gaps</em>
+<a name="602" href="#602">602</a> <em class="jxr_comment">         */</em>
+<a name="603" href="#603">603</a>         <strong class="jxr_keyword">int</strong> sbInsetsSpace = insetLengthStart + insetLengthEnd;
+<a name="604" href="#604">604</a>         <strong class="jxr_keyword">int</strong> sbButtonsSpace = lv.decrButtonLength + lv.incrButtonLength;
+<a name="605" href="#605">605</a> 
+<a name="606" href="#606">606</a>         <em class="jxr_comment">/*</em>
+<a name="607" href="#607">607</a> <em class="jxr_comment">         * If the buttons don't fit, allocate half of the available space to</em>
+<a name="608" href="#608">608</a> <em class="jxr_comment">         * each and move the lower one (incrButton) down.</em>
+<a name="609" href="#609">609</a> <em class="jxr_comment">         */</em>
+<a name="610" href="#610">610</a>         <strong class="jxr_keyword">int</strong> sbAvailButtonSpace = sbLength - sbInsetsSpace;
+<a name="611" href="#611">611</a>         <strong class="jxr_keyword">if</strong> (sbAvailButtonSpace &lt; sbButtonsSpace) {
+<a name="612" href="#612">612</a>             lv.incrButtonLength = lv.decrButtonLength = sbAvailButtonSpace / 2;
+<a name="613" href="#613">613</a>             lv.incrButtonPosition = sbLength - insetLengthEnd - lv.incrButtonLength;
+<a name="614" href="#614">614</a>             lv.decrButtonPosition = insetLengthStart;
+<a name="615" href="#615">615</a>         }
+<a name="616" href="#616">616</a> 
+<a name="617" href="#617">617</a>         <em class="jxr_comment">/*</em>
+<a name="618" href="#618">618</a> <em class="jxr_comment">         * Update the trackRect field.</em>
+<a name="619" href="#619">619</a> <em class="jxr_comment">         */</em>
+<a name="620" href="#620">620</a>         lv.trackPosition = insetLengthStart + capSize + decrGap;
+<a name="621" href="#621">621</a>         lv.trackLength = lv.decrButtonPosition - incrGap - lv.trackPosition;
+<a name="622" href="#622">622</a>         <strong class="jxr_keyword">int</strong> gaps = decrGap + incrGap;
+<a name="623" href="#623">623</a>         <strong class="jxr_keyword">float</strong> trackLength = sbLength - sbInsetsSpace - sbButtonsSpace - gaps - capSize;
+<a name="624" href="#624">624</a> 
+<a name="625" href="#625">625</a>         <em class="jxr_comment">/*</em>
+<a name="626" href="#626">626</a> <em class="jxr_comment">         * Compute the height and origin of the thumb. The case where the thumb</em>
+<a name="627" href="#627">627</a> <em class="jxr_comment">         * is at the bottom edge is handled specially to avoid numerical</em>
+<a name="628" href="#628">628</a> <em class="jxr_comment">         * problems in computing thumbY. Enforce the thumbs min/max dimensions.</em>
+<a name="629" href="#629">629</a> <em class="jxr_comment">         * If the thumb doesn't fit in the track (trackH) we'll hide it later.</em>
+<a name="630" href="#630">630</a> <em class="jxr_comment">         */</em>
+<a name="631" href="#631">631</a>         <strong class="jxr_keyword">float</strong> min = sb.getMinimum();
+<a name="632" href="#632">632</a>         <strong class="jxr_keyword">float</strong> max = sb.getMaximum();
+<a name="633" href="#633">633</a>         <strong class="jxr_keyword">float</strong> extent = sb.getVisibleAmount();
+<a name="634" href="#634">634</a>         <strong class="jxr_keyword">float</strong> range = max - min;
+<a name="635" href="#635">635</a>         <strong class="jxr_keyword">float</strong> value = sb.getValue();
+<a name="636" href="#636">636</a> 
+<a name="637" href="#637">637</a>         <em class="jxr_comment">/*</em>
+<a name="638" href="#638">638</a> <em class="jxr_comment">         * Update the thumb bounds.</em>
+<a name="639" href="#639">639</a> <em class="jxr_comment">         */</em>
+<a name="640" href="#640">640</a>         lv.thumbLength = (range &lt;= 0) ? maxThumbLength : (<strong class="jxr_keyword">int</strong>) (trackLength * (extent / range));
+<a name="641" href="#641">641</a>         lv.thumbLength = Math.min(Math.max(lv.thumbLength, minThumbLength), maxThumbLength);
+<a name="642" href="#642">642</a>         <strong class="jxr_keyword">int</strong> maxThumbPosition = lv.trackPosition + lv.trackLength - lv.thumbLength;
+<a name="643" href="#643">643</a>         lv.thumbPosition = maxThumbPosition;
+<a name="644" href="#644">644</a>         <strong class="jxr_keyword">if</strong> (value &lt; (max - extent)) {
+<a name="645" href="#645">645</a>             <strong class="jxr_keyword">float</strong> thumbRange = lv.trackLength - lv.thumbLength;
+<a name="646" href="#646">646</a>             lv.thumbPosition = (<strong class="jxr_keyword">int</strong>) (0.5f + (thumbRange * ((value - min) / (range - extent))));
+<a name="647" href="#647">647</a>             lv.thumbPosition += lv.trackPosition;
+<a name="648" href="#648">648</a>         }
+<a name="649" href="#649">649</a> 
+<a name="650" href="#650">650</a>         <em class="jxr_comment">/*</em>
+<a name="651" href="#651">651</a> <em class="jxr_comment">         * If the thumb isn't going to fit, zero its bounds. Otherwise make sure</em>
+<a name="652" href="#652">652</a> <em class="jxr_comment">         * it fits between the buttons. Note that setting the thumbs bounds will</em>
+<a name="653" href="#653">653</a> <em class="jxr_comment">         * cause a repaint.</em>
+<a name="654" href="#654">654</a> <em class="jxr_comment">         */</em>
+<a name="655" href="#655">655</a>         <strong class="jxr_keyword">if</strong> (lv.thumbLength &gt;= (<strong class="jxr_keyword">int</strong>) trackLength) {
+<a name="656" href="#656">656</a>             lv.thumbLength = 0;
+<a name="657" href="#657">657</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="658" href="#658">658</a>             <strong class="jxr_keyword">if</strong> (lv.thumbPosition &gt; maxThumbPosition) {
+<a name="659" href="#659">659</a>                 lv.thumbPosition = maxThumbPosition;
+<a name="660" href="#660">660</a>             }
+<a name="661" href="#661">661</a>             <strong class="jxr_keyword">if</strong> (lv.thumbPosition &lt; lv.trackPosition) {
+<a name="662" href="#662">662</a>                 lv.thumbPosition = lv.trackPosition;
+<a name="663" href="#663">663</a>             }
+<a name="664" href="#664">664</a>         }
+<a name="665" href="#665">665</a>     }
+<a name="666" href="#666">666</a> 
+<a name="667" href="#667">667</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> isMouseButtonDown = false;
+<a name="668" href="#668">668</a> 
+<a name="669" href="#669">669</a>     <em class="jxr_javadoccomment">/**</em>
+<a name="670" href="#670">670</a> <em class="jxr_javadoccomment">     * Track mouse drags.</em>
+<a name="671" href="#671">671</a> <em class="jxr_javadoccomment">     */</em>
+<a name="672" href="#672">672</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassTextFieldUI.html">MouseButtonListener</a> <strong class="jxr_keyword">extends</strong> MouseAdapter implements MouseListener {
+<a name="673" href="#673">673</a>         <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">transient</strong> <strong class="jxr_keyword">int</strong> currentMouseX, currentMouseY;
+<a name="674" href="#674">674</a> 
+<a name="675" href="#675">675</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> mouseReleased(MouseEvent e) {
+<a name="676" href="#676">676</a>             <strong class="jxr_keyword">if</strong> (isMouseButtonDown) {
+<a name="677" href="#677">677</a>                 isMouseButtonDown = false;
+<a name="678" href="#678">678</a> 
+<a name="679" href="#679">679</a>             }
+<a name="680" href="#680">680</a>         }
+<a name="681" href="#681">681</a> 
+<a name="682" href="#682">682</a>         <em class="jxr_javadoccomment">/**</em>
+<a name="683" href="#683">683</a> <em class="jxr_javadoccomment">         * If the mouse is pressed above the "thumb" component then reduce the</em>
+<a name="684" href="#684">684</a> <em class="jxr_javadoccomment">         * scrollbars value by one page ("page up"), otherwise increase it by</em>
+<a name="685" href="#685">685</a> <em class="jxr_javadoccomment">         * one page. If there is no thumb then page up if the mouse is in the</em>
+<a name="686" href="#686">686</a> <em class="jxr_javadoccomment">         * upper half of the track.</em>
+<a name="687" href="#687">687</a> <em class="jxr_javadoccomment">         */</em>
+<a name="688" href="#688">688</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> mousePressed(MouseEvent e) {
+<a name="689" href="#689">689</a>             <strong class="jxr_keyword">if</strong> (SwingUtilities.isRightMouseButton(e) || (!getSupportsAbsolutePositioning() &amp;&amp; SwingUtilities.isMiddleMouseButton(e)))
+<a name="690" href="#690">690</a>                 <strong class="jxr_keyword">return</strong>;
+<a name="691" href="#691">691</a>             <strong class="jxr_keyword">if</strong> (!scrollbar.isEnabled()) <strong class="jxr_keyword">return</strong>;
+<a name="692" href="#692">692</a> 
+<a name="693" href="#693">693</a>             currentMouseX = e.getX();
+<a name="694" href="#694">694</a>             currentMouseY = e.getY();
+<a name="695" href="#695">695</a> 
+<a name="696" href="#696">696</a>             isMouseButtonDown = false;
+<a name="697" href="#697">697</a> 
+<a name="698" href="#698">698</a>             <em class="jxr_comment">// Clicked in the Thumb area?</em>
+<a name="699" href="#699">699</a>             <strong class="jxr_keyword">if</strong> (getThumbBounds().contains(currentMouseX, currentMouseY)) {
+<a name="700" href="#700">700</a>                 isMouseButtonDown = <strong class="jxr_keyword">true</strong>;
+<a name="701" href="#701">701</a>                 scrollbar.repaint();
+<a name="702" href="#702">702</a>             }
+<a name="703" href="#703">703</a>         }
+<a name="704" href="#704">704</a>     }
+<a name="705" href="#705">705</a> 
+<a name="706" href="#706">706</a>     <em class="jxr_javadoccomment">/**</em>
+<a name="707" href="#707">707</a> <em class="jxr_javadoccomment">     * Listener for cursor keys.</em>
+<a name="708" href="#708">708</a> <em class="jxr_javadoccomment">     */</em>
+<a name="709" href="#709">709</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html">ArrowButtonListener</a> <strong class="jxr_keyword">extends</strong> MouseAdapter {
+<a name="710" href="#710">710</a>         <em class="jxr_comment">/*</em>
+<a name="711" href="#711">711</a> <em class="jxr_comment">         * Because we are handling both mousePressed and Actions we need to make</em>
+<a name="712" href="#712">712</a> <em class="jxr_comment">         * sure we don't fire under both conditions. (keyfocus on scrollbars</em>
+<a name="713" href="#713">713</a> <em class="jxr_comment">         * causes action without mousePress</em>
+<a name="714" href="#714">714</a> <em class="jxr_comment">         */</em>
+<a name="715" href="#715">715</a>         <strong class="jxr_keyword">boolean</strong> handledEvent;
+<a name="716" href="#716">716</a> 
+<a name="717" href="#717">717</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> mousePressed(MouseEvent e) {
+<a name="718" href="#718">718</a>             <strong class="jxr_keyword">if</strong> (!scrollbar.isEnabled()) {
+<a name="719" href="#719">719</a>                 <strong class="jxr_keyword">return</strong>;
+<a name="720" href="#720">720</a>             }
+<a name="721" href="#721">721</a>             <em class="jxr_comment">// not an unmodified left mouse button</em>
+<a name="722" href="#722">722</a>             <em class="jxr_comment">// if(e.getModifiers() != InputEvent.BUTTON1_MASK) {return; }</em>
+<a name="723" href="#723">723</a>             <strong class="jxr_keyword">if</strong> (!SwingUtilities.isLeftMouseButton(e)) {
+<a name="724" href="#724">724</a>                 <strong class="jxr_keyword">return</strong>;
+<a name="725" href="#725">725</a>             }
+<a name="726" href="#726">726</a> 
+<a name="727" href="#727">727</a>             <strong class="jxr_keyword">int</strong> direction = (e.getSource() == incrButton) ? 1 : -1;
+<a name="728" href="#728">728</a> 
+<a name="729" href="#729">729</a>             scrollByUnit(direction);
+<a name="730" href="#730">730</a>             scrollTimer.stop();
+<a name="731" href="#731">731</a>             scrollListener.setDirection(direction);
+<a name="732" href="#732">732</a>             scrollListener.setScrollByBlock(false);
+<a name="733" href="#733">733</a>             scrollTimer.start();
+<a name="734" href="#734">734</a> 
+<a name="735" href="#735">735</a>             handledEvent = <strong class="jxr_keyword">true</strong>;
+<a name="736" href="#736">736</a>             <strong class="jxr_keyword">if</strong> (!scrollbar.hasFocus() &amp;&amp; scrollbar.isRequestFocusEnabled()) {
+<a name="737" href="#737">737</a>                 scrollbar.requestFocus();
+<a name="738" href="#738">738</a>             }
+<a name="739" href="#739">739</a>         }
+<a name="740" href="#740">740</a> 
+<a name="741" href="#741">741</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> mouseReleased(MouseEvent e) {
+<a name="742" href="#742">742</a>             scrollTimer.stop();
+<a name="743" href="#743">743</a>             handledEvent = false;
+<a name="744" href="#744">744</a>             scrollbar.setValueIsAdjusting(false);
+<a name="745" href="#745">745</a>         }
+<a name="746" href="#746">746</a>     }
+<a name="747" href="#747">747</a> }
+</pre>
+<hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
+</html>
+
