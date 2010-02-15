@@ -1291,8 +1291,12 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
          */
         protected void calculateTabRects(int tabPlacement, int tabCount) {
             Dimension          size            = tabPane.getSize();
-            Insets             insets          = tabPane.getInsets();
+            Insets             mainInsets      = tabPane.getInsets();
             Insets             tabAreaInsets   = getTabAreaInsets(tabPlacement);
+            Insets             insets          = new Insets(mainInsets.top + tabAreaInsets.top,
+                                                            mainInsets.left + tabAreaInsets.left,
+                                                            mainInsets.bottom + tabAreaInsets.bottom,
+                                                            mainInsets.right + tabAreaInsets.right);
             int                selectedIndex   = tabPane.getSelectedIndex();
             boolean            verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
             ControlOrientation orientation     = ControlOrientation.getOrientation(verticalTabRuns ? VERTICAL : HORIZONTAL);
@@ -1333,8 +1337,8 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
             // Make use of the fact that the scroll buttons have the same preferred size. Only assign one.
             int buttonLength         = orientation.getLength(scrollForwardButton.getPreferredSize());
-            int tabAreaLength        = orientation.getPosition(size.width - tabAreaInsets.left - tabAreaInsets.right,
-                                                               size.height - tabAreaInsets.top - tabAreaInsets.bottom);
+            int tabAreaLength        = orientation.getPosition(size.width - insets.left - insets.right,
+                                                               size.height - insets.top - insets.bottom);
             int leadingTabOffset     = orientation.getPosition(rects[leadingTabIndex]);
             int selectedTabEndOffset = orientation.getPosition(rects[selectedIndex].x + rects[selectedIndex].width,
                                                                rects[selectedIndex].y + rects[selectedIndex].height);
@@ -1406,6 +1410,11 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
             int offset    = orientation.getOrthogonalOffset(rects[leadingTabIndex]);
             int thickness = orientation.getThickness(rects[leadingTabIndex]);
+            if (!verticalTabRuns) {
+                offset += insets.top - tabAreaInsets.top;
+            } else {
+                offset += insets.left - tabAreaInsets.left;
+            }
 
             if (leadingTabIndex > 0 || trailingTabIndex < tabCount - 1) {
                 // Fill the tabs to the available width.
@@ -1413,7 +1422,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
                 for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
                     int position = (i == leadingTabIndex)
-                        ? (orientation.getPosition(tabAreaInsets.left, tabAreaInsets.top) + (leadingTabIndex > 0 ? buttonLength : 0))
+                        ? (orientation.getPosition(insets.left, insets.top) + (leadingTabIndex > 0 ? buttonLength : 0))
                         : orientation.getPosition(rects[i - 1]) + orientation.getLength(rects[i - 1]);
                     int length   = (int) (orientation.getLength(rects[i]) * multiplier);
 
@@ -1421,7 +1430,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 }
             } else {
                 // Center the tabs.
-                int delta = -(tabAreaLength - totalLength) / 2 - orientation.getPosition(tabAreaInsets.left, tabAreaInsets.top);
+                int delta = -(tabAreaLength - totalLength) / 2 - orientation.getPosition(insets.left, insets.top);
 
                 for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
                     int position = orientation.getPosition(rects[i]) - delta;
@@ -1439,7 +1448,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             // if right to left and tab placement on the top or
             // the bottom, flip x positions and adjust by widths
             if (!leftToRight && !verticalTabRuns) {
-                int rightMargin = size.width + 10 - (insets.right + tabAreaInsets.right);
+                int rightMargin = size.width + 10 - insets.right;
 
                 for (int i = 0; i < tabCount; i++) {
                     rects[i].x = rightMargin - rects[i].x - rects[i].width;
