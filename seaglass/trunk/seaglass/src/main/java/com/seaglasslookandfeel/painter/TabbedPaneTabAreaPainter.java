@@ -21,7 +21,6 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 
 import javax.swing.JComponent;
@@ -94,24 +93,23 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
         JTabbedPane          tabPane     = (JTabbedPane) c;
         SeaGlassTabbedPaneUI ui          = (SeaGlassTabbedPaneUI) tabPane.getUI();
         int                  orientation = tabPane.getTabPlacement();
-        Insets               insets      = tabPane.getInsets();
 
         if (orientation == JTabbedPane.LEFT) {
-            int offset = ui.calculateMaxTabWidth(orientation) + insets.left;
+            int offset = ui.calculateMaxTabWidth(orientation) / 2 + 3;
 
-            paintVerticalLine(g, c, offset / 2 + 3, 0, width, height);
+            paintVerticalLine(g, c, offset, 0, width, height);
         } else if (orientation == JTabbedPane.RIGHT) {
-            int offset = ui.calculateMaxTabWidth(orientation);
+            int offset = ui.calculateMaxTabWidth(orientation) / 2 + 3;
 
-            paintVerticalLine(g, c, offset / 2 + 3, 0, width, height);
+            paintVerticalLine(g, c, width - offset, 0, width, height);
         } else if (orientation == JTabbedPane.BOTTOM) {
-            int offset = ui.calculateMaxTabHeight(orientation);
+            int offset = ui.calculateMaxTabHeight(orientation) / 2 + 3;
 
-            paintHorizontalLine(g, c, 0, offset / 2 + 3, width, height);
+            paintHorizontalLine(g, c, 0, height - offset, width, height);
         } else {
-            int offset = ui.calculateMaxTabHeight(orientation) / 2 + insets.top;
+            int offset = ui.calculateMaxTabHeight(orientation) / 2 + 3;
 
-            paintHorizontalLine(g, c, 0, offset + 3, width, height);
+            paintHorizontalLine(g, c, 0, offset, width, height);
         }
     }
 
