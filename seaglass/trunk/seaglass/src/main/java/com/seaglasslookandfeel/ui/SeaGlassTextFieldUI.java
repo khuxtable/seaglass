@@ -642,7 +642,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
             super.getBorderInsets(c, insets);
 
-            if (isSearchField.isInState((JTextComponent) c)) {
+            if (isSearchField.isInState((JComponent) c)) {
                 insets.left += searchIconWidth + searchLeftInnerMargin;
                 if (hasPopupMenu.isInState((JComponent) c)) {
                     insets.left += popupIconWidth;
