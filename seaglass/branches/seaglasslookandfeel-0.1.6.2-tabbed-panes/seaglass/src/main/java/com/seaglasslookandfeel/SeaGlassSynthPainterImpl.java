@@ -1992,8 +1992,6 @@ public class SeaGlassSynthPainterImpl extends SynthPainter {
             AffineTransform transform = new AffineTransform();
 
             transform.translate(x, y);
-            transform.scale(1, -1);
-            transform.translate(0, -h);
             paintBackground(context, g, 0, 0, w, h, transform);
         } else {
             paintBackground(context, g, x, y, w, h, null);
