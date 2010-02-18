@@ -27,6 +27,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -83,6 +84,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
     private Rectangle textRect;
     private Rectangle iconRect;
+    private Rectangle tabAreaRect;
 
     private boolean selectedTabIsPressed = false;
 
@@ -95,8 +97,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
      * Creates a new SeaGlassTabbedPaneUI object.
      */
     SeaGlassTabbedPaneUI() {
-        textRect = new Rectangle();
-        iconRect = new Rectangle();
+        textRect    = new Rectangle();
+        iconRect    = new Rectangle();
+        tabAreaRect = new Rectangle();
     }
 
     /**
@@ -391,6 +394,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         SynthScrollableTabButton b = new SynthScrollableTabButton(direction);
 
         b.setName("TabbedPaneTabArea.button");
+
         return b;
     }
 
@@ -439,9 +443,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 int tabIndex = tabForCoordinate(tabPane, e.getX(), e.getY());
 
                 if (tabIndex >= 0 && tabPane.isEnabledAt(tabIndex)) {
-
                     if (tabIndex == tabPane.getSelectedIndex()) {
-
                         // Clicking on selected tab
                         selectedTabIsPressed = true;
 
@@ -510,7 +512,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         SeaGlassContext context = getContext(c);
 
         SeaGlassLookAndFeel.update(context, g);
-        context.getPainter().paintTabbedPaneBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
+        context.getPainter().paintTabbedPaneBackground(context, g, tabAreaRect.x, tabAreaRect.y, tabAreaRect.width, tabAreaRect.height);
         paint(context, g);
         context.dispose();
     }
@@ -578,14 +580,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
      *      int, int)
      */
     protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex) {
-        // This can be invoked from ScrollableTabPanel
-        Insets insets = tabPane.getInsets();
-        int    x      = insets.left;
-        int    y      = insets.top;
-        int    width  = tabPane.getWidth() - insets.left - insets.right;
-        int    height = tabPane.getHeight() - insets.top - insets.bottom;
-
-        paintTabArea(tabAreaContext, g, tabPlacement, selectedIndex, new Rectangle(x, y, width, height));
+        paintTabArea(tabAreaContext, g, tabPlacement, selectedIndex, tabAreaRect);
     }
 
     /**
@@ -606,7 +601,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
         SeaGlassLookAndFeel.updateSubregion(ss, g, tabAreaBounds);
         ss.getPainter().paintTabbedPaneTabAreaBackground(ss, g, tabAreaBounds.x, tabAreaBounds.y, tabAreaBounds.width,
-                                                         tabAreaBounds.height);
+                                                         tabAreaBounds.height, tabPlacement);
         ss.getPainter().paintTabbedPaneTabAreaBorder(ss, g, tabAreaBounds.x, tabAreaBounds.y, tabAreaBounds.width, tabAreaBounds.height,
                                                      tabPlacement);
 
@@ -701,10 +696,11 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         }
 
         b.putClientProperty("JButton.segmentPosition", segmentPosition);
-        updateTabContext(tabIndex, isSelected, isSelected && selectedTabIsPressed, (getRolloverTab() == tabIndex),
-                         (getFocusIndex() == tabIndex));
+        updateTabContext(tabIndex, isSelected, isSelected && selectedTabIsPressed, getRolloverTab() == tabIndex,
+                         getFocusIndex() == tabIndex);
 
         SeaGlassLookAndFeel.updateSubregion(ss, g, tabRect);
+
         int x         = tabRect.x;
         int y         = tabRect.y;
         int height    = tabRect.height;
@@ -721,9 +717,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             Icon        icon    = getIconForTab(tabIndex);
 
             layoutLabel(ss, tabPlacement, metrics, tabIndex, title, icon, tabRect, iconRect, textRect, isSelected);
-
             paintText(ss, g, tabPlacement, font, metrics, tabIndex, title, textRect, isSelected);
-
             paintIcon(g, tabPlacement, tabIndex, icon, iconRect, isSelected);
         }
     }
@@ -809,11 +803,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         View v = getTextViewForTab(tabIndex);
 
         if (v != null) {
-
             // html
             v.paint(g, textRect);
         } else {
-
             // plain text
             int mnemIndex = tabPane.getDisplayedMnemonicIndexAt(tabIndex);
 
@@ -1006,9 +998,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             state |= (SynthConstants.ENABLED | SynthConstants.MOUSE_OVER);
         } else {
             state =  SeaGlassLookAndFeel.getComponentState(tabPane);
-            state &= ~SynthConstants.FOCUSED; // don't use tabbedpane focus
-
-            // state
+            state &= ~SynthConstants.FOCUSED; // Don't use tabbedpane focus state.
         }
 
         if (hasFocus && tabPane.hasFocus()) {
@@ -1093,6 +1083,121 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             int       selectedIndex    = tabPane.getSelectedIndex();
             Component visibleComponent = getVisibleComponent();
 
+            setScrollButtonDirections(tabPlacement);
+
+            calculateLayoutInfo();
+
+            Component selectedComponent = null;
+
+            if (selectedIndex < 0) {
+                if (visibleComponent != null) {
+                    // The last tab was removed, so remove the component
+                    setVisibleComponent(null);
+                }
+            } else {
+                selectedComponent = tabPane.getComponentAt(selectedIndex);
+            }
+
+            if (tabCount == 0) {
+                scrollForwardButton.setVisible(false);
+                scrollBackwardButton.setVisible(false);
+
+                return;
+            }
+
+            boolean shouldChangeFocus = false;
+
+            // In order to allow programs to use a single component
+            // as the display for multiple tabs, we will not change
+            // the visible compnent if the currently selected tab
+            // has a null component.  This is a bit dicey, as we don't
+            // explicitly state we support this in the spec, but since
+            // programs are now depending on this, we're making it work.
+            //
+            if (selectedComponent != null) {
+                if (selectedComponent != visibleComponent && visibleComponent != null) {
+                    if (findFocusOwner(visibleComponent) != null) {
+                        shouldChangeFocus = true;
+                    }
+                }
+
+                setVisibleComponent(selectedComponent);
+            }
+
+            int numChildren = tabPane.getComponentCount();
+
+            if (numChildren <= 0) {
+                return;
+            }
+
+            // content area bounds
+            int       cx;
+            int       cy;
+            int       cw;
+            int       ch;
+            Insets    contentInsets = getContentBorderInsets(tabPlacement);
+            Rectangle bounds        = tabPane.getBounds();
+
+            switch (tabPlacement) {
+
+            case LEFT:
+                // calculate content area bounds
+                cx = tabAreaRect.x + tabAreaRect.width + contentInsets.left;
+                cy = tabAreaRect.y + contentInsets.top;
+                cw = bounds.width - insets.left - insets.right - tabAreaRect.width - contentInsets.left - contentInsets.right;
+                ch = bounds.height - insets.top - insets.bottom - contentInsets.top - contentInsets.bottom;
+                break;
+
+            case RIGHT:
+                // calculate content area bounds
+                cx = insets.left + contentInsets.left;
+                cy = insets.top + contentInsets.top;
+                cw = bounds.width - insets.left - insets.right - tabAreaRect.width - contentInsets.left - contentInsets.right;
+                ch = bounds.height - insets.top - insets.bottom - contentInsets.top - contentInsets.bottom;
+                break;
+
+            case BOTTOM:
+                // calculate content area bounds
+                cx = insets.left + contentInsets.left;
+                cy = insets.top + contentInsets.top;
+                cw = bounds.width - insets.left - insets.right - contentInsets.left - contentInsets.right;
+                ch = bounds.height - insets.top - insets.bottom - tabAreaRect.height - contentInsets.top - contentInsets.bottom;
+                break;
+
+            case TOP:
+            default:
+                // calculate content area bounds
+                cx = tabAreaRect.x + contentInsets.left;
+                cy = tabAreaRect.y + tabAreaRect.height + contentInsets.top;
+                cw = bounds.width - insets.left - insets.right - contentInsets.left - contentInsets.right;
+                ch = bounds.height - insets.top - insets.bottom - tabAreaRect.height - contentInsets.top - contentInsets.bottom;
+            }
+
+            for (int i = 0; i < numChildren; i++) {
+                Component child = tabPane.getComponent(i);
+
+                if (child == scrollBackwardButton || child == scrollForwardButton) {
+                    // Ignore these buttons. They have already been positioned.
+                } else {
+
+                    // All content children...
+                    child.setBounds(cx, cy, cw, ch);
+                }
+            }
+
+            layoutTabComponents();
+
+            if (shouldChangeFocus) {
+                if (!requestFocusForVisibleComponent()) {
+                    tabPane.requestFocus();
+                }
+            }
+        }
+
+        /**
+         * @param tabPlacement
+         */
+        private void setScrollButtonDirections(int tabPlacement) {
             if (tabPlacement == LEFT || tabPlacement == RIGHT) {
                 if (scrollForwardButton.getDirection() != SOUTH) {
                     scrollForwardButton.setDirection(SOUTH);
@@ -1118,139 +1223,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                     scrollBackwardButton.setDirection(EAST);
                 }
             }
-
-            calculateLayoutInfo();
-
-            Component selectedComponent = null;
-
-            if (selectedIndex < 0) {
-                if (visibleComponent != null) {
-                    // The last tab was removed, so remove the component
-                    setVisibleComponent(null);
-                }
-            } else {
-                selectedComponent = tabPane.getComponentAt(selectedIndex);
-            }
-
-            if (tabCount == 0) {
-                scrollForwardButton.setVisible(false);
-                scrollBackwardButton.setVisible(false);
-                return;
-            }
-
-            boolean shouldChangeFocus = false;
-
-            // In order to allow programs to use a single component
-            // as the display for multiple tabs, we will not change
-            // the visible compnent if the currently selected tab
-            // has a null component.  This is a bit dicey, as we don't
-            // explicitly state we support this in the spec, but since
-            // programs are now depending on this, we're making it work.
-            //
-            if (selectedComponent != null) {
-                if (selectedComponent != visibleComponent && visibleComponent != null) {
-                    if (findFocusOwner(visibleComponent) != null) {
-                        shouldChangeFocus = true;
-                    }
-                }
-
-                setVisibleComponent(selectedComponent);
-            }
-
-            // tab area bounds
-            int       tx;
-            int       ty;
-            int       tw;
-            int       th;
-            // content area bounds
-            int       cx;
-            int       cy;
-            int       cw;
-            int       ch;
-            Insets    contentInsets = getContentBorderInsets(tabPlacement);
-            Rectangle bounds        = tabPane.getBounds();
-            int       numChildren   = tabPane.getComponentCount();
-
-            if (numChildren > 0) {
-
-                switch (tabPlacement) {
-
-                case LEFT:
-                    // calculate tab area bounds
-                    tw = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-                    th = bounds.height - insets.top - insets.bottom;
-                    tx = insets.left;
-                    ty = insets.top;
-
-                    // calculate content area bounds
-                    cx = tx + tw + contentInsets.left;
-                    cy = ty + contentInsets.top;
-                    cw = bounds.width - insets.left - insets.right - tw - contentInsets.left - contentInsets.right;
-                    ch = bounds.height - insets.top - insets.bottom - contentInsets.top - contentInsets.bottom;
-                    break;
-
-                case RIGHT:
-                    // calculate tab area bounds
-                    tw = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-                    th = bounds.height - insets.top - insets.bottom;
-                    tx = bounds.width - insets.right - tw;
-                    ty = insets.top;
-
-                    // calculate content area bounds
-                    cx = insets.left + contentInsets.left;
-                    cy = insets.top + contentInsets.top;
-                    cw = bounds.width - insets.left - insets.right - tw - contentInsets.left - contentInsets.right;
-                    ch = bounds.height - insets.top - insets.bottom - contentInsets.top - contentInsets.bottom;
-                    break;
-
-                case BOTTOM:
-                    // calculate tab area bounds
-                    tw = bounds.width - insets.left - insets.right;
-                    th = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
-                    tx = insets.left;
-                    ty = bounds.height - insets.bottom - th;
-
-                    // calculate content area bounds
-                    cx = insets.left + contentInsets.left;
-                    cy = insets.top + contentInsets.top;
-                    cw = bounds.width - insets.left - insets.right - contentInsets.left - contentInsets.right;
-                    ch = bounds.height - insets.top - insets.bottom - th - contentInsets.top - contentInsets.bottom;
-                    break;
-
-                case TOP:
-                default:
-                    // calculate tab area bounds
-                    tw = bounds.width - insets.left - insets.right;
-                    th = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
-                    tx = insets.left;
-                    ty = insets.top;
-
-                    // calculate content area bounds
-                    cx = tx + contentInsets.left;
-                    cy = ty + th + contentInsets.top;
-                    cw = bounds.width - insets.left - insets.right - contentInsets.left - contentInsets.right;
-                    ch = bounds.height - insets.top - insets.bottom - th - contentInsets.top - contentInsets.bottom;
-                }
-
-                for (int i = 0; i < numChildren; i++) {
-                    Component child = tabPane.getComponent(i);
-
-                    if (child == scrollBackwardButton || child == scrollForwardButton) {
-                        // Ignore these buttons. They have already been positioned.
-                    } else {
-                        // All content children...
-                        child.setBounds(cx, cy, cw, ch);
-                    }
-                }
-
-                layoutTabComponents();
-
-                if (shouldChangeFocus) {
-                    if (!requestFocusForVisibleComponent()) {
-                        tabPane.requestFocus();
-                    }
-                }
-            }
         }
 
         /**
@@ -1267,12 +1239,14 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 }
 
                 getTabBounds(i, rect);
+
                 Dimension preferredSize = c.getPreferredSize();
                 Insets    insets        = getTabInsets(tabPane.getTabPlacement(), i);
                 int       outerX        = rect.x + insets.left;
                 int       outerY        = rect.y + insets.top;
                 int       outerWidth    = rect.width - insets.left - insets.right;
                 int       outerHeight   = rect.height - insets.top - insets.bottom;
+
                 // centralize component
                 int       x             = outerX + (outerWidth - preferredSize.width) / 2;
                 int       y             = outerY + (outerHeight - preferredSize.height) / 2;
@@ -1290,21 +1264,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
          *      int)
          */
         protected void calculateTabRects(int tabPlacement, int tabCount) {
-            Dimension          size            = tabPane.getSize();
-            Insets             mainInsets      = tabPane.getInsets();
-            Insets             tabAreaInsets   = getTabAreaInsets(tabPlacement);
-            Insets             insets          = new Insets(mainInsets.top + tabAreaInsets.top,
-                                                            mainInsets.left + tabAreaInsets.left,
-                                                            mainInsets.bottom + tabAreaInsets.bottom,
-                                                            mainInsets.right + tabAreaInsets.right);
-            int                selectedIndex   = tabPane.getSelectedIndex();
-            boolean            verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
-            ControlOrientation orientation     = ControlOrientation.getOrientation(verticalTabRuns ? VERTICAL : HORIZONTAL);
-            boolean            leftToRight     = tabPane.getComponentOrientation().isLeftToRight();
-
-            //
             // Calculate bounds within which a tab run must fit
-            //
             switch (tabPlacement) {
 
             case LEFT:
@@ -1316,7 +1276,20 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             case TOP:
             default:
                 maxTabHeight = calculateMaxTabHeight(tabPlacement);
+                break;
             }
+
+            // Calculate the tab area itself.
+            calcTabAreaRect();
+
+            Point              corner          = new Point(tabAreaRect.x + tabAreaInsets.left,
+                                                           tabAreaRect.y + tabAreaInsets.top);
+            Dimension          size            = new Dimension(tabAreaRect.width - tabAreaInsets.left - tabAreaInsets.right,
+                                                               tabAreaRect.height - tabAreaInsets.top - tabAreaInsets.bottom);
+            int                selectedIndex   = tabPane.getSelectedIndex();
+            boolean            verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
+            ControlOrientation orientation     = ControlOrientation.getOrientation(verticalTabRuns ? VERTICAL : HORIZONTAL);
+            boolean            leftToRight     = tabPane.getComponentOrientation().isLeftToRight();
 
             if (tabCount == 0) {
                 scrollBackwardButton.setVisible(false);
@@ -1337,8 +1310,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
             // Make use of the fact that the scroll buttons have the same preferred size. Only assign one.
             int buttonLength         = orientation.getLength(scrollForwardButton.getPreferredSize());
-            int tabAreaLength        = orientation.getPosition(size.width - insets.left - insets.right,
-                                                               size.height - insets.top - insets.bottom);
+            int tabAreaLength        = orientation.getLength(size);
             int leadingTabOffset     = orientation.getPosition(rects[leadingTabIndex]);
             int selectedTabEndOffset = orientation.getPosition(rects[selectedIndex].x + rects[selectedIndex].width,
                                                                rects[selectedIndex].y + rects[selectedIndex].height);
@@ -1353,11 +1325,13 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             } else if (selectedTabEndOffset - leadingTabOffset + 2 * buttonLength <= tabAreaLength) {
                 // Selected index fits with current leading tab index and two scroll button. Leave leadingTabIndex alone.
                 trailingTabIndex = -1;
+
                 for (int i = tabCount - 1; i > selectedIndex; i--) {
                     int end = orientation.getPosition(rects[i].x + rects[i].width, rects[i].y + rects[i].height);
 
                     if (end - leadingTabOffset + 2 * buttonLength <= tabAreaLength) {
                         trailingTabIndex = i;
+
                         break;
                     }
                 }
@@ -1370,11 +1344,13 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 // Make selected index the trailing index and find the leading index that will fit.
                 trailingTabIndex = selectedIndex;
                 leadingTabIndex  = -1;
+
                 for (int i = 0; i < selectedIndex; i++) {
                     int start = orientation.getPosition(rects[i]);
 
                     if (selectedTabEndOffset - start + 2 * buttonLength <= tabAreaLength) {
                         leadingTabIndex = i;
+
                         break;
                     }
                 }
@@ -1385,9 +1361,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             }
 
             tabRuns[0]       = leadingTabIndex;
-
             // Rebalance the layout such that the leading tab is at position 0.
             leadingTabOffset = orientation.getPosition(rects[leadingTabIndex]);
+
             for (int i = 0; i < tabCount; i++) {
                 if (i < leadingTabIndex || i > trailingTabIndex) {
                     rects[i].setBounds(-1, -1, 0, 0);
@@ -1408,29 +1384,23 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 tabAreaLength -= buttonLength;
             }
 
-            int offset    = orientation.getOrthogonalOffset(rects[leadingTabIndex]);
+            int offset    = orientation.getOrthogonalOffset(corner);
             int thickness = orientation.getThickness(rects[leadingTabIndex]);
-            if (!verticalTabRuns) {
-                offset += insets.top - tabAreaInsets.top;
-            } else {
-                offset += insets.left - tabAreaInsets.left;
-            }
 
             if (leadingTabIndex > 0 || trailingTabIndex < tabCount - 1) {
                 // Fill the tabs to the available width.
                 float multiplier = ((float) tabAreaLength / totalLength);
 
                 for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
-                    int position = (i == leadingTabIndex)
-                        ? (orientation.getPosition(insets.left, insets.top) + (leadingTabIndex > 0 ? buttonLength : 0))
-                        : orientation.getPosition(rects[i - 1]) + orientation.getLength(rects[i - 1]);
+                    int position = (i == leadingTabIndex) ? orientation.getPosition(corner) + (leadingTabIndex > 0 ? buttonLength : 0)
+                                                          : orientation.getPosition(rects[i - 1]) + orientation.getLength(rects[i - 1]);
                     int length   = (int) (orientation.getLength(rects[i]) * multiplier);
 
                     rects[i].setBounds(orientation.createBounds(position, offset, length, thickness));
                 }
             } else {
                 // Center the tabs.
-                int delta = -(tabAreaLength - totalLength) / 2 - orientation.getPosition(insets.left, insets.top);
+                int delta = -(tabAreaLength - totalLength) / 2 - orientation.getPosition(corner);
 
                 for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
                     int position = orientation.getPosition(rects[i]) - delta;
@@ -1448,7 +1418,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             // if right to left and tab placement on the top or
             // the bottom, flip x positions and adjust by widths
             if (!leftToRight && !verticalTabRuns) {
-                int rightMargin = size.width + 10 - insets.right;
+                int rightMargin = size.width;
 
                 for (int i = 0; i < tabCount; i++) {
                     rects[i].x = rightMargin - rects[i].x - rects[i].width;
@@ -1566,6 +1536,71 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             }
 
             return maxLength;
+        }
+
+        /**
+         * Given the tabPane, calculate the rectangle into which the tabs will
+         * be drawn. This does not include the tab area insets, but does include
+         * the tab pane insets.
+         *
+         * <p>This is used for painting the background as well as for laying out
+         * the tabs.</p>
+         */
+        private void calcTabAreaRect() {
+            int       tabPlacement = tabPane.getTabPlacement();
+            Insets    insets       = tabPane.getInsets();
+            Rectangle bounds       = tabPane.getBounds();
+            int       numChildren  = tabPane.getTabCount();
+
+            // tab area bounds
+            int       tx;
+            int       ty;
+            int       tw;
+            int       th;
+
+            if (numChildren == 0) {
+                tw = 0;
+                th = 0;
+                tx = 0;
+                ty = 0;
+            } else {
+                switch (tabPlacement) {
+
+                case LEFT:
+                    // calculate tab area bounds
+                    tw = calculateTabAreaWidth(tabPlacement, 1, maxTabWidth);
+                    th = bounds.height - insets.top - insets.bottom;
+                    tx = insets.left;
+                    ty = insets.top;
+                    break;
+
+                case RIGHT:
+                    // calculate tab area bounds
+                    tw = calculateTabAreaWidth(tabPlacement, 1, maxTabWidth);
+                    th = bounds.height - insets.top - insets.bottom;
+                    tx = bounds.width - insets.right - tw;
+                    ty = insets.top;
+                    break;
+
+                case BOTTOM:
+                    // calculate tab area bounds
+                    tw = bounds.width - insets.left - insets.right;
+                    th = calculateTabAreaHeight(tabPlacement, 1, maxTabHeight);
+                    tx = insets.left;
+                    ty = bounds.height - insets.bottom - th;
+                    break;
+
+                case TOP:
+                default:
+                    // calculate tab area bounds
+                    tw = bounds.width - insets.left - insets.right;
+                    th = calculateTabAreaHeight(tabPlacement, 1, maxTabHeight);
+                    tx = insets.left;
+                    ty = insets.top;
+                }
+            }
+
+            tabAreaRect.setBounds(tx, ty, tw, th);
         }
 
         /**
