@@ -255,9 +255,9 @@
 		generating the site documentation.
 	-->
 	<scm>
-		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</connection>
-		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</developerConnection>
-		<url>http://code.google.com/p/seaglass/source/browse/seaglass/trunk/seaglass</url>
+		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass/trunk</connection>
+		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/trunk</developerConnection>
+		<url>http://code.google.com/p/seaglass/source/browse/seaglass/trunk</url>
 	</scm>
 	<profiles>
 		<!--
