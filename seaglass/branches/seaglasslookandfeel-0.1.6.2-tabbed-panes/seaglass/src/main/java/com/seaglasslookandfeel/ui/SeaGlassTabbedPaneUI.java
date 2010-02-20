@@ -1298,6 +1298,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 leadingTabIndex = selectedIndex;
             }
 
+            Insets    tabAreaInsets = getTabAreaInsets(tabPlacement);
             Dimension size          = new Dimension(tabAreaRect.width - tabAreaInsets.left - tabAreaInsets.right,
                                                     tabAreaRect.height - tabAreaInsets.top - tabAreaInsets.bottom);
             int       tabAreaLength = orientation.getLength(size);
@@ -1441,14 +1442,15 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
          *         maximum height.
          */
         private int calcDesiredMaximumLength(int tabCount) {
-            FontMetrics metrics      = getFontMetrics();
-            int         fontHeight   = metrics.getHeight();
-            Point       corner       = new Point(tabAreaRect.x + tabAreaInsets.left,
-                                                 tabAreaRect.y + tabAreaInsets.top);
-            int         offset       = orientation.getOrthogonalOffset(corner);
-            int         thickness    = (orientation == ControlOrientation.HORIZONTAL) ? maxTabWidth : maxTabHeight;
-            int         position     = 0;
-            int         maxTabLength = 0;
+            FontMetrics metrics       = getFontMetrics();
+            int         fontHeight    = metrics.getHeight();
+            Insets      tabAreaInsets = getTabAreaInsets(fontHeight);
+            Point       corner        = new Point(tabAreaRect.x + tabAreaInsets.left,
+                                                  tabAreaRect.y + tabAreaInsets.top);
+            int         offset        = orientation.getOrthogonalOffset(corner);
+            int         thickness     = (orientation == ControlOrientation.HORIZONTAL) ? maxTabWidth : maxTabHeight;
+            int         position      = 0;
+            int         maxTabLength  = 0;
 
             // Run through tabs and lay them out in a single long run.
             for (int i = 0; i < tabCount; i++) {
