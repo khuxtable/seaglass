@@ -1335,11 +1335,12 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
          * @param tabAreaLength the total length available.
          */
         private void centerTabs(int tabCount, int totalLength, int tabAreaLength) {
-            Point corner        = new Point(tabAreaRect.x + tabAreaInsets.left, tabAreaRect.y + tabAreaInsets.top);
-            int   startPosition = orientation.getPosition(corner);
-            int   offset        = orientation.getOrthogonalOffset(corner);
-            int   thickness     = (orientation == ControlOrientation.HORIZONTAL) ? maxTabHeight : maxTabWidth;
-            int   delta         = -(tabAreaLength - totalLength) / 2 - startPosition;
+            Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
+            Point  corner        = new Point(tabAreaRect.x + tabAreaInsets.left, tabAreaRect.y + tabAreaInsets.top);
+            int    startPosition = orientation.getPosition(corner);
+            int    offset        = orientation.getOrthogonalOffset(corner);
+            int    thickness     = (orientation == ControlOrientation.HORIZONTAL) ? maxTabHeight : maxTabWidth;
+            int    delta         = -(tabAreaLength - totalLength) / 2 - startPosition;
 
             for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
                 int position = orientation.getPosition(rects[i]) - delta;
@@ -1368,13 +1369,14 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 tabAreaLength -= buttonLength;
             }
 
-            Point corner        = new Point(tabAreaRect.x + tabAreaInsets.left, tabAreaRect.y + tabAreaInsets.top);
-            int   startPosition = orientation.getPosition(corner);
-            int   offset        = orientation.getOrthogonalOffset(corner);
-            int   thickness     = (orientation == ControlOrientation.HORIZONTAL) ? maxTabHeight : maxTabWidth;
+            Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
+            Point  corner        = new Point(tabAreaRect.x + tabAreaInsets.left, tabAreaRect.y + tabAreaInsets.top);
+            int    startPosition = orientation.getPosition(corner);
+            int    offset        = orientation.getOrthogonalOffset(corner);
+            int    thickness     = (orientation == ControlOrientation.HORIZONTAL) ? maxTabHeight : maxTabWidth;
 
             // Fill the tabs to the available width.
-            float multiplier    = ((float) tabAreaLength / totalLength);
+            float  multiplier    = ((float) tabAreaLength / totalLength);
 
             for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
                 int position = (i == leadingTabIndex) ? startPosition + (leadingTabIndex > 0 ? buttonLength : 0)
@@ -1483,15 +1485,14 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
          * @param tabCount the number of tabs.
          */
         private void resetTabPositionsToLeadingTabIndex(int tabCount) {
-            int leadingTabOffset;
             // Rebalance the layout such that the leading tab is at position 0.
-            leadingTabOffset = orientation.getPosition(rects[leadingTabIndex]);
+            int leadingTabPosition = orientation.getPosition(rects[leadingTabIndex]);
 
             for (int i = 0; i < tabCount; i++) {
                 if (i < leadingTabIndex || i > trailingTabIndex) {
                     rects[i].setBounds(-1, -1, 0, 0);
                 } else {
-                    orientation.updateBoundsPosition(rects[i], orientation.getPosition(rects[i]) - leadingTabOffset);
+                    orientation.updateBoundsPosition(rects[i], orientation.getPosition(rects[i]) - leadingTabPosition);
                 }
             }
         }
