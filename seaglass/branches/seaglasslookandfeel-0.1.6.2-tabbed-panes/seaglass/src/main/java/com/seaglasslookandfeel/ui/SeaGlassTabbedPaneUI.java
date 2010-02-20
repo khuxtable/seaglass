@@ -1328,89 +1328,42 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         }
 
         /**
-         * Center the tabs in the tab area.
+         * Calculate the rectangle into which the tabs will be drawn. This does
+         * not include the tab area insets, but does include the tab pane
+         * insets.
          *
-         * @param tabCount      the number of tabs.
-         * @param totalLength   the total length available of the tabs.
-         * @param tabAreaLength the total length available.
+         * <p>This is used for painting the background as well as for laying out
+         * the tabs.</p>
          */
-        private void centerTabs(int tabCount, int totalLength, int tabAreaLength) {
-            Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
-            Point  corner        = new Point(tabAreaRect.x + tabAreaInsets.left, tabAreaRect.y + tabAreaInsets.top);
-            int    startPosition = orientation.getPosition(corner);
-            int    offset        = orientation.getOrthogonalOffset(corner);
-            int    thickness     = (orientation == ControlOrientation.HORIZONTAL) ? maxTabHeight : maxTabWidth;
-            int    delta         = -(tabAreaLength - totalLength) / 2 - startPosition;
+        private void calcTabAreaRect() {
+            Insets    insets        = tabPane.getInsets();
+            Insets    tabAreaInsets = getTabAreaInsets(tabPlacement);
+            Rectangle bounds        = tabPane.getBounds();
 
-            for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
-                int position = orientation.getPosition(rects[i]) - delta;
-                int length   = orientation.getLength(rects[i]);
-
-                rects[i].setBounds(orientation.createBounds(position, offset, length, thickness));
-            }
-        }
-
-        /**
-         * Fill out the visible tabs and scroll buttons to fit the available
-         * length.
-         *
-         * @param tabCount      the number of tabs.
-         * @param totalLength   the total length available of the tabs.
-         * @param buttonLength  the size of a scroll button.
-         * @param tabAreaLength the total length available.
-         */
-        private void resizeTabs(int tabCount, int totalLength, int buttonLength, int tabAreaLength) {
-            // Subtract off the button length from the available length.
-            if (leadingTabIndex > 0) {
-                tabAreaLength -= buttonLength;
+            if (tabPane.getTabCount() == 0) {
+                tabAreaRect.setBounds(0, 0, 0, 0);
+                return;
             }
 
-            if (trailingTabIndex < tabCount - 1) {
-                tabAreaLength -= buttonLength;
+            // Calculate bounds within which a tab run must fit.
+            int position;
+            int offset;
+            int length;
+            int thickness;
+
+            if (orientation == ControlOrientation.HORIZONTAL) {
+                length    = bounds.width - insets.left - insets.right;
+                position  = insets.left;
+                thickness = maxTabHeight + tabAreaInsets.top + tabAreaInsets.bottom;
+                offset    = (tabPlacement == BOTTOM) ? bounds.height - insets.bottom - thickness : insets.top;
+            } else {
+                length    = bounds.height - insets.top - insets.bottom;
+                position  = insets.top;
+                thickness = maxTabWidth + tabAreaInsets.left + tabAreaInsets.right;
+                offset    = (tabPlacement == RIGHT) ? bounds.width - insets.right - thickness : insets.left;
             }
 
-            Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
-            Point  corner        = new Point(tabAreaRect.x + tabAreaInsets.left, tabAreaRect.y + tabAreaInsets.top);
-            int    startPosition = orientation.getPosition(corner);
-            int    offset        = orientation.getOrthogonalOffset(corner);
-            int    thickness     = (orientation == ControlOrientation.HORIZONTAL) ? maxTabHeight : maxTabWidth;
-
-            // Fill the tabs to the available width.
-            float  multiplier    = ((float) tabAreaLength / totalLength);
-
-            for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
-                int position = (i == leadingTabIndex) ? startPosition + (leadingTabIndex > 0 ? buttonLength : 0)
-                                                      : orientation.getPosition(rects[i - 1]) + orientation.getLength(rects[i - 1]);
-                int length   = (int) (orientation.getLength(rects[i]) * multiplier);
-
-                rects[i].setBounds(orientation.createBounds(position, offset, length, thickness));
-            }
-        }
-
-        /**
-         * Flip the buttons right to left.
-         *
-         * @param tabCount the number of tabs.
-         * @param size     the rectangle to fit them in.
-         */
-        private void flipRightToLeft(int tabCount, Dimension size) {
-            int rightMargin = size.width;
-
-            for (int i = 0; i < tabCount; i++) {
-                rects[i].x = rightMargin - rects[i].x - rects[i].width;
-            }
-
-            if (scrollBackwardButton.isVisible()) {
-                Rectangle b = scrollBackwardButton.getBounds();
-
-                scrollBackwardButton.setLocation(rightMargin - b.x - b.width, b.y);
-            }
-
-            if (scrollForwardButton.isVisible()) {
-                Rectangle b = scrollForwardButton.getBounds();
-
-                scrollForwardButton.setLocation(rightMargin - b.x - b.width, b.y);
-            }
+            tabAreaRect.setBounds(orientation.createBounds(position, offset, length, thickness));
         }
 
         /**
@@ -1478,45 +1431,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         }
 
         /**
-         * Reset the positions of the tabs between leadingTabIndex and
-         * trailingTabIndex, inclusive, such that the leadingTabIndex is at
-         * position zero.
-         *
-         * @param tabCount the number of tabs.
-         */
-        private void resetTabPositionsToLeadingTabIndex(int tabCount) {
-            // Rebalance the layout such that the leading tab is at position 0.
-            int leadingTabPosition = orientation.getPosition(rects[leadingTabIndex]);
-
-            for (int i = 0; i < tabCount; i++) {
-                if (i < leadingTabIndex || i > trailingTabIndex) {
-                    rects[i].setBounds(-1, -1, 0, 0);
-                } else {
-                    orientation.updateBoundsPosition(rects[i], orientation.getPosition(rects[i]) - leadingTabPosition);
-                }
-            }
-        }
-
-        /**
-         * Set the bounds Rectangle for a scroll button.
-         *
-         * @param child    the scroll button.
-         * @param visible  whether the button is visible or not.
-         * @param position the position from the start of the tab run.
-         */
-        private void setScrollButtonPositions(Component child, boolean visible, int position) {
-            if (visible) {
-                child.setBounds(orientation.createBounds(position,
-                                                         orientation.getOrthogonalOffset(rects[leadingTabIndex]),
-                                                         orientation.getLength(child.getPreferredSize()),
-                                                         orientation.getThickness(rects[leadingTabIndex])));
-            }
-
-            child.setEnabled(tabPane.isEnabled());
-            child.setVisible(visible);
-        }
-
-        /**
          * Run through tabs and lay them all out in a single run, assigning
          * maxTabWidth and maxTabHeight. The offset and thickness are set to
          * zero in this method. They will be assigned good values later.
@@ -1559,42 +1473,128 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         }
 
         /**
-         * Calculate the rectangle into which the tabs will be drawn. This does
-         * not include the tab area insets, but does include the tab pane
-         * insets.
+         * Reset the positions of the tabs between leadingTabIndex and
+         * trailingTabIndex, inclusive, such that the leadingTabIndex is at
+         * position zero.
          *
-         * <p>This is used for painting the background as well as for laying out
-         * the tabs.</p>
+         * @param tabCount the number of tabs.
          */
-        private void calcTabAreaRect() {
-            Insets    insets        = tabPane.getInsets();
-            Insets    tabAreaInsets = getTabAreaInsets(tabPlacement);
-            Rectangle bounds        = tabPane.getBounds();
+        private void resetTabPositionsToLeadingTabIndex(int tabCount) {
+            // Rebalance the layout such that the leading tab is at position 0.
+            int leadingTabPosition = orientation.getPosition(rects[leadingTabIndex]);
 
-            if (tabPane.getTabCount() == 0) {
-                tabAreaRect.setBounds(0, 0, 0, 0);
-                return;
+            for (int i = 0; i < tabCount; i++) {
+                if (i < leadingTabIndex || i > trailingTabIndex) {
+                    rects[i].setBounds(-1, -1, 0, 0);
+                } else {
+                    orientation.updateBoundsPosition(rects[i], orientation.getPosition(rects[i]) - leadingTabPosition);
+                }
+            }
+        }
+
+        /**
+         * Center the tabs in the tab area.
+         *
+         * @param tabCount      the number of tabs.
+         * @param totalLength   the total length available of the tabs.
+         * @param tabAreaLength the total length available.
+         */
+        private void centerTabs(int tabCount, int totalLength, int tabAreaLength) {
+            Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
+            Point  corner        = new Point(tabAreaRect.x + tabAreaInsets.left, tabAreaRect.y + tabAreaInsets.top);
+            int    startPosition = orientation.getPosition(corner);
+            int    offset        = orientation.getOrthogonalOffset(corner);
+            int    thickness     = (orientation == ControlOrientation.HORIZONTAL) ? maxTabHeight : maxTabWidth;
+            int    delta         = -(tabAreaLength - totalLength) / 2 - startPosition;
+
+            for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
+                int position = orientation.getPosition(rects[i]) - delta;
+                int length   = orientation.getLength(rects[i]);
+
+                rects[i].setBounds(orientation.createBounds(position, offset, length, thickness));
+            }
+        }
+
+        /**
+         * Fill out the visible tabs and scroll buttons to fit the available
+         * length.
+         *
+         * @param tabCount      the number of tabs.
+         * @param totalLength   the total length available of the tabs.
+         * @param buttonLength  the size of a scroll button.
+         * @param tabAreaLength the total length available.
+         */
+        private void resizeTabs(int tabCount, int totalLength, int buttonLength, int tabAreaLength) {
+            // Subtract off the button length from the available length.
+            if (leadingTabIndex > 0) {
+                tabAreaLength -= buttonLength;
             }
 
-            // Calculate bounds within which a tab run must fit.
-            int position;
-            int offset;
-            int length;
-            int thickness;
-
-            if (orientation == ControlOrientation.HORIZONTAL) {
-                length    = bounds.width - insets.left - insets.right;
-                position  = insets.left;
-                thickness = maxTabHeight + tabAreaInsets.top + tabAreaInsets.bottom;
-                offset    = (tabPlacement == BOTTOM) ? bounds.height - insets.bottom - thickness : insets.top;
-            } else {
-                length    = bounds.height - insets.top - insets.bottom;
-                position  = insets.top;
-                thickness = maxTabWidth + tabAreaInsets.left + tabAreaInsets.right;
-                offset    = (tabPlacement == RIGHT) ? bounds.width - insets.right - thickness : insets.left;
+            if (trailingTabIndex < tabCount - 1) {
+                tabAreaLength -= buttonLength;
             }
 
-            tabAreaRect.setBounds(orientation.createBounds(position, offset, length, thickness));
+            Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
+            Point  corner        = new Point(tabAreaRect.x + tabAreaInsets.left, tabAreaRect.y + tabAreaInsets.top);
+            int    startPosition = orientation.getPosition(corner);
+            int    offset        = orientation.getOrthogonalOffset(corner);
+            int    thickness     = (orientation == ControlOrientation.HORIZONTAL) ? maxTabHeight : maxTabWidth;
+
+            // Fill the tabs to the available width.
+            float  multiplier    = ((float) tabAreaLength / totalLength);
+
+            for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
+                int position = (i == leadingTabIndex) ? startPosition + (leadingTabIndex > 0 ? buttonLength : 0)
+                                                      : orientation.getPosition(rects[i - 1]) + orientation.getLength(rects[i - 1]);
+                int length   = (int) (orientation.getLength(rects[i]) * multiplier);
+
+                rects[i].setBounds(orientation.createBounds(position, offset, length, thickness));
+            }
+        }
+
+        /**
+         * Set the bounds Rectangle for a scroll button.
+         *
+         * @param child    the scroll button.
+         * @param visible  whether the button is visible or not.
+         * @param position the position from the start of the tab run.
+         */
+        private void setScrollButtonPositions(Component child, boolean visible, int position) {
+            if (visible) {
+                child.setBounds(orientation.createBounds(position,
+                                                         orientation.getOrthogonalOffset(rects[leadingTabIndex]),
+                                                         orientation.getLength(child.getPreferredSize()),
+                                                         orientation.getThickness(rects[leadingTabIndex])));
+            }
+
+            child.setEnabled(tabPane.isEnabled());
+            child.setVisible(visible);
+        }
+
+        /**
+         * Flip the buttons right to left.
+         *
+         * @param tabCount the number of tabs.
+         * @param size     the rectangle to fit them in.
+         */
+        private void flipRightToLeft(int tabCount, Dimension size) {
+            int rightMargin = size.width;
+
+            for (int i = 0; i < tabCount; i++) {
+                rects[i].x = rightMargin - rects[i].x - rects[i].width;
+            }
+
+            if (scrollBackwardButton.isVisible()) {
+                Rectangle b = scrollBackwardButton.getBounds();
+
+                scrollBackwardButton.setLocation(rightMargin - b.x - b.width, b.y);
+            }
+
+            if (scrollForwardButton.isVisible()) {
+                Rectangle b = scrollForwardButton.getBounds();
+
+                scrollForwardButton.setLocation(rightMargin - b.x - b.width, b.y);
+            }
         }
 
         /**
