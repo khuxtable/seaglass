@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,7 +23,7 @@ import javax.swing.UIManager;
 public class TestTabbedPanes {
 
     static JTabbedPane tabbedPane;
-    static int         tabNum = 3;
+    static int         tabNum = 2;
 
     /**
      * DOCUMENT ME!
@@ -41,11 +42,13 @@ public class TestTabbedPanes {
         SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+                    tabbedPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                    // tabbedPane.setComponentOrientation(java.awt.ComponentOrientation.RIGHT_TO_LEFT);
 
                     tabbedPane.setPreferredSize(new Dimension(200, 150));
 
-                    tabbedPane.addTab("Tab 1", createPanel(true));
-                    tabbedPane.addTab("Tab 2", createPanel(false));
+                    tabbedPane.addTab("Tab 0", createPanel(true));
+                    tabbedPane.addTab("Tab 1", createPanel(false));
 
                     JPanel panel = new JPanel();
 
