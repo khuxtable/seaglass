@@ -1323,7 +1323,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             // If component orientation right to left and tab placement is on the top or the bottom,
             // flip x positions and adjust by widths.
             if (!tabPane.getComponentOrientation().isLeftToRight() && orientation == ControlOrientation.HORIZONTAL) {
-                flipRightToLeft(tabCount, size);
+                flipRightToLeft(tabCount, tabPane.getSize());
             }
         }
 
