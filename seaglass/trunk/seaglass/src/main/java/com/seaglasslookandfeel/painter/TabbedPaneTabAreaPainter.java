@@ -27,7 +27,6 @@ import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.ui.SeaGlassTabbedPaneUI;
 
 /**
  * Sea Glass TabbedPaneTabAreaPainter. Does nothing.
@@ -90,26 +89,13 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
      *      javax.swing.JComponent, int, int, java.lang.Object[])
      */
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        JTabbedPane          tabPane     = (JTabbedPane) c;
-        SeaGlassTabbedPaneUI ui          = (SeaGlassTabbedPaneUI) tabPane.getUI();
-        int                  orientation = tabPane.getTabPlacement();
+        JTabbedPane tabPane     = (JTabbedPane) c;
+        int         orientation = tabPane.getTabPlacement();
 
-        if (orientation == JTabbedPane.LEFT) {
-            int offset = ui.calculateMaxTabWidth(orientation) / 2 + 3;
-
-            paintVerticalLine(g, c, offset, 0, width, height);
-        } else if (orientation == JTabbedPane.RIGHT) {
-            int offset = ui.calculateMaxTabWidth(orientation) / 2 + 3;
-
-            paintVerticalLine(g, c, width - offset, 0, width, height);
-        } else if (orientation == JTabbedPane.BOTTOM) {
-            int offset = ui.calculateMaxTabHeight(orientation) / 2 + 3;
-
-            paintHorizontalLine(g, c, 0, height - offset, width, height);
+        if (orientation == JTabbedPane.LEFT || orientation == JTabbedPane.RIGHT) {
+            paintVerticalLine(g, c, 0, height / 2, width, height);
         } else {
-            int offset = ui.calculateMaxTabHeight(orientation) / 2 + 3;
-
-            paintHorizontalLine(g, c, 0, offset, width, height);
+            paintHorizontalLine(g, c, 0, height / 2, width, height);
         }
     }
 
@@ -131,7 +117,7 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
      * @param height DOCUMENT ME!
      */
     private void paintHorizontalLine(Graphics2D g, JComponent c, int x, int y, int width, int height) {
-        g.setPaint(getTabbedPaneTabAreaHorizontalPaint(x, y - 1, width, 4));
+        g.setPaint(getTabbedPaneTabAreaPaint(x, y - 1, width, 4));
         g.fillRect(x, y - 1, width, 4);
         g.setPaint(getTabbedPaneTabAreaBackgroundPaint());
         g.drawLine(x, y, x + width - 1, y);
@@ -148,10 +134,10 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
      * @param height DOCUMENT ME!
      */
     private void paintVerticalLine(Graphics2D g, JComponent c, int x, int y, int width, int height) {
-        g.setPaint(getTabbedPaneTabAreaVerticalPaint(x - 1, y, 3, height));
-        g.fillRect(x - 1, y, 3, height);
+        g.setPaint(getTabbedPaneTabAreaPaint(x, y - 1, width, 3));
+        g.fillRect(x, y - 1, width, 3);
         g.setPaint(getTabbedPaneTabAreaBackgroundPaint());
-        g.drawLine(x, y, x, y + height - 1);
+        g.drawLine(x, y, x + width - 1, y);
     }
 
     /**
@@ -164,27 +150,10 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
      *
      * @return DOCUMENT ME!
      */
-    public Paint getTabbedPaneTabAreaHorizontalPaint(int x, int y, int width, int height) {
+    public Paint getTabbedPaneTabAreaPaint(int x, int y, int width, int height) {
         float midX = x + width / 2;
 
         return createGradient(midX, y, midX, y + height, new float[] { 0f, 0.5f, 1f },
-                              new Color[] { tabbedPaneTabAreaLightShadow, tabbedPaneTabAreaDarkShadow, tabbedPaneTabAreaLightShadow });
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  x      DOCUMENT ME!
-     * @param  y      DOCUMENT ME!
-     * @param  width  DOCUMENT ME!
-     * @param  height DOCUMENT ME!
-     *
-     * @return DOCUMENT ME!
-     */
-    public Paint getTabbedPaneTabAreaVerticalPaint(int x, int y, int width, int height) {
-        float midY = y + height / 2;
-
-        return createGradient(x, midY, x + width, midY, new float[] { 0f, 0.5f, 1f },
                               new Color[] { tabbedPaneTabAreaLightShadow, tabbedPaneTabAreaDarkShadow, tabbedPaneTabAreaLightShadow });
     }
 
