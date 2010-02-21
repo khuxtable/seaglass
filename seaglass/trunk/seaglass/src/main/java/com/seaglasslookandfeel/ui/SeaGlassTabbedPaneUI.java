@@ -91,22 +91,22 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
     private boolean selectedTabIsPressed = false;
 
-    /** DOCUMENT ME! */
+    /** The scroll forward button. This may or may not be visible. */
     protected SynthScrollableTabButton scrollForwardButton;
 
-    /** DOCUMENT ME! */
+    /** The scroll backward button. This may or may not be visible. */
     protected SynthScrollableTabButton scrollBackwardButton;
 
-    /** DOCUMENT ME! */
+    /** Index of initial displayed tab. */
     protected int leadingTabIndex = 0;
 
-    /** DOCUMENT ME! */
+    /** Index of final displayed tab. */
     protected int trailingTabIndex = 0;
 
-    /** DOCUMENT ME! */
+    /** Side the tabs are on. */
     protected int tabPlacement;
 
-    /** DOCUMENT ME! */
+    /** Horizontal/vertical abstraction. */
     protected ControlOrientation orientation;
 
     /**
@@ -190,9 +190,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Update the Synth styles when something changes.
      *
-     * @param c DOCUMENT ME!
+     * @param c the component.
      */
     private void updateStyle(JTabbedPane c) {
         SeaGlassContext context  = getContext(c, ENABLED);
@@ -276,7 +276,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Scroll the tab buttons backwards.
      */
     protected void scrollBackward() {
         int selectedIndex = tabPane.getSelectedIndex();
@@ -291,7 +291,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Scroll the tab buttons forwards.
      */
     protected void scrollForward() {
         int selectedIndex = tabPane.getSelectedIndex();
@@ -347,37 +347,39 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Create a SynthContext for the component and state. Use the default
+     * region.
      *
-     * @param  c     DOCUMENT ME!
-     * @param  state DOCUMENT ME!
+     * @param  c     the component.
+     * @param  state the state.
      *
-     * @return DOCUMENT ME!
+     * @return the newly created SynthContext.
      */
     public SeaGlassContext getContext(JComponent c, int state) {
         return SeaGlassContext.getContext(SeaGlassContext.class, c, SeaGlassLookAndFeel.getRegion(c), style, state);
     }
 
     /**
-     * DOCUMENT ME!
+     * Create a SynthContext for the component and subregion. Use the current
+     * state.
      *
-     * @param  c         DOCUMENT ME!
-     * @param  subregion DOCUMENT ME!
+     * @param  c         the component.
+     * @param  subregion the subregion.
      *
-     * @return DOCUMENT ME!
+     * @return the newly created SynthContext.
      */
     public SeaGlassContext getContext(JComponent c, Region subregion) {
         return getContext(c, subregion, getComponentState(c));
     }
 
     /**
-     * DOCUMENT ME!
+     * Create a SynthContext for the component, subregion, and state.
      *
-     * @param  c         DOCUMENT ME!
-     * @param  subregion DOCUMENT ME!
-     * @param  state     DOCUMENT ME!
+     * @param  c         the component.
+     * @param  subregion the subregion.
+     * @param  state     the state.
      *
-     * @return DOCUMENT ME!
+     * @return the newly created SynthContext.
      */
     private SeaGlassContext getContext(JComponent c, Region subregion, int state) {
         SynthStyle style = null;
@@ -397,11 +399,11 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Get the current state for the component.
      *
-     * @param  c DOCUMENT ME!
+     * @param  c the component.
      *
-     * @return DOCUMENT ME!
+     * @return the component's state.
      */
     private int getComponentState(JComponent c) {
         return SeaGlassLookAndFeel.getComponentState(c);
@@ -605,13 +607,13 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Paint the tab area, including the tabs.
      *
-     * @param ss            DOCUMENT ME!
-     * @param g             DOCUMENT ME!
+     * @param ss            the SynthContext.
+     * @param g             the Graphics context.
      * @param tabPlacement  the side the tabs are on.
-     * @param selectedIndex DOCUMENT ME!
-     * @param tabAreaBounds DOCUMENT ME!
+     * @param selectedIndex the current selected tab index.
+     * @param tabAreaBounds the bounds of the tab area.
      */
     protected void paintTabArea(SeaGlassContext ss, Graphics g, int tabPlacement, int selectedIndex, Rectangle tabAreaBounds) {
         Rectangle clipRect = g.getClipBounds();
@@ -619,7 +621,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         ss.setComponentState(SynthConstants.ENABLED);
 
         // Paint the tab area.
-
         SeaGlassLookAndFeel.updateSubregion(ss, g, tabAreaBounds);
         ss.getPainter().paintTabbedPaneTabAreaBackground(ss, g, tabAreaBounds.x, tabAreaBounds.y, tabAreaBounds.width,
                                                          tabAreaBounds.height, tabPlacement);
@@ -682,14 +683,14 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Paint a tab.
      *
-     * @param ss       DOCUMENT ME!
-     * @param g        DOCUMENT ME!
-     * @param rects    DOCUMENT ME!
-     * @param tabIndex DOCUMENT ME!
-     * @param iconRect DOCUMENT ME!
-     * @param textRect DOCUMENT ME!
+     * @param ss       the SynthContext.
+     * @param g        the Graphics context.
+     * @param rects    the array containing the bounds for the tabs.
+     * @param tabIndex the tab index to paint.
+     * @param iconRect the bounds in which to paint the tab icon, if any.
+     * @param textRect the bounds in which to paint the tab text, if any.
      */
     protected void paintTab(SeaGlassContext ss, Graphics g, Rectangle[] rects, int tabIndex, Rectangle iconRect, Rectangle textRect) {
         Rectangle  tabRect       = rects[tabIndex];
@@ -741,10 +742,10 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Paint the background for a tab scroll button.
      *
-     * @param g            DOCUMENT ME!
-     * @param scrollButton DOCUMENT ME!
+     * @param g            the Graphics context.
+     * @param scrollButton the button to paint.
      */
     protected void paintScrollButtonBackground(Graphics g, JButton scrollButton) {
         Rectangle tabRect = scrollButton.getBounds();
@@ -762,18 +763,18 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Layout label text for a tab.
      *
-     * @param ss           DOCUMENT ME!
+     * @param ss           the SynthContext.
      * @param tabPlacement the side the tabs are on.
-     * @param metrics      DOCUMENT ME!
-     * @param tabIndex     DOCUMENT ME!
-     * @param title        DOCUMENT ME!
-     * @param icon         DOCUMENT ME!
-     * @param tabRect      DOCUMENT ME!
-     * @param iconRect     DOCUMENT ME!
-     * @param textRect     DOCUMENT ME!
-     * @param isSelected   DOCUMENT ME!
+     * @param metrics      the font metrics.
+     * @param tabIndex     the index of the tab to lay out.
+     * @param title        the text for the label, if any.
+     * @param icon         the icon for the label, if any.
+     * @param tabRect      Rectangle to layout text and icon in.
+     * @param iconRect     Rectangle to place icon bounds in
+     * @param textRect     Rectangle to place text in
+     * @param isSelected   is the tab selected?
      */
     protected void layoutLabel(SeaGlassContext ss, int tabPlacement, FontMetrics metrics, int tabIndex, String title, Icon icon,
             Rectangle tabRect, Rectangle iconRect, Rectangle textRect, boolean isSelected) {
@@ -801,17 +802,17 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Paint the label text for a tab.
      *
-     * @param ss           DOCUMENT ME!
-     * @param g            DOCUMENT ME!
+     * @param ss           the SynthContext.
+     * @param g            the Graphics context.
      * @param tabPlacement the side the tabs are on.
-     * @param font         DOCUMENT ME!
-     * @param metrics      DOCUMENT ME!
-     * @param tabIndex     DOCUMENT ME!
-     * @param title        DOCUMENT ME!
-     * @param textRect     DOCUMENT ME!
-     * @param isSelected   DOCUMENT ME!
+     * @param font         the font to use.
+     * @param metrics      the font metrics.
+     * @param tabIndex     the index of the tab to lay out.
+     * @param title        the text for the label, if any.
+     * @param textRect     Rectangle to place text in
+     * @param isSelected   is the tab selected?
      */
     protected void paintText(SeaGlassContext ss, Graphics g, int tabPlacement, Font font, FontMetrics metrics, int tabIndex, String title,
             Rectangle textRect, boolean isSelected) {
@@ -832,12 +833,12 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Paint the content pane's border.
      *
-     * @param ss            DOCUMENT ME!
-     * @param g             DOCUMENT ME!
+     * @param ss            the SynthContext.
+     * @param g             the Graphics context.
      * @param tabPlacement  the side the tabs are on.
-     * @param selectedIndex DOCUMENT ME!
+     * @param selectedIndex the current selected tab index.
      */
     protected void paintContentBorder(SeaGlassContext ss, Graphics g, int tabPlacement, int selectedIndex) {
         int    width  = tabPane.getWidth();
@@ -876,7 +877,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Make sure we have laid out the pane with the current layout.
      */
     private void ensureCurrentLayout() {
         if (!tabPane.isValid()) {
@@ -977,24 +978,24 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Get the font metrics for the font.
      *
-     * @param  font DOCUMENT ME!
+     * @param  font the font.
      *
-     * @return DOCUMENT ME!
+     * @return the metrics for the font.
      */
     protected FontMetrics getFontMetrics(Font font) {
         return tabPane.getFontMetrics(font);
     }
 
     /**
-     * DOCUMENT ME!
+     * Update the SynthContext for the tab area for a specified tab.
      *
-     * @param index       DOCUMENT ME!
-     * @param selected    DOCUMENT ME!
-     * @param isMouseDown DOCUMENT ME!
-     * @param isMouseOver DOCUMENT ME!
-     * @param hasFocus    DOCUMENT ME!
+     * @param index       the tab to update for.
+     * @param selected    is the tab selected?
+     * @param isMouseDown is the mouse down?
+     * @param isMouseOver is the mouse over the tab?
+     * @param hasFocus    do we have focus?
      */
     private void updateTabContext(int index, boolean selected, boolean isMouseDown, boolean isMouseOver, boolean hasFocus) {
         int state = 0;
@@ -1038,7 +1039,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         /**
          * Creates a new SynthScrollableTabButton object.
          *
-         * @param direction DOCUMENT ME!
+         * @param direction the arrow direction.
          */
         public SynthScrollableTabButton(int direction) {
             super(direction);
