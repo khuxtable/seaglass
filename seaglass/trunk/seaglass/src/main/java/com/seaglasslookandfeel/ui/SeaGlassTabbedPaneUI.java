@@ -441,16 +441,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     private int getCloseButtonState(JComponent c, int tabIndex) {
         if (!c.isEnabled()) {
             return DISABLED;
-        }
-
-        boolean isSelected = (tabIndex == ((JTabbedPane) c).getSelectedIndex());
-        boolean isArmed    = (tabIndex == closeButtonArmedIndex);
-
-        if (isArmed && isSelected) {
-            return PRESSED | SELECTED;
-        } else if (isSelected) {
-            return SELECTED;
-        } else if (isArmed) {
+        } else if ((tabIndex == closeButtonArmedIndex)) {
             return PRESSED;
         }
 
