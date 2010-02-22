@@ -59,6 +59,7 @@ import javax.swing.text.View;
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassRegion;
+import com.seaglasslookandfeel.SeaGlassSynthPainterImpl;
 import com.seaglasslookandfeel.component.SeaGlassArrowButton;
 import com.seaglasslookandfeel.util.ControlOrientation;
 
@@ -108,6 +109,15 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
     /** Horizontal/vertical abstraction. */
     protected ControlOrientation orientation;
+
+    /**
+     * Placement of the tab close button: LEFT, RIGHT, or CENTER (the default)
+     * for none.
+     */
+    protected int tabCloseButtonPlacement;
+
+    /** Index of the armed close button, or -1 if none is armed. */
+    protected int closeButtonArmedIndex;
 
     /**
      * Creates a new SeaGlassTabbedPaneUI object.
@@ -202,6 +212,17 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
         tabPlacement = tabPane.getTabPlacement();
         orientation  = ControlOrientation.getOrientation(tabPlacement == LEFT || tabPlacement == RIGHT ? VERTICAL : HORIZONTAL);
+
+        closeButtonArmedIndex = -1;
+        Object o = c.getClientProperty("JTabbedPane.closeButton");
+
+        if ("left".equals(o)) {
+            tabCloseButtonPlacement = LEFT;
+        } else if ("right".equals(o)) {
+            tabCloseButtonPlacement = RIGHT;
+        } else {
+            tabCloseButtonPlacement = CENTER;
+        }
 
         // Add properties other than JComponent colors, Borders and
         // opacity settings here:
@@ -407,6 +428,33 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
      */
     private int getComponentState(JComponent c) {
         return SeaGlassLookAndFeel.getComponentState(c);
+    }
+
+    /**
+     * Get the state for the specified tab's close button.
+     *
+     * @param  c        the tabbed pane.
+     * @param  tabIndex the index of the tab.
+     *
+     * @return the close button state.
+     */
+    private int getCloseButtonState(JComponent c, int tabIndex) {
+        if (!c.isEnabled()) {
+            return DISABLED;
+        }
+
+        boolean isSelected = (tabIndex == ((JTabbedPane) c).getSelectedIndex());
+        boolean isArmed    = (tabIndex == closeButtonArmedIndex);
+
+        if (isArmed && isSelected) {
+            return PRESSED | SELECTED;
+        } else if (isSelected) {
+            return SELECTED;
+        } else if (isArmed) {
+            return PRESSED;
+        }
+
+        return ENABLED;
     }
 
     /**
@@ -635,11 +683,11 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         }
 
         if (scrollBackwardButton.isVisible()) {
-            paintScrollButtonBackground(g, scrollBackwardButton);
+            paintScrollButtonBackground(ss, g, scrollBackwardButton);
         }
 
         if (scrollForwardButton.isVisible()) {
-            paintScrollButtonBackground(g, scrollForwardButton);
+            paintScrollButtonBackground(ss, g, scrollForwardButton);
         }
 
         for (int i = leadingTabIndex; i <= trailingTabIndex; i++) {
@@ -725,6 +773,10 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         tabContext.getPainter().paintTabbedPaneTabBackground(tabContext, g, x, y, width, height, tabIndex, tabPlacement);
         tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g, x, y, width, height, tabIndex, tabPlacement);
 
+        if (tabCloseButtonPlacement != CENTER) {
+            x += paintCloseButton(g, tabIndex, x, y, width, height);
+        }
+
         if (tabPane.getTabComponentAt(tabIndex) == null) {
             String      title   = tabPane.getTitleAt(tabIndex);
             Font        font    = ss.getStyle().getFont(ss);
@@ -738,12 +790,47 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
+     * DOCUMENT ME!
+     *
+     * @param  g        DOCUMENT ME!
+     * @param  tabIndex DOCUMENT ME!
+     * @param  x        DOCUMENT ME!
+     * @param  y        DOCUMENT ME!
+     * @param  width    DOCUMENT ME!
+     * @param  height   DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    protected int paintCloseButton(Graphics g, int tabIndex, int x, int y, int width, int height) {
+        Rectangle bounds = new Rectangle(x, y, width, height);
+
+        bounds.width  =  6;
+        bounds.height =  6;
+        bounds.x      += 4;
+        bounds.y      += 4;
+
+        SeaGlassContext subcontext = getContext(tabPane, SeaGlassRegion.TABBED_PANE_TAB_CLOSE_BUTTON,
+                                                getCloseButtonState(tabPane, tabIndex));
+
+        SeaGlassLookAndFeel.updateSubregion(subcontext, g, bounds);
+
+        SeaGlassSynthPainterImpl painter = (SeaGlassSynthPainterImpl) subcontext.getPainter();
+
+        painter.paintSearchButtonForeground(subcontext, g, bounds.x, bounds.y, bounds.width, bounds.height);
+
+        subcontext.dispose();
+
+        return 14;
+    }
+
+    /**
      * Paint the background for a tab scroll button.
      *
+     * @param ss           TODO
      * @param g            the Graphics context.
      * @param scrollButton the button to paint.
      */
-    protected void paintScrollButtonBackground(Graphics g, JButton scrollButton) {
+    protected void paintScrollButtonBackground(SeaGlassContext ss, Graphics g, JButton scrollButton) {
         Rectangle tabRect = scrollButton.getBounds();
         int       x       = tabRect.x;
         int       y       = tabRect.y;
@@ -751,6 +838,8 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         int       width   = tabRect.width;
 
         boolean flipSegments = (orientation == ControlOrientation.HORIZONTAL && !tabPane.getComponentOrientation().isLeftToRight());
+
+        SeaGlassLookAndFeel.updateSubregion(ss, g, tabRect);
 
         tabPane.putClientProperty("JTabbedPane.Tab.segmentPosition",
                                   ((scrollButton == scrollBackwardButton) ^ flipSegments) ? "first" : "last");
