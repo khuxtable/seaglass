@@ -698,10 +698,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         boolean    isSelected    = selectedIndex == tabIndex;
         JComponent b             = ss.getComponent();
 
-        if (!"segmented".equals(b.getClientProperty("JButton.buttonType"))) {
-            b.putClientProperty("JButton.buttonType", "segmented");
-        }
-
         boolean flipSegments    = (orientation == ControlOrientation.HORIZONTAL && !tabPane.getComponentOrientation().isLeftToRight());
         String  segmentPosition = "only";
 
@@ -715,7 +711,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             }
         }
 
-        b.putClientProperty("JButton.segmentPosition", segmentPosition);
+        b.putClientProperty("JTabbedPane.Tab.segmentPosition", segmentPosition);
         updateTabContext(tabIndex, isSelected, isSelected && selectedTabIsPressed, getRolloverTab() == tabIndex,
                          getFocusIndex() == tabIndex);
 
@@ -756,7 +752,8 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
         boolean flipSegments = (orientation == ControlOrientation.HORIZONTAL && !tabPane.getComponentOrientation().isLeftToRight());
 
-        tabPane.putClientProperty("JButton.segmentPosition", ((scrollButton == scrollBackwardButton) ^ flipSegments) ? "first" : "last");
+        tabPane.putClientProperty("JTabbedPane.Tab.segmentPosition",
+                                  ((scrollButton == scrollBackwardButton) ^ flipSegments) ? "first" : "last");
 
         tabContext.getPainter().paintTabbedPaneTabBackground(tabContext, g, x, y, width, height, -1, tabPlacement);
         tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g, x, y, width, height, -1, tabPlacement);

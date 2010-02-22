@@ -107,6 +107,7 @@ import com.seaglasslookandfeel.painter.SpinnerNextButtonPainter;
 import com.seaglasslookandfeel.painter.SpinnerPreviousButtonPainter;
 import com.seaglasslookandfeel.painter.SplitPaneDividerPainter;
 import com.seaglasslookandfeel.painter.TabbedPaneTabAreaPainter;
+import com.seaglasslookandfeel.painter.TabbedPaneTabPainter;
 import com.seaglasslookandfeel.painter.TableHeaderPainter;
 import com.seaglasslookandfeel.painter.TableHeaderRendererPainter;
 import com.seaglasslookandfeel.painter.TextComponentPainter;
@@ -1551,20 +1552,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".tabRunOverlay", new Integer(0));
         d.put(p + ".useBasicArrows", Boolean.FALSE);
 
-        String c = PAINTER_PREFIX + "ButtonPainter";
+        String c = PAINTER_PREFIX + "TabbedPaneTabPainter";
 
         p = "TabbedPane:TabbedPaneTab";
         d.put(p + ".States", "Enabled,Pressed,Disabled,Focused,Selected,Default");
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
-        d.put(p + "[Disabled+Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED_SELECTED));
-        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_SELECTED));
-        d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED));
-        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_PRESSED));
+        d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Disabled+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_DISABLED_SELECTED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_PRESSED_SELECTED));
+        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_FOCUSED));
         d.put(p + "[Focused+Pressed+Selected].backgroundPainter",
-              new LazyPainter(c,
-                              ButtonPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
+              new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
         d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
         d.put(p + "[Pressed+Selected].textForeground", Color.BLACK);
         d.put(p + "[Focused+Pressed+Selected].textForeground", Color.BLACK);
