@@ -570,10 +570,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaGlassCancelIcon", new Color(0xb3b3b3));
         d.put("seaGlassCancelIconPressed", new Color(0x808080));
 
-        d.put("seaGlassTabbedPaneTabCloseIcon", new Color(0xb0b0b0));
-        d.put("seaGlassTabbedPaneTabCloseIconSelected", new Color(0x808080));
-        d.put("seaGlassTabbedPaneTabCloseIconPressed", new Color(0x606060));
-        d.put("seaGlassTabbedPaneTabCloseIconPressedSelected", Color.black);
+        d.put("seaGlassTabbedPaneTabCloseIcon", new Color(0x78000000, true));
+        d.put("seaGlassTabbedPaneTabCloseIconPressed", new Color(0xc0000000, true));
 
         d.put("seaGlassTextDisabledBorder", new Color(0xdddddd));
         d.put("seaGlassTextEnabledBorder", new Color(0xbbbbbb));
@@ -1578,13 +1576,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Initialize search field "cancel" button
         p = "TabbedPane:TabbedPaneTab:TabbedPaneTabClaseButton";
         c = PAINTER_PREFIX + "TabbedPaneTabCloseButtonPainter";
-        d.put(p + ".States", "Enabled,Pressed,Disabled,Selected");
+        d.put(p + ".States", "Enabled,Pressed,Disabled");
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.ENABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.PRESSED));
-        d.put(p + "[Selected].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.SELECTED));
-        d.put(p + "[Pressed+Selected].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.PRESSED_SELECTED));
 
         p = "TabbedPane:TabbedPaneTabArea";
         c = PAINTER_PREFIX + "TabbedPaneTabAreaPainter";

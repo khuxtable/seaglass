@@ -35,13 +35,11 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
      * Control state.
      */
     public static enum Which {
-        DISABLED, ENABLED, PRESSED, SELECTED, PRESSED_SELECTED,
+        DISABLED, ENABLED, PRESSED,
     }
 
-    private Color enabledColor         = decodeColor("seaGlassTabbedPaneTabCloseIcon");
-    private Color selectedColor        = decodeColor("seaGlassTabbedPaneTabCloseIconSelected");
-    private Color pressedColor         = decodeColor("seaGlassTabbedPaneTabCloseIconPressed");
-    private Color pressedSelectedColor = decodeColor("seaGlassTabbedPaneTabCloseIconPressedSelected");
+    private Color enabledColor = decodeColor("seaGlassTabbedPaneTabCloseIcon");
+    private Color pressedColor = decodeColor("seaGlassTabbedPaneTabCloseIconPressed");
 
     private Which        state;
     private PaintContext ctx;
@@ -71,14 +69,6 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
 
         case PRESSED:
             drawGraphic(g, width, height, pressedColor);
-            break;
-
-        case SELECTED:
-            drawGraphic(g, width, height, selectedColor);
-            break;
-
-        case PRESSED_SELECTED:
-            drawGraphic(g, width, height, pressedSelectedColor);
             break;
         }
     }
