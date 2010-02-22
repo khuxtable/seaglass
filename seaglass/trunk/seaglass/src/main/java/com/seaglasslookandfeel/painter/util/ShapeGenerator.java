@@ -590,6 +590,46 @@ public class ShapeGenerator {
     }
 
     /**
+     * Return a path for a "cancel" icon. This is a circle with a punched out
+     * "x" in it.
+     *
+     * @param  x the X coordinate of the upper-left corner of the icon
+     * @param  y the Y coordinate of the upper-left corner of the icon
+     * @param  w the width of the icon
+     * @param  h the height of the icon
+     *
+     * @return a path representing the shape.
+     */
+    public Shape createTabCloseIcon(int x, int y, int w, int h) {
+        final double xMid = x + w / 2.0;
+        final double yMid = y + h / 2.0;
+
+        path.reset();
+
+        final double xOffsetL = w / 2.0;
+        final double xOffsetS = w / 2.0 - 1;
+        final double yOffsetL = h / 2.0;
+        final double yOffsetS = h / 2.0 - 1;
+        final double offsetC  = 1;
+
+        path.moveTo(xMid, yMid - offsetC);
+        path.lineTo(xMid + xOffsetS, yMid - yOffsetL);
+        path.lineTo(yMid + xOffsetL, yMid - yOffsetS);
+        path.lineTo(xMid + offsetC, yMid);
+        path.lineTo(xMid + xOffsetL, yMid + yOffsetS);
+        path.lineTo(xMid + xOffsetS, yMid + yOffsetL);
+        path.lineTo(xMid, yMid + offsetC);
+        path.lineTo(xMid - xOffsetS, yMid + yOffsetL);
+        path.lineTo(xMid - xOffsetL, yMid + yOffsetS);
+        path.lineTo(xMid - offsetC, yMid);
+        path.lineTo(xMid - xOffsetL, yMid - yOffsetS);
+        path.lineTo(xMid - xOffsetS, yMid - yOffsetL);
+        path.closePath();
+
+        return path;
+    }
+
+    /**
      * Return a path for a scroll bar cap. This is used when the buttons are
      * placed together at the opposite end of the scroll bar.
      *
