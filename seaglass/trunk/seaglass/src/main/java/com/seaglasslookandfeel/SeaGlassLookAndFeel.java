@@ -355,7 +355,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         register(Region.SPLIT_PANE_DIVIDER, "SplitPane:SplitPaneDivider");
         register(Region.TABBED_PANE, "TabbedPane");
         register(Region.TABBED_PANE_TAB, "TabbedPane:TabbedPaneTab");
-        register(SeaGlassRegion.TABBED_PANE_TAB_CLOSE_BUTTON, "TabbedPane:TabbedPaneTab:TabCloseButton");
+        register(SeaGlassRegion.TABBED_PANE_TAB_CLOSE_BUTTON, "TabbedPane:TabbedPaneTab:TabbedPaneTabClaseButton");
         register(Region.TABBED_PANE_TAB_AREA, "TabbedPane:TabbedPaneTabArea");
         register(Region.ARROW_BUTTON, "TabbedPane:TabbedPaneTabArea:\"TabbedPaneTabArea.button\"");
         register(Region.TABBED_PANE_CONTENT, "TabbedPane:TabbedPaneContent");
@@ -1568,6 +1568,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
         d.put(p + "[Pressed+Selected].textForeground", Color.BLACK);
         d.put(p + "[Focused+Pressed+Selected].textForeground", Color.BLACK);
+
+        // Initialize search field "cancel" button
+        p = "TabbedPane:TabbedPaneTab:TabbedPaneTabClaseButton";
+        c = PAINTER_PREFIX + "SearchFieldIconPainter";
+        d.put(p + ".States", "Enabled,Pressed,Disabled");
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SearchFieldIconPainter.Which.CANCEL_ICON_DISABLED));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SearchFieldIconPainter.Which.CANCEL_ICON_PRESSED));
 
         p = "TabbedPane:TabbedPaneTabArea";
         c = PAINTER_PREFIX + "TabbedPaneTabAreaPainter";
