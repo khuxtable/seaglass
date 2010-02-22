@@ -107,6 +107,7 @@ import com.seaglasslookandfeel.painter.SpinnerNextButtonPainter;
 import com.seaglasslookandfeel.painter.SpinnerPreviousButtonPainter;
 import com.seaglasslookandfeel.painter.SplitPaneDividerPainter;
 import com.seaglasslookandfeel.painter.TabbedPaneTabAreaPainter;
+import com.seaglasslookandfeel.painter.TabbedPaneTabCloseButtonPainter;
 import com.seaglasslookandfeel.painter.TabbedPaneTabPainter;
 import com.seaglasslookandfeel.painter.TableHeaderPainter;
 import com.seaglasslookandfeel.painter.TableHeaderRendererPainter;
@@ -568,6 +569,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaGlassSearchIcon", new Color(0x404040));
         d.put("seaGlassCancelIcon", new Color(0xb3b3b3));
         d.put("seaGlassCancelIconPressed", new Color(0x808080));
+
+        d.put("seaGlassTabbedPaneTabCloseIcon", new Color(0xb0b0b0));
+        d.put("seaGlassTabbedPaneTabCloseIconSelected", new Color(0x808080));
+        d.put("seaGlassTabbedPaneTabCloseIconPressed", new Color(0x606060));
+        d.put("seaGlassTabbedPaneTabCloseIconPressedSelected", Color.black);
 
         d.put("seaGlassTextDisabledBorder", new Color(0xdddddd));
         d.put("seaGlassTextEnabledBorder", new Color(0xbbbbbb));
@@ -1571,12 +1577,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Initialize search field "cancel" button
         p = "TabbedPane:TabbedPaneTab:TabbedPaneTabClaseButton";
-        c = PAINTER_PREFIX + "SearchFieldIconPainter";
-        d.put(p + ".States", "Enabled,Pressed,Disabled");
+        c = PAINTER_PREFIX + "TabbedPaneTabCloseButtonPainter";
+        d.put(p + ".States", "Enabled,Pressed,Disabled,Selected");
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SearchFieldIconPainter.Which.CANCEL_ICON_DISABLED));
-        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SearchFieldIconPainter.Which.CANCEL_ICON_ENABLED));
-        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SearchFieldIconPainter.Which.CANCEL_ICON_PRESSED));
+        d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.DISABLED));
+        d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.ENABLED));
+        d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.PRESSED));
+        d.put(p + "[Selected].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.SELECTED));
+        d.put(p + "[Pressed+Selected].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.PRESSED_SELECTED));
 
         p = "TabbedPane:TabbedPaneTabArea";
         c = PAINTER_PREFIX + "TabbedPaneTabAreaPainter";
