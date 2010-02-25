@@ -33,6 +33,7 @@ import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -98,6 +99,18 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     /** The scroll backward button. This may or may not be visible. */
     protected SynthScrollableTabButton scrollBackwardButton;
 
+    /** Margin for the close button. */
+    protected Insets closeButtonInsets;
+
+    /** Horizontal offset of close button from tab border. */
+    protected int closeButtonOffsetX;
+
+    /** Vertical offset of close button from the top tab border. */
+    protected int closeButtonOffsetY;
+
+    /** The size of the close button. */
+    protected int closeButtonSize;
+
     /** Index of initial displayed tab. */
     protected int leadingTabIndex = 0;
 
@@ -118,6 +131,12 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
     /** Index of the armed close button, or -1 if none is armed. */
     protected int closeButtonArmedIndex;
+
+    /**
+     * Index of the close button the mouse is hovering over, or -1 if none is
+     * being hovered over.
+     */
+    protected int closeButtonHoverIndex;
 
     /**
      * Creates a new SeaGlassTabbedPaneUI object.
@@ -216,12 +235,20 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         closeButtonArmedIndex = -1;
         Object o = c.getClientProperty("JTabbedPane.closeButton");
 
-        if ("left".equals(o)) {
+        if (o != null && "left".equals(o) || "top".equals(o) || "leading".equals(o)) {
             tabCloseButtonPlacement = LEFT;
-        } else if ("right".equals(o)) {
+        } else if (o != null && "right".equals(o) || "bottom".equals(o) || "trailing".equals(o)) {
             tabCloseButtonPlacement = RIGHT;
         } else {
             tabCloseButtonPlacement = CENTER;
+        }
+
+        closeButtonOffsetX = style.getInt(context, "closeButtonOffsetX", 2);
+        closeButtonOffsetY = style.getInt(context, "closeButtonOffsetY", 2);
+        closeButtonSize    = style.getInt(context, "closeButtonSize", 6);
+        closeButtonInsets  = (Insets) style.get(context, "closeButtonInsets");
+        if (closeButtonInsets == null) {
+            closeButtonInsets = new Insets(2, 2, 2, 2);
         }
 
         // Add properties other than JComponent colors, Borders and
@@ -281,6 +308,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
      */
     protected void installListeners() {
         super.installListeners();
+        tabPane.addMouseMotionListener((MouseAdapter) mouseListener);
         tabPane.addPropertyChangeListener(this);
 
         scrollBackwardButton.addActionListener(new ActionListener() {
@@ -441,8 +469,10 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     private int getCloseButtonState(JComponent c, int tabIndex) {
         if (!c.isEnabled()) {
             return DISABLED;
-        } else if ((tabIndex == closeButtonArmedIndex)) {
+        } else if (tabIndex == closeButtonArmedIndex) {
             return PRESSED;
+        } else if (tabIndex == closeButtonHoverIndex) {
+            return MOUSE_OVER;
         }
 
         return ENABLED;
@@ -482,64 +512,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
      */
     @Override
     protected MouseListener createMouseListener() {
-        final MouseListener       delegate  = super.createMouseListener();
-        final MouseMotionListener delegate2 = (MouseMotionListener) delegate;
-
-        return new MouseListener() {
-            public void mouseClicked(MouseEvent e) {
-                delegate.mouseClicked(e);
-            }
-
-            public void mouseEntered(MouseEvent e) {
-                delegate.mouseEntered(e);
-            }
-
-            public void mouseExited(MouseEvent e) {
-                delegate.mouseExited(e);
-            }
-
-            public void mousePressed(MouseEvent e) {
-                if (!tabPane.isEnabled()) {
-                    return;
-                }
-
-                int tabIndex = tabForCoordinate(tabPane, e.getX(), e.getY());
-
-                if (tabIndex >= 0 && tabPane.isEnabledAt(tabIndex)) {
-                    if (tabIndex == tabPane.getSelectedIndex()) {
-                        // Clicking on selected tab
-                        selectedTabIsPressed = true;
-
-                        // TODO need to just repaint the tab area!
-                        tabPane.repaint();
-                    }
-                }
-
-                // forward the event (this will set the selected index, or none
-                // at all
-                delegate.mousePressed(e);
-            }
-
-            public void mouseReleased(MouseEvent e) {
-                if (selectedTabIsPressed) {
-                    selectedTabIsPressed = false;
-
-                    // TODO need to just repaint the tab area!
-                    tabPane.repaint();
-                }
-
-                // forward the event
-                delegate.mouseReleased(e);
-
-                // hack: The super method *should* be setting the mouse-over
-                // property correctly here, but it doesn't. That is, when the
-                // mouse is released, whatever tab is below the released mouse
-                // should be in rollover state. But, if you select a tab and
-                // don't move the mouse, this doesn't happen. Hence, forwarding
-                // the event.
-                delegate2.mouseMoved(e);
-            }
-        };
+        return new SeaGlassTabbedPaneMouseHandler(super.createMouseListener());
     }
 
     /**
@@ -765,7 +738,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g, x, y, width, height, tabIndex, tabPlacement);
 
         if (tabCloseButtonPlacement != CENTER) {
-            x += paintCloseButton(g, tabIndex, x, y, width, height);
+            tabRect = paintCloseButton(g, tabIndex);
         }
 
         if (tabPane.getTabComponentAt(tabIndex) == null) {
@@ -781,24 +754,24 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Paint the close button for a tab.
      *
-     * @param  g        DOCUMENT ME!
-     * @param  tabIndex DOCUMENT ME!
-     * @param  x        DOCUMENT ME!
-     * @param  y        DOCUMENT ME!
-     * @param  width    DOCUMENT ME!
-     * @param  height   DOCUMENT ME!
+     * @param  g        the Graphics context.
+     * @param  tabIndex the tab index to paint.
      *
-     * @return DOCUMENT ME!
+     * @return the new tab bounds.
      */
-    protected int paintCloseButton(Graphics g, int tabIndex, int x, int y, int width, int height) {
-        Rectangle bounds = new Rectangle(x, y, width, height);
+    protected Rectangle paintCloseButton(Graphics g, int tabIndex) {
+        Rectangle tabRect = new Rectangle(rects[tabIndex]);
 
-        bounds.width  =  6;
-        bounds.height =  6;
-        bounds.x      += 4;
-        bounds.y      += 4;
+        Rectangle bounds = new Rectangle(getCloseButtonBounds(tabIndex));
+
+        if (tabCloseButtonPlacement == LEFT) {
+            tabRect.x     += bounds.width + 6;
+            tabRect.width -= bounds.width + 6;
+        } else {
+            tabRect.width -= bounds.width - 6;
+        }
 
         SeaGlassContext subcontext = getContext(tabPane, SeaGlassRegion.TABBED_PANE_TAB_CLOSE_BUTTON,
                                                 getCloseButtonState(tabPane, tabIndex));
@@ -811,7 +784,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
         subcontext.dispose();
 
-        return 14;
+        return tabRect;
     }
 
     /**
@@ -1105,6 +1078,53 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         }
 
         tabContext.setComponentState(state);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  x DOCUMENT ME!
+     * @param  y DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    protected boolean isOverCloseButton(int x, int y) {
+        int tabCount = tabPane.getTabCount();
+
+        for (int i = 0; i < tabCount; i++) {
+            if (getCloseButtonBounds(i).contains(x, y)) {
+                closeButtonHoverIndex = i;
+                return true;
+            }
+        }
+
+        closeButtonHoverIndex = -1;
+        return false;
+    }
+
+    /**
+     * Get the bounds for a tab close button.
+     *
+     * @param  tabIndex the tab index.
+     *
+     * @return the bounds.
+     */
+    protected Rectangle getCloseButtonBounds(int tabIndex) {
+        Rectangle bounds = new Rectangle(rects[tabIndex]);
+
+        bounds.width  =  closeButtonSize;
+        bounds.height =  closeButtonSize;
+        bounds.y      += closeButtonOffsetY + closeButtonInsets.top;
+
+        boolean flip = (orientation == ControlOrientation.HORIZONTAL && !tabPane.getComponentOrientation().isLeftToRight());
+
+        if ((tabCloseButtonPlacement == RIGHT) == flip) {
+            bounds.x += rects[tabIndex].width - bounds.width - closeButtonOffsetX - 2;
+        } else {
+            bounds.x += closeButtonOffsetX + 2;
+        }
+
+        return bounds;
     }
 
     /**
@@ -1695,6 +1715,161 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             }
 
             return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @author  $author$
+     * @version $Revision$, $Date$
+     */
+    public class SeaGlassTabbedPaneMouseHandler extends MouseAdapter {
+
+        /** Current mouse x coordinate. */
+        protected transient int currentMouseX;
+
+        /** Current mouse y coordinate. */
+        protected transient int currentMouseY;
+
+        private MouseListener       delegate;
+        private MouseMotionListener delegate2;
+
+        /**
+         * Creates a new SeaGlassTabbedPaneMouseHandler object.
+         *
+         * @param originalMouseListener DOCUMENT ME!
+         */
+        public SeaGlassTabbedPaneMouseHandler(MouseListener originalMouseListener) {
+            delegate  = originalMouseListener;
+            delegate2 = (MouseMotionListener) originalMouseListener;
+
+            closeButtonHoverIndex = -1;
+            closeButtonArmedIndex = -1;
+        }
+
+        /**
+         * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+         */
+        public void mouseClicked(MouseEvent e) {
+            delegate.mouseClicked(e);
+        }
+
+        /**
+         * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
+         */
+        public void mouseEntered(MouseEvent e) {
+            delegate.mouseEntered(e);
+        }
+
+        /**
+         * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
+         */
+        public void mouseExited(MouseEvent e) {
+            delegate.mouseExited(e);
+        }
+
+        /**
+         * @see java.awt.event.MouseAdapter#mouseMoved(java.awt.event.MouseEvent)
+         */
+        public void mouseMoved(MouseEvent e) {
+            int oldHoverIndex = closeButtonHoverIndex;
+
+            // Test for mouse position and set hover index.
+            isOverCloseButton(currentMouseX, currentMouseY);
+
+            if (oldHoverIndex != closeButtonHoverIndex) {
+                tabPane.repaint();
+                return;
+            }
+
+            delegate2.mouseMoved(e);
+        }
+
+        /**
+         * @see java.awt.event.MouseAdapter#mouseDragged(java.awt.event.MouseEvent)
+         */
+        public void mouseDragged(MouseEvent e) {
+            currentMouseX = e.getX();
+            currentMouseY = e.getY();
+
+            if (closeButtonArmedIndex != -1 && !isOverCloseButton(currentMouseX, currentMouseY)) {
+                // isOverCloseButton resets closeButtonArmedIndex.
+                tabPane.repaint();
+            }
+        }
+
+        /**
+         * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
+         */
+        public void mousePressed(MouseEvent e) {
+            if (!tabPane.isEnabled()) {
+                return;
+            }
+
+            if (!SwingUtilities.isLeftMouseButton(e) || !tabPane.isEnabled()) {
+                return;
+            }
+
+            int tabIndex = tabForCoordinate(tabPane, e.getX(), e.getY());
+
+            currentMouseX = e.getX();
+            currentMouseY = e.getY();
+
+            if (isOverCloseButton(currentMouseX, currentMouseY)) {
+                closeButtonArmedIndex = tabIndex;
+                tabPane.repaint();
+                return;
+            } else if (closeButtonArmedIndex != -1) {
+                // isOverCloseButton resets closeButtonArmedIndex.
+                tabPane.repaint();
+                return;
+            }
+
+            if (tabIndex >= 0 && tabPane.isEnabledAt(tabIndex)) {
+                if (tabIndex == tabPane.getSelectedIndex()) {
+                    // Clicking on selected tab
+                    selectedTabIsPressed = true;
+
+                    // TODO need to just repaint the tab area!
+                    tabPane.repaint();
+                }
+            }
+
+            // forward the event (this will set the selected index, or none
+            // at all
+            delegate.mousePressed(e);
+        }
+
+        /**
+         * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+         */
+        public void mouseReleased(MouseEvent e) {
+            if (closeButtonArmedIndex != -1) {
+                if (isOverCloseButton(currentMouseX, currentMouseY)) {
+                    tabPane.remove(closeButtonArmedIndex);
+                }
+
+                closeButtonArmedIndex = -1;
+
+                tabPane.repaint();
+            } else if (selectedTabIsPressed) {
+                selectedTabIsPressed = false;
+
+                // TODO need to just repaint the tab area!
+                tabPane.repaint();
+            }
+
+            // forward the event
+            delegate.mouseReleased(e);
+
+            // hack: The super method *should* be setting the mouse-over
+            // property correctly here, but it doesn't. That is, when the
+            // mouse is released, whatever tab is below the released mouse
+            // should be in rollover state. But, if you select a tab and
+            // don't move the mouse, this doesn't happen. Hence, forwarding
+            // the event.
+            delegate2.mouseMoved(e);
         }
     }
 }
