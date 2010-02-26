@@ -1112,16 +1112,28 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     protected Rectangle getCloseButtonBounds(int tabIndex) {
         Rectangle bounds = new Rectangle(rects[tabIndex]);
 
-        bounds.width  =  closeButtonSize;
-        bounds.height =  closeButtonSize;
-        bounds.y      += closeButtonOffsetY + closeButtonInsets.top;
+        bounds.width  = closeButtonSize;
+        bounds.height = closeButtonSize;
+        if (orientation == ControlOrientation.HORIZONTAL) {
+            bounds.y += (rects[tabIndex].height - closeButtonSize - closeButtonInsets.top - closeButtonInsets.bottom) / 2
+                + closeButtonInsets.top;
 
-        boolean flip = (orientation == ControlOrientation.HORIZONTAL && !tabPane.getComponentOrientation().isLeftToRight());
+            boolean flip = !tabPane.getComponentOrientation().isLeftToRight();
 
-        if ((tabCloseButtonPlacement == RIGHT) == flip) {
-            bounds.x += rects[tabIndex].width - bounds.width - closeButtonOffsetX - 2;
+            if ((tabCloseButtonPlacement == LEFT) == flip) {
+                bounds.x += rects[tabIndex].width - bounds.width - closeButtonOffsetX - 2;
+            } else {
+                bounds.x += closeButtonOffsetX + 2;
+            }
         } else {
-            bounds.x += closeButtonOffsetX + 2;
+            bounds.x += (rects[tabIndex].width - closeButtonSize - closeButtonInsets.top - closeButtonInsets.bottom) / 2
+                + closeButtonInsets.top;
+
+            if (tabCloseButtonPlacement == RIGHT) {
+                bounds.y += rects[tabIndex].height - bounds.height - closeButtonOffsetX - 2;
+            } else {
+                bounds.y += closeButtonOffsetX + 2;
+            }
         }
 
         return bounds;
@@ -1768,7 +1780,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         public void mouseExited(MouseEvent e) {
             delegate.mouseExited(e);
         }
-
+        
         /**
          * @see java.awt.event.MouseAdapter#mouseMoved(java.awt.event.MouseEvent)
          */
@@ -1776,6 +1788,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             int oldHoverIndex = closeButtonHoverIndex;
 
             // Test for mouse position and set hover index.
+            currentMouseX = e.getX();
+            currentMouseY = e.getY();
+
             isOverCloseButton(currentMouseX, currentMouseY);
 
             if (oldHoverIndex != closeButtonHoverIndex) {

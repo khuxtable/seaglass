@@ -570,10 +570,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaGlassCancelIcon", new Color(0xb3b3b3));
         d.put("seaGlassCancelIconPressed", new Color(0x808080));
 
-        d.put("seaGlassTabbedPaneTabCloseIcon", new Color(0x78000000, true));
-        d.put("seaGlassTabbedPaneTabCloseIconMouseOver", new Color(0xff0000));
-        d.put("seaGlassTabbedPaneTabCloseIconPressed", new Color(0xdd0000));
-
         d.put("seaGlassTextDisabledBorder", new Color(0xdddddd));
         d.put("seaGlassTextEnabledBorder", new Color(0xbbbbbb));
         d.put("seaGlassTextEnabledToolbarBorder", new Color(0x888888));
@@ -1551,13 +1547,16 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("tabbedPaneTabAreaLightShadow", new Color(0x55eeeeee, true));
         d.put("tabbedPaneTabAreaDarkShadow", new Color(0x55aaaaaa, true));
 
+        d.put("seaGlassTabbedPaneTabCloseIcon", new Color(0x78000000, true));
+        d.put("seaGlassTabbedPaneTabCloseIconPressed", new Color(0xdd000000, true));
+
         String p = "TabbedPane";
 
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + ".tabRunOverlay", new Integer(0));
         d.put(p + ".useBasicArrows", Boolean.FALSE);
         d.put(p + ".closeButtonMargins", new Rectangle(2, 2, 2, 2));
-        d.put(p + ".closeButtonSize", new Integer(10));
+        d.put(p + ".closeButtonSize", new Integer(11));
 
         String c = PAINTER_PREFIX + "TabbedPaneTabPainter";
 

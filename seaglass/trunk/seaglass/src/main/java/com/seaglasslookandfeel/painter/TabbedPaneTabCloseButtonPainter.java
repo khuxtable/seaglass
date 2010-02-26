@@ -76,6 +76,7 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
 
         case PRESSED:
             drawGraphic(g, width, height, pressedColor);
+            drawBorder(g, width, height, pressedColor);
             break;
         }
     }
