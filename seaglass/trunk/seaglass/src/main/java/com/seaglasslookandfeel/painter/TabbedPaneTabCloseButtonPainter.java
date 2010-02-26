@@ -40,8 +40,9 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
         DISABLED, ENABLED, MOUSEOVER, PRESSED,
     }
 
-    private Color enabledColor = decodeColor("seaGlassTabbedPaneTabCloseIcon");
-    private Color pressedColor = decodeColor("seaGlassTabbedPaneTabCloseIconPressed");
+    private Color enabledColor   = decodeColor("seaGlassTabbedPaneTabCloseIcon");
+    private Color mouseoverColor = decodeColor("seaGlassTabbedPaneTabCloseIconMouseover");
+    private Color pressedColor   = decodeColor("seaGlassTabbedPaneTabCloseIconPressed");
 
     private Which        state;
     private PaintContext ctx;
@@ -70,8 +71,8 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
             break;
 
         case MOUSEOVER:
-            drawGraphic(g, width, height, enabledColor);
-            drawBorder(g, width, height, enabledColor);
+            drawGraphic(g, width, height, mouseoverColor);
+            drawBorder(g, width, height, mouseoverColor);
             break;
 
         case PRESSED:
