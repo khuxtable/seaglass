@@ -19,9 +19,11 @@
  */
 package com.seaglasslookandfeel.ui;
 
+import java.awt.AWTEvent;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -33,6 +35,7 @@ import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -93,6 +96,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     private Rectangle contentRect;
 
     private boolean selectedTabIsPressed = false;
+
+    /** Action to be performed when tab close button is pressed. */
+    protected ActionListener closeAction;
 
     /** The scroll forward button. This may or may not be visible. */
     protected SynthScrollableTabButton scrollForwardButton;
@@ -242,6 +248,13 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         closeButtonInsets = (Insets) style.get(context, "closeButtonInsets");
         if (closeButtonInsets == null) {
             closeButtonInsets = new Insets(2, 2, 2, 2);
+        }
+
+        o = c.getClientProperty("JTabbedPane.closeAction");
+        if (o != null && o instanceof ActionListener) {
+            if (closeAction == null) {
+                closeAction = (ActionListener) o;
+            }
         }
 
         // Add properties other than JComponent colors, Borders and
@@ -1155,6 +1168,41 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
+     * Called when a close tab button is pressed.
+     */
+    protected void doClose() {
+        if (closeAction == null || fireAction(closeAction)) {
+            tabPane.remove(closeButtonArmedIndex);
+        }
+    }
+
+    /**
+     * Fire the close tab event.
+     *
+     * @param  action the user-supplied close action.
+     *
+     * @return {@code true} if the tab should be closed, {@code false} if the
+     *         tab should not be closed.
+     */
+    private boolean fireAction(ActionListener action) {
+        int      modifiers    = 0;
+        AWTEvent currentEvent = EventQueue.getCurrentEvent();
+
+        if (currentEvent instanceof InputEvent) {
+            modifiers = ((InputEvent) currentEvent).getModifiers();
+        } else if (currentEvent instanceof ActionEvent) {
+            modifiers = ((ActionEvent) currentEvent).getModifiers();
+        }
+
+        SeaGlassTabCloseEvent e = new SeaGlassTabCloseEvent(tabPane, ActionEvent.ACTION_PERFORMED, tabPane.getName(),
+                                                            EventQueue.getMostRecentEventTime(), modifiers);
+
+        action.actionPerformed(e);
+
+        return e.isClosable();
+    }
+
+    /**
      * The scrollable tab button.
      */
     private class SynthScrollableTabButton extends SeaGlassArrowButton implements UIResource {
@@ -1875,7 +1923,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         public void mouseReleased(MouseEvent e) {
             if (closeButtonArmedIndex != -1) {
                 if (isOverCloseButton(currentMouseX, currentMouseY)) {
-                    tabPane.remove(closeButtonArmedIndex);
+                    doClose();
                 }
 
                 closeButtonArmedIndex = -1;
@@ -1898,6 +1946,45 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             // don't move the mouse, this doesn't happen. Hence, forwarding
             // the event.
             delegate2.mouseMoved(e);
+        }
+    }
+
+    /**
+     * Extension of ActionEvent to support passing a closable state back to the
+     * UI.
+     */
+    public class SeaGlassTabCloseEvent extends ActionEvent {
+        private static final long serialVersionUID = -356858819733655998L;
+
+        private boolean closable;
+
+        /**
+         * @see java.awt.event.ActionEvent#ActionEvent(Object, int, String,
+         *      long, int)
+         */
+        public SeaGlassTabCloseEvent(Object source, int id, String command, long when, int modifiers) {
+            super(source, id, command, when, modifiers);
+            closable = true;
+        }
+
+        /**
+         * Return whether the tab should actually be closed.
+         *
+         * @return {@code true} if the tab should be closed, {@code false} if
+         *         the tab should not be closed.
+         */
+        public boolean isClosable() {
+            return closable;
+        }
+
+        /**
+         * Set the closable state.
+         *
+         * @param closable {@code true} if the tab should be closed,
+         *                 {@code false} if the tab should not be closed.
+         */
+        public void setClosable(boolean closable) {
+            this.closable = closable;
         }
     }
 }
