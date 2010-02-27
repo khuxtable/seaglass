@@ -46,6 +46,8 @@ This property must implement {{{org.seaglasslookandfeel.util.SeaGlassTabCloseLis
 
     This method is called when a tab is actually closed. The title is the tab title text and the component is the component pane of the tab.
 
+If you need to know the tabbed pane that is being affected you could save it in the constructor for the class.
+
 == JTextField properties ==
 
 For JTextField, we support the {{{JTextField.variant}}} property being set to {{{search}}}, which
