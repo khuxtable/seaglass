@@ -41,6 +41,7 @@ import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.ButtonModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -788,7 +789,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     /**
      * Paint the background for a tab scroll button.
      *
-     * @param ss           TODO
+     * @param ss           the tab subregion SynthContext.
      * @param g            the Graphics context.
      * @param scrollButton the button to paint.
      */
@@ -806,8 +807,15 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         tabPane.putClientProperty("JTabbedPane.Tab.segmentPosition",
                                   ((scrollButton == scrollBackwardButton) ^ flipSegments) ? "first" : "last");
 
+        int         oldState    = tabContext.getComponentState();
+        ButtonModel model       = scrollButton.getModel();
+        int         isPressed   = model.isPressed() && model.isArmed() ? PRESSED : 0;
+        int         buttonState = SeaGlassLookAndFeel.getComponentState(scrollButton) | isPressed;
+
+        tabContext.setComponentState(buttonState);
         tabContext.getPainter().paintTabbedPaneTabBackground(tabContext, g, x, y, width, height, -1, tabPlacement);
         tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g, x, y, width, height, -1, tabPlacement);
+        tabContext.setComponentState(oldState);
     }
 
     /**
