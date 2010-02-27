@@ -38,7 +38,7 @@ will cause a close button to be placed at the left or right of each tab button. 
 We also support the {{{JTabbedPane.closeListener}}} property to capture the close action and enforce file saving and such.
 This property must implement {{{org.seaglasslookandfeel.util.SeaGlassTabCloseListener}}}, which has two methods:
 
-  * {{{boolean tabAboutToBeClosed(JTabbedPane tabPane, int tabIndex)}}}
+  * {{{boolean tabAboutToBeClosed(int tabIndex)}}}
 
    This method is called when a tab is about to be closed. Returning {{{true}}} from this method allows the tab to be closed, whereas returning {{{false}}} is effectively a "cancel" on the close action.
 
