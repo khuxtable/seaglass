@@ -30,6 +30,12 @@ place the scroll bar buttons together at the left or bottom of the scroll bar, a
 We support the Nimbus {{{JScrollBar.fastWheelScrolling}}} value on scroll panes such that if set to {{{Boolean.TRUE}}}
 yields a smoother and faster accelerated wheel scroll.
 
+== JTabbedPane properties ==
+
+For JTabbedPane, we support the {{{JTabbedPane.closeButton}}} property being set to {{{left}}} or {{{right}}}, which
+will cause a close button to be placed at the left or right of each tab button. Pressing the button will close the tab.
+We will soon support a {{{JTabbedPane.closeAction}}} property to capture the close action and enforce file saving and such.
+
 == JTextField properties ==
 
 For JTextField, we support the {{{JTextField.variant}}} property being set to {{{search}}}, which
