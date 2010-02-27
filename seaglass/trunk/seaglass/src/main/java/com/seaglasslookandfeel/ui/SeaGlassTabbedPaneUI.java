@@ -733,7 +733,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g, x, y, width, height, tabIndex, tabPlacement);
 
         if (tabCloseButtonPlacement != CENTER) {
-            tabRect = paintCloseButton(g, tabContext, tabIndex, flipSegments);
+            tabRect = paintCloseButton(g, tabContext, tabIndex);
         }
 
         if (tabPane.getTabComponentAt(tabIndex) == null) {
@@ -752,25 +752,22 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
      * Paint the close button for a tab.
      *
      * @param  g          the Graphics context.
-     * @param  tabContext TODO
+     * @param  tabContext the SynthContext for the tab itself.
      * @param  tabIndex   the tab index to paint.
-     * @param  flip       DOCUMENT ME!
      *
      * @return the new tab bounds.
      */
-    protected Rectangle paintCloseButton(Graphics g, SynthContext tabContext, int tabIndex, boolean flip) {
+    protected Rectangle paintCloseButton(Graphics g, SynthContext tabContext, int tabIndex) {
         Rectangle tabRect = new Rectangle(rects[tabIndex]);
 
-        Rectangle bounds = new Rectangle(getCloseButtonBounds(tabIndex));
-        boolean   onLeft = (tabCloseButtonPlacement == LEFT) != flip;
-        int       offset = bounds.width + closeButtonInsets.left + closeButtonInsets.right;
+        Rectangle bounds = getCloseButtonBounds(tabIndex);
+        int       offset = getCloseButtonSpaceRequirement(tabIndex);
+        boolean   onLeft = isCloseButtonOnLeft();
 
         if (onLeft) {
-            offset        += (orientation == ControlOrientation.VERTICAL || tabIndex == 0) ? 4 : 2;
             tabRect.x     += offset;
             tabRect.width -= offset;
         } else {
-            offset        += (orientation == ControlOrientation.VERTICAL || tabIndex == tabPane.getTabCount() - 1) ? 4 : 2;
             tabRect.width -= offset;
         }
 
@@ -1119,8 +1116,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         bounds.y += (rects[tabIndex].height - closeButtonSize - closeButtonInsets.top - closeButtonInsets.bottom) / 2
             + closeButtonInsets.top;
 
-        boolean flip   = (orientation == ControlOrientation.HORIZONTAL && !tabPane.getComponentOrientation().isLeftToRight());
-        boolean onLeft = (tabCloseButtonPlacement == RIGHT) == flip;
+        boolean onLeft = isCloseButtonOnLeft();
 
         if (onLeft) {
             int offset = orientation == ControlOrientation.VERTICAL || tabIndex == 0 ? 6 : 3;
@@ -1133,6 +1129,41 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         }
 
         return bounds;
+    }
+
+    /**
+     * Returns the number of pixels extra for the close button, if any.
+     *
+     * @param  tabIndex the current tab index.
+     *
+     * @return the number of extra pixels needed for a close button, or zero if
+     *         there is no close button.
+     */
+    private int getCloseButtonSpaceRequirement(int tabIndex) {
+        if (tabCloseButtonPlacement == CENTER) {
+            return 0;
+        }
+
+        boolean onLeft       = isCloseButtonOnLeft();
+        boolean atEndSegment = (orientation == ControlOrientation.VERTICAL || (tabIndex == 0 && onLeft)
+                    || (tabIndex == tabPane.getTabCount() - 1 && !onLeft));
+
+        int offset = getCloseButtonBounds(tabIndex).width + closeButtonInsets.left + closeButtonInsets.right;
+
+        offset += atEndSegment ? 4 : 2;
+
+        return offset;
+    }
+
+    /**
+     * Return {@code true} if the tab close button should be placed on the left,
+     * {@code false} otherwise.
+     *
+     * @return {@code true} if the tab close button should be placed on the
+     *         left, {@code false} otherwise.
+     */
+    private boolean isCloseButtonOnLeft() {
+        return (tabCloseButtonPlacement == LEFT) == tabPane.getComponentOrientation().isLeftToRight();
     }
 
     /**
