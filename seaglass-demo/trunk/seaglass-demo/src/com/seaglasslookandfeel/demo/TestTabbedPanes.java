@@ -15,10 +15,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 /**
- * DOCUMENT ME!
- *
- * @author  $author$
- * @version $Revision$, $Date$
+ * Test tabbed panes.
  */
 public class TestTabbedPanes {
 
@@ -26,9 +23,9 @@ public class TestTabbedPanes {
     static int         tabNum = 2;
 
     /**
-     * DOCUMENT ME!
+     * Main method.
      *
-     * @param args DOCUMENT ME!
+     * @param args command line args (ignored).
      */
     public static void main(String[] args) {
         if (true) {
@@ -42,6 +39,7 @@ public class TestTabbedPanes {
         SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+                    tabbedPane.putClientProperty("JTabbedPane.closeButton", "left");
                     tabbedPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                     // tabbedPane.setComponentOrientation(java.awt.ComponentOrientation.RIGHT_TO_LEFT);
 
@@ -84,11 +82,12 @@ public class TestTabbedPanes {
     }
 
     /**
-     * DOCUMENT ME!
+     * Create a panel for the tabbed pane.
      *
-     * @param  setBgColor DOCUMENT ME!
+     * @param  setBgColor {@code true} if the background color should be set,
+     *                    {@code false} if we just use the control background.
      *
-     * @return DOCUMENT ME!
+     * @return the panel.
      */
     public static JPanel createPanel(boolean setBgColor) {
         JPanel panel = new JPanel();
