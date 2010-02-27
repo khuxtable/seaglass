@@ -38,13 +38,13 @@ will cause a close button to be placed at the left or right of each tab button. 
 We also support the {{{JTabbedPane.closeListener}}} property to capture the close action and enforce file saving and such.
 This property must implement {{{org.seaglasslookandfeel.util.SeaGlassTabCloseListener}}}, which has two methods:
 
-  * tabAboutToBeClosed(int tabIndex)
+  * {{{boolean tabAboutToBeClosed(JTabbedPane tabPane, int tabIndex)}}}
 
-    Foo
+   This method is called when a tab is about to be closed. Returning {{{true}}} from this method allows the tab to be closed, whereas returning {{{false}}} is effectively a "cancel" on the close action.
 
-  * tabClosed(String title, Component component)
+  * {{{void tabClosed(String title, Component component)}}}
 
-    Bar
+    This method is called when a tab is actually closed. The title is the tab title text and the component is the component pane of the tab.
 
 == JTextField properties ==
 
