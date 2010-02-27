@@ -105,9 +105,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     /** Horizontal offset of close button from tab border. */
     protected int closeButtonOffsetX;
 
-    /** Vertical offset of close button from the top tab border. */
-    protected int closeButtonOffsetY;
-
     /** The size of the close button. */
     protected int closeButtonSize;
 
@@ -235,16 +232,15 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         closeButtonArmedIndex = -1;
         Object o = c.getClientProperty("JTabbedPane.closeButton");
 
-        if (o != null && "left".equals(o) || "top".equals(o) || "leading".equals(o)) {
+        if (o != null && "left".equals(o)) {
             tabCloseButtonPlacement = LEFT;
-        } else if (o != null && "right".equals(o) || "bottom".equals(o) || "trailing".equals(o)) {
+        } else if (o != null && "right".equals(o)) {
             tabCloseButtonPlacement = RIGHT;
         } else {
             tabCloseButtonPlacement = CENTER;
         }
 
         closeButtonOffsetX = style.getInt(context, "closeButtonOffsetX", 2);
-        closeButtonOffsetY = style.getInt(context, "closeButtonOffsetY", 2);
         closeButtonSize    = style.getInt(context, "closeButtonSize", 6);
         closeButtonInsets  = (Insets) style.get(context, "closeButtonInsets");
         if (closeButtonInsets == null) {
@@ -1118,26 +1114,16 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
         bounds.width  = closeButtonSize;
         bounds.height = closeButtonSize;
-        if (orientation == ControlOrientation.HORIZONTAL) {
-            bounds.y += (rects[tabIndex].height - closeButtonSize - closeButtonInsets.top - closeButtonInsets.bottom) / 2
-                + closeButtonInsets.top;
 
-            boolean flip = !tabPane.getComponentOrientation().isLeftToRight();
+        bounds.y += (rects[tabIndex].height - closeButtonSize - closeButtonInsets.top - closeButtonInsets.bottom) / 2
+            + closeButtonInsets.top;
 
-            if ((tabCloseButtonPlacement == LEFT) == flip) {
-                bounds.x += rects[tabIndex].width - bounds.width - closeButtonOffsetX - 2;
-            } else {
-                bounds.x += closeButtonOffsetX + 2;
-            }
+        boolean flip = (orientation == ControlOrientation.HORIZONTAL && !tabPane.getComponentOrientation().isLeftToRight());
+
+        if ((tabCloseButtonPlacement == LEFT) == flip) {
+            bounds.x += rects[tabIndex].width - bounds.width - closeButtonOffsetX - 2;
         } else {
-            bounds.x += (rects[tabIndex].width - closeButtonSize - closeButtonInsets.top - closeButtonInsets.bottom) / 2
-                + closeButtonInsets.top;
-
-            if (tabCloseButtonPlacement == RIGHT) {
-                bounds.y += rects[tabIndex].height - bounds.height - closeButtonOffsetX - 2;
-            } else {
-                bounds.y += closeButtonOffsetX + 2;
-            }
+            bounds.x += closeButtonOffsetX + 2;
         }
 
         return bounds;
