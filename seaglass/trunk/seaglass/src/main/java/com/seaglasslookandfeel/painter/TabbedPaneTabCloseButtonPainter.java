@@ -37,12 +37,14 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
      * Control state.
      */
     public static enum Which {
-        DISABLED, ENABLED, MOUSEOVER, PRESSED,
+        DISABLED, ENABLED, MOUSEOVER, FOCUSED, PRESSED,
     }
 
     private Color enabledColor   = decodeColor("seaGlassTabbedPaneTabCloseIcon");
     private Color mouseoverColor = decodeColor("seaGlassTabbedPaneTabCloseIconMouseover");
     private Color pressedColor   = decodeColor("seaGlassTabbedPaneTabCloseIconPressed");
+
+    private Color simpleColor = new Color(0x2a509b);
 
     private Which        state;
     private PaintContext ctx;
@@ -71,6 +73,11 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
             break;
 
         case MOUSEOVER:
+            drawGraphic(g, width, height, Color.black);
+//            drawBorder(g, width, height, Color.black);
+            break;
+
+        case FOCUSED:
             drawGraphic(g, width, height, mouseoverColor);
             drawBorder(g, width, height, mouseoverColor);
             break;

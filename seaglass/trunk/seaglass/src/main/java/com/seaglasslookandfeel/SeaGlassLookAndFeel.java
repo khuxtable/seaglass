@@ -1562,12 +1562,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         String c = PAINTER_PREFIX + "TabbedPaneTabPainter";
 
         p = "TabbedPane:TabbedPaneTab";
-        d.put(p + ".States", "Enabled,Pressed,Disabled,Focused,Selected,Default");
+        d.put(p + ".States", "Enabled,Pressed,Disabled,MouseOver,Focused,Selected,Default");
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Enabled+Pressed].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Disabled+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_DISABLED_SELECTED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Selected+MouseOver].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_PRESSED_SELECTED));
         d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_FOCUSED));
         d.put(p + "[Focused+Pressed+Selected].backgroundPainter",
@@ -1576,14 +1577,17 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Pressed+Selected].textForeground", Color.BLACK);
         d.put(p + "[Focused+Pressed+Selected].textForeground", Color.BLACK);
 
-        // Initialize search field "cancel" button
+        // Initialize tabbed pane "close" button.
+        // Note that we co-opt MouseOver to mean mousing over the tab,
+        // whereas Focused means mousing over the actual close button.
         p = "TabbedPane:TabbedPaneTab:TabbedPaneTabClaseButton";
         c = PAINTER_PREFIX + "TabbedPaneTabCloseButtonPainter";
-        d.put(p + ".States", "Enabled,Pressed,Disabled,MouseOver");
+        d.put(p + ".States", "Enabled,Pressed,Disabled,MouseOver,Focused");
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.ENABLED));
         d.put(p + "[MouseOver].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.MOUSEOVER));
+        d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.FOCUSED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, TabbedPaneTabCloseButtonPainter.Which.PRESSED));
 
         p = "TabbedPane:TabbedPaneTabArea";
