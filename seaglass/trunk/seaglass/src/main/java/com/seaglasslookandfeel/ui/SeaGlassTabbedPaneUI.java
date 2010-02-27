@@ -763,16 +763,15 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
         Rectangle bounds = new Rectangle(getCloseButtonBounds(tabIndex));
         boolean   onLeft = (tabCloseButtonPlacement == LEFT) != flip;
+        int       offset = bounds.width + closeButtonInsets.left + closeButtonInsets.right;
 
         if (onLeft) {
-            int offset = bounds.width + closeButtonInsets.left + closeButtonInsets.right;
-
-            offset += (orientation == ControlOrientation.VERTICAL || tabIndex == 0) ? 6 : 4;
-
+            offset        += (orientation == ControlOrientation.VERTICAL || tabIndex == 0) ? 4 : 2;
             tabRect.x     += offset;
             tabRect.width -= offset;
         } else {
-            tabRect.width -= bounds.width + closeButtonInsets.left + closeButtonInsets.right;
+            offset        += (orientation == ControlOrientation.VERTICAL || tabIndex == tabPane.getTabCount() - 1) ? 4 : 2;
+            tabRect.width -= offset;
         }
 
         SeaGlassContext subcontext = getContext(tabPane, SeaGlassRegion.TABBED_PANE_TAB_CLOSE_BUTTON,
@@ -1128,7 +1127,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
             bounds.x += offset;
         } else {
-            int offset = orientation == ControlOrientation.VERTICAL || tabIndex == tabPane.getTabCount() - 1 ? 7 : 4;
+            int offset = orientation == ControlOrientation.VERTICAL || tabIndex == tabPane.getTabCount() - 1 ? 6 : 4;
 
             bounds.x += rects[tabIndex].width - bounds.width - offset;
         }
