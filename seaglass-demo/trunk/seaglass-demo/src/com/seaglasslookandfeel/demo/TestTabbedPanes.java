@@ -2,6 +2,7 @@ package com.seaglasslookandfeel.demo;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import com.seaglasslookandfeel.util.SeaGlassTabCloseListener;
 
 /**
  * Test tabbed panes.
@@ -40,6 +43,7 @@ public class TestTabbedPanes {
                 public void run() {
                     tabbedPane = new JTabbedPane(JTabbedPane.TOP);
                     tabbedPane.putClientProperty("JTabbedPane.closeButton", "left");
+                    tabbedPane.putClientProperty("JTabbedPane.closeListener", new MyCloseAction());
                     tabbedPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                     // tabbedPane.setComponentOrientation(java.awt.ComponentOrientation.RIGHT_TO_LEFT);
 
@@ -101,5 +105,27 @@ public class TestTabbedPanes {
         panel.setLayout(new java.awt.BorderLayout());
 
         return panel;
+    }
+
+    /**
+     * My close action listener.
+     */
+    public static class MyCloseAction implements SeaGlassTabCloseListener {
+
+        /**
+         * @see com.seaglasslookandfeel.util.SeaGlassTabCloseListener#tabAboutToBeClosed(int)
+         */
+        public boolean tabAboutToBeClosed(int tabIndex) {
+            // Only close odd numbered tabs.
+            return tabIndex % 2 == 1;
+        }
+
+        /**
+         * @see com.seaglasslookandfeel.util.SeaGlassTabCloseListener#tabClosed(java.lang.String,
+         *      java.awt.Component)
+         */
+        public void tabClosed(String title, Component component) {
+            System.out.println("tab \"" + title + "\" closed.");
+        }
     }
 }
