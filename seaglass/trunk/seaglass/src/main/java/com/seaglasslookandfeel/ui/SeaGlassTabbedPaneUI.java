@@ -761,7 +761,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         Rectangle tabRect = new Rectangle(rects[tabIndex]);
 
         Rectangle bounds = getCloseButtonBounds(tabIndex);
-        int       offset = getCloseButtonSpaceRequirement(tabIndex);
+        int       offset = bounds.width + textIconGap;
         boolean   onLeft = isCloseButtonOnLeft();
 
         if (onLeft) {
@@ -977,6 +977,8 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 width += icon.getIconWidth() + textIconGap;
             }
 
+            width += getCloseButtonBounds(tabIndex).width + textIconGap;
+
             View v = getTextViewForTab(tabIndex);
 
             if (v != null) {
@@ -1079,12 +1081,14 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
+     * Determine whether the mouse is over a tab close button, and if so, set
+     * the hover index.
      *
-     * @param  x DOCUMENT ME!
-     * @param  y DOCUMENT ME!
+     * @param  x the current mouse x coordinate.
+     * @param  y the current mouse y coordinate.
      *
-     * @return DOCUMENT ME!
+     * @return {@code true} if the mouse is over a close button, {@code false}
+     *         otherwise.
      */
     protected boolean isOverCloseButton(int x, int y) {
         int tabCount = tabPane.getTabCount();
@@ -1129,30 +1133,6 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         }
 
         return bounds;
-    }
-
-    /**
-     * Returns the number of pixels extra for the close button, if any.
-     *
-     * @param  tabIndex the current tab index.
-     *
-     * @return the number of extra pixels needed for a close button, or zero if
-     *         there is no close button.
-     */
-    private int getCloseButtonSpaceRequirement(int tabIndex) {
-        if (tabCloseButtonPlacement == CENTER) {
-            return 0;
-        }
-
-        boolean onLeft       = isCloseButtonOnLeft();
-        boolean atEndSegment = (orientation == ControlOrientation.VERTICAL || (tabIndex == 0 && onLeft)
-                    || (tabIndex == tabPane.getTabCount() - 1 && !onLeft));
-
-        int offset = getCloseButtonBounds(tabIndex).width + closeButtonInsets.left + closeButtonInsets.right;
-
-        offset += atEndSegment ? 4 : 2;
-
-        return offset;
     }
 
     /**
@@ -1758,10 +1738,8 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * DOCUMENT ME!
-     *
-     * @author  $author$
-     * @version $Revision$, $Date$
+     * Our Mouse Handler. Delegates to the basic UI's mouse handler if we don't
+     * need to handle an event.
      */
     public class SeaGlassTabbedPaneMouseHandler extends MouseAdapter {
 
@@ -1777,7 +1755,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         /**
          * Creates a new SeaGlassTabbedPaneMouseHandler object.
          *
-         * @param originalMouseListener DOCUMENT ME!
+         * @param originalMouseListener the original mouse handler.
          */
         public SeaGlassTabbedPaneMouseHandler(MouseListener originalMouseListener) {
             delegate  = originalMouseListener;
