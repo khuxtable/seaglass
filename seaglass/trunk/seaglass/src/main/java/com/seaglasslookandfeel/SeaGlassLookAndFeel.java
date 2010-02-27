@@ -1548,6 +1548,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("tabbedPaneTabAreaDarkShadow", new Color(0x55aaaaaa, true));
 
         d.put("seaGlassTabbedPaneTabCloseGraphicInnerShadowBase", new Color(0x2a509b));
+        d.put("seaGlassTabbedPaneTabCloseGraphicBase", Color.WHITE);
         d.put("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", Color.BLACK);
         d.put("seaGlassTabbedPaneTabCloseBorderBase", new Color(0x20448e));
 
