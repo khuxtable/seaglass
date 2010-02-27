@@ -34,7 +34,17 @@ yields a smoother and faster accelerated wheel scroll.
 
 For JTabbedPane, we support the {{{JTabbedPane.closeButton}}} property being set to {{{left}}} or {{{right}}}, which
 will cause a close button to be placed at the left or right of each tab button. Pressing the button will close the tab.
-We will soon support a {{{JTabbedPane.closeAction}}} property to capture the close action and enforce file saving and such.
+
+We also support the {{{JTabbedPane.closeListener}}} property to capture the close action and enforce file saving and such.
+This property must implement {{{org.seaglasslookandfeel.util.SeaGlassTabCloseListener}}}, which has two methods:
+
+  * tabAboutToBeClosed(int tabIndex)
+
+    Foo
+
+  * tabClosed(String title, Component component)
+
+    Bar
 
 == JTextField properties ==
 
