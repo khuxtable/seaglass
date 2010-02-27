@@ -21,8 +21,10 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -40,11 +42,19 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
         DISABLED, ENABLED, MOUSEOVER, FOCUSED, PRESSED,
     }
 
-    private Color enabledColor   = decodeColor("seaGlassTabbedPaneTabCloseIcon");
-    private Color mouseoverColor = decodeColor("seaGlassTabbedPaneTabCloseIconMouseover");
-    private Color pressedColor   = decodeColor("seaGlassTabbedPaneTabCloseIconPressed");
+    private Color borderMouseOver = decodeColor("seaGlassTabbedPaneTabCloseBorderBase", 0f, 0f, 0f, -170);
+    private Color borderFocused   = decodeColor("seaGlassTabbedPaneTabCloseBorderBase", 0f, 0f, 0f, -100);
+    private Color borderPressed   = decodeColor("seaGlassTabbedPaneTabCloseBorderBase", 0f, 0f, 0f, -40);
 
-    private Color simpleColor = new Color(0x2a509b);
+    private Color graphicInnerShadow1 = decodeColor("seaGlassTabbedPaneTabCloseGraphicInnerShadowBase", 0f, 0f, 0f, -130);
+    private Color graphicInnerShadow2 = decodeColor("seaGlassTabbedPaneTabCloseGraphicInnerShadowBase", 0f, 0f, 0f, -170);
+    private Color graphicInnerShadow3 = decodeColor("seaGlassTabbedPaneTabCloseGraphicInnerShadowBase", 0f, 0f, 0f, -190);
+    private Color graphicInnerShadow4 = decodeColor("seaGlassTabbedPaneTabCloseGraphicInnerShadowBase", 0f, 0f, 0f, -150);
+
+    private Color graphicDropShadow1 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -175);
+    private Color graphicDropShadow2 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -215);
+    private Color graphicDropShadow3 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -195);
+    private Color graphicDropShadow4 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -155);
 
     private Which        state;
     private PaintContext ctx;
@@ -69,22 +79,22 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
         switch (state) {
 
         case ENABLED:
-            drawGraphic(g, width, height, enabledColor);
+            drawEnabledGraphic(g, width, height);
             break;
 
         case MOUSEOVER:
-            drawGraphic(g, width, height, Color.black);
-//            drawBorder(g, width, height, Color.black);
+            drawBorder(g, width, height, borderMouseOver, 0.375f);
+            drawOverlayGraphic(g, width, height);
             break;
 
         case FOCUSED:
-            drawGraphic(g, width, height, mouseoverColor);
-            drawBorder(g, width, height, mouseoverColor);
+            drawBorder(g, width, height, borderFocused, 0.375f);
+            drawOverlayGraphic(g, width, height);
             break;
 
         case PRESSED:
-            drawGraphic(g, width, height, pressedColor);
-            drawBorder(g, width, height, pressedColor);
+            drawBorder(g, width, height, borderPressed, 0.5f);
+            drawOverlayGraphic(g, width, height);
             break;
         }
     }
@@ -97,32 +107,96 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
     }
 
     /**
-     * Draw the "close" graphic.
+     * Draw a border around the graphic.
+     *
+     * @param g      the Graphic context.
+     * @param width  the width of the border.
+     * @param height the height of the border.
+     * @param color  the color of the border.
+     * @param size   the spread of the border from outside in, expressed as a
+     *               percentage of the height.
+     */
+    private void drawBorder(Graphics2D g, int width, int height, Color color, float size) {
+        int max        = (int) (Math.min((height - 2) * size, height / 2.0f) + 0.5);
+        int alphaDelta = color.getAlpha() / max;
+        System.out.println("max = " + max);
+
+        for (int i = 0; i < max; i++) {
+            Shape s        = shapeGenerator.createRoundRectangle(i, i, width - 2 * i - 1, height - 2 * i - 1, CornerSize.CHECKBOX_INTERIOR);
+            Color newColor = new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() - i * alphaDelta);
+
+            g.setPaint(newColor);
+            g.draw(s);
+        }
+    }
+
+    /**
+     * Draw the "close" graphic for the simple enabled state.
      *
      * @param g      the Graphic context.
      * @param width  the width of the graphic.
      * @param height the height of the graphic.
-     * @param color  the color of the graphic.
      */
-    private void drawGraphic(Graphics2D g, int width, int height, Color color) {
+    private void drawEnabledGraphic(Graphics2D g, int width, int height) {
         Shape s = shapeGenerator.createTabCloseIcon(2, 2, width - 4, height - 4);
 
-        g.setColor(color);
+        g.setPaint(createGraphicInnerShadowGradient(s));
         g.fill(s);
     }
 
     /**
-     * Draw a border around the graphic..
+     * Draw the "close" graphic for a state where it overlays a border.
      *
      * @param g      the Graphic context.
      * @param width  the width of the graphic.
      * @param height the height of the graphic.
-     * @param color  the color of the graphic.
      */
-    private void drawBorder(Graphics2D g, int width, int height, Color color) {
-        Shape s = shapeGenerator.createRoundRectangle(0, 0, width - 1, height - 1, CornerSize.CHECKBOX_INTERIOR);
+    private void drawOverlayGraphic(Graphics2D g, int width, int height) {
+        Shape s = shapeGenerator.createTabCloseIcon(2, 2, width - 4, height - 4);
 
-        g.setColor(color);
-        g.draw(s);
+        g.setPaint(Color.white);
+        g.fill(s);
+
+        s = shapeGenerator.createTabCloseIcon(2, 3, width - 4, height - 4);
+        g.setPaint(createGraphicDropShadowGradient(s));
+        Shape oldClip = g.getClip();
+
+        g.setClip(2, 3, width - 4, height - 4);
+        g.fill(s);
+        g.setClip(oldClip);
+    }
+
+    /**
+     * Create the gradient for the "x" inner shadow.
+     *
+     * @param  s the Shape for the gradient.
+     *
+     * @return the gradient paint.
+     */
+    private Paint createGraphicInnerShadowGradient(Shape s) {
+        Rectangle2D b    = s.getBounds2D();
+        float       midX = (float) b.getCenterX();
+        float       y1   = (float) b.getMinY();
+        float       y2   = (float) b.getMaxY();
+
+        return createGradient(midX, y1, midX, y2, new float[] { 0f, 0.43f, 0.57f, 1f },
+                              new Color[] { graphicInnerShadow1, graphicInnerShadow2, graphicInnerShadow3, graphicInnerShadow4 });
+    }
+
+    /**
+     * Create the gradient for the "x" drop shadow.
+     *
+     * @param  s the Shape for the gradient.
+     *
+     * @return the gradient paint.
+     */
+    private Paint createGraphicDropShadowGradient(Shape s) {
+        Rectangle2D b    = s.getBounds2D();
+        float       midX = (float) b.getCenterX();
+        float       y1   = (float) b.getMinY();
+        float       y2   = (float) b.getMaxY();
+
+        return createGradient(midX, y1, midX, y2, new float[] { 0f, 0.43f, 0.57f, 1f },
+                              new Color[] { graphicDropShadow1, graphicDropShadow2, graphicDropShadow3, graphicDropShadow4 });
     }
 }
