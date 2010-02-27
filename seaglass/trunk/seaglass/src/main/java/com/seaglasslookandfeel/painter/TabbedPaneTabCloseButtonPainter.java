@@ -51,10 +51,11 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
     private Color graphicInnerShadow3 = decodeColor("seaGlassTabbedPaneTabCloseGraphicInnerShadowBase", 0f, 0f, 0f, -190);
     private Color graphicInnerShadow4 = decodeColor("seaGlassTabbedPaneTabCloseGraphicInnerShadowBase", 0f, 0f, 0f, -150);
 
-    private Color graphicDropShadow1 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -175);
-    private Color graphicDropShadow2 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -215);
-    private Color graphicDropShadow3 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -195);
-    private Color graphicDropShadow4 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -155);
+    private Color graphicBase        = decodeColor("seaGlassTabbedPaneTabCloseGraphicBase");
+    private Color graphicDropShadow1 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -230);
+    private Color graphicDropShadow2 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -240);
+    private Color graphicDropShadow3 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -240);
+    private Color graphicDropShadow4 = decodeColor("seaGlassTabbedPaneTabCloseGraphicDropShadowBase", 0f, 0f, 0f, -230);
 
     private Which        state;
     private PaintContext ctx;
@@ -119,6 +120,7 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
     private void drawBorder(Graphics2D g, int width, int height, Color color, float size) {
         int max        = (int) (Math.min((height - 2) * size, height / 2.0f) + 0.5);
         int alphaDelta = color.getAlpha() / max;
+
         System.out.println("max = " + max);
 
         for (int i = 0; i < max; i++) {
@@ -154,7 +156,7 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
     private void drawOverlayGraphic(Graphics2D g, int width, int height) {
         Shape s = shapeGenerator.createTabCloseIcon(2, 2, width - 4, height - 4);
 
-        g.setPaint(Color.white);
+        g.setPaint(graphicBase);
         g.fill(s);
 
         s = shapeGenerator.createTabCloseIcon(2, 3, width - 4, height - 4);
