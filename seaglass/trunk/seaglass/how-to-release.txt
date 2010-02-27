@@ -1,0 +1,2 @@
+$ mvn -Dusername=kathryn@kathrynhuxtable.org release:prepare
+$ mvn -Dusername=kathryn@kathrynhuxtable.org -Darguments="-Dgpg.passphrase=mypassphrase" -Dgpg.passphrase=mypassphrase release:perform
