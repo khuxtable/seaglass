@@ -84,12 +84,12 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
             break;
 
         case MOUSEOVER:
-            drawBorder(g, width, height, borderMouseOver, 0.375f);
+            drawBorder(g, width, height, borderMouseOver, 0.4f);
             drawOverlayGraphic(g, width, height);
             break;
 
         case FOCUSED:
-            drawBorder(g, width, height, borderFocused, 0.375f);
+            drawBorder(g, width, height, borderFocused, 0.4f);
             drawOverlayGraphic(g, width, height);
             break;
 
@@ -120,8 +120,6 @@ public final class TabbedPaneTabCloseButtonPainter extends AbstractRegionPainter
     private void drawBorder(Graphics2D g, int width, int height, Color color, float size) {
         int max        = (int) (Math.min((height - 2) * size, height / 2.0f) + 0.5);
         int alphaDelta = color.getAlpha() / max;
-
-        System.out.println("max = " + max);
 
         for (int i = 0; i < max; i++) {
             Shape s        = shapeGenerator.createRoundRectangle(i, i, width - 2 * i - 1, height - 2 * i - 1, CornerSize.CHECKBOX_INTERIOR);
