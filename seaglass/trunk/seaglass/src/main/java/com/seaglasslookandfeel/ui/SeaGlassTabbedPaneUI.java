@@ -461,17 +461,20 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     /**
      * Get the state for the specified tab's close button.
      *
-     * @param  c        the tabbed pane.
-     * @param  tabIndex the index of the tab.
+     * @param  c               the tabbed pane.
+     * @param  tabIndex        the index of the tab.
+     * @param  tabIsMousedOver TODO
      *
      * @return the close button state.
      */
-    private int getCloseButtonState(JComponent c, int tabIndex) {
+    public int getCloseButtonState(JComponent c, int tabIndex, boolean tabIsMousedOver) {
         if (!c.isEnabled()) {
             return DISABLED;
         } else if (tabIndex == closeButtonArmedIndex) {
             return PRESSED;
         } else if (tabIndex == closeButtonHoverIndex) {
+            return FOCUSED;
+        } else if (tabIsMousedOver) {
             return MOUSE_OVER;
         }
 
@@ -738,7 +741,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g, x, y, width, height, tabIndex, tabPlacement);
 
         if (tabCloseButtonPlacement != CENTER) {
-            tabRect = paintCloseButton(g, tabIndex);
+            tabRect = paintCloseButton(g, tabContext, tabIndex);
         }
 
         if (tabPane.getTabComponentAt(tabIndex) == null) {
@@ -756,12 +759,13 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     /**
      * Paint the close button for a tab.
      *
-     * @param  g        the Graphics context.
-     * @param  tabIndex the tab index to paint.
+     * @param  g          the Graphics context.
+     * @param  tabContext TODO
+     * @param  tabIndex   the tab index to paint.
      *
      * @return the new tab bounds.
      */
-    protected Rectangle paintCloseButton(Graphics g, int tabIndex) {
+    protected Rectangle paintCloseButton(Graphics g, SynthContext tabContext, int tabIndex) {
         Rectangle tabRect = new Rectangle(rects[tabIndex]);
 
         Rectangle bounds = new Rectangle(getCloseButtonBounds(tabIndex));
@@ -774,7 +778,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         }
 
         SeaGlassContext subcontext = getContext(tabPane, SeaGlassRegion.TABBED_PANE_TAB_CLOSE_BUTTON,
-                                                getCloseButtonState(tabPane, tabIndex));
+                                                getCloseButtonState(tabPane, tabIndex, (tabContext.getComponentState() & MOUSE_OVER) != 0));
 
         SeaGlassLookAndFeel.updateSubregion(subcontext, g, bounds);
 
@@ -1780,7 +1784,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         public void mouseExited(MouseEvent e) {
             delegate.mouseExited(e);
         }
-        
+
         /**
          * @see java.awt.event.MouseAdapter#mouseMoved(java.awt.event.MouseEvent)
          */
