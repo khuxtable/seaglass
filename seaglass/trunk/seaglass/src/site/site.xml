@@ -10,7 +10,7 @@
 			<item name="Kathryn Huxtable" href="http://www.kathrynhuxtable.org" />
 		</links>
 
-		<menu name="Sea Glass">
+		<menu name="Sea Glass Look and Feel">
 			<item name="Introduction" href="index.html" collapse="none" />
 			<item collapse="true" name="Discussion Group" href="http://groups.google.com/group/sea-glass-look-and-feel" />
             <item collapse="true" name="Google Code" href="http://seaglasslookandfeel.com" />
