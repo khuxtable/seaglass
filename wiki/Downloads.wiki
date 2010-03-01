@@ -18,14 +18,14 @@ If you are using Maven, you may include the following in your `pom.xml' file:
 </dependencies>
 }}}
 
-For versions prior to 0.1.6.1, you need to specify the repository as below. We will likely not support this for too much longer.
+To test against a staged or snapshot version, you must also include the following:
 
 {{{
 <repositories>
     <repository>
-        <id>seaglasslookandfeel</id>
-        <name>Sea Glass Look and Feel Repository</name>
-        <url>http://seaglass.googlecode.com/svn/repo</url>
+        <id>OSS Staging</id>
+        <name>Sonatype Staging Repository</name>
+        <url>http://oss.sonatype.org/content/groups/staging/</url>
     </repository>
 </repositories>
 }}}
@@ -36,9 +36,3 @@ For versions prior to 0.1.6.1, you need to specify the repository as below. We w
 || 0.1.7.1 || [http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.7.1/seaglasslookandfeel-0.1.7.1.jar seaglasslookandfeel-0.1.7.1.jar] || [http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.7.1/seaglasslookandfeel-0.1.7.1-javadoc.jar seaglasslookandfeel-0.1.7.1-javadoc.jar] || [http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.7.1/seaglasslookandfeel-0.1.7.1-sources.jar seaglasslookandfeel-0.1.7.1-sources.jar] ||
 || 0.1.7 || [http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.7/seaglasslookandfeel-0.1.7.jar seaglasslookandfeel-0.1.7.jar] || [http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.7/seaglasslookandfeel-0.1.7-javadoc.jar seaglasslookandfeel-0.1.7-javadoc.jar] || [http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.7/seaglasslookandfeel-0.1.7-sources.jar seaglasslookandfeel-0.1.7-sources.jar] ||
 || 0.1.6.1 || [http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.6.1/seaglasslookandfeel-0.1.6.1.jar seaglasslookandfeel-0.1.6.1.jar] || [http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.6.1/seaglasslookandfeel-0.1.6.1-javadoc.jar seaglasslookandfeel-0.1.6.1-javadoc.jar] || [http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.6.1/seaglasslookandfeel-0.1.6.1-sources.jar seaglasslookandfeel-0.1.6.1-sources.jar] ||
-|| 0.1.6 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.6/seaglasslookandfeel-0.1.6.jar seaglasslookandfeel-0.1.6.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.6/seaglasslookandfeel-0.1.6-javadoc.jar seaglasslookandfeel-0.1.6-javadoc.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.6/seaglasslookandfeel-0.1.6-sources.jar seaglasslookandfeel-0.1.6-sources.jar] ||
-|| 0.1.5 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.5/seaglasslookandfeel-0.1.5.jar seaglasslookandfeel-0.1.5.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.5/seaglasslookandfeel-0.1.5-javadoc.jar seaglasslookandfeel-0.1.5-javadoc.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.5/seaglasslookandfeel-0.1.5-sources.jar seaglasslookandfeel-0.1.5-sources.jar] ||
-|| 0.1.4 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.4/seaglasslookandfeel-0.1.4.jar seaglasslookandfeel-0.1.4.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.4/seaglasslookandfeel-0.1.4-javadoc.jar seaglasslookandfeel-0.1.4-javadoc.jar] ||[http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.4/seaglasslookandfeel-0.1.4-sources.jar seaglasslookandfeel-0.1.4-sources.jar] ||
-|| 0.1.3 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.3/seaglasslookandfeel-0.1.3.jar seaglasslookandfeel-0.1.3.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.3/seaglasslookandfeel-0.1.3-javadoc.jar seaglasslookandfeel-0.1.3-javadoc.jar] ||[http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.3/seaglasslookandfeel-0.1.3-sources.jar seaglasslookandfeel-0.1.3-sources.jar] ||
-||| 0.1.2 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.2/seaglasslookandfeel-0.1.2.jar seaglasslookandfeel-0.1.2.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.2/seaglasslookandfeel-0.1.2-javadoc.jar seaglasslookandfeel-0.1.2-javadoc.jar] ||[http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.2/seaglasslookandfeel-0.1.2-sources.jar seaglasslookandfeel-0.1.2-sources.jar] ||
-|| 0.1.1 || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.1/seaglasslookandfeel-0.1.1.jar seaglasslookandfeel-0.1.1.jar] || [http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.1/seaglasslookandfeel-0.1.1-javadoc.jar seaglasslookandfeel-0.1.1-javadoc.jar] ||[http://seaglass.googlecode.com/svn/repo/com/seaglasslookandfeel/seaglasslookandfeel/0.1.1/seaglasslookandfeel-0.1.1-sources.jar seaglasslookandfeel-0.1.1-sources.jar] ||
