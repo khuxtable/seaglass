@@ -999,7 +999,10 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                 width += icon.getIconWidth() + textIconGap;
             }
 
-            width += getCloseButtonBounds(tabIndex).width + textIconGap;
+            // Hack to prevent array index out of bounds before the size has been set and the rectangles created.
+            if (tabIndex < rects.length) {
+                width += getCloseButtonBounds(tabIndex).width + textIconGap;
+            }
 
             View v = getTextViewForTab(tabIndex);
 
