@@ -1,3 +1,0 @@
- * [Downloads Download instructions]
- * [Usage Usage instructions]
-   * [ClientProperties Client properties]
