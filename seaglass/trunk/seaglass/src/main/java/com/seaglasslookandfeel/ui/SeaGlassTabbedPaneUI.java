@@ -365,8 +365,11 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
      * @see javax.swing.plaf.basic.BasicTabbedPaneUI#uninstallListeners()
      */
     protected void uninstallListeners() {
-        super.uninstallListeners();
+        if (mouseListener != null) {
+            tabPane.removeMouseMotionListener((MouseAdapter) mouseListener);
+        }
         tabPane.removePropertyChangeListener(this);
+        super.uninstallListeners();
     }
 
     /**
