@@ -3,7 +3,7 @@
 	<groupId>com.seaglasslookandfeel</groupId>
 	<artifactId>seaglasslookandfeel</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.7.3-SNAPSHOT</version>
+	<version>0.1.7.2-SNAPSHOT</version>
 	<name>Sea Glass Look and Feel for Swing</name>
 	<description>
 		A Java cross-platform look and feel for JRE 1.6u17 and later.
