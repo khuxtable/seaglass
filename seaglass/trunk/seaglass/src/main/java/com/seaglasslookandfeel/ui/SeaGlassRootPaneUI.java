@@ -875,7 +875,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             }
 
             if (root.getJMenuBar() != null) {
-                boolean   menuInTitle = (root.getClientProperty("SeaGlass.JRootPane.MenuInTitle") == Boolean.TRUE);
+                boolean   menuInTitle = (root.getClientProperty("JRootPane.MenuInTitle") == Boolean.TRUE);
                 Dimension mbd         = root.getJMenuBar().getPreferredSize();
 
                 root.getJMenuBar().setBounds(0, menuInTitle ? 0 : nextY, w, mbd.height);
