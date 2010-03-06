@@ -133,6 +133,8 @@
 					<htmlStylesheet>css/site.css</htmlStylesheet>
 					<xincludeSupported>true</xincludeSupported>
 					<imgSrcPath>./</imgSrcPath>
+					<tableFrameBorderThickness>0</tableFrameBorderThickness>
+					<tableCellBorderThickness>0</tableCellBorderThickness>
 					<!-- use extensions -->
 					<useExtensions>1</useExtensions>
 					<!-- callouts -->
