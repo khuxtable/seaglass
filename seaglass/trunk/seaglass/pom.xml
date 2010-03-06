@@ -133,6 +133,9 @@
 					<htmlStylesheet>css/site.css</htmlStylesheet>
 					<xincludeSupported>true</xincludeSupported>
 					<imgSrcPath>./</imgSrcPath>
+					<htmlCellSpacing>2</htmlCellSpacing>
+					<htmlCellPadding>2</htmlCellPadding>
+                    <tableBordersWithCss>1</tableBordersWithCss>
 					<tableFrameBorderThickness>0</tableFrameBorderThickness>
 					<tableCellBorderThickness>0</tableCellBorderThickness>
 					<!-- use extensions -->
