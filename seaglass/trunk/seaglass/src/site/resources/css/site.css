@@ -41,6 +41,15 @@ a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWin
   background: url(../images/newwindow.png) right center no-repeat;
   padding-right: 18px;
 }
+h1.title {
+  padding: 4px 4px 4px 6px;
+  border: none;
+  border-bottom: 1px solid #999999;
+  color: #006095;
+  background-color: white;
+  font-weight:900;
+  font-size: x-large;
+}
 h2 {
   padding: 4px 4px 4px 6px;
   border: none;
@@ -184,7 +193,7 @@ pre {
 }
 
 .programlisting {
-   clear: both;
+   /*clear: both;*/
 }
 
 .programlisting .interfacename,
