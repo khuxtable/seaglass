@@ -31,7 +31,7 @@
       <title>Maven</title>
 
       <para>If you are using Maven, you may include the following in your
-      <filename>pom.xml</filename> file:<programlisting>&lt;dependencies&gt;
+      <filename>pom.xml</filename> file:<programlisting language="xml">&lt;dependencies&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;com.seaglasslookandfeel&lt;/groupId&gt;
         &lt;artifactId&gt;seaglasslookandfeel&lt;/artifactId&gt;
@@ -40,7 +40,7 @@
 &lt;/dependencies&gt;</programlisting>To test against a staged or snapshot
       version, you must also include the following:</para>
 
-      <para><programlisting>&lt;repositories&gt;
+      <para><programlisting language="xml">&lt;repositories&gt;
     &lt;repository&gt;
         &lt;id&gt;OSS Staging&lt;/id&gt;
         &lt;name&gt;Sonatype Staging Repository&lt;/name&gt;
@@ -94,7 +94,7 @@
 
                 <entry><ulink
                 url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.7/seaglasslookandfeel-0.1.7-sources.jar">seaglasslookandfeel-0.1.7-sources.jar</ulink></entry>
-               </row>
+              </row>
 
               <row>
                 <entry>0.1.6.1</entry>
@@ -107,7 +107,7 @@
 
                 <entry><ulink
                 url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/0.1.6.1/seaglasslookandfeel-0.1.6.1-sources.jar">seaglasslookandfeel-0.1.6.1-sources.jar</ulink></entry>
-               </row>
+              </row>
             </tbody>
           </tgroup>
         </table></para>

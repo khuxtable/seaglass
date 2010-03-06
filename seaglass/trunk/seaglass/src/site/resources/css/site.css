@@ -1,3 +1,7 @@
+@IMPORT url("maven-base.css");
+@IMPORT url("maven-theme.css");
+@IMPORT url("highlight.css");
+
 body {
   padding: 0px 0px 10px 0px;
 }
@@ -157,3 +161,36 @@ dt {
 #bannerLeft { float: left; }
 
 #bannerRight { float: right; }
+
+/* From html.css */
+
+pre {
+    font-size: 110%;
+    padding: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #CCCCCC;
+    background-color: f8f8f8;
+}
+
+.programlisting {
+   clear: both;
+}
+
+.programlisting .interfacename,
+.programlisting .literal,
+.programlisting .classname {
+    font-size: 95%;
+}
+
+.title .interfacename,
+.title .literal,
+.title .classname {
+    font-size: 130%;
+}
+
+/* everything in a <lineannotation/> is displayed in a coloured, comment-like font */
+.programlisting * .lineannotation,
+.programlisting * .lineannotation * {
+    color: green;
+}
