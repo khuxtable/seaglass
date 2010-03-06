@@ -3,11 +3,13 @@
     This is the XSL HTML configuration file for the Spring
     Reference Documentation.
 -->
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"
-	xmlns:xslthl="http://xslthl.sf.net" exclude-result-prefixes="xslthl" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:d="http://docbook.org/ns/docbook"
+	xmlns:ng="http://docbook.org/docbook-ng" xmlns:db="http://docbook.org/ns/docbook" xmlns:exsl="http://exslt.org/common"
+	exclude-result-prefixes="db ng exsl d" version='1.0'>
 
 	<xsl:import href="urn:docbkx:stylesheet" />
 	<xsl:import href="highlight.xsl" />
+	<xsl:import href="titlepage.xsl" />
 
 	<!--
 		################################################### HTML Settings
@@ -107,18 +109,18 @@
 		</div>
 	</xsl:template>
 
-    <xsl:template name="tr.attributes">
-        <xsl:param name="row" select="."/>
-        <xsl:param name="rownum" select="0"/>
+	<xsl:template name="tr.attributes">
+		<xsl:param name="row" select="." />
+		<xsl:param name="rownum" select="0" />
 
-        <xsl:if test="$rownum mod 2 = 0">
-            <xsl:attribute name="class">a</xsl:attribute>
-        </xsl:if>
-        <xsl:if test="$rownum mod 2 = 1">
-            <xsl:attribute name="class">b</xsl:attribute>
-        </xsl:if>
+		<xsl:if test="$rownum mod 2 = 0">
+			<xsl:attribute name="class">a</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$rownum mod 2 = 1">
+			<xsl:attribute name="class">b</xsl:attribute>
+		</xsl:if>
 
-    </xsl:template>
+	</xsl:template>
 
 </xsl:stylesheet>
 
