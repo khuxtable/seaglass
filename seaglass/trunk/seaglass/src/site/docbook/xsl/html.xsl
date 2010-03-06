@@ -106,5 +106,19 @@
 			<xsl:apply-templates mode="titlepage.mode" />
 		</div>
 	</xsl:template>
+
+    <xsl:template name="tr.attributes">
+        <xsl:param name="row" select="."/>
+        <xsl:param name="rownum" select="0"/>
+
+        <xsl:if test="$rownum mod 2 = 0">
+            <xsl:attribute name="class">a</xsl:attribute>
+        </xsl:if>
+        <xsl:if test="$rownum mod 2 = 1">
+            <xsl:attribute name="class">b</xsl:attribute>
+        </xsl:if>
+
+    </xsl:template>
+
 </xsl:stylesheet>
 
