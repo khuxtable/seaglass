@@ -51,7 +51,7 @@
       <title>JRootPane properties</title>
 
       <para>On a non-Mac platform, setting the
-      <code>SeaGlass.JRootPane.MenuInTitle</code> property to
+      <code>JRootPane.MenuInTitle</code> property to
       <code>Boolean.TRUE</code> will place the menu bar in the title bar instead of
       below it. Note that it is your responsibility to make sure that it fits
       with the title.</para>
