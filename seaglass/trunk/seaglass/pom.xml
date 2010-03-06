@@ -149,12 +149,6 @@
 					<!-- callouts -->
 					<calloutsExtension>1</calloutsExtension>
 					<postProcess>
-						<copy todir="${project.build.directory}/sitestage">
-							<fileset dir="${basedir}/src/site">
-								<include name="site.*" />
-								<include name="resources/**" />
-							</fileset>
-						</copy>
 						<apply executable="java">
 							<arg line="-cp ${settings.localRepository}/jtidy/jtidy/4aug2000r7-dev/jtidy-4aug2000r7-dev.jar" />
 							<arg value="org.w3c.tidy.Tidy" />
