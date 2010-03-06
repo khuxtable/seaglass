@@ -53,8 +53,7 @@
       <title>Simple Download</title>
 
       <para>If you are not using Maven you may download the jar, its
-      documentation, and source from the following links:<table>
-          <title></title>
+      documentation, and source from the following links:<informaltable>
 
           <tgroup cols="4">
             <thead>
@@ -110,7 +109,7 @@
               </row>
             </tbody>
           </tgroup>
-        </table></para>
+        </informaltable></para>
     </section>
   </section>
 </article>
