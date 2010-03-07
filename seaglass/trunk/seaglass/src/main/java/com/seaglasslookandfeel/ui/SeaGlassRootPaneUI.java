@@ -40,6 +40,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JComponent;
@@ -673,7 +674,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             int       mbWidth  = 0;
             int       mbHeight = 0;
             int       tpWidth  = 0;
-            // int tpHeight = 0;
+            int       tpHeight = 0;
             Insets    i        = parent.getInsets();
             JRootPane root     = (JRootPane) parent;
 
@@ -702,14 +703,14 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
                 if (titlePane != null) {
                     tpd = titlePane.getPreferredSize();
                     if (tpd != null) {
-                        tpWidth = tpd.width;
-                        // tpHeight = tpd.height;
+                        tpWidth  = tpd.width;
+                        tpHeight = tpd.height;
                     }
                 }
             }
 
             return new Dimension(Math.max(Math.max(cpWidth, mbWidth), tpWidth) + i.left + i.right,
-                                 cpHeight + mbHeight + tpWidth + i.top + i.bottom);
+                                 cpHeight + mbHeight + tpHeight + i.top + i.bottom);
         }
 
         /**
@@ -729,7 +730,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             int       mbWidth  = 0;
             int       mbHeight = 0;
             int       tpWidth  = 0;
-            // int tpHeight = 0;
+            int       tpHeight = 0;
             Insets    i        = parent.getInsets();
             JRootPane root     = (JRootPane) parent;
 
@@ -758,14 +759,14 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
                 if (titlePane != null) {
                     tpd = titlePane.getMinimumSize();
                     if (tpd != null) {
-                        tpWidth = tpd.width;
-                        // tpHeight = tpd.height;
+                        tpWidth  = tpd.width;
+                        tpHeight = tpd.height;
                     }
                 }
             }
 
             return new Dimension(Math.max(Math.max(cpWidth, mbWidth), tpWidth) + i.left + i.right,
-                                 cpHeight + mbHeight + tpWidth + i.top + i.bottom);
+                                 cpHeight + mbHeight + tpHeight + i.top + i.bottom);
         }
 
         /**
@@ -818,10 +819,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             }
 
             int maxHeight = Math.max(Math.max(cpHeight, mbHeight), tpHeight);
-            // Only overflows if 3 real non-MAX_VALUE heights, sum to >
-            // MAX_VALUE
-            // Only will happen if sums to more than 2 billion units. Not
-            // likely.
+            // Only overflows if 3 real non-MAX_VALUE heights, sum to > MAX_VALUE
+            // Only will happen if sums to more than 2 billion units. Not likely.
             if (maxHeight != Integer.MAX_VALUE) {
                 maxHeight = cpHeight + mbHeight + tpHeight + i.top + i.bottom;
             }
