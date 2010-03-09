@@ -368,6 +368,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         if (mouseListener != null) {
             tabPane.removeMouseMotionListener((MouseAdapter) mouseListener);
         }
+
         tabPane.removePropertyChangeListener(this);
         super.uninstallListeners();
     }
@@ -1003,7 +1004,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             }
 
             // Hack to prevent array index out of bounds before the size has been set and the rectangles created.
-            if (tabIndex < rects.length) {
+            if (tabIndex < rects.length && tabCloseButtonPlacement != CENTER) {
                 width += getCloseButtonBounds(tabIndex).width + textIconGap;
             }
 
@@ -1119,12 +1120,14 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
      *         otherwise.
      */
     protected boolean isOverCloseButton(int x, int y) {
-        int tabCount = tabPane.getTabCount();
+        if (tabCloseButtonPlacement != CENTER) {
+            int tabCount = tabPane.getTabCount();
 
-        for (int i = 0; i < tabCount; i++) {
-            if (getCloseButtonBounds(i).contains(x, y)) {
-                closeButtonHoverIndex = i;
-                return true;
+            for (int i = 0; i < tabCount; i++) {
+                if (getCloseButtonBounds(i).contains(x, y)) {
+                    closeButtonHoverIndex = i;
+                    return true;
+                }
             }
         }
 
