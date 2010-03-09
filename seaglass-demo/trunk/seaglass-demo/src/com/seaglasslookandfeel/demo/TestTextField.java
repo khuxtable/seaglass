@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -50,9 +51,13 @@ public class TestTextField {
                 JTextField tf2 = new JTextField("Here is some more text");
                 tf2.setPreferredSize(new Dimension(180, 25));
 
+                JPasswordField tf3 = new JPasswordField("foo");
+                tf3.setPreferredSize(new Dimension(180, 25));
+
                 JPanel panel = new JPanel();
                 panel.add(tf1);
                 panel.add(tf2);
+                panel.add(tf3);
 
                 JFrame frame = new JFrame("Title");
                 frame.add(panel, BorderLayout.CENTER);
