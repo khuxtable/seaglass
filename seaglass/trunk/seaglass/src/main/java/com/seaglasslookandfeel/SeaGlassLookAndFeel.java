@@ -416,6 +416,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "InternalFrame");
             useOurUI(uiDefaults, "DesktopIcon");
             useOurUI(uiDefaults, "Panel");
+            useOurUI(uiDefaults, "PasswordField");
             useOurUI(uiDefaults, "PopupMenu");
             useOurUI(uiDefaults, "ProgressBar");
             useOurUI(uiDefaults, "RadioButtonMenuItem");
