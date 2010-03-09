@@ -19,13 +19,26 @@
  */
 package com.seaglasslookandfeel.ui;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.util.PlatformUtils;
 
 /**
  * DOCUMENT ME!
@@ -41,6 +54,11 @@ public class SeaGlassRootPaneUITest {
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
+        try {
+            UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -74,7 +92,20 @@ public class SeaGlassRootPaneUITest {
      * DOCUMENT ME!
      */
     @Test
-    public void testTrue() {
-        assertTrue("", true);
+    public void testSimpleFrameSize() {
+        JFrame frame = new JFrame();
+        JPanel content = new JPanel();
+        content.setLayout(new FlowLayout(FlowLayout.CENTER));
+        content.setBackground(new Color(250, 250, 250));
+        content.setPreferredSize(new Dimension(400,400));
+        frame.add(BorderLayout.CENTER, content);
+        frame.pack();
+        Dimension frameSize = frame.getSize();
+        Dimension contentSize = content.getSize();
+        int titleHeight = PlatformUtils.isMac() ? 22 : 25;
+        assertEquals("Window height must correspond to content width + title height", 400 + titleHeight, frameSize.height);
+        assertEquals("Window width must correspond to content width", 400, frameSize.width);
+        assertEquals("Content height must be 400", 400, contentSize.height);
+        assertEquals("Content width must be 400", 400, contentSize.width);
     }
 }
