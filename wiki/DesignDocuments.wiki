@@ -1,5 +1,7 @@
 #summary Design documents
 
+Go back to the [http://seaglasslookandfeel.com main page].
+
 = Design documents =
 
 Here is the artwork that we used as a base for our design:
