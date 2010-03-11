@@ -962,7 +962,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                 x -= width;
             }
 
-            int y = 0;
+            int y = 1;
 
             c.setBounds(x, y, pref.width, pref.height);
 
