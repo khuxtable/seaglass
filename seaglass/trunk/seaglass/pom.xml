@@ -171,17 +171,11 @@
 					<tableBordersWithCss>1</tableBordersWithCss>
 					<tableFrameBorderThickness>0</tableFrameBorderThickness>
 					<tableCellBorderThickness>0</tableCellBorderThickness>
-					<targetFileExtension>xhtml</targetFileExtension>
+					<targetFileExtension>xhtml.vm</targetFileExtension>
 					<!-- use extensions -->
 					<useExtensions>1</useExtensions>
 					<!-- callouts -->
 					<calloutsExtension>1</calloutsExtension>
-					<entities>
-						<entity>
-							<name>projectVersion</name>
-							<value>${project.version}</value>
-						</entity>
-					</entities>
 				</configuration>
 			</plugin>
 			<!--
@@ -220,7 +214,7 @@
 							<arg value="-q" />
 							<arg value="-m" />
 							<fileset dir="${siteStagingXhtmlDirectory}">
-								<include name="*.xhtml" />
+								<include name="*.xhtml.vm" />
 							</fileset>
 						</apply>
 					</tasks>
@@ -228,6 +222,8 @@
 			</plugin>
 			<!--
 				Configure the site plugin. This creates site documentation suitable for deploying to a web site.
+				Note that we have generated our DocBook files with the extension .xhtml.vm, thus enabling them
+				to be filtered by Doxia for things like the project version number and such.
 			-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

@@ -35,7 +35,7 @@
     &lt;dependency&gt;
         &lt;groupId&gt;com.seaglasslookandfeel&lt;/groupId&gt;
         &lt;artifactId&gt;seaglasslookandfeel&lt;/artifactId&gt;
-        &lt;version&gt;<?eval ${project.version}?>&lt;/version&gt;
+        &lt;version&gt;${project.version}&lt;/version&gt;
     &lt;/dependency&gt;
 &lt;/dependencies&gt;</programlisting>To test against a staged or snapshot
       version, you must also include the following:</para>
@@ -59,7 +59,7 @@
         <tgroup cols="4">
           <thead>
             <row>
-              <entry><?eval ${project.version}?></entry>
+              <entry>${project.version}</entry>
 
               <entry>File</entry>
 
@@ -74,39 +74,39 @@
               <entry>Jar</entry>
 
               <entry><ulink
-              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/&projectVersion;/seaglasslookandfeel-&projectVersion;.jar">seaglasslookandfeel-<?eval ${project.version}?>.jar</ulink></entry>
+              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}.jar">seaglasslookandfeel-${project.version}.jar</ulink></entry>
 
               <entry><ulink
-              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/&projectVersion;/seaglasslookandfeel-&projectVersion;.jar.md5">seaglasslookandfeel-<?eval ${project.version}?>.jar.md5</ulink></entry>
+              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}.jar.md5">seaglasslookandfeel-${project.version}.jar.md5</ulink></entry>
 
               <entry><ulink
-              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/&projectVersion;/seaglasslookandfeel-&projectVersion;.jar.asc">seaglasslookandfeel-<?eval ${project.version}?>.jar.asc</ulink></entry>
+              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}.jar.asc">seaglasslookandfeel-${project.version}.jar.asc</ulink></entry>
             </row>
 
             <row>
               <entry>Javadoc</entry>
 
               <entry><ulink
-              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/&projectVersion;/seaglasslookandfeel-&projectVersion;-javadoc.jar">seaglasslookandfeel-<?eval ${project.version}?>-javadoc.jar</ulink></entry>
+              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-javadoc.jar">seaglasslookandfeel-${project.version}-javadoc.jar</ulink></entry>
 
               <entry><ulink
-              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/&projectVersion;/seaglasslookandfeel-&projectVersion;-javadoc.jar.md5">seaglasslookandfeel-<?eval ${project.version}?>-javadoc.jar.md5</ulink></entry>
+              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-javadoc.jar.md5">seaglasslookandfeel-${project.version}-javadoc.jar.md5</ulink></entry>
 
               <entry><ulink
-              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/&projectVersion;/seaglasslookandfeel-&projectVersion;-javadoc.jar.asc">seaglasslookandfeel-<?eval ${project.version}?>-javadoc.jar.asc</ulink></entry>
+              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-javadoc.jar.asc">seaglasslookandfeel-${project.version}-javadoc.jar.asc</ulink></entry>
             </row>
 
             <row>
               <entry>Sources</entry>
 
               <entry><ulink
-              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/&projectVersion;/seaglasslookandfeel-&projectVersion;-sources.jar">seaglasslookandfeel-<?eval ${project.version}?>-sources.jar</ulink></entry>
+              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-sources.jar">seaglasslookandfeel-${project.version}-sources.jar</ulink></entry>
 
               <entry><ulink
-              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/&projectVersion;/seaglasslookandfeel-&projectVersion;-sources.jar.md5">seaglasslookandfeel-<?eval ${project.version}?>-sources.jar.md5</ulink></entry>
+              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-sources.jar.md5">seaglasslookandfeel-${project.version}-sources.jar.md5</ulink></entry>
 
               <entry><ulink
-              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/&projectVersion;/seaglasslookandfeel-&projectVersion;-sources.jar.asc">seaglasslookandfeel-<?eval ${project.version}?>-sources.jar.asc</ulink></entry>
+              url="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-sources.jar.asc">seaglasslookandfeel-${project.version}-sources.jar.asc</ulink></entry>
             </row>
           </tbody>
         </tgroup>
