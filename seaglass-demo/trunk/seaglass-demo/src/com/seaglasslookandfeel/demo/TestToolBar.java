@@ -16,6 +16,8 @@ import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import com.seaglasslookandfeel.ui.SeaGlassRootPaneUI;
+
 public class TestToolBar {
     
     static JFrame frame;
@@ -50,7 +52,7 @@ public class TestToolBar {
 
                 frame = new JFrame("TestToolBar");
                 frame.setJMenuBar(mb);
-                frame.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
+                frame.getRootPane().putClientProperty(SeaGlassRootPaneUI.UNIFIED_TOOLBAR_LOOK, Boolean.TRUE);
 
                 JPanel outerPanel = new JPanel(new BorderLayout());
                 JPanel panel = new JPanel();
@@ -106,6 +108,7 @@ public class TestToolBar {
 
                 JPanel foo = new JPanel();
                 foo.add(button3);
+                foo.add(new JLabel("Bar"));
                 toolbar.add(button1);
                 toolbar.addSeparator();
                 toolbar.add(button2);
