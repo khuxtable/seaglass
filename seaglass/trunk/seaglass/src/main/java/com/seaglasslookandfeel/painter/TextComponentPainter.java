@@ -40,12 +40,17 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
         BORDER_FOCUSED, BORDER_ENABLED,
     }
 
+    private Color defaultBackground = decodeColor("nimbusLightBackground");
+
     private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
     private Which              state;
     private PaintContext       ctx;
     private CommonControlState type;
     private boolean            focused;
+
+    // Array of current component colors, updated in each paint call
+    private Object[]           componentColors;
 
     /**
      * Creates a new TextComponentPainter object.
@@ -66,6 +71,9 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
      * {@inheritDoc}
      */
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
+        // Populate componentColors array with colors calculated in getExtendedCacheKeys call.
+        componentColors = extendedCacheKeys;
+
         int x = focusInsets.left;
         int y = focusInsets.top;
 
@@ -96,6 +104,19 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
     /**
      * {@inheritDoc}
      */
+    protected Object[] getExtendedCacheKeys(JComponent c) {
+        Object[] extendedCacheKeys = null;
+
+        if (state == Which.BACKGROUND_ENABLED) {
+            extendedCacheKeys = new Object[] { getComponentColor(c, "background", defaultBackground, 0.0f, 0.0f, 0) };
+        }
+
+        return extendedCacheKeys;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected PaintContext getPaintContext() {
         return ctx;
     }
@@ -113,7 +134,9 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
     private void paintBackground(Graphics2D g, JComponent c, int x, int y, int width, int height) {
         Color color = c.getBackground();
 
-        if (type == CommonControlState.DISABLED) {
+        if (state == Which.BACKGROUND_ENABLED) {
+            color = (Color) componentColors[0];
+        } else if (type == CommonControlState.DISABLED) {
             color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0x80);
         }
 
