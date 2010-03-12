@@ -28,7 +28,8 @@
     Technical Note TN2196</ulink> for more information.</para>
 
     <para>We support the <code>JComponent.sizeVariant</code> property with
-    values of large, regular (the default), small, and mini.</para>
+    values of <code>"large"</code>, <code>"regular"</code> (the default),
+    <code>"small"</code>, and <code>"mini"</code>.</para>
 
     <para>We plan on more use of client properties to control the appearance
     of controls.</para>
@@ -37,24 +38,24 @@
     information.</para>
 
     <section>
-      <title>JButton properties</title>
+      <title><classname>JButton</classname> properties</title>
 
       <para>Use the <code>JButton.buttonType</code> property with values of
-      <code>textured</code>, <code>segmented</code>, or
-      <code>segmentedTextured</code>. To segment the buttons, set the
+      <code>"textured"</code>, <code>"segmented"</code>, or
+      <code>"segmentedTextured"</code>. To segment the buttons, set the
       <code>JButton.segmentPosition</code> property to one of
-      <code>first</code>, <code>middle</code>, or <code>last</code>. The value
-      <code>none</code> is also supported.</para>
+      <code>"first"</code>, <code>"middle"</code>, or <code>"last"</code>. The
+      value <code>"none"</code> is also supported.</para>
     </section>
 
     <section>
-      <title>JRootPane properties</title>
+      <title><classname>JRootPane</classname> properties</title>
 
       <para>On a non-Mac platform, setting the
-      <code>JRootPane.MenuInTitle</code> property to
-      <code>Boolean.TRUE</code> will place the menu bar in the title bar instead of
-      below it. Note that it is your responsibility to make sure that it fits
-      with the title.</para>
+      <code>JRootPane.MenuInTitle</code> property to <code>Boolean.TRUE</code>
+      will place the menu bar in the title bar instead of below it. Note that
+      it is your responsibility to make sure that it fits with the
+      title.</para>
 
       <para>On the Mac platform, we support the root pane property
       <code>Window.documentModified</code> such that if it is set to
@@ -63,7 +64,8 @@
     </section>
 
     <section>
-      <title>JScrollBar and JScrollPane properties</title>
+      <title><classname>JScrollBar</classname> and
+      <classname>JScrollPane</classname> properties</title>
 
       <para>On a scroll bar, setting the
       <code>SeaGlass.Override.ScrollBarButtonsTogether</code> property to
@@ -76,18 +78,18 @@
     </section>
 
     <section>
-      <title>JTabbedPane properties</title>
+      <title><classname>JTabbedPane</classname> properties</title>
 
-      <para>For JTabbedPane, we support the
+      <para>For <classname>JTabbedPane</classname>, we support the
       <code>JTabbedPane.closeButton</code> property being set to
-      <code>left</code> or <code>right</code>, which will cause a close button
-      to be placed at the left or right of each tab button. Pressing the
-      button will close the tab.</para>
+      <code>"left"</code> or <code>"right"</code>, which will cause a close
+      button to be placed at the left or right of each tab button. Pressing
+      the button will close the tab.</para>
 
       <para>We also support the <code>JTabbedPane.closeListener</code>
       property to capture the close action and enforce file saving and such.
       This property must be an object which implements
-      <code>org.seaglasslookandfeel.util.SeaGlassTabCloseListener</code>,
+      <classname>org.seaglasslookandfeel.util.SeaGlassTabCloseListener</classname>,
       which has two methods:</para>
 
       <itemizedlist>
@@ -115,24 +117,26 @@
     </section>
 
     <section>
-      <title>JTextField properties</title>
+      <title><classname>JTextField</classname> properties</title>
 
-      <para>For JTextField, we support the <code>JTextField.variant</code>
-      property being set to <code>search</code>, which will create a lozenge
-      instead of a rectangular field, suitable for a search field. The lozenge
-      will have a magnifying glass icon to the left, and if there is any text
-      in the field will have a cancel icon, consisting of a gray circle with
-      an erased "x" in it to the right.</para>
+      <para>For <classname>JTextField</classname>, we support the
+      <code>JTextField.variant</code> property being set to
+      <code>"search"</code>, which will create a lozenge instead of a
+      rectangular field, suitable for a search field. The lozenge will have a
+      magnifying glass icon to the left, and if there is any text in the field
+      will have a cancel icon, consisting of a gray circle with an erased "x"
+      in it to the right.</para>
 
-      <para>We support the rest of the Mac JTextField search client properties
-      as well, e.g. <code>JTextField.Search.FindAction</code>,
+      <para>We support the rest of the Mac <classname>JTextField</classname>
+      search client properties as well, e.g.
+      <code>JTextField.Search.FindAction</code>,
       <code>JTextField.Search.FindPopup</code>, and
       <code>JTextField.Search.CancelAction</code>.</para>
 
       <para>We have added the <code>JTextField.Search.PlaceholderText</code>
       property, which will display light gray text in a search-style text
       field if there is no text present. This is a paint effect only; no text
-      is actually in the JTextField object.</para>
+      is actually in the <classname>JTextField</classname> object.</para>
     </section>
   </section>
 </article>

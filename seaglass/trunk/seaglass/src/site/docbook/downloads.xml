@@ -30,8 +30,11 @@
     <section>
       <title>Maven</title>
 
-      <para>If you are using Maven, you may include the following in your
-      <filename>pom.xml</filename> file:<programlisting language="xml">&lt;dependencies&gt;
+      <para>If you are using <ulink
+      url="http://maven.apache.org">Maven</ulink>, you may include the
+      following in your <ulink
+      url="http://maven.apache.org/pom.html"><filename>pom.xml</filename></ulink>
+      file:<programlisting language="xml">&lt;dependencies&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;com.seaglasslookandfeel&lt;/groupId&gt;
         &lt;artifactId&gt;seaglasslookandfeel&lt;/artifactId&gt;
