@@ -27,6 +27,12 @@
     <para>See the <ulink url="usage.html">usage</ulink> page for more
     information.</para>
 
+    <para>The current version is:</para>
+
+    <blockquote>
+      <para>${project.version}</para>
+    </blockquote>
+
     <section>
       <title>Maven</title>
 
@@ -62,7 +68,7 @@
         <tgroup cols="4">
           <thead>
             <row>
-              <entry>${project.version}</entry>
+              <entry></entry>
 
               <entry>File</entry>
 
