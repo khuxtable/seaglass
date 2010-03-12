@@ -24,6 +24,8 @@ public class TestTextField {
 
     /**
      * Main method.
+     *
+     * @param args DOCUMENT ME!
      */
     public static void main(String[] args) {
         try {
@@ -53,11 +55,13 @@ public class TestTextField {
                     tf1.putClientProperty("JTextField.variant", "search");
                     tf1.putClientProperty("JTextField.Search.PlaceholderText", "Search");
                     tf1.putClientProperty("JTextField.Search.FindPopup", popupMenu);
+
                     tf1.putClientProperty("JTextField.Search.CancelAction", new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
                                 System.out.println("cancel source = " + e.getSource().getClass().getName());
                             }
                         });
+
                     tf1.putClientProperty("JTextField.Search.FindAction", new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
                                 System.out.println("find source = " + e.getSource().getClass().getName());
