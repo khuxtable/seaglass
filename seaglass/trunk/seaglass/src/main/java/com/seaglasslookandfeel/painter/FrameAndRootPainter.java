@@ -33,9 +33,11 @@ import javax.swing.JRootPane;
 import javax.swing.JToolBar;
 
 import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerStyle;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.state.ToolBarNorthState;
 import com.seaglasslookandfeel.state.ToolBarSouthState;
+import com.seaglasslookandfeel.ui.SeaGlassRootPaneUI;
 
 /**
  * Sea Glass FrameAndRootPainter.
@@ -145,11 +147,27 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
             titleHeight += mb.getHeight();
         }
 
-        s = shapeGenerator.createRoundRectangle(1, 1, (width - 2), (height - 2), CornerSize.FRAME_INNER_HIGHLIGHT);
-        g.setPaint(getFrameInteriorPaint(s, titleHeight, topToolBarHeight, bottomToolBarHeight));
-        g.fill(s);
+        if (c.getClientProperty(SeaGlassRootPaneUI.UNIFIED_TOOLBAR_LOOK) == Boolean.TRUE) {
+            s = shapeGenerator.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.FRAME_INNER_HIGHLIGHT);
+            g.setPaint(getFrameInteriorPaint(s, titleHeight, topToolBarHeight, bottomToolBarHeight));
+            g.fill(s);
+        } else {
+            // Paint title bar.
+            s = shapeGenerator.createRoundRectangle(1, 1, width - 2, titleHeight, CornerSize.FRAME_INNER_HIGHLIGHT,
+                                                    CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED);
+            g.setPaint(getTitleBarInteriorPaint(s, titleHeight));
+            g.fill(s);
+            // Paint contents.
+            s = shapeGenerator.createRoundRectangle(1, titleHeight, width - 2, height - titleHeight - 2, CornerSize.FRAME_INNER_HIGHLIGHT,
+                                                    CornerStyle.SQUARE, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.SQUARE);
+            g.setPaint(c.getBackground());
+            g.fill(s);
+            // Draw separator line.
+            g.setPaint(Color.BLACK);
+            g.drawLine(1, titleHeight, width - 2, titleHeight);
+        }
 
-        s = shapeGenerator.createRoundRectangle(1, 1, (width - 3), (height - 3), CornerSize.FRAME_INTERIOR);
+        s = shapeGenerator.createRoundRectangle(1, 1, width - 3, height - 3, CornerSize.FRAME_INTERIOR);
         g.setPaint(getFrameInnerHighlightPaint(s));
         g.draw(s);
     }
@@ -212,6 +230,18 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
      */
     public Paint getFrameInteriorPaint(Shape s, int titleHeight, int topToolBarHeight, int bottomToolBarHeight) {
         return createFrameGradient(s, titleHeight, topToolBarHeight, bottomToolBarHeight, getFrameInteriorColors());
+    }
+
+    /**
+     * Get the paint for the title bar.
+     *
+     * @param  s           the frame interior shape.
+     * @param  titleHeight the height of the title portion.
+     *
+     * @return the paint.
+     */
+    public Paint getTitleBarInteriorPaint(Shape s, int titleHeight) {
+        return createTitleBarGradient(s, titleHeight, getFrameInteriorColors());
     }
 
     /**
@@ -301,6 +331,25 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
             colors    = new Color[] { defColors.top, defColors.upperMid, defColors.bottom };
         }
 
-        return createGradient(midX, y, x + midX, y + h, midPoints, colors);
+        return createGradient(midX, y, midX, y + h, midPoints, colors);
+    }
+
+    /**
+     * Create the gradient to paint the frame interior.
+     *
+     * @param  s           the interior shape.
+     * @param  titleHeight the height of the title bar, or 0 if none.
+     * @param  defColors   the color set to construct the gradient from.
+     *
+     * @return the gradient.
+     */
+    private Paint createTitleBarGradient(Shape s, int titleHeight, FourColors defColors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float       midX   = (float) bounds.getCenterX();
+        float       y      = (float) bounds.getY();
+        float       h      = (float) bounds.getHeight();
+
+        return createGradient(midX, y, midX, y + h, new float[] { 0.0f, 1.0f },
+                              new Color[] { defColors.top, defColors.upperMid });
     }
 }
