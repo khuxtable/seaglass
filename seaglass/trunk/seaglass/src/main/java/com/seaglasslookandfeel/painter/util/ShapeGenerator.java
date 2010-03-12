@@ -454,10 +454,12 @@ public class ShapeGenerator {
         path.lineTo(right, bottom);
         path.lineTo(right, top);
 
-        final float left2   = left - 1.4f;
-        final float top2    = top - 1.4f;
-        final float right2  = right + 1.4f;
-        final float bottom2 = bottom + 1.4f;
+        final float offset = 1.4f;
+
+        final float left2   = left + offset;
+        final float top2    = top + offset;
+        final float right2  = right - offset;
+        final float bottom2 = bottom - offset;
 
         // TODO These two lines were curveTo in Nimbus. Perhaps we should
         // revisit this?
