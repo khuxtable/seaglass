@@ -1720,6 +1720,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[SearchField].contentMargins", new InsetsUIResource(6, 26, 6, 23));
 
         // Initialize TextField
+        d.put(p + ".background", getDerivedColor("nimbusLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
@@ -1746,6 +1747,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".searchLeftInnerMargin", new Integer(3));
         d.put(p + ".searchRightInnerMargin", new Integer(3));
         d.put(p + ".placeholderTextColor", d.get("seaGlassSearchPlaceholderText"));
+        d.put(p + ".background", getDerivedColor("nimbusLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
@@ -1770,6 +1772,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".searchLeftInnerMargin", new Integer(3));
         d.put(p + ".searchRightInnerMargin", new Integer(3));
         d.put(p + ".placeholderTextColor", d.get("seaGlassSearchPlaceholderText"));
+        d.put(p + ".background", getDerivedColor("nimbusLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
