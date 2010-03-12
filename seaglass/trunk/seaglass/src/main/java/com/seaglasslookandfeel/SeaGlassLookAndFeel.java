@@ -1362,6 +1362,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Define ScrollPane border painters.
         c = PAINTER_PREFIX + "ScrollPanePainter";
         p = "ScrollPane";
+        d.put(p + ".contentMargins", new InsetsUIResource(3, 3, 3, 3));
         d.put(p + "[Enabled+Focused].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED_FOCUSED));
         d.put(p + "[Enabled].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED));
 
