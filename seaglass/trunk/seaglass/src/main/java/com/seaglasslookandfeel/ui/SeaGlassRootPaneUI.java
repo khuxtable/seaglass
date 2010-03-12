@@ -77,6 +77,12 @@ import sun.swing.plaf.synth.SynthUI;
  */
 public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
 
+    /**
+     * Set to <code>true</code> if we want a unified toolbar look with a
+     * textured background.
+     */
+    public static final String UNIFIED_TOOLBAR_LOOK = "SeaGlass.UnifiedToolbarLook";
+
     /** The amount of space (in pixels) that the cursor is changed on. */
     private static final int CORNER_DRAG_WIDTH = 16;
 
@@ -125,6 +131,9 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
 
     /** Window the <code>JRootPane</code> is in. */
     private Window window;
+
+    /** Paint a textured background if <code>true</code>. */
+    private boolean paintTextured;
 
     /**
      * <code>JComponent</code> providing window decorations. This will be null
@@ -211,19 +220,14 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
      * as installing a custom <code>Border</code> and <code>LayoutManager</code>
      * on the <code>JRootPane</code>.
      *
-     * @param c the JRootPane to install state onto
+     * @param c the JRootPane to install state onto.
      */
     public void installUI(JComponent c) {
         super.installUI(c);
 
         root = (JRootPane) c;
-        if (PlatformUtils.isMac()) {
-            if (root.isValid()) {
-                throw new IllegalArgumentException("This method only works if the given JRootPane has not yet been realized.");
-            }
 
-            root.putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
-        }
+        updateTextured();
 
         int       style  = root.getWindowDecorationStyle();
         Container parent = root.getParent();
@@ -231,8 +235,28 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         if (parent != null && (parent instanceof JFrame || parent instanceof JDialog) && style != JRootPane.NONE) {
             installClientDecorations(root);
         }
+    }
+
+    /**
+     * Set the textured properties.
+     */
+    private void updateTextured() {
         // Need the content pane to not be opaque.
-        LookAndFeel.installProperty((JComponent) root.getContentPane(), "opaque", Boolean.FALSE);
+        paintTextured = (root.getClientProperty(UNIFIED_TOOLBAR_LOOK) == Boolean.TRUE);
+
+        if (paintTextured && PlatformUtils.isMac()) {
+            if (root.isValid()) {
+                throw new IllegalArgumentException("This method only works if the given JRootPane has not yet been realized.");
+            }
+
+            root.putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
+
+            // Need the content pane to not be opaque.
+            LookAndFeel.installProperty((JComponent) root.getContentPane(), "opaque", Boolean.FALSE);
+        } else {
+            root.putClientProperty("apple.awt.brushMetalLook", null);
+            // FIXME Restore original content pane opacity.
+        }
     }
 
     /**
@@ -564,7 +588,10 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             }
 
             if (shouldPaint) {
-                if (isWindowFocused.isInState(c)) {
+                if (!paintTextured) {
+                    g.setColor(c.getBackground());
+                    g.fillRect(0, 0, c.getWidth(), c.getHeight());
+                } else if (isWindowFocused.isInState(c)) {
                     contentActive.paint((Graphics2D) g, c, c.getWidth(), c.getHeight());
                 } else {
                     contentInactive.paint((Graphics2D) g, c, c.getWidth(), c.getHeight());
@@ -646,6 +673,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         } else if (propertyName.equals("ancestor")) {
             uninstallWindowListeners(root);
             installWindowListeners(root, root.getParent());
+        } else if (propertyName.equals(UNIFIED_TOOLBAR_LOOK)) {
+            updateTextured();
         }
     }
 
