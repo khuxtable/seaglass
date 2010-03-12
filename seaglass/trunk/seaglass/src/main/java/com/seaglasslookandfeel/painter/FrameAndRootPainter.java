@@ -148,6 +148,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
         }
 
         if (c.getClientProperty(SeaGlassRootPaneUI.UNIFIED_TOOLBAR_LOOK) == Boolean.TRUE) {
+            // Draw background gradient.
             s = shapeGenerator.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.FRAME_INNER_HIGHLIGHT);
             g.setPaint(getFrameInteriorPaint(s, titleHeight, topToolBarHeight, bottomToolBarHeight));
             g.fill(s);
