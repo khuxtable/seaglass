@@ -27,7 +27,6 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
-import com.seaglasslookandfeel.painter.AbstractRegionPainter.FocusType;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
 /**
@@ -49,7 +48,6 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
     private PaintContext ctx;
 
     private Color borderColor = decodeColor("nimbusBorder");
-    private Color focusColor  = decodeColor("nimbusFocus");
 
     private Color cornerBorder = new Color(192, 192, 192);
     private Color cornerColor1 = new Color(240, 240, 240);
