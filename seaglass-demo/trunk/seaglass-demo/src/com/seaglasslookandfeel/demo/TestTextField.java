@@ -53,7 +53,7 @@ public class TestTextField {
                     tf4.setPreferredSize(new Dimension(180, 25));
 
                     tf1.putClientProperty("JTextField.variant", "search");
-                    tf1.putClientProperty("JTextField.Search.PlaceholderText", "Search");
+                    tf1.putClientProperty("JTextField.Search.PlaceholderText", "Search right here");
                     tf1.putClientProperty("JTextField.Search.FindPopup", popupMenu);
 
                     tf1.putClientProperty("JTextField.Search.CancelAction", new ActionListener() {
@@ -67,11 +67,6 @@ public class TestTextField {
                                 System.out.println("find source = " + e.getSource().getClass().getName());
                             }
                         });
-
-                    System.out.println("bg1 = " + tf1.getBackground());
-                    System.out.println("bg2 = " + tf2.getBackground());
-                    System.out.println("bg3 = " + tf3.getBackground());
-                    System.out.println("bg4 = " + tf4.getBackground());
 
                     JPanel panel = new JPanel();
 
