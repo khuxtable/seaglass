@@ -176,6 +176,12 @@
 					<useExtensions>1</useExtensions>
 					<!-- callouts -->
 					<calloutsExtension>1</calloutsExtension>
+					<entities>
+						<entity>
+							<name>projectVersion</name>
+							<value>${project.version}</value>
+						</entity>
+					</entities>
 				</configuration>
 			</plugin>
 			<!--
