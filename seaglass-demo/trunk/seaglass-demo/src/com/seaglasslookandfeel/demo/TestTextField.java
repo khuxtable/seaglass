@@ -1,7 +1,6 @@
 package com.seaglasslookandfeel.demo;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -9,6 +8,7 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -17,8 +17,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+/**
+ * Test text fields.
+ */
 public class TestTextField {
 
+    /**
+     * Main method.
+     */
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
@@ -27,66 +33,57 @@ public class TestTextField {
         }
 
         SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JPopupMenu popupMenu = new JPopupMenu();
-                popupMenu.add("First item");
-                popupMenu.add("Second item");
-                popupMenu.add("Third item");
+                public void run() {
+                    JPopupMenu popupMenu = new JPopupMenu();
 
-                JTextField tf1 = new JTextField("Here is some text");
-                tf1.setPreferredSize(new Dimension(180, 25));
-                tf1.putClientProperty("JTextField.variant", "search");
-                tf1.putClientProperty("JTextField.Search.PlaceholderText", "Search");
-                tf1.putClientProperty("JTextField.Search.FindPopup", popupMenu);
-                tf1.putClientProperty("JTextField.Search.CancelAction", new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("cancel source = " + e.getSource().getClass().getName());
-                    }
-                });
-                tf1.putClientProperty("JTextField.Search.FindAction", new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("find source = " + e.getSource().getClass().getName());
-                    }
-                });
+                    popupMenu.add("First item");
+                    popupMenu.add("Second item");
+                    popupMenu.add("Third item");
 
-                JTextField tf2 = new JTextField("Here is some more text");
-                tf2.setPreferredSize(new Dimension(180, 25));
+                    JTextField          tf1 = new JTextField("Here is some text");
+                    JTextField          tf2 = new JTextField("Here is some more text");
+                    JFormattedTextField tf3 = new JFormattedTextField("Here is some formatted text");
+                    JPasswordField      tf4 = new JPasswordField("foo");
 
-                JPasswordField tf3 = new JPasswordField("foo");
-                tf3.setPreferredSize(new Dimension(180, 25));
+                    tf1.setPreferredSize(new Dimension(180, 25));
+                    tf2.setPreferredSize(new Dimension(180, 25));
+                    tf3.setPreferredSize(new Dimension(180, 25));
+                    tf4.setPreferredSize(new Dimension(180, 25));
 
-                JPanel panel = new JPanel();
-                panel.add(tf1);
-                panel.add(tf2);
-                panel.add(tf3);
+                    tf1.putClientProperty("JTextField.variant", "search");
+                    tf1.putClientProperty("JTextField.Search.PlaceholderText", "Search");
+                    tf1.putClientProperty("JTextField.Search.FindPopup", popupMenu);
+                    tf1.putClientProperty("JTextField.Search.CancelAction", new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                System.out.println("cancel source = " + e.getSource().getClass().getName());
+                            }
+                        });
+                    tf1.putClientProperty("JTextField.Search.FindAction", new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                System.out.println("find source = " + e.getSource().getClass().getName());
+                            }
+                        });
 
-                JFrame frame = new JFrame("Title");
-                frame.add(panel, BorderLayout.CENTER);
-                frame.setSize(275, 125);
-                frame.setLocationRelativeTo(null);
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frame.setVisible(true);
-            }
-        });
-    }
+                    System.out.println("bg1 = " + tf1.getBackground());
+                    System.out.println("bg2 = " + tf2.getBackground());
+                    System.out.println("bg3 = " + tf3.getBackground());
+                    System.out.println("bg4 = " + tf4.getBackground());
 
-    public static class MyLayout implements LayoutManager {
+                    JPanel panel = new JPanel();
 
-        public void addLayoutComponent(String name, Component comp) {
-        }
+                    panel.add(tf1);
+                    panel.add(tf2);
+                    panel.add(tf3);
+                    panel.add(tf4);
 
-        public void layoutContainer(Container parent) {
-        }
+                    JFrame frame = new JFrame("Title");
 
-        public Dimension minimumLayoutSize(Container parent) {
-            return null;
-        }
-
-        public Dimension preferredLayoutSize(Container parent) {
-            return null;
-        }
-
-        public void removeLayoutComponent(Component comp) {
-        }
+                    frame.add(panel, BorderLayout.CENTER);
+                    frame.setSize(275, 150);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                }
+            });
     }
 }
