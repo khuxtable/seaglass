@@ -51,6 +51,15 @@
     <section>
       <title><classname>JRootPane</classname> properties</title>
 
+      <para>We support a "unified tool bar" look by setting the
+      <code>SeaGlass.UnifiedToolbarLook</code> property to
+      <code>Boolean.TRUE</code> on the root pane or the internal frame. This
+      will paint the background of the root pane's content pane with a
+      gradient that meshes with the title pane, and it will call
+      <code>setOpaque(false)</code> on the content pane. Without this you will
+      have a very light gray background on the contents. On a Mac, this causes
+      the <code>apple.awt.brushMetalLook</code> property to be set.</para>
+
       <para>On a non-Mac platform, setting the
       <code>JRootPane.MenuInTitle</code> property to <code>Boolean.TRUE</code>
       will place the menu bar in the title bar instead of below it. Note that
