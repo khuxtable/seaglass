@@ -1236,6 +1236,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".trackThickness", new Integer(19));
         d.put(p + ".tileWidth", new Integer(24));
         d.put(p + ".backgroundFillColor", Color.WHITE);
+        d.put(p + ".font", defaultFont.deriveFont(11.0f));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED));
@@ -1388,6 +1389,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".thumbHeight", new Integer(20));
         d.put(p + ".trackBorder", new Integer(0));
         d.put(p + ".trackHeight", new Integer(5));
+        d.put(p + ".font", defaultFont.deriveFont(11.0f));
 
         p = "Slider:SliderThumb";
         String c = PAINTER_PREFIX + "SliderThumbPainter";
