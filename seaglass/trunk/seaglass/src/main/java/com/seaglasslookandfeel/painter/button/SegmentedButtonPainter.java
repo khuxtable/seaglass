@@ -25,11 +25,10 @@ import java.awt.Shape;
 
 import javax.swing.JComponent;
 
+import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.effect.Effect;
 import com.seaglasslookandfeel.effect.SeaGlassDropShadowEffect;
-
 import com.seaglasslookandfeel.painter.ButtonPainter.Which;
-
 import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerStyle;
 
@@ -69,11 +68,16 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
      */
     public void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         SegmentType segmentStatus = getSegmentType(c);
+        int         newHeight     = getButtonHeight(c, height);
+
+        int yOffset = (height - newHeight) / 2;
+
+        height = newHeight;
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         int x = focusInsets.left;
-        int y = focusInsets.top;
+        int y = focusInsets.top + yOffset;
 
         width  -= focusInsets.left + focusInsets.right;
         height -= focusInsets.top + focusInsets.bottom;
@@ -104,6 +108,42 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             g.setPaint(getCommonInteriorPaint(s, type));
             g.fill(s);
         }
+    }
+
+    /**
+     * Compute the new button height for drawing, forcing the button into a
+     * standard height.
+     *
+     * @param  c      the button.
+     * @param  height the height requested.
+     *
+     * @return the new height.
+     */
+    private int getButtonHeight(JComponent c, int height) {
+        String scaleKey  = (String) c.getClientProperty("JComponent.sizeVariant");
+        int    newHeight = 27;
+
+        if (SeaGlassStyle.LARGE_KEY.equals(scaleKey)) {
+            newHeight *= SeaGlassStyle.LARGE_SCALE; // 31
+        } else if (SeaGlassStyle.SMALL_KEY.equals(scaleKey)) {
+            newHeight *= SeaGlassStyle.SMALL_SCALE; // 23
+        } else if (SeaGlassStyle.MINI_KEY.equals(scaleKey)) {
+            newHeight *= SeaGlassStyle.MINI_SCALE; // 19
+        } else {
+            if (height < 22) {
+                newHeight *= SeaGlassStyle.MINI_SCALE;
+            } else if (height < 26) {
+                newHeight *= SeaGlassStyle.SMALL_SCALE;
+            } else if (height >= 30) {
+                newHeight *= SeaGlassStyle.LARGE_SCALE;
+            }
+        }
+
+        if (newHeight > height) {
+            newHeight = height;
+        }
+
+        return newHeight;
     }
 
     /**
