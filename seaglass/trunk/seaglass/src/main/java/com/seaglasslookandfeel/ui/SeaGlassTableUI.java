@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.ui;
@@ -26,11 +26,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.NumberFormat;
+
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -75,9 +78,9 @@ import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassTableUI implementation.
- * 
- * Based on SynthTableUI, which is package local.
- * 
+ *
+ * <p>Based on SynthTableUI, which is package local.</p>
+ *
  * @see javax.swing.plaf.synth.SynthTableUI
  */
 public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyChangeListener, ViewportPainter {
@@ -90,30 +93,33 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
 
     private SynthStyle                    style;
 
-    private boolean                       useTableColors;
-    private boolean                       useUIBorder;
+    private boolean useTableColors;
+    private boolean useUIBorder;
     // The background color to use for cells for alternate cells.
-    private Color                         alternateColor;
+    private Color   alternateColor;
 
-    private Color                         selectionActiveBottomBorderColor;
-    private Color                         selectionInactiveBottomBorderColor;
-    private Color                         transparentColor;
+    private Color             selectionActiveBottomBorderColor;
+    private Color             selectionInactiveBottomBorderColor;
+    private Color             transparentColor;
 
     // TableCellRenderer installed on the JTable at the time we're installed,
     // cached so that we can reinstall them at uninstallUI time.
-    private TableCellRenderer             dateRenderer;
-    private TableCellRenderer             numberRenderer;
-    private TableCellRenderer             doubleRender;
-    private TableCellRenderer             floatRenderer;
-    private TableCellRenderer             iconRenderer;
-    private TableCellRenderer             imageIconRenderer;
-    private TableCellRenderer             booleanRenderer;
-    private TableCellRenderer             objectRenderer;
+    private TableCellRenderer dateRenderer;
+    private TableCellRenderer numberRenderer;
+    private TableCellRenderer doubleRender;
+    private TableCellRenderer floatRenderer;
+    private TableCellRenderer iconRenderer;
+    private TableCellRenderer imageIconRenderer;
+    private TableCellRenderer booleanRenderer;
+    private TableCellRenderer objectRenderer;
 
-    //
-    // The installation/uninstall procedures and support
-    //
-
+    /**
+     * The installation/uninstall procedures and support
+     *
+     * @param  c DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     public static ComponentUI createUI(JComponent c) {
         return new SeaGlassTableUI();
     }
@@ -123,38 +129,54 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
      * font, foreground, and background properties are only set if their current
      * value is either null or a UIResource, other properties are set if the
      * current value is null.
-     * 
+     *
      * @see #installUI
      */
     protected void installDefaults() {
-        dateRenderer = installRendererIfPossible(Date.class, null);
-        numberRenderer = installRendererIfPossible(Number.class, null);
-        doubleRender = installRendererIfPossible(Double.class, null);
-        floatRenderer = installRendererIfPossible(Float.class, null);
-        iconRenderer = installRendererIfPossible(Icon.class, null);
+        dateRenderer      = installRendererIfPossible(Date.class, null);
+        numberRenderer    = installRendererIfPossible(Number.class, null);
+        doubleRender      = installRendererIfPossible(Double.class, null);
+        floatRenderer     = installRendererIfPossible(Float.class, null);
+        iconRenderer      = installRendererIfPossible(Icon.class, null);
         imageIconRenderer = installRendererIfPossible(ImageIcon.class, null);
-        booleanRenderer = installRendererIfPossible(Boolean.class, new SeaGlassBooleanTableCellRenderer());
-        objectRenderer = installRendererIfPossible(Object.class, new SeaGlassTableCellRenderer());
+        booleanRenderer   = installRendererIfPossible(Boolean.class, new SeaGlassBooleanTableCellRenderer());
+        objectRenderer    = installRendererIfPossible(Object.class, new SeaGlassTableCellRenderer());
 
         updateStyle(table);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  objectClass DOCUMENT ME!
+     * @param  renderer    DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private TableCellRenderer installRendererIfPossible(Class objectClass, TableCellRenderer renderer) {
         TableCellRenderer currentRenderer = table.getDefaultRenderer(objectClass);
+
         if (currentRenderer instanceof UIResource) {
             table.setDefaultRenderer(objectClass, renderer);
         }
+
         return currentRenderer;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param c DOCUMENT ME!
+     */
     private void updateStyle(JTable c) {
-        SeaGlassContext context = getContext(c, ENABLED);
-        SynthStyle oldStyle = style;
+        SeaGlassContext context  = getContext(c, ENABLED);
+        SynthStyle      oldStyle = style;
+
         style = SeaGlassLookAndFeel.updateStyle(context, this);
 
-        selectionActiveBottomBorderColor = UIManager.getColor("seaGlassTableSelectionActiveBottom");
+        selectionActiveBottomBorderColor   = UIManager.getColor("seaGlassTableSelectionActiveBottom");
         selectionInactiveBottomBorderColor = UIManager.getColor("seaGlassTableSelectionInactiveBottom");
-        transparentColor = UIManager.getColor("seaGlassTransparent");
+        transparentColor                   = UIManager.getColor("seaGlassTransparent");
 
         if (style != oldStyle) {
             table.remove(rendererPane);
@@ -164,11 +186,13 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             context.setComponentState(ENABLED | SELECTED);
 
             Color sbg = table.getSelectionBackground();
+
             if (sbg == null || sbg instanceof UIResource) {
                 table.setSelectionBackground(style.getColor(context, ColorType.TEXT_BACKGROUND));
             }
 
             Color sfg = table.getSelectionForeground();
+
             if (sfg == null || sfg instanceof UIResource) {
                 table.setSelectionForeground(style.getColor(context, ColorType.TEXT_FOREGROUND));
             }
@@ -176,30 +200,37 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             context.setComponentState(ENABLED);
 
             Color gridColor = table.getGridColor();
+
             if (gridColor == null || gridColor instanceof UIResource) {
                 gridColor = (Color) style.get(context, "Table.gridColor");
                 if (gridColor == null) {
                     gridColor = style.getColor(context, ColorType.FOREGROUND);
                 }
+
                 table.setGridColor(gridColor);
             }
 
             useTableColors = style.getBoolean(context, "Table.rendererUseTableColors", true);
-            useUIBorder = style.getBoolean(context, "Table.rendererUseUIBorder", true);
+            useUIBorder    = style.getBoolean(context, "Table.rendererUseUIBorder", true);
 
             Object rowHeight = style.get(context, "Table.rowHeight");
+
             if (rowHeight != null) {
                 LookAndFeel.installProperty(table, "rowHeight", rowHeight);
             }
+
             boolean showGrid = style.getBoolean(context, "Table.showGrid", true);
+
             if (!showGrid) {
                 table.setShowGrid(false);
             }
+
             Dimension d = table.getIntercellSpacing();
             // if (d == null || d instanceof UIResource) {
             if (d != null) {
                 d = (Dimension) style.get(context, "Table.intercellSpacing");
             }
+
             alternateColor = (Color) style.get(context, "Table.alternateRowColor");
             if (d != null) {
                 table.setIntercellSpacing(d);
@@ -221,6 +252,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 installKeyboardActions();
             }
         }
+
         context.dispose();
     }
 
@@ -232,6 +264,9 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         table.addPropertyChangeListener(this);
     }
 
+    /**
+     * @see javax.swing.plaf.basic.BasicTableUI#uninstallDefaults()
+     */
     protected void uninstallDefaults() {
         table.setDefaultRenderer(Date.class, dateRenderer);
         table.setDefaultRenderer(Number.class, numberRenderer);
@@ -245,12 +280,17 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         if (table.getTransferHandler() instanceof UIResource) {
             table.setTransferHandler(null);
         }
+
         SeaGlassContext context = getContext(table, ENABLED);
+
         style.uninstallDefaults(context);
         context.dispose();
         style = null;
     }
 
+    /**
+     * @see javax.swing.plaf.basic.BasicTableUI#uninstallListeners()
+     */
     protected void uninstallListeners() {
         table.removePropertyChangeListener(this);
         super.uninstallListeners();
@@ -259,14 +299,32 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     //
     // SynthUI
     //
+    /**
+     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  c     DOCUMENT ME!
+     * @param  state DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private SeaGlassContext getContext(JComponent c, int state) {
         return SeaGlassContext.getContext(SeaGlassContext.class, c, SynthLookAndFeel.getRegion(c), style, state);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  c DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private int getComponentState(JComponent c) {
         return SeaGlassLookAndFeel.getComponentState(c);
     }
@@ -275,6 +333,9 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     // Paint methods and support
     //
 
+    /**
+     * @see javax.swing.plaf.ComponentUI#update(java.awt.Graphics, javax.swing.JComponent)
+     */
     public void update(Graphics g, JComponent c) {
         SeaGlassContext context = getContext(c);
 
@@ -284,10 +345,17 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         context.dispose();
     }
 
+    /**
+     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     *      java.awt.Graphics, int, int, int, int)
+     */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
         ((SeaGlassContext) context).getPainter().paintTableBorder(context, g, x, y, w, h);
     }
 
+    /**
+     * @see javax.swing.plaf.basic.BasicTableUI#paint(java.awt.Graphics, javax.swing.JComponent)
+     */
     public void paint(Graphics g, JComponent c) {
         SeaGlassContext context = getContext(c);
 
@@ -295,6 +363,12 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         context.dispose();
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param context DOCUMENT ME!
+     * @param g       DOCUMENT ME!
+     */
     protected void paint(SeaGlassContext context, Graphics g) {
         Rectangle clip = g.getClipBounds();
 
@@ -313,6 +387,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         boolean ltr = table.getComponentOrientation().isLeftToRight();
 
         Point upperLeft = clip.getLocation();
+
         if (!ltr) {
             upperLeft.x++;
         }
@@ -362,13 +437,27 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         paintDropLines(context, g);
     }
 
+    /**
+     * @see com.seaglasslookandfeel.painter.ViewportPainter#paintViewport(com.seaglasslookandfeel.SeaGlassContext,
+     *      java.awt.Graphics, javax.swing.JViewport)
+     */
     public void paintViewport(SeaGlassContext context, Graphics g, JViewport c) {
         paintStripesAndGrid(context, g, c, c.getWidth(), c.getHeight(), table.getLocation().y);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param context DOCUMENT ME!
+     * @param g       DOCUMENT ME!
+     * @param c       DOCUMENT ME!
+     * @param width   DOCUMENT ME!
+     * @param height  DOCUMENT ME!
+     * @param top     DOCUMENT ME!
+     */
     public void paintStripesAndGrid(SeaGlassContext context, Graphics g, JComponent c, int width, int height, int top) {
-        int rh = table.getRowHeight();
-        int n = table.getRowCount();
+        int rh  = table.getRowHeight();
+        int n   = table.getRowCount();
         int row = Math.abs(top / rh);
 
         // Paint the background, including stripes if requested.
@@ -385,6 +474,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 if (row % 2 == 0) {
                     g.fillRect(0, y, width, rh);
                 }
+
                 row++;
             }
         } else {
@@ -400,6 +490,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             g.setColor(table.getGridColor());
             row = Math.abs(top / rh);
             int y = top + row * rh + rh - 1;
+
             while (y < height) {
                 synthG.drawLine(context, "Table.grid", g, 0, y, width, y);
                 y += rh;
@@ -410,26 +501,38 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         if (table.getShowVerticalLines()) {
             g.setColor(table.getGridColor());
             TableColumnModel cm = table.getColumnModel();
+
             n = cm.getColumnCount();
             int y = top + row * rh;
+
             ;
             int x = -1;
+
             for (int i = 0; i < n; i++) {
                 TableColumn col = cm.getColumn(i);
+
                 x += col.getWidth();
                 synthG.drawLine(context, "Table.grid", g, x, y, x, height);
             }
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param context DOCUMENT ME!
+     * @param g       DOCUMENT ME!
+     */
     private void paintDropLines(SeaGlassContext context, Graphics g) {
         JTable.DropLocation loc = table.getDropLocation();
+
         if (loc == null) {
             return;
         }
 
-        Color color = (Color) style.get(context, "Table.dropLineColor");
+        Color color      = (Color) style.get(context, "Table.dropLineColor");
         Color shortColor = (Color) style.get(context, "Table.dropLineShortColor");
+
         if (color == null && shortColor == null) {
             return;
         }
@@ -440,11 +543,13 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         if (rect != null) {
             int x = rect.x;
             int w = rect.width;
+
             if (color != null) {
                 extendRect(rect, true);
                 g.setColor(color);
                 g.fillRect(rect.x, rect.y, rect.width, rect.height);
             }
+
             if (!loc.isInsertColumn() && shortColor != null) {
                 g.setColor(shortColor);
                 g.fillRect(x, rect.y, w, rect.height);
@@ -455,11 +560,13 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         if (rect != null) {
             int y = rect.y;
             int h = rect.height;
+
             if (color != null) {
                 extendRect(rect, false);
                 g.setColor(color);
                 g.fillRect(rect.x, rect.y, rect.width, rect.height);
             }
+
             if (!loc.isInsertRow() && shortColor != null) {
                 g.setColor(shortColor);
                 g.fillRect(rect.x, y, rect.width, h);
@@ -467,6 +574,13 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  loc DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private Rectangle getHDropLineRect(JTable.DropLocation loc) {
         if (!loc.isInsertRow()) {
             return null;
@@ -474,6 +588,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
 
         int row = loc.getRow();
         int col = loc.getColumn();
+
         if (col >= table.getColumnCount()) {
             col--;
         }
@@ -483,6 +598,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         if (row >= table.getRowCount()) {
             row--;
             Rectangle prevRect = table.getCellRect(row, col, true);
+
             rect.y = prevRect.y + prevRect.height;
         }
 
@@ -497,13 +613,20 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         return rect;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  loc DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private Rectangle getVDropLineRect(JTable.DropLocation loc) {
         if (!loc.isInsertColumn()) {
             return null;
         }
 
-        boolean ltr = table.getComponentOrientation().isLeftToRight();
-        int col = loc.getColumn();
+        boolean   ltr  = table.getComponentOrientation().isLeftToRight();
+        int       col  = loc.getColumn();
         Rectangle rect = table.getCellRect(loc.getRow(), col, true);
 
         if (col >= table.getColumnCount()) {
@@ -527,19 +650,28 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         return rect;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  rect       DOCUMENT ME!
+     * @param  horizontal DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private Rectangle extendRect(Rectangle rect, boolean horizontal) {
         if (rect == null) {
             return rect;
         }
 
         if (horizontal) {
-            rect.x = 0;
+            rect.x     = 0;
             rect.width = table.getWidth();
         } else {
             rect.y = 0;
 
             if (table.getRowCount() != 0) {
                 Rectangle lastRect = table.getCellRect(table.getRowCount() - 1, 0, true);
+
                 rect.height = lastRect.y + lastRect.height;
             } else {
                 rect.height = table.getHeight();
@@ -549,39 +681,49 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         return rect;
     }
 
-    /*
+    /**
      * Paints the grid lines within <I>aRect</I>, using the grid color set with
-     * <I>setGridColor</I>. Paints vertical lines if
-     * <code>getShowVerticalLines()</code> returns true and paints horizontal
-     * lines if <code>getShowHorizontalLines()</code> returns true.
-     * 
-     * TODO See if we want to remove this method.
+     * <I>setGridColor</I>. Paints vertical lines if <code>
+     * getShowVerticalLines()</code> returns true and paints horizontal lines if
+     * <code>getShowHorizontalLines()</code> returns true. TODO See if we want
+     * to remove this method.
+     *
+     * @param context DOCUMENT ME!
+     * @param g       DOCUMENT ME!
+     * @param rMin    DOCUMENT ME!
+     * @param rMax    DOCUMENT ME!
+     * @param cMin    DOCUMENT ME!
+     * @param cMax    DOCUMENT ME!
      */
     @SuppressWarnings("unused")
     private void paintGrid(SeaGlassContext context, Graphics g, int rMin, int rMax, int cMin, int cMax) {
         g.setColor(table.getGridColor());
 
-        Rectangle minCell = table.getCellRect(rMin, cMin, true);
-        Rectangle maxCell = table.getCellRect(rMax, cMax, true);
-        Rectangle damagedArea = minCell.union(maxCell);
-        SynthGraphicsUtils synthG = context.getStyle().getGraphicsUtils(context);
+        Rectangle          minCell     = table.getCellRect(rMin, cMin, true);
+        Rectangle          maxCell     = table.getCellRect(rMax, cMax, true);
+        Rectangle          damagedArea = minCell.union(maxCell);
+        SynthGraphicsUtils synthG      = context.getStyle().getGraphicsUtils(context);
 
         if (table.getShowHorizontalLines()) {
             int tableWidth = damagedArea.x + damagedArea.width;
-            int y = damagedArea.y;
+            int y          = damagedArea.y;
+
             for (int row = rMin; row <= rMax; row++) {
                 y += table.getRowHeight(row);
                 synthG.drawLine(context, "Table.grid", g, damagedArea.x, y - 1, tableWidth - 1, y - 1);
             }
         }
+
         if (table.getShowVerticalLines()) {
-            TableColumnModel cm = table.getColumnModel();
-            int tableHeight = damagedArea.y + damagedArea.height;
-            int x;
+            TableColumnModel cm          = table.getColumnModel();
+            int              tableHeight = damagedArea.y + damagedArea.height;
+            int              x;
+
             if (table.getComponentOrientation().isLeftToRight()) {
                 x = damagedArea.x;
                 for (int column = cMin; column <= cMax; column++) {
                     int w = cm.getColumn(column).getWidth();
+
                     x += w;
                     synthG.drawLine(context, "Table.grid", g, x - 1, 0, x - 1, tableHeight - 1);
                 }
@@ -589,6 +731,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 x = damagedArea.x;
                 for (int column = cMax; column >= cMin; column--) {
                     int w = cm.getColumn(column).getWidth();
+
                     x += w;
                     synthG.drawLine(context, "Table.grid", g, x - 1, 0, x - 1, tableHeight - 1);
                 }
@@ -596,53 +739,75 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  aColumn DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private int viewIndexForColumn(TableColumn aColumn) {
         TableColumnModel cm = table.getColumnModel();
+
         for (int column = 0; column < cm.getColumnCount(); column++) {
             if (cm.getColumn(column) == aColumn) {
                 return column;
             }
         }
+
         return -1;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param context DOCUMENT ME!
+     * @param g       DOCUMENT ME!
+     * @param rMin    DOCUMENT ME!
+     * @param rMax    DOCUMENT ME!
+     * @param cMin    DOCUMENT ME!
+     * @param cMax    DOCUMENT ME!
+     */
     private void paintCells(SeaGlassContext context, Graphics g, int rMin, int rMax, int cMin, int cMax) {
-        JTableHeader header = table.getTableHeader();
-        TableColumn draggedColumn = (header == null) ? null : header.getDraggedColumn();
+        JTableHeader header        = table.getTableHeader();
+        TableColumn  draggedColumn = (header == null) ? null : header.getDraggedColumn();
 
-        TableColumnModel cm = table.getColumnModel();
-        int columnMargin = cm.getColumnMargin();
+        TableColumnModel cm           = table.getColumnModel();
+        int              columnMargin = cm.getColumnMargin();
 
-        Rectangle cellRect;
+        Rectangle   cellRect;
         TableColumn aColumn;
-        int columnWidth;
+        int         columnWidth;
+
         if (table.getComponentOrientation().isLeftToRight()) {
             for (int row = rMin; row <= rMax; row++) {
                 cellRect = table.getCellRect(row, cMin, false);
                 for (int column = cMin; column <= cMax; column++) {
-                    aColumn = cm.getColumn(column);
-                    columnWidth = aColumn.getWidth();
+                    aColumn        = cm.getColumn(column);
+                    columnWidth    = aColumn.getWidth();
                     cellRect.width = columnWidth - columnMargin;
                     if (aColumn != draggedColumn) {
                         paintCell(context, g, cellRect, row, column);
                     }
+
                     cellRect.x += columnWidth;
                 }
             }
         } else {
             for (int row = rMin; row <= rMax; row++) {
                 cellRect = table.getCellRect(row, cMin, false);
-                aColumn = cm.getColumn(cMin);
+                aColumn  = cm.getColumn(cMin);
                 if (aColumn != draggedColumn) {
-                    columnWidth = aColumn.getWidth();
+                    columnWidth    = aColumn.getWidth();
                     cellRect.width = columnWidth - columnMargin;
                     paintCell(context, g, cellRect, row, cMin);
                 }
+
                 for (int column = cMin + 1; column <= cMax; column++) {
-                    aColumn = cm.getColumn(column);
-                    columnWidth = aColumn.getWidth();
-                    cellRect.width = columnWidth - columnMargin;
-                    cellRect.x -= columnWidth;
+                    aColumn        =  cm.getColumn(column);
+                    columnWidth    =  aColumn.getWidth();
+                    cellRect.width =  columnWidth - columnMargin;
+                    cellRect.x     -= columnWidth;
                     if (aColumn != draggedColumn) {
                         paintCell(context, g, cellRect, row, column);
                     }
@@ -659,6 +824,16 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         rendererPane.removeAll();
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param context       DOCUMENT ME!
+     * @param g             DOCUMENT ME!
+     * @param rMin          DOCUMENT ME!
+     * @param rMax          DOCUMENT ME!
+     * @param draggedColumn DOCUMENT ME!
+     * @param distance      DOCUMENT ME!
+     */
     private void paintDraggedArea(SeaGlassContext context, Graphics g, int rMin, int rMax, TableColumn draggedColumn, int distance) {
         int draggedColumnIndex = viewIndexForColumn(draggedColumn);
 
@@ -696,6 +871,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         for (int row = rMin; row <= rMax; row++) {
             // Render the cell value
             Rectangle r = table.getCellRect(row, draggedColumnIndex, false);
+
             r.x += distance;
             paintCell(context, g, r, row, draggedColumnIndex);
 
@@ -703,43 +879,74 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             if (table.getShowHorizontalLines()) {
                 g.setColor(table.getGridColor());
                 Rectangle rcr = table.getCellRect(row, draggedColumnIndex, true);
+
                 rcr.x += distance;
                 int x1 = rcr.x;
                 int y1 = rcr.y;
                 int x2 = x1 + rcr.width - 1;
                 int y2 = y1 + rcr.height - 1;
+
                 synthG.drawLine(context, "Table.grid", g, x1, y2, x2, y2);
             }
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param context  DOCUMENT ME!
+     * @param g        DOCUMENT ME!
+     * @param cellRect DOCUMENT ME!
+     * @param row      DOCUMENT ME!
+     * @param column   DOCUMENT ME!
+     */
     private void paintCell(SeaGlassContext context, Graphics g, Rectangle cellRect, int row, int column) {
         if (table.isEditing() && table.getEditingRow() == row && table.getEditingColumn() == column) {
             Component component = table.getEditorComponent();
+
             component.setBounds(cellRect);
             component.validate();
         } else {
-            TableCellRenderer renderer = table.getCellRenderer(row, column);
-            Component component = table.prepareRenderer(renderer, row, column);
+            TableCellRenderer renderer  = table.getCellRenderer(row, column);
+            Component         component = table.prepareRenderer(renderer, row, column);
+
             rendererPane.paintComponent(g, component, table, cellRect.x, cellRect.y, cellRect.width, cellRect.height, true);
         }
     }
 
+    /**
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+     */
     public void propertyChange(PropertyChangeEvent event) {
         if (SeaGlassLookAndFeel.shouldUpdateStyle(event)) {
             updateStyle((JTable) event.getSource());
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private Border getRowBorder() {
         return BorderFactory.createEmptyBorder(0, 5, 0, 5);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private Border getSelectedRowBorder() {
         return BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, getSelectedRowBottomHighlight()),
-            BorderFactory.createEmptyBorder(1, 5, 0, 5));
+                                                  BorderFactory.createEmptyBorder(1, 5, 0, 5));
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private Color getSelectedRowBottomHighlight() {
         return WindowUtils.isParentWindowFocused(table) ? selectionActiveBottomBorderColor : selectionInactiveBottomBorderColor;
     }
@@ -747,6 +954,10 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     /**
      * Creates a {@link Border} that paints any empty space to the right of the
      * last column header in the given {@link JTable}'s {@link JTableHeader}.
+     *
+     * @param  table DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
      */
     private static Border createTableHeaderEmptyColumnPainter(final JTable table) {
         return new AbstractBorder() {
@@ -756,18 +967,19 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 // the table header background to the right of the last column
                 // if neccessary.
                 JViewport viewport = (JViewport) table.getParent();
+
                 if (viewport != null && table.getWidth() < viewport.getWidth()) {
-                    int startX = table.getWidth();
+                    int startX           = table.getWidth();
                     int emptyColumnWidth = viewport.getWidth() - table.getWidth();
 
-                    TableCellRenderer renderer = table.getTableHeader().getDefaultRenderer();
-                    Component component = renderer.getTableCellRendererComponent(table, "", false, false, -1, -1);
+                    TableCellRenderer renderer  = table.getTableHeader().getDefaultRenderer();
+                    Component         component = renderer.getTableCellRendererComponent(table, "", false, false, -1, -1);
 
                     component.setBounds(0, 0, emptyColumnWidth, table.getTableHeader().getHeight());
 
                     ((JComponent) component).setOpaque(false);
                     CELL_RENDER_PANE.paintComponent(g, component, null, startX, 0, emptyColumnWidth + 1,
-                        table.getTableHeader().getHeight(), true);
+                                                    table.getTableHeader().getHeight(), true);
                 }
             }
         };
@@ -781,9 +993,8 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
      * given table is added to a scroll pane, though, as a
      * {@link PropertyChangeListener} will be installed to handle "ancestor"
      * changes.
-     * 
-     * @param table
-     *            the table to paint row stripes for.
+     *
+     * @param table the table to paint row stripes for.
      */
     public static void setViewPortListeners(JTable table) {
         table.addPropertyChangeListener("ancestor", createAncestorPropertyChangeListener(table));
@@ -796,6 +1007,13 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  table DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private static TableColumnModelListener createTableColumnModelListener(final JTable table) {
         return new TableColumnModelListener() {
             public void columnAdded(TableColumnModelEvent e) {
@@ -830,6 +1048,13 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         };
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  table DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private static PropertyChangeListener createAncestorPropertyChangeListener(final JTable table) {
         return new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent event) {
@@ -845,17 +1070,20 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
      * component to be non-opqaque if the associated row isn't selected. This
      * custom {@code CellRendererPane} is needed because a table UI delegate has
      * no prepare renderer like {@link JTable} has.
+     *
+     * @return DOCUMENT ME!
      */
     private CellRendererPane createCustomCellRendererPane() {
         return new CellRendererPane() {
             @Override
             public void paintComponent(Graphics graphics, Component component, Container container, int x, int y, int w, int h,
-                boolean shouldValidate) {
-
-                int rowAtPoint = table.rowAtPoint(new Point(x, y));
+                    boolean shouldValidate) {
+                int     rowAtPoint = table.rowAtPoint(new Point(x, y));
                 boolean isSelected = table.isRowSelected(rowAtPoint);
+
                 if (component instanceof JComponent) {
                     JComponent jComponent = (JComponent) component;
+
                     jComponent.setOpaque(isSelected);
                     jComponent.setBorder(isSelected ? getSelectedRowBorder() : getRowBorder());
                     jComponent.setBackground(isSelected ? jComponent.getBackground() : transparentColor);
@@ -866,15 +1094,30 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         };
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @author  $author$
+     * @version $Revision$, $Date$
+     */
     public class SeaGlassBooleanTableCellRenderer extends JCheckBox implements TableCellRenderer {
-        private boolean isRowSelected;
+        private static final long serialVersionUID = -5871914614771902294L;
+        private boolean           isRowSelected;
 
+        /**
+         * Creates a new SeaGlassBooleanTableCellRenderer object.
+         */
         public SeaGlassBooleanTableCellRenderer() {
             setHorizontalAlignment(JLabel.CENTER);
             setName("Table.cellRenderer");
         }
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        /**
+         * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable,
+         *      java.lang.Object, boolean, boolean, int, int)
+         */
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
+                int column) {
             isRowSelected = isSelected;
 
             if (isSelected) {
@@ -889,61 +1132,106 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             return this;
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  c DOCUMENT ME!
+         *
+         * @return DOCUMENT ME!
+         */
         private Color unwrap(Color c) {
             if (c instanceof UIResource) {
                 return new Color(c.getRGB());
             }
+
             return c;
         }
 
+        /**
+         * @see javax.swing.JComponent#isOpaque()
+         */
         public boolean isOpaque() {
             return isRowSelected ? true : super.isOpaque();
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @author  $author$
+     * @version $Revision$, $Date$
+     */
     public class SeaGlassTableCellRenderer extends DefaultTableCellRenderer {
-        private Object  numberFormat;
-        private Object  dateFormat;
-        private boolean opaque;
+        private static final long serialVersionUID = -9211739454776308459L;
+        private Object            numberFormat;
+        private Object            dateFormat;
+        private boolean           opaque;
 
+        /**
+         * @see javax.swing.JComponent#setOpaque(boolean)
+         */
         public void setOpaque(boolean isOpaque) {
             opaque = isOpaque;
         }
 
+        /**
+         * @see javax.swing.table.DefaultTableCellRenderer#isOpaque()
+         */
         public boolean isOpaque() {
             return opaque;
         }
 
+        /**
+         * @see java.awt.Component#getName()
+         */
         public String getName() {
             String name = super.getName();
+
             if (name == null) {
                 return "Table.cellRenderer";
             }
+
             return name;
         }
 
+        /**
+         * @see javax.swing.JComponent#setBorder(javax.swing.border.Border)
+         */
         public void setBorder(Border b) {
             if (useUIBorder || b instanceof SeaGlassBorder) {
                 super.setBorder(b);
             }
         }
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        /**
+         * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable,
+         *      java.lang.Object, boolean, boolean, int, int)
+         */
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
+                int column) {
             if (!useTableColors && (isSelected || hasFocus)) {
                 SeaGlassLookAndFeel.setSelectedUI((SeaGlassLabelUI) SeaGlassLookAndFeel.getUIOfType(getUI(), SeaGlassLabelUI.class),
-                    isSelected, hasFocus, table.isEnabled(), false);
+                                                  isSelected, hasFocus, table.isEnabled(), false);
             } else {
                 SeaGlassLookAndFeel.resetSelectedUI();
             }
+
             super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
             setIcon(null);
             Class columnClass = table.getColumnClass(column);
+
             configureValue(value, columnClass);
 
             return this;
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param value       DOCUMENT ME!
+         * @param columnClass DOCUMENT ME!
+         */
         private void configureValue(Object value, Class columnClass) {
             if (columnClass == Object.class || columnClass == null) {
                 setHorizontalAlignment(JLabel.LEADING);
@@ -951,6 +1239,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 if (numberFormat == null) {
                     numberFormat = NumberFormat.getInstance();
                 }
+
                 setHorizontalAlignment(JLabel.TRAILING);
                 setText((value == null) ? "" : ((NumberFormat) numberFormat).format(value));
             } else if (columnClass == Number.class) {
@@ -964,6 +1253,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 if (dateFormat == null) {
                     dateFormat = DateFormat.getDateInstance();
                 }
+
                 setHorizontalAlignment(JLabel.LEADING);
                 setText((value == null) ? "" : ((Format) dateFormat).format(value));
             } else {
@@ -971,6 +1261,9 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             }
         }
 
+        /**
+         * @see javax.swing.JComponent#paint(java.awt.Graphics)
+         */
         public void paint(Graphics g) {
             super.paint(g);
             SeaGlassLookAndFeel.resetSelectedUI();
