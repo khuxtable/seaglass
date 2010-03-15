@@ -103,37 +103,35 @@
 				</configuration>
 			</plugin>
 			<!--
-				Configure the resources plugin. This runs *before* the docbkx plugin in the pre-site phase and
-				copies the doxia site files to the staging directory.
+				Configure the exec:java plugin, which runs a java class to generate graphic image files for the
+				site documentation.
 			-->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.4.2</version>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.1.1</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>copy-resources</goal>
+							<goal>java</goal>
 						</goals>
 						<phase>pre-site</phase>
-						<configuration>
-							<resources>
-								<resource>
-									<directory>${siteSourceDirectory}</directory>
-								</resource>
-							</resources>
-							<outputDirectory>${siteStagingDirectory}</outputDirectory>
-						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<mainClass>com.seaglasslookandfeel.sitegen.SiteGen</mainClass>
+					<arguments>
+						<argument>${basedir}/src/site/controls-images.xml</argument>
+						<argument>${project.build.directory}/generated-site/resources/gen</argument>
+					</arguments>
+					<classpathScope>test</classpathScope>
+				</configuration>
 			</plugin>
 			<!--
 				Configure the docbkx plugin, which is a more fully featured DocBook converter than the one
 				included in Doxia. In particular, it does language-based syntax highlighting in programlisting
 				elements. This is run in the pre-site phase and generates its output to the xhtml directory of
-				the site staging directory. The post-processing phase copies the doxia site files to the staging
-				directory and runs JTidy on the XHTML files to make them conform to xhtml standards, which the
-				docbkx plugin currently does not. This should change in version 2.0.10 of the plugin.
+				the generated site directory.
 			-->
 			<plugin>
 				<groupId>com.agilejava.docbkx</groupId>
@@ -157,12 +155,12 @@
 				</dependencies>
 				<configuration>
 					<chunkedOutput>false</chunkedOutput>
-					<sourceDirectory>${docbookBaseDirectory}</sourceDirectory>
-					<targetDirectory>${siteStagingXhtmlDirectory}</targetDirectory>
+					<sourceDirectory>${siteBaseDirectory}/docbook</sourceDirectory>
+					<targetDirectory>${docbookOutputDirectory}</targetDirectory>
 					<generateMetaAbstract>0</generateMetaAbstract>
 					<highlightSource>1</highlightSource>
 					<highlightDefaultLanguage />
-					<htmlCustomization>${docbookXslDirectory}/html.xsl</htmlCustomization>
+					<htmlCustomization>${siteBaseDirectory}/docbook/xsl/html.xsl</htmlCustomization>
 					<imgSrcPath>./</imgSrcPath>
 					<htmlCellSpacing>2</htmlCellSpacing>
 					<htmlCellPadding>2</htmlCellPadding>
@@ -219,7 +217,7 @@
 							<arg value="-i" />
 							<arg value="-q" />
 							<arg value="-m" />
-							<fileset dir="${siteStagingXhtmlDirectory}">
+							<fileset dir="${docbookOutputDirectory}">
 								<include name="*.xhtml.vm" />
 							</fileset>
 						</apply>
@@ -245,8 +243,7 @@
 				<configuration>
 					<locales>en</locales>
 					<outputEncoding>${project.build.sourceEncoding}</outputEncoding>
-					<siteDirectory>${siteStagingDirectory}</siteDirectory>
-					<templateFile>${siteStagingDirectory}/site.vm</templateFile>
+					<templateFile>${siteBaseDirectory}/site.vm</templateFile>
 				</configuration>
 			</plugin>
 			<!--
@@ -440,30 +437,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!--
 			Define the base directory for our site documentation. Note that we use the docbkx plugin for our
-			non-generated documentation, running it through JTidy to make it conform to XHTML/Transitional
-			standards so that Doxia's XHTML converter can wrap the site look and feel around it.
+			non-site-generated documentation, running it through JTidy to make it conform to
+			XHTML/Transitional standards so that Doxia's XHTML converter can wrap the site look and feel
+			around it.
 		-->
-		<mysiteBaseDirectory>${basedir}/src/site</mysiteBaseDirectory>
-		<!-- Base directory for the DocBook documentation. -->
-		<docbookBaseDirectory>${mysiteBaseDirectory}/docbook</docbookBaseDirectory>
-		<!-- Base directory for the DocBook XSL stylesheet customizations. -->
-		<docbookXslDirectory>${docbookBaseDirectory}/xsl</docbookXslDirectory>
-		<!--
-			Define the base directory for the Doxia site configuration. This cannot be at the main level of
-			site documentation because if the site plugin detects src/site/site.xml it ignores the
-			sitedirectory argument. This entire directory gets copied to a staging directory, along with the
-			XHTML translations from DocBook, and then the site plugin builds a site.
-		-->
-		<siteSourceDirectory>${mysiteBaseDirectory}/site</siteSourceDirectory>
-		<!--
-			Staging directory for the Maven site plugin. All the files necessary to generate the site
-			documentation will be copied here.
-		-->
-		<siteStagingDirectory>${project.build.directory}/sitestage</siteStagingDirectory>
+		<siteBaseDirectory>${basedir}/src/site</siteBaseDirectory>
 		<!--
 			The destination for converted DocBook files. These will then get included in the site
 			documentation.
 		-->
-		<siteStagingXhtmlDirectory>${siteStagingDirectory}/xhtml</siteStagingXhtmlDirectory>
+		<docbookOutputDirectory>${project.build.directory}/generated-site/xhtml</docbookOutputDirectory>
 	</properties>
 </project>
