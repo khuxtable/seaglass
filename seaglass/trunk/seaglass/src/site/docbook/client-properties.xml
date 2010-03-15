@@ -188,7 +188,10 @@
           </tgroup>
         </informaltable></para>
 
-      <para></para>
+      <para>If the value <code>"regular"</code> is specified, then the button
+      height is not constrained and will scale smoothly. Otherwise it is
+      forced into one of the sizes above, and centered in the control's
+      height.</para>
     </section>
 
     <section>
