@@ -199,7 +199,117 @@
       <code>"segmentedTextured"</code>. To segment the buttons, set the
       <code>JButton.segmentPosition</code> property to one of
       <code>"first"</code>, <code>"middle"</code>, or <code>"last"</code>. The
-      value <code>"none"</code> is also supported.</para>
+      value <code>"only"</code> is also supported.</para>
+
+      <para>See the table below for examples:</para>
+
+      <informaltable>
+        <tgroup cols="5">
+          <thead>
+            <row>
+              <entry>Button style</entry>
+
+              <entry>first</entry>
+
+              <entry>middle</entry>
+
+              <entry>last</entry>
+
+              <entry>only</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>segmented</entry>
+
+              <entry><inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button-first.png" />
+                  </imageobject>
+
+                  <textobject>
+                    <phrase>segmented first button</phrase>
+                  </textobject>
+                </inlinemediaobject></entry>
+
+              <entry><inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button-middle.png" />
+                  </imageobject>
+
+                  <textobject>
+                    <phrase>segmented middle button</phrase>
+                  </textobject>
+                </inlinemediaobject></entry>
+
+              <entry><inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button-last.png" />
+                  </imageobject>
+
+                  <textobject>
+                    <phrase>segmented last button</phrase>
+                  </textobject>
+                </inlinemediaobject></entry>
+
+              <entry><inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button.png" />
+                  </imageobject>
+
+                  <textobject>
+                    <phrase>segmented only button</phrase>
+                  </textobject>
+                </inlinemediaobject></entry>
+            </row>
+
+            <row>
+              <entry>segmentedTextured</entry>
+
+              <entry><inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button-textured-first.png" />
+                  </imageobject>
+
+                  <textobject>
+                    <phrase>segmented textured first button</phrase>
+                  </textobject>
+                </inlinemediaobject></entry>
+
+              <entry><inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button-textured-middle.png" />
+                  </imageobject>
+
+                  <textobject>
+                    <phrase>segmented textured middle button</phrase>
+                  </textobject>
+                </inlinemediaobject></entry>
+
+              <entry><inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button-textured-last.png" />
+                  </imageobject>
+
+                  <textobject>
+                    <phrase>segmented textured last button</phrase>
+                  </textobject>
+                </inlinemediaobject></entry>
+
+              <entry><inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button-textured.png" />
+                  </imageobject>
+
+                  <textobject>
+                    <phrase>segmented textured only button</phrase>
+                  </textobject>
+                </inlinemediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
     </section>
 
     <section>
