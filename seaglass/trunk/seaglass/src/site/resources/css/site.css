@@ -125,11 +125,11 @@ table thead th, table tbody td {
   border: 2px solid white;
 }
 
-table.bodyTable tr.a, table tbody tr.a {
+table.bodyTable tr.a, div.striped table tbody tr.a {
   background-color: #cce5f8;
 }
 
-table.bodyTable tr.b, table tbody tr.b {
+table.bodyTable tr.b, div.striped table tbody tr.b {
   background-color: #edf7ff;
 }
 dl {
