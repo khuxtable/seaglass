@@ -104,7 +104,7 @@
 			</plugin>
 			<!--
 				Configure the exec:java plugin, which runs a java class to generate graphic image files for the
-				site documentation.
+				site documentation. The information comes from an XML file in the site directory.
 			-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<control-images>
+	<image file="button" class="javax.swing.JButton" width="100" height="27">
+		<argument type="String" value="Button" />
+	</image>
+	<image file="button-first" class="javax.swing.JButton" width="100" height="27">
+        <argument type="String" value="Button" />
+		<clientProperty type="String" name="JButton.buttonType" value="segmented" />
+		<clientProperty type="String" name="JButton.segmentPosition" value="first" />
+	</image>
+</control-images>
