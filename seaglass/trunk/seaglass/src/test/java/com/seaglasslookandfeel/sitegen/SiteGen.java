@@ -21,27 +21,22 @@ package com.seaglasslookandfeel.sitegen;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.lang.reflect.Constructor;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -90,23 +85,26 @@ public class SiteGen {
     /**
      * Create an image from the info and write it to a file.
      *
-     * @param filename   the filename for the image.
-     * @param className  the class of control to be created, e.g.
-     *                   "javax.swing.JButton".
-     * @param width      the desired width of the control.
-     * @param height     the desired height of the control.
-     * @param args       any arguments to the control constructor.
-     * @param properties a map containing the client properties to set on the
-     *                   control.
+     * @param filename    the filename for the image.
+     * @param className   the class of control to be created, e.g.
+     *                    "javax.swing.JButton".
+     * @param width       the desired width of the control.
+     * @param height      the desired height of the control.
+     * @param panelWidth  the desired width of the panel it is embedded in.
+     * @param panelHeight the desired height of the panel it is embedded in.
+     * @param args        any arguments to the control constructor.
+     * @param properties  a map containing the client properties to set on the
+     *                    control.
      */
-    private void drawImage(String filename, String className, int width, int height, Object[] args, Map<String, Object> properties) {
+    private void drawImage(String filename, String className, int width, int height, int panelWidth, int panelHeight, Object[] args,
+            Map<String, Object> properties) {
         JComponent c = createSwingObject(className, args);
 
         for (String key : properties.keySet()) {
             c.putClientProperty(key, properties.get(key));
         }
 
-        BufferedImage image = paintToBufferedImage(c, width, height);
+        BufferedImage image = paintToBufferedImage(c, width, height, panelWidth, panelHeight);
 
         writeImageFile(filename, image);
     }
@@ -146,21 +144,23 @@ public class SiteGen {
     /**
      * Paint the control to a newly created buffered image.
      *
-     * @param  c      the control to paint.
-     * @param  width  the desired width of the control.
-     * @param  height the desired height of the control.
+     * @param  c           the control to paint.
+     * @param  width       the desired width of the control.
+     * @param  height      the desired height of the control.
+     * @param  panelWidth  the desired width of the panel it is embedded in.
+     * @param  panelHeight the desired height of the panel it is embedded in.
      *
      * @return the buffered image containing the printed control against a panel
      *         background.
      */
-    private BufferedImage paintToBufferedImage(JComponent c, int width, int height) {
+    private BufferedImage paintToBufferedImage(JComponent c, int width, int height, int panelWidth, int panelHeight) {
         panel.removeAll();
-        panel.setSize(width, height);
+        panel.setSize(panelWidth, panelHeight);
 
         panel.add(c);
-        c.setBounds(0, 0, width, height);
+        c.setBounds((panelWidth - width) / 2, (panelHeight - height) / 2, width, height);
 
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(panelWidth, panelHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics      g     = image.createGraphics();
 
         panel.paint(g);
@@ -224,7 +224,8 @@ public class SiteGen {
 
             if (imageNode.getNodeType() == Node.ELEMENT_NODE) {
                 getImageInfo((Element) imageNode, info);
-                siteGen.drawImage(info.filename, info.className, info.width, info.height, info.args, info.properties);
+                siteGen.drawImage(info.filename, info.className, info.width, info.height, info.panelWidth, info.panelHeight, info.args,
+                                  info.properties);
             }
 
         }
@@ -284,10 +285,25 @@ public class SiteGen {
      * @return the ImageInfo class containing the information.
      */
     private static ImageInfo getImageInfo(Element imageElem, ImageInfo info) {
-        info.filename  = imageElem.getAttribute("file");
-        info.className = imageElem.getAttribute("class");
-        info.width     = Integer.parseInt(imageElem.getAttribute("width"));
-        info.height    = Integer.parseInt(imageElem.getAttribute("height"));
+        String w  = imageElem.getAttribute("width");
+        String h  = imageElem.getAttribute("height");
+        String pw = imageElem.getAttribute("panelWidth");
+        String ph = imageElem.getAttribute("panelHeight");
+
+        if (pw.length() == 0) {
+            pw = w;
+        }
+
+        if (ph.length() == 0) {
+            ph = h;
+        }
+
+        info.filename    = imageElem.getAttribute("file");
+        info.className   = imageElem.getAttribute("class");
+        info.width       = Integer.parseInt(w);
+        info.height      = Integer.parseInt(h);
+        info.panelWidth  = Integer.parseInt(pw);
+        info.panelHeight = Integer.parseInt(ph);
 
         List<Object> argList = new ArrayList<Object>();
 
@@ -363,6 +379,8 @@ public class SiteGen {
         String              className;
         int                 width;
         int                 height;
+        int                 panelWidth;
+        int                 panelHeight;
         Object[]            args;
         Map<String, Object> properties;
     }
