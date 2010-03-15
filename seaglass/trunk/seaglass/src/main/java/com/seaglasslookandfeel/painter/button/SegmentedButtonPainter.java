@@ -123,7 +123,9 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
         String scaleKey  = (String) c.getClientProperty("JComponent.sizeVariant");
         int    newHeight = 27;
 
-        if (SeaGlassStyle.LARGE_KEY.equals(scaleKey)) {
+        if (SeaGlassStyle.NATURAL_KEY.equals(scaleKey)) {
+            return height;
+        } else if (SeaGlassStyle.LARGE_KEY.equals(scaleKey)) {
             newHeight *= SeaGlassStyle.LARGE_SCALE; // 31
         } else if (SeaGlassStyle.SMALL_KEY.equals(scaleKey)) {
             newHeight *= SeaGlassStyle.SMALL_SCALE; // 23

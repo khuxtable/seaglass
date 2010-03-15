@@ -147,6 +147,9 @@ public class SeaGlassStyle extends SynthStyle {
 
     /** "Mini" size variant. */
     public static final String MINI_KEY = "mini";
+    
+    /** "Natural" size variant. */
+    public static final String NATURAL_KEY = "natural";
 
     /** Scale factor for "large" size variant. */
     public static final double LARGE_SCALE = 1.15;
@@ -156,6 +159,9 @@ public class SeaGlassStyle extends SynthStyle {
 
     /** Scale factor for "mini" size variant. */
     public static final double MINI_SCALE = 0.714;
+
+    /** Scale factor for "natural" size variant. */
+    public static final double NATURAL_SCALE = 1.0;
 
     /**
      * Special constant used for performance reasons during the get() method. If
