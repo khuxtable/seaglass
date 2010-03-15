@@ -21,36 +21,35 @@ public class TestTables2 {
      * @param args command line args.
      */
     TestTables2(String[] args) {
-        try {
-
-            if (args.length > 0)
+        if (args.length > 0) {
+            try {
                 UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
-
-            String[]   headers = { "col 1", "col 2" };
-            String[][] rows    = {
-                { "1", "2" },
-                { "2", "3" },
-                { "3", "4" },
-                { "4", "5" }
-            };
-
-            JFrame frame = new JFrame();
-
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-            JTable table = new JTable(rows, headers);
-
-            table.setDefaultRenderer(java.lang.Object.class, new MyRenderer());
-
-            JScrollPane scrollPane = new JScrollPane(table);
-
-            frame.add(scrollPane, BorderLayout.CENTER);
-            frame.setSize(300, 150);
-            frame.setVisible(true);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+        String[]   headers = { "col 1", "col 2" };
+        String[][] rows    = {
+            { "1", "2" },
+            { "2", "3" },
+            { "3", "4" },
+            { "4", "5" }
+        };
+
+        JFrame frame = new JFrame();
+
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JTable table = new JTable(rows, headers);
+
+        table.setDefaultRenderer(java.lang.Object.class, new MyRenderer());
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.setSize(300, 150);
+        frame.setVisible(true);
     }
 
     /**
