@@ -585,7 +585,8 @@ public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeLis
                                                                           b.getDisplayedMnemonicIndex());
 
         ss.dispose();
-        size.height = 27;
+        // Make height odd.
+        size.height &= ~1;
         return size;
     }
 
