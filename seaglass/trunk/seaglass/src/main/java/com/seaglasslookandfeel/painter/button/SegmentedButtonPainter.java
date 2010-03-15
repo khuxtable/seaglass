@@ -139,10 +139,6 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
             }
         }
 
-        if (newHeight > height) {
-            newHeight = height;
-        }
-
         return newHeight;
     }
 
