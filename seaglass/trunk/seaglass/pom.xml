@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.seaglasslookandfeel</groupId>
 	<artifactId>seaglasslookandfeel</artifactId>
@@ -107,24 +108,20 @@
 				site documentation. The information comes from an XML file in the site directory.
 			-->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.1.1</version>
+				<groupId>org.kathrynhuxtable.maven.plugins</groupId>
+				<artifactId>imagegenerator-maven-plugin</artifactId>
+				<version>1.0</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>java</goal>
+							<goal>generate</goal>
 						</goals>
 						<phase>pre-site</phase>
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>com.seaglasslookandfeel.sitegen.SiteGen</mainClass>
-					<arguments>
-						<argument>${basedir}/src/site/controls-images.xml</argument>
-						<argument>${project.build.directory}/generated-site/resources/gen</argument>
-					</arguments>
-					<classpathScope>test</classpathScope>
+					<lookAndFeel>com.seaglasslookandfeel.SeaGlassLookAndFeel</lookAndFeel>
+					<outputDirectory>${project.build.directory}/generated-site/resources/gen</outputDirectory>
 				</configuration>
 			</plugin>
 			<!--
@@ -169,7 +166,7 @@
 					<tableBordersWithCss>1</tableBordersWithCss>
 					<tableFrameBorderThickness>0</tableFrameBorderThickness>
 					<tableCellBorderThickness>0</tableCellBorderThickness>
-					<targetFileExtension>xhtml.vm</targetFileExtension>
+					<targetFileExtension>html</targetFileExtension>
 					<!-- use extensions -->
 					<useExtensions>1</useExtensions>
 					<!-- callouts -->
@@ -218,7 +215,7 @@
 							<arg value="-q" />
 							<arg value="-m" />
 							<fileset dir="${docbookOutputDirectory}">
-								<include name="*.xhtml.vm" />
+								<include name="*.html" />
 							</fileset>
 						</apply>
 					</tasks>
@@ -446,6 +443,6 @@
 			The destination for converted DocBook files. These will then get included in the site
 			documentation.
 		-->
-		<docbookOutputDirectory>${project.build.directory}/generated-site/xhtml</docbookOutputDirectory>
+		<docbookOutputDirectory>${project.build.directory}/generated-site/resources</docbookOutputDirectory>
 	</properties>
 </project>
