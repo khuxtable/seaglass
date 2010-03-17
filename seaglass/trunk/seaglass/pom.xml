@@ -166,7 +166,7 @@
 					<tableBordersWithCss>1</tableBordersWithCss>
 					<tableFrameBorderThickness>0</tableFrameBorderThickness>
 					<tableCellBorderThickness>0</tableCellBorderThickness>
-					<targetFileExtension>html</targetFileExtension>
+					<targetFileExtension>xhtml.vm</targetFileExtension>
 					<!-- use extensions -->
 					<useExtensions>1</useExtensions>
 					<!-- callouts -->
@@ -215,7 +215,7 @@
 							<arg value="-q" />
 							<arg value="-m" />
 							<fileset dir="${docbookOutputDirectory}">
-								<include name="*.html" />
+								<include name="*.xhtml.vm" />
 							</fileset>
 						</apply>
 					</tasks>
@@ -443,6 +443,6 @@
 			The destination for converted DocBook files. These will then get included in the site
 			documentation.
 		-->
-		<docbookOutputDirectory>${project.build.directory}/generated-site/resources</docbookOutputDirectory>
+		<docbookOutputDirectory>${project.build.directory}/generated-site/xhtml</docbookOutputDirectory>
 	</properties>
 </project>
