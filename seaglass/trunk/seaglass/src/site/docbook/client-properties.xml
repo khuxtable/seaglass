@@ -188,7 +188,7 @@
           </tgroup>
         </informaltable></para>
 
-      <para>If the value <code>"regular"</code> is specified, then the button
+      <para>If the value <code>"scale"</code> is specified, then the button
       height is not constrained and will scale smoothly. Otherwise it is
       forced into one of the sizes above, and centered in the control's
       height.</para>
@@ -402,6 +402,56 @@
       magnifying glass icon to the left, and if there is any text in the field
       will have a cancel icon, consisting of a gray circle with an erased "x"
       in it to the right.</para>
+
+      <para><informaltable>
+          <tgroup cols="2">
+            <tbody>
+              <row>
+                <entry>Normal <classname>JTextField</classname></entry>
+
+                <entry><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="gen/text-field.png" />
+                    </imageobject>
+
+                    <textobject>
+                      <phrase>text field</phrase>
+                    </textobject>
+                  </inlinemediaobject></entry>
+              </row>
+
+              <row>
+                <entry><classname>JTextField</classname> with search and no
+                text</entry>
+
+                <entry><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="gen/search-field.png" />
+                    </imageobject>
+
+                    <textobject>
+                      <phrase>search with no text</phrase>
+                    </textobject>
+                  </inlinemediaobject></entry>
+              </row>
+
+              <row>
+                <entry><classname>JTextField</classname> with search and
+                text</entry>
+
+                <entry><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="gen/search-field-text.png" />
+                    </imageobject>
+
+                    <textobject>
+                      <phrase>search with text</phrase>
+                    </textobject>
+                  </inlinemediaobject></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable></para>
 
       <para>We support the rest of the Mac <classname>JTextField</classname>
       search client properties as well, e.g.

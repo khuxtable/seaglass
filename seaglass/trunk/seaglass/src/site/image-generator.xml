@@ -93,16 +93,16 @@
 		<clientProperty type="String" name="JComponent.sizeVariant" value="mini" />
 	</image>
 
-	<image file="text-field" class="javax.swing.JTextField" width="100" height="27" panelWidth="120"
+	<image file="text-field" class="javax.swing.JTextField" width="150" height="27" panelWidth="200"
 		panelHeight="32">
 		<argument type="String" value="Text" />
 	</image>
-	<image file="search-field" class="javax.swing.JTextField" width="100" height="27" panelWidth="120"
+	<image file="search-field" class="javax.swing.JTextField" width="150" height="27" panelWidth="200"
 		panelHeight="32">
 		<clientProperty name="JTextField.variant" type="String" value="search" />
 		<clientProperty name="JTextField.Search.PlaceholderText" type="String" value="Search..." />
 	</image>
-	<image file="search-field-text" class="javax.swing.JTextField" width="100" height="27" panelWidth="120"
+	<image file="search-field-text" class="javax.swing.JTextField" width="150" height="27" panelWidth="200"
 		panelHeight="32">
 		<argument type="String" value="sea glass" />
 		<clientProperty name="JTextField.variant" type="String" value="search" />
