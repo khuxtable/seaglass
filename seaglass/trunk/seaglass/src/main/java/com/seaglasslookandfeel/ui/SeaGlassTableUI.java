@@ -116,9 +116,9 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     /**
      * The installation/uninstall procedures and support
      *
-     * @param  c DOCUMENT ME!
+     * @param  c the component.
      *
-     * @return DOCUMENT ME!
+     * @return the UI delegate.
      */
     public static ComponentUI createUI(JComponent c) {
         return new SeaGlassTableUI();
@@ -146,12 +146,13 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     /**
-     * DOCUMENT ME!
+     * Installs a renderer if the existing renderer is an instance of
+     * UIResource.
      *
-     * @param  objectClass DOCUMENT ME!
-     * @param  renderer    DOCUMENT ME!
+     * @param  objectClass the class for which to install the renderer.
+     * @param  renderer    the renderer instance.
      *
-     * @return DOCUMENT ME!
+     * @return the previous renderer.
      */
     private TableCellRenderer installRendererIfPossible(Class objectClass, TableCellRenderer renderer) {
         TableCellRenderer currentRenderer = table.getDefaultRenderer(objectClass);
@@ -164,9 +165,9 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     /**
-     * DOCUMENT ME!
+     * Update the style.
      *
-     * @param c DOCUMENT ME!
+     * @param c the component.
      */
     private void updateStyle(JTable c) {
         SeaGlassContext context  = getContext(c, ENABLED);
@@ -307,23 +308,23 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     /**
-     * DOCUMENT ME!
+     * Get the Synth context.
      *
-     * @param  c     DOCUMENT ME!
-     * @param  state DOCUMENT ME!
+     * @param  c     the component.
+     * @param  state the state.
      *
-     * @return DOCUMENT ME!
+     * @return the Synth context.
      */
     private SeaGlassContext getContext(JComponent c, int state) {
         return SeaGlassContext.getContext(SeaGlassContext.class, c, SynthLookAndFeel.getRegion(c), style, state);
     }
 
     /**
-     * DOCUMENT ME!
+     * Get the component state.
      *
-     * @param  c DOCUMENT ME!
+     * @param  c the component.
      *
-     * @return DOCUMENT ME!
+     * @return the state.
      */
     private int getComponentState(JComponent c) {
         return SeaGlassLookAndFeel.getComponentState(c);
@@ -364,10 +365,10 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     /**
-     * DOCUMENT ME!
+     * Paint the component.
      *
-     * @param context DOCUMENT ME!
-     * @param g       DOCUMENT ME!
+     * @param context the Synth context.
+     * @param g       the Graphics context.
      */
     protected void paint(SeaGlassContext context, Graphics g) {
         Rectangle clip = g.getClipBounds();
@@ -446,14 +447,14 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     /**
-     * DOCUMENT ME!
+     * Paint the stripes and grid.
      *
-     * @param context DOCUMENT ME!
-     * @param g       DOCUMENT ME!
-     * @param c       DOCUMENT ME!
-     * @param width   DOCUMENT ME!
-     * @param height  DOCUMENT ME!
-     * @param top     DOCUMENT ME!
+     * @param context the Synth context.
+     * @param g       the Graphics context.
+     * @param c       the component.
+     * @param width   the width of the table.
+     * @param height  the height of the table.
+     * @param top     the top row to paint (for viewports).
      */
     public void paintStripesAndGrid(SeaGlassContext context, Graphics g, JComponent c, int width, int height, int top) {
         int rh  = table.getRowHeight();
@@ -518,10 +519,10 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     /**
-     * DOCUMENT ME!
+     * Paint the drop lines, if any.
      *
-     * @param context DOCUMENT ME!
-     * @param g       DOCUMENT ME!
+     * @param context the Synth context.
+     * @param g       the Graphics context.
      */
     private void paintDropLines(SeaGlassContext context, Graphics g) {
         JTable.DropLocation loc = table.getDropLocation();
@@ -575,11 +576,11 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     /**
-     * DOCUMENT ME!
+     * Get the horizontal drop line rectangle.
      *
-     * @param  loc DOCUMENT ME!
+     * @param  loc the drop location.
      *
-     * @return DOCUMENT ME!
+     * @return the rectangle.
      */
     private Rectangle getHDropLineRect(JTable.DropLocation loc) {
         if (!loc.isInsertRow()) {
@@ -614,11 +615,11 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     /**
-     * DOCUMENT ME!
+     * Get the vertical drop line rectangle.
      *
-     * @param  loc DOCUMENT ME!
+     * @param  loc the drop location.
      *
-     * @return DOCUMENT ME!
+     * @return the rectangle.
      */
     private Rectangle getVDropLineRect(JTable.DropLocation loc) {
         if (!loc.isInsertColumn()) {
@@ -688,8 +689,8 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
      * <code>getShowHorizontalLines()</code> returns true. TODO See if we want
      * to remove this method.
      *
-     * @param context DOCUMENT ME!
-     * @param g       DOCUMENT ME!
+     * @param context the Synth context.
+     * @param g       the Graphics context.
      * @param rMin    DOCUMENT ME!
      * @param rMax    DOCUMENT ME!
      * @param cMin    DOCUMENT ME!
@@ -759,7 +760,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     /**
-     * DOCUMENT ME!
+     * Paint cells.
      *
      * @param context DOCUMENT ME!
      * @param g       DOCUMENT ME!
@@ -1081,7 +1082,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 int     rowAtPoint = table.rowAtPoint(new Point(x, y));
                 boolean isSelected = table.isRowSelected(rowAtPoint);
 
-                if (component instanceof JComponent) {
+                if (component instanceof JComponent && component instanceof UIResource) {
                     JComponent jComponent = (JComponent) component;
 
                     jComponent.setOpaque(isSelected);
@@ -1100,8 +1101,8 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
      * @author  $author$
      * @version $Revision$, $Date$
      */
-    public class SeaGlassBooleanTableCellRenderer extends JCheckBox implements TableCellRenderer {
-        private static final long serialVersionUID = -5871914614771902294L;
+    public class SeaGlassBooleanTableCellRenderer extends JCheckBox implements TableCellRenderer, UIResource {
+        private static final long serialVersionUID = 4625890509524329579L;
         private boolean           isRowSelected;
 
         /**
@@ -1161,8 +1162,8 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
      * @author  $author$
      * @version $Revision$, $Date$
      */
-    public class SeaGlassTableCellRenderer extends DefaultTableCellRenderer {
-        private static final long serialVersionUID = -9211739454776308459L;
+    public class SeaGlassTableCellRenderer extends DefaultTableCellRenderer implements UIResource {
+        private static final long serialVersionUID = 9159798558985747389L;
         private Object            numberFormat;
         private Object            dateFormat;
         private boolean           opaque;
