@@ -127,10 +127,10 @@
 
 	</xsl:template>
 	<xsl:template name="user.header.content">
-	   ${htmlfilter.header}
+	   ${htmlfilterHeader}
 	</xsl:template>
 	<xsl:template name="user.footer.content">
-	   ${htmlfilter.footer}
+	   ${htmlfilterFooter}
 	</xsl:template>
 </xsl:stylesheet>
 
