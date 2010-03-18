@@ -109,7 +109,6 @@
 		</div>
 	</xsl:template>
 
-<!--
 	<xsl:template name="tr.attributes">
         <xsl:param name="row" select="." />
         <xsl:param name="rownum" select="0" />
@@ -127,6 +126,11 @@
 		</xsl:if>
 
 	</xsl:template>
--->
+	<xsl:template name="user.header.content">
+	   ${htmlfilter.header}
+	</xsl:template>
+	<xsl:template name="user.footer.content">
+	   ${htmlfilter.footer}
+	</xsl:template>
 </xsl:stylesheet>
 
