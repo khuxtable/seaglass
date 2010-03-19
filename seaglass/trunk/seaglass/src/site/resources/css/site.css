@@ -186,6 +186,13 @@ pre {
     padding: 5px;
 }
 
+#navcolumn li.expanded {
+  background-image: none;
+}
+#navcolumn li.collapsed {
+  background-image: none;
+}
+
 /* From html.css */
 
 .programlisting {
