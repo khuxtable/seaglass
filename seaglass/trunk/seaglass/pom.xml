@@ -183,12 +183,14 @@
 			<!--
 				Configure the HTML Filter Site plugin. This runs *after* the docbkx plugin in the pre-site phase
 				and runs Velocity on the files and makes them look more like Doxia-generated files without
-				stripping all the useful DocBook formatting like Doxia does.
+				stripping all the useful DocBook formatting like Doxia does. It first runs JTidy to make the
+				files XHTML-compliant. When version 2.0.10 of the docbkx plugin is released we can generate
+				XHTML and won't need the "tidy" goal.
 			-->
 			<plugin>
 				<groupId>org.kathrynhuxtable.maven.plugins</groupId>
 				<artifactId>htmlfilter-site-maven-plugin</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>0.0.2-SNAPSHOT</version>
 				<executions>
 					<execution>
 						<goals>
@@ -199,13 +201,12 @@
 					</execution>
 				</executions>
 				<configuration>
-				    <tidySourceDirectory>${docbookOutputDirectory}</tidySourceDirectory>
-				    <tidyTargetDirectory>${docbookOutputDirectory}</tidyTargetDirectory>
-				    <tidyFilePattern>**/*.html</tidyFilePattern>
+					<tidySourceDirectory>${docbookOutputDirectory}</tidySourceDirectory>
+					<tidyTargetDirectory>${docbookOutputDirectory}</tidyTargetDirectory>
+					<tidyFilePattern>**/*.html</tidyFilePattern>
 					<sourceDirectory>${docbookOutputDirectory}</sourceDirectory>
 					<filePattern>**/*.html</filePattern>
 					<targetDirectory>${project.build.directory}/generated-site/resources</targetDirectory>
-					<filterProperties>${basedir}/src/site/docbkx-filter.xml</filterProperties>
 					<filterMacros>${basedir}/src/site/docbkx-filter.vm</filterMacros>
 				</configuration>
 			</plugin>
