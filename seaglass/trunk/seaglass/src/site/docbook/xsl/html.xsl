@@ -126,11 +126,5 @@
 		</xsl:if>
 
 	</xsl:template>
-	<xsl:template name="user.header.content">
-	   ${htmlfilterHeader}
-	</xsl:template>
-	<xsl:template name="user.footer.content">
-	   ${htmlfilterFooter}
-	</xsl:template>
 </xsl:stylesheet>
 
