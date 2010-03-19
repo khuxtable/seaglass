@@ -207,7 +207,7 @@
 					<sourceDirectory>${docbookOutputDirectory}</sourceDirectory>
 					<filePattern>**/*.html</filePattern>
 					<targetDirectory>${project.build.directory}/generated-site/resources</targetDirectory>
-					<filterMacros>${basedir}/src/site/docbkx-filter.vm</filterMacros>
+					<filterMacros>${basedir}/src/site/htmlfilter-site.vm</filterMacros>
 				</configuration>
 			</plugin>
 			<!--
