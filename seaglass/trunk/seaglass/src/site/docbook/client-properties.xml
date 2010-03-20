@@ -42,181 +42,187 @@
       <para>We support the <code>JComponent.sizeVariant</code> property with
       values of <code>"large"</code>, <code>"regular"</code> (the default),
       <code>"small"</code>, and <code>"mini"</code>. See the table for
-      examples:<informaltable summary="Table of sizes">
-          <tgroup cols="5">
-            <thead>
-              <row>
-                <entry>JComponent.sizeVariant</entry>
+      examples:</para>
 
-                <entry>"large"</entry>
+      <informaltable>
+        <textobject>
+          <phrase>common properties</phrase>
+        </textobject>
 
-                <entry>"regular"</entry>
+        <tgroup cols="5">
+          <thead>
+            <row>
+              <entry>JComponent.sizeVariant</entry>
 
-                <entry>"small"</entry>
+              <entry>"large"</entry>
 
-                <entry>"mini"</entry>
-              </row>
-            </thead>
+              <entry>"regular"</entry>
 
-            <tbody class="foo">
-              <row>
-                <entry>Push Button</entry>
+              <entry>"small"</entry>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/button-large.png" />
-                    </imageobject>
+              <entry>"mini"</entry>
+            </row>
+          </thead>
 
-                    <textobject>
-                      <phrase>large size button</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
+          <tbody class="foo">
+            <row>
+              <entry>Push Button</entry>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/button.png" />
-                    </imageobject>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button-large.png" />
+                  </imageobject>
 
-                    <textobject>
-                      <phrase>regular size button</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
+                  <textobject>
+                    <phrase>large size button</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/button-small.png" />
-                    </imageobject>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button.png" />
+                  </imageobject>
 
-                    <textobject>
-                      <phrase>small size button</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
+                  <textobject>
+                    <phrase>regular size button</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/button-mini.png" />
-                    </imageobject>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button-small.png" />
+                  </imageobject>
 
-                    <textobject>
-                      <phrase>mini size button</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
-              </row>
+                  <textobject>
+                    <phrase>small size button</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
 
-              <row>
-                <entry>Check Box</entry>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/button-mini.png" />
+                  </imageobject>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/checkbox-large.png" />
-                    </imageobject>
+                  <textobject>
+                    <phrase>mini size button</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
+            </row>
 
-                    <textobject>
-                      <phrase>large size checkbox</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
+            <row>
+              <entry>Check Box</entry>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/checkbox.png" />
-                    </imageobject>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/checkbox-large.png" />
+                  </imageobject>
 
-                    <textobject>
-                      <phrase>regular size checkbox</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
+                  <textobject>
+                    <phrase>large size checkbox</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/checkbox-small.png" />
-                    </imageobject>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/checkbox.png" />
+                  </imageobject>
 
-                    <textobject>
-                      <phrase>small size checkbox</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
+                  <textobject>
+                    <phrase>regular size checkbox</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/checkbox-mini.png" />
-                    </imageobject>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/checkbox-small.png" />
+                  </imageobject>
 
-                    <textobject>
-                      <phrase>mini size checkbox</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
-              </row>
+                  <textobject>
+                    <phrase>small size checkbox</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
 
-              <row>
-                <entry>Radio Button</entry>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/checkbox-mini.png" />
+                  </imageobject>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/radiobutton-large.png" />
-                    </imageobject>
+                  <textobject>
+                    <phrase>mini size checkbox</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
+            </row>
 
-                    <textobject>
-                      <phrase>large size radiobutton</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
+            <row>
+              <entry>Radio Button</entry>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/radiobutton.png" />
-                    </imageobject>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/radiobutton-large.png" />
+                  </imageobject>
 
-                    <textobject>
-                      <phrase>regular size radiobutton</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
+                  <textobject>
+                    <phrase>large size radiobutton</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/radiobutton-small.png" />
-                    </imageobject>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/radiobutton.png" />
+                  </imageobject>
 
-                    <textobject>
-                      <phrase>small size radiobutton</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
+                  <textobject>
+                    <phrase>regular size radiobutton</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
 
-                <entry>
-                  <inlinemediaobject>
-                    <imageobject>
-                      <imagedata fileref="gen/radiobutton-mini.png" />
-                    </imageobject>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/radiobutton-small.png" />
+                  </imageobject>
 
-                    <textobject>
-                      <phrase>mini size radiobutton</phrase>
-                    </textobject>
-                  </inlinemediaobject>
-                </entry>
-              </row>
-            </tbody>
-          </tgroup>
-        </informaltable></para>
+                  <textobject>
+                    <phrase>small size radiobutton</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
+
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="gen/radiobutton-mini.png" />
+                  </imageobject>
+
+                  <textobject>
+                    <phrase>mini size radiobutton</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
 
       <para>If the value <code>"scale"</code> is specified, then the button
       height is not constrained and will scale smoothly. Otherwise it is
@@ -239,6 +245,10 @@
       <para>See the table below for examples:</para>
 
       <informaltable>
+        <textobject>
+          <phrase>button property settings</phrase>
+        </textobject>
+
         <tgroup cols="5">
           <thead>
             <row>
@@ -444,6 +454,10 @@
       in it to the right.</para>
 
       <para><informaltable>
+          <textobject>
+            <phrase>textfield properties</phrase>
+          </textobject>
+
           <tgroup cols="2">
             <tbody>
               <row>
