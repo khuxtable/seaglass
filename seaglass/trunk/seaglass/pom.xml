@@ -144,9 +144,11 @@
 				</executions>
 				<dependencies>
 					<dependency>
-						<groupId>docbook</groupId>
+						<groupId>net.sf.docbook</groupId>
 						<artifactId>docbook-xml</artifactId>
-						<version>4.5</version>
+						<version>5.0-all</version>
+						<classifier>resources</classifier>
+						<type>zip</type>
 						<scope>runtime</scope>
 					</dependency>
 				</dependencies>
