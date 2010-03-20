@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
-"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
-<article>
-  <articleinfo>
+<!-- Converted by db4-upgrade version 1.0 -->
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:ns5="http://www.w3.org/2000/svg"
+         xmlns:ns4="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns3="http://www.w3.org/1999/xhtml"
+         xmlns:ns="http://docbook.org/ns/docbook">
+  <info>
     <title>Client Properties</title>
 
     <author>
-      <firstname>Kathryn</firstname>
-
-      <surname>Huxtable</surname>
+      <personname><firstname>Kathryn</firstname><surname>Huxtable</surname></personname>
 
       <affiliation>
         <orgname>kathrynhuxtable.org</orgname>
@@ -16,22 +18,26 @@
     </author>
 
     <pubdate>2008-02-28</pubdate>
-  </articleinfo>
+  </info>
 
   <section>
-    <title>Client Properties</title>
+    <info>
+      <title>Client Properties</title>
+    </info>
 
     <para>We currently support Mac-style properties on buttons to make them
     look different when used on our background gradient and to segment them.
-    See <ulink
-    url="http://developer.apple.com/mac/library/technotes/tn2007/tn2196.html">Apple
-    Technical Note TN2196</ulink> for more information.</para>
+    See <link
+    xlink:href="http://developer.apple.com/mac/library/technotes/tn2007/tn2196.html">Apple
+    Technical Note TN2196</link> for more information.</para>
 
     <para>We plan on more use of client properties to control the appearance
     of controls.</para>
 
     <section>
-      <title>Common properties</title>
+      <info>
+        <title>Common properties</title>
+      </info>
 
       <para>We support the <code>JComponent.sizeVariant</code> property with
       values of <code>"large"</code>, <code>"regular"</code> (the default),
@@ -56,7 +62,8 @@
               <row>
                 <entry>Push Button</entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/button-large.png" />
                     </imageobject>
@@ -64,9 +71,11 @@
                     <textobject>
                       <phrase>large size button</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/button.png" />
                     </imageobject>
@@ -74,9 +83,11 @@
                     <textobject>
                       <phrase>regular size button</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/button-small.png" />
                     </imageobject>
@@ -84,9 +95,11 @@
                     <textobject>
                       <phrase>small size button</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/button-mini.png" />
                     </imageobject>
@@ -94,13 +107,15 @@
                     <textobject>
                       <phrase>mini size button</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
               </row>
 
               <row>
                 <entry>Check Box</entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/checkbox-large.png" />
                     </imageobject>
@@ -108,9 +123,11 @@
                     <textobject>
                       <phrase>large size checkbox</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/checkbox.png" />
                     </imageobject>
@@ -118,9 +135,11 @@
                     <textobject>
                       <phrase>regular size checkbox</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/checkbox-small.png" />
                     </imageobject>
@@ -128,9 +147,11 @@
                     <textobject>
                       <phrase>small size checkbox</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/checkbox-mini.png" />
                     </imageobject>
@@ -138,13 +159,15 @@
                     <textobject>
                       <phrase>mini size checkbox</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
               </row>
 
               <row>
                 <entry>Radio Button</entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/radiobutton-large.png" />
                     </imageobject>
@@ -152,9 +175,11 @@
                     <textobject>
                       <phrase>large size radiobutton</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/radiobutton.png" />
                     </imageobject>
@@ -162,9 +187,11 @@
                     <textobject>
                       <phrase>regular size radiobutton</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/radiobutton-small.png" />
                     </imageobject>
@@ -172,9 +199,11 @@
                     <textobject>
                       <phrase>small size radiobutton</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
 
-                <entry><inlinemediaobject>
+                <entry>
+                  <inlinemediaobject>
                     <imageobject>
                       <imagedata fileref="gen/radiobutton-mini.png" />
                     </imageobject>
@@ -182,7 +211,8 @@
                     <textobject>
                       <phrase>mini size radiobutton</phrase>
                     </textobject>
-                  </inlinemediaobject></entry>
+                  </inlinemediaobject>
+                </entry>
               </row>
             </tbody>
           </tgroup>
@@ -195,7 +225,9 @@
     </section>
 
     <section>
-      <title><classname>JButton</classname> properties</title>
+      <info>
+        <title><classname>JButton</classname> properties</title>
+      </info>
 
       <para>Use the <code>JButton.buttonType</code> property with values of
       <code>"textured"</code>, <code>"segmented"</code>, or
@@ -228,7 +260,7 @@
 
               <entry><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="gen/button-first.png" />
+                    <imagedata fileref="gen/button-first.png"></imagedata>
                   </imageobject>
 
                   <textobject>
@@ -238,7 +270,7 @@
 
               <entry><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="gen/button-middle.png" />
+                    <imagedata fileref="gen/button-middle.png"></imagedata>
                   </imageobject>
 
                   <textobject>
@@ -248,7 +280,7 @@
 
               <entry><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="gen/button-last.png" />
+                    <imagedata fileref="gen/button-last.png"></imagedata>
                   </imageobject>
 
                   <textobject>
@@ -258,7 +290,7 @@
 
               <entry><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="gen/button.png" />
+                    <imagedata fileref="gen/button.png"></imagedata>
                   </imageobject>
 
                   <textobject>
@@ -272,7 +304,7 @@
 
               <entry><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="gen/button-textured-first.png" />
+                    <imagedata fileref="gen/button-textured-first.png"></imagedata>
                   </imageobject>
 
                   <textobject>
@@ -282,7 +314,7 @@
 
               <entry><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="gen/button-textured-middle.png" />
+                    <imagedata fileref="gen/button-textured-middle.png"></imagedata>
                   </imageobject>
 
                   <textobject>
@@ -292,7 +324,7 @@
 
               <entry><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="gen/button-textured-last.png" />
+                    <imagedata fileref="gen/button-textured-last.png"></imagedata>
                   </imageobject>
 
                   <textobject>
@@ -302,7 +334,7 @@
 
               <entry><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="gen/button-textured.png" />
+                    <imagedata fileref="gen/button-textured.png"></imagedata>
                   </imageobject>
 
                   <textobject>
@@ -316,7 +348,9 @@
     </section>
 
     <section>
-      <title><classname>JRootPane</classname> properties</title>
+      <info>
+        <title><classname>JRootPane</classname> properties</title>
+      </info>
 
       <para>We support a "unified tool bar" look by setting the
       <code>SeaGlass.UnifiedToolbarLook</code> property to
@@ -340,8 +374,10 @@
     </section>
 
     <section>
-      <title><classname>JScrollBar</classname> and
-      <classname>JScrollPane</classname> properties</title>
+      <info>
+        <title><classname>JScrollBar</classname> and
+        <classname>JScrollPane</classname> properties</title>
+      </info>
 
       <para>On a scroll bar, setting the
       <code>SeaGlass.Override.ScrollBarButtonsTogether</code> property to
@@ -354,7 +390,9 @@
     </section>
 
     <section>
-      <title><classname>JTabbedPane</classname> properties</title>
+      <info>
+        <title><classname>JTabbedPane</classname> properties</title>
+      </info>
 
       <para>For <classname>JTabbedPane</classname>, we support the
       <code>JTabbedPane.closeButton</code> property being set to
@@ -393,7 +431,9 @@
     </section>
 
     <section>
-      <title><classname>JTextField</classname> properties</title>
+      <info>
+        <title><classname>JTextField</classname> properties</title>
+      </info>
 
       <para>For <classname>JTextField</classname>, we support the
       <code>JTextField.variant</code> property being set to
@@ -411,7 +451,7 @@
 
                 <entry><inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="gen/text-field.png" />
+                      <imagedata fileref="gen/text-field.png"></imagedata>
                     </imageobject>
 
                     <textobject>
@@ -426,7 +466,7 @@
 
                 <entry><inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="gen/search-field.png" />
+                      <imagedata fileref="gen/search-field.png"></imagedata>
                     </imageobject>
 
                     <textobject>
@@ -441,7 +481,7 @@
 
                 <entry><inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="gen/search-field-text.png" />
+                      <imagedata fileref="gen/search-field-text.png"></imagedata>
                     </imageobject>
 
                     <textobject>
