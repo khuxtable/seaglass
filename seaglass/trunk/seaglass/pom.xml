@@ -190,7 +190,7 @@
 			<plugin>
 				<groupId>org.kathrynhuxtable.maven.plugins</groupId>
 				<artifactId>htmlfilter-site-maven-plugin</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>0.2</version>
 				<executions>
 					<execution>
 						<goals>
