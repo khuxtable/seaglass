@@ -159,7 +159,7 @@
 					<generateMetaAbstract>0</generateMetaAbstract>
 					<highlightSource>1</highlightSource>
 					<highlightDefaultLanguage />
-					<htmlCustomization>${siteBaseDirectory}/docbook/xsl/html.xsl</htmlCustomization>
+					<htmlCustomization>${siteBaseDirectory}/xsl/html.xsl</htmlCustomization>
 					<imgSrcPath>./</imgSrcPath>
 					<htmlStylesheet>css/site.css</htmlStylesheet>
 					<htmlCellSpacing>2</htmlCellSpacing>
