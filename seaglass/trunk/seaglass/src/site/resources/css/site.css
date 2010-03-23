@@ -41,7 +41,7 @@ a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWin
   background: url(../images/newwindow.png) right center no-repeat;
   padding-right: 18px;
 }
-h1.title {
+h1.title, h2, .article .section h1, .sect1 h1 {
   padding: 4px 4px 4px 6px;
   border: none;
   border-bottom: 1px solid #999999;
@@ -50,16 +50,7 @@ h1.title {
   font-weight:900;
   font-size: x-large;
 }
-h2 {
-  padding: 4px 4px 4px 6px;
-  border: none;
-  border-bottom: 1px solid #999999;
-  color: #006095;
-  background-color: white;
-  font-weight:900;
-  font-size: x-large;
-}
-h3 {
+h3, .article .section .section h1, .sect2 h1 {
   padding: 4px 4px 4px 6px;
   border: none;
   border-bottom: 1px solid #aaa;
@@ -68,7 +59,7 @@ h3 {
   font-weight: normal;
   font-size: large;
 }
-h4 {
+h4, .article .section .section .section h1, .sect3 h1 {
   padding: 4px 4px 4px 6px;
   border: none;
   border-bottom: 1px solid #b8c4b8;
@@ -77,7 +68,7 @@ h4 {
   font-weight: normal;
   font-size: large;
 }
-h5 {
+h5, .article .section .section .section .section h1, .sect4 h1 {
   padding: 4px 4px 4px 6px;
   color: #006095;
   font-size: normal;
