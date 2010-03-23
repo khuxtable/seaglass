@@ -19,8 +19,6 @@
             <item name="Client properties" href="client-properties.html" />
         </menu>
 
-		<!-- <menu name="Generated Information" ref="reports"/> -->
-
 		<menu name="Project Information">
 			<item name="Dependencies" href="dependencies.html" />
 			<item name="Issue Tracking" href="issue-tracking.html" />
