@@ -155,7 +155,7 @@
 				<configuration>
 					<chunkedOutput>false</chunkedOutput>
 					<sourceDirectory>${siteBaseDirectory}/docbook</sourceDirectory>
-					<targetDirectory>${docbookOutputDirectory}</targetDirectory>
+					<targetDirectory>${project.build.directory}/generated-site/html</targetDirectory>
 					<generateMetaAbstract>0</generateMetaAbstract>
 					<highlightSource>1</highlightSource>
 					<highlightDefaultLanguage />
@@ -203,11 +203,10 @@
 					</execution>
 				</executions>
 				<configuration>
-					<tidySourceDirectory>${docbookOutputDirectory}</tidySourceDirectory>
-					<tidyTargetDirectory>${docbookOutputDirectory}</tidyTargetDirectory>
-					<tidyFilePattern>**/*.html</tidyFilePattern>
-					<sourceDirectory>${docbookOutputDirectory}</sourceDirectory>
-					<filePattern>**/*.html</filePattern>
+					<tidySourceDirectory>${project.build.directory}/generated-site/html</tidySourceDirectory>
+					<tidyTargetDirectory>${project.build.directory}/generated-site/tidy</tidyTargetDirectory>
+
+					<sourceDirectory>${project.build.directory}/generated-site/tidy</sourceDirectory>
 					<targetDirectory>${project.build.directory}/generated-site/resources</targetDirectory>
 					<filterTemplate>${basedir}/src/site/htmlfilter-site.vm</filterTemplate>
 				</configuration>
@@ -429,10 +428,5 @@
 			around it.
 		-->
 		<siteBaseDirectory>${basedir}/src/site</siteBaseDirectory>
-		<!--
-			The destination for converted DocBook files. These will then get included in the site
-			documentation.
-		-->
-		<docbookOutputDirectory>${project.build.directory}/generated-site/html</docbookOutputDirectory>
 	</properties>
 </project>
