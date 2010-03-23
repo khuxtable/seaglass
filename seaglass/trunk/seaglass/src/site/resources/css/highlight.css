@@ -3,6 +3,30 @@
    @author Costin Leau
 */
 
+.programlisting {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #CCCCCC;
+}
+
+.programlisting .interfacename,
+.programlisting .literal,
+.programlisting .classname {
+    font-size: 95%;
+}
+
+.title .interfacename,
+.title .literal,
+.title .classname {
+    font-size: 130%;
+}
+
+/* everything in a <lineannotation/> is displayed in a coloured, comment-like font */
+.programlisting * .lineannotation,
+.programlisting * .lineannotation * {
+    color: green;
+}
+
 .hl-keyword {
   color: #7F0055;
   font-weight: bold; 
