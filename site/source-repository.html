@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Sea Glass Look and Feel - Source Repository</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
+      @import url("./css/highlight.css");
+    </style>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      </head>
+  <body class="composite">
+    <div id="page">
+    <div id="banner">
+                    <div id="bannerLeft">
+    
+            Sea Glass Look and Feel for Swing
+    
+            </div>
+                          <div id="bannerRight">
+    
+                                            <img src="images/logos/SeaGlassLogo.png" alt="$alt" />
+    
+            </div>
+            <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+          
+  
+
+  
+    
+            
+  
+    
+            <div class="xleft">
+        Version: 0.1.7.3-SNAPSHOT
+              </div>
+            <div class="xright">            <a href="http://explodingpixels.wordpress.com" class="externalLink">Kenneth Orr</a>
+            |
+                <a href="http://www.kathrynhuxtable.org" class="externalLink">Kathryn Huxtable</a>
+            
+  
+
+  
+    
+            
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="leftColumn">
+      <div id="navcolumn">
+           
+  
+
+  
+    
+            
+  
+    
+                   <h5>Sea Glass Look and Feel</h5>
+            <ul>
+              
+    <li>
+                    <a href="index.html">Introduction</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="http://groups.google.com/group/sea-glass-look-and-feel" class="externalLink">Discussion Group</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="http://seaglasslookandfeel.com" class="externalLink">Google Code</a>
+          </li>
+              
+    <li>
+                    <a href="downloads.html">Downloads</a>
+          </li>
+              
+    <li>
+                    <a href="usage.html">Usage</a>
+          </li>
+              
+    <li>
+                    <a href="client-properties.html">Client properties</a>
+          </li>
+          </ul>
+              <h5>Project Information</h5>
+            <ul>
+              
+    <li>
+                    <a href="dependencies.html">Dependencies</a>
+          </li>
+              
+    <li>
+                    <a href="issue-tracking.html">Issue Tracking</a>
+          </li>
+              
+    <li>
+                    <a href="mail-lists.html">Mailing Lists</a>
+          </li>
+              
+    <li>
+                    <a href="license.html">Project License</a>
+          </li>
+              
+    <li>
+                    <a href="project-summary.html">Project Summary</a>
+          </li>
+              
+    <li>
+                    <a href="team-list.html">Project Team</a>
+          </li>
+              
+    <li>
+              <strong>Source Repository</strong>
+        </li>
+          </ul>
+              <h5>Project Reports</h5>
+            <ul>
+              
+    <li>
+                    <a href="cpd.html">CPD Report</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="apidocs/index.html">JavaDocs</a>
+          </li>
+              
+    <li>
+                    <a href="pmd.html">PMD Report</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="xref/index.html">Source Xref</a>
+          </li>
+              
+    <li>
+                    <a href="taglist.html">Tag List</a>
+          </li>
+          </ul>
+            </div>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <a name="Overview"></a><div class="section"><h2>Overview<a name="Overview"></a></h2>This project uses <a class="externalLink" href="http://subversion.tigris.org/">Subversion</a> to manage its source code. Instructions on Subversion use can be found at <a class="externalLink" href="http://svnbook.red-bean.com/">http://svnbook.red-bean.com/</a>.</div><a name="Web_Access"></a><div class="section"><h2>Web Access<a name="Web_Access"></a></h2><p>The following is a link to the online source repository.</p><div class="source"><pre><a class="externalLink" href="http://code.google.com/p/seaglass/source/checkout">http://code.google.com/p/seaglass/source/checkout</a></pre></div></div><a name="Anonymous_access"></a><div class="section"><h2>Anonymous access<a name="Anonymous_access"></a></h2><p>The source can be checked out anonymously from SVN with this command:</p><div class="source"><pre>$ svn checkout http://code.google.com/p/seaglass/source/browse/seaglass/trunk/seaglass seaglasslookandfeel</pre></div></div><a name="Developer_access"></a><div class="section"><h2>Developer access<a name="Developer_access"></a></h2><p>Everyone can access the Subversion repository via HTTP, but Committers must checkout the Subversion repository via HTTPS.</p><div class="source"><pre>$ svn checkout https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass seaglasslookandfeel</pre></div><p>To commit changes to the repository, execute the following command to commit your changes (svn will prompt you for your password)</p><div class="source"><pre>$ svn commit --username your-username -m &quot;A message&quot;</pre></div></div><a name="Access_from_behind_a_firewall"></a><div class="section"><h2>Access from behind a firewall<a name="Access_from_behind_a_firewall"></a></h2><p>For those users who are stuck behind a corporate firewall which is blocking HTTP access to the Subversion repository, you can try to access it via the developer connection:</p><div class="source"><pre>$ svn checkout https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass seaglasslookandfeel</pre></div></div><a name="Access_through_a_proxy"></a><div class="section"><h2>Access through a proxy<a name="Access_through_a_proxy"></a></h2><p>The Subversion client can go through a proxy, if you configure it to do so. First, edit your &quot;servers&quot; configuration file to indicate which proxy to use. The file's location depends on your operating system. On Linux or Unix it is located in the directory &quot;~/.subversion&quot;. On Windows it is in &quot;%APPDATA%\Subversion&quot;. (Try &quot;echo %APPDATA%&quot;, note this is a hidden directory.)</p><p>There are comments in the file explaining what to do. If you don't have that file, get the latest Subversion client and run any command; this will cause the configuration directory and template files to be created.</p><p>Example: Edit the 'servers' file and add something like:</p><div class="source"><pre>[global]
+http-proxy-host = your.proxy.name
+http-proxy-port = 3128
+</pre></div></div>
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xleft">
+        &#169;  
+          2009-2010
+    
+          seaglasslookandfeel.com
+          
+  
+
+  
+    
+            
+  
+    
+              
+  
+
+  
+    
+            
+  
+    
+            <div id="lastPublished">
+        Last Published: 25 Mar 2010
+              </div>
+            </div>
+      <div class="xright">                              <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+            <img class="poweredBy" 
+                 alt="Built by Maven" 
+                 src="./images/logos/maven-feather.png" 
+                 width="90"
+                 height="30"
+                 border="1" />
+          </a>
+            </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    </div>
+  </body>
+</html>
