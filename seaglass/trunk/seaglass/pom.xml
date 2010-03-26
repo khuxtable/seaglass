@@ -173,9 +173,9 @@
 					<tableCellBorderThickness>0</tableCellBorderThickness>
 					<targetFileExtension>html</targetFileExtension>
 					<!-- use extensions -->
-					<useExtensions>1</useExtensions>
+					<useExtensions>true</useExtensions>
 					<!-- callouts -->
-					<calloutsExtension>1</calloutsExtension>
+					<calloutsExtension>true</calloutsExtension>
 				</configuration>
 			</plugin>
 			<!--
