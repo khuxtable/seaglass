@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.2" timestamp="2010-03-25T11:16:27.808">
+<pmd version="4.2.2" timestamp="2010-03-26T09:15:30.328">
 <file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java">
 <violation beginline="20" endline="2905" begincolumn="1" endcolumn="2" rule="TooManyStaticImports" ruleset="Import Statement Rules" package="com.seaglasslookandfeel" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#TooManyStaticImports" priority="3">
 Too many static imports may lead to messy code
