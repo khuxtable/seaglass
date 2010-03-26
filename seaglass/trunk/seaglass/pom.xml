@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.seaglasslookandfeel</groupId>
 	<artifactId>seaglasslookandfeel</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.7.3-SNAPSHOT</version>
+	<version>0.1.7.2.2-SNAPSHOT</version>
 	<name>Sea Glass Look and Feel for Swing</name>
 	<description>
 		A Java cross-platform look and feel for JRE 1.6u17 and later.
@@ -133,11 +134,11 @@
 			<plugin>
 				<groupId>com.agilejava.docbkx</groupId>
 				<artifactId>docbkx-maven-plugin</artifactId>
-				<version>2.0.9</version>
+				<version>2.0.10</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>generate-html</goal>
+							<goal>generate-xhtml</goal>
 						</goals>
 						<phase>pre-site</phase>
 					</execution>
@@ -155,13 +156,14 @@
 				<configuration>
 					<chunkedOutput>false</chunkedOutput>
 					<sourceDirectory>${siteBaseDirectory}/docbook</sourceDirectory>
-					<targetDirectory>${project.build.directory}/generated-site/html</targetDirectory>
-					<generateMetaAbstract>0</generateMetaAbstract>
-					<highlightSource>1</highlightSource>
+					<includes>**/*.xml,**/*.xml.vm</includes>
+					<targetDirectory>${project.build.directory}/generated-site/docbook-xhtml</targetDirectory>
+					<generateMetaAbstract>false</generateMetaAbstract>
+					<generateToc>false</generateToc>
+					<highlightSource>true</highlightSource>
 					<highlightDefaultLanguage />
-					<htmlCustomization>${siteBaseDirectory}/xsl/html.xsl</htmlCustomization>
+					<xhtmlCustomization>${siteBaseDirectory}/xsl/html.xsl</xhtmlCustomization>
 					<imgSrcPath>./</imgSrcPath>
-					<htmlStylesheet>css/site.css</htmlStylesheet>
 					<htmlCellSpacing>2</htmlCellSpacing>
 					<htmlCellPadding>2</htmlCellPadding>
 					<suppressHeaderNavigation>1</suppressHeaderNavigation>
@@ -174,20 +176,12 @@
 					<useExtensions>1</useExtensions>
 					<!-- callouts -->
 					<calloutsExtension>1</calloutsExtension>
-					<entities>
-						<entity>
-							<name>projectVersion</name>
-							<value>${project.version}</value>
-						</entity>
-					</entities>
 				</configuration>
 			</plugin>
 			<!--
 				Configure the HTML Filter Site plugin. This runs *after* the docbkx plugin in the pre-site phase
 				and runs Velocity on the files and makes them look more like Doxia-generated files without
-				stripping all the useful DocBook formatting like Doxia does. It first runs JTidy to make the
-				files XHTML-compliant. When version 2.0.10 of the docbkx plugin is released we can generate
-				XHTML and won't need the "tidy" goal.
+				stripping all the useful DocBook formatting like Doxia does.
 			-->
 			<plugin>
 				<groupId>org.kathrynhuxtable.maven.plugins</groupId>
@@ -196,17 +190,15 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>tidy</goal>
 							<goal>merge</goal>
 						</goals>
 						<phase>pre-site</phase>
 					</execution>
 				</executions>
 				<configuration>
-					<tidySourceDirectory>${project.build.directory}/generated-site/html</tidySourceDirectory>
-					<tidyTargetDirectory>${project.build.directory}/generated-site/tidy</tidyTargetDirectory>
-
-					<sourceDirectory>${project.build.directory}/generated-site/tidy</sourceDirectory>
+					<sourceDirectory>${project.build.directory}/generated-site/docbook-xhtml</sourceDirectory>
+					<filePattern>**/*.html,**/*.xm.html</filePattern>
+					<filterExtension>.xm.html</filterExtension>
 					<targetDirectory>${project.build.directory}/generated-site/resources</targetDirectory>
 				</configuration>
 			</plugin>
@@ -358,6 +350,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.6.1</version>
 				<configuration>
+                    <notimestamp>true</notimestamp>
 					<links>
 						<link>http://java.sun.com/javase/6/docs/api</link>
 						<link>http://www.randelshofer.ch/quaqua/javadoc</link>
