@@ -26,11 +26,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.NumberFormat;
+
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -457,9 +460,9 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         int rh  = table.getRowHeight();
         int n   = table.getRowCount();
         int row = Math.abs(top / rh);
-        if (true) return;
-        
-        TableCellRenderer renderer = table.getDefaultRenderer(java.lang.Object.class);
+// if (true) return;
+
+// TableCellRenderer renderer = table.getDefaultRenderer(java.lang.Object.class);
 
         // Paint the background, including stripes if requested.
         if (alternateColor != null) {
@@ -1217,15 +1220,15 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 SeaGlassLookAndFeel.resetSelectedUI();
             }
 
-            Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            System.out.println("row = " + row + ", opaque = " + isOpaque());
-            if (row % 2 == 0) {
-                comp.setBackground(alternateColor);
-                setBackground(alternateColor);
-            } else {
-                comp.setBackground(table.getBackground());
-                setBackground(table.getBackground());
-            }
+// Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+// System.out.println("row = " + row + ", opaque = " + isOpaque());
+// if (row % 2 == 0) {
+// comp.setBackground(alternateColor);
+// setBackground(alternateColor);
+// } else {
+// comp.setBackground(table.getBackground());
+// setBackground(table.getBackground());
+// }
 
             setIcon(null);
             Class columnClass = table.getColumnClass(column);
