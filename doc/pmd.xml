@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.2" timestamp="2010-03-26T09:15:30.328">
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java">
+<pmd version="4.2.2" timestamp="2010-03-26T10:29:21.553">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java">
 <violation beginline="20" endline="2905" begincolumn="1" endcolumn="2" rule="TooManyStaticImports" ruleset="Import Statement Rules" package="com.seaglasslookandfeel" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#TooManyStaticImports" priority="3">
 Too many static imports may lead to messy code
 </violation>
@@ -17,7 +17,7 @@ Avoid empty catch blocks
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassStyle.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassStyle.java">
 <violation beginline="20" endline="1578" begincolumn="1" endcolumn="2" rule="TooManyStaticImports" ruleset="Import Statement Rules" package="com.seaglasslookandfeel" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#TooManyStaticImports" priority="3">
 Too many static imports may lead to messy code
 </violation>
@@ -28,7 +28,7 @@ Avoid empty if statements
 Avoid unused method parameters such as 'ctx'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java">
 <violation beginline="160" endline="162" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.seaglasslookandfeel.component" class="SeaGlassInternalFrameTitlePane" method="getComponentState" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
@@ -78,12 +78,12 @@ Avoid empty catch blocks
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassSplitPaneDivider.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassSplitPaneDivider.java">
 <violation beginline="106" endline="115" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.seaglasslookandfeel.component" class="SeaGlassSplitPaneDivider" method="propertyChange" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java">
 <violation beginline="175" endline="177" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.seaglasslookandfeel.component" class="SeaGlassTitlePane" method="getComponentState" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
@@ -103,7 +103,7 @@ Avoid unused method parameters such as 'insets'.
 These nested if statements could be combined
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/effect/Effect.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/effect/Effect.java">
 <violation beginline="164" endline="166" begincolumn="11" endcolumn="9" rule="EmptyCatchBlock" ruleset="Basic Rules" package="com.seaglasslookandfeel.effect" class="Effect" method="createBufferedImage" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
@@ -111,12 +111,12 @@ Avoid empty catch blocks
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/AbstractRegionPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/AbstractRegionPainter.java">
 <violation beginline="485" endline="490" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="com.seaglasslookandfeel.painter" class="AbstractRegionPainter" method="getComponentColor" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/ComboBoxArrowButtonPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/ComboBoxArrowButtonPainter.java">
 <violation beginline="145" endline="156" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="ComboBoxArrowButtonPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'c'.
 </violation>
@@ -127,7 +127,7 @@ Avoid unused method parameters such as 'c'.
 Avoid unused method parameters such as 'c'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/ComboBoxPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/ComboBoxPainter.java">
 <violation beginline="178" endline="193" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="ComboBoxPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'full'.
 </violation>
@@ -141,7 +141,7 @@ Avoid unused method parameters such as 'height'.
 Avoid unused method parameters such as 'width'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/DesktopPanePainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/DesktopPanePainter.java">
 <violation beginline="42" endline="45" begincolumn="12" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="DesktopPanePainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused constructor parameters such as 'state'.
 </violation>
@@ -149,42 +149,42 @@ Avoid unused constructor parameters such as 'state'.
 Unnecessary final modifier in final class
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/FrameAndRootPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/FrameAndRootPainter.java">
 <violation beginline="347" endline="355" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="FrameAndRootPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'titleHeight'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/MenuBarMenuPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/MenuBarMenuPainter.java">
 <violation beginline="55" endline="57" begincolumn="21" endcolumn="5" rule="UnnecessaryFinalModifier" ruleset="Basic Rules" package="com.seaglasslookandfeel.painter" class="MenuBarMenuPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryFinalModifier" priority="3">
 Unnecessary final modifier in final class
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/MenuPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/MenuPainter.java">
 <violation beginline="72" endline="74" begincolumn="21" endcolumn="5" rule="UnnecessaryFinalModifier" ruleset="Basic Rules" package="com.seaglasslookandfeel.painter" class="MenuPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryFinalModifier" priority="3">
 Unnecessary final modifier in final class
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/PopupMenuSeparatorPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/PopupMenuSeparatorPainter.java">
 <violation beginline="61" endline="63" begincolumn="21" endcolumn="5" rule="UnnecessaryFinalModifier" ruleset="Basic Rules" package="com.seaglasslookandfeel.painter" class="PopupMenuSeparatorPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryFinalModifier" priority="3">
 Unnecessary final modifier in final class
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/RadioButtonMenuItemPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/RadioButtonMenuItemPainter.java">
 <violation beginline="87" endline="89" begincolumn="21" endcolumn="5" rule="UnnecessaryFinalModifier" ruleset="Basic Rules" package="com.seaglasslookandfeel.painter" class="RadioButtonMenuItemPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryFinalModifier" priority="3">
 Unnecessary final modifier in final class
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/RadioButtonPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/RadioButtonPainter.java">
 <violation beginline="159" endline="163" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="RadioButtonPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'height'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/ScrollBarTrackPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/ScrollBarTrackPainter.java">
 <violation beginline="57" endline="60" begincolumn="12" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="ScrollBarTrackPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused constructor parameters such as 'state'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/SearchFieldIconPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/SearchFieldIconPainter.java">
 <violation beginline="80" endline="106" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="SearchFieldIconPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'height'.
 </violation>
@@ -204,27 +204,27 @@ Avoid unused method parameters such as 'x'.
 Avoid unused method parameters such as 'y'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/SliderThumbPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/SliderThumbPainter.java">
 <violation beginline="198" endline="223" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="SliderThumbPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'height'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/SpinnerNextButtonPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/SpinnerNextButtonPainter.java">
 <violation beginline="160" endline="164" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="SpinnerNextButtonPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'left'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/SpinnerPreviousButtonPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/SpinnerPreviousButtonPainter.java">
 <violation beginline="170" endline="174" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="SpinnerPreviousButtonPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'left'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/SplitPaneDividerPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/SplitPaneDividerPainter.java">
 <violation beginline="88" endline="90" begincolumn="21" endcolumn="5" rule="UnnecessaryFinalModifier" ruleset="Basic Rules" package="com.seaglasslookandfeel.painter" class="SplitPaneDividerPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryFinalModifier" priority="3">
 Unnecessary final modifier in final class
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/SplitPanePainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/SplitPanePainter.java">
 <violation beginline="37" endline="40" begincolumn="12" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="SplitPanePainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused constructor parameters such as 'state'.
 </violation>
@@ -232,7 +232,7 @@ Avoid unused constructor parameters such as 'state'.
 Unnecessary final modifier in final class
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TabbedPaneTabAreaPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TabbedPaneTabAreaPainter.java">
 <violation beginline="119" endline="124" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="TabbedPaneTabAreaPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'c'.
 </violation>
@@ -246,27 +246,27 @@ Avoid unused method parameters such as 'c'.
 Avoid unused method parameters such as 'height'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TitlePaneCloseButtonPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TitlePaneCloseButtonPainter.java">
 <violation beginline="152" endline="175" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="TitlePaneCloseButtonPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'c'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TitlePaneIconifyButtonPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TitlePaneIconifyButtonPainter.java">
 <violation beginline="244" endline="264" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="TitlePaneIconifyButtonPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'c'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TitlePaneMaximizeButtonPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TitlePaneMaximizeButtonPainter.java">
 <violation beginline="246" endline="259" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="TitlePaneMaximizeButtonPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'c'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TitlePaneMenuButtonPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TitlePaneMenuButtonPainter.java">
 <violation beginline="147" endline="187" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="TitlePaneMenuButtonPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'c'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/ToolBarHandlePainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/ToolBarHandlePainter.java">
 <violation beginline="49" endline="52" begincolumn="12" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="ToolBarHandlePainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused constructor parameters such as 'state'.
 </violation>
@@ -274,52 +274,52 @@ Avoid unused constructor parameters such as 'state'.
 Avoid unused method parameters such as 'width'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/ToolBarPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/ToolBarPainter.java">
 <violation beginline="43" endline="46" begincolumn="12" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.painter" class="ToolBarPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused constructor parameters such as 'state'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TreeCellEditorPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TreeCellEditorPainter.java">
 <violation beginline="61" endline="63" begincolumn="21" endcolumn="5" rule="UnnecessaryFinalModifier" ruleset="Basic Rules" package="com.seaglasslookandfeel.painter" class="TreeCellEditorPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryFinalModifier" priority="3">
 Unnecessary final modifier in final class
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TreeCellPainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TreeCellPainter.java">
 <violation beginline="63" endline="65" begincolumn="21" endcolumn="5" rule="UnnecessaryFinalModifier" ruleset="Basic Rules" package="com.seaglasslookandfeel.painter" class="TreeCellPainter" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryFinalModifier" priority="3">
 Unnecessary final modifier in final class
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TreePainter.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TreePainter.java">
 <violation beginline="67" endline="69" begincolumn="21" endcolumn="5" rule="UnnecessaryFinalModifier" ruleset="Basic Rules" package="com.seaglasslookandfeel.painter" class="TreePainter" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryFinalModifier" priority="3">
 Unnecessary final modifier in final class
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/state/RootPaneNoFrameState.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/state/RootPaneNoFrameState.java">
 <violation beginline="48" endline="48" begincolumn="13" endcolumn="16" rule="UnconditionalIfStatement" ruleset="Basic Rules" package="com.seaglasslookandfeel.state" class="RootPaneNoFrameState" method="isInState" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnconditionalIfStatement" priority="3">
 Do not use if statements that are always true or always false
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/state/ToolBarHasNorthToolBarState.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/state/ToolBarHasNorthToolBarState.java">
 <violation beginline="75" endline="77" begincolumn="21" endcolumn="21" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.seaglasslookandfeel.state" class="ToolBarHasNorthToolBarState" method="isInState" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassButtonUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassButtonUI.java">
 <violation beginline="127" endline="129" begincolumn="17" endcolumn="17" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassButtonUI" method="updateStyle" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassComboBoxUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassComboBoxUI.java">
 <violation beginline="534" endline="537" begincolumn="23" endcolumn="21" rule="EmptyCatchBlock" ruleset="Basic Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassComboBoxUI$SynthComboBoxEditor" method="getItem" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassDesktopIconUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassDesktopIconUI.java">
 <violation beginline="175" endline="176" begincolumn="15" endcolumn="13" rule="EmptyCatchBlock" ruleset="Basic Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassDesktopIconUI" method="actionPerformed" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassDesktopPaneUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassDesktopPaneUI.java">
 <violation beginline="315" endline="316" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassDesktopPaneUI$SeaGlassDesktopManager" method="maximizeFrame" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
@@ -336,17 +336,17 @@ Avoid empty catch blocks
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassMenuItemUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassMenuItemUI.java">
 <violation beginline="549" endline="551" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassMenuItemUI" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'region'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassPopupMenuUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassPopupMenuUI.java">
 <violation beginline="92" endline="95" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassPopupMenuUI" method="updateStyle" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.java">
 <violation beginline="300" endline="303" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassRootPaneUI" method="updateStyle" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
@@ -366,7 +366,7 @@ These nested if statements could be combined
 These nested if statements could be combined
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.java">
 <violation beginline="683" endline="686" begincolumn="41" endcolumn="41" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassScrollPaneUI$Handler" method="mouseWheelMoved" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
@@ -380,12 +380,12 @@ Avoid unused method parameters such as 'e'.
 These nested if statements could be combined
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassSplitPaneUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassSplitPaneUI.java">
 <violation beginline="224" endline="231" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassSplitPaneUI" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'subregion'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassTabbedPaneUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassTabbedPaneUI.java">
 <violation beginline="168" endline="170" begincolumn="12" endcolumn="5" rule="UselessOverridingMethod" ruleset="Basic Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassTabbedPaneUI" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UselessOverridingMethod" priority="3">
 Overriding method merely calls super
 </violation>
@@ -408,12 +408,12 @@ Avoid unused method parameters such as 'tabCount'.
 These nested if statements could be combined
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassTableHeaderUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassTableHeaderUI.java">
 <violation beginline="78" endline="81" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassTableHeaderUI" method="updateStyle" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassTableUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassTableUI.java">
 <violation beginline="460" endline="460" begincolumn="13" endcolumn="16" rule="UnconditionalIfStatement" ruleset="Basic Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassTableUI" method="paintStripesAndGrid" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnconditionalIfStatement" priority="3">
 Do not use if statements that are always true or always false
 </violation>
@@ -427,7 +427,7 @@ An empty statement (semicolon) not part of a loop
 Avoid unused method parameters such as 'context'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassTextFieldUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassTextFieldUI.java">
 <violation beginline="219" endline="221" begincolumn="17" endcolumn="17" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassTextFieldUI" method="updateSearchStyle" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
@@ -438,20 +438,20 @@ These nested if statements could be combined
 These nested if statements could be combined
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassToolBarUI.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassToolBarUI.java">
 <violation beginline="170" endline="172" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.seaglasslookandfeel.ui" class="SeaGlassToolBarUI" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
 Avoid unused method parameters such as 'region'.
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacEditorKit.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacEditorKit.java">
 <violation beginline="176" endline="178" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="com.seaglasslookandfeel.util" class="MacEditorKit$DeleteNextWordAction" method="actionPerformed" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/WindowUtils.java">
+<file name="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/WindowUtils.java">
 <violation beginline="84" endline="86" begincolumn="11" endcolumn="9" rule="EmptyCatchBlock" ruleset="Basic Rules" package="com.seaglasslookandfeel.util" class="WindowUtils" method="quietlyTryToMakeWindowNonOqaque" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
 </file>
-<suppressedviolation filename="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassTableUI.java" suppressiontype="annotation" msg="Avoid unused private methods such as 'paintGrid(SeaGlassContext,Graphics,int,int,int,int)'." usermsg=""/>
+<suppressedviolation filename="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassTableUI.java" suppressiontype="annotation" msg="Avoid unused private methods such as 'paintGrid(SeaGlassContext,Graphics,int,int,int,int)'." usermsg=""/>
 </pmd>

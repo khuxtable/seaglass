@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pmd-cpd>
 <duplication lines="129" tokens="665">
-<file line="203" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TabbedPaneTabPainter.java"/>
-<file line="209" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/button/SegmentedButtonPainter.java"/>
+<file line="203" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TabbedPaneTabPainter.java"/>
+<file line="209" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/button/SegmentedButtonPainter.java"/>
 <codefragment>
 <![CDATA[
         }
@@ -138,8 +138,8 @@
 </codefragment>
 </duplication>
 <duplication lines="26" tokens="370">
-<file line="1746" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
-<file line="1771" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1746" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1771" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
 <codefragment>
 <![CDATA[
         d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
@@ -172,8 +172,8 @@
 </codefragment>
 </duplication>
 <duplication lines="123" tokens="356">
-<file line="59" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
-<file line="195" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="59" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="195" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
 <codefragment>
 <![CDATA[
                     DefaultEditorKit.beepAction,
@@ -303,8 +303,8 @@
 </codefragment>
 </duplication>
 <duplication lines="115" tokens="339">
-<file line="61" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
-<file line="489" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="61" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="489" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
 <codefragment>
 <![CDATA[
                     "selection-page-right",
@@ -426,8 +426,8 @@
 </codefragment>
 </duplication>
 <duplication lines="65" tokens="279">
-<file line="71" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/SpinnerNextButtonPainter.java"/>
-<file line="77" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/SpinnerPreviousButtonPainter.java"/>
+<file line="71" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/SpinnerNextButtonPainter.java"/>
+<file line="77" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/SpinnerPreviousButtonPainter.java"/>
 <codefragment>
 <![CDATA[
     public SpinnerPreviousButtonPainter(Which state) {
@@ -499,8 +499,8 @@
 </codefragment>
 </duplication>
 <duplication lines="97" tokens="278">
-<file line="85" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
-<file line="357" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="85" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="357" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
 <codefragment>
 <![CDATA[
                     "decrement",
@@ -604,8 +604,8 @@
 </codefragment>
 </duplication>
 <duplication lines="91" tokens="267">
-<file line="357" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
-<file line="513" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="357" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="513" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
 <codefragment>
 <![CDATA[
                     DefaultEditorKit.downAction,
@@ -703,8 +703,8 @@
 </codefragment>
 </duplication>
 <duplication lines="19" tokens="267">
-<file line="1723" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
-<file line="1752" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1723" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1752" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
 <codefragment>
 <![CDATA[
         d.put(p + ".placeholderTextColor", d.get("seaGlassSearchPlaceholderText"));
@@ -730,8 +730,8 @@
 </codefragment>
 </duplication>
 <duplication lines="44" tokens="179">
-<file line="863" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassStyle.java"/>
-<file line="140" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassStyleWrapper.java"/>
+<file line="863" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassStyle.java"/>
+<file line="140" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassStyleWrapper.java"/>
 <codefragment>
 <![CDATA[
     }
@@ -782,8 +782,8 @@
 </codefragment>
 </duplication>
 <duplication lines="49" tokens="159">
-<file line="274" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
-<file line="432" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
+<file line="274" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
+<file line="432" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
 <codefragment>
 <![CDATA[
     }
@@ -839,8 +839,8 @@
 </codefragment>
 </duplication>
 <duplication lines="40" tokens="157">
-<file line="58" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/CheckBoxMenuItemPainter.java"/>
-<file line="48" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/RadioButtonMenuItemPainter.java"/>
+<file line="58" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/CheckBoxMenuItemPainter.java"/>
+<file line="48" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/RadioButtonMenuItemPainter.java"/>
 <codefragment>
 <![CDATA[
     public RadioButtonMenuItemPainter(Which state) {
@@ -887,8 +887,8 @@
 </codefragment>
 </duplication>
 <duplication lines="29" tokens="146">
-<file line="577" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/util/ShapeGenerator.java"/>
-<file line="617" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/util/ShapeGenerator.java"/>
+<file line="577" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/util/ShapeGenerator.java"/>
+<file line="617" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/util/ShapeGenerator.java"/>
 <codefragment>
 <![CDATA[
         path.moveTo(xMid, yMid - offsetC);
@@ -924,8 +924,8 @@
 </codefragment>
 </duplication>
 <duplication lines="52" tokens="146">
-<file line="196" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TitlePaneIconifyButtonPainter.java"/>
-<file line="198" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TitlePaneMaximizeButtonPainter.java"/>
+<file line="196" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TitlePaneIconifyButtonPainter.java"/>
+<file line="198" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TitlePaneMaximizeButtonPainter.java"/>
 <codefragment>
 <![CDATA[
         maximizePainter.paintPressed(g, c, width, height);
@@ -984,8 +984,8 @@
 </codefragment>
 </duplication>
 <duplication lines="47" tokens="146">
-<file line="577" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
-<file line="727" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
+<file line="577" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
+<file line="727" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
 <codefragment>
 <![CDATA[
         }
@@ -1039,8 +1039,8 @@
 </codefragment>
 </duplication>
 <duplication lines="17" tokens="141">
-<file line="1978" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
-<file line="2070" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
+<file line="1978" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
+<file line="2070" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
 <codefragment>
 <![CDATA[
     public void paintTabbedPaneTabBackground(SynthContext context, Graphics g, int x, int y, int w, int h, int tabIndex, int orientation) {
@@ -1064,8 +1064,8 @@
 </codefragment>
 </duplication>
 <duplication lines="35" tokens="138">
-<file line="528" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
-<file line="656" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
+<file line="528" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
+<file line="656" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
 <codefragment>
 <![CDATA[
         return SwingUtilities2.clipStringIfNecessary(rootPane, fm, text, availTextWidth);
@@ -1107,8 +1107,8 @@
 </codefragment>
 </duplication>
 <duplication lines="60" tokens="127">
-<file line="112" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TitlePaneIconifyButtonPainter.java"/>
-<file line="114" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TitlePaneMaximizeButtonPainter.java"/>
+<file line="112" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TitlePaneIconifyButtonPainter.java"/>
+<file line="114" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TitlePaneMaximizeButtonPainter.java"/>
 <codefragment>
 <![CDATA[
         case BACKGROUND_MAXIMIZED_PRESSED_WINDOWNOTFOCUSED:
@@ -1175,8 +1175,8 @@
 </codefragment>
 </duplication>
 <duplication lines="36" tokens="126">
-<file line="761" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
-<file line="930" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
+<file line="761" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
+<file line="930" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
 <codefragment>
 <![CDATA[
             height = Math.max(fm.getHeight(), height);
@@ -1219,8 +1219,8 @@
 </codefragment>
 </duplication>
 <duplication lines="34" tokens="109">
-<file line="45" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
-<file line="317" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="45" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="317" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
 <codefragment>
 <![CDATA[
         UIDefaults.LazyInputMap spinnerInputMap = new UIDefaults.LazyInputMap(new String[] {
@@ -1261,11 +1261,11 @@
 </codefragment>
 </duplication>
 <duplication lines="17" tokens="109">
-<file line="142" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassDesktopIconUI.java"/>
-<file line="417" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassDesktopPaneUI.java"/>
-<file line="175" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassInternalFrameUI.java"/>
-<file line="175" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassPanelUI.java"/>
-<file line="207" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassPopupMenuUI.java"/>
+<file line="142" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassDesktopIconUI.java"/>
+<file line="417" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassDesktopPaneUI.java"/>
+<file line="175" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassInternalFrameUI.java"/>
+<file line="175" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassPanelUI.java"/>
+<file line="207" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassPopupMenuUI.java"/>
 <codefragment>
 <![CDATA[
         context.getPainter().paintPopupMenuBackground(context, g, 0, 0, c.getWidth(), c.getHeight());
@@ -1289,8 +1289,8 @@
 </codefragment>
 </duplication>
 <duplication lines="25" tokens="109">
-<file line="769" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
-<file line="2319" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
+<file line="769" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
+<file line="2319" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
 <codefragment>
 <![CDATA[
     public void paintTextFieldBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
@@ -1322,10 +1322,10 @@
 </codefragment>
 </duplication>
 <duplication lines="25" tokens="109">
-<file line="333" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
-<file line="586" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
-<file line="745" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
-<file line="2295" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
+<file line="333" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
+<file line="586" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
+<file line="745" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
+<file line="2295" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassSynthPainterImpl.java"/>
 <codefragment>
 <![CDATA[
     public void paintTextFieldBackground(SynthContext context, Graphics g, int x, int y, int w, int h) {
@@ -1357,8 +1357,8 @@
 </codefragment>
 </duplication>
 <duplication lines="13" tokens="108">
-<file line="260" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassToolBarUI.java"/>
-<file line="296" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassToolBarUI.java"/>
+<file line="260" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassToolBarUI.java"/>
+<file line="296" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassToolBarUI.java"/>
 <codefragment>
 <![CDATA[
         public Dimension preferredLayoutSize(Container parent) {
@@ -1378,8 +1378,8 @@
 </codefragment>
 </duplication>
 <duplication lines="33" tokens="107">
-<file line="45" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
-<file line="607" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="45" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
+<file line="607" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
 <codefragment>
 <![CDATA[
         UIDefaults.LazyInputMap comboEditorInputMap = new UIDefaults.LazyInputMap(new String[] {
@@ -1419,8 +1419,8 @@
 </codefragment>
 </duplication>
 <duplication lines="15" tokens="106">
-<file line="747" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
-<file line="916" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
+<file line="747" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
+<file line="916" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
 <codefragment>
 <![CDATA[
             String             frameTitle    = getTitle();
@@ -1442,8 +1442,8 @@
 </codefragment>
 </duplication>
 <duplication lines="7" tokens="105">
-<file line="612" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
-<file line="1623" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="612" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1623" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
 <codefragment>
 <![CDATA[
         d.put(p + ".States", "Enabled,Pressed,Disabled");
@@ -1457,8 +1457,8 @@
 </codefragment>
 </duplication>
 <duplication lines="14" tokens="103">
-<file line="523" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.java"/>
-<file line="553" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.java"/>
+<file line="523" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.java"/>
+<file line="553" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.java"/>
 <codefragment>
 <![CDATA[
         trackRect.setBounds(lv.trackPosition, lv.itemEdge, lv.trackLength, lv.itemThickness);
@@ -1479,8 +1479,8 @@
 </codefragment>
 </duplication>
 <duplication lines="14" tokens="103">
-<file line="124" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/TabbedPaneTabPainter.java"/>
-<file line="82" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/painter/button/SegmentedButtonPainter.java"/>
+<file line="124" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/TabbedPaneTabPainter.java"/>
+<file line="82" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/painter/button/SegmentedButtonPainter.java"/>
 <codefragment>
 <![CDATA[
         width  -= focusInsets.left + focusInsets.right;
@@ -1501,8 +1501,8 @@
 </codefragment>
 </duplication>
 <duplication lines="40" tokens="102">
-<file line="399" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassDesktopPaneUI.java"/>
-<file line="136" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/ui/SeaGlassPanelUI.java"/>
+<file line="399" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassDesktopPaneUI.java"/>
+<file line="136" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/ui/SeaGlassPanelUI.java"/>
 <codefragment>
 <![CDATA[
     }
@@ -1549,8 +1549,8 @@
 </codefragment>
 </duplication>
 <duplication lines="37" tokens="102">
-<file line="195" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
-<file line="360" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
+<file line="195" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassInternalFrameTitlePane.java"/>
+<file line="360" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/component/SeaGlassTitlePane.java"/>
 <codefragment>
 <![CDATA[
         closeButton.setName("InternalFrameTitlePane.closeButton");
@@ -1594,8 +1594,8 @@
 </codefragment>
 </duplication>
 <duplication lines="7" tokens="102">
-<file line="657" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
-<file line="670" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="657" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="670" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
 <codefragment>
 <![CDATA[
         d.put(p + "[Disabled+Selected].textForeground", new ColorUIResource(new Color(0, 0, 0, 0x80)));
@@ -1609,8 +1609,8 @@
 </codefragment>
 </duplication>
 <duplication lines="6" tokens="101">
-<file line="657" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
-<file line="1875" path="/Users/huxtable/Documents/workspace/seaglass/seaglass/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="657" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1875" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
 <codefragment>
 <![CDATA[
         d.put(p + ".States", "Enabled,Disabled,Focused,Pressed");

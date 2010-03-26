@@ -1,0 +1,29 @@
+-classpath
+'/Users/huxtable/dev/seaglasslookandfeel/target/checkout/target/classes'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/huxtable/dev/seaglasslookandfeel/target/checkout/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Sea Glass Look and Feel for Swing 0.1.7.2.2 API'
+-link
+'http://java.sun.com/javase/6/docs/api'
+-link
+'http://www.randelshofer.ch/quaqua/javadoc'
+-link
+'http://java.sun.com/javase/6/docs/api'
+-notimestamp
+-use
+-version
+-windowtitle
+'Sea Glass Look and Feel for Swing 0.1.7.2.2 API'
