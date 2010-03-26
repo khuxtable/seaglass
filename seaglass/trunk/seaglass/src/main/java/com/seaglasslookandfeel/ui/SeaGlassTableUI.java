@@ -26,14 +26,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.NumberFormat;
-
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -460,6 +457,9 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         int rh  = table.getRowHeight();
         int n   = table.getRowCount();
         int row = Math.abs(top / rh);
+        if (true) return;
+        
+        TableCellRenderer renderer = table.getDefaultRenderer(java.lang.Object.class);
 
         // Paint the background, including stripes if requested.
         if (alternateColor != null) {
@@ -978,7 +978,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
 
                     component.setBounds(0, 0, emptyColumnWidth, table.getTableHeader().getHeight());
 
-                    ((JComponent) component).setOpaque(false);
+                    ((JComponent) component).setOpaque(true);
                     CELL_RENDER_PANE.paintComponent(g, component, null, startX, 0, emptyColumnWidth + 1,
                                                     table.getTableHeader().getHeight(), true);
                 }
@@ -1085,7 +1085,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 if (component instanceof JComponent && component instanceof UIResource) {
                     JComponent jComponent = (JComponent) component;
 
-                    jComponent.setOpaque(isSelected);
+                    jComponent.setOpaque(true);
                     jComponent.setBorder(isSelected ? getSelectedRowBorder() : getRowBorder());
                     jComponent.setBackground(isSelected ? jComponent.getBackground() : transparentColor);
                 }
@@ -1217,7 +1217,15 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 SeaGlassLookAndFeel.resetSelectedUI();
             }
 
-            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            System.out.println("row = " + row + ", opaque = " + isOpaque());
+            if (row % 2 == 0) {
+                comp.setBackground(alternateColor);
+                setBackground(alternateColor);
+            } else {
+                comp.setBackground(table.getBackground());
+                setBackground(table.getBackground());
+            }
 
             setIcon(null);
             Class columnClass = table.getColumnClass(column);
