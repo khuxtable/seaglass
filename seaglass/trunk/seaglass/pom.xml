@@ -279,8 +279,8 @@
 			concerned.
 		-->
 		<site>
-			<id>personal_website</id>
-			<url>scpexe://shell.sonic.net/home/k/kathryn5/public_html/projects/site/seaglasslookandfeel</url>
+			<id>local_website</id>
+			<url>${siteDeployURL}</url>
 		</site>
 	</distributionManagement>
 	<!-- Define Google Code site's issue management system. -->
@@ -431,5 +431,6 @@
 			around it.
 		-->
 		<siteBaseDirectory>${basedir}/src/site</siteBaseDirectory>
+		<siteDeployURL>file:///Users/huxtable/Sites/maven-sites/seaglasslookandfeel</siteDeployURL>
 	</properties>
 </project>
