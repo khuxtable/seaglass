@@ -133,11 +133,11 @@
 			<plugin>
 				<groupId>com.agilejava.docbkx</groupId>
 				<artifactId>docbkx-maven-plugin</artifactId>
-				<version>2.0.9</version>
+				<version>2.0.10</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>generate-html</goal>
+							<goal>generate-xhtml</goal>
 						</goals>
 						<phase>pre-site</phase>
 					</execution>
@@ -184,22 +184,17 @@
 			<plugin>
 				<groupId>org.kathrynhuxtable.maven.plugins</groupId>
 				<artifactId>htmlfilter-site-maven-plugin</artifactId>
-				<version>0.3</version>
+				<version>0.3.1</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>tidy</goal>
 							<goal>merge</goal>
 						</goals>
 						<phase>pre-site</phase>
 					</execution>
 				</executions>
 				<configuration>
-				    <tidySourceDirectory>${project.build.directory}/generated-site/docbook-xhtml</tidySourceDirectory>
-                    <filePattern>**/*.html,**/*.xm.html</filePattern>
-                    <tidyTargetDirectory>${project.build.directory}/generated-site/tidy</tidyTargetDirectory>
-
-					<sourceDirectory>${project.build.directory}/generated-site/tidy</sourceDirectory>
+					<sourceDirectory>${project.build.directory}/generated-site/docbook-xhtml</sourceDirectory>
 					<filePattern>**/*.html,**/*.xm.html</filePattern>
 					<filterExtension>.xm.html</filterExtension>
 					<targetDirectory>${project.build.directory}/generated-site/resources</targetDirectory>
