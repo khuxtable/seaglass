@@ -46,22 +46,26 @@
       xlink:href="http://maven.apache.org">Maven</link>, you may include the
       following in your <link
       xlink:href="http://maven.apache.org/pom.html"><filename>pom.xml</filename></link>
-      file:<programlisting language="xml">&lt;dependencies&gt;
+      file:</para>
+      
+      <programlisting language="xml">&lt;dependencies&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;com.seaglasslookandfeel&lt;/groupId&gt;
         &lt;artifactId&gt;seaglasslookandfeel&lt;/artifactId&gt;
         &lt;version&gt;${project.version}&lt;/version&gt;
     &lt;/dependency&gt;
-&lt;/dependencies&gt;</programlisting>To test against a staged or snapshot
+&lt;/dependencies&gt;</programlisting>
+
+<para>To test against a staged or snapshot
       version, you must also include the following:</para>
 
-      <para><programlisting language="xml">&lt;repositories&gt;
+      <programlisting language="xml">&lt;repositories&gt;
     &lt;repository&gt;
         &lt;id&gt;OSS Staging&lt;/id&gt;
         &lt;name&gt;Sonatype Staging Repository&lt;/name&gt;
         &lt;url&gt;http://oss.sonatype.org/content/groups/staging/&lt;/url&gt;
     &lt;/repository&gt;
-&lt;/repositories&gt;</programlisting></para>
+&lt;/repositories&gt;</programlisting>
     </section>
 
     <section>
