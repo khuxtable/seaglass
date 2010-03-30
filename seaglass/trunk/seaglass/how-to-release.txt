@@ -31,16 +31,10 @@ Releasing a new version of the Sea Glass Look and Feel
    Now execute the following command, substituting the "myusername" with your
    own remote username and "mypassphrase" with your GPG passphrase.
 
-      mvn -Dusername=myusername -Darguments="-Dgpg.passphrase=mypassphrase" \
-            -Dgpg.passphrase=mypassphrase release:perform
+      mvn -Dusername=myusername release:perform
 
-   The release:perform command, unfortunately, will not prompt for anything.
-   It *should* prompt for the passphrase, but there is apparently a bug in the
-   underlying Plexus IOC framework that Maven uses and it just hangs. You need
-   to specify it twice on the command. If it contains blanks I have not found
-   a way to escape them successfully, so my current passphrase does not
-   contain blanks. If this bug is fixed, then you would only need to specify
-   your username, if it is different from your login username.
+   The release:perform command will either prompt for your GPG passphrase, or,
+   if you are running the agent, bring up a window to prompt.
 
    The result of running this command is to create the target jar, the sources
    jar, and the javadoc jar. These jars will then be signed, and the jars and
