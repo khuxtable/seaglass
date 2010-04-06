@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Sea Glass Look and Feel - Usage</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
+      @import url("./css/highlight.css");
+    </style>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      </head>
+  <body class="composite">
+    <div id="page">
+    <div id="banner">
+                    <div id="bannerLeft">
+    
+            Sea Glass Look and Feel for Swing
+    
+            </div>
+                          <div id="bannerRight">
+    
+                                            <img src="images/logos/SeaGlassLogo.png" alt="$alt" />
+    
+            </div>
+            <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+          
+  
+
+  
+    
+            
+  
+    
+            <div class="xleft">
+        Version: 0.1.7.3-SNAPSHOT
+              </div>
+            <div class="xright">            <a href="http://explodingpixels.wordpress.com" class="externalLink">Kenneth Orr</a>
+            |
+                <a href="http://www.kathrynhuxtable.org" class="externalLink">Kathryn Huxtable</a>
+            
+  
+
+  
+    
+            
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="leftColumn">
+      <div id="navcolumn">
+           
+  
+
+  
+    
+            
+  
+    
+                   <h5>Sea Glass Look and Feel</h5>
+            <ul>
+              
+    <li>
+                    <a href="index.html">Introduction</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="http://groups.google.com/group/sea-glass-look-and-feel" class="externalLink">Discussion Group</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="http://seaglasslookandfeel.com" class="externalLink">Google Code</a>
+          </li>
+              
+    <li>
+                    <a href="downloads.html">Downloads</a>
+          </li>
+              
+    <li>
+              <strong>Usage</strong>
+        </li>
+              
+    <li>
+                    <a href="client-properties.html">Client properties</a>
+          </li>
+          </ul>
+              <h5>Project Information</h5>
+            <ul>
+              
+    <li>
+                    <a href="dependencies.html">Dependencies</a>
+          </li>
+              
+    <li>
+                    <a href="issue-tracking.html">Issue Tracking</a>
+          </li>
+              
+    <li>
+                    <a href="mail-lists.html">Mailing Lists</a>
+          </li>
+              
+    <li>
+                    <a href="license.html">Project License</a>
+          </li>
+              
+    <li>
+                    <a href="project-summary.html">Project Summary</a>
+          </li>
+              
+    <li>
+                    <a href="team-list.html">Project Team</a>
+          </li>
+              
+    <li>
+                    <a href="source-repository.html">Source Repository</a>
+          </li>
+          </ul>
+              <h5>Project Reports</h5>
+            <ul>
+              
+    <li>
+                    <a href="cpd.html">CPD Report</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="apidocs/index.html">JavaDocs</a>
+          </li>
+              
+    <li>
+                    <a href="pmd.html">PMD Report</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="xref/index.html">Source Xref</a>
+          </li>
+              
+    <li>
+                    <a href="taglist.html">Tag List</a>
+          </li>
+          </ul>
+            </div>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="article" title="Usage">
+  <div class="section" title="Usage">
+    <div class="titlepage">
+      <div>
+        <div>
+          <h1 class="title"><a id="d0e17" shape="rect"></a>Usage</h1>
+        </div>
+      </div>
+    </div>
+    <p>To use the Sea Glass Look and Feel, you must either include our
+    <a class="link" href="http://maven.apache.org" target="_top" shape="rect">Maven</a> repository in your
+    <code class="filename"><a class="link" href="http://maven.apache.org/pom.html" target="_top" shape="rect">pom.xml</a></code>
+    file or download the jar file and include it in your class path. See the
+    <a class="link" href="downloads.html" target="_top" shape="rect">downloads</a> page for more
+    details.</p>
+    <p>To enable the Sea Glass Look and Feel, include the following in your
+    application before creating any controls:</p>
+    <pre class="programlisting" xml:space="preserve"><span xmlns="" class="hl-keyword">try</span> {
+    UIManager.setLookAndFeel(<span xmlns="" class="hl-string">"com.seaglasslookandfeel.SeaGlassLookAndFeel"</span>);
+} <span xmlns="" class="hl-keyword">catch</span> (Exception e) {
+    e.printStackTrace();
+}</pre>
+    <p>We also support setting the user interface on the command line using
+    the VM option</p>
+    <div class="blockquote">
+      <blockquote class="blockquote">
+        <p><code class="code">-Dswing.defaultlaf=com.seaglasslookandfeel.SeaGlassLookAndFeel</code></p>
+      </blockquote>
+    </div>
+    <div class="section" title="Things to note">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title"><a id="d0e43" shape="rect"></a>Things to note</h1>
+          </div>
+        </div>
+      </div>
+      <p>On non-Mac systems we draw our own title bar and window frame,
+      meaning that we set the window to "undecorated". This means that you
+      can't remove the title bar and frame by setting a
+      <code class="classname">JFrame</code> to undecorated. You should probably use a
+      <code class="classname">JWindow</code> instead, though you should be able to set
+      the window decoration style to <code class="code">JRootPane.NONE</code> and get a
+      similar effect.</p>
+      <p>Also, we make <code class="classname">JToolBar</code> and
+      <code class="classname">JPanel</code> non-opaque using a call to
+      <code class="code">setOpaque(false)</code> if the background color is an instance of
+      <code class="classname">UIResource</code>, which it will be unless you have set
+      it. We then paint our background gradient on the content pane, which is
+      a <code class="classname">JPanel</code> by default. If you want a different
+      background color, put your controls in a <code class="classname">JPanel</code>,
+      add that to the <code class="code">BorderLayout.CENTER</code> of the content pane,
+      and set your <code class="classname">JPanel</code>'s background color.</p>
+      <p>We also support many <a class="link" href="client-properties.html" target="_top" shape="rect">client properties</a> to change
+      the appearance or behavior of controls.</p>
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xleft">
+        &#169;  
+          2009-2010
+    
+          seaglasslookandfeel.com
+          
+  
+
+  
+    
+            
+  
+    
+              
+  
+
+  
+    
+            
+  
+    
+            <div id="lastPublished">
+        Last Published: 06 Apr 2010
+              </div>
+            </div>
+      <div class="xright">                              <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+            <img class="poweredBy" 
+                 alt="Built by Maven" 
+                 src="./images/logos/maven-feather.png" 
+                 width="90"
+                 height="30"
+                 border="1" />
+          </a>
+            </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    </div>
+  </body>
+</html>

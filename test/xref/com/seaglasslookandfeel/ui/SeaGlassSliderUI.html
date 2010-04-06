@@ -1,0 +1,932 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+<title>SeaGlassSliderUI xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../apidocs/com/seaglasslookandfeel/ui/SeaGlassSliderUI.html">View Javadoc</a></div><pre>
+
+<a name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
+<a name="2" href="#2">2</a>   <em class="jxr_comment"> * Copyright (c) 2009 Kathryn Huxtable and Kenneth Orr.</em>
+<a name="3" href="#3">3</a>   <em class="jxr_comment"> *</em>
+<a name="4" href="#4">4</a>   <em class="jxr_comment"> * This file is part of the SeaGlass Pluggable Look and Feel.</em>
+<a name="5" href="#5">5</a>   <em class="jxr_comment"> *</em>
+<a name="6" href="#6">6</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
+<a name="7" href="#7">7</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
+<a name="8" href="#8">8</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
+<a name="9" href="#9">9</a>   <em class="jxr_comment"> *</em>
+<a name="10" href="#10">10</a>  <em class="jxr_comment"> *     <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
+<a name="11" href="#11">11</a>  <em class="jxr_comment"> *</em>
+<a name="12" href="#12">12</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a name="13" href="#13">13</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a name="14" href="#14">14</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a name="15" href="#15">15</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
+<a name="16" href="#16">16</a>  <em class="jxr_comment"> * limitations under the License.</em>
+<a name="17" href="#17">17</a>  <em class="jxr_comment"> * </em>
+<a name="18" href="#18">18</a>  <em class="jxr_comment"> * $Id$</em>
+<a name="19" href="#19">19</a>  <em class="jxr_comment"> */</em>
+<a name="20" href="#20">20</a>  <strong class="jxr_keyword">package</strong> com.seaglasslookandfeel.ui;
+<a name="21" href="#21">21</a>  
+<a name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> java.awt.Component;
+<a name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> java.awt.Dimension;
+<a name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> java.awt.FontMetrics;
+<a name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> java.awt.Graphics;
+<a name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> java.awt.Insets;
+<a name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> java.awt.Point;
+<a name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> java.awt.Rectangle;
+<a name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> java.awt.event.MouseEvent;
+<a name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> java.beans.PropertyChangeEvent;
+<a name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> java.beans.PropertyChangeListener;
+<a name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> java.util.Dictionary;
+<a name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> java.util.Enumeration;
+<a name="34" href="#34">34</a>  
+<a name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> javax.swing.JComponent;
+<a name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> javax.swing.JSlider;
+<a name="37" href="#37">37</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.ComponentUI;
+<a name="38" href="#38">38</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.basic.BasicSliderUI;
+<a name="39" href="#39">39</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.ColorType;
+<a name="40" href="#40">40</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.Region;
+<a name="41" href="#41">41</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.SynthContext;
+<a name="42" href="#42">42</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.SynthGraphicsUtils;
+<a name="43" href="#43">43</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.SynthStyle;
+<a name="44" href="#44">44</a>  
+<a name="45" href="#45">45</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.SeaGlassContext;
+<a name="46" href="#46">46</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.SeaGlassLookAndFeel;
+<a name="47" href="#47">47</a>  
+<a name="48" href="#48">48</a>  <strong class="jxr_keyword">import</strong> sun.swing.SwingUtilities2;
+<a name="49" href="#49">49</a>  <strong class="jxr_keyword">import</strong> sun.swing.plaf.synth.SynthUI;
+<a name="50" href="#50">50</a>  
+<a name="51" href="#51">51</a>  <em class="jxr_javadoccomment">/**</em>
+<a name="52" href="#52">52</a>  <em class="jxr_javadoccomment"> * SeaGlassSliderUI implementation.</em>
+<a name="53" href="#53">53</a>  <em class="jxr_javadoccomment"> * </em>
+<a name="54" href="#54">54</a>  <em class="jxr_javadoccomment"> * Based on SynthSliderUI by Joshua Outwater, with hack to make slider track</em>
+<a name="55" href="#55">55</a>  <em class="jxr_javadoccomment"> * thinner.</em>
+<a name="56" href="#56">56</a>  <em class="jxr_javadoccomment"> * </em>
+<a name="57" href="#57">57</a>  <em class="jxr_javadoccomment"> * @see javax.swing.plaf.synth.SynthSliderUI</em>
+<a name="58" href="#58">58</a>  <em class="jxr_javadoccomment"> */</em>
+<a name="59" href="#59">59</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassSliderUI.html">SeaGlassSliderUI</a> <strong class="jxr_keyword">extends</strong> BasicSliderUI implements PropertyChangeListener, SynthUI {
+<a name="60" href="#60">60</a>      <strong class="jxr_keyword">protected</strong> Dimension       contentDim = <strong class="jxr_keyword">new</strong> Dimension();
+<a name="61" href="#61">61</a>      <strong class="jxr_keyword">protected</strong> Rectangle       valueRect  = <strong class="jxr_keyword">new</strong> Rectangle();
+<a name="62" href="#62">62</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">boolean</strong>         paintValue;
+<a name="63" href="#63">63</a>  
+<a name="64" href="#64">64</a>      <em class="jxr_javadoccomment">/**</em>
+<a name="65" href="#65">65</a>  <em class="jxr_javadoccomment">     * When a JSlider is used as a renderer in a JTable, its layout is not being</em>
+<a name="66" href="#66">66</a>  <em class="jxr_javadoccomment">     * recomputed even though the size is changing. Even though there is a</em>
+<a name="67" href="#67">67</a>  <em class="jxr_javadoccomment">     * ComponentListener installed, it is not being notified. As such, at times</em>
+<a name="68" href="#68">68</a>  <em class="jxr_javadoccomment">     * when being asked to paint the layout should first be redone. At the end</em>
+<a name="69" href="#69">69</a>  <em class="jxr_javadoccomment">     * of the layout method we set this lastSize variable, which represents the</em>
+<a name="70" href="#70">70</a>  <em class="jxr_javadoccomment">     * size of the slider the last time it was layed out.</em>
+<a name="71" href="#71">71</a>  <em class="jxr_javadoccomment">     * </em>
+<a name="72" href="#72">72</a>  <em class="jxr_javadoccomment">     * In the paint method we then check to see that this is accurate, that the</em>
+<a name="73" href="#73">73</a>  <em class="jxr_javadoccomment">     * slider has not changed sizes since being last layed out. If necessary we</em>
+<a name="74" href="#74">74</a>  <em class="jxr_javadoccomment">     * recompute the layout.</em>
+<a name="75" href="#75">75</a>  <em class="jxr_javadoccomment">     */</em>
+<a name="76" href="#76">76</a>      <strong class="jxr_keyword">private</strong> Dimension         lastSize   = <strong class="jxr_keyword">null</strong>;
+<a name="77" href="#77">77</a>  
+<a name="78" href="#78">78</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong>               trackHeight;
+<a name="79" href="#79">79</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong>               trackHeightHack;
+<a name="80" href="#80">80</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong>               trackBorder;
+<a name="81" href="#81">81</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong>               thumbWidth;
+<a name="82" href="#82">82</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong>               thumbHeight;
+<a name="83" href="#83">83</a>  
+<a name="84" href="#84">84</a>      <strong class="jxr_keyword">private</strong> SynthStyle        style;
+<a name="85" href="#85">85</a>      <strong class="jxr_keyword">private</strong> SynthStyle        sliderTrackStyle;
+<a name="86" href="#86">86</a>      <strong class="jxr_keyword">private</strong> SynthStyle        sliderThumbStyle;
+<a name="87" href="#87">87</a>  
+<a name="88" href="#88">88</a>      <em class="jxr_javadoccomment">/**</em><em class="jxr_javadoccomment"> Used to determine the color to paint the thumb. */</em>
+<a name="89" href="#89">89</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">transient</strong> <strong class="jxr_keyword">boolean</strong> thumbActive;                 <em class="jxr_comment">// happens on</em>
+<a name="90" href="#90">90</a>      <em class="jxr_comment">// rollover, and</em>
+<a name="91" href="#91">91</a>      <em class="jxr_comment">// when pressed</em>
+<a name="92" href="#92">92</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">transient</strong> <strong class="jxr_keyword">boolean</strong> thumbPressed;                <em class="jxr_comment">// happens when</em>
+<a name="93" href="#93">93</a>  
+<a name="94" href="#94">94</a>      <em class="jxr_comment">// mouse was</em>
+<a name="95" href="#95">95</a>      <em class="jxr_comment">// depressed while</em>
+<a name="96" href="#96">96</a>      <em class="jxr_comment">// over thumb</em>
+<a name="97" href="#97">97</a>  
+<a name="98" href="#98">98</a>      <em class="jxr_comment">// /////////////////////////////////////////////////</em>
+<a name="99" href="#99">99</a>      <em class="jxr_comment">// ComponentUI Interface Implementation methods</em>
+<a name="100" href="#100">100</a>     <em class="jxr_comment">// /////////////////////////////////////////////////</em>
+<a name="101" href="#101">101</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> ComponentUI createUI(JComponent c) {
+<a name="102" href="#102">102</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassSliderUI.html">SeaGlassSliderUI</a>((JSlider) c);
+<a name="103" href="#103">103</a>     }
+<a name="104" href="#104">104</a> 
+<a name="105" href="#105">105</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassSliderUI.html">SeaGlassSliderUI</a>(JSlider c) {
+<a name="106" href="#106">106</a>         <strong class="jxr_keyword">super</strong>(c);
+<a name="107" href="#107">107</a>     }
+<a name="108" href="#108">108</a> 
+<a name="109" href="#109">109</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> installDefaults(JSlider slider) {
+<a name="110" href="#110">110</a>         updateStyle(slider);
+<a name="111" href="#111">111</a>     }
+<a name="112" href="#112">112</a> 
+<a name="113" href="#113">113</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> uninstallDefaults() {
+<a name="114" href="#114">114</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(slider, ENABLED);
+<a name="115" href="#115">115</a>         style.uninstallDefaults(context);
+<a name="116" href="#116">116</a>         context.dispose();
+<a name="117" href="#117">117</a>         style = <strong class="jxr_keyword">null</strong>;
+<a name="118" href="#118">118</a> 
+<a name="119" href="#119">119</a>         context = getContext(slider, Region.SLIDER_TRACK, ENABLED);
+<a name="120" href="#120">120</a>         sliderTrackStyle.uninstallDefaults(context);
+<a name="121" href="#121">121</a>         context.dispose();
+<a name="122" href="#122">122</a>         sliderTrackStyle = <strong class="jxr_keyword">null</strong>;
+<a name="123" href="#123">123</a> 
+<a name="124" href="#124">124</a>         context = getContext(slider, Region.SLIDER_THUMB, ENABLED);
+<a name="125" href="#125">125</a>         sliderThumbStyle.uninstallDefaults(context);
+<a name="126" href="#126">126</a>         context.dispose();
+<a name="127" href="#127">127</a>         sliderThumbStyle = <strong class="jxr_keyword">null</strong>;
+<a name="128" href="#128">128</a>     }
+<a name="129" href="#129">129</a> 
+<a name="130" href="#130">130</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> installListeners(JSlider slider) {
+<a name="131" href="#131">131</a>         <strong class="jxr_keyword">super</strong>.installListeners(slider);
+<a name="132" href="#132">132</a>         slider.addPropertyChangeListener(<strong class="jxr_keyword">this</strong>);
+<a name="133" href="#133">133</a>     }
+<a name="134" href="#134">134</a> 
+<a name="135" href="#135">135</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> uninstallListeners(JSlider slider) {
+<a name="136" href="#136">136</a>         slider.removePropertyChangeListener(<strong class="jxr_keyword">this</strong>);
+<a name="137" href="#137">137</a>         <strong class="jxr_keyword">super</strong>.uninstallListeners(slider);
+<a name="138" href="#138">138</a>     }
+<a name="139" href="#139">139</a> 
+<a name="140" href="#140">140</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> updateStyle(JSlider c) {
+<a name="141" href="#141">141</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c, ENABLED);
+<a name="142" href="#142">142</a>         SynthStyle oldStyle = style;
+<a name="143" href="#143">143</a>         style = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
+<a name="144" href="#144">144</a> 
+<a name="145" href="#145">145</a>         <strong class="jxr_keyword">if</strong> (style != oldStyle) {
+<a name="146" href="#146">146</a>             thumbWidth = style.getInt(context, <span class="jxr_string">"Slider.thumbWidth"</span>, 30);
+<a name="147" href="#147">147</a> 
+<a name="148" href="#148">148</a>             thumbHeight = style.getInt(context, <span class="jxr_string">"Slider.thumbHeight"</span>, 14);
+<a name="149" href="#149">149</a>             
+<a name="150" href="#150">150</a>             trackHeightHack = style.getInt(context, <span class="jxr_string">"Slider.trackHeight"</span>, 5);
+<a name="151" href="#151">151</a> 
+<a name="152" href="#152">152</a>             <em class="jxr_comment">// handle scaling for sizeVarients for special case components. The</em>
+<a name="153" href="#153">153</a>             <em class="jxr_comment">// key "JComponent.sizeVariant" scales for large/small/mini</em>
+<a name="154" href="#154">154</a>             <em class="jxr_comment">// components are based on Apples LAF</em>
+<a name="155" href="#155">155</a>             String scaleKey = (String) slider.getClientProperty(<span class="jxr_string">"JComponent.sizeVariant"</span>);
+<a name="156" href="#156">156</a>             <strong class="jxr_keyword">if</strong> (scaleKey != <strong class="jxr_keyword">null</strong>) {
+<a name="157" href="#157">157</a>                 <strong class="jxr_keyword">if</strong> (<span class="jxr_string">"large"</span>.equals(scaleKey)) {
+<a name="158" href="#158">158</a>                     thumbWidth *= 1.15;
+<a name="159" href="#159">159</a>                     thumbHeight *= 1.15;
+<a name="160" href="#160">160</a>                     trackHeightHack = 7;
+<a name="161" href="#161">161</a>                 } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<span class="jxr_string">"small"</span>.equals(scaleKey)) {
+<a name="162" href="#162">162</a>                     thumbWidth *= 0.857;
+<a name="163" href="#163">163</a>                     thumbHeight *= 0.857;
+<a name="164" href="#164">164</a>                     trackHeightHack = 3;
+<a name="165" href="#165">165</a>                 } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<span class="jxr_string">"mini"</span>.equals(scaleKey)) {
+<a name="166" href="#166">166</a>                     thumbWidth *= 0.784;
+<a name="167" href="#167">167</a>                     thumbHeight *= 0.784;
+<a name="168" href="#168">168</a>                     trackHeightHack = 1;
+<a name="169" href="#169">169</a>                 }
+<a name="170" href="#170">170</a>             }
+<a name="171" href="#171">171</a> 
+<a name="172" href="#172">172</a>             trackBorder = style.getInt(context, <span class="jxr_string">"Slider.trackBorder"</span>, 1);
+<a name="173" href="#173">173</a> 
+<a name="174" href="#174">174</a>             trackHeight = thumbHeight + trackBorder * 2;
+<a name="175" href="#175">175</a> 
+<a name="176" href="#176">176</a>             paintValue = style.getBoolean(context, <span class="jxr_string">"Slider.paintValue"</span>, <strong class="jxr_keyword">true</strong>);
+<a name="177" href="#177">177</a>             <strong class="jxr_keyword">if</strong> (oldStyle != <strong class="jxr_keyword">null</strong>) {
+<a name="178" href="#178">178</a>                 uninstallKeyboardActions(c);
+<a name="179" href="#179">179</a>                 installKeyboardActions(c);
+<a name="180" href="#180">180</a>             }
+<a name="181" href="#181">181</a>         }
+<a name="182" href="#182">182</a>         context.dispose();
+<a name="183" href="#183">183</a> 
+<a name="184" href="#184">184</a>         context = getContext(c, Region.SLIDER_TRACK, ENABLED);
+<a name="185" href="#185">185</a>         sliderTrackStyle = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
+<a name="186" href="#186">186</a>         context.dispose();
+<a name="187" href="#187">187</a> 
+<a name="188" href="#188">188</a>         context = getContext(c, Region.SLIDER_THUMB, ENABLED);
+<a name="189" href="#189">189</a>         sliderThumbStyle = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
+<a name="190" href="#190">190</a>         context.dispose();
+<a name="191" href="#191">191</a>     }
+<a name="192" href="#192">192</a> 
+<a name="193" href="#193">193</a>     <strong class="jxr_keyword">protected</strong> TrackListener createTrackListener(JSlider s) {
+<a name="194" href="#194">194</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassSliderUI.html">SynthTrackListener</a>();
+<a name="195" href="#195">195</a>     }
+<a name="196" href="#196">196</a> 
+<a name="197" href="#197">197</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> updateThumbState(<strong class="jxr_keyword">int</strong> x, <strong class="jxr_keyword">int</strong> y) {
+<a name="198" href="#198">198</a>         setThumbActive(thumbRect.contains(x, y));
+<a name="199" href="#199">199</a>     }
+<a name="200" href="#200">200</a> 
+<a name="201" href="#201">201</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> updateThumbState(<strong class="jxr_keyword">int</strong> x, <strong class="jxr_keyword">int</strong> y, <strong class="jxr_keyword">boolean</strong> pressed) {
+<a name="202" href="#202">202</a>         updateThumbState(x, y);
+<a name="203" href="#203">203</a>         setThumbPressed(pressed);
+<a name="204" href="#204">204</a>     }
+<a name="205" href="#205">205</a> 
+<a name="206" href="#206">206</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> setThumbActive(<strong class="jxr_keyword">boolean</strong> active) {
+<a name="207" href="#207">207</a>         <strong class="jxr_keyword">if</strong> (thumbActive != active) {
+<a name="208" href="#208">208</a>             thumbActive = active;
+<a name="209" href="#209">209</a>             slider.repaint(thumbRect);
+<a name="210" href="#210">210</a>         }
+<a name="211" href="#211">211</a>     }
+<a name="212" href="#212">212</a> 
+<a name="213" href="#213">213</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> setThumbPressed(<strong class="jxr_keyword">boolean</strong> pressed) {
+<a name="214" href="#214">214</a>         <strong class="jxr_keyword">if</strong> (thumbPressed != pressed) {
+<a name="215" href="#215">215</a>             thumbPressed = pressed;
+<a name="216" href="#216">216</a>             slider.repaint(thumbRect);
+<a name="217" href="#217">217</a>         }
+<a name="218" href="#218">218</a>     }
+<a name="219" href="#219">219</a> 
+<a name="220" href="#220">220</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getBaseline(JComponent c, <strong class="jxr_keyword">int</strong> width, <strong class="jxr_keyword">int</strong> height) {
+<a name="221" href="#221">221</a>         <strong class="jxr_keyword">if</strong> (c == <strong class="jxr_keyword">null</strong>) {
+<a name="222" href="#222">222</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(<span class="jxr_string">"Component must be non-null"</span>);
+<a name="223" href="#223">223</a>         }
+<a name="224" href="#224">224</a>         <strong class="jxr_keyword">if</strong> (width &lt; 0 || height &lt; 0) {
+<a name="225" href="#225">225</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Width and height must be &gt;= 0"</span>);
+<a name="226" href="#226">226</a>         }
+<a name="227" href="#227">227</a>         <strong class="jxr_keyword">if</strong> (slider.getPaintLabels() &amp;&amp; labelsHaveSameBaselines()) {
+<a name="228" href="#228">228</a>             <em class="jxr_comment">// Get the insets for the track.</em>
+<a name="229" href="#229">229</a>             Insets trackInsets = <strong class="jxr_keyword">new</strong> Insets(0, 0, 0, 0);
+<a name="230" href="#230">230</a>             <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> trackContext = getContext(slider, Region.SLIDER_TRACK);
+<a name="231" href="#231">231</a>             style.getInsets(trackContext, trackInsets);
+<a name="232" href="#232">232</a>             trackContext.dispose();
+<a name="233" href="#233">233</a>             <strong class="jxr_keyword">if</strong> (slider.getOrientation() == JSlider.HORIZONTAL) {
+<a name="234" href="#234">234</a>                 <strong class="jxr_keyword">int</strong> valueHeight = 0;
+<a name="235" href="#235">235</a>                 <strong class="jxr_keyword">if</strong> (paintValue) {
+<a name="236" href="#236">236</a>                     <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(slider);
+<a name="237" href="#237">237</a>                     valueHeight = context.getStyle().getGraphicsUtils(context).getMaximumCharHeight(context);
+<a name="238" href="#238">238</a>                     context.dispose();
+<a name="239" href="#239">239</a>                 }
+<a name="240" href="#240">240</a>                 <strong class="jxr_keyword">int</strong> tickHeight = 0;
+<a name="241" href="#241">241</a>                 <strong class="jxr_keyword">if</strong> (slider.getPaintTicks()) {
+<a name="242" href="#242">242</a>                     tickHeight = getTickLength();
+<a name="243" href="#243">243</a>                 }
+<a name="244" href="#244">244</a>                 <strong class="jxr_keyword">int</strong> labelHeight = getHeightOfTallestLabel();
+<a name="245" href="#245">245</a>                 <strong class="jxr_keyword">int</strong> contentHeight = valueHeight + trackHeight + trackInsets.top + trackInsets.bottom + tickHeight + labelHeight + 4;
+<a name="246" href="#246">246</a>                 <strong class="jxr_keyword">int</strong> centerY = height / 2 - contentHeight / 2;
+<a name="247" href="#247">247</a>                 centerY += valueHeight + 2;
+<a name="248" href="#248">248</a>                 centerY += trackHeight + trackInsets.top + trackInsets.bottom;
+<a name="249" href="#249">249</a>                 centerY += tickHeight + 2;
+<a name="250" href="#250">250</a>                 Component label = (Component) slider.getLabelTable().elements().nextElement();
+<a name="251" href="#251">251</a>                 Dimension pref = label.getPreferredSize();
+<a name="252" href="#252">252</a>                 <strong class="jxr_keyword">return</strong> centerY + label.getBaseline(pref.width, pref.height);
+<a name="253" href="#253">253</a>             } <strong class="jxr_keyword">else</strong> { <em class="jxr_comment">// VERTICAL</em>
+<a name="254" href="#254">254</a>                 Integer value = slider.getInverted() ? getLowestValue() : getHighestValue();
+<a name="255" href="#255">255</a>                 <strong class="jxr_keyword">if</strong> (value != <strong class="jxr_keyword">null</strong>) {
+<a name="256" href="#256">256</a>                     <strong class="jxr_keyword">int</strong> valueY = insetCache.top;
+<a name="257" href="#257">257</a>                     <strong class="jxr_keyword">int</strong> valueHeight = 0;
+<a name="258" href="#258">258</a>                     <strong class="jxr_keyword">if</strong> (paintValue) {
+<a name="259" href="#259">259</a>                         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(slider);
+<a name="260" href="#260">260</a>                         valueHeight = context.getStyle().getGraphicsUtils(context).getMaximumCharHeight(context);
+<a name="261" href="#261">261</a>                         context.dispose();
+<a name="262" href="#262">262</a>                     }
+<a name="263" href="#263">263</a>                     <strong class="jxr_keyword">int</strong> contentHeight = height - insetCache.top - insetCache.bottom;
+<a name="264" href="#264">264</a>                     <strong class="jxr_keyword">int</strong> trackY = valueY + valueHeight;
+<a name="265" href="#265">265</a>                     <strong class="jxr_keyword">int</strong> trackHeight = contentHeight - valueHeight;
+<a name="266" href="#266">266</a>                     <strong class="jxr_keyword">int</strong> yPosition = yPositionForValue(value.intValue(), trackY, trackHeight);
+<a name="267" href="#267">267</a>                     Component label = (Component) slider.getLabelTable().get(value);
+<a name="268" href="#268">268</a>                     Dimension pref = label.getPreferredSize();
+<a name="269" href="#269">269</a>                     <strong class="jxr_keyword">return</strong> yPosition - pref.height / 2 + label.getBaseline(pref.width, pref.height);
+<a name="270" href="#270">270</a>                 }
+<a name="271" href="#271">271</a>             }
+<a name="272" href="#272">272</a>         }
+<a name="273" href="#273">273</a>         <strong class="jxr_keyword">return</strong> -1;
+<a name="274" href="#274">274</a>     }
+<a name="275" href="#275">275</a> 
+<a name="276" href="#276">276</a>     <strong class="jxr_keyword">public</strong> Dimension getPreferredSize(JComponent c) {
+<a name="277" href="#277">277</a>         recalculateIfInsetsChanged();
+<a name="278" href="#278">278</a>         Dimension d = <strong class="jxr_keyword">new</strong> Dimension(contentDim);
+<a name="279" href="#279">279</a>         <strong class="jxr_keyword">if</strong> (slider.getOrientation() == JSlider.VERTICAL) {
+<a name="280" href="#280">280</a>             d.height = 200;
+<a name="281" href="#281">281</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="282" href="#282">282</a>             d.width = 200;
+<a name="283" href="#283">283</a>         }
+<a name="284" href="#284">284</a>         <strong class="jxr_keyword">return</strong> d;
+<a name="285" href="#285">285</a>     }
+<a name="286" href="#286">286</a> 
+<a name="287" href="#287">287</a>     <strong class="jxr_keyword">public</strong> Dimension getMinimumSize(JComponent c) {
+<a name="288" href="#288">288</a>         recalculateIfInsetsChanged();
+<a name="289" href="#289">289</a>         Dimension d = <strong class="jxr_keyword">new</strong> Dimension(contentDim);
+<a name="290" href="#290">290</a>         <strong class="jxr_keyword">if</strong> (slider.getOrientation() == JSlider.VERTICAL) {
+<a name="291" href="#291">291</a>             d.height = thumbRect.height + insetCache.top + insetCache.bottom;
+<a name="292" href="#292">292</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="293" href="#293">293</a>             d.width = thumbRect.width + insetCache.left + insetCache.right;
+<a name="294" href="#294">294</a>         }
+<a name="295" href="#295">295</a>         <strong class="jxr_keyword">return</strong> d;
+<a name="296" href="#296">296</a>     }
+<a name="297" href="#297">297</a> 
+<a name="298" href="#298">298</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> calculateGeometry() {
+<a name="299" href="#299">299</a>         layout();
+<a name="300" href="#300">300</a>         calculateThumbLocation();
+<a name="301" href="#301">301</a>     }
+<a name="302" href="#302">302</a> 
+<a name="303" href="#303">303</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> layout() {
+<a name="304" href="#304">304</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(slider);
+<a name="305" href="#305">305</a>         SynthGraphicsUtils synthGraphics = style.getGraphicsUtils(context);
+<a name="306" href="#306">306</a> 
+<a name="307" href="#307">307</a>         <em class="jxr_comment">// Set the thumb size.</em>
+<a name="308" href="#308">308</a>         Dimension size = getThumbSize();
+<a name="309" href="#309">309</a>         thumbRect.setSize(size.width, size.height);
+<a name="310" href="#310">310</a> 
+<a name="311" href="#311">311</a>         <em class="jxr_comment">// Get the insets for the track.</em>
+<a name="312" href="#312">312</a>         Insets trackInsets = <strong class="jxr_keyword">new</strong> Insets(0, 0, 0, 0);
+<a name="313" href="#313">313</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> trackContext = getContext(slider, Region.SLIDER_TRACK);
+<a name="314" href="#314">314</a>         style.getInsets(trackContext, trackInsets);
+<a name="315" href="#315">315</a>         trackContext.dispose();
+<a name="316" href="#316">316</a> 
+<a name="317" href="#317">317</a>         <strong class="jxr_keyword">if</strong> (slider.getOrientation() == JSlider.HORIZONTAL) {
+<a name="318" href="#318">318</a>             <em class="jxr_comment">// Calculate the height of all the subcomponents so we can center</em>
+<a name="319" href="#319">319</a>             <em class="jxr_comment">// them.</em>
+<a name="320" href="#320">320</a>             valueRect.height = 0;
+<a name="321" href="#321">321</a>             <strong class="jxr_keyword">if</strong> (paintValue) {
+<a name="322" href="#322">322</a>                 valueRect.height = synthGraphics.getMaximumCharHeight(context);
+<a name="323" href="#323">323</a>             }
+<a name="324" href="#324">324</a> 
+<a name="325" href="#325">325</a>             trackRect.height = trackHeight;
+<a name="326" href="#326">326</a> 
+<a name="327" href="#327">327</a>             tickRect.height = 0;
+<a name="328" href="#328">328</a>             <strong class="jxr_keyword">if</strong> (slider.getPaintTicks()) {
+<a name="329" href="#329">329</a>                 tickRect.height = getTickLength();
+<a name="330" href="#330">330</a>             }
+<a name="331" href="#331">331</a> 
+<a name="332" href="#332">332</a>             labelRect.height = 0;
+<a name="333" href="#333">333</a>             <strong class="jxr_keyword">if</strong> (slider.getPaintLabels()) {
+<a name="334" href="#334">334</a>                 labelRect.height = getHeightOfTallestLabel();
+<a name="335" href="#335">335</a>             }
+<a name="336" href="#336">336</a> 
+<a name="337" href="#337">337</a>             contentDim.height = valueRect.height + trackRect.height + trackInsets.top + trackInsets.bottom + tickRect.height
+<a name="338" href="#338">338</a>                     + labelRect.height + 4;
+<a name="339" href="#339">339</a>             contentDim.width = slider.getWidth() - insetCache.left - insetCache.right;
+<a name="340" href="#340">340</a> 
+<a name="341" href="#341">341</a>             <em class="jxr_comment">// Check if any of the labels will paint out of bounds.</em>
+<a name="342" href="#342">342</a>             <strong class="jxr_keyword">int</strong> pad = 0;
+<a name="343" href="#343">343</a>             <strong class="jxr_keyword">if</strong> (slider.getPaintLabels()) {
+<a name="344" href="#344">344</a>                 <em class="jxr_comment">// Calculate the track rectangle. It is necessary for</em>
+<a name="345" href="#345">345</a>                 <em class="jxr_comment">// xPositionForValue to return correct values.</em>
+<a name="346" href="#346">346</a>                 trackRect.x = insetCache.left;
+<a name="347" href="#347">347</a>                 trackRect.width = contentDim.width;
+<a name="348" href="#348">348</a> 
+<a name="349" href="#349">349</a>                 Dictionary dictionary = slider.getLabelTable();
+<a name="350" href="#350">350</a>                 <strong class="jxr_keyword">if</strong> (dictionary != <strong class="jxr_keyword">null</strong>) {
+<a name="351" href="#351">351</a>                     <strong class="jxr_keyword">int</strong> minValue = slider.getMinimum();
+<a name="352" href="#352">352</a>                     <strong class="jxr_keyword">int</strong> maxValue = slider.getMaximum();
+<a name="353" href="#353">353</a> 
+<a name="354" href="#354">354</a>                     <em class="jxr_comment">// Iterate through the keys in the dictionary and find the</em>
+<a name="355" href="#355">355</a>                     <em class="jxr_comment">// first and last labels indices that fall within the</em>
+<a name="356" href="#356">356</a>                     <em class="jxr_comment">// slider range.</em>
+<a name="357" href="#357">357</a>                     <strong class="jxr_keyword">int</strong> firstLblIdx = Integer.MAX_VALUE;
+<a name="358" href="#358">358</a>                     <strong class="jxr_keyword">int</strong> lastLblIdx = Integer.MIN_VALUE;
+<a name="359" href="#359">359</a>                     <strong class="jxr_keyword">for</strong> (Enumeration keys = dictionary.keys(); keys.hasMoreElements();) {
+<a name="360" href="#360">360</a>                         <strong class="jxr_keyword">int</strong> keyInt = ((Integer) keys.nextElement()).intValue();
+<a name="361" href="#361">361</a>                         <strong class="jxr_keyword">if</strong> (keyInt &gt;= minValue &amp;&amp; keyInt &lt; firstLblIdx) {
+<a name="362" href="#362">362</a>                             firstLblIdx = keyInt;
+<a name="363" href="#363">363</a>                         }
+<a name="364" href="#364">364</a>                         <strong class="jxr_keyword">if</strong> (keyInt &lt;= maxValue &amp;&amp; keyInt &gt; lastLblIdx) {
+<a name="365" href="#365">365</a>                             lastLblIdx = keyInt;
+<a name="366" href="#366">366</a>                         }
+<a name="367" href="#367">367</a>                     }
+<a name="368" href="#368">368</a>                     <em class="jxr_comment">// Calculate the pad necessary for the labels at the first</em>
+<a name="369" href="#369">369</a>                     <em class="jxr_comment">// and last visible indices.</em>
+<a name="370" href="#370">370</a>                     pad = getPadForLabel(firstLblIdx);
+<a name="371" href="#371">371</a>                     pad = Math.max(pad, getPadForLabel(lastLblIdx));
+<a name="372" href="#372">372</a>                 }
+<a name="373" href="#373">373</a>             }
+<a name="374" href="#374">374</a>             <em class="jxr_comment">// Calculate the painting rectangles for each of the different</em>
+<a name="375" href="#375">375</a>             <em class="jxr_comment">// slider areas.</em>
+<a name="376" href="#376">376</a>             valueRect.x = trackRect.x = tickRect.x = labelRect.x = (insetCache.left + pad);
+<a name="377" href="#377">377</a>             valueRect.width = trackRect.width = tickRect.width = labelRect.width = (contentDim.width - (pad * 2));
+<a name="378" href="#378">378</a> 
+<a name="379" href="#379">379</a>             <strong class="jxr_keyword">int</strong> centerY = slider.getHeight() / 2 - contentDim.height / 2;
+<a name="380" href="#380">380</a> 
+<a name="381" href="#381">381</a>             valueRect.y = centerY;
+<a name="382" href="#382">382</a>             centerY += valueRect.height + 2;
+<a name="383" href="#383">383</a> 
+<a name="384" href="#384">384</a>             trackRect.y = centerY + trackInsets.top;
+<a name="385" href="#385">385</a>             centerY += trackRect.height + trackInsets.top + trackInsets.bottom;
+<a name="386" href="#386">386</a> 
+<a name="387" href="#387">387</a>             tickRect.y = centerY;
+<a name="388" href="#388">388</a>             centerY += tickRect.height + 2;
+<a name="389" href="#389">389</a> 
+<a name="390" href="#390">390</a>             labelRect.y = centerY;
+<a name="391" href="#391">391</a>             centerY += labelRect.height;
+<a name="392" href="#392">392</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="393" href="#393">393</a>             <em class="jxr_comment">// Calculate the width of all the subcomponents so we can center</em>
+<a name="394" href="#394">394</a>             <em class="jxr_comment">// them.</em>
+<a name="395" href="#395">395</a>             trackRect.width = trackHeight;
+<a name="396" href="#396">396</a> 
+<a name="397" href="#397">397</a>             tickRect.width = 0;
+<a name="398" href="#398">398</a>             <strong class="jxr_keyword">if</strong> (slider.getPaintTicks()) {
+<a name="399" href="#399">399</a>                 tickRect.width = getTickLength();
+<a name="400" href="#400">400</a>             }
+<a name="401" href="#401">401</a> 
+<a name="402" href="#402">402</a>             labelRect.width = 0;
+<a name="403" href="#403">403</a>             <strong class="jxr_keyword">if</strong> (slider.getPaintLabels()) {
+<a name="404" href="#404">404</a>                 labelRect.width = getWidthOfWidestLabel();
+<a name="405" href="#405">405</a>             }
+<a name="406" href="#406">406</a> 
+<a name="407" href="#407">407</a>             valueRect.y = insetCache.top;
+<a name="408" href="#408">408</a>             valueRect.height = 0;
+<a name="409" href="#409">409</a>             <strong class="jxr_keyword">if</strong> (paintValue) {
+<a name="410" href="#410">410</a>                 valueRect.height = synthGraphics.getMaximumCharHeight(context);
+<a name="411" href="#411">411</a>             }
+<a name="412" href="#412">412</a> 
+<a name="413" href="#413">413</a>             <em class="jxr_comment">// Get the max width of the min or max value of the slider.</em>
+<a name="414" href="#414">414</a>             FontMetrics fm = slider.getFontMetrics(slider.getFont());
+<a name="415" href="#415">415</a>             valueRect.width = Math.max(synthGraphics.computeStringWidth(context, slider.getFont(), fm, <span class="jxr_string">""</span> + slider.getMaximum()),
+<a name="416" href="#416">416</a>                 synthGraphics.computeStringWidth(context, slider.getFont(), fm, <span class="jxr_string">""</span> + slider.getMinimum()));
+<a name="417" href="#417">417</a> 
+<a name="418" href="#418">418</a>             <strong class="jxr_keyword">int</strong> l = valueRect.width / 2;
+<a name="419" href="#419">419</a>             <strong class="jxr_keyword">int</strong> w1 = trackInsets.left + trackRect.width / 2;
+<a name="420" href="#420">420</a>             <strong class="jxr_keyword">int</strong> w2 = trackRect.width / 2 + trackInsets.right + tickRect.width + labelRect.width;
+<a name="421" href="#421">421</a>             contentDim.width = Math.max(w1, l) + Math.max(w2, l) + 2 + insetCache.left + insetCache.right;
+<a name="422" href="#422">422</a>             contentDim.height = slider.getHeight() - insetCache.top - insetCache.bottom;
+<a name="423" href="#423">423</a> 
+<a name="424" href="#424">424</a>             <em class="jxr_comment">// Layout the components.</em>
+<a name="425" href="#425">425</a>             trackRect.y = tickRect.y = labelRect.y = valueRect.y + valueRect.height;
+<a name="426" href="#426">426</a>             trackRect.height = tickRect.height = labelRect.height = contentDim.height - valueRect.height;
+<a name="427" href="#427">427</a> 
+<a name="428" href="#428">428</a>             <strong class="jxr_keyword">int</strong> startX = slider.getWidth() / 2 - contentDim.width / 2;
+<a name="429" href="#429">429</a>             <strong class="jxr_keyword">if</strong> (SeaGlassLookAndFeel.isLeftToRight(slider)) {
+<a name="430" href="#430">430</a>                 <strong class="jxr_keyword">if</strong> (l &gt; w1) {
+<a name="431" href="#431">431</a>                     startX += (l - w1);
+<a name="432" href="#432">432</a>                 }
+<a name="433" href="#433">433</a>                 trackRect.x = startX + trackInsets.left;
+<a name="434" href="#434">434</a> 
+<a name="435" href="#435">435</a>                 startX += trackInsets.left + trackRect.width + trackInsets.right;
+<a name="436" href="#436">436</a>                 tickRect.x = startX;
+<a name="437" href="#437">437</a>                 labelRect.x = startX + tickRect.width + 2;
+<a name="438" href="#438">438</a>             } <strong class="jxr_keyword">else</strong> {
+<a name="439" href="#439">439</a>                 <strong class="jxr_keyword">if</strong> (l &gt; w2) {
+<a name="440" href="#440">440</a>                     startX += (l - w2);
+<a name="441" href="#441">441</a>                 }
+<a name="442" href="#442">442</a>                 labelRect.x = startX;
+<a name="443" href="#443">443</a> 
+<a name="444" href="#444">444</a>                 startX += labelRect.width + 2;
+<a name="445" href="#445">445</a>                 tickRect.x = startX;
+<a name="446" href="#446">446</a>                 trackRect.x = startX + tickRect.width + trackInsets.left;
+<a name="447" href="#447">447</a>             }
+<a name="448" href="#448">448</a>         }
+<a name="449" href="#449">449</a>         context.dispose();
+<a name="450" href="#450">450</a> 
+<a name="451" href="#451">451</a>         lastSize = slider.getSize();
+<a name="452" href="#452">452</a>     }
+<a name="453" href="#453">453</a> 
+<a name="454" href="#454">454</a>     <em class="jxr_javadoccomment">/**</em>
+<a name="455" href="#455">455</a> <em class="jxr_javadoccomment">     * Calculates the pad for the label at the specified index.</em>
+<a name="456" href="#456">456</a> <em class="jxr_javadoccomment">     * </em>
+<a name="457" href="#457">457</a> <em class="jxr_javadoccomment">     * @param index</em>
+<a name="458" href="#458">458</a> <em class="jxr_javadoccomment">     *            index of the label to calculate pad for.</em>
+<a name="459" href="#459">459</a> <em class="jxr_javadoccomment">     * @return padding required to keep label visible.</em>
+<a name="460" href="#460">460</a> <em class="jxr_javadoccomment">     */</em>
+<a name="461" href="#461">461</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> getPadForLabel(<strong class="jxr_keyword">int</strong> i) {
+<a name="462" href="#462">462</a>         Dictionary dictionary = slider.getLabelTable();
+<a name="463" href="#463">463</a>         <strong class="jxr_keyword">int</strong> pad = 0;
+<a name="464" href="#464">464</a> 
+<a name="465" href="#465">465</a>         Object o = dictionary.get(i);
+<a name="466" href="#466">466</a>         <strong class="jxr_keyword">if</strong> (o != <strong class="jxr_keyword">null</strong>) {
+<a name="467" href="#467">467</a>             Component c = (Component) o;
+<a name="468" href="#468">468</a>             <strong class="jxr_keyword">int</strong> centerX = xPositionForValue(i);
+<a name="469" href="#469">469</a>             <strong class="jxr_keyword">int</strong> cHalfWidth = c.getPreferredSize().width / 2;
+<a name="470" href="#470">470</a>             <strong class="jxr_keyword">if</strong> (centerX - cHalfWidth &lt; insetCache.left) {
+<a name="471" href="#471">471</a>                 pad = Math.max(pad, insetCache.left - (centerX - cHalfWidth));
+<a name="472" href="#472">472</a>             }
+<a name="473" href="#473">473</a> 
+<a name="474" href="#474">474</a>             <strong class="jxr_keyword">if</strong> (centerX + cHalfWidth &gt; slider.getWidth() - insetCache.right) {
+<a name="475" href="#475">475</a>                 pad = Math.max(pad, (centerX + cHalfWidth) - (slider.getWidth() - insetCache.right));
+<a name="476" href="#476">476</a>             }
+<a name="477" href="#477">477</a>         }
+<a name="478" href="#478">478</a>         <strong class="jxr_keyword">return</strong> pad;
+<a name="479" href="#479">479</a>     }
+<a name="480" href="#480">480</a> 
+<a name="481" href="#481">481</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> calculateThumbLocation() {
+<a name="482" href="#482">482</a>         <strong class="jxr_keyword">if</strong> (slider.getSnapToTicks()) {
+<a name="483" href="#483">483</a>             <strong class="jxr_keyword">int</strong> sliderValue = slider.getValue();
+<a name="484" href="#484">484</a>             <strong class="jxr_keyword">int</strong> snappedValue = sliderValue;
+<a name="485" href="#485">485</a>             <strong class="jxr_keyword">int</strong> majorTickSpacing = slider.getMajorTickSpacing();
+<a name="486" href="#486">486</a>             <strong class="jxr_keyword">int</strong> minorTickSpacing = slider.getMinorTickSpacing();
+<a name="487" href="#487">487</a>             <strong class="jxr_keyword">int</strong> tickSpacing = 0;
+<a name="488" href="#488">488</a> 
+<a name="489" href="#489">489</a>             <strong class="jxr_keyword">if</strong> (minorTickSpacing &gt; 0) {
+<a name="490" href="#490">490</a>                 tickSpacing = minorTickSpacing;
+<a name="491" href="#491">491</a>             } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (majorTickSpacing &gt; 0) {
+<a name="492" href="#492">492</a>                 tickSpacing = majorTickSpacing;
+<a name="493" href="#493">493</a>             }
+<a name="494" href="#494">494</a> 
+<a name="495" href="#495">495</a>             <strong class="jxr_keyword">if</strong> (tickSpacing != 0) {
+<a name="496" href="#496">496</a>                 <em class="jxr_comment">// If it's not on a tick, change the value</em>
+<a name="497" href="#497">497</a>                 <strong class="jxr_keyword">if</strong> ((sliderValue - slider.getMinimum()) % tickSpacing != 0) {
+<a name="498" href="#498">498</a>                     <strong class="jxr_keyword">float</strong> temp = (<strong class="jxr_keyword">float</strong>) (sliderValue - slider.getMinimum()) / (<strong class="jxr_keyword">float</strong>) tickSpacing;
+<a name="499" href="#499">499</a>                     <strong class="jxr_keyword">int</strong> whichTick = Math.round(temp);
+<a name="500" href="#500">500</a>                     snappedValue = slider.getMinimum() + (whichTick * tickSpacing);
+<a name="501" href="#501">501</a>                 }
+<a name="502" href="#502">502</a> 
+<a name="503" href="#503">503</a>                 <strong class="jxr_keyword">if</strong> (snappedValue != sliderValue) {
+<a name="504" href="#504">504</a>                     slider.setValue(snappedValue);
+<a name="505" href="#505">505</a>                 }
+<a name="506" href="#506">506</a>             }
+<a name="507" href="#507">507</a>         }
+<a name="508" href="#508">508</a> 
+<a name="509" href="#509">509</a>         <strong class="jxr_keyword">if</strong> (slider.getOrientation() == JSlider.HORIZONTAL) {
+<a name="510" href="#510">510</a>             <strong class="jxr_keyword">int</strong> valuePosition = xPositionForValue(slider.getValue());
+<a name="511" href="#511">511</a>             thumbRect.x = valuePosition - (thumbRect.width / 2);
+<a name="512" href="#512">512</a>             thumbRect.y = trackRect.y + trackBorder;
+<a name="513" href="#513">513</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="514" href="#514">514</a>             <strong class="jxr_keyword">int</strong> valuePosition = yPositionForValue(slider.getValue());
+<a name="515" href="#515">515</a>             thumbRect.x = trackRect.x + trackBorder;
+<a name="516" href="#516">516</a>             thumbRect.y = valuePosition - (thumbRect.height / 2);
+<a name="517" href="#517">517</a>         }
+<a name="518" href="#518">518</a>         Point mousePosition = slider.getMousePosition();
+<a name="519" href="#519">519</a>         <strong class="jxr_keyword">if</strong> (mousePosition != <strong class="jxr_keyword">null</strong>) {
+<a name="520" href="#520">520</a>             updateThumbState(mousePosition.x, mousePosition.y);
+<a name="521" href="#521">521</a>         }
+<a name="522" href="#522">522</a>     }
+<a name="523" href="#523">523</a> 
+<a name="524" href="#524">524</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> calculateTickRect() {
+<a name="525" href="#525">525</a>         <strong class="jxr_keyword">if</strong> (slider.getOrientation() == JSlider.HORIZONTAL) {
+<a name="526" href="#526">526</a>             tickRect.x = trackRect.x;
+<a name="527" href="#527">527</a>             tickRect.y = trackRect.y + trackRect.height + 2 + getTickLength();
+<a name="528" href="#528">528</a>             tickRect.width = trackRect.width;
+<a name="529" href="#529">529</a>             tickRect.height = getTickLength();
+<a name="530" href="#530">530</a> 
+<a name="531" href="#531">531</a>             <strong class="jxr_keyword">if</strong> (!slider.getPaintTicks()) {
+<a name="532" href="#532">532</a>                 --tickRect.y;
+<a name="533" href="#533">533</a>                 tickRect.height = 0;
+<a name="534" href="#534">534</a>             }
+<a name="535" href="#535">535</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="536" href="#536">536</a>             <strong class="jxr_keyword">if</strong> (SeaGlassLookAndFeel.isLeftToRight(slider)) {
+<a name="537" href="#537">537</a>                 tickRect.x = trackRect.x + trackRect.width;
+<a name="538" href="#538">538</a>                 tickRect.width = getTickLength();
+<a name="539" href="#539">539</a>             } <strong class="jxr_keyword">else</strong> {
+<a name="540" href="#540">540</a>                 tickRect.width = getTickLength();
+<a name="541" href="#541">541</a>                 tickRect.x = trackRect.x - tickRect.width;
+<a name="542" href="#542">542</a>             }
+<a name="543" href="#543">543</a>             tickRect.y = trackRect.y;
+<a name="544" href="#544">544</a>             tickRect.height = trackRect.height;
+<a name="545" href="#545">545</a> 
+<a name="546" href="#546">546</a>             <strong class="jxr_keyword">if</strong> (!slider.getPaintTicks()) {
+<a name="547" href="#547">547</a>                 --tickRect.x;
+<a name="548" href="#548">548</a>                 tickRect.width = 0;
+<a name="549" href="#549">549</a>             }
+<a name="550" href="#550">550</a>         }
+<a name="551" href="#551">551</a>     }
+<a name="552" href="#552">552</a> 
+<a name="553" href="#553">553</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setThumbLocation(<strong class="jxr_keyword">int</strong> x, <strong class="jxr_keyword">int</strong> y) {
+<a name="554" href="#554">554</a>         <strong class="jxr_keyword">super</strong>.setThumbLocation(x, y);
+<a name="555" href="#555">555</a>         <em class="jxr_comment">// Value rect is tied to the thumb location. We need to repaint when</em>
+<a name="556" href="#556">556</a>         <em class="jxr_comment">// the thumb repaints.</em>
+<a name="557" href="#557">557</a>         slider.repaint(valueRect.x, valueRect.y, valueRect.width, valueRect.height);
+<a name="558" href="#558">558</a>         setThumbActive(false);
+<a name="559" href="#559">559</a>     }
+<a name="560" href="#560">560</a> 
+<a name="561" href="#561">561</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">int</strong> xPositionForValue(<strong class="jxr_keyword">int</strong> value) {
+<a name="562" href="#562">562</a>         <strong class="jxr_keyword">int</strong> min = slider.getMinimum();
+<a name="563" href="#563">563</a>         <strong class="jxr_keyword">int</strong> max = slider.getMaximum();
+<a name="564" href="#564">564</a>         <strong class="jxr_keyword">int</strong> trackLeft = trackRect.x + thumbRect.width / 2 + trackBorder;
+<a name="565" href="#565">565</a>         <strong class="jxr_keyword">int</strong> trackRight = trackRect.x + trackRect.width - thumbRect.width / 2 - trackBorder;
+<a name="566" href="#566">566</a>         <strong class="jxr_keyword">int</strong> trackLength = trackRight - trackLeft;
+<a name="567" href="#567">567</a>         <strong class="jxr_keyword">double</strong> valueRange = (<strong class="jxr_keyword">double</strong>) max - (<strong class="jxr_keyword">double</strong>) min;
+<a name="568" href="#568">568</a>         <strong class="jxr_keyword">double</strong> pixelsPerValue = (<strong class="jxr_keyword">double</strong>) trackLength / valueRange;
+<a name="569" href="#569">569</a>         <strong class="jxr_keyword">int</strong> xPosition;
+<a name="570" href="#570">570</a> 
+<a name="571" href="#571">571</a>         <strong class="jxr_keyword">if</strong> (!drawInverted()) {
+<a name="572" href="#572">572</a>             xPosition = trackLeft;
+<a name="573" href="#573">573</a>             xPosition += Math.round(pixelsPerValue * ((<strong class="jxr_keyword">double</strong>) value - min));
+<a name="574" href="#574">574</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="575" href="#575">575</a>             xPosition = trackRight;
+<a name="576" href="#576">576</a>             xPosition -= Math.round(pixelsPerValue * ((<strong class="jxr_keyword">double</strong>) value - min));
+<a name="577" href="#577">577</a>         }
+<a name="578" href="#578">578</a> 
+<a name="579" href="#579">579</a>         xPosition = Math.max(trackLeft, xPosition);
+<a name="580" href="#580">580</a>         xPosition = Math.min(trackRight, xPosition);
+<a name="581" href="#581">581</a> 
+<a name="582" href="#582">582</a>         <strong class="jxr_keyword">return</strong> xPosition;
+<a name="583" href="#583">583</a>     }
+<a name="584" href="#584">584</a> 
+<a name="585" href="#585">585</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">int</strong> yPositionForValue(<strong class="jxr_keyword">int</strong> value, <strong class="jxr_keyword">int</strong> trackY, <strong class="jxr_keyword">int</strong> trackHeight) {
+<a name="586" href="#586">586</a>         <strong class="jxr_keyword">int</strong> min = slider.getMinimum();
+<a name="587" href="#587">587</a>         <strong class="jxr_keyword">int</strong> max = slider.getMaximum();
+<a name="588" href="#588">588</a>         <strong class="jxr_keyword">int</strong> trackTop = trackY + thumbRect.height / 2 + trackBorder;
+<a name="589" href="#589">589</a>         <strong class="jxr_keyword">int</strong> trackBottom = trackY + trackHeight - thumbRect.height / 2 - trackBorder;
+<a name="590" href="#590">590</a>         <strong class="jxr_keyword">int</strong> trackLength = trackBottom - trackTop;
+<a name="591" href="#591">591</a>         <strong class="jxr_keyword">double</strong> valueRange = (<strong class="jxr_keyword">double</strong>) max - (<strong class="jxr_keyword">double</strong>) min;
+<a name="592" href="#592">592</a>         <strong class="jxr_keyword">double</strong> pixelsPerValue = (<strong class="jxr_keyword">double</strong>) trackLength / (<strong class="jxr_keyword">double</strong>) valueRange;
+<a name="593" href="#593">593</a>         <strong class="jxr_keyword">int</strong> yPosition;
+<a name="594" href="#594">594</a> 
+<a name="595" href="#595">595</a>         <strong class="jxr_keyword">if</strong> (!drawInverted()) {
+<a name="596" href="#596">596</a>             yPosition = trackTop;
+<a name="597" href="#597">597</a>             yPosition += Math.round(pixelsPerValue * ((<strong class="jxr_keyword">double</strong>) max - value));
+<a name="598" href="#598">598</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="599" href="#599">599</a>             yPosition = trackTop;
+<a name="600" href="#600">600</a>             yPosition += Math.round(pixelsPerValue * ((<strong class="jxr_keyword">double</strong>) value - min));
+<a name="601" href="#601">601</a>         }
+<a name="602" href="#602">602</a> 
+<a name="603" href="#603">603</a>         yPosition = Math.max(trackTop, yPosition);
+<a name="604" href="#604">604</a>         yPosition = Math.min(trackBottom, yPosition);
+<a name="605" href="#605">605</a> 
+<a name="606" href="#606">606</a>         <strong class="jxr_keyword">return</strong> yPosition;
+<a name="607" href="#607">607</a>     }
+<a name="608" href="#608">608</a> 
+<a name="609" href="#609">609</a>     <em class="jxr_javadoccomment">/**</em>
+<a name="610" href="#610">610</a> <em class="jxr_javadoccomment">     * Returns a value give a y position. If yPos is past the track at the top</em>
+<a name="611" href="#611">611</a> <em class="jxr_javadoccomment">     * or the bottom it will set the value to the min or max of the slider,</em>
+<a name="612" href="#612">612</a> <em class="jxr_javadoccomment">     * depending if the slider is inverted or not.</em>
+<a name="613" href="#613">613</a> <em class="jxr_javadoccomment">     */</em>
+<a name="614" href="#614">614</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> valueForYPosition(<strong class="jxr_keyword">int</strong> yPos) {
+<a name="615" href="#615">615</a>         <strong class="jxr_keyword">int</strong> value;
+<a name="616" href="#616">616</a>         <strong class="jxr_keyword">int</strong> minValue = slider.getMinimum();
+<a name="617" href="#617">617</a>         <strong class="jxr_keyword">int</strong> maxValue = slider.getMaximum();
+<a name="618" href="#618">618</a>         <strong class="jxr_keyword">int</strong> trackTop = trackRect.y + thumbRect.height / 2 + trackBorder;
+<a name="619" href="#619">619</a>         <strong class="jxr_keyword">int</strong> trackBottom = trackRect.y + trackRect.height - thumbRect.height / 2 - trackBorder;
+<a name="620" href="#620">620</a>         <strong class="jxr_keyword">int</strong> trackLength = trackBottom - trackTop;
+<a name="621" href="#621">621</a> 
+<a name="622" href="#622">622</a>         <strong class="jxr_keyword">if</strong> (yPos &lt;= trackTop) {
+<a name="623" href="#623">623</a>             value = drawInverted() ? minValue : maxValue;
+<a name="624" href="#624">624</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (yPos &gt;= trackBottom) {
+<a name="625" href="#625">625</a>             value = drawInverted() ? maxValue : minValue;
+<a name="626" href="#626">626</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="627" href="#627">627</a>             <strong class="jxr_keyword">int</strong> distanceFromTrackTop = yPos - trackTop;
+<a name="628" href="#628">628</a>             <strong class="jxr_keyword">double</strong> valueRange = (<strong class="jxr_keyword">double</strong>) maxValue - (<strong class="jxr_keyword">double</strong>) minValue;
+<a name="629" href="#629">629</a>             <strong class="jxr_keyword">double</strong> valuePerPixel = valueRange / (<strong class="jxr_keyword">double</strong>) trackLength;
+<a name="630" href="#630">630</a>             <strong class="jxr_keyword">int</strong> valueFromTrackTop = (<strong class="jxr_keyword">int</strong>) Math.round(distanceFromTrackTop * valuePerPixel);
+<a name="631" href="#631">631</a>             value = drawInverted() ? minValue + valueFromTrackTop : maxValue - valueFromTrackTop;
+<a name="632" href="#632">632</a>         }
+<a name="633" href="#633">633</a>         <strong class="jxr_keyword">return</strong> value;
+<a name="634" href="#634">634</a>     }
+<a name="635" href="#635">635</a> 
+<a name="636" href="#636">636</a>     <em class="jxr_javadoccomment">/**</em>
+<a name="637" href="#637">637</a> <em class="jxr_javadoccomment">     * Returns a value give an x position. If xPos is past the track at the left</em>
+<a name="638" href="#638">638</a> <em class="jxr_javadoccomment">     * or the right it will set the value to the min or max of the slider,</em>
+<a name="639" href="#639">639</a> <em class="jxr_javadoccomment">     * depending if the slider is inverted or not.</em>
+<a name="640" href="#640">640</a> <em class="jxr_javadoccomment">     */</em>
+<a name="641" href="#641">641</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> valueForXPosition(<strong class="jxr_keyword">int</strong> xPos) {
+<a name="642" href="#642">642</a>         <strong class="jxr_keyword">int</strong> value;
+<a name="643" href="#643">643</a>         <strong class="jxr_keyword">int</strong> minValue = slider.getMinimum();
+<a name="644" href="#644">644</a>         <strong class="jxr_keyword">int</strong> maxValue = slider.getMaximum();
+<a name="645" href="#645">645</a>         <strong class="jxr_keyword">int</strong> trackLeft = trackRect.x + thumbRect.width / 2 + trackBorder;
+<a name="646" href="#646">646</a>         <strong class="jxr_keyword">int</strong> trackRight = trackRect.x + trackRect.width - thumbRect.width / 2 - trackBorder;
+<a name="647" href="#647">647</a>         <strong class="jxr_keyword">int</strong> trackLength = trackRight - trackLeft;
+<a name="648" href="#648">648</a> 
+<a name="649" href="#649">649</a>         <strong class="jxr_keyword">if</strong> (xPos &lt;= trackLeft) {
+<a name="650" href="#650">650</a>             value = drawInverted() ? maxValue : minValue;
+<a name="651" href="#651">651</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (xPos &gt;= trackRight) {
+<a name="652" href="#652">652</a>             value = drawInverted() ? minValue : maxValue;
+<a name="653" href="#653">653</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="654" href="#654">654</a>             <strong class="jxr_keyword">int</strong> distanceFromTrackLeft = xPos - trackLeft;
+<a name="655" href="#655">655</a>             <strong class="jxr_keyword">double</strong> valueRange = (<strong class="jxr_keyword">double</strong>) maxValue - (<strong class="jxr_keyword">double</strong>) minValue;
+<a name="656" href="#656">656</a>             <strong class="jxr_keyword">double</strong> valuePerPixel = valueRange / (<strong class="jxr_keyword">double</strong>) trackLength;
+<a name="657" href="#657">657</a>             <strong class="jxr_keyword">int</strong> valueFromTrackLeft = (<strong class="jxr_keyword">int</strong>) Math.round(distanceFromTrackLeft * valuePerPixel);
+<a name="658" href="#658">658</a>             value = drawInverted() ? maxValue - valueFromTrackLeft : minValue + valueFromTrackLeft;
+<a name="659" href="#659">659</a>         }
+<a name="660" href="#660">660</a>         <strong class="jxr_keyword">return</strong> value;
+<a name="661" href="#661">661</a>     }
+<a name="662" href="#662">662</a> 
+<a name="663" href="#663">663</a>     <strong class="jxr_keyword">protected</strong> Dimension getThumbSize() {
+<a name="664" href="#664">664</a>         Dimension size = <strong class="jxr_keyword">new</strong> Dimension();
+<a name="665" href="#665">665</a> 
+<a name="666" href="#666">666</a>         <strong class="jxr_keyword">if</strong> (slider.getOrientation() == JSlider.VERTICAL) {
+<a name="667" href="#667">667</a>             size.width = thumbHeight;
+<a name="668" href="#668">668</a>             size.height = thumbWidth;
+<a name="669" href="#669">669</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="670" href="#670">670</a>             size.width = thumbWidth;
+<a name="671" href="#671">671</a>             size.height = thumbHeight;
+<a name="672" href="#672">672</a>         }
+<a name="673" href="#673">673</a>         <strong class="jxr_keyword">return</strong> size;
+<a name="674" href="#674">674</a>     }
+<a name="675" href="#675">675</a> 
+<a name="676" href="#676">676</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> recalculateIfInsetsChanged() {
+<a name="677" href="#677">677</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(slider);
+<a name="678" href="#678">678</a>         Insets newInsets = style.getInsets(context, <strong class="jxr_keyword">null</strong>);
+<a name="679" href="#679">679</a>         <strong class="jxr_keyword">if</strong> (!newInsets.equals(insetCache)) {
+<a name="680" href="#680">680</a>             insetCache = newInsets;
+<a name="681" href="#681">681</a>             calculateGeometry();
+<a name="682" href="#682">682</a>         }
+<a name="683" href="#683">683</a>         context.dispose();
+<a name="684" href="#684">684</a>     }
+<a name="685" href="#685">685</a> 
+<a name="686" href="#686">686</a>     <strong class="jxr_keyword">public</strong> Region getRegion(JComponent c) {
+<a name="687" href="#687">687</a>         <strong class="jxr_keyword">return</strong> SeaGlassLookAndFeel.getRegion(c);
+<a name="688" href="#688">688</a>     }
+<a name="689" href="#689">689</a> 
+<a name="690" href="#690">690</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c) {
+<a name="691" href="#691">691</a>         <strong class="jxr_keyword">return</strong> getContext(c, getComponentState(c));
+<a name="692" href="#692">692</a>     }
+<a name="693" href="#693">693</a> 
+<a name="694" href="#694">694</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, <strong class="jxr_keyword">int</strong> state) {
+<a name="695" href="#695">695</a>         <strong class="jxr_keyword">return</strong> SeaGlassContext.getContext(SeaGlassContext.<strong class="jxr_keyword">class</strong>, c, SeaGlassLookAndFeel.getRegion(c), style, state);
+<a name="696" href="#696">696</a>     }
+<a name="697" href="#697">697</a> 
+<a name="698" href="#698">698</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, Region subregion) {
+<a name="699" href="#699">699</a>         <strong class="jxr_keyword">return</strong> getContext(c, subregion, getComponentState(c, subregion));
+<a name="700" href="#700">700</a>     }
+<a name="701" href="#701">701</a> 
+<a name="702" href="#702">702</a>     <strong class="jxr_keyword">private</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, Region subregion, <strong class="jxr_keyword">int</strong> state) {
+<a name="703" href="#703">703</a>         SynthStyle style = <strong class="jxr_keyword">null</strong>;
+<a name="704" href="#704">704</a>         Class klass = SeaGlassContext.<strong class="jxr_keyword">class</strong>;
+<a name="705" href="#705">705</a> 
+<a name="706" href="#706">706</a>         <strong class="jxr_keyword">if</strong> (subregion == Region.SLIDER_TRACK) {
+<a name="707" href="#707">707</a>             style = sliderTrackStyle;
+<a name="708" href="#708">708</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (subregion == Region.SLIDER_THUMB) {
+<a name="709" href="#709">709</a>             style = sliderThumbStyle;
+<a name="710" href="#710">710</a>         }
+<a name="711" href="#711">711</a>         <strong class="jxr_keyword">return</strong> SeaGlassContext.getContext(klass, c, subregion, style, state);
+<a name="712" href="#712">712</a>     }
+<a name="713" href="#713">713</a> 
+<a name="714" href="#714">714</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getComponentState(JComponent c) {
+<a name="715" href="#715">715</a>         <strong class="jxr_keyword">return</strong> SeaGlassLookAndFeel.getComponentState(c);
+<a name="716" href="#716">716</a>     }
+<a name="717" href="#717">717</a> 
+<a name="718" href="#718">718</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> getComponentState(JComponent c, Region region) {
+<a name="719" href="#719">719</a>         <strong class="jxr_keyword">if</strong> (region == Region.SLIDER_THUMB &amp;&amp; thumbActive &amp;&amp; c.isEnabled()) {
+<a name="720" href="#720">720</a>             <strong class="jxr_keyword">int</strong> state = thumbPressed ? PRESSED : MOUSE_OVER;
+<a name="721" href="#721">721</a>             <strong class="jxr_keyword">if</strong> (c.isFocusOwner()) state |= FOCUSED;
+<a name="722" href="#722">722</a>             <strong class="jxr_keyword">return</strong> state;
+<a name="723" href="#723">723</a>         }
+<a name="724" href="#724">724</a>         <strong class="jxr_keyword">return</strong> SeaGlassLookAndFeel.getComponentState(c);
+<a name="725" href="#725">725</a>     }
+<a name="726" href="#726">726</a> 
+<a name="727" href="#727">727</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> update(Graphics g, JComponent c) {
+<a name="728" href="#728">728</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c);
+<a name="729" href="#729">729</a>         SeaGlassLookAndFeel.update(context, g);
+<a name="730" href="#730">730</a>         context.getPainter().paintSliderBackground(context, g, 0, 0, c.getWidth(), c.getHeight(), slider.getOrientation());
+<a name="731" href="#731">731</a>         paint(context, g);
+<a name="732" href="#732">732</a>         context.dispose();
+<a name="733" href="#733">733</a>     }
+<a name="734" href="#734">734</a> 
+<a name="735" href="#735">735</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paint(Graphics g, JComponent c) {
+<a name="736" href="#736">736</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c);
+<a name="737" href="#737">737</a>         paint(context, g);
+<a name="738" href="#738">738</a>         context.dispose();
+<a name="739" href="#739">739</a>     }
+<a name="740" href="#740">740</a> 
+<a name="741" href="#741">741</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paint(<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context, Graphics g) {
+<a name="742" href="#742">742</a>         recalculateIfInsetsChanged();
+<a name="743" href="#743">743</a>         recalculateIfOrientationChanged();
+<a name="744" href="#744">744</a>         Rectangle clip = g.getClipBounds();
+<a name="745" href="#745">745</a> 
+<a name="746" href="#746">746</a>         <strong class="jxr_keyword">if</strong> (lastSize == <strong class="jxr_keyword">null</strong> || !lastSize.equals(slider.getSize())) {
+<a name="747" href="#747">747</a>             calculateGeometry();
+<a name="748" href="#748">748</a>         }
+<a name="749" href="#749">749</a> 
+<a name="750" href="#750">750</a>         <strong class="jxr_keyword">if</strong> (paintValue) {
+<a name="751" href="#751">751</a>             FontMetrics fm = SwingUtilities2.getFontMetrics(slider, g);
+<a name="752" href="#752">752</a>             <strong class="jxr_keyword">int</strong> labelWidth = context.getStyle().getGraphicsUtils(context).computeStringWidth(context, g.getFont(), fm,
+<a name="753" href="#753">753</a>                 <span class="jxr_string">""</span> + slider.getValue());
+<a name="754" href="#754">754</a>             valueRect.x = thumbRect.x + (thumbRect.width - labelWidth) / 2;
+<a name="755" href="#755">755</a> 
+<a name="756" href="#756">756</a>             <em class="jxr_comment">// For horizontal sliders, make sure value is not painted</em>
+<a name="757" href="#757">757</a>             <em class="jxr_comment">// outside slider bounds.</em>
+<a name="758" href="#758">758</a>             <strong class="jxr_keyword">if</strong> (slider.getOrientation() == JSlider.HORIZONTAL) {
+<a name="759" href="#759">759</a>                 <strong class="jxr_keyword">if</strong> (valueRect.x + labelWidth &gt; contentDim.width) {
+<a name="760" href="#760">760</a>                     valueRect.x = contentDim.width - labelWidth;
+<a name="761" href="#761">761</a>                 }
+<a name="762" href="#762">762</a>                 valueRect.x = Math.max(valueRect.x, 0);
+<a name="763" href="#763">763</a>             }
+<a name="764" href="#764">764</a> 
+<a name="765" href="#765">765</a>             g.setColor(context.getStyle().getColor(context, ColorType.TEXT_FOREGROUND));
+<a name="766" href="#766">766</a>             context.getStyle().getGraphicsUtils(context).paintText(context, g, <span class="jxr_string">""</span> + slider.getValue(), valueRect.x, valueRect.y, -1);
+<a name="767" href="#767">767</a>         }
+<a name="768" href="#768">768</a> 
+<a name="769" href="#769">769</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> subcontext = getContext(slider, Region.SLIDER_TRACK);
+<a name="770" href="#770">770</a>         paintTrack(subcontext, g, trackRect);
+<a name="771" href="#771">771</a>         subcontext.dispose();
+<a name="772" href="#772">772</a> 
+<a name="773" href="#773">773</a>         subcontext = getContext(slider, Region.SLIDER_THUMB);
+<a name="774" href="#774">774</a>         paintThumb(subcontext, g, thumbRect);
+<a name="775" href="#775">775</a>         subcontext.dispose();
+<a name="776" href="#776">776</a> 
+<a name="777" href="#777">777</a>         <strong class="jxr_keyword">if</strong> (slider.getPaintTicks() &amp;&amp; clip.intersects(tickRect)) {
+<a name="778" href="#778">778</a>             paintTicks(g);
+<a name="779" href="#779">779</a>         }
+<a name="780" href="#780">780</a> 
+<a name="781" href="#781">781</a>         <strong class="jxr_keyword">if</strong> (slider.getPaintLabels() &amp;&amp; clip.intersects(labelRect)) {
+<a name="782" href="#782">782</a>             paintLabels(g);
+<a name="783" href="#783">783</a>         }
+<a name="784" href="#784">784</a>     }
+<a name="785" href="#785">785</a> 
+<a name="786" href="#786">786</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paintBorder(SynthContext context, Graphics g, <strong class="jxr_keyword">int</strong> x, <strong class="jxr_keyword">int</strong> y, <strong class="jxr_keyword">int</strong> w, <strong class="jxr_keyword">int</strong> h) {
+<a name="787" href="#787">787</a>         ((<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a>) context).getPainter().paintSliderBorder(context, g, x, y, w, h, slider.getOrientation());
+<a name="788" href="#788">788</a>     }
+<a name="789" href="#789">789</a> 
+<a name="790" href="#790">790</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paintThumb(<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context, Graphics g, Rectangle thumbBounds) {
+<a name="791" href="#791">791</a>         <strong class="jxr_keyword">int</strong> orientation = slider.getOrientation();
+<a name="792" href="#792">792</a>         SeaGlassLookAndFeel.updateSubregion(context, g, thumbBounds);
+<a name="793" href="#793">793</a>         context.getPainter().paintSliderThumbBackground(context, g, thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height,
+<a name="794" href="#794">794</a>             orientation);
+<a name="795" href="#795">795</a>         context.getPainter().paintSliderThumbBorder(context, g, thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height,
+<a name="796" href="#796">796</a>             orientation);
+<a name="797" href="#797">797</a>     }
+<a name="798" href="#798">798</a> 
+<a name="799" href="#799">799</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paintTrack(<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context, Graphics g, Rectangle trackBounds) {
+<a name="800" href="#800">800</a>         <strong class="jxr_keyword">int</strong> orientation = slider.getOrientation();
+<a name="801" href="#801">801</a>         SeaGlassLookAndFeel.updateSubregion(context, g, trackBounds);
+<a name="802" href="#802">802</a>         <em class="jxr_comment">// FIXME Hack to make slider track the right thickness.</em>
+<a name="803" href="#803">803</a>         <strong class="jxr_keyword">int</strong> x = trackBounds.x;
+<a name="804" href="#804">804</a>         <strong class="jxr_keyword">int</strong> y = trackBounds.y;
+<a name="805" href="#805">805</a>         <strong class="jxr_keyword">int</strong> height = trackBounds.height;
+<a name="806" href="#806">806</a>         <strong class="jxr_keyword">int</strong> width = trackBounds.width;
+<a name="807" href="#807">807</a>         <strong class="jxr_keyword">if</strong> (orientation == JSlider.HORIZONTAL) {
+<a name="808" href="#808">808</a>             height = Math.min(height, trackHeightHack);
+<a name="809" href="#809">809</a>             y += (trackBounds.height - height) / 2;
+<a name="810" href="#810">810</a>         } <strong class="jxr_keyword">else</strong> {
+<a name="811" href="#811">811</a>             width = Math.min(width, trackHeightHack);
+<a name="812" href="#812">812</a>             x += (trackBounds.width - width) / 2;
+<a name="813" href="#813">813</a>         }
+<a name="814" href="#814">814</a>         context.getPainter().paintSliderTrackBackground(context, g, x, y, width, height, orientation);
+<a name="815" href="#815">815</a>         context.getPainter().paintSliderTrackBorder(context, g, trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height,
+<a name="816" href="#816">816</a>             orientation);
+<a name="817" href="#817">817</a>     }
+<a name="818" href="#818">818</a> 
+<a name="819" href="#819">819</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> propertyChange(PropertyChangeEvent e) {
+<a name="820" href="#820">820</a>         <strong class="jxr_keyword">if</strong> (SeaGlassLookAndFeel.shouldUpdateStyle(e)) {
+<a name="821" href="#821">821</a>             updateStyle((JSlider) e.getSource());
+<a name="822" href="#822">822</a>         }
+<a name="823" href="#823">823</a>     }
+<a name="824" href="#824">824</a> 
+<a name="825" href="#825">825</a>     <em class="jxr_comment">// ////////////////////////////////////////////////</em>
+<a name="826" href="#826">826</a>     <em class="jxr_comment">// / Track Listener Class</em>
+<a name="827" href="#827">827</a>     <em class="jxr_comment">// ////////////////////////////////////////////////</em>
+<a name="828" href="#828">828</a>     <em class="jxr_javadoccomment">/**</em>
+<a name="829" href="#829">829</a> <em class="jxr_javadoccomment">     * Track mouse movements.</em>
+<a name="830" href="#830">830</a> <em class="jxr_javadoccomment">     */</em>
+<a name="831" href="#831">831</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassSliderUI.html">SynthTrackListener</a> <strong class="jxr_keyword">extends</strong> TrackListener {
+<a name="832" href="#832">832</a> 
+<a name="833" href="#833">833</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> mouseExited(MouseEvent e) {
+<a name="834" href="#834">834</a>             setThumbActive(false);
+<a name="835" href="#835">835</a>         }
+<a name="836" href="#836">836</a> 
+<a name="837" href="#837">837</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> mousePressed(MouseEvent e) {
+<a name="838" href="#838">838</a>             <strong class="jxr_keyword">super</strong>.mousePressed(e);
+<a name="839" href="#839">839</a>             setThumbPressed(thumbRect.contains(e.getX(), e.getY()));
+<a name="840" href="#840">840</a>         }
+<a name="841" href="#841">841</a> 
+<a name="842" href="#842">842</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> mouseReleased(MouseEvent e) {
+<a name="843" href="#843">843</a>             <strong class="jxr_keyword">super</strong>.mouseReleased(e);
+<a name="844" href="#844">844</a>             updateThumbState(e.getX(), e.getY(), false);
+<a name="845" href="#845">845</a>         }
+<a name="846" href="#846">846</a> 
+<a name="847" href="#847">847</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> mouseDragged(MouseEvent e) {
+<a name="848" href="#848">848</a>             <strong class="jxr_keyword">int</strong> thumbMiddle = 0;
+<a name="849" href="#849">849</a> 
+<a name="850" href="#850">850</a>             <strong class="jxr_keyword">if</strong> (!slider.isEnabled()) {
+<a name="851" href="#851">851</a>                 <strong class="jxr_keyword">return</strong>;
+<a name="852" href="#852">852</a>             }
+<a name="853" href="#853">853</a> 
+<a name="854" href="#854">854</a>             currentMouseX = e.getX();
+<a name="855" href="#855">855</a>             currentMouseY = e.getY();
+<a name="856" href="#856">856</a> 
+<a name="857" href="#857">857</a>             <strong class="jxr_keyword">if</strong> (!isDragging()) {
+<a name="858" href="#858">858</a>                 <strong class="jxr_keyword">return</strong>;
+<a name="859" href="#859">859</a>             }
+<a name="860" href="#860">860</a> 
+<a name="861" href="#861">861</a>             slider.setValueIsAdjusting(<strong class="jxr_keyword">true</strong>);
+<a name="862" href="#862">862</a> 
+<a name="863" href="#863">863</a>             <strong class="jxr_keyword">switch</strong> (slider.getOrientation()) {
+<a name="864" href="#864">864</a>             <strong class="jxr_keyword">case</strong> JSlider.VERTICAL:
+<a name="865" href="#865">865</a>                 <strong class="jxr_keyword">int</strong> halfThumbHeight = thumbRect.height / 2;
+<a name="866" href="#866">866</a>                 <strong class="jxr_keyword">int</strong> thumbTop = e.getY() - offset;
+<a name="867" href="#867">867</a>                 <strong class="jxr_keyword">int</strong> trackTop = trackRect.y;
+<a name="868" href="#868">868</a>                 <strong class="jxr_keyword">int</strong> trackBottom = trackRect.y + trackRect.height - halfThumbHeight - trackBorder;
+<a name="869" href="#869">869</a>                 <strong class="jxr_keyword">int</strong> vMax = yPositionForValue(slider.getMaximum() - slider.getExtent());
+<a name="870" href="#870">870</a> 
+<a name="871" href="#871">871</a>                 <strong class="jxr_keyword">if</strong> (drawInverted()) {
+<a name="872" href="#872">872</a>                     trackBottom = vMax;
+<a name="873" href="#873">873</a>                     trackTop = trackTop + halfThumbHeight;
+<a name="874" href="#874">874</a>                 } <strong class="jxr_keyword">else</strong> {
+<a name="875" href="#875">875</a>                     trackTop = vMax;
+<a name="876" href="#876">876</a>                 }
+<a name="877" href="#877">877</a>                 thumbTop = Math.max(thumbTop, trackTop - halfThumbHeight);
+<a name="878" href="#878">878</a>                 thumbTop = Math.min(thumbTop, trackBottom - halfThumbHeight);
+<a name="879" href="#879">879</a> 
+<a name="880" href="#880">880</a>                 setThumbLocation(thumbRect.x, thumbTop);
+<a name="881" href="#881">881</a> 
+<a name="882" href="#882">882</a>                 thumbMiddle = thumbTop + halfThumbHeight;
+<a name="883" href="#883">883</a>                 slider.setValue(valueForYPosition(thumbMiddle));
+<a name="884" href="#884">884</a>                 <strong class="jxr_keyword">break</strong>;
+<a name="885" href="#885">885</a>             <strong class="jxr_keyword">case</strong> JSlider.HORIZONTAL:
+<a name="886" href="#886">886</a>                 <strong class="jxr_keyword">int</strong> halfThumbWidth = thumbRect.width / 2;
+<a name="887" href="#887">887</a>                 <strong class="jxr_keyword">int</strong> thumbLeft = e.getX() - offset;
+<a name="888" href="#888">888</a>                 <strong class="jxr_keyword">int</strong> trackLeft = trackRect.x + halfThumbWidth + trackBorder;
+<a name="889" href="#889">889</a>                 <strong class="jxr_keyword">int</strong> trackRight = trackRect.x + trackRect.width - halfThumbWidth - trackBorder;
+<a name="890" href="#890">890</a>                 <strong class="jxr_keyword">int</strong> hMax = xPositionForValue(slider.getMaximum() - slider.getExtent());
+<a name="891" href="#891">891</a> 
+<a name="892" href="#892">892</a>                 <strong class="jxr_keyword">if</strong> (drawInverted()) {
+<a name="893" href="#893">893</a>                     trackLeft = hMax;
+<a name="894" href="#894">894</a>                 } <strong class="jxr_keyword">else</strong> {
+<a name="895" href="#895">895</a>                     trackRight = hMax;
+<a name="896" href="#896">896</a>                 }
+<a name="897" href="#897">897</a>                 thumbLeft = Math.max(thumbLeft, trackLeft - halfThumbWidth);
+<a name="898" href="#898">898</a>                 thumbLeft = Math.min(thumbLeft, trackRight - halfThumbWidth);
+<a name="899" href="#899">899</a> 
+<a name="900" href="#900">900</a>                 setThumbLocation(thumbLeft, thumbRect.y);
+<a name="901" href="#901">901</a> 
+<a name="902" href="#902">902</a>                 thumbMiddle = thumbLeft + halfThumbWidth;
+<a name="903" href="#903">903</a>                 slider.setValue(valueForXPosition(thumbMiddle));
+<a name="904" href="#904">904</a>                 <strong class="jxr_keyword">break</strong>;
+<a name="905" href="#905">905</a>             <strong class="jxr_keyword">default</strong>:
+<a name="906" href="#906">906</a>                 <strong class="jxr_keyword">return</strong>;
+<a name="907" href="#907">907</a>             }
+<a name="908" href="#908">908</a> 
+<a name="909" href="#909">909</a>             <strong class="jxr_keyword">if</strong> (slider.getValueIsAdjusting()) {
+<a name="910" href="#910">910</a>                 setThumbActive(<strong class="jxr_keyword">true</strong>);
+<a name="911" href="#911">911</a>             }
+<a name="912" href="#912">912</a>         }
+<a name="913" href="#913">913</a> 
+<a name="914" href="#914">914</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> mouseMoved(MouseEvent e) {
+<a name="915" href="#915">915</a>             updateThumbState(e.getX(), e.getY());
+<a name="916" href="#916">916</a>         }
+<a name="917" href="#917">917</a>     }
+<a name="918" href="#918">918</a> }
+</pre>
+<hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
+</html>
+

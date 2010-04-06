@@ -1,0 +1,772 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+SeaGlassScrollPaneUI (Sea Glass Look and Feel for Swing 0.1.7.3-SNAPSHOT API)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SeaGlassScrollPaneUI (Sea Glass Look and Feel for Swing 0.1.7.3-SNAPSHOT API)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="class-use/SeaGlassScrollPaneUI.html"><FONT CLASS="NavBarFont1"><B>Use</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.MouseButtonListener.html" title="class in com.seaglasslookandfeel.ui"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.HSBChangeListener.html" title="class in com.seaglasslookandfeel.ui"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SeaGlassScrollPaneUI.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_javax.swing.plaf.basic.BasicScrollPaneUI">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.seaglasslookandfeel.ui</FONT>
+<BR>
+Class SeaGlassScrollPaneUI</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true" title="class or interface in javax.swing.plaf">javax.swing.plaf.ComponentUI</A>
+      <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf">javax.swing.plaf.ScrollPaneUI</A>
+          <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">javax.swing.plaf.basic.BasicScrollPaneUI</A>
+              <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.ui.SeaGlassScrollPaneUI</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EventListener.html?is-external=true" title="class or interface in java.util">EventListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true" title="class or interface in javax.swing">ScrollPaneConstants</A>, sun.swing.plaf.synth.SynthUI</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>SeaGlassScrollPaneUI</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A><DT>implements <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true" title="class or interface in javax.swing">ScrollPaneConstants</A>, sun.swing.plaf.synth.SynthUI</DL>
+</PRE>
+
+<P>
+SeaGlassScrollPaneUI implementation.
+<p>
+ Minimum necessary copied from BasicScrollPaneUI with appropriate change to
+ support Apple-style horizontal wheel scrolling.
+<P>
+
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic"><CODE>BasicScrollPaneUI</CODE></A></DL>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.HSBChangeListener.html" title="class in com.seaglasslookandfeel.ui">SeaGlassScrollPaneUI.HSBChangeListener</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Horizontal scrollbar listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.MouseWheelHandler.html" title="class in com.seaglasslookandfeel.ui">SeaGlassScrollPaneUI.MouseWheelHandler</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MouseWheelHandler is an inner class which implements the
+ MouseWheelListener interface.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.PropertyChangeHandler.html" title="class in com.seaglasslookandfeel.ui">SeaGlassScrollPaneUI.PropertyChangeHandler</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.ViewportChangeHandler.html" title="class in com.seaglasslookandfeel.ui">SeaGlassScrollPaneUI.ViewportChangeHandler</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Listener for viewport events.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.VSBChangeListener.html" title="class in com.seaglasslookandfeel.ui">SeaGlassScrollPaneUI.VSBChangeListener</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vertical scrollbar listener.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_javax.swing.plaf.basic.BasicScrollPaneUI"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class javax.swing.plaf.basic.<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#hsbChangeListener" title="class or interface in javax.swing.plaf.basic">hsbChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#scrollpane" title="class or interface in javax.swing.plaf.basic">scrollpane</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#spPropertyChangeListener" title="class or interface in javax.swing.plaf.basic">spPropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#viewportChangeListener" title="class or interface in javax.swing.plaf.basic">viewportChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#vsbChangeListener" title="class or interface in javax.swing.plaf.basic">vsbChangeListener</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_javax.swing.ScrollPaneConstants"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from interface javax.swing.<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true" title="class or interface in javax.swing">ScrollPaneConstants</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#COLUMN_HEADER" title="class or interface in javax.swing">COLUMN_HEADER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#HORIZONTAL_SCROLLBAR" title="class or interface in javax.swing">HORIZONTAL_SCROLLBAR</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#HORIZONTAL_SCROLLBAR_ALWAYS" title="class or interface in javax.swing">HORIZONTAL_SCROLLBAR_ALWAYS</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#HORIZONTAL_SCROLLBAR_AS_NEEDED" title="class or interface in javax.swing">HORIZONTAL_SCROLLBAR_AS_NEEDED</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#HORIZONTAL_SCROLLBAR_NEVER" title="class or interface in javax.swing">HORIZONTAL_SCROLLBAR_NEVER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#HORIZONTAL_SCROLLBAR_POLICY" title="class or interface in javax.swing">HORIZONTAL_SCROLLBAR_POLICY</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#LOWER_LEADING_CORNER" title="class or interface in javax.swing">LOWER_LEADING_CORNER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#LOWER_LEFT_CORNER" title="class or interface in javax.swing">LOWER_LEFT_CORNER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#LOWER_RIGHT_CORNER" title="class or interface in javax.swing">LOWER_RIGHT_CORNER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#LOWER_TRAILING_CORNER" title="class or interface in javax.swing">LOWER_TRAILING_CORNER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#ROW_HEADER" title="class or interface in javax.swing">ROW_HEADER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#UPPER_LEADING_CORNER" title="class or interface in javax.swing">UPPER_LEADING_CORNER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#UPPER_LEFT_CORNER" title="class or interface in javax.swing">UPPER_LEFT_CORNER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#UPPER_RIGHT_CORNER" title="class or interface in javax.swing">UPPER_RIGHT_CORNER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#UPPER_TRAILING_CORNER" title="class or interface in javax.swing">UPPER_TRAILING_CORNER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#VERTICAL_SCROLLBAR" title="class or interface in javax.swing">VERTICAL_SCROLLBAR</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#VERTICAL_SCROLLBAR_ALWAYS" title="class or interface in javax.swing">VERTICAL_SCROLLBAR_ALWAYS</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#VERTICAL_SCROLLBAR_AS_NEEDED" title="class or interface in javax.swing">VERTICAL_SCROLLBAR_AS_NEEDED</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#VERTICAL_SCROLLBAR_NEVER" title="class or interface in javax.swing">VERTICAL_SCROLLBAR_NEVER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#VERTICAL_SCROLLBAR_POLICY" title="class or interface in javax.swing">VERTICAL_SCROLLBAR_POLICY</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/ScrollPaneConstants.html?is-external=true#VIEWPORT" title="class or interface in javax.swing">VIEWPORT</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_javax.swing.plaf.synth.SynthConstants"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from interface javax.swing.plaf.synth.<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#DEFAULT" title="class or interface in javax.swing.plaf.synth">DEFAULT</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#DISABLED" title="class or interface in javax.swing.plaf.synth">DISABLED</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#ENABLED" title="class or interface in javax.swing.plaf.synth">ENABLED</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#FOCUSED" title="class or interface in javax.swing.plaf.synth">FOCUSED</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#MOUSE_OVER" title="class or interface in javax.swing.plaf.synth">MOUSE_OVER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#PRESSED" title="class or interface in javax.swing.plaf.synth">PRESSED</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#SELECTED" title="class or interface in javax.swing.plaf.synth">SELECTED</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#SeaGlassScrollPaneUI()">SeaGlassScrollPaneUI</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/event/ChangeListener.html?is-external=true" title="class or interface in javax.swing.event">ChangeListener</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#createHSBChangeListener()">createHSBChangeListener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/event/MouseWheelListener.html?is-external=true" title="class or interface in java.awt.event">MouseWheelListener</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#createMouseWheelListener()">createMouseWheelListener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an instance of MouseWheelListener, which is added to the
+ JScrollPane by installUI().</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#createPropertyChangeListener()">createPropertyChangeListener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an instance of PropertyChangeListener that's added to the
+ JScrollPane by installUI().</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true" title="class or interface in javax.swing.plaf">ComponentUI</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#createUI(javax.swing.JComponent)">createUI</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;x)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/event/ChangeListener.html?is-external=true" title="class or interface in javax.swing.event">ChangeListener</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#createViewportChangeListener()">createViewportChangeListener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/event/ChangeListener.html?is-external=true" title="class or interface in javax.swing.event">ChangeListener</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#createVSBChangeListener()">createVSBChangeListener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#getContext(javax.swing.JComponent)">getContext</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#installDefaults(javax.swing.JScrollPane)">installDefaults</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JScrollPane.html?is-external=true" title="class or interface in javax.swing">JScrollPane</A>&nbsp;scrollpane)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#installListeners(javax.swing.JScrollPane)">installListeners</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JScrollPane.html?is-external=true" title="class or interface in javax.swing">JScrollPane</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#paint(java.awt.Graphics, javax.swing.JComponent)">paint</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+      <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#paint(javax.swing.plaf.synth.SynthContext, java.awt.Graphics)">paint</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;context,
+      <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#paintBorder(javax.swing.plaf.synth.SynthContext, java.awt.Graphics, int, int, int, int)">paintBorder</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;context,
+            <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+            int&nbsp;x,
+            int&nbsp;y,
+            int&nbsp;w,
+            int&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#propertyChange(java.beans.PropertyChangeEvent)">propertyChange</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeEvent.html?is-external=true" title="class or interface in java.beans">PropertyChangeEvent</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#syncScrollPaneWithViewport()">syncScrollPaneWithViewport</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#uninstallDefaults(javax.swing.JScrollPane)">uninstallDefaults</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JScrollPane.html?is-external=true" title="class or interface in javax.swing">JScrollPane</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#uninstallListeners(javax.swing.JComponent)">uninstallListeners</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html#update(java.awt.Graphics, javax.swing.JComponent)">update</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+       <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_javax.swing.plaf.basic.BasicScrollPaneUI"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class javax.swing.plaf.basic.<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#getBaseline(javax.swing.JComponent, int, int)" title="class or interface in javax.swing.plaf.basic">getBaseline</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#getBaselineResizeBehavior(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">getBaselineResizeBehavior</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#getMaximumSize(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">getMaximumSize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#installKeyboardActions(javax.swing.JScrollPane)" title="class or interface in javax.swing.plaf.basic">installKeyboardActions</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#installUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">installUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#uninstallKeyboardActions(javax.swing.JScrollPane)" title="class or interface in javax.swing.plaf.basic">uninstallKeyboardActions</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#uninstallUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">uninstallUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#updateColumnHeader(java.beans.PropertyChangeEvent)" title="class or interface in javax.swing.plaf.basic">updateColumnHeader</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#updateRowHeader(java.beans.PropertyChangeEvent)" title="class or interface in javax.swing.plaf.basic">updateRowHeader</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#updateScrollBarDisplayPolicy(java.beans.PropertyChangeEvent)" title="class or interface in javax.swing.plaf.basic">updateScrollBarDisplayPolicy</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#updateViewport(java.beans.PropertyChangeEvent)" title="class or interface in javax.swing.plaf.basic">updateViewport</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_javax.swing.plaf.ComponentUI"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class javax.swing.plaf.<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true" title="class or interface in javax.swing.plaf">ComponentUI</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#contains(javax.swing.JComponent, int, int)" title="class or interface in javax.swing.plaf">contains</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#getAccessibleChild(javax.swing.JComponent, int)" title="class or interface in javax.swing.plaf">getAccessibleChild</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#getAccessibleChildrenCount(javax.swing.JComponent)" title="class or interface in javax.swing.plaf">getAccessibleChildrenCount</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#getMinimumSize(javax.swing.JComponent)" title="class or interface in javax.swing.plaf">getMinimumSize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#getPreferredSize(javax.swing.JComponent)" title="class or interface in javax.swing.plaf">getPreferredSize</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="SeaGlassScrollPaneUI()"><!-- --></A><H3>
+SeaGlassScrollPaneUI</H3>
+<PRE>
+public <B>SeaGlassScrollPaneUI</B>()</PRE>
+<DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="createUI(javax.swing.JComponent)"><!-- --></A><H3>
+createUI</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true" title="class or interface in javax.swing.plaf">ComponentUI</A> <B>createUI</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;x)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="installDefaults(javax.swing.JScrollPane)"><!-- --></A><H3>
+installDefaults</H3>
+<PRE>
+protected void <B>installDefaults</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JScrollPane.html?is-external=true" title="class or interface in javax.swing">JScrollPane</A>&nbsp;scrollpane)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#installDefaults(javax.swing.JScrollPane)" title="class or interface in javax.swing.plaf.basic">installDefaults</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="uninstallDefaults(javax.swing.JScrollPane)"><!-- --></A><H3>
+uninstallDefaults</H3>
+<PRE>
+protected void <B>uninstallDefaults</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JScrollPane.html?is-external=true" title="class or interface in javax.swing">JScrollPane</A>&nbsp;c)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#uninstallDefaults(javax.swing.JScrollPane)" title="class or interface in javax.swing.plaf.basic">uninstallDefaults</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="installListeners(javax.swing.JScrollPane)"><!-- --></A><H3>
+installListeners</H3>
+<PRE>
+protected void <B>installListeners</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JScrollPane.html?is-external=true" title="class or interface in javax.swing">JScrollPane</A>&nbsp;c)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#installListeners(javax.swing.JScrollPane)" title="class or interface in javax.swing.plaf.basic">installListeners</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="uninstallListeners(javax.swing.JComponent)"><!-- --></A><H3>
+uninstallListeners</H3>
+<PRE>
+protected void <B>uninstallListeners</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#uninstallListeners(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">uninstallListeners</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContext(javax.swing.JComponent)"><!-- --></A><H3>
+getContext</H3>
+<PRE>
+public <A HREF="../../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A> <B>getContext</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getContext</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="propertyChange(java.beans.PropertyChangeEvent)"><!-- --></A><H3>
+propertyChange</H3>
+<PRE>
+public void <B>propertyChange</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeEvent.html?is-external=true" title="class or interface in java.beans">PropertyChangeEvent</A>&nbsp;e)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true#propertyChange(java.beans.PropertyChangeEvent)" title="class or interface in java.beans">propertyChange</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="update(java.awt.Graphics, javax.swing.JComponent)"><!-- --></A><H3>
+update</H3>
+<PRE>
+public void <B>update</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+                   <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#update(java.awt.Graphics, javax.swing.JComponent)" title="class or interface in javax.swing.plaf">update</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true" title="class or interface in javax.swing.plaf">ComponentUI</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paint(java.awt.Graphics, javax.swing.JComponent)"><!-- --></A><H3>
+paint</H3>
+<PRE>
+public void <B>paint</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+                  <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#paint(java.awt.Graphics, javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">paint</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paint(javax.swing.plaf.synth.SynthContext, java.awt.Graphics)"><!-- --></A><H3>
+paint</H3>
+<PRE>
+protected void <B>paint</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;context,
+                     <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paintBorder(javax.swing.plaf.synth.SynthContext, java.awt.Graphics, int, int, int, int)"><!-- --></A><H3>
+paintBorder</H3>
+<PRE>
+public void <B>paintBorder</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;context,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+                        int&nbsp;x,
+                        int&nbsp;y,
+                        int&nbsp;w,
+                        int&nbsp;h)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>paintBorder</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="syncScrollPaneWithViewport()"><!-- --></A><H3>
+syncScrollPaneWithViewport</H3>
+<PRE>
+protected void <B>syncScrollPaneWithViewport</B>()</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#syncScrollPaneWithViewport()" title="class or interface in javax.swing.plaf.basic">syncScrollPaneWithViewport</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createViewportChangeListener()"><!-- --></A><H3>
+createViewportChangeListener</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/event/ChangeListener.html?is-external=true" title="class or interface in javax.swing.event">ChangeListener</A> <B>createViewportChangeListener</B>()</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#createViewportChangeListener()" title="class or interface in javax.swing.plaf.basic">createViewportChangeListener</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createHSBChangeListener()"><!-- --></A><H3>
+createHSBChangeListener</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/event/ChangeListener.html?is-external=true" title="class or interface in javax.swing.event">ChangeListener</A> <B>createHSBChangeListener</B>()</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#createHSBChangeListener()" title="class or interface in javax.swing.plaf.basic">createHSBChangeListener</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createVSBChangeListener()"><!-- --></A><H3>
+createVSBChangeListener</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/event/ChangeListener.html?is-external=true" title="class or interface in javax.swing.event">ChangeListener</A> <B>createVSBChangeListener</B>()</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#createVSBChangeListener()" title="class or interface in javax.swing.plaf.basic">createVSBChangeListener</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createMouseWheelListener()"><!-- --></A><H3>
+createMouseWheelListener</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/event/MouseWheelListener.html?is-external=true" title="class or interface in java.awt.event">MouseWheelListener</A> <B>createMouseWheelListener</B>()</PRE>
+<DL>
+<DD>Creates an instance of MouseWheelListener, which is added to the
+ JScrollPane by installUI(). The returned MouseWheelListener is used to
+ handle mouse wheel-driven scrolling.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#createMouseWheelListener()" title="class or interface in javax.swing.plaf.basic">createMouseWheelListener</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>MouseWheelListener which implements wheel-driven scrolling<DT><B>Since:</B></DT>
+  <DD>1.4</DD>
+<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#installUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic"><CODE>BasicScrollPaneUI.installUI(javax.swing.JComponent)</CODE></A>, 
+<A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.MouseWheelHandler.html" title="class in com.seaglasslookandfeel.ui"><CODE>SeaGlassScrollPaneUI.MouseWheelHandler</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createPropertyChangeListener()"><!-- --></A><H3>
+createPropertyChangeListener</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A> <B>createPropertyChangeListener</B>()</PRE>
+<DL>
+<DD>Creates an instance of PropertyChangeListener that's added to the
+ JScrollPane by installUI(). Subclasses can override this method to return
+ a custom PropertyChangeListener, e.g.
+ 
+ <pre>
+ class MyScrollPaneUI extends BasicScrollPaneUI {
+    protected PropertyChangeListener &lt;b&gt;createPropertyChangeListener&lt;/b&gt;() {
+        return new MyPropertyChangeListener();
+    }
+    public class MyPropertyChangeListener extends PropertyChangeListener {
+        public void propertyChange(PropertyChangeEvent e) {
+            if (e.getPropertyName().equals(&quot;viewport&quot;)) {
+                // do some extra work when the viewport changes
+            }
+            super.propertyChange(e);
+        }
+    }
+ }
+ </pre>
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#createPropertyChangeListener()" title="class or interface in javax.swing.plaf.basic">createPropertyChangeListener</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicScrollPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans"><CODE>PropertyChangeListener</CODE></A>, 
+<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicScrollPaneUI.html?is-external=true#installUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic"><CODE>BasicScrollPaneUI.installUI(javax.swing.JComponent)</CODE></A></DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="class-use/SeaGlassScrollPaneUI.html"><FONT CLASS="NavBarFont1"><B>Use</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.MouseButtonListener.html" title="class in com.seaglasslookandfeel.ui"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.HSBChangeListener.html" title="class in com.seaglasslookandfeel.ui"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?com/seaglasslookandfeel/ui/SeaGlassScrollPaneUI.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SeaGlassScrollPaneUI.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_javax.swing.plaf.basic.BasicScrollPaneUI">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+</BODY>
+</HTML>

@@ -1,0 +1,614 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+SeaGlassRootPaneUI (Sea Glass Look and Feel for Swing 0.1.7.3-SNAPSHOT API)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SeaGlassRootPaneUI (Sea Glass Look and Feel for Swing 0.1.7.3-SNAPSHOT API)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="class-use/SeaGlassRootPaneUI.html"><FONT CLASS="NavBarFont1"><B>Use</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRadioButtonMenuItemUI.html" title="class in com.seaglasslookandfeel.ui"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html" title="class in com.seaglasslookandfeel.ui"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SeaGlassRootPaneUI.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.seaglasslookandfeel.ui</FONT>
+<BR>
+Class SeaGlassRootPaneUI</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true" title="class or interface in javax.swing.plaf">javax.swing.plaf.ComponentUI</A>
+      <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/RootPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf">javax.swing.plaf.RootPaneUI</A>
+          <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">javax.swing.plaf.basic.BasicRootPaneUI</A>
+              <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.ui.SeaGlassRootPaneUI</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EventListener.html?is-external=true" title="class or interface in java.util">EventListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A>, sun.swing.plaf.synth.SynthUI</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>SeaGlassRootPaneUI</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicRootPaneUI</A><DT>implements sun.swing.plaf.synth.SynthUI</DL>
+</PRE>
+
+<P>
+SeaGlassRootPaneUI implementation.
+<P>
+
+<P>
+<DL>
+<DT><B>Author:</B></DT>
+  <DD>Kathryn Huxtable</DD>
+</DL>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#UNIFIED_TOOLBAR_LOOK">UNIFIED_TOOLBAR_LOOK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set to <code>true</code> if we want a unified toolbar look with a
+ textured background.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_javax.swing.plaf.synth.SynthConstants"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from interface javax.swing.plaf.synth.<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#DEFAULT" title="class or interface in javax.swing.plaf.synth">DEFAULT</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#DISABLED" title="class or interface in javax.swing.plaf.synth">DISABLED</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#ENABLED" title="class or interface in javax.swing.plaf.synth">ENABLED</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#FOCUSED" title="class or interface in javax.swing.plaf.synth">FOCUSED</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#MOUSE_OVER" title="class or interface in javax.swing.plaf.synth">MOUSE_OVER</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#PRESSED" title="class or interface in javax.swing.plaf.synth">PRESSED</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true#SELECTED" title="class or interface in javax.swing.plaf.synth">SELECTED</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#SeaGlassRootPaneUI()">SeaGlassRootPaneUI</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true" title="class or interface in javax.swing.plaf">ComponentUI</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#createUI(javax.swing.JComponent)">createUI</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a UI for a <code>JRootPane</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#getContext(javax.swing.JComponent)">getContext</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#installBorder(javax.swing.JRootPane)">installBorder</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JRootPane.html?is-external=true" title="class or interface in javax.swing">JRootPane</A>&nbsp;root)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the appropriate <code>Border</code> onto the <code>
+ JRootPane</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#installDefaults(javax.swing.JRootPane)">installDefaults</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JRootPane.html?is-external=true" title="class or interface in javax.swing">JRootPane</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#installUI(javax.swing.JComponent)">installUI</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Invokes supers implementation of <code>installUI</code> to install the
+ necessary state onto the passed in <code>JRootPane</code> to render the
+ metal look and feel implementation of <code>RootPaneUI</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#paint(java.awt.Graphics, javax.swing.JComponent)">paint</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+      <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#paint(javax.swing.plaf.synth.SynthContext, java.awt.Graphics)">paint</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;context,
+      <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Paint the object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#paintBorder(javax.swing.plaf.synth.SynthContext, java.awt.Graphics, int, int, int, int)">paintBorder</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;context,
+            <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+            int&nbsp;x,
+            int&nbsp;y,
+            int&nbsp;w,
+            int&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#propertyChange(java.beans.PropertyChangeEvent)">propertyChange</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeEvent.html?is-external=true" title="class or interface in java.beans">PropertyChangeEvent</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Invoked when a property changes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#uninstallUI(javax.swing.JComponent)">uninstallUI</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Invokes supers implementation to uninstall any of its state.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html#update(java.awt.Graphics, javax.swing.JComponent)">update</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+       <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_javax.swing.plaf.basic.BasicRootPaneUI"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class javax.swing.plaf.basic.<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicRootPaneUI</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#installComponents(javax.swing.JRootPane)" title="class or interface in javax.swing.plaf.basic">installComponents</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#installKeyboardActions(javax.swing.JRootPane)" title="class or interface in javax.swing.plaf.basic">installKeyboardActions</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#installListeners(javax.swing.JRootPane)" title="class or interface in javax.swing.plaf.basic">installListeners</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#uninstallComponents(javax.swing.JRootPane)" title="class or interface in javax.swing.plaf.basic">uninstallComponents</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#uninstallDefaults(javax.swing.JRootPane)" title="class or interface in javax.swing.plaf.basic">uninstallDefaults</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#uninstallKeyboardActions(javax.swing.JRootPane)" title="class or interface in javax.swing.plaf.basic">uninstallKeyboardActions</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#uninstallListeners(javax.swing.JRootPane)" title="class or interface in javax.swing.plaf.basic">uninstallListeners</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_javax.swing.plaf.ComponentUI"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class javax.swing.plaf.<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true" title="class or interface in javax.swing.plaf">ComponentUI</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#contains(javax.swing.JComponent, int, int)" title="class or interface in javax.swing.plaf">contains</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#getAccessibleChild(javax.swing.JComponent, int)" title="class or interface in javax.swing.plaf">getAccessibleChild</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#getAccessibleChildrenCount(javax.swing.JComponent)" title="class or interface in javax.swing.plaf">getAccessibleChildrenCount</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#getBaseline(javax.swing.JComponent, int, int)" title="class or interface in javax.swing.plaf">getBaseline</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#getBaselineResizeBehavior(javax.swing.JComponent)" title="class or interface in javax.swing.plaf">getBaselineResizeBehavior</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#getMaximumSize(javax.swing.JComponent)" title="class or interface in javax.swing.plaf">getMaximumSize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#getMinimumSize(javax.swing.JComponent)" title="class or interface in javax.swing.plaf">getMinimumSize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#getPreferredSize(javax.swing.JComponent)" title="class or interface in javax.swing.plaf">getPreferredSize</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="UNIFIED_TOOLBAR_LOOK"><!-- --></A><H3>
+UNIFIED_TOOLBAR_LOOK</H3>
+<PRE>
+public static final <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>UNIFIED_TOOLBAR_LOOK</B></PRE>
+<DL>
+<DD>Set to <code>true</code> if we want a unified toolbar look with a
+ textured background.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../constant-values.html#com.seaglasslookandfeel.ui.SeaGlassRootPaneUI.UNIFIED_TOOLBAR_LOOK">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="SeaGlassRootPaneUI()"><!-- --></A><H3>
+SeaGlassRootPaneUI</H3>
+<PRE>
+public <B>SeaGlassRootPaneUI</B>()</PRE>
+<DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="createUI(javax.swing.JComponent)"><!-- --></A><H3>
+createUI</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true" title="class or interface in javax.swing.plaf">ComponentUI</A> <B>createUI</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
+<DL>
+<DD>Creates a UI for a <code>JRootPane</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>c</CODE> - the JRootPane the RootPaneUI will be created for
+<DT><B>Returns:</B><DD>the RootPaneUI implementation for the passed in JRootPane</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContext(javax.swing.JComponent)"><!-- --></A><H3>
+getContext</H3>
+<PRE>
+public <A HREF="../../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A> <B>getContext</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getContext</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>See Also:</B><DD><CODE>SynthUI.getContext(javax.swing.JComponent)</CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="installUI(javax.swing.JComponent)"><!-- --></A><H3>
+installUI</H3>
+<PRE>
+public void <B>installUI</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
+<DL>
+<DD>Invokes supers implementation of <code>installUI</code> to install the
+ necessary state onto the passed in <code>JRootPane</code> to render the
+ metal look and feel implementation of <code>RootPaneUI</code>. If the
+ <code>windowDecorationStyle</code> property of the <code>JRootPane</code>
+ is other than <code>JRootPane.NONE</code>, this will add a custom <code>
+ Component</code> to render the widgets to <code>JRootPane</code>, as well
+ as installing a custom <code>Border</code> and <code>LayoutManager</code>
+ on the <code>JRootPane</code>.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#installUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">installUI</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicRootPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>c</CODE> - the JRootPane to install state onto.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="uninstallUI(javax.swing.JComponent)"><!-- --></A><H3>
+uninstallUI</H3>
+<PRE>
+public void <B>uninstallUI</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
+<DL>
+<DD>Invokes supers implementation to uninstall any of its state. This will
+ also reset the <code>LayoutManager</code> of the <code>JRootPane</code>.
+ If a <code>Component</code> has been added to the <code>JRootPane</code>
+ to render the window decoration style, this method will remove it.
+ Similarly, this will revert the Border and LayoutManager of the <code>
+ JRootPane</code> to what it was before <code>installUI</code> was
+ invoked.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#uninstallUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">uninstallUI</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicRootPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>c</CODE> - the JRootPane to uninstall state from</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="installDefaults(javax.swing.JRootPane)"><!-- --></A><H3>
+installDefaults</H3>
+<PRE>
+protected void <B>installDefaults</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JRootPane.html?is-external=true" title="class or interface in javax.swing">JRootPane</A>&nbsp;c)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#installDefaults(javax.swing.JRootPane)" title="class or interface in javax.swing.plaf.basic">installDefaults</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicRootPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#installDefaults(javax.swing.JRootPane)" title="class or interface in javax.swing.plaf.basic"><CODE>BasicRootPaneUI.installDefaults(javax.swing.JRootPane)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="installBorder(javax.swing.JRootPane)"><!-- --></A><H3>
+installBorder</H3>
+<PRE>
+public void <B>installBorder</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JRootPane.html?is-external=true" title="class or interface in javax.swing">JRootPane</A>&nbsp;root)</PRE>
+<DL>
+<DD>Installs the appropriate <code>Border</code> onto the <code>
+ JRootPane</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>root</CODE> - the root pane.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="update(java.awt.Graphics, javax.swing.JComponent)"><!-- --></A><H3>
+update</H3>
+<PRE>
+public void <B>update</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+                   <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#update(java.awt.Graphics, javax.swing.JComponent)" title="class or interface in javax.swing.plaf">update</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true" title="class or interface in javax.swing.plaf">ComponentUI</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#update(java.awt.Graphics, javax.swing.JComponent)" title="class or interface in javax.swing.plaf"><CODE>ComponentUI.update(java.awt.Graphics, javax.swing.JComponent)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paint(java.awt.Graphics, javax.swing.JComponent)"><!-- --></A><H3>
+paint</H3>
+<PRE>
+public void <B>paint</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+                  <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#paint(java.awt.Graphics, javax.swing.JComponent)" title="class or interface in javax.swing.plaf">paint</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true" title="class or interface in javax.swing.plaf">ComponentUI</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/ComponentUI.html?is-external=true#paint(java.awt.Graphics, javax.swing.JComponent)" title="class or interface in javax.swing.plaf"><CODE>ComponentUI.paint(java.awt.Graphics, javax.swing.JComponent)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paint(javax.swing.plaf.synth.SynthContext, java.awt.Graphics)"><!-- --></A><H3>
+paint</H3>
+<PRE>
+protected void <B>paint</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;context,
+                     <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g)</PRE>
+<DL>
+<DD>Paint the object.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>context</CODE> - the SynthContext.<DD><CODE>g</CODE> - the Graphics context.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paintBorder(javax.swing.plaf.synth.SynthContext, java.awt.Graphics, int, int, int, int)"><!-- --></A><H3>
+paintBorder</H3>
+<PRE>
+public void <B>paintBorder</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;context,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics.html?is-external=true" title="class or interface in java.awt">Graphics</A>&nbsp;g,
+                        int&nbsp;x,
+                        int&nbsp;y,
+                        int&nbsp;w,
+                        int&nbsp;h)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>paintBorder</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>See Also:</B><DD><CODE>SynthUI.paintBorder(javax.swing.plaf.synth.SynthContext,
+      java.awt.Graphics, int, int, int, int)</CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="propertyChange(java.beans.PropertyChangeEvent)"><!-- --></A><H3>
+propertyChange</H3>
+<PRE>
+public void <B>propertyChange</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeEvent.html?is-external=true" title="class or interface in java.beans">PropertyChangeEvent</A>&nbsp;e)</PRE>
+<DL>
+<DD>Invoked when a property changes. <code>AqvavitRootPaneUI</code> is
+ primarily interested in events originating from the <code>
+ JRootPane</code> it has been installed on identifying the property <code>
+ windowDecorationStyle</code>. If the <code>windowDecorationStyle</code>
+ has changed to a value other than <code>JRootPane.NONE</code>, this will
+ add a <code>Component</code> to the <code>JRootPane</code> to render the
+ window decorations, as well as installing a <code>Border</code> on the
+ <code>JRootPane</code>. On the other hand, if the <code>
+ windowDecorationStyle</code> has changed to <code>JRootPane.NONE</code>,
+ this will remove the <code>Component</code> that has been added to the
+ <code>JRootPane</code> as well resetting the Border to what it was before
+ <code>installUI</code> was invoked.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true#propertyChange(java.beans.PropertyChangeEvent)" title="class or interface in java.beans">propertyChange</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A></CODE><DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true#propertyChange(java.beans.PropertyChangeEvent)" title="class or interface in javax.swing.plaf.basic">propertyChange</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicRootPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicRootPaneUI</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - A PropertyChangeEvent object describing the event source and the
+          property that has changed.</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="class-use/SeaGlassRootPaneUI.html"><FONT CLASS="NavBarFont1"><B>Use</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassRadioButtonMenuItemUI.html" title="class in com.seaglasslookandfeel.ui"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassScrollBarUI.html" title="class in com.seaglasslookandfeel.ui"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?com/seaglasslookandfeel/ui/SeaGlassRootPaneUI.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SeaGlassRootPaneUI.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+</BODY>
+</HTML>

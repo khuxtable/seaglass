@@ -1,0 +1,521 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Sea Glass Look and Feel - Client Properties</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
+      @import url("./css/highlight.css");
+    </style>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      </head>
+  <body class="composite">
+    <div id="page">
+    <div id="banner">
+                    <div id="bannerLeft">
+    
+            Sea Glass Look and Feel for Swing
+    
+            </div>
+                          <div id="bannerRight">
+    
+                                            <img src="images/logos/SeaGlassLogo.png" alt="$alt" />
+    
+            </div>
+            <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+          
+  
+
+  
+    
+            
+  
+    
+            <div class="xleft">
+        Version: 0.1.7.3-SNAPSHOT
+              </div>
+            <div class="xright">            <a href="http://explodingpixels.wordpress.com" class="externalLink">Kenneth Orr</a>
+            |
+                <a href="http://www.kathrynhuxtable.org" class="externalLink">Kathryn Huxtable</a>
+            
+  
+
+  
+    
+            
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="leftColumn">
+      <div id="navcolumn">
+           
+  
+
+  
+    
+            
+  
+    
+                   <h5>Sea Glass Look and Feel</h5>
+            <ul>
+              
+    <li>
+                    <a href="index.html">Introduction</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="http://groups.google.com/group/sea-glass-look-and-feel" class="externalLink">Discussion Group</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="http://seaglasslookandfeel.com" class="externalLink">Google Code</a>
+          </li>
+              
+    <li>
+                    <a href="downloads.html">Downloads</a>
+          </li>
+              
+    <li>
+                    <a href="usage.html">Usage</a>
+          </li>
+              
+    <li>
+              <strong>Client properties</strong>
+        </li>
+          </ul>
+              <h5>Project Information</h5>
+            <ul>
+              
+    <li>
+                    <a href="dependencies.html">Dependencies</a>
+          </li>
+              
+    <li>
+                    <a href="issue-tracking.html">Issue Tracking</a>
+          </li>
+              
+    <li>
+                    <a href="mail-lists.html">Mailing Lists</a>
+          </li>
+              
+    <li>
+                    <a href="license.html">Project License</a>
+          </li>
+              
+    <li>
+                    <a href="project-summary.html">Project Summary</a>
+          </li>
+              
+    <li>
+                    <a href="team-list.html">Project Team</a>
+          </li>
+              
+    <li>
+                    <a href="source-repository.html">Source Repository</a>
+          </li>
+          </ul>
+              <h5>Project Reports</h5>
+            <ul>
+              
+    <li>
+                    <a href="cpd.html">CPD Report</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="apidocs/index.html">JavaDocs</a>
+          </li>
+              
+    <li>
+                    <a href="pmd.html">PMD Report</a>
+          </li>
+              
+    <li>
+                    <a class="newWindow" target="_New" href="xref/index.html">Source Xref</a>
+          </li>
+              
+    <li>
+                    <a href="taglist.html">Tag List</a>
+          </li>
+          </ul>
+            </div>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="article" title="Client Properties">
+  <div class="section" title="Client Properties">
+    <div class="titlepage">
+      <div>
+        <div>
+          <h1 class="title"><a id="d39e17" shape="rect"></a>Client Properties</h1>
+        </div>
+      </div>
+    </div>
+    <p>We currently support Mac-style properties on buttons to make them
+    look different when used on our background gradient and to segment them.
+    See <a class="link" href="http://developer.apple.com/mac/library/technotes/tn2007/tn2196.html" target="_top" shape="rect">Apple
+    Technical Note TN2196</a> for more information.</p>
+    <p>We plan on more use of client properties to control the appearance
+    of controls.</p>
+    <div class="section" title="Common properties">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title"><a id="d39e28" shape="rect"></a>Common properties</h1>
+          </div>
+        </div>
+      </div>
+      <p>We support the <code class="code">JComponent.sizeVariant</code> property with
+      values of <code class="code">"large"</code>, <code class="code">"regular"</code> (the default),
+      <code class="code">"small"</code>, and <code class="code">"mini"</code>. See the table for
+      examples:</p>
+      <div class="informaltable">
+        <table summary="common properties" style="border-collapse: collapse;border-top: 0 solid ; border-bottom: 0 solid ; border-left: 0 solid ; border-right: 0 solid ; ">
+          <colgroup span="1">
+            <col span="1"></col>
+            <col span="1"></col>
+            <col span="1"></col>
+            <col span="1"></col>
+            <col span="1"></col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">JComponent.sizeVariant</th>
+              <th style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">"large"</th>
+              <th style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">"regular"</th>
+              <th style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">"small"</th>
+              <th style="border-bottom: 0 solid ; " rowspan="1" colspan="1">"mini"</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">Push Button</td>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button-large.png" alt="large size button"></img></span>
+              </td>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button.png" alt="regular size button"></img></span>
+              </td>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button-small.png" alt="small size button"></img></span>
+              </td>
+              <td style="border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button-mini.png" alt="mini size button"></img></span>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">Check Box</td>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/checkbox-large.png" alt="large size checkbox"></img></span>
+              </td>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/checkbox.png" alt="regular size checkbox"></img></span>
+              </td>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/checkbox-small.png" alt="small size checkbox"></img></span>
+              </td>
+              <td style="border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/checkbox-mini.png" alt="mini size checkbox"></img></span>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-right: 0 solid ; " rowspan="1" colspan="1">Radio Button</td>
+              <td style="border-right: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/radiobutton-large.png" alt="large size radiobutton"></img></span>
+              </td>
+              <td style="border-right: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/radiobutton.png" alt="regular size radiobutton"></img></span>
+              </td>
+              <td style="border-right: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/radiobutton-small.png" alt="small size radiobutton"></img></span>
+              </td>
+              <td style="" rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/radiobutton-mini.png" alt="mini size radiobutton"></img></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>If the value <code class="code">"scale"</code> is specified, then the button
+      height is not constrained and will scale smoothly. Otherwise it is
+      forced into one of the sizes above, and centered in the control's
+      height.</p>
+    </div>
+    <div class="section" title="JButton properties">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title"><a id="d39e189" shape="rect"></a><code class="classname">JButton</code> properties</h1>
+          </div>
+        </div>
+      </div>
+      <p>Use the <code class="code">JButton.buttonType</code> property with values of
+      <code class="code">"textured"</code>, <code class="code">"segmented"</code>, or
+      <code class="code">"segmentedTextured"</code>. To segment the buttons, set the
+      <code class="code">JButton.segmentPosition</code> property to one of
+      <code class="code">"first"</code>, <code class="code">"middle"</code>, or <code class="code">"last"</code>. The
+      value <code class="code">"only"</code> is also supported.</p>
+      <p>See the table below for examples:</p>
+      <div class="informaltable">
+        <table summary="button property settings" style="border-collapse: collapse;border-top: 0 solid ; border-bottom: 0 solid ; border-left: 0 solid ; border-right: 0 solid ; ">
+          <colgroup span="1">
+            <col span="1"></col>
+            <col span="1"></col>
+            <col span="1"></col>
+            <col span="1"></col>
+            <col span="1"></col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">Button style</th>
+              <th style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">first</th>
+              <th style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">middle</th>
+              <th style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">last</th>
+              <th style="border-bottom: 0 solid ; " rowspan="1" colspan="1">only</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">segmented</td>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button-first.png" alt="segmented first button"></img></span>
+              </td>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button-middle.png" alt="segmented middle button"></img></span>
+              </td>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button-last.png" alt="segmented last button"></img></span>
+              </td>
+              <td style="border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button.png" alt="segmented only button"></img></span>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-right: 0 solid ; " rowspan="1" colspan="1">segmentedTextured</td>
+              <td style="border-right: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button-textured-first.png" alt="segmented textured first button"></img></span>
+              </td>
+              <td style="border-right: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button-textured-middle.png" alt="segmented textured middle button"></img></span>
+              </td>
+              <td style="border-right: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button-textured-last.png" alt="segmented textured last button"></img></span>
+              </td>
+              <td style="" rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/button-textured.png" alt="segmented textured only button"></img></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="section" title="JRootPane properties">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title"><a id="d39e306" shape="rect"></a><code class="classname">JRootPane</code> properties</h1>
+          </div>
+        </div>
+      </div>
+      <p>We support a "unified tool bar" look by setting the
+      <code class="code">SeaGlass.UnifiedToolbarLook</code> property to
+      <code class="code">Boolean.TRUE</code> on the root pane or the internal frame. This
+      will paint the background of the root pane's content pane with a
+      gradient that meshes with the title pane, and it will call
+      <code class="code">setOpaque(false)</code> on the content pane. Without this you will
+      have a very light gray background on the contents. On a Mac, this causes
+      the <code class="code">apple.awt.brushMetalLook</code> property to be set.</p>
+      <p>On a non-Mac platform, setting the
+      <code class="code">JRootPane.MenuInTitle</code> property to <code class="code">Boolean.TRUE</code>
+      will place the menu bar in the title bar instead of below it. Note that
+      it is your responsibility to make sure that it fits with the
+      title.</p>
+      <p>On the Mac platform, we support the root pane property
+      <code class="code">Window.documentModified</code> such that if it is set to
+      <code class="code">Boolean.TRUE</code> the close button will have a bullet in it,
+      indicating that the document has been modified.</p>
+    </div>
+    <div class="section" title="JScrollBar and JScrollPane properties">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title"><a id="d39e342" shape="rect"></a><code class="classname">JScrollBar</code> and
+        <code class="classname">JScrollPane</code> properties</h1>
+          </div>
+        </div>
+      </div>
+      <p>On a scroll bar, setting the
+      <code class="code">SeaGlass.Override.ScrollBarButtonsTogether</code> property to
+      <code class="code">Boolean.TRUE</code> will place the scroll bar buttons together at
+      the left or bottom of the scroll bar, as on a Mac.</p>
+      <p>We support the Nimbus <code class="code">JScrollBar.fastWheelScrolling</code>
+      value on scroll panes such that if set to <code class="code">Boolean.TRUE</code>
+      yields a smoother and faster accelerated wheel scroll.</p>
+    </div>
+    <div class="section" title="JTabbedPane properties">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title"><a id="d39e367" shape="rect"></a><code class="classname">JTabbedPane</code> properties</h1>
+          </div>
+        </div>
+      </div>
+      <p>For <code class="classname">JTabbedPane</code>, we support the
+      <code class="code">JTabbedPane.closeButton</code> property being set to
+      <code class="code">"left"</code> or <code class="code">"right"</code>, which will cause a close
+      button to be placed at the left or right of each tab button. Pressing
+      the button will close the tab.</p>
+      <p>We also support the <code class="code">JTabbedPane.closeListener</code>
+      property to capture the close action and enforce file saving and such.
+      This property must be an object which implements
+      <code class="classname">org.seaglasslookandfeel.util.SeaGlassTabCloseListener</code>,
+      which has two methods:</p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" type="disc">
+          <li class="listitem"><p><code class="code">boolean tabAboutToBeClosed(int tabIndex)</code></p><p>This method is called when a tab is about to be closed.
+          Returning <code class="code">true</code> from this method allows the tab to be
+          closed, whereas returning <code class="code">false</code> is effectively a
+          "cancel" on the close action.</p></li>
+          <li class="listitem"><p><code class="code">void tabClosed(String title, Component
+          component)</code></p><p>This method is called when a tab is actually closed. The title
+          is the tab title text and the component is the component pane of the
+          tab.</p></li>
+        </ul>
+      </div>
+      <p>If you need to know the tabbed pane that is being affected you
+      could save it in the constructor for the class.</p>
+    </div>
+    <div class="section" title="JTextField properties">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title"><a id="d39e416" shape="rect"></a><code class="classname">JTextField</code> properties</h1>
+          </div>
+        </div>
+      </div>
+      <p>For <code class="classname">JTextField</code>, we support the
+      <code class="code">JTextField.variant</code> property being set to
+      <code class="code">"search"</code>, which will create a lozenge instead of a
+      rectangular field, suitable for a search field. The lozenge will have a
+      magnifying glass icon to the left, and if there is any text in the field
+      will have a cancel icon, consisting of a gray circle with an erased "x"
+      in it to the right.</p>
+      <div class="informaltable">
+        <table summary="textfield properties" style="border-collapse: collapse;border-top: 0 solid ; border-bottom: 0 solid ; border-left: 0 solid ; border-right: 0 solid ; ">
+          <colgroup span="1">
+            <col span="1"></col>
+            <col span="1"></col>
+          </colgroup>
+          <tbody>
+            <tr>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                Normal 
+                <code class="classname">JTextField</code>
+              </td>
+              <td style="border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/text-field.png" alt="text field"></img></span>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-right: 0 solid ; border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <code class="classname">JTextField</code>
+                 with search and no
+                text
+              </td>
+              <td style="border-bottom: 0 solid ; " rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/search-field.png" alt="search with no text"></img></span>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-right: 0 solid ; " rowspan="1" colspan="1">
+                <code class="classname">JTextField</code>
+                 with search and
+                text
+              </td>
+              <td style="" rowspan="1" colspan="1">
+                <span class="inlinemediaobject"><img src="./gen/search-field-text.png" alt="search with text"></img></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>We support the rest of the Mac <code class="classname">JTextField</code>
+      search client properties as well, e.g.
+      <code class="code">JTextField.Search.FindAction</code>,
+      <code class="code">JTextField.Search.FindPopup</code>, and
+      <code class="code">JTextField.Search.CancelAction</code>.</p>
+      <p>We have added the <code class="code">JTextField.Search.PlaceholderText</code>
+      property, which will display light gray text in a search-style text
+      field if there is no text present. This is a paint effect only; no text
+      is actually in the <code class="classname">JTextField</code> object.</p>
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xleft">
+        &#169;  
+          2009-2010
+    
+          seaglasslookandfeel.com
+          
+  
+
+  
+    
+            
+  
+    
+              
+  
+
+  
+    
+            
+  
+    
+            <div id="lastPublished">
+        Last Published: 06 Apr 2010
+              </div>
+            </div>
+      <div class="xright">                              <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+            <img class="poweredBy" 
+                 alt="Built by Maven" 
+                 src="./images/logos/maven-feather.png" 
+                 width="90"
+                 height="30"
+                 border="1" />
+          </a>
+            </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    </div>
+  </body>
+</html>
