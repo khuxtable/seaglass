@@ -1,0 +1,24 @@
+<project name="Sea Glass Look and Feel">
+	<publishDate position="navigation-bottom" format="dd MMM yyyy" />
+	<version position="left" />
+	<bannerLeft>
+	    <name></name>
+	</bannerLeft>
+	<bannerRight>
+	    <name>Sea Glass Site Skin</name>
+	</bannerRight>
+	<skin>
+	    <groupId>com.seaglasslookandfeel.siteskin</groupId>
+	    <artifactId>seaglass-site-skin</artifactId>
+	    <version>${project.version}</version>
+	</skin>
+	<body>
+		<links>
+			<item name="Kenneth Orr" href="http://explodingpixels.wordpress.com" />
+			<item name="Kathryn Huxtable" href="http://www.kathrynhuxtable.org" />
+		</links>
+
+		$reports
+
+	</body>
+</project>
