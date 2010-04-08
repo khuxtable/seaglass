@@ -4,6 +4,11 @@
 	<bannerRight>
 	   <src>images/logos/SeaGlassLogo.png</src>
 	</bannerRight>
+	<skin>
+	    <groupId>com.seaglasslookandfeel.siteskin</groupId>
+	    <artifactId>seaglass-site-skin</artifactId>
+	    <version>1.0</version>
+	</skin>
 	<body>
 		<links>
 			<item name="Kenneth Orr" href="http://explodingpixels.wordpress.com" />
