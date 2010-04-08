@@ -3,7 +3,7 @@
 	<groupId>com.seaglasslookandfeel.siteskin</groupId>
 	<artifactId>seaglass-site-skin</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<prerequisites>
 		<maven>2.2.1</maven>
 	</prerequisites>
@@ -86,9 +86,9 @@
 		</site>
 	</distributionManagement>
 	<scm>
-		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass-site-skin/tags/seaglass-site-skin-1.0</connection>
-		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass-site-skin/tags/seaglass-site-skin-1.0</developerConnection>
-		<url>http://code.google.com/p/seaglass/source/browse/seaglass-site-skin/tags/seaglass-site-skin-1.0</url>
+		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass-site-skin/trunk</connection>
+		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass-site-skin/trunk</developerConnection>
+		<url>http://code.google.com/p/seaglass/source/browse/seaglass-site-skin/trunk</url>
 	</scm>
 	<build>
 		<resources>
