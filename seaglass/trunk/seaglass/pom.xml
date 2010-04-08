@@ -132,73 +132,26 @@
 				the generated site directory.
 			-->
 			<plugin>
-				<groupId>com.agilejava.docbkx</groupId>
-				<artifactId>docbkx-maven-plugin</artifactId>
-				<version>2.0.10</version>
+				<groupId>org.kathrynhuxtable.maven.plugins</groupId>
+				<artifactId>docbkx-wrapper-plugin</artifactId>
+				<version>0.1</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>generate-xhtml</goal>
+							<goal>generate</goal>
 						</goals>
 						<phase>pre-site</phase>
 					</execution>
 				</executions>
 				<dependencies>
 					<dependency>
-						<groupId>net.sf.docbook</groupId>
-						<artifactId>docbook-xml</artifactId>
-						<version>5.0-all</version>
-						<classifier>resources</classifier>
-						<type>zip</type>
-						<scope>runtime</scope>
+						<groupId>com.seaglasslookandfeel.siteskin</groupId>
+						<artifactId>seaglass-site-skin</artifactId>
+						<version>1.0</version>
 					</dependency>
 				</dependencies>
 				<configuration>
-					<chunkedOutput>false</chunkedOutput>
-					<sourceDirectory>${siteBaseDirectory}/docbook</sourceDirectory>
-					<includes>**/*.xml,**/*.xml.vm</includes>
-					<targetDirectory>${project.build.directory}/generated-site/docbook-xhtml</targetDirectory>
-					<generateMetaAbstract>false</generateMetaAbstract>
-					<generateToc>false</generateToc>
-					<highlightSource>true</highlightSource>
-					<highlightDefaultLanguage />
-					<xhtmlCustomization>${siteBaseDirectory}/xsl/html.xsl</xhtmlCustomization>
-					<htmlCustomization>${siteBaseDirectory}/xsl/html.xsl</htmlCustomization>
-					<imgSrcPath>./</imgSrcPath>
-					<htmlCellSpacing>2</htmlCellSpacing>
-					<htmlCellPadding>2</htmlCellPadding>
-					<suppressHeaderNavigation>1</suppressHeaderNavigation>
-					<suppressFooterNavigation>1</suppressFooterNavigation>
-					<tableBordersWithCss>true</tableBordersWithCss>
-					<tableFrameBorderThickness>0</tableFrameBorderThickness>
-					<tableCellBorderThickness>0</tableCellBorderThickness>
-					<targetFileExtension>html</targetFileExtension>
-					<useExtensions>true</useExtensions>
-					<calloutsExtension>true</calloutsExtension>
-				</configuration>
-			</plugin>
-			<!--
-				Configure the HTML Filter Site plugin. This runs *after* the docbkx plugin in the pre-site phase
-				and runs Velocity on the files and makes them look more like Doxia-generated files without
-				stripping all the useful DocBook formatting like Doxia does.
-			-->
-			<plugin>
-				<groupId>org.kathrynhuxtable.maven.plugins</groupId>
-				<artifactId>htmlfilter-site-maven-plugin</artifactId>
-				<version>0.3.2</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>merge</goal>
-						</goals>
-						<phase>pre-site</phase>
-					</execution>
-				</executions>
-				<configuration>
-					<sourceDirectory>${project.build.directory}/generated-site/docbook-xhtml</sourceDirectory>
-					<filePattern>**/*.html,**/*.xm.html</filePattern>
-					<filterExtension>.xm.html</filterExtension>
-					<targetDirectory>${project.build.directory}/generated-site/resources</targetDirectory>
+					<templateFile>META-INF/maven/site.vm</templateFile>
 				</configuration>
 			</plugin>
 			<!--
@@ -213,7 +166,6 @@
 				<configuration>
 					<locales>en</locales>
 					<outputEncoding>${project.build.sourceEncoding}</outputEncoding>
-					<templateFile>${siteBaseDirectory}/site.vm</templateFile>
 				</configuration>
 			</plugin>
 			<!--
