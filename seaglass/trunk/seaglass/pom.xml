@@ -154,18 +154,6 @@
 					<templateFile>META-INF/maven/site.vm</templateFile>
 				</configuration>
 			</plugin>
-            <!--
-                Configure the PMD report, reporting on coding style. This also configures CPD (copy/paste
-                detection) reporting.
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <targetJdk>1.6</targetJdk>
-                </configuration>
-            </plugin>
 			<!--
 				Configure the site plugin. This creates site documentation suitable for deploying to a web site.
 				Note that we have generated our DocBook files with the extension .xhtml.vm, thus enabling them
