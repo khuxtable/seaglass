@@ -970,9 +970,9 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                 // if this JTableHeader is parented in a JViewport, then paint
                 // the table header background to the right of the last column
                 // if neccessary.
-                JViewport viewport = (JViewport) table.getParent();
+                Container viewport = table.getParent();
 
-                if (viewport != null && table.getWidth() < viewport.getWidth()) {
+                if ((viewport instanceof JViewport) && table.getWidth() < viewport.getWidth()) {
                     int startX           = table.getWidth();
                     int emptyColumnWidth = viewport.getWidth() - table.getWidth();
 
