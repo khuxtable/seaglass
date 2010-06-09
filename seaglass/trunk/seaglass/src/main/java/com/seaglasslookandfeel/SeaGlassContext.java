@@ -50,7 +50,7 @@ public class SeaGlassContext extends SynthContext {
     };
 
     /** This button *must* not have a UI or we end up throwing an NPE. */
-    private static final JButton FAKE_BUTTON = new JButton() {
+    private static final JButton FAKE_BUTTON   = new JButton() {
         public void updateUI() {
             // Do nothing.
         }
@@ -67,7 +67,7 @@ public class SeaGlassContext extends SynthContext {
 
     // From SynthContext.
 
-    private static final Map contextMap;
+    private static final Map     contextMap;
 
     static {
         contextMap = new HashMap();
