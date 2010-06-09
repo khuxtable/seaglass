@@ -156,6 +156,7 @@ import com.seaglasslookandfeel.util.PlatformUtils;
 import com.sun.java.swing.Painter;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import sun.font.FontManager;
 import sun.swing.plaf.GTKKeybindings;
 import sun.swing.plaf.WindowsKeybindings;
 import sun.swing.plaf.synth.DefaultSynthStyle;
@@ -509,7 +510,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         }
 
         if (font == null) {
-            font = new Font("Lucida Sans Unicode", Font.PLAIN, 13);
+            font = FontManager.getFontConfigFUIR("sans", Font.PLAIN, 13);
         }
 
         return font;
