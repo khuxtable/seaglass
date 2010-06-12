@@ -497,7 +497,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *
      * @return the default font.
      */
-    private Font getDefaultFont() {
+    protected Font getDefaultFont() {
         /*
          * Set the default font to Lucida Grande if available, else use Lucida
          * Sans Unicode. Grande is a later font and a bit nicer looking, but it
@@ -510,8 +510,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         }
 
         if (font == null) {
-            font = FontManager.getFontConfigFUIR("sans", Font.PLAIN, 13);
+            font = new Font("Dialog", Font.PLAIN, 13);
         }
+
+        if (font == null) {
+            font = new Font("SansSerif", Font.PLAIN, 13);
+        }
+        
+        System.out.println("font = " + font);
 
         return font;
     }
