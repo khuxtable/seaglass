@@ -517,8 +517,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             font = new Font("SansSerif", Font.PLAIN, 13);
         }
         
-        System.out.println("font = " + font);
-
         return font;
     }
 
