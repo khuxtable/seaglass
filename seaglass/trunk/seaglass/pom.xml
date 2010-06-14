@@ -72,6 +72,9 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<compilerArguments>
+						<bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
+					</compilerArguments>
 				</configuration>
 			</plugin>
 			<!--
@@ -323,6 +326,31 @@
 		<url>http://code.google.com/p/seaglass/source/browse/seaglass/trunk/seaglass</url>
 	</scm>
 	<profiles>
+		<profile>
+			<id>mac</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<build>
+				<plugins>
+					<!-- Configure the compiler plugin to use JDK 1.6. -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>2.1</version>
+						<configuration>
+							<source>1.6</source>
+							<target>1.6</target>
+							<compilerArguments>
+								<bootclasspath>${java.home}/shared_bundle/Classes/classes.jar</bootclasspath>
+							</compilerArguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		<!--
 			Define the profile to be activated when performing a release. This makes sure all the
 			deliverables are signed with GPG.
