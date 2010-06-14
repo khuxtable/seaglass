@@ -36,12 +36,9 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-
 import java.beans.PropertyChangeEvent;
-
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -152,11 +149,9 @@ import com.seaglasslookandfeel.state.TitlePaneWindowFocusedState;
 import com.seaglasslookandfeel.state.ToolBarWindowIsActiveState;
 import com.seaglasslookandfeel.util.MacKeybindings;
 import com.seaglasslookandfeel.util.PlatformUtils;
-
 import com.sun.java.swing.Painter;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import sun.font.FontManager;
 import sun.swing.plaf.GTKKeybindings;
 import sun.swing.plaf.WindowsKeybindings;
 import sun.swing.plaf.synth.DefaultSynthStyle;
