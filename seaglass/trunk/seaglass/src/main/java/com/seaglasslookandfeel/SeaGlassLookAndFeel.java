@@ -36,9 +36,12 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+
 import java.beans.PropertyChangeEvent;
+
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -97,6 +100,7 @@ import com.seaglasslookandfeel.painter.ScrollBarTrackPainter;
 import com.seaglasslookandfeel.painter.ScrollPanePainter;
 import com.seaglasslookandfeel.painter.SearchFieldIconPainter;
 import com.seaglasslookandfeel.painter.SearchFieldPainter;
+import com.seaglasslookandfeel.painter.SeparatorPainter;
 import com.seaglasslookandfeel.painter.SliderThumbPainter;
 import com.seaglasslookandfeel.painter.SliderTrackPainter;
 import com.seaglasslookandfeel.painter.SpinnerFormattedTextFieldPainter;
@@ -149,6 +153,7 @@ import com.seaglasslookandfeel.state.TitlePaneWindowFocusedState;
 import com.seaglasslookandfeel.state.ToolBarWindowIsActiveState;
 import com.seaglasslookandfeel.util.MacKeybindings;
 import com.seaglasslookandfeel.util.PlatformUtils;
+
 import com.sun.java.swing.Painter;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
@@ -420,6 +425,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             useOurUI(uiDefaults, "ScrollBar");
             useOurUI(uiDefaults, "ScrollPane");
             useOurUI(uiDefaults, "SearchFieldButton");
+            useOurUI(uiDefaults, "Separator");
             useOurUI(uiDefaults, "Slider");
             useOurUI(uiDefaults, "SplitPane");
             useOurUI(uiDefaults, "TabbedPane");
@@ -446,6 +452,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             definePopups(uiDefaults);
             defineProgressBars(uiDefaults);
             defineRootPanes(uiDefaults);
+            defineSeparators(uiDefaults);
             defineSpinners(uiDefaults);
             defineScrollBars(uiDefaults);
             defineSliders(uiDefaults);
@@ -511,7 +518,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         if (font == null) {
             font = new Font("SansSerif", Font.PLAIN, 13);
         }
-        
+
         return font;
     }
 
@@ -1369,6 +1376,18 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Store ScrollPane Corner Component
         uiDefaults.put(p + ".cornerPainter", new LazyPainter(c, ScrollPanePainter.Which.CORNER_ENABLED));
+    }
+
+    /**
+     * Initialize the separator settings.
+     *
+     * @param d the UI defaults map.
+     */
+    private void defineSeparators(UIDefaults d) {
+        String c = PAINTER_PREFIX + "SeparatorPainter";
+
+        d.put("Separator.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("Separator[Enabled].backgroundPainter", new LazyPainter(c, SeparatorPainter.Which.BACKGROUND_ENABLED));
     }
 
     /**
