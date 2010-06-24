@@ -103,7 +103,8 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
             return;
         }
 
-        Shape s = shapeGenerator.createRoundRectangle(0, 0, (width - 1), (height - 1), CornerSize.FRAME_BORDER);
+        Shape s = shapeGenerator.createRoundRectangle(0, 0, (width - 1), (height - 1), CornerSize.FRAME_BORDER,
+                                                      CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED);
 
         g.setPaint(getFrameBorderPaint(s));
         g.draw(s);
@@ -149,7 +150,8 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
 
         if (c.getClientProperty(SeaGlassRootPaneUI.UNIFIED_TOOLBAR_LOOK) == Boolean.TRUE) {
             // Draw background gradient.
-            s = shapeGenerator.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.FRAME_INNER_HIGHLIGHT);
+            s = shapeGenerator.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.FRAME_INNER_HIGHLIGHT,
+                                                    CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED);
             g.setPaint(getFrameInteriorPaint(s, titleHeight, topToolBarHeight, bottomToolBarHeight));
             g.fill(s);
         } else {
@@ -160,7 +162,7 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
             g.fill(s);
             // Paint contents.
             s = shapeGenerator.createRoundRectangle(1, titleHeight, width - 2, height - titleHeight - 2, CornerSize.FRAME_INNER_HIGHLIGHT,
-                                                    CornerStyle.SQUARE, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.SQUARE);
+                                                    CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE);
             g.setPaint(c.getBackground());
             g.fill(s);
             // Draw separator line.
