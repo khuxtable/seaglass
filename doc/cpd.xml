@@ -138,8 +138,8 @@
 </codefragment>
 </duplication>
 <duplication lines="26" tokens="370">
-<file line="1746" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
-<file line="1771" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1765" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1790" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
 <codefragment>
 <![CDATA[
         d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
@@ -603,108 +603,9 @@
 ]]>
 </codefragment>
 </duplication>
-<duplication lines="91" tokens="267">
-<file line="357" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
-<file line="513" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/util/MacKeybindings.java"/>
-<codefragment>
-<![CDATA[
-                    DefaultEditorKit.downAction,
-                    "shift UP",
-                    DefaultEditorKit.selectionUpAction,
-                    "shift KP_UP",
-                    DefaultEditorKit.selectionUpAction,
-                    "shift DOWN",
-                    DefaultEditorKit.selectionDownAction,
-                    "shift KP_DOWN",
-                    DefaultEditorKit.selectionDownAction,
-                    "alt LEFT",
-                    DefaultEditorKit.previousWordAction,
-                    "alt KP_LEFT",
-                    DefaultEditorKit.previousWordAction,
-                    "alt RIGHT",
-                    DefaultEditorKit.nextWordAction,
-                    "alt KP_RIGHT",
-                    DefaultEditorKit.nextWordAction,
-                    "alt shift LEFT",
-                    DefaultEditorKit.selectionPreviousWordAction,
-                    "alt shift KP_LEFT",
-                    DefaultEditorKit.selectionPreviousWordAction,
-                    "alt shift RIGHT",
-                    DefaultEditorKit.selectionNextWordAction,
-                    "alt shift KP_RIGHT",
-                    DefaultEditorKit.selectionNextWordAction,
-                    "alt UP",
-                    DefaultEditorKit.beginLineAction,
-                    "alt KP_UP",
-                    DefaultEditorKit.beginLineAction,
-                    "ctrl LEFT",
-                    DefaultEditorKit.beginLineAction,
-                    "ctrl KP_LEFT",
-                    DefaultEditorKit.beginLineAction,
-                    "meta LEFT",
-                    DefaultEditorKit.beginLineAction,
-                    "meta KP_LEFT",
-                    DefaultEditorKit.beginLineAction,
-                    "alt DOWN",
-                    DefaultEditorKit.endLineAction,
-                    "alt KP_DOWN",
-                    DefaultEditorKit.endLineAction,
-                    "ctrl RIGHT",
-                    DefaultEditorKit.endLineAction,
-                    "ctrl KP_RIGHT",
-                    DefaultEditorKit.endLineAction,
-                    "meta RIGHT",
-                    DefaultEditorKit.endLineAction,
-                    "meta KP_RIGHT",
-                    DefaultEditorKit.endLineAction,
-                    "ctrl shift LEFT",
-                    DefaultEditorKit.selectionBeginLineAction,
-                    "ctrl shift KP_LEFT",
-                    DefaultEditorKit.selectionBeginLineAction,
-                    "meta shift LEFT",
-                    DefaultEditorKit.selectionBeginLineAction,
-                    "meta shift KP_LEFT",
-                    DefaultEditorKit.selectionBeginLineAction,
-                    "ctrl shift RIGHT",
-                    DefaultEditorKit.selectionEndLineAction,
-                    "ctrl shift KP_RIGHT",
-                    DefaultEditorKit.selectionEndLineAction,
-                    "meta shift RIGHT",
-                    DefaultEditorKit.selectionEndLineAction,
-                    "meta shift KP_RIGHT",
-                    DefaultEditorKit.selectionEndLineAction,
-                    "HOME",
-                    DefaultEditorKit.beginAction,
-                    "END",
-                    DefaultEditorKit.endAction,
-                    "meta UP",
-                    DefaultEditorKit.beginAction,
-                    "meta KP_UP",
-                    DefaultEditorKit.beginAction,
-                    "meta DOWN",
-                    DefaultEditorKit.endAction,
-                    "meta KP_DOWN",
-                    DefaultEditorKit.endAction,
-                    "shift HOME",
-                    DefaultEditorKit.selectionBeginAction,
-                    "shift END",
-                    DefaultEditorKit.selectionEndAction,
-                    "meta A",
-                    DefaultEditorKit.selectAllAction,
-                    "meta shift A",
-                    "unselect",
-                    "controlBackground shift O",
-                    "toggle-componentOrientation",
-                    "alt DELETE",
-                    MacEditorKit.deleteNextWordAction,
-                    "alt BACK_SPACE",
-                    MacEditorKit.deletePrevWordAction,
-]]>
-</codefragment>
-</duplication>
 <duplication lines="19" tokens="267">
-<file line="1723" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
-<file line="1752" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1742" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1771" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
 <codefragment>
 <![CDATA[
         d.put(p + ".placeholderTextColor", d.get("seaGlassSearchPlaceholderText"));
@@ -1442,8 +1343,8 @@
 </codefragment>
 </duplication>
 <duplication lines="7" tokens="105">
-<file line="612" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
-<file line="1623" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="619" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1642" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
 <codefragment>
 <![CDATA[
         d.put(p + ".States", "Enabled,Pressed,Disabled");
@@ -1594,8 +1495,8 @@
 </codefragment>
 </duplication>
 <duplication lines="7" tokens="102">
-<file line="657" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
-<file line="670" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="664" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="677" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
 <codefragment>
 <![CDATA[
         d.put(p + "[Disabled+Selected].textForeground", new ColorUIResource(new Color(0, 0, 0, 0x80)));
@@ -1609,8 +1510,8 @@
 </codefragment>
 </duplication>
 <duplication lines="6" tokens="101">
-<file line="657" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
-<file line="1875" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="664" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
+<file line="1894" path="/Users/huxtable/dev/seaglasslookandfeel/target/checkout/src/main/java/com/seaglasslookandfeel/SeaGlassLookAndFeel.java"/>
 <codefragment>
 <![CDATA[
         d.put(p + ".States", "Enabled,Disabled,Focused,Pressed");
