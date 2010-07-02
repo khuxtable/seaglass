@@ -50,7 +50,7 @@
   
     
             <div class="xleft">
-        Version: 0.1.7.2.2
+        Version: 0.1.7.3
               </div>
             <div class="xright">            <a href="http://explodingpixels.wordpress.com" class="externalLink">Kenneth Orr</a>
             |
@@ -163,63 +163,61 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div xmlns="http://www.w3.org/1999/xhtml" class="article" lang="en">
-  <div class="section" lang="en">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="article" title="Usage">
+  <div class="section" title="Usage">
     <div class="titlepage">
       <div>
         <div>
-          <h1 class="title"><a id="d0e17" name="d0e17" shape="rect"></a>Usage</h1>
+          <h1 class="title"><a id="d0e17" shape="rect"></a>Usage</h1>
         </div>
       </div>
     </div>
-    <p>To use the Sea Glass Look and Feel, you must either
-        include our <a class="link" href="http://maven.apache.org" shape="rect">Maven</a> repository in your
-        <code class="filename"><a class="link" href="http://maven.apache.org/pom.html" shape="rect">pom.xml</a></code>
-        file or download the jar file and include it in your class
-        path. See the <a class="link" href="downloads.html" shape="rect">downloads</a> page for more
-        details.</p>
-    <p>To enable the Sea Glass Look and Feel, include the
-        following in your application before creating any
-        controls:</p>
-    <pre class="programlisting" xml:space="preserve"><span class="hl-keyword">try</span> {
-    UIManager.setLookAndFeel(<span class="hl-string">"com.seaglasslookandfeel.SeaGlassLookAndFeel"</span>);
-} <span class="hl-keyword">catch</span> (Exception e) {
+    <p>To use the Sea Glass Look and Feel, you must either include our
+    <a class="link" href="http://maven.apache.org" target="_top" shape="rect">Maven</a> repository in your
+    <code class="filename"><a class="link" href="http://maven.apache.org/pom.html" target="_top" shape="rect">pom.xml</a></code>
+    file or download the jar file and include it in your class path. See the
+    <a class="link" href="downloads.html" target="_top" shape="rect">downloads</a> page for more
+    details.</p>
+    <p>To enable the Sea Glass Look and Feel, include the following in your
+    application before creating any controls:</p>
+    <pre class="programlisting" xml:space="preserve"><span xmlns="" class="hl-keyword">try</span> {
+    UIManager.setLookAndFeel(<span xmlns="" class="hl-string">"com.seaglasslookandfeel.SeaGlassLookAndFeel"</span>);
+} <span xmlns="" class="hl-keyword">catch</span> (Exception e) {
     e.printStackTrace();
-}
-</pre>
-    <p>We also support setting the user interface on the
-        command line using the VM option</p>
+}</pre>
+    <p>We also support setting the user interface on the command line using
+    the VM option</p>
     <div class="blockquote">
       <blockquote class="blockquote">
         <p><code class="code">-Dswing.defaultlaf=com.seaglasslookandfeel.SeaGlassLookAndFeel</code></p>
       </blockquote>
     </div>
-    <div class="section" lang="en">
+    <div class="section" title="Things to note">
       <div class="titlepage">
         <div>
           <div>
-            <h1 class="title"><a id="d0e43" name="d0e43" shape="rect"></a>Things to note</h1>
+            <h1 class="title"><a id="d0e43" shape="rect"></a>Things to note</h1>
           </div>
         </div>
       </div>
-      <p>On non-Mac systems we draw our own title bar and
-          window frame, meaning that we set the window to
-          "undecorated". This means that you can't remove the title
-          bar and frame by setting a <code class="classname">JFrame</code> to undecorated. You
-          should probably use a <code class="classname">JWindow</code> instead, though you
-          should be able to set the window decoration style to
-          <code class="code">JRootPane.NONE</code> and get a
-          similar effect.</p>
-      <p>Also, we make <code class="classname">JToolBar</code>
-          and <code class="classname">JPanel</code> non-opaque
-          using a call to <code class="code">setOpaque(false)</code> if the background
-          color is an instance of <code class="classname">UIResource</code>, which it will be
-          unless you have set it. We then paint our background
-          gradient on the content pane, which is a <code class="classname">JPanel</code> by default. If you want a
-          different background color, put your controls in a <code class="classname">JPanel</code>, add that to the <code class="code">BorderLayout.CENTER</code> of the content
-          pane, and set your <code class="classname">JPanel</code>'s background color.</p>
-      <p>We also support many <a class="link" href="client-properties.html" shape="rect">client properties</a> to
-          change the appearance or behavior of controls.</p>
+      <p>On non-Mac systems we draw our own title bar and window frame,
+      meaning that we set the window to "undecorated". This means that you
+      can't remove the title bar and frame by setting a
+      <code class="classname">JFrame</code> to undecorated. You should probably use a
+      <code class="classname">JWindow</code> instead, though you should be able to set
+      the window decoration style to <code class="code">JRootPane.NONE</code> and get a
+      similar effect.</p>
+      <p>Also, we make <code class="classname">JToolBar</code> and
+      <code class="classname">JPanel</code> non-opaque using a call to
+      <code class="code">setOpaque(false)</code> if the background color is an instance of
+      <code class="classname">UIResource</code>, which it will be unless you have set
+      it. We then paint our background gradient on the content pane, which is
+      a <code class="classname">JPanel</code> by default. If you want a different
+      background color, put your controls in a <code class="classname">JPanel</code>,
+      add that to the <code class="code">BorderLayout.CENTER</code> of the content pane,
+      and set your <code class="classname">JPanel</code>'s background color.</p>
+      <p>We also support many <a class="link" href="client-properties.html" target="_top" shape="rect">client properties</a> to change
+      the appearance or behavior of controls.</p>
     </div>
   </div>
 </div>
@@ -251,7 +249,7 @@
   
     
             <div id="lastPublished">
-        Last Published: 26 Mar 2010
+        Last Published: 02 Jul 2010
               </div>
             </div>
       <div class="xright">                              <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
