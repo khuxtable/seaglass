@@ -205,12 +205,12 @@
 		<!-- Site to deploy releases to. -->
 		<repository>
 			<id>ossrh</id>
-			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 		<!-- Site to deploy snapshots to. -->
 		<snapshotRepository>
 			<id>ossrh</id>
-			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 		<!--
 			Site to deploy site documentation to. Note that this overwrites the previous site documentation.
