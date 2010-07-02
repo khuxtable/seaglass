@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.seaglasslookandfeel</groupId>
 	<artifactId>seaglasslookandfeel</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.7.3-SNAPSHOT</version>
+	<version>0.1.7.3</version>
 	<name>Sea Glass Look and Feel for Swing</name>
 	<description>
 		A Java cross-platform look and feel for JRE 1.6u17 and later.
@@ -320,10 +319,10 @@
 		generating the site documentation.
 	-->
 	<scm>
-		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</connection>
-		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass
+		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass/tags/seaglasslookandfeel-0.1.7.3</connection>
+		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/tags/seaglasslookandfeel-0.1.7.3
 		</developerConnection>
-		<url>http://code.google.com/p/seaglass/source/browse/seaglass/trunk/seaglass</url>
+		<url>http://code.google.com/p/seaglass/source/browse/seaglass/tags/seaglasslookandfeel-0.1.7.3</url>
 	</scm>
 	<profiles>
 		<profile>
