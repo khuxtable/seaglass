@@ -4,13 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 public class TestProgressBars {
 
@@ -29,8 +26,10 @@ public class TestProgressBars {
                 progressBar.setMinimum(0);
                 progressBar.setMaximum(100);
                 progressBar.getModel().setValue(33);
+                progressBar.setStringPainted(true);
 
-                JScrollPane scrollPane = new JScrollPane(progressBar);
+                JPanel scrollPane = new JPanel();
+                scrollPane.add(progressBar);
 
                 JFrame frame = new JFrame();
                 frame.add(scrollPane, BorderLayout.CENTER);
