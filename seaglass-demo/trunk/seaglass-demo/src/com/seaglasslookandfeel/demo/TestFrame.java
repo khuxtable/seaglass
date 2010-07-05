@@ -9,7 +9,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class TestFrame extends JFrame {
     public TestFrame() {
-        super("test");
+        super("TestFrame");
         
         setLayout(new FlowLayout(FlowLayout.CENTER));
         add(new JButton("sample"));
