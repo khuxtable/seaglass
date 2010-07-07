@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  * Test frame rendering and also Chinese characters. I wonder what they mean?
@@ -32,6 +33,14 @@ public class TestFrame extends JFrame {
      * @param args Command line args.
      */
     public static void main(String[] args) {
+        if (true) {
+            try {
+                UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     new TestFrame().setVisible(true);
