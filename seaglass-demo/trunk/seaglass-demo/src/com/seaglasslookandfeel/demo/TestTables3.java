@@ -20,14 +20,6 @@ import javax.swing.table.TableRowSorter;
 
 import sun.swing.table.DefaultTableCellHeaderRenderer;
 
-class JComponentTableCellRenderer extends DefaultTableCellHeaderRenderer/*SeaGlassTableHeaderUI.HeaderRenderer*/ {
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
-        int column) {
-        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        return /*this;*/(JComponent) value;
-    }
-}
-
 public class TestTables3 {
     public static void main(String args[]) {
         if (true) {
@@ -60,17 +52,12 @@ public class TestTables3 {
         JLabel redLabel = new JLabel(headers[1], redIcon, JLabel.CENTER);
         redLabel.setBorder(headerBorder);
 
-        TableCellRenderer renderer = new JComponentTableCellRenderer();
-
         TableColumnModel columnModel = table.getColumnModel();
 
         TableColumn column0 = columnModel.getColumn(0);
         TableColumn column1 = columnModel.getColumn(1);
 
-        column0.setHeaderRenderer(renderer);
         column0.setHeaderValue(blueLabel);
-
-        column1.setHeaderRenderer(renderer);
         column1.setHeaderValue(redLabel);
 
         frame.add(scrollPane, BorderLayout.CENTER);
