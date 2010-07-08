@@ -314,10 +314,9 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
      * DOCUMENT ME!
      */
     public static class DefaultTableCellHeaderRenderer extends DefaultTableCellRenderer implements UIResource {
-        private static final long serialVersionUID          = -4466195868054511962L;
-        private boolean           horizontalTextPositionSet;
+        private static final long serialVersionUID = -4466195868054511962L;
         private Icon              sortArrow;
-        private EmptyIcon         emptyIcon                 = new EmptyIcon();
+        private EmptyIcon         emptyIcon        = new EmptyIcon();
 
         /**
          * Creates a new DefaultTableCellHeaderRenderer object.
@@ -330,7 +329,6 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
          * @see javax.swing.JLabel#setHorizontalTextPosition(int)
          */
         public void setHorizontalTextPosition(int textPosition) {
-            horizontalTextPositionSet = true;
             super.setHorizontalTextPosition(textPosition);
         }
 
@@ -373,12 +371,6 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
                 }
 
                 if (!isPaintingForPrint && table.getRowSorter() != null) {
-                    if (!horizontalTextPositionSet) {
-                        // There is a row sorter, and the developer hasn't
-                        // set a text position, change to leading.
-                        setHorizontalTextPosition(JLabel.LEADING);
-                    }
-
                     SortOrder sortOrder = getColumnSortOrder(table, column);
 
                     if (sortOrder != null) {
@@ -400,8 +392,21 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
                 }
             }
 
-            setText(value == null ? "" : value.toString());
-            setIcon(sortIcon);
+            if (value instanceof Icon) {
+                setText("");
+                setIcon((Icon) value);
+            } else if (value instanceof JLabel) {
+                JLabel label = (JLabel) value;
+
+                setText(label.getText());
+                setIcon(label.getIcon());
+                setHorizontalAlignment(label.getHorizontalAlignment());
+                setHorizontalTextPosition(label.getHorizontalTextPosition());
+            } else {
+                setText(value == null ? "" : value.toString());
+                setIcon(null);
+            }
+
             sortArrow = sortIcon;
 
             Border border = null;
@@ -448,20 +453,16 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
          */
         @Override
         public void paintComponent(Graphics g) {
-            boolean b = DefaultLookup.getBoolean(this, ui, "TableHeader.rightAlignSortArrow", false);
-
-            if (b && sortArrow != null) {
+            if (sortArrow != null) {
                 // emptyIcon is used so that if the text in the header is right
                 // aligned, or if the column is too narrow, then the text will
                 // be sized appropriately to make room for the icon that is
-                // about
-                // to be painted manually here.
+                // about to be painted manually here.
                 emptyIcon.width  = sortArrow.getIconWidth();
                 emptyIcon.height = sortArrow.getIconHeight();
-                setIcon(emptyIcon);
-                super.paintComponent(g);
                 Point position = computeIconPosition(g);
 
+                super.paintComponent(g);
                 sortArrow.paintIcon(this, g, position.x, position.y);
             } else {
                 super.paintComponent(g);
@@ -489,7 +490,7 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
             SwingUtilities.layoutCompoundLabel(this, fontMetrics, getText(), sortArrow, getVerticalAlignment(), getHorizontalAlignment(),
                                                getVerticalTextPosition(), getHorizontalTextPosition(), viewR, iconR, textR,
                                                getIconTextGap());
-            int x = getWidth() - i.right - sortArrow.getIconWidth();
+            int x = getComponentOrientation().isLeftToRight() ? getWidth() - i.right - sortArrow.getIconWidth() : i.left;
             int y = iconR.y;
 
             return new Point(x, y);
