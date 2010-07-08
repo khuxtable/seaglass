@@ -25,6 +25,14 @@ import static java.awt.BorderLayout.SOUTH;
 import static java.awt.BorderLayout.WEST;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
+import com.sun.java.swing.Painter;
+import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
+
+import sun.swing.plaf.GTKKeybindings;
+import sun.swing.plaf.WindowsKeybindings;
+import sun.swing.plaf.synth.DefaultSynthStyle;
+import sun.swing.plaf.synth.SynthUI;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -153,14 +161,6 @@ import com.seaglasslookandfeel.state.TitlePaneWindowFocusedState;
 import com.seaglasslookandfeel.state.ToolBarWindowIsActiveState;
 import com.seaglasslookandfeel.util.MacKeybindings;
 import com.seaglasslookandfeel.util.PlatformUtils;
-
-import com.sun.java.swing.Painter;
-import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
-
-import sun.swing.plaf.GTKKeybindings;
-import sun.swing.plaf.WindowsKeybindings;
-import sun.swing.plaf.synth.DefaultSynthStyle;
-import sun.swing.plaf.synth.SynthUI;
 
 /**
  * This is the main Sea Glass Look and Feel class.
@@ -1685,16 +1685,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".Sorted", new TableHeaderRendererSortedState());
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Enabled+Focused].backgroundPainter",
-              new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED));
+        d.put(p + "[Enabled+Focused].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_PRESSED));
-        d.put(p + "[Enabled+Sorted].backgroundPainter",
-              new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_SORTED));
+        d.put(p + "[Enabled+Sorted].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_SORTED));
         d.put(p + "[Enabled+Focused+Sorted].backgroundPainter",
-              new LazyPainter(c,
-                              TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED_SORTED));
-        d.put(p + "[Disabled+Sorted].backgroundPainter",
-              new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_DISABLED_SORTED));
+              new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_ENABLED_FOCUSED_SORTED));
+        d.put(p + "[Disabled+Sorted].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_DISABLED_SORTED));
     }
 
     /**
