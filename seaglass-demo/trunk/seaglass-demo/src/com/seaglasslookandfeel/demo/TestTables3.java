@@ -47,10 +47,8 @@ public class TestTables3 {
 
         Border headerBorder = UIManager.getBorder("TableHeader.cellBorder");
 
-        JLabel blueLabel = new JLabel(headers[0], blueIcon, JLabel.CENTER);
+        JLabel blueLabel = new JLabel(headers[0], blueIcon, JLabel.LEFT);
         blueLabel.setBorder(headerBorder);
-        JLabel redLabel = new JLabel(headers[1], redIcon, JLabel.CENTER);
-        redLabel.setBorder(headerBorder);
 
         TableColumnModel columnModel = table.getColumnModel();
 
@@ -58,7 +56,7 @@ public class TestTables3 {
         TableColumn column1 = columnModel.getColumn(1);
 
         column0.setHeaderValue(blueLabel);
-        column1.setHeaderValue(redLabel);
+        column1.setHeaderValue(redIcon);
 
         frame.add(scrollPane, BorderLayout.CENTER);
         frame.setSize(300, 150);
