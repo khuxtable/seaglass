@@ -34,7 +34,7 @@ public class TestTables3 {
         JFrame frame = new JFrame("Label Header");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        String headers[] = { "English", "#" };
+        String headers[] = { "Some text", "#" };
         JTable table = new JTable(rows, headers);
         JScrollPane scrollPane = new JScrollPane(table);
 
@@ -47,7 +47,7 @@ public class TestTables3 {
 
         Border headerBorder = UIManager.getBorder("TableHeader.cellBorder");
 
-        JLabel blueLabel = new JLabel(headers[0], blueIcon, JLabel.LEFT);
+        JLabel blueLabel = new JLabel(headers[0], blueIcon, JLabel.LEADING);
         blueLabel.setBorder(headerBorder);
 
         TableColumnModel columnModel = table.getColumnModel();
