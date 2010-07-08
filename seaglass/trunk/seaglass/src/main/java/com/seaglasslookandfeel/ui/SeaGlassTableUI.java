@@ -19,8 +19,6 @@
  */
 package com.seaglasslookandfeel.ui;
 
-import sun.swing.plaf.synth.SynthUI;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -28,14 +26,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.NumberFormat;
-
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -75,6 +70,8 @@ import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.component.SeaGlassBorder;
 import com.seaglasslookandfeel.painter.ViewportPainter;
 import com.seaglasslookandfeel.util.WindowUtils;
+
+import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassTableUI implementation.
@@ -162,6 +159,20 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         }
 
         return currentRenderer;
+    }
+    
+    public static void forceInstallRenderer(JTable c, Class objectClass) {
+        if (c.getUI() instanceof SeaGlassTableUI) {
+            ((SeaGlassTableUI) c.getUI()).forceInstallRenderer(objectClass);
+        }
+    }
+
+    /**
+     * FIXME -- Make this do something.
+     *
+     * @param objectClass
+     */
+    public void forceInstallRenderer(Class objectClass) {
     }
 
     /**
@@ -1125,6 +1136,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             /**
              * @see javax.swing.JComponent#isOpaque()
              */
+            @SuppressWarnings("unused")
             public boolean isOpaque(int x, int y) {
                 int rowAtPoint = table.rowAtPoint(new Point(x, y));
 
