@@ -14,10 +14,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id$
  */
 package com.seaglasslookandfeel.ui;
+
+import sun.swing.DefaultLookup;
+
+import sun.swing.plaf.synth.SynthUI;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -26,8 +30,10 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import java.io.Serializable;
 
 import javax.swing.Icon;
@@ -52,37 +58,51 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.component.SeaGlassBorder;
 
-import sun.swing.DefaultLookup;
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * SeaGlassTableHeaderUI implementation
- * 
- * Based on SynthTableHeaderUI, which is package local.
- * 
+ *
+ * <p>Based on SynthTableHeaderUI, which is package local.</p>
+ *
  * @see javax.swing.plaf.synth.SynthTableHeaderUI
  */
 public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements PropertyChangeListener, SynthUI {
 
     private TableCellRenderer prevRenderer = null;
 
-    private SynthStyle        style;
+    private SynthStyle style;
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  h DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     public static ComponentUI createUI(JComponent h) {
         return new SeaGlassTableHeaderUI();
     }
 
+    /**
+     * @see javax.swing.plaf.basic.BasicTableHeaderUI#installDefaults()
+     */
     protected void installDefaults() {
         prevRenderer = header.getDefaultRenderer();
         if (prevRenderer instanceof UIResource) {
             header.setDefaultRenderer(new HeaderRenderer());
         }
+
         updateStyle(header);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param c DOCUMENT ME!
+     */
     private void updateStyle(JTableHeader c) {
-        SeaGlassContext context = getContext(c, ENABLED);
-        SynthStyle oldStyle = style;
+        SeaGlassContext context  = getContext(c, ENABLED);
+        SynthStyle      oldStyle = style;
+
         style = SeaGlassLookAndFeel.updateStyle(context, this);
         if (style != oldStyle) {
             if (oldStyle != null) {
@@ -90,14 +110,21 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
                 installKeyboardActions();
             }
         }
+
         context.dispose();
     }
 
+    /**
+     * @see javax.swing.plaf.basic.BasicTableHeaderUI#installListeners()
+     */
     protected void installListeners() {
         super.installListeners();
         header.addPropertyChangeListener(this);
     }
 
+    /**
+     * @see javax.swing.plaf.basic.BasicTableHeaderUI#uninstallDefaults()
+     */
     protected void uninstallDefaults() {
         if (header.getDefaultRenderer() instanceof HeaderRenderer) {
             header.setDefaultRenderer(prevRenderer);
@@ -110,11 +137,17 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
         style = null;
     }
 
+    /**
+     * @see javax.swing.plaf.basic.BasicTableHeaderUI#uninstallListeners()
+     */
     protected void uninstallListeners() {
         header.removePropertyChangeListener(this);
         super.uninstallListeners();
     }
 
+    /**
+     * @see javax.swing.plaf.ComponentUI#update(java.awt.Graphics, javax.swing.JComponent)
+     */
     public void update(Graphics g, JComponent c) {
         SeaGlassContext context = getContext(c);
 
@@ -124,6 +157,9 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
         context.dispose();
     }
 
+    /**
+     * @see javax.swing.plaf.basic.BasicTableHeaderUI#paint(java.awt.Graphics, javax.swing.JComponent)
+     */
     public void paint(Graphics g, JComponent c) {
         SeaGlassContext context = getContext(c);
 
@@ -131,10 +167,20 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
         context.dispose();
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param context DOCUMENT ME!
+     * @param g       DOCUMENT ME!
+     */
     protected void paint(SeaGlassContext context, Graphics g) {
         super.paint(g, context.getComponent());
     }
 
+    /**
+     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     *      java.awt.Graphics, int, int, int, int)
+     */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
         ((SeaGlassContext) context).getPainter().paintTableHeaderBorder(context, g, x, y, w, h);
     }
@@ -142,43 +188,80 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
     //
     // SynthUI
     //
+    /**
+     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  c     DOCUMENT ME!
+     * @param  state DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private SeaGlassContext getContext(JComponent c, int state) {
         return SeaGlassContext.getContext(SeaGlassContext.class, c, SynthLookAndFeel.getRegion(c), style, state);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  c DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     private int getComponentState(JComponent c) {
         return SeaGlassLookAndFeel.getComponentState(c);
     }
 
+    /**
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+     */
     public void propertyChange(PropertyChangeEvent evt) {
         if (SeaGlassLookAndFeel.shouldUpdateStyle(evt)) {
             updateStyle((JTableHeader) evt.getSource());
         }
     }
 
+    /**
+     * @see javax.swing.plaf.basic.BasicTableHeaderUI#rolloverColumnUpdated(int, int)
+     */
     @Override
     protected void rolloverColumnUpdated(int oldColumn, int newColumn) {
         header.repaint(header.getHeaderRect(oldColumn));
         header.repaint(header.getHeaderRect(newColumn));
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     public static class HeaderRenderer extends DefaultTableCellHeaderRenderer {
+        private static final long serialVersionUID = 3595483618538272322L;
+
+        /**
+         * Creates a new HeaderRenderer object.
+         */
         public HeaderRenderer() {
             setHorizontalAlignment(JLabel.LEADING);
             setName("TableHeader.renderer");
         }
 
+        /**
+         * @see com.seaglasslookandfeel.ui.SeaGlassTableHeaderUI$DefaultTableCellHeaderRenderer#getTableCellRendererComponent(javax.swing.JTable,
+         *      java.lang.Object, boolean, boolean, int, int)
+         */
         @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
+                int column) {
+            boolean hasRollover = false; // (column == getRolloverColumn());
 
-            boolean hasRollover = false;// (column == getRolloverColumn());
             if (isSelected || hasRollover || hasFocus) {
                 SeaGlassLookAndFeel.setSelectedUI((SeaGlassLabelUI) SeaGlassLookAndFeel.getUIOfType(getUI(), SeaGlassLabelUI.class),
-                    isSelected, hasFocus, table.isEnabled(), hasRollover);
+                                                  isSelected, hasFocus, table.isEnabled(), hasRollover);
             } else {
                 SeaGlassLookAndFeel.resetSelectedUI();
             }
@@ -186,19 +269,24 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
             // Stuff a variable into the client property of this renderer
             // indicating the sort order, so that different rendering can be
             // done for the header based on sorted state.
-            RowSorter rs = table == null ? null : table.getRowSorter();
+            RowSorter                                   rs       = table == null ? null : table.getRowSorter();
             java.util.List<? extends RowSorter.SortKey> sortKeys = rs == null ? null : rs.getSortKeys();
+
             if (sortKeys != null && sortKeys.size() > 0 && sortKeys.get(0).getColumn() == table.convertColumnIndexToModel(column)) {
                 switch (sortKeys.get(0).getSortOrder()) {
+
                 case ASCENDING:
                     putClientProperty("Table.sortOrder", "ASCENDING");
                     break;
+
                 case DESCENDING:
                     putClientProperty("Table.sortOrder", "DESCENDING");
                     break;
+
                 case UNSORTED:
                     putClientProperty("Table.sortOrder", "UNSORTED");
                     break;
+
                 default:
                     throw new AssertionError("Cannot happen");
                 }
@@ -211,6 +299,9 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
             return this;
         }
 
+        /**
+         * @see javax.swing.JComponent#setBorder(javax.swing.border.Border)
+         */
         @Override
         public void setBorder(Border border) {
             if (border instanceof SeaGlassBorder) {
@@ -219,40 +310,60 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     public static class DefaultTableCellHeaderRenderer extends DefaultTableCellRenderer implements UIResource {
-        private boolean   horizontalTextPositionSet;
-        private Icon      sortArrow;
-        private EmptyIcon emptyIcon = new EmptyIcon();
+        private static final long serialVersionUID          = -4466195868054511962L;
+        private boolean           horizontalTextPositionSet;
+        private Icon              sortArrow;
+        private EmptyIcon         emptyIcon                 = new EmptyIcon();
 
+        /**
+         * Creates a new DefaultTableCellHeaderRenderer object.
+         */
         public DefaultTableCellHeaderRenderer() {
             setHorizontalAlignment(JLabel.CENTER);
         }
 
+        /**
+         * @see javax.swing.JLabel#setHorizontalTextPosition(int)
+         */
         public void setHorizontalTextPosition(int textPosition) {
             horizontalTextPositionSet = true;
             super.setHorizontalTextPosition(textPosition);
         }
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        /**
+         * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable,
+         *      java.lang.Object, boolean, boolean, int, int)
+         */
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
+                int column) {
             Icon sortIcon = null;
 
             boolean isPaintingForPrint = false;
 
             if (table != null) {
                 JTableHeader header = table.getTableHeader();
+
                 if (header != null) {
                     Color fgColor = null;
                     Color bgColor = null;
+
                     if (hasFocus) {
                         fgColor = DefaultLookup.getColor(this, ui, "TableHeader.focusCellForeground");
                         bgColor = DefaultLookup.getColor(this, ui, "TableHeader.focusCellBackground");
                     }
+
                     if (fgColor == null) {
                         fgColor = header.getForeground();
                     }
+
                     if (bgColor == null) {
                         bgColor = header.getBackground();
                     }
+
                     setForeground(fgColor);
                     setBackground(bgColor);
 
@@ -267,15 +378,20 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
                         // set a text position, change to leading.
                         setHorizontalTextPosition(JLabel.LEADING);
                     }
+
                     SortOrder sortOrder = getColumnSortOrder(table, column);
+
                     if (sortOrder != null) {
                         switch (sortOrder) {
+
                         case ASCENDING:
                             sortIcon = DefaultLookup.getIcon(this, ui, "Table.ascendingSortIcon");
                             break;
+
                         case DESCENDING:
                             sortIcon = DefaultLookup.getIcon(this, ui, "Table.descendingSortIcon");
                             break;
+
                         case UNSORTED:
                             sortIcon = DefaultLookup.getIcon(this, ui, "Table.naturalSortIcon");
                             break;
@@ -289,77 +405,121 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
             sortArrow = sortIcon;
 
             Border border = null;
+
             if (hasFocus) {
                 border = DefaultLookup.getBorder(this, ui, "TableHeader.focusCellBorder");
             }
+
             if (border == null) {
                 border = DefaultLookup.getBorder(this, ui, "TableHeader.cellBorder");
             }
+
             setBorder(border);
 
             return this;
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  table  DOCUMENT ME!
+         * @param  column DOCUMENT ME!
+         *
+         * @return DOCUMENT ME!
+         */
         public static SortOrder getColumnSortOrder(JTable table, int column) {
             SortOrder rv = null;
+
             if (table == null || table.getRowSorter() == null) {
                 return rv;
             }
+
             java.util.List<? extends RowSorter.SortKey> sortKeys = table.getRowSorter().getSortKeys();
+
             if (sortKeys.size() > 0 && sortKeys.get(0).getColumn() == table.convertColumnIndexToModel(column)) {
                 rv = sortKeys.get(0).getSortOrder();
             }
+
             return rv;
         }
 
+        /**
+         * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+         */
         @Override
         public void paintComponent(Graphics g) {
             boolean b = DefaultLookup.getBoolean(this, ui, "TableHeader.rightAlignSortArrow", false);
+
             if (b && sortArrow != null) {
                 // emptyIcon is used so that if the text in the header is right
                 // aligned, or if the column is too narrow, then the text will
                 // be sized appropriately to make room for the icon that is
                 // about
                 // to be painted manually here.
-                emptyIcon.width = sortArrow.getIconWidth();
+                emptyIcon.width  = sortArrow.getIconWidth();
                 emptyIcon.height = sortArrow.getIconHeight();
                 setIcon(emptyIcon);
                 super.paintComponent(g);
                 Point position = computeIconPosition(g);
+
                 sortArrow.paintIcon(this, g, position.x, position.y);
             } else {
                 super.paintComponent(g);
             }
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  g DOCUMENT ME!
+         *
+         * @return DOCUMENT ME!
+         */
         private Point computeIconPosition(Graphics g) {
             FontMetrics fontMetrics = g.getFontMetrics();
-            Rectangle viewR = new Rectangle();
-            Rectangle textR = new Rectangle();
-            Rectangle iconR = new Rectangle();
-            Insets i = getInsets();
-            viewR.x = i.left;
-            viewR.y = i.top;
-            viewR.width = getWidth() - (i.left + i.right);
+            Rectangle   viewR       = new Rectangle();
+            Rectangle   textR       = new Rectangle();
+            Rectangle   iconR       = new Rectangle();
+            Insets      i           = getInsets();
+
+            viewR.x      = i.left;
+            viewR.y      = i.top;
+            viewR.width  = getWidth() - (i.left + i.right);
             viewR.height = getHeight() - (i.top + i.bottom);
             SwingUtilities.layoutCompoundLabel(this, fontMetrics, getText(), sortArrow, getVerticalAlignment(), getHorizontalAlignment(),
-                getVerticalTextPosition(), getHorizontalTextPosition(), viewR, iconR, textR, getIconTextGap());
+                                               getVerticalTextPosition(), getHorizontalTextPosition(), viewR, iconR, textR,
+                                               getIconTextGap());
             int x = getWidth() - i.right - sortArrow.getIconWidth();
             int y = iconR.y;
+
             return new Point(x, y);
         }
 
+        /**
+         * DOCUMENT ME!
+         */
         private class EmptyIcon implements Icon, Serializable {
-            int width  = 0;
-            int height = 0;
+            private static final long serialVersionUID = -821523476678771032L;
+            int                       width            = 0;
+            int                       height           = 0;
 
+            /**
+             * @see javax.swing.Icon#paintIcon(java.awt.Component,java.awt.Graphics,
+             *      int, int)
+             */
             public void paintIcon(Component c, Graphics g, int x, int y) {
             }
 
+            /**
+             * @see javax.swing.Icon#getIconWidth()
+             */
             public int getIconWidth() {
                 return width;
             }
 
+            /**
+             * @see javax.swing.Icon#getIconHeight()
+             */
             public int getIconHeight() {
                 return height;
             }
