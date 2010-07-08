@@ -19,6 +19,8 @@
  */
 package com.seaglasslookandfeel.ui;
 
+import sun.swing.plaf.synth.SynthUI;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -26,11 +28,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.NumberFormat;
+
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -70,8 +75,6 @@ import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.component.SeaGlassBorder;
 import com.seaglasslookandfeel.painter.ViewportPainter;
 import com.seaglasslookandfeel.util.WindowUtils;
-
-import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassTableUI implementation.
@@ -160,19 +163,42 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
 
         return currentRenderer;
     }
-    
-    public static void forceInstallRenderer(JTable c, Class objectClass) {
-        if (c.getUI() instanceof SeaGlassTableUI) {
-            ((SeaGlassTableUI) c.getUI()).forceInstallRenderer(objectClass);
+
+    /**
+     * Static wrapper around {@link forceInstallRenderer(Class objectClass)}.
+     *
+     * @param table       the table to install the renderer on.
+     * @param objectClass the class to install the renderer on.
+     */
+    public static void forceInstallRenderer(JTable table, Class objectClass) {
+        if (table.getUI() instanceof SeaGlassTableUI) {
+            ((SeaGlassTableUI) table.getUI()).forceInstallRenderer(objectClass);
         }
     }
 
     /**
-     * FIXME -- Make this do something.
+     * Force the installation of the appropriate Sea Glass Renderer. We don't
+     * need to save the old renderer, because in principle that has already been
+     * done in {@link installDefaults()}.
      *
-     * @param objectClass
+     * @param objectClass the object class to install the renderer on.
      */
     public void forceInstallRenderer(Class objectClass) {
+        if (objectClass == Date.class) {
+            table.setDefaultRenderer(Date.class, null);
+        } else if (objectClass == Number.class) {
+            table.setDefaultRenderer(Number.class, null);
+        } else if (objectClass == Float.class) {
+            table.setDefaultRenderer(Float.class, null);
+        } else if (objectClass == Icon.class) {
+            table.setDefaultRenderer(Icon.class, null);
+        } else if (objectClass == ImageIcon.class) {
+            table.setDefaultRenderer(ImageIcon.class, null);
+        } else if (objectClass == Boolean.class) {
+            table.setDefaultRenderer(Boolean.class, new SeaGlassBooleanTableCellRenderer());
+        } else if (objectClass == Object.class) {
+            table.setDefaultRenderer(Object.class, new SeaGlassTableCellRenderer());
+        }
     }
 
     /**
