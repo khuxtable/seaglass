@@ -1046,7 +1046,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + ".opaque", Boolean.TRUE);
 
-        d.put(p + ".background", d.get("control"));
+        d.put(p + ".background", d.get("nimbusLightBackground"));
         d.put(p + ".dropLineColor", d.get("nimbusFocus"));
         d.put(p + ".rendererUseListColors", Boolean.TRUE);
         d.put(p + ".rendererUseUIBorder", Boolean.TRUE);
@@ -1812,6 +1812,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
         d.put(p + ".States", "Enabled,MouseOver,Pressed,Selected,Disabled,Focused,NotInScrollPane");
         d.put(p + ".NotInScrollPane", new TextAreaNotInScrollPaneState());
+        d.put(p + ".background", getDerivedColor("nimbusLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
 
