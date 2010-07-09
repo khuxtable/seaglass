@@ -19,6 +19,10 @@
  */
 package com.seaglasslookandfeel.component;
 
+import sun.swing.SwingUtilities2;
+
+import sun.swing.plaf.synth.SynthUI;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -26,8 +30,11 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
@@ -63,10 +70,6 @@ import com.seaglasslookandfeel.ui.SeaGlassButtonUI;
 import com.seaglasslookandfeel.ui.SeaGlassRootPaneUI;
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
-import sun.swing.SwingUtilities2;
-
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * Class that manages a JLF awt.Window-descendant class's title bar.
  *
@@ -87,9 +90,9 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     private static final String SIZE_CMD     = UIManager.getString("InternalFrameTitlePane.sizeButtonText");
 
     // Basic
-    private JButton iconButton;
-    private JButton maxButton;
-    private JButton closeButton;
+    private JButton             iconButton;
+    private JButton             maxButton;
+    private JButton             closeButton;
 
     private JMenu             windowMenu;
     private JRootPane         rootPane;
@@ -109,12 +112,12 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     private String restoreButtonToolTip;
     private String maxButtonToolTip;
 
-    private int                state      = -1;
+    private int                state        = -1;
     private SeaGlassRootPaneUI rootPaneUI;
 
     // Synth
-    private SynthStyle style;
-    private int        titleSpacing;
+    private SynthStyle         style;
+    private int                titleSpacing;
 
     /**
      * Creates a new SeaGlassTitlePane object.
@@ -272,6 +275,17 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
             JFrame frame = (JFrame) rootParent;
             int    state = frame.getExtendedState();
 
+            GraphicsConfiguration gc = frame.getGraphicsConfiguration();
+
+            Insets    i = Toolkit.getDefaultToolkit().getScreenInsets(gc);
+            Rectangle r = gc.getBounds();
+
+            r.x      += i.left;
+            r.y      += i.top;
+            r.width  -= i.left + i.right;
+            r.height -= i.top + i.bottom;
+
+            frame.setMaximizedBounds(r);
             frame.setExtendedState(maximize ? state | Frame.MAXIMIZED_BOTH : state & ~Frame.MAXIMIZED_BOTH);
         }
     }
