@@ -564,9 +564,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         if (PlatformUtils.isMac()) {
             d.put("seaGlassToolBarFocus", d.get("seaGlassFocus"));
             d.put("seaGlassToolBarOuterFocus", d.get("seaGlassOuterFocus"));
+            d.put("seaGlassToolBarDisabledText", new Color(0x80000000, true));
         } else {
             d.put("seaGlassToolBarFocus", new Color(0xf8f8f8));
             d.put("seaGlassToolBarOuterFocus", getDerivedColor("seaGlassToolBarFocus", -0.0028f, 0.01f, 0f, -0x80, true));
+            d.put("seaGlassToolBarDisabledText", new Color(0x80000000, true));
         }
 
         d.put("seaGlassTableSelectionActiveBottom", new Color(0x7daaea));
@@ -1889,6 +1891,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         c = PAINTER_PREFIX + "ButtonPainter";
         p = "ToolBar:Button";
         d.put(p + ".States", "Enabled,Disabled,Focused,Pressed");
+        d.put(p + "[Disabled].textForeground", d.get("seaGlassToolBarDisabledText"));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_FOCUSED));
@@ -1898,6 +1901,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         c = PAINTER_PREFIX + "ToolBarToggleButtonPainter";
         p = "ToolBar:ToggleButton";
         d.put(p + ".States", "Enabled,Disabled,Focused,Pressed,Selected");
+        d.put(p + "[Disabled].textForeground", d.get("seaGlassToolBarDisabledText"));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_FOCUSED));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, ToolBarToggleButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Focused+Pressed].backgroundPainter",
