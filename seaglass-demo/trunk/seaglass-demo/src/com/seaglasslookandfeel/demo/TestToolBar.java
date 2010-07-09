@@ -106,8 +106,8 @@ public class TestToolBar {
                 JToggleButton button2 = new JToggleButton("Test 2");
                 Icon icon = new ImageIcon(TestTables3.class.getResource("/com/seaglasslookandfeel/images/Event.png"));
                 JButton button3 = new JButton("Test 3");
-                button3.setIcon(icon);
-                button3.setEnabled(false);
+                button1.setIcon(icon);
+                button1.setEnabled(false);
 
                 JToolBar toolbar = new JToolBar(name, orientation);
 
