@@ -275,17 +275,18 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
             JFrame frame = (JFrame) rootParent;
             int    state = frame.getExtendedState();
 
-            GraphicsConfiguration gc = frame.getGraphicsConfiguration();
+            if (maximize) {
+                GraphicsConfiguration gc = frame.getGraphicsConfiguration();
+                Insets                i  = Toolkit.getDefaultToolkit().getScreenInsets(gc);
+                Rectangle             r  = gc.getBounds();
 
-            Insets    i = Toolkit.getDefaultToolkit().getScreenInsets(gc);
-            Rectangle r = gc.getBounds();
+                r.x      += i.left;
+                r.y      += i.top;
+                r.width  -= i.left + i.right;
+                r.height -= i.top + i.bottom;
+                frame.setMaximizedBounds(r);
+            }
 
-            r.x      += i.left;
-            r.y      += i.top;
-            r.width  -= i.left + i.right;
-            r.height -= i.top + i.bottom;
-
-            frame.setMaximizedBounds(r);
             frame.setExtendedState(maximize ? state | Frame.MAXIMIZED_BOTH : state & ~Frame.MAXIMIZED_BOTH);
         }
     }
