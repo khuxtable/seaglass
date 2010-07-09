@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -102,7 +104,10 @@ public class TestToolBar {
             private JToolBar makeToolBar(String name, int orientation) {
                 JButton button1 = new JButton("Test 1");
                 JToggleButton button2 = new JToggleButton("Test 2");
+                Icon icon = new ImageIcon(TestTables3.class.getResource("/com/seaglasslookandfeel/images/Event.png"));
                 JButton button3 = new JButton("Test 3");
+                button3.setIcon(icon);
+                button3.setEnabled(false);
 
                 JToolBar toolbar = new JToolBar(name, orientation);
 
