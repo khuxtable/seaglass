@@ -269,7 +269,13 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
      * @param c
      */
     private void paintScrollPaneCorner(Graphics g, JComponent c) {
-        if (!scrollpane.getHorizontalScrollBar().isVisible() || !scrollpane.getVerticalScrollBar().isVisible()) {
+        if (scrollpane == null) {
+            return;
+        }
+        if (scrollpane.getHorizontalScrollBar() == null || !scrollpane.getHorizontalScrollBar().isVisible()) {
+            return;
+        }
+        if (scrollpane.getVerticalScrollBar() == null || !scrollpane.getVerticalScrollBar().isVisible()) {
             return;
         }
 
