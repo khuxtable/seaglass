@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Converted by db4-upgrade version 1.0 -->
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:ns5="http://www.w3.org/1999/xhtml"
+         xmlns:ns4="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns3="http://www.w3.org/2000/svg"
+         xmlns:ns="http://docbook.org/ns/docbook">
+  <info>
+    <title>Usage</title>
+
+    <author>
+      <personname><firstname>Kathryn</firstname><surname>Huxtable</surname></personname>
+
+      <affiliation>
+        <orgname>kathrynhuxtable.org</orgname>
+      </affiliation>
+    </author>
+
+    <pubdate>2008-02-28</pubdate>
+  </info>
+
+  <section>
+    <info>
+      <title>Usage</title>
+    </info>
+
+    <para>To use the Sea Glass Look and Feel, you must either include our
+    <link xlink:href="http://maven.apache.org">Maven</link> repository in your
+    <filename><link
+    xlink:href="http://maven.apache.org/pom.html">pom.xml</link></filename>
+    file or download the jar file and include it in your class path. See the
+    <link xlink:href="downloads.html">downloads</link> page for more
+    details.</para>
+
+    <para>To enable the Sea Glass Look and Feel, include the following in your
+    application before creating any controls:</para>
+
+    <programlisting language="java">try {
+    UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+} catch (Exception e) {
+    e.printStackTrace();
+}</programlisting>
+
+    <para>We also support setting the user interface on the command line using
+    the VM option</para>
+
+    <blockquote>
+      <para><code>-Dswing.defaultlaf=com.seaglasslookandfeel.SeaGlassLookAndFeel</code></para>
+    </blockquote>
+
+    <section>
+      <info>
+        <title>Things to note</title>
+      </info>
+
+      <para>On non-Mac systems we draw our own title bar and window frame,
+      meaning that we set the window to "undecorated". This means that you
+      can't remove the title bar and frame by setting a
+      <classname>JFrame</classname> to undecorated. You should probably use a
+      <classname>JWindow</classname> instead, though you should be able to set
+      the window decoration style to <code>JRootPane.NONE</code> and get a
+      similar effect.</para>
+
+      <para>Also, we make <classname>JToolBar</classname> and
+      <classname>JPanel</classname> non-opaque using a call to
+      <code>setOpaque(false)</code> if the background color is an instance of
+      <classname>UIResource</classname>, which it will be unless you have set
+      it. We then paint our background gradient on the content pane, which is
+      a <classname>JPanel</classname> by default. If you want a different
+      background color, put your controls in a <classname>JPanel</classname>,
+      add that to the <code>BorderLayout.CENTER</code> of the content pane,
+      and set your <classname>JPanel</classname>'s background color.</para>
+
+      <para>We also support many <link
+      xlink:href="client-properties.html">client properties</link> to change
+      the appearance or behavior of controls.</para>
+    </section>
+  </section>
+</article>
