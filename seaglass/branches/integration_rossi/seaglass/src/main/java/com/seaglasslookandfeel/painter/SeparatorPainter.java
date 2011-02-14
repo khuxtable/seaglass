@@ -21,11 +21,16 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
+import com.seaglasslookandfeel.painter.AbstractRegionPainter.TwoColors;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.SeparatorPainter.Which;
+import com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter.ToolbarToggleButtonType;
 
 /**
  * DOCUMENT ME!
@@ -42,11 +47,12 @@ public final class SeparatorPainter extends AbstractCommonColorsPainter {
         BACKGROUND_ENABLED,
     }
 
+    private Color        baseColor      = decodeColor("toolbarToggleButtonBase");
+    private TwoColors    seperatorInner     = new TwoColors(baseColor, deriveColor(baseColor, 0f, 0f, 0f, 0x28));
+    private TwoColors    seperatorInnerEdge = new TwoColors(baseColor, deriveColor(baseColor, 0f, 0f, 0f, 0xf0));
+
     private PaintContext ctx;
-
-    private Rectangle2D rect = new Rectangle2D.Float(0, 0, 0, 0);
-
-    private Color backgroundColor = decodeColor("popupMenuBorderEnabled");
+    private Which state;
 
     /**
      * Creates a new SeparatorPainter object.
@@ -55,6 +61,7 @@ public final class SeparatorPainter extends AbstractCommonColorsPainter {
      */
     public SeparatorPainter(Which state) {
         super();
+        this.state = state;
         this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
     }
 
@@ -64,9 +71,59 @@ public final class SeparatorPainter extends AbstractCommonColorsPainter {
      */
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        rect.setRect(0, 0, width, height);
-        g.setPaint(backgroundColor);
-        g.fill(rect);
+        switch (state) {
+        case BACKGROUND_ENABLED:
+            paintBackgroundEnabled(g, width, height);
+            break;
+        }
+    }
+
+    /**
+     * @param g
+     * @param width
+     * @param height
+     */
+    private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
+        Shape s = shapeGenerator.createRectangle(0, height/2, width, 1);
+        g.setPaint(getSeperatorPaint(s, seperatorInnerEdge));
+        g.fill(s);
+
+        s = shapeGenerator.createRectangle(0, height/2-1, width, 1);
+        g.setPaint(getSeperatorPaint(s, seperatorInner));
+        g.fill(s);
+        
+        s = shapeGenerator.createRectangle(0, height/2+1, width, 1);
+        g.setPaint(getSeperatorPaint(s, seperatorInner));
+        g.fill(s);
+    }
+    
+    /**
+     * @param s
+     * @param colors
+     * @return
+     */
+    public Paint getSeperatorPaint(Shape s, TwoColors colors) {
+        return createSeperatorGradient(s, colors);
+    }
+
+    /**
+     * @param s
+     * @param colors
+     * @return
+     */
+    private Paint createSeperatorGradient(Shape s, TwoColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        return createGradient(x, y, w + x, y, 
+            new float[] { 0f, 0.02f, 0.98f, 1f }, 
+            new Color[] {
+                colors.top,
+                colors.bottom,
+                colors.bottom,
+                colors.top 
+           });
     }
 
     /**

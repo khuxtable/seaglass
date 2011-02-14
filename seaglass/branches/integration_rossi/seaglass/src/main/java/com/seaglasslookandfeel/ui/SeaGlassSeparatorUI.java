@@ -205,7 +205,7 @@ public class SeaGlassSeparatorUI extends SeparatorUI implements PropertyChangeLi
     public Dimension getPreferredSize(JComponent c) {
         SeaGlassContext context = getContext(c);
 
-        int       thickness = style.getInt(context, "Separator.thickness", 2);
+        int       thickness = style.getInt(context, "Separator.thickness", 5);
         Insets    insets    = c.getInsets();
         Dimension size;
 

@@ -161,12 +161,12 @@ public final class FrameAndRootPainter extends AbstractRegionPainter {
             g.setPaint(getTitleBarInteriorPaint(s, titleHeight));
             g.fill(s);
             // Paint contents.
-            s = shapeGenerator.createRoundRectangle(1, titleHeight, width - 2, height - titleHeight - 2, CornerSize.FRAME_INNER_HIGHLIGHT,
+           s = shapeGenerator.createRoundRectangle(1, titleHeight, width - 2, height - titleHeight - 1, CornerSize.FRAME_INNER_HIGHLIGHT,
                                                     CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.SQUARE);
             g.setPaint(c.getBackground());
             g.fill(s);
             // Draw separator line.
-            g.setPaint(Color.BLACK);
+            g.setPaint(decodeColor("seaGlassMenuIcon"));
             g.drawLine(1, titleHeight, width - 2, titleHeight);
         }
 

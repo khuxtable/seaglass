@@ -41,7 +41,6 @@ import com.seaglasslookandfeel.painter.Painter;
  *
  * <p>Based on Nimbus's SynthPainterImpl class by Richard Bair.</p>
  *
- * @see com.sun.java.swing.plaf.nimbus.SynthPainterImpl
  */
 @SuppressWarnings("unchecked")
 public class SeaGlassSynthPainterImpl extends SynthPainter {
@@ -402,13 +401,13 @@ public class SeaGlassSynthPainterImpl extends SynthPainter {
 
                 transform.scale(-1, 1);
                 transform.rotate(Math.toRadians(90));
-                paintForeground(context, g, y, 0, h, w, transform);
+                paintForeground(context, g, y, x, h, w, transform);
             } else {
                 AffineTransform transform = new AffineTransform();
 
                 transform.rotate(Math.toRadians(90));
                 transform.translate(0, -(x + w));
-                paintForeground(context, g, y, 0, h, w, transform);
+                paintForeground(context, g, y, x, h, w, transform);
             }
         } else if (direction == SwingConstants.EAST) {
             AffineTransform transform = new AffineTransform();

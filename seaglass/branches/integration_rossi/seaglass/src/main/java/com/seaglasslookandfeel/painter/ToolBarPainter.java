@@ -19,9 +19,11 @@
  */
 package com.seaglasslookandfeel.painter;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
+import javax.swing.JToolBar;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 
@@ -39,13 +41,30 @@ public class ToolBarPainter extends AbstractRegionPainter {
     };
 
     private PaintContext ctx;
+    private Which state;
+    private Color borderColor = decodeColor("seaGlassDropShadow");
+    private JToolBar toolbar;
 
     public ToolBarPainter(Which state) {
         super();
         this.ctx = new PaintContext(CacheMode.NO_CACHING);
+        this.state = state;
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
+        this.toolbar = (JToolBar) c;
+        switch (state) {
+            case BORDER_ENABLED:
+                paintBorder(g, width, height);
+                break;
+        }
+    }
+    
+    private void paintBorder(Graphics2D g, int width, int height) {
+        g.setColor(borderColor);
+        g.drawLine(0, height, width, height);
+//        g.setColor(borderColor.brighter());
+//        g.drawLine(0, height - 0, width, height - 0);
     }
 
     protected PaintContext getPaintContext() {

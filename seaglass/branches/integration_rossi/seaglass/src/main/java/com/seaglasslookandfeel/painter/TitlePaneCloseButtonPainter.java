@@ -165,7 +165,7 @@ public final class TitlePaneCloseButtonPainter extends TitlePaneButtonPainter {
         g.setColor(colors.top);
         g.drawLine(0, 0, width - 2, 0);
         g.setColor(colors.left);
-        g.drawLine(0, 1, 0, height - 2);
+        g.drawLine(0, 1, 0, height - 3);
         s = decodeMarkInterior(width, height);
         g.setColor(colors.markInterior);
         g.fill(s);

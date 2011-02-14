@@ -54,7 +54,7 @@ public final class ToolBarToggleButtonPainter extends AbstractRegionPainter {
     private TwoColors    toolbarToggleButtonInner     = new TwoColors(toolbarToggleButtonBase, deriveColor(toolbarToggleButtonBase, 0f, 0f,
                                                           0f, 0x28));
     private TwoColors    toolbarToggleButtonInnerEdge = new TwoColors(toolbarToggleButtonBase, deriveColor(toolbarToggleButtonBase, 0f, 0f,
-                                                          0f, 0x20));
+                                                          0f, 0xf0));
     private TwoColors    toolbarToggleButtonOuterEdge = new TwoColors(deriveColor(toolbarToggleButtonBase, 0f, 0f, 0f, 0x10), deriveColor(
                                                           toolbarToggleButtonBase, 0f, 0f, 0f, 0x40));
 

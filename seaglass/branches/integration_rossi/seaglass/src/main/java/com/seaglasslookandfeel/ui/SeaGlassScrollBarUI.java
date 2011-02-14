@@ -44,6 +44,7 @@ import javax.swing.plaf.synth.SynthStyle;
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassRegion;
+import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.component.SeaGlassArrowButton;
 import com.seaglasslookandfeel.state.ScrollBarButtonsTogetherState;
 import com.seaglasslookandfeel.state.State;
@@ -133,17 +134,17 @@ public class SeaGlassScrollBarUI extends BasicScrollBarUI implements PropertyCha
              * key "JComponent.sizeVariant" scales for large/small/mini
              * components are based on Apples LAF
              */
-            String scaleKey = (String) scrollbar.getClientProperty("JComponent.sizeVariant");
+            String scaleKey = SeaGlassStyle.getSizeVariant(scrollbar);
             if (scaleKey != null) {
-                if ("large".equals(scaleKey)) {
+                if (SeaGlassStyle.LARGE_KEY.equals(scaleKey)) {
                     scrollBarWidth *= 1.15;
                     incrGap *= 1.15;
                     decrGap *= 1.15;
-                } else if ("small".equals(scaleKey)) {
+                } else if (SeaGlassStyle.SMALL_KEY.equals(scaleKey)) {
                     scrollBarWidth *= 0.857;
                     incrGap *= 0.857;
                     decrGap *= 0.857;
-                } else if ("mini".equals(scaleKey)) {
+                } else if (SeaGlassStyle.MINI_KEY.equals(scaleKey)) {
                     scrollBarWidth *= 0.714;
                     incrGap *= 0.714;
                     decrGap *= 0.714;

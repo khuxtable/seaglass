@@ -30,6 +30,7 @@ import javax.swing.SwingConstants;
 import javax.swing.plaf.UIResource;
 
 import com.seaglasslookandfeel.SeaGlassContext;
+import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.ui.SeaGlassButtonUI;
 
 /**
@@ -121,7 +122,16 @@ public class SeaGlassArrowButton extends JButton implements SwingConstants, UIRe
         protected void paint(SeaGlassContext context, Graphics g) {
             SeaGlassArrowButton button = (SeaGlassArrowButton) context.getComponent();
 
-            context.getPainter().paintArrowButtonForeground(context, g, 0, 0, button.getWidth(), button.getHeight(),
+            Double scale = (Double)button.getClientProperty("__arrow_scale__");
+            if (scale == null) {
+                scale = 1.0;
+            }
+            int width = (int) (button.getWidth()*scale);
+            int height = (int) (button.getHeight()*scale);
+            int x = (button.getWidth()-width)/2 * (button.getDirection() == SwingConstants.EAST?-1:1);
+            int y = (button.getHeight()-height)/2 * (button.getDirection() == SwingConstants.SOUTH ?-1:1);
+            
+            context.getPainter().paintArrowButtonForeground(context, g, x, y, width, height,
                                                             button.getDirection());
         }
 
@@ -205,15 +215,13 @@ public class SeaGlassArrowButton extends JButton implements SwingConstants, UIRe
             JComponent parent = (JComponent) context.getComponent().getParent();
 
             if (parent != null && !(parent instanceof JComboBox)) {
-                String scaleKey = (String) parent.getClientProperty("JComponent.sizeVariant");
-
+                String scaleKey = SeaGlassStyle.getSizeVariant(parent);
                 if (scaleKey != null) {
-
-                    if ("large".equals(scaleKey)) {
+                    if (SeaGlassStyle.LARGE_KEY.equals(scaleKey)) {
                         dim = new Dimension((int) (dim.width * 1.15), (int) (dim.height * 1.15));
-                    } else if ("small".equals(scaleKey)) {
+                    } else if (SeaGlassStyle.SMALL_KEY.equals(scaleKey)) {
                         dim = new Dimension((int) (dim.width * 0.857), (int) (dim.height * 0.857));
-                    } else if ("mini".equals(scaleKey)) {
+                    } else if (SeaGlassStyle.MINI_KEY.equals(scaleKey)) {
                         dim = new Dimension((int) (dim.width * 0.714), (int) (dim.height * 0.714));
                     }
                 }

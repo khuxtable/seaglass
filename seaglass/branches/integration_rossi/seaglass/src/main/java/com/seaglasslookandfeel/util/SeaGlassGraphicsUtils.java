@@ -89,6 +89,22 @@ public class SeaGlassGraphicsUtils extends SynthGraphicsUtils {
             }
         }
     }
+    
+    /**
+     * Returns a new color with the alpha of the old color cut in half.
+     *
+     * @param  color the original color.
+     *
+     * @return the new color.
+     */
+    // Rossi: used in slider ui "paint ticks".
+    public static Color disable(Color color) {
+        int alpha = color.getAlpha();
+
+        alpha /= 2;
+
+        return new Color((color.getRGB() & 0xFFFFFF) | (alpha << 24), true);
+    }
 
     /**
      * Paints an icon and text. This will render the text as html, if necessary,

@@ -24,8 +24,11 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
+import javax.swing.JTextArea;
+import javax.swing.plaf.ColorUIResource;
 
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 
 /**
  * TextComponentPainter implementation.
@@ -40,7 +43,9 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
         BORDER_FOCUSED, BORDER_ENABLED,
     }
 
-    private Color defaultBackground = decodeColor("nimbusLightBackground");
+    private Color defaultBackground = decodeColor("seaGlassLightBackground");
+    // Rossi: All round corners like all other text components and added support for separators lines
+    private Color lineSeparatorEnabled = new ColorUIResource(0xebf5fc);
 
     private SeaGlassInternalShadowEffect internalShadow = new SeaGlassInternalShadowEffect();
 
@@ -140,10 +145,36 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
             color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0x80);
         }
 
-        Shape s = shapeGenerator.createRectangle(x + 1, y + 1, width - 2, height - 2);
+        Shape s = shapeGenerator.createRoundRectangle(x + 1, y + 1, width - 2, height - 2, CornerSize.BORDER);
 
         g.setPaint(color);
         g.fill(s);
+        if (isPaintLineSeperators(c)) {
+            paintLineSeparator(g, c, width, height);
+        }
+
+    }
+
+    /**
+     * Test if we should also paint the line seperators.
+     * @param c
+     * @return
+     */
+    private boolean isPaintLineSeperators(JComponent c) {
+        boolean paintLines = c instanceof JTextArea;
+
+        // Global settings
+        String globalOverride = System.getProperty("SeaGlass.JTextArea.drawLineSeparator");
+        if (globalOverride != null && globalOverride.length() > 0) {
+            paintLines = Boolean.valueOf(globalOverride);
+        }
+        
+        // Settings per component
+        Boolean overrideProperty = (Boolean) c.getClientProperty("SeaGlass.JTextArea.drawLineSeparator");
+        if (overrideProperty != null) {
+            paintLines = overrideProperty;   
+        }
+        return paintLines;
     }
 
     /**
@@ -163,10 +194,29 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
             color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0x80);
         }
 
-        Shape s = shapeGenerator.createRectangle(x - 2, y - 2, width + 4, height + 4);
-
+        Shape s = shapeGenerator.createRoundRectangle(x-2, y-2, width+4, height+4, CornerSize.BORDER);
         g.setPaint(color);
         g.fill(s);
+        if (isPaintLineSeperators(c)) {
+            paintLineSeparator(g, c, width, height);
+        }
+        
+    }
+
+    /**
+     * @param g
+     * @param c
+     * @param width
+     * @param height
+     */
+    private void paintLineSeparator(Graphics2D g, JComponent c, int width, int height) {
+        g.setPaint(lineSeparatorEnabled);
+        int lineYIncrement = g.getFontMetrics(c.getFont()).getHeight();
+        int lineY = lineYIncrement+c.getInsets().top-1;
+        while (lineY < height) {
+            g.drawLine(c.getInsets().left, lineY, width-c.getInsets().right, lineY);
+            lineY += lineYIncrement;
+        }
     }
 
     /**
@@ -184,20 +234,21 @@ public final class TextComponentPainter extends AbstractCommonColorsPainter {
         Shape   s;
 
         if (focused) {
-            s = shapeGenerator.createRectangle(x - 2, y - 2, width + 3, height + 3);
+            s = shapeGenerator.createRoundRectangle(x - 2, y - 2, width + 3, height + 3, CornerSize.OUTER_FOCUS);
             g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.draw(s);
-            s = shapeGenerator.createRectangle(x - 1, y - 1, width + 1, height + 1);
+            s = shapeGenerator.createRoundRectangle(x - 1, y - 1, width + 1, height + 1, CornerSize.INNER_FOCUS);
             g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useToolBarColors));
             g.draw(s);
         }
 
         if (type != CommonControlState.DISABLED) {
-            s = shapeGenerator.createRectangle(x + 1, x + 1, width - 2, height - 2);
+            s = shapeGenerator.createRoundRectangle(x + 1, x + 1, width - 2, height - 2, CornerSize.BORDER);
             internalShadow.fill(g, s, false, true);
         }
 
+        s = shapeGenerator.createRoundRectangle(x, y, width - 1, height - 1, CornerSize.BORDER);
         g.setPaint(getTextBorderPaint(type, !focused && useToolBarColors));
-        g.drawRect(x, y, width - 1, height - 1);
+        g.draw(s);
     }
 }

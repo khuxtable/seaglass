@@ -233,7 +233,7 @@ public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeLis
         if ((c instanceof JButton) && ((JButton) c).isDefaultButton()) {
             state |= DEFAULT;
         }
-
+        
         return state;
     }
 

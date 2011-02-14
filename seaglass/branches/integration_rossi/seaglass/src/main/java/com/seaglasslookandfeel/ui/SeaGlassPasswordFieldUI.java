@@ -24,7 +24,9 @@ import java.awt.Graphics;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JComponent;
+import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.synth.SynthContext;
 import javax.swing.text.DefaultEditorKit;
@@ -41,6 +43,18 @@ import com.seaglasslookandfeel.SeaGlassContext;
  * instead.</p>
  */
 public class SeaGlassPasswordFieldUI extends SeaGlassTextFieldUI {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void installDefaults() {
+        super.installDefaults();
+        Character echoChar = (Character) UIManager.get("PasswordField.echoChar");
+        if (echoChar != null) {
+            LookAndFeel.installProperty(getComponent(), "echoChar", echoChar);    
+        }
+    }
 
     /**
      * Creates a UI for a JPasswordField.

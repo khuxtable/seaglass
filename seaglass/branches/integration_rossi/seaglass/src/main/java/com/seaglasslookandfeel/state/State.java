@@ -71,7 +71,6 @@ import javax.swing.plaf.synth.SynthConstants;
  *
  * <p>Based on Nimbus's State class, which has too much package local stuff.</p>
  *
- * @see com.sun.java.swing.plaf.nimbus.State
  */
 public abstract class State<T extends JComponent> {
     static final Map<String, StandardState> standardStates = new HashMap<String, StandardState>(7);

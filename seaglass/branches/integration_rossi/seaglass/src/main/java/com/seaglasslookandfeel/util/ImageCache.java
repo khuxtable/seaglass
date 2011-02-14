@@ -40,7 +40,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  *
  * <p>Based on Nimbus's ImageCache by Jasper Potts. This was package local.</p>
  *
- * @see com.sun.java.swing.plaf.nimbus.ImageCache
  */
 public class ImageCache {
 

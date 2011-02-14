@@ -164,6 +164,21 @@ public class SeaGlassStyle extends SynthStyle {
     public static final double NATURAL_SCALE = 1.0;
 
     /**
+     * Gets the size variant that is applicable for the given component.
+     * @param c
+     * @return
+     */
+    public static String getSizeVariant(JComponent c) {
+        String sizeVariant = System.getProperty("JComponent.sizeVariant");
+        String componentSizeVariant = (String)c.getClientProperty("JComponent.sizeVariant");
+        if (componentSizeVariant != null) {
+            sizeVariant  = componentSizeVariant;
+        }
+        return sizeVariant;
+    }
+    
+    
+    /**
      * Special constant used for performance reasons during the get() method. If
      * get() runs through all of the search locations and determines that there
      * is no value, then NULL will be placed into the values map. This way on
@@ -432,6 +447,9 @@ public class SeaGlassStyle extends SynthStyle {
         }
 
         TreeMap<String, Object> defaults = compiledDefaults.get(prefix);
+        if (defaults == null) {
+            defaults = new TreeMap<String, Object>();
+        }
 
         // inspect the client properties for the key "SeaGlass.Overrides". If
         // the
@@ -778,10 +796,8 @@ public class SeaGlassStyle extends SynthStyle {
 
             // Account for scale
             // The key "JComponent.sizeVariant" is used to match Apple's LAF
-            String scaleKey = (String) ctx.getComponent().getClientProperty("JComponent.sizeVariant");
-
+            String scaleKey = SeaGlassStyle.getSizeVariant(ctx.getComponent());
             if (scaleKey != null) {
-
                 if (LARGE_KEY.equals(scaleKey)) {
                     in.bottom *= LARGE_SCALE;
                     in.top    *= LARGE_SCALE;
@@ -884,10 +900,8 @@ public class SeaGlassStyle extends SynthStyle {
 
         // Account for scale
         // The key "JComponent.sizeVariant" is used to match Apple's LAF
-        String scaleKey = (String) ctx.getComponent().getClientProperty("JComponent.sizeVariant");
-
+        String scaleKey = SeaGlassStyle.getSizeVariant(ctx.getComponent());
         if (scaleKey != null) {
-
             if (LARGE_KEY.equals(scaleKey)) {
                 f = f.deriveFont(Math.round(f.getSize2D() * LARGE_SCALE));
             } else if (SMALL_KEY.equals(scaleKey)) {

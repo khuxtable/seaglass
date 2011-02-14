@@ -38,7 +38,6 @@ import com.seaglasslookandfeel.component.SeaGlassBorder;
 import com.seaglasslookandfeel.painter.Painter;
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
-import com.sun.java.swing.plaf.nimbus.NimbusStyle;
 
 import sun.swing.plaf.synth.SynthUI;
 
@@ -151,10 +150,8 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
 
         // Account for scale
         // The key "JComponent.sizeVariant" is used to match Apple's LAF
-        String scaleKey = (String) ctx.getComponent().getClientProperty("JComponent.sizeVariant");
-
+        String scaleKey = SeaGlassStyle.getSizeVariant(ctx.getComponent());
         if (scaleKey != null) {
-
             if (LARGE_KEY.equals(scaleKey)) {
                 f = f.deriveFont(Math.round(f.getSize2D() * LARGE_SCALE));
             } else if (SMALL_KEY.equals(scaleKey)) {
@@ -204,11 +201,11 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      */
     @SuppressWarnings("unchecked")
     public Painter getBackgroundPainter(SynthContext ctx) {
-        if (!(style instanceof NimbusStyle)) {
+        if (!(style instanceof SeaGlassStyle)) {
             return null;
         }
 
-        return new PainterWrapper(((NimbusStyle) style).getBackgroundPainter(ctx));
+        return new PainterWrapper(((SeaGlassStyle) style).getBackgroundPainter(ctx));
     }
 
     /**
@@ -223,11 +220,11 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      */
     @SuppressWarnings("unchecked")
     public Painter getForegroundPainter(SynthContext ctx) {
-        if (!(style instanceof NimbusStyle)) {
+        if (!(style instanceof SeaGlassStyle)) {
             return null;
         }
 
-        return new PainterWrapper(((NimbusStyle) style).getForegroundPainter(ctx));
+        return new PainterWrapper(((SeaGlassStyle) style).getForegroundPainter(ctx));
     }
 
     /**
@@ -242,11 +239,11 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      */
     @SuppressWarnings("unchecked")
     public Painter getBorderPainter(SynthContext ctx) {
-        if (!(style instanceof NimbusStyle)) {
+        if (!(style instanceof SeaGlassStyle)) {
             return null;
         }
 
-        return new PainterWrapper(((NimbusStyle) style).getBorderPainter(ctx));
+        return new PainterWrapper(((SeaGlassStyle) style).getBorderPainter(ctx));
     }
 
     /**
