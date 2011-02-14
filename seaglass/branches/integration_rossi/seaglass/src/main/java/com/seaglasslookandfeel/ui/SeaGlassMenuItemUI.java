@@ -114,7 +114,6 @@ public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChang
         // find the union of the icon and text rects
         r.setBounds(textRect);
         r = SwingUtilities.computeUnion(iconRect.x, iconRect.y, iconRect.width, iconRect.height, r);
-
         // To make the accelerator texts appear in a column,
         // find the widest MenuItem text and the widest accelerator text.
 
@@ -580,8 +579,9 @@ public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChang
         SeaGlassContext accContext = getContext(menuItem, Region.MENU_ITEM_ACCELERATOR);
 
         String prefix = getPropertyPrefix();
-        paint(context, accContext, g, style.getIcon(getContext(context.getComponent()), prefix + ".checkIcon"), style.getIcon(
-            getContext(context.getComponent()), prefix + ".arrowIcon"), true, acceleratorDelimiter, defaultTextIconGap);
+        Icon arIcon = style.getIcon(
+            getContext(context.getComponent()), prefix + ".arrowIcon");
+        paint(context, accContext, g, style.getIcon(getContext(context.getComponent()), prefix + ".checkIcon"), arIcon, true, acceleratorDelimiter, defaultTextIconGap);
         accContext.dispose();
     }
 

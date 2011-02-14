@@ -35,15 +35,19 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
         BACKGROUND_SELECTED_MOUSEOVER,
         CHECKICON_DISABLED_SELECTED,
         CHECKICON_ENABLED_SELECTED,
+        CHECKICON_ENABLED_MOUSEOVER,
         CHECKICON_SELECTED_MOUSEOVER,
+        CHECKICON_ENABLED,
     }
 
     private Which        state;
     private PaintContext ctx;
 
-    private Color        iconDisabledSelected  = decodeColor("nimbusDisabledText");
-    private Color        iconEnabledSelected   = decodeColor("text");
-    private Color        iconSelectedMouseOver = decodeColor("nimbusSelectedText");
+    private Color        iconDisabledSelected  = decodeColor("seaGlassDisabledText");
+    // Rossi: Use darkblue instead of black
+    private Color        iconEnabled = decodeColor("seaGlassMenuIcon");
+    private Color        iconEnabledSelected   = decodeColor("seaGlassMenuIcon");
+    private Color        iconSelectedMouseOver = decodeColor("seaGlassSelectedText");
 
     public RadioButtonMenuItemPainter(Which state) {
         super(MenuItemPainter.Which.BACKGROUND_ENABLED);
@@ -65,16 +69,22 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_MOUSEOVER:
-            paintBackgroundMouseOver(g, width, height);
+            paintBackgroundMouseOver(g, c, width, height);
             break;
         case BACKGROUND_SELECTED_MOUSEOVER:
-            paintBackgroundMouseOver(g, width, height);
+            paintBackgroundMouseOver(g, c, width, height);
             break;
         case CHECKICON_DISABLED_SELECTED:
             paintCheckIconDisabledAndSelected(g, width, height);
             break;
         case CHECKICON_ENABLED_SELECTED:
             paintCheckIconEnabledAndSelected(g, width, height);
+            break;
+        case CHECKICON_ENABLED:
+            paintCheckIconEnabled(g, width, height);
+            break;
+        case CHECKICON_ENABLED_MOUSEOVER:
+            paintCheckIconEnabledAndMouseOver(g, width, height);
             break;
         case CHECKICON_SELECTED_MOUSEOVER:
             paintCheckIconSelectedAndMouseOver(g, width, height);
@@ -89,21 +99,42 @@ public final class RadioButtonMenuItemPainter extends MenuItemPainter {
     }
 
     private void paintCheckIconDisabledAndSelected(Graphics2D g, int width, int height) {
-        Shape s = createRadioBullet(width, height);
         g.setPaint(iconDisabledSelected);
-        g.fill(s);
+        drawRadioIcon(g, width, height);
     }
 
     private void paintCheckIconEnabledAndSelected(Graphics2D g, int width, int height) {
-        Shape s = createRadioBullet(width, height);
         g.setPaint(iconEnabledSelected);
-        g.fill(s);
+        drawRadioIcon(g, width, height);
     }
 
-    private void paintCheckIconSelectedAndMouseOver(Graphics2D g, int width, int height) {
+    /**
+     * @param g
+     * @param width
+     * @param height
+     */
+    private void drawRadioIcon(Graphics2D g, int width, int height) {
         Shape s = createRadioBullet(width, height);
+        g.draw(s);
+        g.fillOval(2, 3, 5, 5);
+    }
+
+    private void paintCheckIconEnabled(Graphics2D g, int width, int height) {
+        g.setPaint(iconEnabled);
+        Shape s = createRadioBullet(width, height);
+        g.draw(s);
+    }
+    
+    private void paintCheckIconSelectedAndMouseOver(Graphics2D g, int width, int height) {
         g.setPaint(iconSelectedMouseOver);
-        g.fill(s);
+        drawRadioIcon(g, width, height);
+    }
+    
+    
+    private void paintCheckIconEnabledAndMouseOver(Graphics2D g, int width, int height) {
+        g.setPaint(iconSelectedMouseOver);
+        Shape s = createRadioBullet(width, height);
+        g.draw(s);
     }
 
     private Shape createRadioBullet(int width, int height) {

@@ -40,15 +40,17 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
      */
     public static enum Which {
         BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_MOUSEOVER, BACKGROUND_SELECTED_MOUSEOVER, CHECKICON_DISABLED_SELECTED,
-        CHECKICON_ENABLED_SELECTED, CHECKICON_SELECTED_MOUSEOVER,
+        CHECKICON_ENABLED_SELECTED, CHECKICON_SELECTED_MOUSEOVER, CHECKICON_ENABLED_MOUSEOVER, CHECKICON_ENABLED,
     }
 
     private Which        state;
     private PaintContext ctx;
 
-    private Color iconDisabledSelected  = decodeColor("nimbusDisabledText");
-    private Color iconEnabledSelected   = decodeColor("text");
-    private Color iconSelectedMouseOver = decodeColor("nimbusSelectedText");
+    private Color iconDisabledSelected  = decodeColor("seaGlassDisabledText");
+    // Rossi: Added hints if a menu item is a checkbox
+    private Color iconEnabledSelected   = decodeColor("seaGlassMenuIcon");
+    private Color iconEnabled           = decodeColor("seaGlassMenuIcon");
+    private Color iconSelectedMouseOver = decodeColor("seaGlassSelectedText");
 
     /**
      * Creates a new CheckBoxMenuItemPainter object.
@@ -82,11 +84,11 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
         switch (state) {
 
         case BACKGROUND_MOUSEOVER:
-            paintBackgroundMouseOver(g, width, height);
+            paintBackgroundMouseOver(g, c, width, height);
             break;
 
         case BACKGROUND_SELECTED_MOUSEOVER:
-            paintBackgroundMouseOver(g, width, height);
+            paintBackgroundMouseOver(g, c, width, height);
             break;
 
         case CHECKICON_DISABLED_SELECTED:
@@ -97,6 +99,14 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
             paintCheckIconEnabledAndSelected(g, width, height);
             break;
 
+        case CHECKICON_ENABLED:
+            paintCheckIconEnabled(g, width, height);
+            break;
+
+        case CHECKICON_ENABLED_MOUSEOVER:
+            paintCheckIconEnabledAndMouseOver(g, width, height);
+            break;
+            
         case CHECKICON_SELECTED_MOUSEOVER:
             paintCheckIconSelectedAndMouseOver(g, width, height);
             break;
@@ -126,7 +136,7 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
         g.fill(s);
 
     }
-
+   
     /**
      * Paint the check mark in enabled state.
      *
@@ -136,11 +146,23 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
      */
     private void paintCheckIconEnabledAndSelected(Graphics2D g, int width, int height) {
         Shape s = shapeGenerator.createCheckMark(0, 0, width, height);
-
         g.setPaint(iconEnabledSelected);
         g.fill(s);
     }
 
+    /**
+     * Paint the check mark in enabled state.
+     *
+     * @param g      the Graphics2D context to paint with.
+     * @param width  the width.
+     * @param height the height.
+     */
+    private void paintCheckIconEnabled(Graphics2D g, int width, int height) {
+        g.setPaint(iconEnabled);
+        g.drawRoundRect(0, 1, width-1, height-2, 4, 4);
+    }
+
+    
     /**
      * Paint the check mark in mouse over state.
      *
@@ -153,5 +175,17 @@ public final class CheckBoxMenuItemPainter extends MenuItemPainter {
 
         g.setPaint(iconSelectedMouseOver);
         g.fill(s);
+    }
+    
+    /**
+     * Paint the check mark in mouse over state.
+     *
+     * @param g      the Graphics2D context to paint with.
+     * @param width  the width.
+     * @param height the height.
+     */
+    private void paintCheckIconEnabledAndMouseOver(Graphics2D g, int width, int height) {
+        g.setPaint(iconSelectedMouseOver);
+        g.drawRoundRect(0, 1, width-1, height-2, 4, 4);
     }
 }

@@ -48,6 +48,7 @@ import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.painter.util.ShapeGenerator;
 import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 
@@ -119,15 +120,15 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         // handle scaling for sizeVarients for special case components. The
         // key "JComponent.sizeVariant" scales for large/small/mini
         // components are based on Apples LAF
-        String scaleKey = (String) progressBar.getClientProperty("JComponent.sizeVariant");
+        String scaleKey = SeaGlassStyle.getSizeVariant(progressBar);
         if (scaleKey != null) {
-            if ("large".equals(scaleKey)) {
+            if (SeaGlassStyle.LARGE_KEY.equals(scaleKey)) {
                 trackThickness = 24;
                 tileWidth *= 1.15;
-            } else if ("small".equals(scaleKey)) {
+            } else if (SeaGlassStyle.SMALL_KEY.equals(scaleKey)) {
                 trackThickness = 17;
                 tileWidth *= 0.857;
-            } else if ("mini".equals(scaleKey)) {
+            } else if (SeaGlassStyle.MINI_KEY.equals(scaleKey)) {
                 trackThickness = 15;
                 tileWidth *= 0.784;
             }
@@ -378,8 +379,9 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
                 style.getGraphicsUtils(context).paintText(context, g, title, textPos.x, textPos.y, -1);
             } else {
                 // Calculate the bounds for the text.
+            	// Rossi: Move text down by one pixel: Looks better but is a hack that may not look good for other font sizes / fonts
                 Rectangle textRect = new Rectangle((bounds.width / 2) - (strLength / 2),
-                    (bounds.height - (fm.getAscent() + fm.getDescent())) / 2, 0, 0);
+                    (bounds.height - (fm.getAscent() + fm.getDescent())) / 2+1, 0, 0);
 
                 // Progress bar isn't tall enough for the font. Don't paint it.
                 if (textRect.y < 0) {
@@ -445,15 +447,15 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         // handle scaling for sizeVarients for special case components. The
         // key "JComponent.sizeVariant" scales for large/small/mini
         // components are based on Apples LAF
-        String scaleKey = (String) progressBar.getClientProperty("JComponent.sizeVariant");
+        String scaleKey = SeaGlassStyle.getSizeVariant(progressBar);
         if (scaleKey != null) {
-            if ("large".equals(scaleKey)) {
+            if (SeaGlassStyle.LARGE_KEY.equals(scaleKey)) {
                 size.width *= 1.15f;
                 size.height *= 1.15f;
-            } else if ("small".equals(scaleKey)) {
+            } else if (SeaGlassStyle.SMALL_KEY.equals(scaleKey)) {
                 size.width *= 0.90f;
                 size.height *= 0.90f;
-            } else if ("mini".equals(scaleKey)) {
+            } else if (SeaGlassStyle.MINI_KEY.equals(scaleKey)) {
                 size.width *= 0.784f;
                 size.height *= 0.784f;
             }

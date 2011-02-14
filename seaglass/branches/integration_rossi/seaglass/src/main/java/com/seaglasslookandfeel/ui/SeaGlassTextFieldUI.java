@@ -22,6 +22,7 @@ package com.seaglasslookandfeel.ui;
 import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FontMetrics;
@@ -263,7 +264,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
      * @param prefix  the control prefix, e.g. "TextField",
      *                "FormattedTextField", or "PasswordField".
      */
-    private void updateStyle(JTextComponent c, SeaGlassContext context, String prefix) {
+    static void updateStyle(JTextComponent c, SeaGlassContext context, String prefix) {
         SeaGlassStyle style = (SeaGlassStyle) context.getStyle();
 
         Color color = c.getCaretColor();
@@ -496,10 +497,9 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
         g.setFont(c.getFont());
         Rectangle innerArea    = SwingUtilities.calculateInnerArea(c, null);
         Rectangle cancelBounds = getCancelButtonBounds();
-        // FIXME Do better baseline calculation than just subtracting 1.
         context.getStyle().getGraphicsUtils(context).paintText(context, g, getPlaceholderText(g, innerArea.width + cancelBounds.width),
                                                                innerArea.x,
-                                                               innerArea.y - 1, -1);
+                                                               innerArea.y, -1);
     }
 
     /**
@@ -845,7 +845,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
 
             super.getBorderInsets(c, insets);
 
-            if (isSearchField.isInState((JComponent) c)) {
+            if (c instanceof JComponent && isSearchField.isInState((JComponent) c)) {
                 insets.left += searchIconWidth + searchLeftInnerMargin;
                 if (hasPopupMenu.isInState((JComponent) c)) {
                     insets.left += popupIconWidth;
@@ -925,6 +925,25 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
                 isCancelArmed = false;
                 getComponent().repaint();
             }
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            currentMouseX = e.getX();
+            currentMouseY = e.getY();
+            
+            Cursor cursorToUse = Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR);
+            if (isOverCancelButton() || isOverFindButton()) {
+               cursorToUse = Cursor.getDefaultCursor();  
+            }
+            JComponent c = (JComponent) e.getSource();
+            if (!cursorToUse.equals(c.getCursor())) {
+                c.setCursor(cursorToUse);
+            }
+            super.mouseMoved(e);
         }
 
         /**

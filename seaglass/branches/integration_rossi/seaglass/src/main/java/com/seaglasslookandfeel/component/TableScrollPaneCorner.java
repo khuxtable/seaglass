@@ -35,7 +35,6 @@ import com.seaglasslookandfeel.painter.Painter;
  *
  * <p>Based on Nimbus's TableScrollPaneCorner by Jasper Potts</p>
  *
- * @see com.sun.java.swing.plaf.nimbus.TableScrollPaneCorner
  */
 public class TableScrollPaneCorner extends JComponent implements UIResource {
     private static final long serialVersionUID = -904714225885809898L;

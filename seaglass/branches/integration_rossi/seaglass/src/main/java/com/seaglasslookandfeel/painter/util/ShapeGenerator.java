@@ -382,15 +382,15 @@ public class ShapeGenerator {
      * @return a path representing the shape.
      */
     public Shape createProgressBarIndeterminatePattern(int x, int y, int w, int h) {
-        final double wHalf   = w / 2.0;
-        final double xOffset = wHalf / 4.0;
-
-        path.reset();
-        path.moveTo(xOffset, 0);
-        path.lineTo(wHalf + xOffset, 0);
-        path.lineTo(w, h);
-        path.lineTo(wHalf, h);
-        path.closePath();
+      final double wHalf   = w / 2.0;
+      final double xOffset = 5;
+      path.reset();
+      path.moveTo(xOffset, 0);
+      path.lineTo(xOffset+wHalf, 0);
+      path.curveTo(xOffset+wHalf-5, h/2-4, xOffset+wHalf+5, h/2+4, xOffset+wHalf, h);
+      path.lineTo(xOffset, h);
+      path.curveTo(xOffset+5, h/2+4, xOffset-5, h/2-4, xOffset, 0);
+      path.closePath();
 
         return path;
     }

@@ -158,7 +158,7 @@ public final class SpinnerNextButtonPainter extends AbstractCommonColorsPainter 
     }
 
     private Shape createArrowShape(int left, int height) {
-        int centerX = 8;
+        int centerX = left / 2 -3;
         int centerY = height / 2;
         return shapeGenerator.createArrowUp(centerX, centerY, 4, 3);
     }

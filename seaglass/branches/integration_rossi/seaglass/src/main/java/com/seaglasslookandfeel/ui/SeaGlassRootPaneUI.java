@@ -371,12 +371,16 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
         return new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
-                root.repaint();
+                if (root != null) {
+                    root.repaint();
+                }
             }
 
             @Override
             public void windowDeactivated(WindowEvent e) {
-                root.repaint();
+                if (root != null) {
+                    root.repaint();
+                }
             }
         };
     }
@@ -905,8 +909,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
             if (root.getJMenuBar() != null) {
                 boolean   menuInTitle = (root.getClientProperty("JRootPane.MenuInTitle") == Boolean.TRUE);
                 Dimension mbd         = root.getJMenuBar().getPreferredSize();
-
-                root.getJMenuBar().setBounds(0, menuInTitle ? 0 : nextY, w, mbd.height);
+                int x = 20;
+                root.getJMenuBar().setBounds(x, menuInTitle ? 0 : nextY, w, mbd.height);
                 root.getJMenuBar().setOpaque(false);
                 root.getJMenuBar().setBackground(transparentColor);
                 if (!menuInTitle) {

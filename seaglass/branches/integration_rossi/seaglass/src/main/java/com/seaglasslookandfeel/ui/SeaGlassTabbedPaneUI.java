@@ -37,7 +37,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -58,6 +57,9 @@ import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.text.View;
 
+import sun.swing.SwingUtilities2;
+import sun.swing.plaf.synth.SynthUI;
+
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassRegion;
@@ -65,10 +67,6 @@ import com.seaglasslookandfeel.SeaGlassSynthPainterImpl;
 import com.seaglasslookandfeel.component.SeaGlassArrowButton;
 import com.seaglasslookandfeel.util.ControlOrientation;
 import com.seaglasslookandfeel.util.SeaGlassTabCloseListener;
-
-import sun.swing.SwingUtilities2;
-
-import sun.swing.plaf.synth.SynthUI;
 
 /**
  * Sea Glass's TabbedPane UI delegate.
@@ -900,7 +898,8 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         } else {
             // plain text
             int mnemIndex = tabPane.getDisplayedMnemonicIndexAt(tabIndex);
-
+            FontMetrics    fm = SwingUtilities2.getFontMetrics(tabPane, g);
+            title = SwingUtilities2.clipStringIfNecessary(tabPane, fm, title, textRect.width);
             g.setColor(ss.getStyle().getColor(ss, ColorType.TEXT_FOREGROUND));
             ss.getStyle().getGraphicsUtils(ss).paintText(ss, g, title, textRect, mnemIndex);
         }
@@ -1208,6 +1207,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
          */
         public SynthScrollableTabButton(int direction) {
             super(direction);
+            putClientProperty("__arrow_scale__", 0.6);
         }
 
         /**

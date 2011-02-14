@@ -20,14 +20,18 @@
 package com.seaglasslookandfeel.painter;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
+import javax.swing.JMenu;
+import javax.swing.JPopupMenu;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerStyle;
 
 /**
  * PopupMenuPainter implementation.
@@ -68,13 +72,46 @@ public final class PopupMenuPainter extends AbstractRegionPainter {
      *      javax.swing.JComponent, int, int, java.lang.Object[])
      */
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        Shape s = shapeGenerator.createRoundRectangle(0, 0, width, height, CornerSize.POPUP_BORDER);
+    	// Rossi: Top-Left corner is round for popups but square for sub menus and real menus from menubar
+        CornerStyle topLeftCornerStyle = getTopLeftCornerStyle(c);
 
+        Shape s = shapeGenerator.createRoundRectangle(0, 0, width, height, 
+            CornerSize.POPUP_BORDER,  
+            topLeftCornerStyle, CornerStyle.ROUNDED,
+            CornerStyle.ROUNDED,CornerStyle.ROUNDED);
+        
         g.setPaint(getPopupMenuBorderPaint(s));
         g.fill(s);
-        s = shapeGenerator.createRoundRectangle(1, 1, width - 2, height - 2, CornerSize.POPUP_INTERIOR);
+        
+        s = shapeGenerator.createRoundRectangle(1, 1, width - 2, height - 2, 
+            CornerSize.POPUP_INTERIOR, 
+            topLeftCornerStyle, CornerStyle.ROUNDED,
+            CornerStyle.ROUNDED,CornerStyle.ROUNDED);
+        
         g.setPaint(getPopupMenuInteriorPaint(s));
         g.fill(s);
+    }
+
+    /**
+     * @param c
+     * @return
+     */
+    private CornerStyle getTopLeftCornerStyle(JComponent c) {
+        Component invoker = getInvoker(c);
+        CornerStyle topLeftCornerStyle = CornerStyle.ROUNDED;
+        if (invoker instanceof JMenu) {
+            topLeftCornerStyle = CornerStyle.SQUARE;
+        }
+        return topLeftCornerStyle;
+    }
+
+    /**
+     * @param c
+     * @return
+     */
+    private Component getInvoker(JComponent c) {
+        JPopupMenu popup = (JPopupMenu) c;
+        return popup.getInvoker();
     }
 
     /**

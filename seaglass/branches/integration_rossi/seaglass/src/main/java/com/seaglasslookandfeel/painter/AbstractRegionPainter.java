@@ -48,6 +48,7 @@ import com.seaglasslookandfeel.painter.util.ShapeGenerator;
 import com.seaglasslookandfeel.state.ControlInToolBarState;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.util.ImageCache;
+import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
 /**
  * Convenient base class for defining Painter instances for rendering a region
@@ -56,7 +57,6 @@ import com.seaglasslookandfeel.util.ImageCache;
  * <p>Based on Nimbus's AbstractRegionPainter by Jasper Potts and Richard Bair.
  * This was package local.</p>
  *
- * @see com.sun.java.swing.plaf.nimbus.AbstractRegionPainter
  */
 public abstract class AbstractRegionPainter implements Painter<JComponent> {
     private static final State inToolBarState = new ControlInToolBarState();
@@ -528,11 +528,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
      * @return the new color.
      */
     protected Color disable(Color color) {
-        int alpha = color.getAlpha();
-
-        alpha /= 2;
-
-        return new Color((color.getRGB() & 0xFFFFFF) | (alpha << 24), true);
+        return SeaGlassGraphicsUtils.disable(color);
     }
 
     /**
