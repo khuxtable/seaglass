@@ -733,6 +733,7 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
                 } else if (e.getScrollType() == MouseWheelEvent.WHEEL_BLOCK_SCROLL) {
                     scrollByBlock(toScroll, direction);
                 }
+                e.consume();
             }
         }
 
