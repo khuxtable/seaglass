@@ -198,11 +198,11 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI
         boundsRect.width = pBar.getWidth();
         boundsRect.height = pBar.getHeight();
         if (pBar.getOrientation() == JProgressBar.HORIZONTAL) {
+            boundsRect.y = (boundsRect.height - trackThickness) / 2;
             boundsRect.height = Math.min(boundsRect.height, trackThickness);
-            boundsRect.y += (boundsRect.height - trackThickness) / 2;
         } else {
+            boundsRect.x = (boundsRect.width - trackThickness) / 2;
             boundsRect.width = Math.min(boundsRect.width, trackThickness);
-            boundsRect.x += (boundsRect.width - trackThickness) / 2;
         }
         return boundsRect;
     }
