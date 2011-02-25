@@ -50,12 +50,9 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
     private Which        state;
     private PaintContext ctx;
 
-    // Rossi: Experimental: Blue borders for scrollpanes.
     private Color borderColor = decodeColor("seaGlassTextEnabledBorder");
-
-    private Color cornerBorder = new Color(192, 192, 192);
-    private Color cornerColor1 = new Color(240, 240, 240);
-    private Color cornerColor2 = new Color(212, 212, 212);
+    private Color cornerColor1 = new Color(250, 250, 250);
+    private Color cornerColor2 = new Color(190, 190, 190);
 
     /**
      * Creates a new ScrollPanePainter object.
