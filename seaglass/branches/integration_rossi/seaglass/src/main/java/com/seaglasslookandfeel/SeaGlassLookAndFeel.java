@@ -1550,10 +1550,10 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, PopupMenuPainter.Which.BACKGROUND_ENABLED));
 
         // Initialize PopupMenuSeparator
-        c = PAINTER_PREFIX + "PopupMenuSeparatorPainter";
+        c = PAINTER_PREFIX + "SeparatorPainter";
         p = "PopupMenuSeparator";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 0, 2, 0));
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, PopupMenuSeparatorPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SeparatorPainter.Which.BACKGROUND_ENABLED));
     }
 
     /**
