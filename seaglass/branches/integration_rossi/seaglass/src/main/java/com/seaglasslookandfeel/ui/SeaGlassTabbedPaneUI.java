@@ -495,9 +495,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
      */
     protected JButton createScrollButton(int direction) {
         SynthScrollableTabButton b = new SynthScrollableTabButton(direction);
-
-        b.setName("TabbedPaneTabArea.button");
-
+        b.setName("TabbedPaneTabArea.button" + direction);
         return b;
     }
 
@@ -997,6 +995,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
         if (tabComponent != null) {
             width += tabComponent.getPreferredSize().width;
+            if (tabIndex < rects.length && tabCloseButtonPlacement != CENTER) {
+                width += getCloseButtonBounds(tabIndex).width + textIconGap;
+            }
         } else {
             if (icon != null) {
                 width += icon.getIconWidth() + textIconGap;
@@ -1256,10 +1257,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             }
 
             calcContentRect();
-
+            
             for (int i = 0; i < tabPane.getComponentCount(); i++) {
                 Component child = tabPane.getComponent(i);
-
                 // Ignore the scroll buttons. They have already been positioned in
                 // calculateTabRects, which will have been called by calculateLayoutInfo,
                 // which is called above.
@@ -1267,11 +1267,40 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                     child.setBounds(contentRect);
                 }
             }
-
+            setTabContainerBounds();
             layoutTabComponents();
 
             if (shouldChangeFocus && !SwingUtilities2.tabbedPaneChangeFocusTo(getVisibleComponent())) {
                 tabPane.requestFocus();
+            }
+        }
+        
+        /**
+         * Check if we have a custom tab component container.
+         * @return the container used to hold custom tab components.
+         */
+        private Component getTabContainer() {
+            int tabCount = tabPane.getTabCount();
+            for (int i = 0; i < tabCount; i++) {
+                Component tabComponent = tabPane.getTabComponentAt(i);
+                if (tabComponent != null) {
+                    return tabComponent.getParent();
+                }
+            }
+            return null;
+        }
+
+        /**
+         * Set the position of the tab container that is used to layout custom tab components.
+         */
+        private void setTabContainerBounds() {
+            Component tabContainer = getTabContainer();
+            if (tabContainer != null) {
+                int tabContainerX = tabPlacement == RIGHT ? contentRect.width : 0; 
+                int tabContainerY =  tabPlacement == BOTTOM ? contentRect.height : 0;
+                int tabContainerWidth = tabPlacement == LEFT || tabPlacement == RIGHT ? tabPane.getWidth() - contentRect.width : contentRect.width;
+                int tabContainerHeight = tabPlacement == TOP || tabPlacement == BOTTOM ? tabPane.getHeight() - contentRect.height : contentRect.height;
+                tabContainer.setBounds(tabContainerX, tabContainerY, tabContainerWidth, tabContainerHeight);
             }
         }
 
@@ -1417,12 +1446,13 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
                 Dimension preferredSize = c.getPreferredSize();
                 Insets    insets        = getTabInsets(tabPlacement, i);
-                int       outerX        = rect.x + insets.left;
-                int       outerY        = rect.y + insets.top;
+                int       outerX        = (rect.x-c.getParent().getX()) + insets.left;
+                int       outerY        = (rect.y-c.getParent().getY()) + insets.top;
                 int       outerWidth    = rect.width - insets.left - insets.right;
                 int       outerHeight   = rect.height - insets.top - insets.bottom;
 
                 // centralize component
+                // TODO rossi 30.06.2011 this may need adjustment to respect the optional close buttons
                 int       x             = outerX + (outerWidth - preferredSize.width) / 2;
                 int       y             = outerY + (outerHeight - preferredSize.height) / 2;
                 boolean   isSelected    = i == tabPane.getSelectedIndex();
