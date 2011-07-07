@@ -33,7 +33,7 @@ import javax.swing.plaf.synth.SynthContext;
 
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
-import com.seaglasslookandfeel.painter.Painter;
+import com.seaglasslookandfeel.painter.SeaGlassPainter;
 
 import sun.swing.plaf.synth.SynthIcon;
 
@@ -78,18 +78,18 @@ public class SeaGlassIcon extends SynthIcon {
     @SuppressWarnings("unchecked")
     @Override
     public void paintIcon(SynthContext context, Graphics g, int x, int y, int w, int h) {
-        Painter painter = null;
+        SeaGlassPainter painter = null;
 
         if (context != null) {
-            painter = (Painter) context.getStyle().get(context, key);
+            painter = (SeaGlassPainter) context.getStyle().get(context, key);
         }
 
         if (painter == null) {
-            painter = (Painter) UIManager.get(prefix + "[Enabled]." + key);
+            painter = (SeaGlassPainter) UIManager.get(prefix + "[Enabled]." + key);
         }
 
         if (painter == null) {
-            painter = (Painter) UIManager.get(prefix + "." + key);
+            painter = (SeaGlassPainter) UIManager.get(prefix + "." + key);
         }
 
         if (painter != null && context != null) {
@@ -186,7 +186,7 @@ public class SeaGlassIcon extends SynthIcon {
     @SuppressWarnings("unchecked")
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
-        Painter painter = (Painter) UIManager.get(prefix + "[Enabled]." + key);
+        SeaGlassPainter painter = (SeaGlassPainter) UIManager.get(prefix + "[Enabled]." + key);
 
         if (painter != null) {
             JComponent jc  = (c instanceof JComponent) ? (JComponent) c : null;

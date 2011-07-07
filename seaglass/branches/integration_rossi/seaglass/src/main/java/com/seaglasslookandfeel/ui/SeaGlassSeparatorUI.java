@@ -22,7 +22,6 @@ package com.seaglasslookandfeel.ui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Insets;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -39,8 +38,6 @@ import javax.swing.plaf.synth.SynthStyle;
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * A Synth L&F implementation of SeparatorUI. This implementation is a
  * "combined" view/controller.
@@ -49,7 +46,7 @@ import sun.swing.plaf.synth.SynthUI;
  * @author  Shannon Hickey
  * @author  Joshua Outwater
  */
-public class SeaGlassSeparatorUI extends SeparatorUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassSeparatorUI extends SeparatorUI implements PropertyChangeListener, SeaglassUI {
     private SynthStyle style;
 
     /**
@@ -190,7 +187,7 @@ public class SeaGlassSeparatorUI extends SeparatorUI implements PropertyChangeLi
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SeaGlassContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SeaGlassContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
@@ -236,7 +233,7 @@ public class SeaGlassSeparatorUI extends SeparatorUI implements PropertyChangeLi
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));

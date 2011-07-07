@@ -40,7 +40,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JComponent;
@@ -62,20 +61,18 @@ import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.component.SeaGlassBorder;
 import com.seaglasslookandfeel.component.SeaGlassTitlePane;
 import com.seaglasslookandfeel.painter.ContentPanePainter;
-import com.seaglasslookandfeel.painter.Painter;
+import com.seaglasslookandfeel.painter.SeaGlassPainter;
 import com.seaglasslookandfeel.state.RootPaneWindowFocusedState;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.util.PlatformUtils;
 import com.seaglasslookandfeel.util.WindowUtils;
-
-import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassRootPaneUI implementation.
  *
  * @author Kathryn Huxtable
  */
-public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
+public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SeaglassUI {
 
     /**
      * Set to <code>true</code> if we want a unified toolbar look with a
@@ -90,8 +87,8 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     private static final int BORDER_DRAG_THICKNESS = 5;
 
     private static final State   isWindowFocused = new RootPaneWindowFocusedState();
-    private static final Painter contentActive   = new ContentPanePainter(ContentPanePainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED);
-    private static final Painter contentInactive = new ContentPanePainter(ContentPanePainter.Which.BACKGROUND_ENABLED);
+    private static final SeaGlassPainter contentActive   = new ContentPanePainter(ContentPanePainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED);
+    private static final SeaGlassPainter contentInactive = new ContentPanePainter(ContentPanePainter.Which.BACKGROUND_ENABLED);
 
     /**
      * Maps from positions to cursor type. Refer to calculateCorner and
@@ -181,7 +178,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
@@ -627,7 +624,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SynthUI {
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {

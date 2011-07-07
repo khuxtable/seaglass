@@ -43,14 +43,13 @@ import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.plaf.synth.SynthStyle;
 
+import sun.swing.DefaultLookup;
+import sun.swing.SwingUtilities2;
+
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
-
-import sun.swing.DefaultLookup;
-import sun.swing.SwingUtilities2;
-import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassSliderUI implementation.
@@ -60,7 +59,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthSliderUI
  */
-public class SeaGlassSliderUI extends BasicSliderUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassSliderUI extends BasicSliderUI implements PropertyChangeListener, SeaglassUI {
     protected Dimension       contentDim = new Dimension();
     protected Rectangle       valueRect  = new Rectangle();
     protected boolean         paintValue;

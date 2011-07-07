@@ -39,8 +39,6 @@ import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.util.PlatformUtils;
 import com.seaglasslookandfeel.util.WindowUtils;
 
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * SeaGlassPopupMenuUI.
  * 
@@ -48,7 +46,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthPopupMenuUI
  */
-public class SeaGlassPopupMenuUI extends BasicPopupMenuUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassPopupMenuUI extends BasicPopupMenuUI implements PropertyChangeListener, SeaglassUI {
     /**
      * Maximum size of the text portion of the children menu items.
      */

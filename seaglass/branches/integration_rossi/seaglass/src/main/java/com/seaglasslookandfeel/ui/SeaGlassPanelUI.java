@@ -20,7 +20,6 @@
 package com.seaglasslookandfeel.ui;
 
 import java.awt.Graphics;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -36,14 +35,12 @@ import javax.swing.plaf.synth.SynthStyle;
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * Sea Glass Panel UI delegate.
  *
  * <p>Based on SynthPanelUI, but sets the panel's opaque property to false.</p>
  */
-public class SeaGlassPanelUI extends BasicPanelUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassPanelUI extends BasicPanelUI implements PropertyChangeListener, SeaglassUI {
     private SynthStyle style;
 
     private boolean originalOpacity;
@@ -136,7 +133,7 @@ public class SeaGlassPanelUI extends BasicPanelUI implements PropertyChangeListe
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
@@ -200,7 +197,7 @@ public class SeaGlassPanelUI extends BasicPanelUI implements PropertyChangeListe
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {

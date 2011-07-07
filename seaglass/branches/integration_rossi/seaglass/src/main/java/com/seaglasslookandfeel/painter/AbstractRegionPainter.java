@@ -58,7 +58,7 @@ import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
  * This was package local.</p>
  *
  */
-public abstract class AbstractRegionPainter implements Painter<JComponent> {
+public abstract class AbstractRegionPainter implements SeaGlassPainter<JComponent> {
     private static final State inToolBarState = new ControlInToolBarState();
 
     /**

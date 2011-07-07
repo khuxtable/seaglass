@@ -24,7 +24,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Rectangle;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -50,8 +49,6 @@ import javax.swing.text.View;
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * SeaGlassButtonUI implementation.
  *
@@ -59,7 +56,7 @@ import sun.swing.plaf.synth.SynthUI;
  *
  * @see javax.swing.plaf.synth.SynthButtonUI
  */
-public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeListener, SeaglassUI {
     private static final String APPLE_PREFIX = "JButton.";
     private SynthStyle          style;
 
@@ -158,7 +155,7 @@ public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeLis
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
@@ -348,7 +345,7 @@ public class SeaGlassButtonUI extends BasicButtonUI implements PropertyChangeLis
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {

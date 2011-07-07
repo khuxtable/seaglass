@@ -30,10 +30,8 @@ import static javax.swing.plaf.synth.SynthConstants.SELECTED;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -53,14 +51,13 @@ import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.plaf.synth.SynthPainter;
 import javax.swing.plaf.synth.SynthStyle;
 
-import com.seaglasslookandfeel.component.SeaGlassBorder;
-import com.seaglasslookandfeel.painter.Painter;
-import com.seaglasslookandfeel.state.State;
-import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
-
 import sun.awt.AppContext;
 
-import sun.swing.plaf.synth.SynthUI;
+import com.seaglasslookandfeel.component.SeaGlassBorder;
+import com.seaglasslookandfeel.painter.SeaGlassPainter;
+import com.seaglasslookandfeel.state.State;
+import com.seaglasslookandfeel.ui.SeaglassUI;
+import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
 /**
  * <p>A SynthStyle implementation used by SeaGlass. Each Region that has been
@@ -289,7 +286,7 @@ public class SeaGlassStyle extends SynthStyle {
      *                style, and the state.
      * @param ui      the UI delegate.
      */
-    public void installDefaults(SeaGlassContext context, SynthUI ui) {
+    public void installDefaults(SeaGlassContext context, SeaglassUI ui) {
         // Special case the Border as this will likely change when the LAF
         // can have more control over this.
         if (!context.isSubregion()) {
@@ -755,14 +752,14 @@ public class SeaGlassStyle extends SynthStyle {
      *
      * @return the painter, if any can be found, {@code null} otherwise.
      */
-    private Painter getPainter(TreeMap<String, Object> defaults, String key) {
+    private SeaGlassPainter getPainter(TreeMap<String, Object> defaults, String key) {
         Object p = defaults.get(key);
 
         if (p instanceof UIDefaults.LazyValue) {
             p = ((UIDefaults.LazyValue) p).createValue(UIManager.getDefaults());
         }
 
-        return (p instanceof Painter ? (Painter) p : null);
+        return (p instanceof SeaGlassPainter ? (SeaGlassPainter) p : null);
     }
 
     /**
@@ -1047,14 +1044,14 @@ public class SeaGlassStyle extends SynthStyle {
      * @return The background painter associated for the given state, or null if
      *         none could be found.
      */
-    public Painter getBackgroundPainter(SynthContext ctx) {
+    public SeaGlassPainter getBackgroundPainter(SynthContext ctx) {
         Values  v      = getValues(ctx);
         int     xstate = getExtendedState(ctx, v);
-        Painter p      = null;
+        SeaGlassPainter p      = null;
 
         // check the cache
         tmpKey.init("backgroundPainter$$instance", xstate);
-        p = (Painter) v.cache.get(tmpKey);
+        p = (SeaGlassPainter) v.cache.get(tmpKey);
 
         if (p != null)
             return p;
@@ -1073,7 +1070,7 @@ public class SeaGlassStyle extends SynthStyle {
         }
 
         if (p == null)
-            p = (Painter) get(ctx, "backgroundPainter");
+            p = (SeaGlassPainter) get(ctx, "backgroundPainter");
 
         if (p != null) {
             v.cache.put(new CacheKey("backgroundPainter$$instance", xstate), p);
@@ -1092,14 +1089,14 @@ public class SeaGlassStyle extends SynthStyle {
      * @return The foreground painter associated for the given state, or null if
      *         none could be found.
      */
-    public Painter getForegroundPainter(SynthContext ctx) {
+    public SeaGlassPainter getForegroundPainter(SynthContext ctx) {
         Values  v      = getValues(ctx);
         int     xstate = getExtendedState(ctx, v);
-        Painter p      = null;
+        SeaGlassPainter p      = null;
 
         // check the cache
         tmpKey.init("foregroundPainter$$instance", xstate);
-        p = (Painter) v.cache.get(tmpKey);
+        p = (SeaGlassPainter) v.cache.get(tmpKey);
 
         if (p != null)
             return p;
@@ -1118,7 +1115,7 @@ public class SeaGlassStyle extends SynthStyle {
         }
 
         if (p == null)
-            p = (Painter) get(ctx, "foregroundPainter");
+            p = (SeaGlassPainter) get(ctx, "foregroundPainter");
 
         if (p != null) {
             v.cache.put(new CacheKey("foregroundPainter$$instance", xstate), p);
@@ -1137,14 +1134,14 @@ public class SeaGlassStyle extends SynthStyle {
      * @return The border painter associated for the given state, or null if
      *         none could be found.
      */
-    public Painter getBorderPainter(SynthContext ctx) {
+    public SeaGlassPainter getBorderPainter(SynthContext ctx) {
         Values  v      = getValues(ctx);
         int     xstate = getExtendedState(ctx, v);
-        Painter p      = null;
+        SeaGlassPainter p      = null;
 
         // check the cache
         tmpKey.init("borderPainter$$instance", xstate);
-        p = (Painter) v.cache.get(tmpKey);
+        p = (SeaGlassPainter) v.cache.get(tmpKey);
 
         if (p != null)
             return p;
@@ -1163,7 +1160,7 @@ public class SeaGlassStyle extends SynthStyle {
         }
 
         if (p == null)
-            p = (Painter) get(ctx, "borderPainter");
+            p = (SeaGlassPainter) get(ctx, "borderPainter");
 
         if (p != null) {
             v.cache.put(new CacheKey("borderPainter$$instance", xstate), p);
@@ -1435,9 +1432,9 @@ public class SeaGlassStyle extends SynthStyle {
      */
     private final class RuntimeState implements Cloneable {
         int        state;
-        Painter    backgroundPainter;
-        Painter    foregroundPainter;
-        Painter    borderPainter;
+        SeaGlassPainter    backgroundPainter;
+        SeaGlassPainter    foregroundPainter;
+        SeaGlassPainter    borderPainter;
         String     stateName;
         UIDefaults defaults = new UIDefaults(10, .7f);
 

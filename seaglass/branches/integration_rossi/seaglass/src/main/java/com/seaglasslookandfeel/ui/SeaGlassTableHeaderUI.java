@@ -19,10 +19,6 @@
  */
 package com.seaglasslookandfeel.ui;
 
-import sun.swing.DefaultLookup;
-
-import sun.swing.plaf.synth.SynthUI;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FontMetrics;
@@ -30,10 +26,8 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import java.io.Serializable;
 
 import javax.swing.Icon;
@@ -54,6 +48,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
+import sun.swing.DefaultLookup;
+
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.component.SeaGlassBorder;
@@ -65,7 +61,7 @@ import com.seaglasslookandfeel.component.SeaGlassBorder;
  *
  * @see javax.swing.plaf.synth.SynthTableHeaderUI
  */
-public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements PropertyChangeListener, SeaglassUI {
 
     private TableCellRenderer prevRenderer = null;
 
@@ -178,7 +174,7 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
@@ -189,7 +185,7 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
     // SynthUI
     //
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));

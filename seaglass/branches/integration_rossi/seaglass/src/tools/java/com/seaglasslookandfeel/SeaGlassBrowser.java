@@ -52,7 +52,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 
-import com.sun.java.swing.Painter;
+import com.seaglasslookandfeel.painter.SeaGlassPainter;
 
 /**
  * SeaGlassBrowser. Generates a web page displaying the controls and defaults
@@ -265,8 +265,8 @@ public class SeaGlassBrowser {
             printInsets(html, (Insets) value);
         } else if (value instanceof Border) {
             printBorder(html, (Border) value);
-        } else if (value instanceof Painter) {
-            printPainter(html, (Painter<?>) value);
+        } else if (value instanceof SeaGlassPainter) {
+            printPainter(html, (SeaGlassPainter<?>) value);
         } else if (value instanceof InputMap) {
             // ignore, not intresting
             html.println("<td>&nbsp;</td>");
@@ -286,7 +286,7 @@ public class SeaGlassBrowser {
         html.println("<td width=\"100\" bgcolor=\"#" + getWebColor(color) + "\">&nbsp;</td>");
     }
 
-    static void printPainter(PrintWriter html, Painter<?> painter) {
+    static void printPainter(PrintWriter html, SeaGlassPainter<?> painter) {
         html.println("<td>Painter</td>");
         int w = 25, h = 25;
         try {

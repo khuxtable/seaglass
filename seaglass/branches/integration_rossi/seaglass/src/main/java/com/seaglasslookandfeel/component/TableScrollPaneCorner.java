@@ -26,7 +26,7 @@ import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.plaf.UIResource;
 
-import com.seaglasslookandfeel.painter.Painter;
+import com.seaglasslookandfeel.painter.SeaGlassPainter;
 
 /**
  * TableScrollPaneCorner - A simple component that paints itself using the table
@@ -46,7 +46,7 @@ public class TableScrollPaneCorner extends JComponent implements UIResource {
      */
     @Override
     protected void paintComponent(Graphics g) {
-        Painter painter = (Painter) UIManager.get("TableHeader:\"TableHeader.renderer\"[Enabled].backgroundPainter");
+        SeaGlassPainter painter = (SeaGlassPainter) UIManager.get("TableHeader:\"TableHeader.renderer\"[Enabled].backgroundPainter");
 
         if (painter != null) {
 

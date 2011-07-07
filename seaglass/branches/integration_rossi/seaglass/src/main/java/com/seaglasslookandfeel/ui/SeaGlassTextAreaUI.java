@@ -39,9 +39,7 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
 
-import sun.swing.plaf.synth.SynthUI;
-
-public class SeaGlassTextAreaUI extends BasicTextAreaUI implements SynthUI, FocusListener {
+public class SeaGlassTextAreaUI extends BasicTextAreaUI implements SeaglassUI, FocusListener {
     private SeaGlassStyle style;
 
     /**

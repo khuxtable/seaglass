@@ -66,12 +66,12 @@ import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.plaf.synth.SynthStyle;
 
 import sun.swing.SwingUtilities2;
-import sun.swing.plaf.synth.SynthUI;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.ui.SeaGlassButtonUI;
 import com.seaglasslookandfeel.ui.SeaGlassRootPaneUI;
+import com.seaglasslookandfeel.ui.SeaglassUI;
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
 /**
@@ -82,7 +82,7 @@ import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
  *
  * @author Kathryn Huxtable
  */
-public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyChangeListener {
+public class SeaGlassTitlePane extends JComponent implements SeaglassUI, PropertyChangeListener {
     private static final long   serialVersionUID         = 7006086880911744060L;
     private static final String WINDOW_DOCUMENT_MODIFIED = "Window.documentModified";
 
@@ -152,7 +152,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
@@ -540,7 +540,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
         SeaGlassContext context  = getContext(this, ENABLED);
         SynthStyle      oldStyle = style;
 
-        style = SeaGlassLookAndFeel.updateStyle(context, this);
+        style = SeaGlassLookAndFeel.updateSeaglassStyle(context, this);
 
         if (style != oldStyle) {
             titleSpacing = style.getInt(context, "InternalFrameTitlePane.titleSpacing", 2);
@@ -757,7 +757,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {

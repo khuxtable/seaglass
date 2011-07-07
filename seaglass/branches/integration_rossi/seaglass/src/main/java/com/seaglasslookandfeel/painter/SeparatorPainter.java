@@ -27,10 +27,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
-import com.seaglasslookandfeel.painter.AbstractRegionPainter.TwoColors;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
-import com.seaglasslookandfeel.painter.SeparatorPainter.Which;
-import com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter.ToolbarToggleButtonType;
 
 /**
  * DOCUMENT ME!

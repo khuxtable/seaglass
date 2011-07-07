@@ -35,11 +35,10 @@ import javax.swing.plaf.synth.SynthPainter;
 import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.component.SeaGlassBorder;
-import com.seaglasslookandfeel.painter.Painter;
+import com.seaglasslookandfeel.painter.SeaGlassPainter;
+import com.seaglasslookandfeel.ui.SeaglassUI;
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
-
-import sun.swing.plaf.synth.SynthUI;
 
 /**
  * A SynthStyle implementation used by SeaGlass. This just wraps a SynthStyle
@@ -97,7 +96,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      * @param context the context.
      * @param ui      the UI delegate.
      */
-    public void installDefaults(SeaGlassContext context, SynthUI ui) {
+    public void installDefaults(SeaGlassContext context, SeaglassUI ui) {
         // Special case the Border as this will likely change when the LAF
         // can have more control over this.
         if (!context.isSubregion()) {
@@ -200,7 +199,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      *         none could be found.
      */
     @SuppressWarnings("unchecked")
-    public Painter getBackgroundPainter(SynthContext ctx) {
+    public SeaGlassPainter getBackgroundPainter(SynthContext ctx) {
         if (!(style instanceof SeaGlassStyle)) {
             return null;
         }
@@ -219,7 +218,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      *         none could be found.
      */
     @SuppressWarnings("unchecked")
-    public Painter getForegroundPainter(SynthContext ctx) {
+    public SeaGlassPainter getForegroundPainter(SynthContext ctx) {
         if (!(style instanceof SeaGlassStyle)) {
             return null;
         }
@@ -238,7 +237,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      *         none could be found.
      */
     @SuppressWarnings("unchecked")
-    public Painter getBorderPainter(SynthContext ctx) {
+    public SeaGlassPainter getBorderPainter(SynthContext ctx) {
         if (!(style instanceof SeaGlassStyle)) {
             return null;
         }
@@ -249,20 +248,20 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
     /**
      * Wrap the sun Painter class with our own.
      */
-    public class PainterWrapper implements Painter {
-        private com.sun.java.swing.Painter painter;
+    public class PainterWrapper implements SeaGlassPainter {
+        private SeaGlassPainter<Object> painter;
 
         /**
          * Creates a new PainterWrapper object.
          *
          * @param painter the painter to be wrapped.
          */
-        public PainterWrapper(com.sun.java.swing.Painter painter) {
+        public PainterWrapper(SeaGlassPainter<Object> painter) {
             this.painter = painter;
         }
 
         /**
-         * @see com.seaglasslookandfeel.painter.Painter#paint(java.awt.Graphics2D,
+         * @see com.seaglasslookandfeel.painter.SeaGlassPainter#paint(java.awt.Graphics2D,
          *      java.lang.Object, int, int)
          */
         public void paint(Graphics2D g, Object object, int width, int height) {

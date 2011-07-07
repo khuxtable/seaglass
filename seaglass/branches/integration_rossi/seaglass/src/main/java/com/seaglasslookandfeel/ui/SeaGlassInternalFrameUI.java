@@ -43,8 +43,6 @@ import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.component.SeaGlassInternalFrameTitlePane;
 
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * SeaGlassInternalFrameUI implementation.
  * 
@@ -52,7 +50,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthInternalFrameUI
  */
-public class SeaGlassInternalFrameUI extends BasicInternalFrameUI implements SynthUI, PropertyChangeListener {
+public class SeaGlassInternalFrameUI extends BasicInternalFrameUI implements SeaglassUI, PropertyChangeListener {
     private SynthStyle                     style;
 
     private SeaGlassInternalFrameTitlePane titlePane;
