@@ -60,8 +60,6 @@ import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.component.SeaGlassArrowButton;
 import com.seaglasslookandfeel.component.SeaGlassComboPopup;
 
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * SeaGlassComboBoxUI.
  * 
@@ -69,7 +67,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthComboBoxUI
  */
-public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChangeListener, SeaglassUI {
     private SeaGlassStyle      style;
     private boolean            useListColors;
 
@@ -433,7 +431,7 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
      * NOTE: This method was copied in its entirety from BasicComboBoxUI. Might
      * want to make it protected in BasicComboBoxUI in Java 7
      */
-    private Dimension getSizeForComponent(Component comp) {
+    protected Dimension getSizeForComponent(Component comp) {
         currentValuePane.add(comp);
         comp.setFont(comboBox.getFont());
         Dimension d = comp.getPreferredSize();

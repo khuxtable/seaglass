@@ -41,6 +41,8 @@ import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.plaf.synth.SynthStyle;
 
+import sun.swing.DefaultLookup;
+
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassRegion;
@@ -49,9 +51,6 @@ import com.seaglasslookandfeel.component.SeaGlassArrowButton;
 import com.seaglasslookandfeel.state.ScrollBarButtonsTogetherState;
 import com.seaglasslookandfeel.state.State;
 
-import sun.swing.DefaultLookup;
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * SeaGlassScrollBarUI implementation.
  * 
@@ -59,7 +58,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthScrollBarUI
  */
-public class SeaGlassScrollBarUI extends BasicScrollBarUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassScrollBarUI extends BasicScrollBarUI implements PropertyChangeListener, SeaglassUI {
 
     private static final State  buttonsTogether = new ScrollBarButtonsTogetherState();
 

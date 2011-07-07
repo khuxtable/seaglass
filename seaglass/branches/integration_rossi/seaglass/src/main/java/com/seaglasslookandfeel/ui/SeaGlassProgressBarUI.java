@@ -46,14 +46,13 @@ import javax.swing.plaf.synth.ColorType;
 import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthStyle;
 
+import sun.swing.SwingUtilities2;
+
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.painter.util.ShapeGenerator;
 import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
-
-import sun.swing.SwingUtilities2;
-import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassProgressBarUI implementation.
@@ -62,7 +61,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthProgressBarUI
  */
-public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SynthUI, PropertyChangeListener {
+public class SeaGlassProgressBarUI extends BasicProgressBarUI implements SeaglassUI, PropertyChangeListener {
     private SynthStyle style;
     private int        progressPadding;
     // added for Nimbus LAF

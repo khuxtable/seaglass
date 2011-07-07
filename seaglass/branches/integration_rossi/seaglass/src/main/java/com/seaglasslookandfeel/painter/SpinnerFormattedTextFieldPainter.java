@@ -25,7 +25,6 @@ import java.awt.Shape;
 import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
-import com.seaglasslookandfeel.painter.AbstractCommonColorsPainter.CommonControlState;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerStyle;

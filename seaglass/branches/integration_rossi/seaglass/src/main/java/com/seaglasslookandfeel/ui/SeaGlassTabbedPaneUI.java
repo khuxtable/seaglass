@@ -58,7 +58,6 @@ import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.text.View;
 
 import sun.swing.SwingUtilities2;
-import sun.swing.plaf.synth.SynthUI;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
@@ -73,7 +72,7 @@ import com.seaglasslookandfeel.util.SeaGlassTabCloseListener;
  *
  * <p>Based on SynthTabbedPaneUI.</p>
  */
-public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, PropertyChangeListener {
+public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SeaglassUI, PropertyChangeListener {
 
     private SeaGlassContext tabAreaContext;
     private SeaGlassContext tabContext;
@@ -398,7 +397,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
@@ -587,7 +586,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {

@@ -36,7 +36,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JComponent;
@@ -56,6 +55,8 @@ import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.View;
 
+import sun.swing.SwingUtilities2;
+
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassRegion;
@@ -66,17 +67,13 @@ import com.seaglasslookandfeel.state.SearchFieldHasPopupState;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.state.TextFieldIsSearchState;
 
-import sun.swing.SwingUtilities2;
-
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * Sea Glass TextField UI delegate.
  *
  * <p>Based on SynthTextFieldUI, but we need to set preferred sizes and handle
  * search fields.</p>
  */
-public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, FocusListener {
+public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SeaglassUI, FocusListener {
 
     private static final State isSearchField = new TextFieldIsSearchState();
     private static final State hasPopupMenu  = new SearchFieldHasPopupState();
@@ -336,7 +333,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
@@ -464,7 +461,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
@@ -825,7 +822,7 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SynthUI, Fo
          * @param ui     DOCUMENT ME!
          * @param insets DOCUMENT ME!
          */
-        public TextFieldBorder(SynthUI ui, Insets insets) {
+        public TextFieldBorder(SeaglassUI ui, Insets insets) {
             super(ui, insets);
         }
 

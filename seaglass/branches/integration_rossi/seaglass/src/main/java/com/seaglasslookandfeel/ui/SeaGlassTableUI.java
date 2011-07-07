@@ -19,8 +19,6 @@
  */
 package com.seaglasslookandfeel.ui;
 
-import sun.swing.plaf.synth.SynthUI;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -28,14 +26,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.NumberFormat;
-
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -83,7 +78,7 @@ import com.seaglasslookandfeel.util.WindowUtils;
  *
  * @see javax.swing.plaf.synth.SynthTableUI
  */
-public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyChangeListener, ViewportPainter {
+public class SeaGlassTableUI extends BasicTableUI implements SeaglassUI, PropertyChangeListener, ViewportPainter {
 
     private static final CellRendererPane CELL_RENDER_PANE = new CellRendererPane();
 
@@ -338,7 +333,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     // SynthUI
     //
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
@@ -385,7 +380,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {

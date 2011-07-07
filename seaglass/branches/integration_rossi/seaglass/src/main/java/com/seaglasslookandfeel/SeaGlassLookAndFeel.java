@@ -77,7 +77,6 @@ import javax.swing.plaf.synth.SynthStyleFactory;
 import sun.swing.plaf.GTKKeybindings;
 import sun.swing.plaf.WindowsKeybindings;
 import sun.swing.plaf.synth.DefaultSynthStyle;
-import sun.swing.plaf.synth.SynthUI;
 
 import com.seaglasslookandfeel.component.SeaGlassIcon;
 import com.seaglasslookandfeel.component.SeaGlassTitlePane;
@@ -96,8 +95,8 @@ import com.seaglasslookandfeel.painter.FrameAndRootPainter;
 import com.seaglasslookandfeel.painter.MenuItemPainter;
 import com.seaglasslookandfeel.painter.MenuPainter;
 import com.seaglasslookandfeel.painter.OptionPanePainter;
+import com.seaglasslookandfeel.painter.SeaGlassPainter;
 import com.seaglasslookandfeel.painter.PopupMenuPainter;
-import com.seaglasslookandfeel.painter.PopupMenuSeparatorPainter;
 import com.seaglasslookandfeel.painter.ProgressBarPainter;
 import com.seaglasslookandfeel.painter.RadioButtonMenuItemPainter;
 import com.seaglasslookandfeel.painter.RadioButtonPainter;
@@ -160,10 +159,10 @@ import com.seaglasslookandfeel.state.TitlePaneMaximizeButtonWindowNotFocusedStat
 import com.seaglasslookandfeel.state.TitlePaneMenuButtonWindowNotFocusedState;
 import com.seaglasslookandfeel.state.TitlePaneWindowFocusedState;
 import com.seaglasslookandfeel.state.ToolBarWindowIsActiveState;
+import com.seaglasslookandfeel.ui.SeaglassUI;
 import com.seaglasslookandfeel.util.MacKeybindings;
 import com.seaglasslookandfeel.util.PlatformUtils;
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
-import com.sun.java.swing.Painter;
 
 /**
  * This is the main Sea Glass Look and Feel class.
@@ -579,6 +578,29 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
             uiDefaults.put(uiName, UI_PACKAGE_PREFIX + uiName);
         }
     }
+    
+    
+    /**
+     * A convience method that will reset the Style of StyleContext if
+     * necessary.
+     *
+     * @return newStyle
+     */
+   
+    public static SynthStyle updateSeaglassStyle(SynthContext context, SeaglassUI ui) {
+        SynthStyle newStyle = getStyle(context.getComponent(), context.getRegion());
+        // TODO rossi 04.07.2011 this code is now private in the Synth L&F
+//        SynthStyle oldStyle = context.getStyle();
+//
+//        if (newStyle != oldStyle) {
+//            if (oldStyle != null) {
+//                oldStyle.uninstallDefaults(context);
+//            }
+//            context.setStyle(newStyle);
+//            newStyle.installDefaults(context, ui);
+//        }
+        return newStyle;
+    }    
 
     /**
      * Use our UI delegate for the specified UI control type.
@@ -2681,7 +2703,7 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
      *
      * @return the new, updated style.
      */
-    public static SynthStyle updateStyle(SeaGlassContext context, SynthUI ui) {
+    public static SynthStyle updateStyle(SeaGlassContext context, SeaglassUI ui) {
         SynthStyle newStyle = SynthLookAndFeel.getStyle(context.getComponent(), context.getRegion());
         SynthStyle oldStyle = context.getStyle();
 
@@ -2712,13 +2734,13 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
         if (c.isEnabled()) {
 
             if (c.isFocusOwner()) {
-                return SynthUI.ENABLED | SynthUI.FOCUSED;
+                return SeaglassUI.ENABLED | SeaglassUI.FOCUSED;
             }
 
-            return SynthUI.ENABLED;
+            return SeaglassUI.ENABLED;
         }
 
-        return SynthUI.DISABLED;
+        return SeaglassUI.DISABLED;
     }
 
     /**
@@ -3273,7 +3295,7 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
      */
     private static final class PainterBorder implements Border, UIResource {
         private Insets  insets;
-        private Painter painter;
+        private SeaGlassPainter<Component> painter;
         private String  painterKey;
 
         /**
@@ -3293,7 +3315,7 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
          */
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
             if (painter == null) {
-                painter = (Painter) UIManager.get(painterKey);
+                painter = (SeaGlassPainter<Component>) UIManager.get(painterKey);
 
                 if (painter == null)
                     return;
