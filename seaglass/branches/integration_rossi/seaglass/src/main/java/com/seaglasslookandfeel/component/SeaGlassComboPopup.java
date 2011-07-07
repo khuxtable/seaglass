@@ -256,7 +256,8 @@ public class SeaGlassComboPopup extends BasicComboPopup {
      * @return the maximum row count to display.
      */
     private int getMaximumRowCount() {
-        return isEditable() ? comboBox.getMaximumRowCount() : 100;
+       // return isEditable() ? comboBox.getMaximumRowCount() : 100;
+        return comboBox.getMaximumRowCount();
     }
 
     /**
