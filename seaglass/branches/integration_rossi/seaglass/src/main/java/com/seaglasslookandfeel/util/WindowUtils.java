@@ -20,6 +20,7 @@
 package com.seaglasslookandfeel.util;
 
 import java.awt.Component;
+import java.awt.Shape;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -57,13 +58,33 @@ public class WindowUtils {
     public static void makeWindowNonOpaque(Window window) {
         // on the mac, simply setting the window's background color to be fully
         // transparent makes the window non-opaque.
-        window.setBackground(UIManager.getColor("seaGlassTransparent"));
+//        window.setBackground(UIManager.getColor("seaGlassTransparent"));
 
         // on non-mac platforms, try to use the facilities of Java 6 update 10.
         if (!PlatformUtils.isMac()) {
             quietlyTryToMakeWindowNonOqaque(window);
+        } else {
+            window.setBackground(UIManager.getColor("seaGlassTransparent"));
         }
     }
+    
+    /**
+     * Sets the shape of a window.
+     * This will be done via a com.sun API and may be not available on all platforms.
+     * @param window to change the shape for 
+     * @param s the new shape for the window.
+     */
+    @SuppressWarnings("unchecked")
+    public static void setWindowShape(Window window, Shape s) {
+        try {
+            Class  clazz  = Class.forName("com.sun.awt.AWTUtilities");
+            Method method = clazz.getMethod("setWindowShape", java.awt.Window.class, Shape.class);
+            method.invoke(clazz, window, s);
+        } catch (Exception e) {
+            // silently ignore this exception.
+        }
+    }
+
 
     /**
      * Trys to invoke
