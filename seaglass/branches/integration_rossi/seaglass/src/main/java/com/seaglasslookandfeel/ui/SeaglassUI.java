@@ -19,7 +19,6 @@
  */
 package com.seaglasslookandfeel.ui;
 
-import sun.swing.plaf.synth.SynthUI;
 
 /**
  * This interface is encapsulates the dependency to the SynthUI 
@@ -27,6 +26,7 @@ import sun.swing.plaf.synth.SynthUI;
  * @author Kathryn Huxtable
  *
  */
-public interface SeaglassUI extends SynthUI {
+
+public interface SeaglassUI extends javax.swing.plaf.synth.SynthUI, sun.swing.plaf.synth.SynthUI {
 
 }
