@@ -21,14 +21,12 @@ package com.seaglasslookandfeel.painter;
 
 import java.awt.Graphics2D;
 
-import com.sun.java.swing.Painter;
-
 /**
  * An interface that allows painting to be delegated. The implementation of this
  * interface will be called during the painting process of the given {@code
  * objectToPaint}.
  */
-public interface SeaGlassPainter<T> extends Painter<T> {
+public interface SeaGlassPainter<T> extends javax.swing.Painter<T>, com.sun.java.swing.Painter<T> {
 
     /**
      * Renders to the given {@link Graphics2D}. The supplied graphics context
