@@ -50,12 +50,11 @@ import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.text.View;
 
+import sun.swing.SwingUtilities2;
+
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
-
-import sun.swing.SwingUtilities2;
-import sun.swing.plaf.synth.SynthIcon;
-import sun.swing.plaf.synth.SynthUI;
+import com.seaglasslookandfeel.component.SeaGlassIcon;
 
 /**
  * Sea Glass MenuItemUI delegate.
@@ -65,7 +64,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthMenuItemUI
  */
-public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChangeListener, SeaglassUI {
     private SynthStyle style;
     private SynthStyle accStyle;
 
@@ -114,7 +113,6 @@ public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChang
         // find the union of the icon and text rects
         r.setBounds(textRect);
         r = SwingUtilities.computeUnion(iconRect.x, iconRect.y, iconRect.width, iconRect.height, r);
-
         // To make the accelerator texts appear in a column,
         // find the widest MenuItem text and the widest accelerator text.
 
@@ -216,7 +214,7 @@ public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChang
 
         // Paint the Check
         if (checkIcon != null && useCheckAndArrow) {
-            SynthIcon.paintIcon(checkIcon, context, g, checkIconRect.x, checkIconRect.y, checkIconRect.width, checkIconRect.height);
+            SeaGlassIcon.paintIcon(checkIcon, context, g, checkIconRect.x, checkIconRect.y, checkIconRect.width, checkIconRect.height);
         }
 
         // Paint the Icon
@@ -235,7 +233,7 @@ public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChang
             }
 
             if (icon != null) {
-                SynthIcon.paintIcon(icon, context, g, iconRect.x, iconRect.y, iconRect.width, iconRect.height);
+                SeaGlassIcon.paintIcon(icon, context, g, iconRect.x, iconRect.y, iconRect.width, iconRect.height);
             }
         }
 
@@ -278,7 +276,7 @@ public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChang
 
         // Paint the Arrow
         if (arrowIcon != null && useCheckAndArrow) {
-            SynthIcon.paintIcon(arrowIcon, context, g, arrowIconRect.x, arrowIconRect.y, arrowIconRect.width, arrowIconRect.height);
+            SeaGlassIcon.paintIcon(arrowIcon, context, g, arrowIconRect.x, arrowIconRect.y, arrowIconRect.width, arrowIconRect.height);
         }
     }
 
@@ -326,8 +324,8 @@ public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChang
 
         if (useCheckAndArrow) {
             if (checkIcon != null) {
-                checkIconRect.width = SynthIcon.getIconWidth(checkIcon, context);
-                checkIconRect.height = SynthIcon.getIconHeight(checkIcon, context);
+                checkIconRect.width = SeaGlassIcon.getIconWidth(checkIcon, context);
+                checkIconRect.height = SeaGlassIcon.getIconHeight(checkIcon, context);
             } else {
                 checkIconRect.width = checkIconRect.height = 0;
             }
@@ -337,8 +335,8 @@ public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChang
              */
 
             if (arrowIcon != null) {
-                arrowIconRect.width = SynthIcon.getIconWidth(arrowIcon, context);
-                arrowIconRect.height = SynthIcon.getIconHeight(arrowIcon, context);
+                arrowIconRect.width = SeaGlassIcon.getIconWidth(arrowIcon, context);
+                arrowIconRect.height = SeaGlassIcon.getIconHeight(arrowIcon, context);
             } else {
                 arrowIconRect.width = arrowIconRect.height = 0;
             }
@@ -580,8 +578,9 @@ public class SeaGlassMenuItemUI extends BasicMenuItemUI implements PropertyChang
         SeaGlassContext accContext = getContext(menuItem, Region.MENU_ITEM_ACCELERATOR);
 
         String prefix = getPropertyPrefix();
-        paint(context, accContext, g, style.getIcon(getContext(context.getComponent()), prefix + ".checkIcon"), style.getIcon(
-            getContext(context.getComponent()), prefix + ".arrowIcon"), true, acceleratorDelimiter, defaultTextIconGap);
+        Icon arIcon = style.getIcon(
+            getContext(context.getComponent()), prefix + ".arrowIcon");
+        paint(context, accContext, g, style.getIcon(getContext(context.getComponent()), prefix + ".checkIcon"), arIcon, true, acceleratorDelimiter, defaultTextIconGap);
         accContext.dispose();
     }
 

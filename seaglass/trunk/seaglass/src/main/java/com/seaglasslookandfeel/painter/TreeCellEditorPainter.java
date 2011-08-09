@@ -35,8 +35,8 @@ public final class TreeCellEditorPainter extends AbstractRegionPainter {
     private Which        state;
     private PaintContext ctx;
 
-    private Color        outlineColor = decodeColor("nimbusBlueGrey", 0.0f, -0.017358616f, -0.11372548f, 0);
-    private Color        focusColor   = decodeColor("nimbusFocus", 0.0f, 0.0f, 0.0f, 0);
+    private Color        outlineColor = decodeColor("seaGlassBlueGrey", 0.0f, -0.017358616f, -0.11372548f, 0);
+    private Color        focusColor   = decodeColor("seaGlassFocus", 0.0f, 0.0f, 0.0f, 0);
 
     public TreeCellEditorPainter(Which state) {
         super();

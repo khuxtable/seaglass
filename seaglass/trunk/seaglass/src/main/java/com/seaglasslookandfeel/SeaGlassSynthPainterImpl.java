@@ -34,14 +34,13 @@ import javax.swing.SwingConstants;
 import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthPainter;
 
-import com.seaglasslookandfeel.painter.Painter;
+import com.seaglasslookandfeel.painter.SeaGlassPainter;
 
 /**
  * SeaGlassSynthPainterImpl.
  *
  * <p>Based on Nimbus's SynthPainterImpl class by Richard Bair.</p>
  *
- * @see com.sun.java.swing.plaf.nimbus.SynthPainterImpl
  */
 @SuppressWarnings("unchecked")
 public class SeaGlassSynthPainterImpl extends SynthPainter {
@@ -72,7 +71,7 @@ public class SeaGlassSynthPainterImpl extends SynthPainter {
      * @param transform the affine transform to apply, or {@code null} if none
      *                  is to be applied.
      */
-    private void paint(Painter p, SynthContext ctx, Graphics g, int x, int y, int w, int h, AffineTransform transform) {
+    private void paint(SeaGlassPainter p, SynthContext ctx, Graphics g, int x, int y, int w, int h, AffineTransform transform) {
         if (p != null) {
 
             if (g instanceof Graphics2D) {
@@ -140,7 +139,7 @@ public class SeaGlassSynthPainterImpl extends SynthPainter {
         Color     bg = (c != null) ? c.getBackground() : null;
 
         if (bg == null || bg.getAlpha() > 0) {
-            Painter backgroundPainter = style.getBackgroundPainter(ctx);
+            SeaGlassPainter backgroundPainter = style.getBackgroundPainter(ctx);
 
             if (backgroundPainter != null) {
                 paint(backgroundPainter, ctx, g, x, y, w, h, transform);
@@ -163,7 +162,7 @@ public class SeaGlassSynthPainterImpl extends SynthPainter {
      *                  is to be applied.
      */
     private void paintForeground(SynthContext ctx, Graphics g, int x, int y, int w, int h, AffineTransform transform) {
-        Painter foregroundPainter = style.getForegroundPainter(ctx);
+        SeaGlassPainter foregroundPainter = style.getForegroundPainter(ctx);
 
         if (foregroundPainter != null) {
             paint(foregroundPainter, ctx, g, x, y, w, h, transform);
@@ -185,7 +184,7 @@ public class SeaGlassSynthPainterImpl extends SynthPainter {
      *                  is to be applied.
      */
     private void paintBorder(SynthContext ctx, Graphics g, int x, int y, int w, int h, AffineTransform transform) {
-        Painter borderPainter = style.getBorderPainter(ctx);
+        SeaGlassPainter borderPainter = style.getBorderPainter(ctx);
 
         if (borderPainter != null) {
             paint(borderPainter, ctx, g, x, y, w, h, transform);
@@ -402,13 +401,13 @@ public class SeaGlassSynthPainterImpl extends SynthPainter {
 
                 transform.scale(-1, 1);
                 transform.rotate(Math.toRadians(90));
-                paintForeground(context, g, y, 0, h, w, transform);
+                paintForeground(context, g, y, x, h, w, transform);
             } else {
                 AffineTransform transform = new AffineTransform();
 
                 transform.rotate(Math.toRadians(90));
                 transform.translate(0, -(x + w));
-                paintForeground(context, g, y, 0, h, w, transform);
+                paintForeground(context, g, y, x, h, w, transform);
             }
         } else if (direction == SwingConstants.EAST) {
             AffineTransform transform = new AffineTransform();

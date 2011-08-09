@@ -46,12 +46,12 @@ public final class TableHeaderRendererPainter extends AbstractCommonColorsPainte
 
     private Color tableHeaderBorderDisabled = disable(tableHeaderBorderEnabled);
 
-    private Color tableHeaderTopEnabled      = deriveColor(tableHeaderInteriorBaseEnabled, -0.027778f, -0.020842f,
-                                                           0.035294f, 0);
+    private Color tableHeaderTopEnabled      = deriveColor(tableHeaderInteriorBaseEnabled, -0.027778f, -0.220842f,
+                                                           0.335294f, 0);
     private Color tableHeaderUpperMidEnabled = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, 0.000405f, -0.011765f, 0);
     private Color tableHeaderLowerMidEnabled = deriveColor(tableHeaderInteriorBaseEnabled, 0f, -0.000264f, 0.007843f, 0);
-    private Color tableHeaderBottomEnabled   = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, -0.001033f,
-                                                           0.031373f, 0);
+    private Color tableHeaderBottomEnabled   = deriveColor(tableHeaderInteriorBaseEnabled, -0.020833f, -0.201033f,
+                                                           0.331373f, 0);
 
     private FourColors tableHeaderEnabled        = new FourColors(tableHeaderTopEnabled, tableHeaderUpperMidEnabled,
                                                                   tableHeaderLowerMidEnabled, tableHeaderBottomEnabled);
@@ -157,9 +157,9 @@ public final class TableHeaderRendererPainter extends AbstractCommonColorsPainte
      * @return DOCUMENT ME!
      */
     public Paint getTableHeaderInteriorPaint(Shape s, CommonControlState type, boolean isSorted) {
-        FourColors colors = getTableHeaderColors(type, isSorted);
-
-        return createVerticalGradient(s, colors);
+        return getCommonInteriorPaint(s, type);
+//        FourColors colors = getTableHeaderColors(type, isSorted);
+//        return createVerticalGradient(s, colors);
     }
 
     /**

@@ -183,7 +183,10 @@ public class SeaGlassSplitPaneDivider extends BasicSplitPaneDivider {
 
         b.setName("SplitPaneDivider.leftOneTouchButton");
         b.setMinimumSize(new Dimension(oneTouchSize, oneTouchSize));
-        b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        b.setCursor(Cursor.getPredefinedCursor(
+            splitPane.getOrientation() == 
+                JSplitPane.HORIZONTAL_SPLIT ? 
+                        Cursor.W_RESIZE_CURSOR:Cursor.N_RESIZE_CURSOR));
         b.setFocusPainted(false);
         b.setBorderPainted(false);
         b.setRequestFocusEnabled(false);
@@ -213,7 +216,11 @@ public class SeaGlassSplitPaneDivider extends BasicSplitPaneDivider {
 
         b.setName("SplitPaneDivider.rightOneTouchButton");
         b.setMinimumSize(new Dimension(oneTouchSize, oneTouchSize));
-        b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        // Rossi: Change cursors on "one touch" buttons. Better would be an mouse over effect
+        b.setCursor(Cursor.getPredefinedCursor(
+            splitPane.getOrientation() == 
+                JSplitPane.HORIZONTAL_SPLIT ? 
+                        Cursor.E_RESIZE_CURSOR:Cursor.S_RESIZE_CURSOR));
         b.setFocusPainted(false);
         b.setBorderPainted(false);
         b.setRequestFocusEnabled(false);

@@ -26,8 +26,11 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
 
 /**
  * Nimbus's ScrollPanePainter.
@@ -47,11 +50,9 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
     private Which        state;
     private PaintContext ctx;
 
-    private Color borderColor = decodeColor("nimbusBorder");
-
-    private Color cornerBorder = new Color(192, 192, 192);
-    private Color cornerColor1 = new Color(240, 240, 240);
-    private Color cornerColor2 = new Color(212, 212, 212);
+    private Color borderColor = decodeColor("seaGlassTextEnabledBorder");
+    private Color cornerColor1 = new Color(250, 250, 250);
+    private Color cornerColor2 = new Color(190, 190, 190);
 
     /**
      * Creates a new ScrollPanePainter object.
@@ -70,6 +71,9 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
      */
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
+        case BACKGROUND_ENABLED:
+            paintBackground(g, c, width, height);
+            break;
 
         case BORDER_ENABLED:
             paintBorderEnabled(g, width, height);
@@ -82,6 +86,15 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
         case CORNER_ENABLED:
             paintCornerEnabled(g, width, height);
             break;
+        }
+    }
+
+    private void paintBackground(Graphics2D g, JComponent c, int width, int height) {
+        JViewport viewport = ((JScrollPane)c).getViewport();
+        if (viewport.isOpaque()) {
+            Shape s = shapeGenerator.createRoundRectangle(0, 0, width - 1, height - 1, CornerSize.BORDER);
+            g.setPaint(viewport.getBackground());
+            g.fill(s);
         }
     }
 
@@ -100,11 +113,10 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
      * @param height DOCUMENT ME!
      */
     private void paintBorderEnabled(Graphics2D g, int width, int height) {
+        Shape   s;
+        s = shapeGenerator.createRoundRectangle(0, 0, width - 1, height - 1, CornerSize.BORDER);
         g.setPaint(borderColor);
-        g.drawLine(3, 2, width - 4, 2);
-        g.drawLine(2, 2, 2, height - 3);
-        g.drawLine(width - 3, 2, width - 3, height - 3);
-        g.drawLine(3, height - 3, width - 4, height - 3);
+        g.draw(s);
     }
 
     /**
@@ -115,15 +127,20 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
      * @param height DOCUMENT ME!
      */
     private void paintBorderFocused(Graphics2D g, int width, int height) {
-        paintBorderEnabled(g, width, height);
+        Shape   s;
 
-        Shape s = shapeGenerator.createRectangle(0, 0, width - 1, height - 1);
-
+        s = shapeGenerator.createRoundRectangle(0, 0, width - 1, height - 1, CornerSize.OUTER_FOCUS);
         g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, false));
         g.draw(s);
-        s = shapeGenerator.createRectangle(1, 1, width - 3, height - 3);
+
+        s = shapeGenerator.createRoundRectangle(1, 1, width - 3, height - 3, CornerSize.INNER_FOCUS);
         g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, false));
         g.draw(s);
+        
+        s = shapeGenerator.createRoundRectangle(2, 2, width - 5, height - 5, CornerSize.BORDER);
+        g.setPaint(borderColor);
+        g.draw(s);
+
     }
 
     /**
@@ -136,8 +153,8 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
     private void paintCornerEnabled(Graphics2D g, int width, int height) {
         Shape s = decodeCornerBorder(width, height);
 
-        g.setPaint(cornerBorder);
-        g.fill(s);
+//        g.setPaint(cornerBorder);
+//        g.fill(s);
         s = decodeCornerInside(width, height);
         g.setPaint(decodeCornerGradient(s));
         g.fill(s);
@@ -164,7 +181,7 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
      * @return DOCUMENT ME!
      */
     private Shape decodeCornerInside(int width, int height) {
-        return shapeGenerator.createRectangle(1, 1, width - 2, height - 2);
+        return shapeGenerator.createRectangle(0, 0, width, height);
     }
 
     /**
@@ -179,6 +196,6 @@ public final class ScrollPanePainter extends AbstractRegionPainter {
         float       w      = (float) bounds.getWidth();
         float       h      = (float) bounds.getHeight();
 
-        return createGradient(1, 1, w - 2, h - 2, new float[] { 0f, 1f }, new Color[] { cornerColor1, cornerColor2 });
+        return createGradient(0, 0, w - 1, h - 1, new float[] { 0f, 1f }, new Color[] { cornerColor2, cornerColor1 });
     }
 }

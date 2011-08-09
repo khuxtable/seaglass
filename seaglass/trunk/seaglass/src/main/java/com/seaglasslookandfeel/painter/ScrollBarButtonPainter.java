@@ -189,7 +189,6 @@ public final class ScrollBarButtonPainter extends AbstractRegionPainter {
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
-
         case FOREGROUND_DISABLED:
         case FOREGROUND_ENABLED:
         case FOREGROUND_PRESSED:

@@ -46,8 +46,6 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.component.SeaGlassSplitPaneDivider;
 
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * SeaGlassSplitPaneUI implementation.
  * 
@@ -55,7 +53,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthSplitPaneUI
  */
-public class SeaGlassSplitPaneUI extends BasicSplitPaneUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassSplitPaneUI extends BasicSplitPaneUI implements PropertyChangeListener, SeaglassUI {
     /**
      * Keys to use for forward focus traversal when the JComponent is managing
      * focus.

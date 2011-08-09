@@ -59,9 +59,7 @@ import javax.swing.text.JTextComponent;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
-import com.seaglasslookandfeel.painter.Painter;
-
-import sun.swing.plaf.synth.SynthUI;
+import com.seaglasslookandfeel.painter.SeaGlassPainter;
 
 /**
  * SeaGlassScrollPaneUI implementation.
@@ -71,7 +69,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.basic.BasicScrollPaneUI
  */
-public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyChangeListener, ScrollPaneConstants, SynthUI {
+public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyChangeListener, ScrollPaneConstants, SeaglassUI {
     private MouseWheelListener       mouseScrollListener;
     private SynthStyle               style;
     private boolean                  viewportViewHasFocus = false;
@@ -89,7 +87,7 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
 
     private Handler                  handler;
 
-    private Painter                  cornerPainter;
+    private SeaGlassPainter                  cornerPainter;
 
     /**
      * State flag that shows whether setValue() was called from a user program
@@ -113,8 +111,8 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
         }
 
         Object obj = UIManager.get("ScrollPane.cornerPainter");
-        if (obj != null && obj instanceof Painter) {
-            cornerPainter = (Painter) obj;
+        if (obj != null && obj instanceof SeaGlassPainter) {
+            cornerPainter = (SeaGlassPainter) obj;
         }
 
         LookAndFeel.installProperty(scrollpane, "opaque", Boolean.TRUE);
@@ -733,6 +731,7 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
                 } else if (e.getScrollType() == MouseWheelEvent.WHEEL_BLOCK_SCROLL) {
                     scrollByBlock(toScroll, direction);
                 }
+                e.consume();
             }
         }
 

@@ -26,6 +26,8 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerStyle;
 
 /**
  * ComboBoxTextFieldPainter implementation.
@@ -54,21 +56,41 @@ public final class SpinnerFormattedTextFieldPainter extends AbstractCommonColors
         boolean useFocusColors = isInToolBar(c);
         Shape s;
         if (focused) {
-            s = shapeGenerator.createRectangle(0, 0, width, height);
+            s = shapeGenerator.createRoundRectangle(0, 0, width , height, 
+                CornerSize.OUTER_FOCUS, 
+                CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+                CornerStyle.SQUARE, CornerStyle.SQUARE);
             g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useFocusColors));
             g.fill(s);
-            s = shapeGenerator.createRectangle(1, 1, width - 1, height - 2);
+
+            s = shapeGenerator.createRoundRectangle(1, 1, width - 1, height - 2, 
+                CornerSize.INNER_FOCUS, 
+                CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+                CornerStyle.SQUARE, CornerStyle.SQUARE);
             g.setPaint(getFocusPaint(s, FocusType.INNER_FOCUS, useFocusColors));
             g.fill(s);
         }
 
         g.setPaint(c.getBackground());
-        g.fillRect(3, 3, width - 3, height - 6);
+        s = shapeGenerator.createRoundRectangle(3, 3, width - 3, height - 6, 
+            CornerSize.BORDER, 
+            CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            CornerStyle.SQUARE, CornerStyle.SQUARE);
+        g.fill(s);
 
-        s = shapeGenerator.createRectangle(3, 3, width - 3, height - 6);
-        internalShadow.fill(g, s, false, false);
+        if (type != CommonControlState.DISABLED) {
+            s = shapeGenerator.createRoundRectangle(3, 3, width - 3, height - 6, 
+                CornerSize.BORDER, 
+                CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+                CornerStyle.SQUARE, CornerStyle.SQUARE);
+            internalShadow.fill(g, s, false, false);
+        }
+        
+        s = shapeGenerator.createRoundRectangle(2, 2, width - 2, height - 4 - 1, 
+            CornerSize.BORDER, 
+            CornerStyle.ROUNDED, CornerStyle.ROUNDED,
+            CornerStyle.SQUARE, CornerStyle.SQUARE);
 
-        s = shapeGenerator.createOpenRectangle(2, 2, width - 2 - 1, height - 4 - 1);
         g.setPaint(getTextBorderPaint(type, false));
         g.draw(s);
     }

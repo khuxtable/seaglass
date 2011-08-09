@@ -44,8 +44,6 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.component.SeaGlassInternalFrameTitlePane;
 
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * SeaGlassDesktopIconUI implementation.
  * 
@@ -53,7 +51,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthDesktopIconUI
  */
-public class SeaGlassDesktopIconUI extends BasicDesktopIconUI implements SynthUI, ActionListener, PropertyChangeListener {
+public class SeaGlassDesktopIconUI extends BasicDesktopIconUI implements SeaglassUI, ActionListener, PropertyChangeListener {
     private SynthStyle style;
 
     public static ComponentUI createUI(JComponent c) {

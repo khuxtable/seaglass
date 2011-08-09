@@ -25,14 +25,6 @@ import static java.awt.BorderLayout.SOUTH;
 import static java.awt.BorderLayout.WEST;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
-import com.sun.java.swing.Painter;
-import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
-
-import sun.swing.plaf.GTKKeybindings;
-import sun.swing.plaf.WindowsKeybindings;
-import sun.swing.plaf.synth.DefaultSynthStyle;
-import sun.swing.plaf.synth.SynthUI;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -44,12 +36,10 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-
 import java.beans.PropertyChangeEvent;
-
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
-
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -67,10 +57,13 @@ import javax.swing.JToolBar;
 import javax.swing.LookAndFeel;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.DimensionUIResource;
 import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.ColorType;
@@ -80,6 +73,10 @@ import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.plaf.synth.SynthStyleFactory;
+
+import sun.swing.plaf.GTKKeybindings;
+import sun.swing.plaf.WindowsKeybindings;
+import sun.swing.plaf.synth.DefaultSynthStyle;
 
 import com.seaglasslookandfeel.component.SeaGlassIcon;
 import com.seaglasslookandfeel.component.SeaGlassTitlePane;
@@ -93,12 +90,13 @@ import com.seaglasslookandfeel.painter.ComboBoxPainter;
 import com.seaglasslookandfeel.painter.ComboBoxTextFieldPainter;
 import com.seaglasslookandfeel.painter.DesktopIconPainter;
 import com.seaglasslookandfeel.painter.DesktopPanePainter;
+import com.seaglasslookandfeel.painter.FileChooserPainter;
 import com.seaglasslookandfeel.painter.FrameAndRootPainter;
-import com.seaglasslookandfeel.painter.MenuBarMenuPainter;
 import com.seaglasslookandfeel.painter.MenuItemPainter;
 import com.seaglasslookandfeel.painter.MenuPainter;
+import com.seaglasslookandfeel.painter.OptionPanePainter;
+import com.seaglasslookandfeel.painter.SeaGlassPainter;
 import com.seaglasslookandfeel.painter.PopupMenuPainter;
-import com.seaglasslookandfeel.painter.PopupMenuSeparatorPainter;
 import com.seaglasslookandfeel.painter.ProgressBarPainter;
 import com.seaglasslookandfeel.painter.RadioButtonMenuItemPainter;
 import com.seaglasslookandfeel.painter.RadioButtonPainter;
@@ -128,12 +126,14 @@ import com.seaglasslookandfeel.painter.TitlePaneMenuButtonPainter;
 import com.seaglasslookandfeel.painter.ToolBarHandlePainter;
 import com.seaglasslookandfeel.painter.ToolBarPainter;
 import com.seaglasslookandfeel.painter.ToolBarToggleButtonPainter;
+import com.seaglasslookandfeel.painter.ToolTipPainter;
 import com.seaglasslookandfeel.painter.TreeCellEditorPainter;
 import com.seaglasslookandfeel.painter.TreeCellPainter;
 import com.seaglasslookandfeel.painter.TreePainter;
 import com.seaglasslookandfeel.state.ComboBoxArrowButtonEditableState;
 import com.seaglasslookandfeel.state.ComboBoxEditableState;
 import com.seaglasslookandfeel.state.InternalFrameWindowFocusedState;
+import com.seaglasslookandfeel.state.MenuNotUnified;
 import com.seaglasslookandfeel.state.ProgressBarFinishedState;
 import com.seaglasslookandfeel.state.ProgressBarIndeterminateState;
 import com.seaglasslookandfeel.state.RootPaneNoFrameState;
@@ -159,8 +159,10 @@ import com.seaglasslookandfeel.state.TitlePaneMaximizeButtonWindowNotFocusedStat
 import com.seaglasslookandfeel.state.TitlePaneMenuButtonWindowNotFocusedState;
 import com.seaglasslookandfeel.state.TitlePaneWindowFocusedState;
 import com.seaglasslookandfeel.state.ToolBarWindowIsActiveState;
+import com.seaglasslookandfeel.ui.SeaglassUI;
 import com.seaglasslookandfeel.util.MacKeybindings;
 import com.seaglasslookandfeel.util.PlatformUtils;
+import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
 /**
  * This is the main Sea Glass Look and Feel class.
@@ -172,9 +174,8 @@ import com.seaglasslookandfeel.util.PlatformUtils;
  * @author Kathryn Huxtable
  * @author Kenneth Orr
  * @see    javax.swing.plaf.synth.SynthLookAndFeel
- * @see    com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
  */
-public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
+public class SeaGlassLookAndFeel extends SynthLookAndFeel {
     private static final long serialVersionUID = 4589080729685347322L;
 
     /** Used in a handful of places where we need an empty Insets. */
@@ -189,6 +190,39 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     /** Set the package name for UI delegates based on the root package. */
     private static final String UI_PACKAGE_PREFIX = PACKAGE_DIRECTORY + ".ui.SeaGlass";
 
+    private static final String[] UI_LIST = new String[]{
+        "Button",
+        "CheckBoxMenuItem",
+        "ComboBox",
+        "DesktopPane",
+        "FormattedTextField",
+        "Label",
+        "MenuItem",
+        "InternalFrame",
+        "DesktopIcon",
+        "Panel",
+        "PasswordField",
+        "PopupMenu",
+        "ProgressBar",
+        "RadioButtonMenuItem",
+        "RootPane",
+        "ScrollBar",
+        "ScrollPane",
+        "SearchFieldButton",
+        "Separator",
+        "Slider",
+        "SplitPane",
+        "TabbedPane",
+        "Table",
+        "TableHeader",
+        "TextField",
+        "TextArea",
+        "ToggleButton",
+        "ToolBar",
+        "Viewport",
+    };
+    
+    
     /** Refer to setSelectedUI */
     public static ComponentUI selectedUI;
 
@@ -227,7 +261,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * set in the UIDefaults when requested.
      */
     private Font defaultFont;
-
+    
     private UIDefaults uiDefaults = null;
 
     /**
@@ -235,20 +269,24 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     public SeaGlassLookAndFeel() {
         super();
-
-        /*
-         * Create the default font and default style.
-         */
-        defaultFont  = getDefaultFont();
-        defaultStyle = new DefaultSynthStyle();
-        defaultStyle.setFont(defaultFont);
-
         /*
          * Register all of the regions and their states that this class will use
          * for later lookup. Additional regions can be registered later by 3rd
          * party components. These are simply the default registrations.
          */
         registerStyles();
+    }
+
+    /**
+     * @return 
+     * 
+     */
+    private DefaultSynthStyle getDefaultStyle() {
+        if (defaultStyle == null) {
+            defaultStyle = new DefaultSynthStyle();
+            defaultStyle.setFont((Font) this.uiDefaults.get("defaultFont"));
+        }
+        return defaultStyle;
     }
 
     /**
@@ -278,6 +316,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     @Override
     public void uninitialize() {
+        removeOurUIs();
+        resetDefaultBorders();
         JFrame.setDefaultLookAndFeelDecorated(false);
         super.uninitialize();
     }
@@ -391,7 +431,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     @Override
     public UIDefaults getDefaults() {
         if (uiDefaults == null) {
-            uiDefaults = super.getDefaults();
+            uiDefaults =  new UIWrapper(super.getDefaults());
 
             // Install Keybindings for the operating system.
             if (PlatformUtils.isWindows()) {
@@ -407,36 +447,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
             // Override some of the Synth UI delegates with copied and modified
             // versions.
-            useOurUI(uiDefaults, "Button");
-            useOurUI(uiDefaults, "CheckBoxMenuItem");
-            useOurUI(uiDefaults, "ComboBox");
-            useOurUI(uiDefaults, "DesktopPane");
-            useOurUI(uiDefaults, "FormattedTextField");
-            useOurUI(uiDefaults, "Label");
-            useOurUI(uiDefaults, "MenuItem");
-            useOurUI(uiDefaults, "InternalFrame");
-            useOurUI(uiDefaults, "DesktopIcon");
-            useOurUI(uiDefaults, "Panel");
-            useOurUI(uiDefaults, "PasswordField");
-            useOurUI(uiDefaults, "PopupMenu");
-            useOurUI(uiDefaults, "ProgressBar");
-            useOurUI(uiDefaults, "RadioButtonMenuItem");
-            useOurUI(uiDefaults, "RootPane");
-            useOurUI(uiDefaults, "ScrollBar");
-            useOurUI(uiDefaults, "ScrollPane");
-            useOurUI(uiDefaults, "SearchFieldButton");
-            useOurUI(uiDefaults, "Separator");
-            useOurUI(uiDefaults, "Slider");
-            useOurUI(uiDefaults, "SplitPane");
-            useOurUI(uiDefaults, "TabbedPane");
-            useOurUI(uiDefaults, "Table");
-            useOurUI(uiDefaults, "TableHeader");
-            useOurUI(uiDefaults, "TextField");
-            useOurUI(uiDefaults, "ToggleButton");
-            useOurUI(uiDefaults, "ToolBar");
-            useOurUI(uiDefaults, "Viewport");
+            useOurUIs();
 
             defineBaseColors(uiDefaults);
+            defineDefaultBorders(uiDefaults);
             defineArrowButtons(uiDefaults);
             defineButtons(uiDefaults);
             defineComboBoxes(uiDefaults);
@@ -455,6 +469,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             defineSeparators(uiDefaults);
             defineSpinners(uiDefaults);
             defineScrollBars(uiDefaults);
+            defineScrollPane(uiDefaults);
             defineSliders(uiDefaults);
             defineSplitPanes(uiDefaults);
             defineTabbedPanes(uiDefaults);
@@ -462,6 +477,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             defineTextControls(uiDefaults);
             defineToolBars(uiDefaults);
             defineTrees(uiDefaults);
+            defineToolTips(uiDefaults);
+            defineOptionPane(uiDefaults);
+            defineFileChooser(uiDefaults);
 
             if (!PlatformUtils.isMac()) {
                 uiDefaults.put("MenuBar[Enabled].backgroundPainter", null);
@@ -483,52 +501,155 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         return uiDefaults;
     }
 
+    private void defineOptionPane(UIDefaults d) {
+        //Initialize OptionPane
+        d.put("OptionPane.contentMargins", new InsetsUIResource(15, 15, 15, 15));
+        d.put("OptionPane.opaque", Boolean.TRUE);
+        d.put("OptionPane.background", getDerivedColor("control", 0, 0, 0, 0, true));
+        d.put("OptionPane.buttonOrientation", new Integer(4));
+        d.put("OptionPane.messageAnchor", new Integer(17));
+        d.put("OptionPane.separatorPadding", new Integer(0));
+        d.put("OptionPane.sameSizeButtons", Boolean.FALSE);
+        d.put("OptionPane:\"OptionPane.separator\".contentMargins", new InsetsUIResource(1, 0, 0, 0));
+        d.put("OptionPane:\"OptionPane.messageArea\".contentMargins", new InsetsUIResource(0, 0, 10, 0));
+        d.put("OptionPane:\"OptionPane.messageArea\":\"OptionPane.label\".contentMargins", new InsetsUIResource(0, 10, 10, 10));
+
+        d.put("OptionPane[Enabled].errorIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.OptionPanePainter", OptionPanePainter.Which.ERRORICON_ENABLED));
+        d.put("OptionPane.errorIcon", new SeaGlassIcon("OptionPane", "errorIconPainter", 48, 48));
+        d.put("OptionPane[Enabled].informationIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.OptionPanePainter", OptionPanePainter.Which.INFORMATIONICON_ENABLED));
+        d.put("OptionPane.informationIcon", new SeaGlassIcon("OptionPane", "informationIconPainter", 48, 48));
+        d.put("OptionPane[Enabled].questionIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.OptionPanePainter", OptionPanePainter.Which.QUESTIONICON_ENABLED));
+        d.put("OptionPane.questionIcon", new SeaGlassIcon("OptionPane", "questionIconPainter", 48, 48));
+        d.put("OptionPane[Enabled].warningIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.OptionPanePainter", OptionPanePainter.Which.WARNINGICON_ENABLED));
+        d.put("OptionPane.warningIcon", new SeaGlassIcon("OptionPane", "warningIconPainter", 48, 48));
+        
+        // Color Chooser Dialog
+        d.put("ColorChooser.swatchesDefaultRecentColor", getDerivedColor("control", 0, 0, 0, 0, true));
+    }
+    
+    
+    private void defineFileChooser(UIDefaults d) {
+        //Initialize FileChooser
+        d.put("FileChooser.contentMargins", new InsetsUIResource(10, 10, 10, 10));
+        d.put("FileChooser.opaque", Boolean.TRUE);
+        d.put("FileChooser.usesSingleFilePane", Boolean.TRUE);
+        d.put("FileChooser[Enabled].fileIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.FileChooserPainter", FileChooserPainter.Which.FILEICON_ENABLED));
+        d.put("FileChooser.fileIcon", new SeaGlassIcon("FileChooser", "fileIconPainter", 16, 16));
+        d.put("FileChooser[Enabled].directoryIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.FileChooserPainter", FileChooserPainter.Which.DIRECTORYICON_ENABLED));
+        d.put("FileChooser.directoryIcon", new SeaGlassIcon("FileChooser", "directoryIconPainter", 16, 16));
+        d.put("FileChooser[Enabled].upFolderIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.FileChooserPainter", FileChooserPainter.Which.UPFOLDERICON_ENABLED));
+        d.put("FileChooser.upFolderIcon", new SeaGlassIcon("FileChooser", "upFolderIconPainter", 16, 16));
+        d.put("FileChooser[Enabled].newFolderIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.FileChooserPainter", FileChooserPainter.Which.NEWFOLDERICON_ENABLED));
+        d.put("FileChooser.newFolderIcon", new SeaGlassIcon("FileChooser", "newFolderIconPainter", 16, 16));
+        d.put("FileChooser[Enabled].hardDriveIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.FileChooserPainter", FileChooserPainter.Which.HARDDRIVEICON_ENABLED));
+        d.put("FileChooser.hardDriveIcon", new SeaGlassIcon("FileChooser", "hardDriveIconPainter", 16, 16));
+        d.put("FileChooser[Enabled].floppyDriveIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.FileChooserPainter", FileChooserPainter.Which.FLOPPYDRIVEICON_ENABLED));
+        d.put("FileChooser.floppyDriveIcon", new SeaGlassIcon("FileChooser", "floppyDriveIconPainter", 16, 16));
+        d.put("FileChooser[Enabled].homeFolderIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.FileChooserPainter", FileChooserPainter.Which.HOMEFOLDERICON_ENABLED));
+        d.put("FileChooser.homeFolderIcon", new SeaGlassIcon("FileChooser", "homeFolderIconPainter", 16, 16));
+        d.put("FileChooser[Enabled].detailsViewIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.FileChooserPainter", FileChooserPainter.Which.DETAILSVIEWICON_ENABLED));
+        d.put("FileChooser.detailsViewIcon", new SeaGlassIcon("FileChooser", "detailsViewIconPainter", 16, 16));
+        d.put("FileChooser[Enabled].listViewIconPainter", new LazyPainter("com.seaglasslookandfeel.painter.FileChooserPainter", FileChooserPainter.Which.LISTVIEWICON_ENABLED));
+        d.put("FileChooser.listViewIcon", new SeaGlassIcon("FileChooser", "listViewIconPainter", 16, 16));
+    }
+
+    /**
+     * Define some settings for tool tips.
+     * @param d
+     */
+    private void defineToolTips(UIDefaults d) {
+        String p = "ToolTip";
+        d.put("seaGlassToolTipBorder", new Color(0x5b7ea4));
+        d.put(p + ".contentMargins", new InsetsUIResource(4, 4, 4, 4));
+        d.put(p + ".opaque", Boolean.FALSE);
+        d.put(p + ".background", new ColorUIResource(0xd5, 0xe8, 0xf7));
+        d.put(p + ".backgroundPainter", new ToolTipPainter(ToolTipPainter.Which.BORDER_ENABLED));
+    }
+
     /**
      * Use our UI delegate for the specified UI control type.
      *
      * @param d      the UI defaults map.
      * @param uiName the UI type, e.g. "ScrollPane".
      */
-    private void useOurUI(UIDefaults d, String uiName) {
-        uiName = uiName + "UI";
-        d.put(uiName, UI_PACKAGE_PREFIX + uiName);
+    private void useOurUIs() {
+        for (String uiName : UI_LIST) {
+            uiName = uiName + "UI";
+            uiDefaults.put(uiName, UI_PACKAGE_PREFIX + uiName);
+        }
     }
+    
+    
+    /**
+     * A convience method that will reset the Style of StyleContext if
+     * necessary.
+     *
+     * @return newStyle
+     */
+   
+    public static SynthStyle updateSeaglassStyle(SynthContext context, SeaglassUI ui) {
+        SynthStyle newStyle = getStyle(context.getComponent(), context.getRegion());
+        // TODO rossi 04.07.2011 this code is now private in the Synth L&F
+//        SynthStyle oldStyle = context.getStyle();
+//
+//        if (newStyle != oldStyle) {
+//            if (oldStyle != null) {
+//                oldStyle.uninstallDefaults(context);
+//            }
+//            context.setStyle(newStyle);
+//            newStyle.installDefaults(context, ui);
+//        }
+        return newStyle;
+    }    
 
+    /**
+     * Use our UI delegate for the specified UI control type.
+     *
+     * @param d      the UI defaults map.
+     * @param uiName the UI type, e.g. "ScrollPane".
+     */
+    private void removeOurUIs() {
+        for (String uiName : UI_LIST) {
+            uiDefaults.remove(uiName + "UI");
+        }
+    }
+    
     /**
      * Initialize the default font.
      *
      * @return the default font.
      */
-    protected Font getDefaultFont() {
+    protected Font initializeDefaultFont() {
         /*
          * Set the default font to Lucida Grande if available, else use Lucida
          * Sans Unicode. Grande is a later font and a bit nicer looking, but it
          * is a derivation of Sans Unicode, so they're compatible.
          */
-        Font font = null;
-
-        if (PlatformUtils.isMac()) {
-            font = new Font("Lucida Grande", Font.PLAIN, 13);
+        if (defaultFont == null) {
+    
+            if (PlatformUtils.isMac()) {
+                defaultFont = new Font("Lucida Grande", Font.PLAIN, 13);
+            }
+    
+            if (defaultFont == null) {
+                defaultFont = new Font("Dialog", Font.PLAIN, 13);
+            }
+    
+            if (defaultFont == null) {
+                defaultFont = new Font("SansSerif", Font.PLAIN, 13);
+            }
         }
 
-        if (font == null) {
-            font = new Font("Dialog", Font.PLAIN, 13);
-        }
-
-        if (font == null) {
-            font = new Font("SansSerif", Font.PLAIN, 13);
-        }
-
-        return font;
+        return defaultFont;
     }
-
+       
     /**
      * Initialize the base font.
      *
      * @param d the UI defaults map.
      */
     private void defineDefaultFont(UIDefaults d) {
-        d.put("defaultFont", defaultFont);
+        d.put("defaultFont", initializeDefaultFont());
     }
 
     /**
@@ -537,17 +658,66 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @param d the UI defaults map.
      */
     private void defineBaseColors(UIDefaults d) {
-        d.put("control", new Color(0xf8f8f8));
+        d.put("control", new ColorUIResource(0xf8f8f8));
 
-        d.put("nimbusSelection", new Color(0x6181a5));
-        d.put("nimbusFocus", new Color(0x73a4d1));
-        d.put("nimbusBorder", new Color(0x9297a1));
-        d.put("nimbusSelectedText", Color.WHITE);
-        d.put("nimbusSelectionBackground", new Color(0x6181a5));
-        d.put("nimbusDisabledText", new Color(0xc8c8c8));
-        d.put("textHighlight", d.get("nimbusSelectionBackground"));
+        // Copied from Nimbus
+
+        //Color palette
+        addColor(d, "text", 0, 0, 0, 255);
+        addColor(d, "seaGlassBase", 51, 98, 140, 255);
+        addColor(d, "seaGlassBlueGrey", "seaGlassBase", 0.032459438f, -0.52518797f, 0.19607842f, 0);
+        addColor(d, "seaGlassOrange", 191, 98, 4, 255);
+        addColor(d, "seaGlassGreen", 176, 179, 50, 255);
+        addColor(d, "seaGlassRed", 169, 46, 34, 255);
+        addColor(d, "seaGlassBorder", "seaGlassBlueGrey", 0.0f, -0.017358616f, -0.11372548f, 0);
+        addColor(d, "seaGlassSelection", "seaGlassBase", -0.010750473f, -0.04875779f, -0.007843137f, 0);
+        addColor(d, "seaGlassInfoBlue", 47, 92, 180, 255);
+        addColor(d, "seaGlassAlertYellow", 255, 220, 35, 255);
+        addColor(d, "seaGlassFocus", 115, 164, 209, 255);
+        addColor(d, "seaGlassSelectedText", 255, 255, 255, 255);
+        addColor(d, "seaGlassSelectionBackground", 57, 105, 138, 255);
+        addColor(d, "seaGlassDisabledText", 142, 143, 145, 255);
+        addColor(d, "seaGlassLightBackground", 255, 255, 255, 255);
+        addColor(d, "infoText", "text", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "info", 242, 242, 189, 255);
+        addColor(d, "menuText", "text", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "menu", "seaGlassBase", 0.021348298f, -0.6150531f, 0.39999998f, 0);
+        addColor(d, "scrollbar", "seaGlassBlueGrey", -0.006944418f, -0.07296763f, 0.09019607f, 0);
+        addColor(d, "controlText", "text", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "controlHighlight", "seaGlassBlueGrey", 0.0f, -0.07333623f, 0.20392156f, 0);
+        addColor(d, "controlLHighlight", "seaGlassBlueGrey", 0.0f, -0.098526314f, 0.2352941f, 0);
+        addColor(d, "controlShadow", "seaGlassBlueGrey", -0.0027777553f, -0.0212406f, 0.13333333f, 0);
+        addColor(d, "controlDkShadow", "seaGlassBlueGrey", -0.0027777553f, -0.0018306673f, -0.02352941f, 0);
+        addColor(d, "textHighlight", "seaGlassSelectionBackground", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "textHighlightText", "seaGlassSelectedText", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "textInactiveText", "seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "desktop", "seaGlassBase", -0.009207249f, -0.13984653f, -0.07450983f, 0);
+        addColor(d, "activeCaption", "seaGlassBlueGrey", 0.0f, -0.049920253f, 0.031372547f, 0);
+        addColor(d, "inactiveCaption", "seaGlassBlueGrey", -0.00505054f, -0.055526316f, 0.039215684f, 0);
+
+        //The global style definition
+        addColor(d, "textForeground", "text", 0.0f, 0.0f, 0.0f, 255);
+        addColor(d, "[Disabled].textForeground", "textForeground", 0.0f, 0.0f, 0.0f, 80);
+        addColor(d, "textBackground", "seaGlassSelectionBackground", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "background", "control", 0, 0, 0, 0);
+        
+        d.put("TitledBorder.position", "ABOVE_TOP");
+        d.put("TitledBorder.titleColor", Color.BLACK);
+        d.put("TitledBorder.font", new DerivedFont("defaultFont", 1.0f, false, false));
+        d.put("FileView.fullRowSelection", Boolean.TRUE);
+        
+        // Seaglass starts here
+        
+        
+        d.put("seaGlassSelection", new Color(0x6181a5));
+        d.put("seaGlassFocus", new Color(0x73a4d1));
+        d.put("seaGlassBorder", new Color(0x9297a1));
+        d.put("seaGlassSelectedText", Color.WHITE);
+        d.put("seaGlassSelectionBackground", new Color(0x6181a5));
+        d.put("seaGlassDisabledText", new Color(0xc8c8c8));
+        d.put("textHighlight", d.get("seaGlassSelectionBackground"));
         d.put("textHighlightText", Color.WHITE);
-        d.put("textInactiveText", d.get("nimbusDisabledText"));
+        d.put("textInactiveText", d.get("seaGlassDisabledText"));
         d.put("menuText", Color.WHITE);
         d.put("menu", Color.WHITE);
 
@@ -566,7 +736,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             d.put("seaGlassToolBarOuterFocus", d.get("seaGlassOuterFocus"));
             d.put("seaGlassToolBarDisabledText", new Color(0x80000000, true));
         } else {
-            d.put("seaGlassToolBarFocus", new Color(0xf8f8f8));
+            d.put("seaGlassToolBarFocus", new Color(0x5b7ea4)); // Rossi: new color for toolbar line
             d.put("seaGlassToolBarOuterFocus", getDerivedColor("seaGlassToolBarFocus", -0.0028f, 0.01f, 0f, -0x80, true));
             d.put("seaGlassToolBarDisabledText", new Color(0x80000000, true));
         }
@@ -580,9 +750,124 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaGlassCancelIcon", new Color(0xb3b3b3));
         d.put("seaGlassCancelIconPressed", new Color(0x808080));
 
-        d.put("seaGlassTextDisabledBorder", new Color(0xdddddd));
-        d.put("seaGlassTextEnabledBorder", new Color(0xbbbbbb));
+        d.put("seaGlassTextEnabledBorder", new Color(0x709ad0)); // Rossi: Blue borders for text fields
+        d.put("seaGlassTextDisabledBorder", SeaGlassGraphicsUtils.disable( new Color(0x709ad0))); // new Color(0xdddddd)
         d.put("seaGlassTextEnabledToolbarBorder", new Color(0x888888));
+
+        d.put("seaGlassMenuIcon", new Color(0x5b7ea4)); // Rossi: Menu "Icons" (Arrow, checkbox, radio) are now no longer black
+    }
+    
+    /**
+     * Border factory is static so we need to do some nasty reflection tricks to change it.
+     * @param d
+     */
+    private void defineDefaultBorders(UIDefaults d) {
+        try {
+            if (Boolean.FALSE.toString().equalsIgnoreCase(System.getProperty("SeaGlass.BorderFactory.overrideDefaults"))) {
+                return; 
+            }
+            
+            // Etched Borders
+            Field highLightColor = EtchedBorder.class.getDeclaredField("highlight");
+            highLightColor.setAccessible(true);
+            Field shadowcolor = EtchedBorder.class.getDeclaredField("shadow");
+            shadowcolor.setAccessible(true);
+
+            Border etchedBorder = BorderFactory.createEtchedBorder();
+            highLightColor.set(etchedBorder, new Color(0xd5e8f7));
+            shadowcolor.set(etchedBorder, new Color(0x709ad0));
+
+            Border raisedEtchedBorder = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+            highLightColor.set(raisedEtchedBorder, new Color(0xd5e8f7));
+            shadowcolor.set(raisedEtchedBorder, new Color(0x709ad0));
+            
+            // Bevel Borders
+            Field highlightOuter = BevelBorder.class.getDeclaredField("highlightOuter");
+            highlightOuter.setAccessible(true);
+            Field highlightInner = BevelBorder.class.getDeclaredField("highlightInner");
+            highlightInner.setAccessible(true);
+            Field shadowOuter = BevelBorder.class.getDeclaredField("shadowOuter");
+            shadowOuter.setAccessible(true);
+            Field shadowInner = BevelBorder.class.getDeclaredField("shadowInner");
+            shadowInner.setAccessible(true);
+
+            Border loweredBevelBorder = BorderFactory.createLoweredBevelBorder();
+            highlightOuter.set(loweredBevelBorder, new Color(0xd5e8f7));
+            highlightInner.set(loweredBevelBorder, Color.WHITE);
+            shadowOuter.set(loweredBevelBorder, new Color(0x5f83a0));
+            shadowInner.set(loweredBevelBorder, new Color(0xd5e8f7));
+
+            Border raisedBevelBorder = BorderFactory.createRaisedBevelBorder();
+            highlightOuter.set(raisedBevelBorder, new Color(0x95c5eb));
+            highlightInner.set(raisedBevelBorder, Color.WHITE);
+            shadowOuter.set(raisedBevelBorder, new Color(0x5f83a0));
+            shadowInner.set(raisedBevelBorder, new Color(0xd5e8f7));
+            
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+    
+    /**
+     * Border factory is static so we need to do some nasty reflection tricks to change it.
+     * @param d
+     */
+    private void resetDefaultBorders() {
+        try {
+            // Etched Borders
+            Field highLightColor = EtchedBorder.class.getDeclaredField("highlight");
+            highLightColor.setAccessible(true);
+            Field shadowcolor = EtchedBorder.class.getDeclaredField("shadow");
+            shadowcolor.setAccessible(true);
+
+            Border etchedBorder = BorderFactory.createEtchedBorder();
+            highLightColor.set(etchedBorder, null);
+            shadowcolor.set(etchedBorder, null);
+
+            Border raisedEtchedBorder = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+            highLightColor.set(raisedEtchedBorder, null);
+            shadowcolor.set(raisedEtchedBorder, null);
+            
+            // Bevel Borders
+            Field highlightOuter = BevelBorder.class.getDeclaredField("highlightOuter");
+            highlightOuter.setAccessible(true);
+            Field highlightInner = BevelBorder.class.getDeclaredField("highlightInner");
+            highlightInner.setAccessible(true);
+            Field shadowOuter = BevelBorder.class.getDeclaredField("shadowOuter");
+            shadowOuter.setAccessible(true);
+            Field shadowInner = BevelBorder.class.getDeclaredField("shadowInner");
+            shadowInner.setAccessible(true);
+
+            Border loweredBevelBorder = BorderFactory.createLoweredBevelBorder();
+            highlightOuter.set(loweredBevelBorder, null);
+            highlightInner.set(loweredBevelBorder, null);
+            shadowOuter.set(loweredBevelBorder, null);
+            shadowInner.set(loweredBevelBorder, null);
+
+            Border raisedBevelBorder = BorderFactory.createRaisedBevelBorder();
+            highlightOuter.set(raisedBevelBorder, null);
+            highlightInner.set(raisedBevelBorder, null);
+            shadowOuter.set(raisedBevelBorder, null);
+            shadowInner.set(raisedBevelBorder, null);
+            
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     /**
@@ -618,12 +903,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         String c = PAINTER_PREFIX + "ArrowButtonPainter";
         String p = "ArrowButton";
 
-        d.put(p + ".States", "Enabled,Disabled,Pressed");
+        d.put(p + ".States", "Enabled,MouseOver,Disabled,Pressed");
         d.put(p + "[Disabled].foreground", new ColorUIResource(0x9ba8cf));
-        d.put(p + "[Enabled].foreground", new ColorUIResource(Color.BLACK));
+        d.put(p + "[Enabled].foreground",  new ColorUIResource(0x5b7ea4));            // getDerivedColor("seaGlassBlueGrey", -0.6111111f, -0.110526316f, -0.34509805f, 0, true)); // JTabbedPane arrows no longer black: Nimbus dependency should be replaced with color value?
+        
         d.put(p + "[Pressed].foreground", new ColorUIResource(0x134D8C));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_ENABLED));
+        d.put(p + "[MouseOver].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_PRESSED));
     }
 
@@ -633,6 +920,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @param d the UI defaults map.
      */
     private void defineButtons(UIDefaults d) {
+        
+        d.put("Button.contentMargins", new InsetsUIResource(6, 14, 6, 14));
+        d.put("Button.defaultButtonFollowsFocus", Boolean.FALSE);
+        
         d.put("buttonBorderBaseEnabled", new Color(0x709ad0));
         d.put("buttonBorderBasePressed", new Color(0x4879bf));
 
@@ -658,6 +949,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Initialize Button
         d.put(p + ".States", "Enabled,Pressed,Disabled,Focused,Default");
         d.put(p + "[Default+Pressed].textForeground", new ColorUIResource(Color.black));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Default].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DEFAULT));
         d.put(p + "[Default+Focused].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_DEFAULT_FOCUSED));
         d.put(p + "[Default+Pressed].backgroundPainter", new LazyPainter(c, ButtonPainter.Which.BACKGROUND_PRESSED_DEFAULT));
@@ -672,8 +964,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Initialize ToggleButton
         p = "ToggleButton";
+        d.put(p + ".contentMargins", new InsetsUIResource(6, 14, 6, 14));
         d.put(p + ".States", "Enabled,Pressed,Disabled,Focused,Selected");
         d.put(p + "[Selected].textForeground", new ColorUIResource(Color.black));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Default+Pressed].textForeground", new ColorUIResource(Color.black));
         d.put(p + "[Focused+Selected].textForeground", new ColorUIResource(Color.black));
         d.put(p + "[Disabled+Selected].textForeground", new ColorUIResource(new Color(0, 0, 0, 0x80)));
@@ -699,6 +993,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         c = PAINTER_PREFIX + "CheckBoxPainter";
         d.put(p + ".States", "Enabled,Pressed,Disabled,Focused,Selected");
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Disabled].iconPainter", new LazyPainter(c, CheckBoxPainter.Which.ICON_DISABLED));
         d.put(p + "[Enabled].iconPainter", new LazyPainter(c, CheckBoxPainter.Which.ICON_ENABLED));
         d.put(p + "[Focused].iconPainter", new LazyPainter(c, CheckBoxPainter.Which.ICON_FOCUSED));
@@ -717,6 +1012,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         c = PAINTER_PREFIX + "RadioButtonPainter";
         d.put(p + ".States", "Enabled,Pressed,Disabled,Focused,Selected");
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Disabled].iconPainter", new LazyPainter(c, RadioButtonPainter.Which.ICON_DISABLED));
         d.put(p + "[Enabled].iconPainter", new LazyPainter(c, RadioButtonPainter.Which.ICON_ENABLED));
         d.put(p + "[Focused].iconPainter", new LazyPainter(c, RadioButtonPainter.Which.ICON_FOCUSED));
@@ -738,12 +1034,42 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @param d the UI defaults map.
      */
     private void defineComboBoxes(UIDefaults d) {
-        String p = "ComboBox";
+        // Copied from nimbus
+        
+        d.put("ComboBox.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("ComboBox.forceOpaque", Boolean.TRUE);
+        d.put("ComboBox.buttonWhenNotEditable", Boolean.TRUE);
+        d.put("ComboBox.rendererUseListColors", Boolean.FALSE);
+        d.put("ComboBox.pressedWhenPopupVisible", Boolean.TRUE);
+        d.put("ComboBox.squareButton", Boolean.FALSE);
+        d.put("ComboBox.popupInsets", new InsetsUIResource(-2, 2, 0, 2));
+        d.put("ComboBox.padding", new InsetsUIResource(2, 2, 2, 2));
 
+        d.put("ComboBox:\"ComboBox.arrowButton\".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("ComboBox:\"ComboBox.arrowButton\".size", new Integer(19));
+       
+        d.put("ComboBox:\"ComboBox.listRenderer\".contentMargins", new InsetsUIResource(2, 4, 2, 4));
+        d.put("ComboBox:\"ComboBox.listRenderer\".opaque", Boolean.TRUE);
+        addColor(d, "ComboBox:\"ComboBox.listRenderer\".background", "seaGlassLightBackground", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "ComboBox:\"ComboBox.listRenderer\"[Disabled].textForeground", "seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "ComboBox:\"ComboBox.listRenderer\"[Selected].textForeground", "seaGlassSelectedText", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "ComboBox:\"ComboBox.listRenderer\"[Selected].background", "seaGlassSelectionBackground", 0.0f, 0.0f, 0.0f, 0);
+       
+        d.put("ComboBox:\"ComboBox.renderer\".contentMargins", new InsetsUIResource(2, 4, 2, 4));
+        addColor(d, "ComboBox:\"ComboBox.renderer\"[Disabled].textForeground", "seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "ComboBox:\"ComboBox.renderer\"[Selected].textForeground", "seaGlassSelectedText", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "ComboBox:\"ComboBox.renderer\"[Selected].background", "seaGlassSelectionBackground", 0.0f, 0.0f, 0.0f, 0);
+
+        //Initialize \"ComboBox.scrollPane\"
+        d.put("\"ComboBox.scrollPane\".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        
+        // Seaglass starts below.
+        
+        String p = "ComboBox";
+        d.put(p + ".States", "Enabled,Pressed,Selected,Disabled,Focused,Editable");
         d.put(p + ".Editable", new ComboBoxEditableState());
         d.put(p + ":\"ComboBox.arrowButton\".Editable", new ComboBoxArrowButtonEditableState());
 
-        d.put(p + ".States", "Enabled,Pressed,Selected,Disabled,Focused,Editable");
 
         // Background
         String c = PAINTER_PREFIX + "ComboBoxPainter";
@@ -786,13 +1112,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Textfield
         c = PAINTER_PREFIX + "ComboBoxTextFieldPainter";
+        
         p = "ComboBox:\"ComboBox.textField\"";
+        d.put(p + ".contentMargins", new InsetsUIResource(2, 6, 2, 0));
+        d.put(p + ".background", Color.WHITE);
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ComboBoxTextFieldPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ComboBoxTextFieldPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, ComboBoxTextFieldPainter.Which.BACKGROUND_SELECTED));
-
-        p = "ComboBox:\"ComboBox.listRenderer\"";
-        d.put(p + ".contentMargins", new InsetsUIResource(2, 10, 2, 10));
     }
 
     /**
@@ -821,6 +1148,24 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @param d the UI defaults map.
      */
     private void defineInternalFrames(UIDefaults d) {
+        
+        // Copied from nimbus
+        
+        //Initialize InternalFrameTitlePane
+        d.put("InternalFrameTitlePane.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("InternalFrameTitlePane.maxFrameIconSize", new DimensionUIResource(18, 18));
+
+        //Initialize InternalFrame
+        d.put("InternalFrame.contentMargins", new InsetsUIResource(1, 6, 6, 6));
+        d.put("InternalFrame:InternalFrameTitlePane.contentMargins", new InsetsUIResource(3, 0, 3, 0));
+        d.put("InternalFrame:InternalFrameTitlePane.titleAlignment", "CENTER");
+        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.menuButton\".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.iconifyButton\".contentMargins", new InsetsUIResource(9, 9, 9, 9));
+        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.maximizeButton\".contentMargins", new InsetsUIResource(9, 9, 9, 9));
+        d.put("InternalFrame:InternalFrameTitlePane:\"InternalFrameTitlePane.closeButton\".contentMargins", new InsetsUIResource(9, 9, 9, 9));
+        
+        // Seaglass starts below
+        
         if (PlatformUtils.isMac()) {
             d.put("frameBaseActive", new Color(0xa8a8a8));
         } else {
@@ -848,6 +1193,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         String p = "InternalFrame";
         String c = PAINTER_PREFIX + "FrameAndRootPainter";
+        
+        d.put(p + ".titleFont", new DerivedFont("defaultFont", 1.0f, true, null));
 
         d.put(p + ".States", "Enabled,WindowFocused");
         d.put(p + ":InternalFrameTitlePane.WindowFocused", new TitlePaneWindowFocusedState());
@@ -862,7 +1209,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".buttonSpacing", 0);
 
         p = "InternalFrame:InternalFrameTitlePane";
-        d.put(p + "[Enabled].textForeground", d.get("nimbusDisabledText"));
+        d.put(p + "[Enabled].textForeground", d.get("seaGlassDisabledText"));
         d.put(p + "[WindowFocused].textForeground", Color.BLACK);
     }
 
@@ -882,18 +1229,11 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Enabled+MouseOver].backgroundPainter",
-              new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
+        d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put(p + "[Enabled+WindowNotFocused].backgroundPainter",
-              new LazyPainter(c,
-                              TitlePaneCloseButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
-        d.put(p + "[Enabled+WindowNotFocused+MouseOver].backgroundPainter",
-              new LazyPainter(c,
-                              TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
-        d.put(p + "[Pressed+WindowNotFocused].backgroundPainter",
-              new LazyPainter(c,
-                              TitlePaneCloseButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
+        d.put(p + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
+        d.put(p + "[MouseOver+WindowNotFocused].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_MOUSEOVER));
+        d.put(p + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(c, TitlePaneCloseButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
 
         d.put(p + ".icon", new SeaGlassIcon(p, "iconPainter", 43, 18));
     }
@@ -917,16 +1257,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_PRESSED));
-        d.put(p + "[Enabled+WindowNotFocused].backgroundPainter",
-              new LazyPainter(c,
-                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
-        d.put(p + "[MouseOver+WindowNotFocused].backgroundPainter",
-              new LazyPainter(c,
-                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED));
-        d.put(p + "[Pressed+WindowNotFocused].backgroundPainter",
-              new LazyPainter(c,
-                              TitlePaneIconifyButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
-
+        d.put(p + "[Enabled+WindowNotFocused].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_ENABLED_WINDOWNOTFOCUSED));
+        d.put(p + "[MouseOver+WindowNotFocused].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_MOUSEOVER_WINDOWNOTFOCUSED));
+        d.put(p + "[Pressed+WindowNotFocused].backgroundPainter", new LazyPainter(c, TitlePaneIconifyButtonPainter.Which.BACKGROUND_PRESSED_WINDOWNOTFOCUSED));
+        
         // Set the restore button states.
         d.put(p + "[Disabled+WindowMinimized].backgroundPainter",
               new LazyPainter(c,
@@ -1048,8 +1382,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + ".opaque", Boolean.TRUE);
 
-        d.put(p + ".background", d.get("nimbusLightBackground"));
-        d.put(p + ".dropLineColor", d.get("nimbusFocus"));
+        d.put(p + ".background", d.get("seaGlassLightBackground"));
+        d.put(p + ".dropLineColor", d.get("seaGlassFocus"));
         d.put(p + ".rendererUseListColors", Boolean.TRUE);
         d.put(p + ".rendererUseUIBorder", Boolean.TRUE);
         d.put(p + ".cellNoFocusBorder", new BorderUIResource(BorderFactory.createEmptyBorder(2, 5, 2, 5)));
@@ -1059,15 +1393,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // TODO Why doesn't ColorUIResource work here?
         d.put(p + "[Selected].textForeground", Color.WHITE);
-        d.put(p + "[Selected].textBackground", d.get("nimbusSelection"));
+        d.put(p + "[Selected].textBackground", d.get("seaGlassSelection"));
         d.put(p + "[Disabled+Selected].textBackground", Color.WHITE);
-        d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
+        d.put(p + "[Disabled].textForeground", d.get("seaGlassDisabledText"));
 
         p = "List:\"List.cellRenderer\"";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + ".opaque", Boolean.TRUE);
-        d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
-        d.put(p + "[Disabled].background", d.get("nimbusSelectionBackground"));
+        d.put(p + "[Disabled].textForeground", d.get("seaGlassDisabledText"));
+        d.put(p + "[Disabled].background", d.get("seaGlassSelectionBackground"));
     }
 
     /**
@@ -1081,9 +1415,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Initialize Menu
         String c = PAINTER_PREFIX + "MenuPainter";
         String p = "Menu";
-
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 5));
-        d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
+        d.put(p + "[Disabled].textForeground", d.get("seaGlassDisabledText"));
         d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.BLACK));
         d.put(p + "[Enabled+Selected].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[Enabled+Selected].backgroundPainter", new LazyPainter(c, MenuPainter.Which.BACKGROUND_ENABLED_SELECTED));
@@ -1106,16 +1439,24 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         }
 
         if (d.get(p + "[Enabled].borderPainter") != null) {
-            d.remove(p + "[Enabled].borderPainter");
+           d.remove(p + "[Enabled].borderPainter");
         }
 
-        c = PAINTER_PREFIX + "MenuBarMenuPainter";
+        // Rossi: "Selected Menu" color changed to dark blue. Not tested with "unified" title/menu/toolbar
+        c = PAINTER_PREFIX + "MenuItemPainter";
         p = "MenuBar:Menu";
+        d.put(p + ".States", "Enabled,Selected,Disabled,NotUnified");
+        d.put(p + ".NotUnified", new MenuNotUnified());
         d.put(p + ".contentMargins", new InsetsUIResource(1, 4, 2, 4));
-        d.put(p + "[Disabled].textForeground", new ColorUIResource(Color.BLACK));
-        d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.BLACK));
+        
+        d.put(p + "[Disabled].textForeground", d.getColor("seaGlassDisabledText"));
+        d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[Selected].textForeground", new ColorUIResource(Color.BLACK));
-        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, MenuBarMenuPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, MenuItemPainter.Which.BACKGROUND_MOUSEOVER_UNIFIED));
+
+        d.put(p + "[Enabled+NotUnified].textForeground", new ColorUIResource(Color.BLACK));
+        d.put(p + "[Enabled+Selected+NotUnified].textForeground", new ColorUIResource(Color.WHITE));
+        d.put(p + "[Enabled+Selected+NotUnified].backgroundPainter", new LazyPainter(c, MenuItemPainter.Which.BACKGROUND_MOUSEOVER));
 
         p = "MenuBar:Menu:MenuItemAccelerator";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
@@ -1125,14 +1466,14 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         p = "MenuItem";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
         d.put(p + ".textIconGap", new Integer(5));
-        d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
+        d.put(p + "[Disabled].textForeground", d.getColor("seaGlassDisabledText"));
         d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.BLACK));
         d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, MenuItemPainter.Which.BACKGROUND_MOUSEOVER));
 
         p = "MenuItem:MenuItemAccelerator";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
+        d.put(p + "[Disabled].textForeground", d.getColor("seaGlassDisabledText"));
         d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
 
         // Initialize CheckBoxMenuItem
@@ -1140,18 +1481,23 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         p = "CheckBoxMenuItem";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
         d.put(p + ".textIconGap", new Integer(5));
-        d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
+        d.put(p + "[Disabled].textForeground", d.getColor("seaGlassDisabledText"));
         d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.BLACK));
         d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, CheckBoxMenuItemPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[MouseOver+Selected].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[MouseOver+Selected].backgroundPainter",
-              new LazyPainter(c,
-                              CheckBoxMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
+              new LazyPainter(c, CheckBoxMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
+
         d.put(p + "[Disabled+Selected].checkIconPainter",
               new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_DISABLED_SELECTED));
         d.put(p + "[Enabled+Selected].checkIconPainter",
               new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_ENABLED_SELECTED));
+// Rossi: Added painter that shows an "indicator" that menu item is a "selectable checkbox"
+        d.put(p + "[Enabled].checkIconPainter",
+            new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_ENABLED));
+        d.put(p + "[MouseOver].checkIconPainter",
+            new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_ENABLED_MOUSEOVER));
         d.put(p + "[MouseOver+Selected].checkIconPainter",
               new LazyPainter(c, CheckBoxMenuItemPainter.Which.CHECKICON_SELECTED_MOUSEOVER));
         d.put(p + ".checkIcon", new SeaGlassIcon(p, "checkIconPainter", 9, 10));
@@ -1165,18 +1511,23 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         p = "RadioButtonMenuItem";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
         d.put(p + ".textIconGap", new Integer(5));
-        d.put(p + "[Disabled].textForeground", d.getColor("nimbusDisabledText"));
+        d.put(p + "[Disabled].textForeground", d.getColor("seaGlassDisabledText"));
         d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.BLACK));
         d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, RadioButtonMenuItemPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[MouseOver+Selected].textForeground", new ColorUIResource(Color.WHITE));
         d.put(p + "[MouseOver+Selected].backgroundPainter",
-              new LazyPainter(c,
-                              RadioButtonMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
+              new LazyPainter(c, RadioButtonMenuItemPainter.Which.BACKGROUND_SELECTED_MOUSEOVER));
+        
         d.put(p + "[Disabled+Selected].checkIconPainter",
               new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_DISABLED_SELECTED));
         d.put(p + "[Enabled+Selected].checkIconPainter",
               new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_ENABLED_SELECTED));
+        // Rossi: Added painter that shows an "indicator" that menu item is a "selectable radio button"
+        d.put(p + "[Enabled].checkIconPainter",
+            new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_ENABLED));
+        d.put(p + "[MouseOver].checkIconPainter",
+            new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_ENABLED_MOUSEOVER));
         d.put(p + "[MouseOver+Selected].checkIconPainter",
               new LazyPainter(c, RadioButtonMenuItemPainter.Which.CHECKICON_SELECTED_MOUSEOVER));
         d.put(p + ".checkIcon", new SeaGlassIcon(p, "checkIconPainter", 9, 10));
@@ -1193,7 +1544,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void definePanels(UIDefaults d) {
         String p = "Panel";
-
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + ".background", new ColorUIResource((Color) d.get("control")));
         d.put(p + ".opaque", Boolean.TRUE);
     }
@@ -1207,7 +1558,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("seaGlassPopupBorder", new ColorUIResource(0xbbbbbb));
 
         d.put("popupMenuInteriorEnabled", Color.WHITE);
-        d.put("popupMenuBorderEnabled", new Color(0xdddddd));
+        // Rossi: Changed color of popup / submenus to get better contrast to bright backgrounds.
+//        d.put("popupMenuBorderEnabled", new Color(0xdddddd));
+        d.put("popupMenuBorderEnabled", new Color(0x5b7ea4));
 
         String c = PAINTER_PREFIX + "PopupMenuPainter";
         String p = "PopupMenu";
@@ -1219,10 +1572,10 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, PopupMenuPainter.Which.BACKGROUND_ENABLED));
 
         // Initialize PopupMenuSeparator
-        c = PAINTER_PREFIX + "PopupMenuSeparatorPainter";
+        c = PAINTER_PREFIX + "SeparatorPainter";
         p = "PopupMenuSeparator";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 0, 2, 0));
-        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, PopupMenuSeparatorPainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SeparatorPainter.Which.BACKGROUND_ENABLED));
     }
 
     /**
@@ -1231,6 +1584,21 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @param d the UI defaults map.
      */
     private void defineProgressBars(UIDefaults d) {
+        // Copied from nimbus
+
+      //Initialize ProgressBar
+        d.put("ProgressBar.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("ProgressBar.States", "Enabled,Disabled,Indeterminate,Finished");
+        d.put("ProgressBar.tileWhenIndeterminate", Boolean.TRUE);
+        d.put("ProgressBar.paintOutsideClip", Boolean.TRUE);
+        d.put("ProgressBar.rotateText", Boolean.TRUE);
+        d.put("ProgressBar.vertictalSize", new DimensionUIResource(19, 150));
+        d.put("ProgressBar.horizontalSize", new DimensionUIResource(150, 19));
+        addColor(d, "ProgressBar[Disabled].textForeground", "seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0);
+        d.put("ProgressBar[Disabled+Indeterminate].progressPadding", new Integer(3));
+        
+        // Seaglass starts below.
+        
         d.put("progressBarTrackInterior", Color.WHITE);
         d.put("progressBarTrackBase", new Color(0x4076bf));
 
@@ -1245,22 +1613,19 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".trackThickness", new Integer(19));
         d.put(p + ".tileWidth", new Integer(24));
         d.put(p + ".backgroundFillColor", Color.WHITE);
-        d.put(p + ".font", defaultFont.deriveFont(11.0f));
+        d.put(p + ".font", new DerivedFont("defaultFont", 0.769f, null, null));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ProgressBarPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Enabled+Finished].foregroundPainter",
               new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED_FINISHED));
         d.put(p + "[Enabled+Indeterminate].foregroundPainter",
-              new LazyPainter(c,
-                              ProgressBarPainter.Which.FOREGROUND_ENABLED_INDETERMINATE));
+              new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_ENABLED_INDETERMINATE));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Disabled+Finished].foregroundPainter",
-              new LazyPainter(c,
-                              ProgressBarPainter.Which.FOREGROUND_DISABLED_FINISHED));
+              new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_DISABLED_FINISHED));
         d.put(p + "[Disabled+Indeterminate].foregroundPainter",
-              new LazyPainter(c,
-                              ProgressBarPainter.Which.FOREGROUND_DISABLED_INDETERMINATE));
+              new LazyPainter(c, ProgressBarPainter.Which.FOREGROUND_DISABLED_INDETERMINATE));
     }
 
     /**
@@ -1278,12 +1643,33 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".NoFrame", new RootPaneNoFrameState());
         d.put(p + ".WindowFocused", new RootPaneWindowFocusedState());
 
-        d.put(p + "[Enabled+NoFrame].backgroundPainter",
-              new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED_NOFRAME));
+        d.put(p + "[Enabled+NoFrame].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED_NOFRAME));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED));
-        d.put(p + "[Enabled+WindowFocused].backgroundPainter",
-              new LazyPainter(c,
-                              FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
+        d.put(p + "[Enabled+WindowFocused].backgroundPainter", new LazyPainter(c, FrameAndRootPainter.Which.BACKGROUND_ENABLED_WINDOWFOCUSED));
+    }
+    
+    /**
+     * Initialize the scroll pane UI
+     * @param d
+     */
+    private void defineScrollPane(UIDefaults d) {
+        // Define ScrollPane border painters.
+        String c = PAINTER_PREFIX + "ScrollPanePainter";
+        String p = "ScrollPane";
+        d.put(p + ".opaque", Boolean.FALSE);
+        d.put(p + ".contentMargins", new InsetsUIResource(3, 3, 3, 3));
+        // d.put(p + ".useChildTextComponentFocus", Boolean.TRUE);
+        d.put(p + ".backgroundPainter", new LazyPainter(c, ScrollPanePainter.Which.BACKGROUND_ENABLED));
+        d.put(p + "[Enabled+Focused].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED_FOCUSED));
+        d.put(p + "[Enabled].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED));
+
+        // Store ScrollPane Corner Component
+        d.put(p + ".cornerPainter", new LazyPainter(c, ScrollPanePainter.Which.CORNER_ENABLED));
+        
+        //Initialize Viewport
+        p = "Viewport";
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".opaque", Boolean.TRUE);
     }
 
     /**
@@ -1296,51 +1682,43 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("scrollBarThumbInteriorBasePressed", new Color(0x82a8ca));
         d.put("scrollBarButtonBase", Color.WHITE);
         d.put("scrollBarButtonBasePressed", new Color(0xa1bfdb));
+        d.put("scrollBarTrackBackgroundBase", Color.WHITE);
+        d.put("scrollBarTrackGradientBase", d.get("seaGlassTransparent"));
 
         d.put("ScrollBar.incrementButtonGap", new Integer(-7));
         d.put("ScrollBar.decrementButtonGap", new Integer(-7));
         d.put("ScrollBar.capSize", new Integer(11));
-        d.put("ScrollBar:\"ScrollBar.button\".size", new Integer(22));
-
-        d.put("scrollBarTrackBackgroundBase", Color.WHITE);
-        d.put("scrollBarTrackGradientBase", d.get("seaGlassTransparent"));
+        d.put("ScrollBar.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("ScrollBar.thumbHeight", new Integer(15));
+        d.put("ScrollBar.minimumThumbSize", new DimensionUIResource(29, 29));
+        d.put("ScrollBar.maximumThumbSize", new DimensionUIResource(1000, 1000));
 
         // Buttons
         String c = PAINTER_PREFIX + "ScrollBarButtonPainter";
         String p = "ScrollBar:\"ScrollBar.button\"";
-
-        d.put(p + ".States", "Enabled,Pressed,Disabled,IncreaseButton,ButtonsTogether");
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".size", new Integer(22));
+        
+        d.put(p + ".States", "Enabled,Pressed,MouseOver,IncreaseButton,Disabled,ButtonsTogether");
         d.put(p + ".IncreaseButton", new ScrollBarButtonIsIncreaseButtonState());
         d.put(p + ".ButtonsTogether", new ScrollBarButtonsTogetherState());
+        d.put(p + ".foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_DISABLED));
+        d.put(p + "[MouseOver].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_PRESSED));
-        d.put(p + "[IncreaseButton+Enabled].foregroundPainter",
-              new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED));
-        d.put(p + "[IncreaseButton+Disabled].foregroundPainter",
-              new LazyPainter(c,
-                              ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED));
-        d.put(p + "[IncreaseButton+Pressed].foregroundPainter",
-              new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED));
-
-        d.put(p + "[Enabled+ButtonsTogether].foregroundPainter",
-              new LazyPainter(c,
-                              ScrollBarButtonPainter.Which.FOREGROUND_ENABLED_TOGETHER));
-        d.put(p + "[Disabled+ButtonsTogether].foregroundPainter",
-              new LazyPainter(c,
-                              ScrollBarButtonPainter.Which.FOREGROUND_DISABLED_TOGETHER));
-        d.put(p + "[Pressed+ButtonsTogether].foregroundPainter",
-              new LazyPainter(c,
-                              ScrollBarButtonPainter.Which.FOREGROUND_PRESSED_TOGETHER));
-        d.put(p + "[IncreaseButton+Enabled+ButtonsTogether].foregroundPainter",
-              new LazyPainter(c,
-                              ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED_TOGETHER));
-        d.put(p + "[IncreaseButton+Disabled+ButtonsTogether].foregroundPainter",
-              new LazyPainter(c,
-                              ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED_TOGETHER));
-        d.put(p + "[IncreaseButton+Pressed+ButtonsTogether].foregroundPainter",
-              new LazyPainter(c,
-                              ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED_TOGETHER));
+        d.put(p + "[MouseOver+Pressed].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_PRESSED));
+        d.put(p + "[IncreaseButton+Enabled].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED));
+        d.put(p + "[MouseOver+IncreaseButton].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED));
+        d.put(p + "[IncreaseButton+Disabled].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED));
+        d.put(p + "[IncreaseButton+Pressed].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED));
+        d.put(p + "[MouseOver+IncreaseButton+Pressed].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED));
+        d.put(p + "[Enabled+ButtonsTogether].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_ENABLED_TOGETHER));
+        d.put(p + "[Disabled+ButtonsTogether].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_DISABLED_TOGETHER));
+        d.put(p + "[Pressed+ButtonsTogether].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_PRESSED_TOGETHER));
+        d.put(p + "[IncreaseButton+Enabled+ButtonsTogether].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_ENABLED_TOGETHER));
+        d.put(p + "[IncreaseButton+Disabled+ButtonsTogether].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_DISABLED_TOGETHER));
+        d.put(p + "[IncreaseButton+Pressed+ButtonsTogether].foregroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_INCREASE_PRESSED_TOGETHER));
 
         // Thumb
         // Seems to be a bug somewhere where MouseOver is always delivered even
@@ -1368,16 +1746,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".States", "Enabled,Disabled");
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_CAP));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, ScrollBarButtonPainter.Which.FOREGROUND_CAP));
-
-        // Define ScrollPane border painters.
-        c = PAINTER_PREFIX + "ScrollPanePainter";
-        p = "ScrollPane";
-        d.put(p + ".contentMargins", new InsetsUIResource(3, 3, 3, 3));
-        d.put(p + "[Enabled+Focused].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED_FOCUSED));
-        d.put(p + "[Enabled].borderPainter", new LazyPainter(c, ScrollPanePainter.Which.BORDER_ENABLED));
-
-        // Store ScrollPane Corner Component
-        uiDefaults.put(p + ".cornerPainter", new LazyPainter(c, ScrollPanePainter.Which.CORNER_ENABLED));
     }
 
     /**
@@ -1387,7 +1755,6 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private void defineSeparators(UIDefaults d) {
         String c = PAINTER_PREFIX + "SeparatorPainter";
-
         d.put("Separator.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("Separator[Enabled].backgroundPainter", new LazyPainter(c, SeparatorPainter.Which.BACKGROUND_ENABLED));
     }
@@ -1397,59 +1764,50 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *
      * @param d the UI defaults map.
      */
-    private void defineSliders(UIDefaults d) {
-        d.put("sliderTrackBorderBase", new Color(0x898989));
-        d.put("sliderTrackInteriorBase", new Color(0xd8d8d8));
-
+    private void defineSliders(UIDefaults d) { 
+    	// Rossi: slider inner color changed from gray to "white"
+        d.put("sliderTrackBorderBase", new Color(0x709ad0));
+//        d.put("sliderTrackInteriorBase", new Color(0x709ad0)); // blue better?
+        d.put("sliderTrackInteriorBase", Color.WHITE); // Light blue better?
         String p = "Slider";
-
+        d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,ArrowShape");
         d.put(p + ".ArrowShape", new SliderArrowShapeState());
-        d.put(p + ":SliderThumb.ArrowShape", new SliderArrowShapeState());
-        d.put(p + ":SliderTrack.ArrowShape", new SliderArrowShapeState());
         d.put(p + ".thumbWidth", new Integer(17));
         d.put(p + ".thumbHeight", new Integer(20));
         d.put(p + ".trackBorder", new Integer(0));
         d.put(p + ".trackHeight", new Integer(5));
-        d.put(p + ".font", defaultFont.deriveFont(11.0f));
+        // Rossi: Changed ticks to dark blue to make them "less massive"
+        d.put(p + ".tickColor", new Color(0x5b7ea4));
+        d.put(p + "[Disabled].tickColor", getDerivedColor("seaGlassDisabledText", 0, 0, 0, 0, true));
+        d.put(p + ".font", new DerivedFont("defaultFont", 0.769f, null, null));
+        d.put(p + ".paintValue", Boolean.FALSE);
 
         p = "Slider:SliderThumb";
         String c = PAINTER_PREFIX + "SliderThumbPainter";
 
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,ArrowShape");
+        d.put(p + ".ArrowShape", new SliderArrowShapeState());
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_FOCUSED));
-        d.put(p + "[Focused+MouseOver].backgroundPainter",
-              new LazyPainter(c,
-                              SliderThumbPainter.Which.BACKGROUND_FOCUSED_MOUSEOVER));
-        d.put(p + "[Focused+Pressed].backgroundPainter",
-              new LazyPainter(c,
-                              SliderThumbPainter.Which.BACKGROUND_FOCUSED_PRESSED));
-        d.put(p + "[MouseOver].backgroundPainter",
-              new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_MOUSEOVER));
+        d.put(p + "[Focused+MouseOver].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_FOCUSED_MOUSEOVER));
+        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_FOCUSED_PRESSED));
+        d.put(p + "[MouseOver].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_MOUSEOVER));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_PRESSED));
-        d.put(p + "[ArrowShape+Enabled].backgroundPainter",
-              new LazyPainter(c,
-                              SliderThumbPainter.Which.BACKGROUND_ENABLED_ARROWSHAPE));
-        d.put(p + "[ArrowShape+Disabled].backgroundPainter",
-              new LazyPainter(c,
-                              SliderThumbPainter.Which.BACKGROUND_DISABLED_ARROWSHAPE));
-        d.put(p + "[ArrowShape+MouseOver].backgroundPainter",
-              new LazyPainter(c,
-                              SliderThumbPainter.Which.BACKGROUND_MOUSEOVER_ARROWSHAPE));
-        d.put(p + "[ArrowShape+Pressed].backgroundPainter",
-              new LazyPainter(c,
-                              SliderThumbPainter.Which.BACKGROUND_PRESSED_ARROWSHAPE));
-        d.put(p + "[ArrowShape+Focused].backgroundPainter",
-              new LazyPainter(c,
-                              SliderThumbPainter.Which.BACKGROUND_FOCUSED_ARROWSHAPE));
-        d.put(p + "[ArrowShape+Focused+MouseOver].backgroundPainter",
-              new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_FOCUSED_MOUSEOVER_ARROWSHAPE));
-        d.put(p + "[ArrowShape+Focused+Pressed].backgroundPainter",
-              new LazyPainter(c,
-                              SliderThumbPainter.Which.BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE));
+        d.put(p + "[ArrowShape+Enabled].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_ENABLED_ARROWSHAPE));
+        d.put(p + "[ArrowShape+Disabled].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_DISABLED_ARROWSHAPE));
+        d.put(p + "[ArrowShape+MouseOver].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_MOUSEOVER_ARROWSHAPE));
+        d.put(p + "[ArrowShape+Pressed].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_PRESSED_ARROWSHAPE));
+        d.put(p + "[ArrowShape+Focused].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_FOCUSED_ARROWSHAPE));
+        d.put(p + "[ArrowShape+Focused+MouseOver].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_FOCUSED_MOUSEOVER_ARROWSHAPE));
+        d.put(p + "[ArrowShape+Focused+Pressed].backgroundPainter", new LazyPainter(c, SliderThumbPainter.Which.BACKGROUND_FOCUSED_PRESSED_ARROWSHAPE));
 
         p = "Slider:SliderTrack";
         c = PAINTER_PREFIX + "SliderTrackPainter";
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".States", "Enabled,MouseOver,Pressed,Disabled,Focused,Selected,ArrowShape");
+        d.put(p + ".ArrowShape", new SliderArrowShapeState());
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SliderTrackPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SliderTrackPainter.Which.BACKGROUND_ENABLED));
     }
@@ -1475,20 +1833,24 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put("spinnerPrevTopLineEnabled", new Color(0xacc8e0));
         d.put("spinnerPrevTopLinePressed", new Color(0x9eb6cf));
 
-        d.put("Spinner.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("Spinner.contentMargins", new InsetsUIResource(4, 6, 4, 6));
         d.put("Spinner:\"Spinner.editor\".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("Spinner:\"Spinner.textField\".contentMargins", new InsetsUIResource(4, 6, 4, 0));
+        d.put("Spinner:\"Spinner.formattedTextField\".contentMargins", new InsetsUIResource(4, 6, 4, 2));
 
+        
         String c = PAINTER_PREFIX + "SpinnerFormattedTextFieldPainter";
         String p = "Spinner:Panel:\"Spinner.formattedTextField\"";
-
-        d.put(p + ".contentMargins", new InsetsUIResource(3, 10, 2, 10));
+        d.put(p + ".contentMargins", new InsetsUIResource(3, 10, 3, 2));
+        d.put(p + ".background", Color.WHITE);
+        d.put(p + "[Selected].textForeground", Color.WHITE);
+        d.put(p + "[Selected].textBackground", d.get("seaGlassSelection"));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_FOCUSED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_SELECTED));
-        d.put(p + "[Focused+Selected].backgroundPainter",
-              new LazyPainter(c,
-                              SpinnerFormattedTextFieldPainter.Which.BACKGROUND_SELECTED_FOCUSED));
+        d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, SpinnerFormattedTextFieldPainter.Which.BACKGROUND_SELECTED_FOCUSED));
 
         c = PAINTER_PREFIX + "SpinnerPreviousButtonPainter";
         p = "Spinner:\"Spinner.previousButton\"";
@@ -1497,14 +1859,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put(p + "[Focused+Pressed].backgroundPainter",
-              new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_FOCUSED));
-        d.put(p + "[Focused+Pressed].foregroundPainter",
-              new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
+        d.put(p + "[Focused+Pressed].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerPreviousButtonPainter.Which.FOREGROUND_PRESSED));
 
         c = PAINTER_PREFIX + "SpinnerNextButtonPainter";
@@ -1514,14 +1874,12 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_FOCUSED));
-        d.put(p + "[Focused+Pressed].backgroundPainter",
-              new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
+        d.put(p + "[Focused+Pressed].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED_FOCUSED));
         d.put(p + "[Pressed].backgroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.BACKGROUND_PRESSED));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_FOCUSED));
-        d.put(p + "[Focused+Pressed].foregroundPainter",
-              new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
+        d.put(p + "[Focused+Pressed].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED_FOCUSED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, SpinnerNextButtonPainter.Which.FOREGROUND_PRESSED));
     }
 
@@ -1555,11 +1913,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Focused].backgroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.BACKGROUND_FOCUSED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_ENABLED));
-        d.put(p + "[Enabled+Vertical].foregroundPainter",
-              new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_ENABLED_VERTICAL));
         d.put(p + "[Focused].foregroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_FOCUSED));
-        d.put(p + "[Focused+Vertical].foregroundPainter",
-              new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_FOCUSED_VERTICAL));
+        d.put(p + "[Enabled+Vertical].foregroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_ENABLED_VERTICAL));
+        d.put(p + "[Focused+Vertical].foregroundPainter", new LazyPainter(c, SplitPaneDividerPainter.Which.FOREGROUND_FOCUSED_VERTICAL));
     }
 
     /**
@@ -1568,6 +1924,27 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @param d the UI defaults map.
      */
     private void defineTabbedPanes(UIDefaults d) {
+        
+        // copied from nimbus
+        
+        d.put("TabbedPane.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put("TabbedPane.tabAreaStatesMatchSelectedTab", Boolean.TRUE);
+        d.put("TabbedPane.nudgeSelectedLabel", Boolean.FALSE);
+        d.put("TabbedPane.tabRunOverlay", new Integer(2));
+        d.put("TabbedPane.tabOverlap", new Integer(-1));
+        d.put("TabbedPane.extendTabsToBase", Boolean.TRUE);
+        d.put("TabbedPane.useBasicArrows", Boolean.TRUE);
+        addColor(d, "TabbedPane.shadow", "seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "TabbedPane.darkShadow", "text", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "TabbedPane.highlight", "seaGlassLightBackground", 0.0f, 0.0f, 0.0f, 0);
+        d.put("TabbedPane:TabbedPaneTab.contentMargins", new InsetsUIResource(2, 8, 3, 8));
+        addColor(d, "TabbedPane:TabbedPaneTab[Disabled].textForeground", "seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0);
+        addColor(d, "TabbedPane:TabbedPaneTab[Pressed+Selected].textForeground", 255, 255, 255, 255);
+        addColor(d, "TabbedPane:TabbedPaneTab[Focused+Pressed+Selected].textForeground", 255, 255, 255, 255);
+        d.put("TabbedPane:TabbedPaneTabArea.contentMargins", new InsetsUIResource(3, 10, 4, 10));
+        d.put("TabbedPane:TabbedPaneContent.contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        
+        // Below starts seaglass
         d.put("tabbedPaneTabAreaBackLineEnabled", new Color(0x647595));
         d.put("tabbedPaneTabAreaLightShadow", new Color(0x55eeeeee, true));
         d.put("tabbedPaneTabAreaDarkShadow", new Color(0x55aaaaaa, true));
@@ -1597,9 +1974,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Selected+MouseOver].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Pressed+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_PRESSED_SELECTED));
         d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_SELECTED_FOCUSED));
-        d.put(p + "[Focused+Pressed+Selected].backgroundPainter",
-              new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
-        d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
+        d.put(p + "[Focused+Pressed+Selected].backgroundPainter", new LazyPainter(c, TabbedPaneTabPainter.Which.BACKGROUND_PRESSED_SELECTED_FOCUSED));
+        d.put(p + "[Disabled].textForeground", d.get("seaGlassDisabledText"));
         d.put(p + "[Pressed+Selected].textForeground", Color.BLACK);
         d.put(p + "[Focused+Pressed+Selected].textForeground", Color.BLACK);
 
@@ -1627,26 +2003,22 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Enabled+Top].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_TOP));
         d.put(p + "[Disabled+Top].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_TOP));
         d.put(p + "[Enabled+Left].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_LEFT));
-        d.put(p + "[Disabled+Left].backgroundPainter",
-              new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_LEFT));
-        d.put(p + "[Enabled+Bottom].backgroundPainter",
-              new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_BOTTOM));
-        d.put(p + "[Disabled+Bottom].backgroundPainter",
-              new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_BOTTOM));
-        d.put(p + "[Enabled+Right].backgroundPainter",
-              new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_RIGHT));
-        d.put(p + "[Disabled+Right].backgroundPainter",
-              new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_RIGHT));
+        d.put(p + "[Disabled+Left].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_LEFT));
+        d.put(p + "[Enabled+Bottom].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_BOTTOM));
+        d.put(p + "[Disabled+Bottom].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_BOTTOM));
+        d.put(p + "[Enabled+Right].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_ENABLED_RIGHT));
+        d.put(p + "[Disabled+Right].backgroundPainter", new LazyPainter(c, TabbedPaneTabAreaPainter.Which.BACKGROUND_DISABLED_RIGHT));
 
         // Buttons
         c = PAINTER_PREFIX + "ArrowButtonPainter";
         p = "TabbedPane:TabbedPaneTabArea:\"TabbedPaneTabArea.button\"";
-        d.put(p + ".States", "Enabled,Pressed,Disabled");
+        d.put(p + ".States", "Enabled,Pressed,MouseOver,Disabled");
         d.put(p + "[Disabled].foreground", new ColorUIResource(0x9ba8cf));
         d.put(p + "[Enabled].foreground", new ColorUIResource(Color.BLACK));
         d.put(p + "[Pressed].foreground", new ColorUIResource(0x134D8C));
         d.put(p + "[Disabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_DISABLED));
         d.put(p + "[Enabled].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_ENABLED));
+        d.put(p + "[MouseOver].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_ENABLED));
         d.put(p + "[Pressed].foregroundPainter", new LazyPainter(c, ArrowButtonPainter.Which.FOREGROUND_PRESSED));
 
         p = "TabbedPane:TabbedPaneContent";
@@ -1661,28 +2033,39 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
     private void defineTables(UIDefaults d) {
         d.put("tableHeaderBorderEnabled", new Color(0xcad3e0));
         d.put("tableHeaderSortIndicator", new Color(0xc02a5481, true));
-        d.put("tableHeaderInteriorBaseEnabled", new Color(0xedf1f5));
+        // Rossi: table headers now blue and glassy.
+        // I know you discussed this already but I like all interactive components to have the glassy look.
+        d.put("tableHeaderInteriorBaseEnabled", new Color(0x80a6d2));
 
         String p = "TableHeader";
         String c = PAINTER_PREFIX + "TableHeaderPainter";
 
-        d.put(p + ".font", defaultFont.deriveFont(11.0f));
+//        d.put(p + ".font", new DerivedFont("defaultFont", 0.846f, null, null));
         d.put(p + "[Enabled].ascendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.ASCENDINGSORTICON_ENABLED));
         d.put(p + "[Enabled].descendingSortIconPainter", new LazyPainter(c, TableHeaderPainter.Which.DESCENDINGSORTICON_ENABLED));
 
         p = "Table";
         d.put(p + ".background", new ColorUIResource(Color.WHITE));
         d.put(p + ".alternateRowColor", new ColorUIResource(0xebf5fc));
+        d.put(p + ".showGrid", Boolean.FALSE);
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + ".opaque", Boolean.TRUE);
+        d.put(p + ".intercellSpacing", new DimensionUIResource(0, 0));
+        d.put(p + ".rendererUseTableColors", Boolean.TRUE);
+        d.put(p + ".rendererUseUIBorder", Boolean.TRUE);
+        d.put(p + ".cellNoFocusBorder", new BorderUIResource(BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 
         // TODO Why doesn't ColorUIResource work on these next two?
+        d.put(p + "[Enabled+Selected].textForeground", Color.WHITE);
         d.put(p + "[Enabled+Selected].textBackground", new Color(0x6181a5));
         d.put(p + "[Disabled+Selected].textBackground", new Color(0x6181a5));
         d.put(p + ".ascendingSortIcon", new SeaGlassIcon("TableHeader", "ascendingSortIconPainter", 8, 7));
         d.put(p + ".descendingSortIcon", new SeaGlassIcon("TableHeader", "descendingSortIconPainter", 8, 7));
         d.put(p + ".scrollPaneCornerComponent", TableScrollPaneCorner.class);
-
+        
         c = PAINTER_PREFIX + "TableHeaderRendererPainter";
         p = "TableHeader:\"TableHeader.renderer\"";
+        d.put(p + ".contentMargins", new InsetsUIResource(2, 4, 2, 4));
         d.put(p + ".States", "Enabled,Pressed,Disabled,Focused,Sorted");
         d.put(p + ".Sorted", new TableHeaderRendererSortedState());
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TableHeaderRendererPainter.Which.BACKGROUND_DISABLED));
@@ -1736,11 +2119,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + ".searchLeftInnerMargin", new Integer(3));
         d.put(p + ".searchRightInnerMargin", new Integer(3));
         d.put(p + ".placeholderTextColor", d.get("seaGlassSearchPlaceholderText"));
-        d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
-        d.put(p + "[SearchField].contentMargins", new InsetsUIResource(6, 26, 6, 23));
+        d.put(p + ".contentMargins", new InsetsUIResource(4, 6, 4, 6));
+        d.put(p + "[Selected].textForeground", Color.WHITE);
+        d.put(p + "[Selected].textBackground", d.get("seaGlassSelection"));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0, 0, 0, 0, true));
+        
+        d.put(p + "[SearchField].contentMargins", new InsetsUIResource(4, 26, 4, 23));
 
         // Initialize TextField
-        d.put(p + ".background", getDerivedColor("nimbusLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
+        d.put(p + ".background", getDerivedColor("seaGlassLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
@@ -1760,14 +2147,15 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         p = "FormattedTextField";
         d.put(p + ".States", "Enabled,Selected,Disabled,Focused,SearchField");
         d.put(p + ".SearchField", new TextFieldIsSearchState());
-        d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put(p + ".contentMargins", new InsetsUIResource(4, 6, 4, 6));
         d.put(p + ".searchIconWidth", new Integer(15));
         d.put(p + ".cancelIconWidth", new Integer(15));
         d.put(p + ".popupIconWidth", new Integer(7));
         d.put(p + ".searchLeftInnerMargin", new Integer(3));
         d.put(p + ".searchRightInnerMargin", new Integer(3));
         d.put(p + ".placeholderTextColor", d.get("seaGlassSearchPlaceholderText"));
-        d.put(p + ".background", getDerivedColor("nimbusLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
+        d.put(p + ".background", getDerivedColor("seaGlassLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0, 0, 0, 0, true));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
@@ -1776,6 +2164,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Enabled].borderPainter", new LazyPainter(c, TextComponentPainter.Which.BORDER_ENABLED));
 
         // Paint with SearchFieldPainter.
+        d.put(p + "[Disabled+SearchField].textForeground", getDerivedColor("seaGlassDisabledText", 0, 0, 0, 0, true));
         d.put(p + "[Disabled+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected+SearchField].backgroundPainter", new LazyPainter(cs, SearchFieldPainter.Which.BACKGROUND_SELECTED));
@@ -1785,14 +2174,18 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         // Initialize PasswordField
         p = "PasswordField";
-        d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put(p + ".contentMargins", new InsetsUIResource(4, 6, 4, 6));
         d.put(p + ".searchIconWidth", new Integer(15));
         d.put(p + ".cancelIconWidth", new Integer(15));
         d.put(p + ".popupIconWidth", new Integer(7));
+        d.put(p + ".echoChar", Character.valueOf((char) 0x2022));
         d.put(p + ".searchLeftInnerMargin", new Integer(3));
         d.put(p + ".searchRightInnerMargin", new Integer(3));
         d.put(p + ".placeholderTextColor", d.get("seaGlassSearchPlaceholderText"));
-        d.put(p + ".background", getDerivedColor("nimbusLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
+        d.put(p + ".background", getDerivedColor("seaGlassLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
+        d.put(p + "[Selected].textForeground", Color.WHITE);
+        d.put(p + "[Selected].textBackground", d.get("seaGlassSelection"));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0, 0, 0, 0, true));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
@@ -1811,13 +2204,22 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         // Initialize TextArea
         // TextArea in scroll pane is visually the same as editor pane.
         p = "TextArea";
-        d.put(p + ".contentMargins", new InsetsUIResource(6, 6, 6, 6));
+        d.put(p + ".contentMargins", new InsetsUIResource(4, 6, 4, 6));
         d.put(p + ".States", "Enabled,MouseOver,Pressed,Selected,Disabled,Focused,NotInScrollPane");
         d.put(p + ".NotInScrollPane", new TextAreaNotInScrollPaneState());
-        d.put(p + ".background", getDerivedColor("nimbusLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
+        d.put(p + ".background", getDerivedColor("seaGlassLightBackground", 0.0f, 0.0f, 0.0f, 0, true));
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
+        d.put(p + "[Selected].textForeground", Color.WHITE);
+        d.put(p + "[Selected].textBackground", d.get("seaGlassSelection"));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0, 0, 0, 0, true));
 
+        // Rossi: TextArea painters to support new Client Property to draw "lines"
+        d.put(p + "[Disabled].backgroundPainter",
+              new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_DISABLED));
+        d.put(p + "[Enabled].backgroundPainter",
+              new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_ENABLED));
+        
         // TextArea not in scroll pane is visually the same as TextField.
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
         d.put(p + "[Disabled+NotInScrollPane].backgroundPainter",
@@ -1835,6 +2237,9 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Selected].textForeground", Color.WHITE);
+        d.put(p + "[Selected].textBackground", d.get("seaGlassSelection"));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0, 0, 0, 0, true));
 
         // Initialize EditorPane
         p = "EditorPane";
@@ -1843,6 +2248,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         d.put(p + "[Disabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_DISABLED));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SOLID_ENABLED));
         d.put(p + "[Selected].backgroundPainter", new LazyPainter(c, TextComponentPainter.Which.BACKGROUND_SELECTED));
+        d.put(p + "[Selected].textForeground", Color.WHITE);
+        d.put(p + "[Selected].textBackground", d.get("seaGlassSelection"));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0, 0, 0, 0, true));
+        
+        p = "Label";
+        d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0, true));
     }
 
     /**
@@ -1851,8 +2263,25 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @param d the UI defaults map.
      */
     private void defineToolBars(UIDefaults d) {
+        // Copied from nimbus
+        
+        d.put("ToolBar.contentMargins", new InsetsUIResource(2, 2, 2, 2));
+        d.put("ToolBar.opaque", Boolean.TRUE);
+        d.put("ToolBar:Button.contentMargins", new InsetsUIResource(4, 4, 4, 4));
+        d.put("ToolBar:ToggleButton.contentMargins", new InsetsUIResource(4, 4, 4, 4));
+        addColor(d, "ToolBar:ToggleButton[Disabled+Selected].textForeground", "seaGlassDisabledText", 0.0f, 0.0f, 0.0f, 0);
+
+        //Initialize ToolBarSeparator
+        d.put("ToolBarSeparator.contentMargins", new InsetsUIResource(2, 0, 3, 0));
+        addColor(d, "ToolBarSeparator.textForeground", "seaGlassBorder", 0.0f, 0.0f, 0.0f, 0);
+
+        
+        // Below starts seaglass
+        
         d.put("toolbarHandleMac", new Color(0xc8191919, true));
-        d.put("toolbarToggleButtonBase", d.get("seaGlassTransparent"));
+        // Rossi: Adjusted color for better look: Not tested with unified, ...
+        d.put("toolbarToggleButtonBase", new Color(0x5b7ea4, true));
+        
 
         if ((!PlatformUtils.isMac())) {
             d.put("seaGlassToolBarActiveTopT", new Color(0x466c97));
@@ -1873,7 +2302,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             d.put("seaGlassToolBarInactiveTopT", new Color(0xe4e4e4));
             d.put("seaGlassToolBarInactiveBottomB", new Color(0xd8d8d8));
         }
-
+        
         String c = PAINTER_PREFIX + "ToolBarPainter";
         String p = "ToolBar";
 
@@ -1926,27 +2355,28 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      * @param d the UI defaults map.
      */
     private void defineTrees(UIDefaults d) {
+        //Initialize Tree
         String p = "Tree";
         String c = PAINTER_PREFIX + "TreePainter";
 
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + ".opaque", Boolean.TRUE);
         d.put(p + ".textForeground", d.get("text"));
-        d.put(p + ".textBackground", d.get("nimbusLightBackground"));
-        d.put(p + ".background", d.get("nimbusLightBackground"));
+        d.put(p + ".textBackground", d.get("seaGlassLightBackground"));
+        d.put(p + ".background", d.get("seaGlassLightBackground"));
         d.put(p + ".rendererFillBackground", Boolean.FALSE);
         d.put(p + ".leftChildIndent", new Integer(12));
-        d.put(p + ".rightChildIndent", new Integer(2));
+        d.put(p + ".rightChildIndent", new Integer(8));
         d.put(p + ".drawHorizontalLines", Boolean.FALSE);
         d.put(p + ".drawVerticalLines", Boolean.FALSE);
-        d.put(p + ".showRootHandles", Boolean.FALSE);
+        d.put(p + ".showsRootHandles", Boolean.FALSE);
         d.put(p + ".rendererUseTreeColors", Boolean.TRUE);
         d.put(p + ".repaintWholeRow", Boolean.TRUE);
         d.put(p + ".rowHeight", new Integer(0));
         d.put(p + ".rendererMargins", new InsetsUIResource(2, 5, 1, 5));
-        d.put(p + ".selectionForeground", d.get("nimbusSelectedText"));
-        d.put(p + ".selectionBackground", d.get("nimbusSelectionBackground"));
-        d.put(p + ".dropLineColor", d.get("nimbusFocus"));
+        d.put(p + ".selectionForeground", d.get("seaGlassSelectedText"));
+        d.put(p + ".selectionBackground", d.get("seaGlassSelectionBackground"));
+        d.put(p + ".dropLineColor", d.get("seaGlassFocus"));
 
         d.put(p + "[Enabled].collapsedIconPainter", new LazyPainter(c, TreePainter.Which.COLLAPSEDICON_ENABLED));
         d.put(p + "[Enabled+Selected].collapsedIconPainter",
@@ -1962,8 +2392,8 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         p = "Tree:TreeCell";
         c = PAINTER_PREFIX + "TreeCellPainter";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[Enabled].background", d.get("nimbusLightBackground"));
-        d.put(p + "[Enabled+Focused].background", d.get("nimbusLightBackground"));
+        d.put(p + "[Enabled].background", d.get("seaGlassLightBackground"));
+        d.put(p + "[Enabled+Focused].background", d.get("seaGlassLightBackground"));
         d.put(p + "[Enabled+Focused].backgroundPainter", new LazyPainter(c, TreeCellPainter.Which.BACKGROUND_ENABLED_FOCUSED));
         d.put(p + "[Enabled+Selected].textForeground", Color.WHITE);
         d.put(p + "[Enabled+Selected].backgroundPainter", new LazyPainter(c, TreeCellPainter.Which.BACKGROUND_ENABLED_SELECTED));
@@ -1972,16 +2402,16 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
 
         p = "Tree:\"Tree.cellRenderer\"";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
+        d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0, 0, 0, 0, true));
 
         p = "\"Tree.cellEditor\"";
         c = PAINTER_PREFIX + "TreeCellEditorPainter";
         d.put(p + ".contentMargins", new InsetsUIResource(2, 5, 2, 5));
         d.put(p + ".opaque", Boolean.TRUE);
         d.put(p + ".background", d.get("control"));
-        d.put(p + "[Disabled].textForeground", d.get("nimbusDisabledText"));
-        d.put(p + "[Selected].textForeground", d.get("nimbusSelectedText"));
-        d.put(p + "[Selected].textBackground", new ColorUIResource((Color) d.get("nimbusSelection")));
+        d.put(p + "[Disabled].textForeground", d.get("seaGlassDisabledText"));
+        d.put(p + "[Selected].textForeground", d.get("seaGlassSelectedText"));
+        d.put(p + "[Selected].textBackground", new ColorUIResource((Color) d.get("seaGlassSelection")));
         d.put(p + "[Enabled].backgroundPainter", new LazyPainter(c, TreeCellEditorPainter.Which.BACKGROUND_ENABLED));
         d.put(p + "[Enabled+Focused].backgroundPainter",
               new LazyPainter(c, TreeCellEditorPainter.Which.BACKGROUND_ENABLED_FOCUSED));
@@ -2235,7 +2665,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         List<LazyStyle> styles = styleMap.get(r);
 
         if (styles == null || styles.size() == 0) {
-            return defaultStyle;
+            return getDefaultStyle();
         }
 
         // Look for the best SynthStyle for this component/region pair.
@@ -2261,7 +2691,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         }
 
         // return the style, if found, or the default style if not found
-        return foundStyle == null ? defaultStyle : foundStyle.getStyle(c);
+        return foundStyle == null ? getDefaultStyle() : foundStyle.getStyle(c);
     }
 
     /**
@@ -2273,7 +2703,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      *
      * @return the new, updated style.
      */
-    public static SynthStyle updateStyle(SeaGlassContext context, SynthUI ui) {
+    public static SynthStyle updateStyle(SeaGlassContext context, SeaglassUI ui) {
         SynthStyle newStyle = SynthLookAndFeel.getStyle(context.getComponent(), context.getRegion());
         SynthStyle oldStyle = context.getStyle();
 
@@ -2304,13 +2734,13 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
         if (c.isEnabled()) {
 
             if (c.isFocusOwner()) {
-                return SynthUI.ENABLED | SynthUI.FOCUSED;
+                return SeaglassUI.ENABLED | SeaglassUI.FOCUSED;
             }
 
-            return SynthUI.ENABLED;
+            return SeaglassUI.ENABLED;
         }
 
-        return SynthUI.DISABLED;
+        return SeaglassUI.DISABLED;
     }
 
     /**
@@ -2865,7 +3295,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
      */
     private static final class PainterBorder implements Border, UIResource {
         private Insets  insets;
-        private Painter painter;
+        private SeaGlassPainter<Component> painter;
         private String  painterKey;
 
         /**
@@ -2885,7 +3315,7 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
          */
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
             if (painter == null) {
-                painter = (Painter) UIManager.get(painterKey);
+                painter = (SeaGlassPainter<Component>) UIManager.get(painterKey);
 
                 if (painter == null)
                     return;
@@ -2922,4 +3352,134 @@ public class SeaGlassLookAndFeel extends NimbusLookAndFeel {
             return false;
         }
     }
+    
+    
+   // THIS IS ALL COPIED FROM NIMBUS L&F
+//--------------------------------------------------------------------------------------------------------------------    
+
+        /**
+         * @inheritDoc
+         * @return true
+         */
+        @Override public boolean shouldUpdateStyleOnAncestorChanged() {
+            return true;
+        }
+        
+        /**
+         * Get a derived color, derived colors are shared instances and will be
+         * updated when its parent UIDefault color changes.
+         *
+         * @param uiDefaultParentName The parent UIDefault key
+         * @param hOffset The hue offset
+         * @param sOffset The saturation offset
+         * @param bOffset The brightness offset
+         * @param aOffset The alpha offset
+         * @param uiResource True if the derived color should be a UIResource,
+         *        false if it should not be a UIResource
+         * @return The stored derived color
+         */
+        public DerivedColor getDerivedColor(String parentUin,
+                                            float hOffset, float sOffset,
+                                            float bOffset, int aOffset,
+                                            boolean uiResource){
+            return getDerivedColor(null, parentUin,
+                    hOffset, sOffset, bOffset, aOffset, uiResource);
+        }
+
+        private DerivedColor getDerivedColor(String uin, String parentUin,
+                                            float hOffset, float sOffset,
+                                            float bOffset, int aOffset,
+                                            boolean uiResource) {
+            DerivedColor color;
+            if (uiResource) {
+                color = new DerivedColor.UIResource(parentUin,
+                        hOffset, sOffset, bOffset, aOffset);
+            } else {
+                color = new DerivedColor(parentUin, hOffset, sOffset,
+                    bOffset, aOffset);
+            }
+            return color;
+        }
+
+        /**
+         * Decodes and returns a color, which is derived from an offset between two
+         * other colors.
+         *
+         * @param color1   The first color
+         * @param color2   The second color
+         * @param midPoint The offset between color 1 and color 2, a value of 0.0 is
+         *                 color 1 and 1.0 is color 2;
+         * @param uiResource True if the derived color should be a UIResource
+         * @return The derived color
+         */
+        protected final Color getDerivedColor(Color color1, Color color2,
+                                          float midPoint, boolean uiResource) {
+            int argb = deriveARGB(color1, color2, midPoint);
+            if (uiResource) {
+                return new ColorUIResource(argb);
+            } else {
+                return new Color(argb);
+            }
+        }
+
+        /**
+         * Decodes and returns a color, which is derived from a offset between two
+         * other colors.
+         *
+         * @param color1   The first color
+         * @param color2   The second color
+         * @param midPoint The offset between color 1 and color 2, a value of 0.0 is
+         *                 color 1 and 1.0 is color 2;
+         * @return The derived color, which will be a UIResource
+         */
+        protected final Color getDerivedColor(Color color1, Color color2,
+                                          float midPoint) {
+            return getDerivedColor(color1, color2, midPoint, true);
+        }
+
+        /**
+         * Derives the ARGB value for a color based on an offset between two
+         * other colors.
+         *
+         * @param color1   The first color
+         * @param color2   The second color
+         * @param midPoint The offset between color 1 and color 2, a value of 0.0 is
+         *                 color 1 and 1.0 is color 2;
+         * @return the ARGB value for a new color based on this derivation
+         */
+        static int deriveARGB(Color color1, Color color2, float midPoint) {
+            int r = color1.getRed() +
+                    (int) ((color2.getRed() - color1.getRed()) * midPoint + 0.5f);
+            int g = color1.getGreen() +
+                    (int) ((color2.getGreen() - color1.getGreen()) * midPoint +
+                            0.5f);
+            int b = color1.getBlue() +
+                    (int) ((color2.getBlue() - color1.getBlue()) * midPoint + 0.5f);
+            int a = color1.getAlpha() +
+                    (int) ((color2.getAlpha() - color1.getAlpha()) * midPoint +
+                            0.5f);
+            return ((a & 0xFF) << 24) |
+                    ((r & 0xFF) << 16) |
+                    ((g & 0xFF) << 8) |
+                    (b & 0xFF);
+        }
+        
+        private void addColor(UIDefaults d, String uin, int r, int g, int b, int a) {
+            Color color = new ColorUIResource(new Color(r, g, b, a));
+            d.put(uin, color);
+        }
+
+        private void addColor(UIDefaults d, String uin, String parentUin,
+                float hOffset, float sOffset, float bOffset, int aOffset) {
+            addColor(d, uin, parentUin, hOffset, sOffset, bOffset, aOffset, true);
+        }
+
+        private void addColor(UIDefaults d, String uin, String parentUin,
+                float hOffset, float sOffset, float bOffset,
+                int aOffset, boolean uiResource) {
+            Color color = getDerivedColor(uin, parentUin,
+                    hOffset, sOffset, bOffset, aOffset, uiResource);
+            d.put(uin, color);
+        }
+    
 }
