@@ -32,7 +32,7 @@ import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheM
 
 public class MenuItemPainter extends AbstractRegionPainter {
     public static enum Which {
-        BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_MOUSEOVER,
+        BACKGROUND_DISABLED, BACKGROUND_ENABLED, BACKGROUND_MOUSEOVER, BACKGROUND_MOUSEOVER_UNIFIED
     }
 
     private Color        menuItemBackgroundBase   = decodeColor("menuItemBackgroundBase");
@@ -56,7 +56,10 @@ public class MenuItemPainter extends AbstractRegionPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_MOUSEOVER:
-            paintBackgroundMouseOver(g, width, height);
+            paintBackgroundMouseOver(g, c, width, height);
+            break;
+        case BACKGROUND_MOUSEOVER_UNIFIED:
+            paintBackgroundMouseOverUnified(g, c, width, height);
             break;
         }
     }
@@ -66,25 +69,35 @@ public class MenuItemPainter extends AbstractRegionPainter {
         return ctx;
     }
 
-    protected void paintBackgroundMouseOver(Graphics2D g, int width, int height) {
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
+    protected void paintBackgroundMouseOver(Graphics2D g, JComponent c, int width, int height) {
         Shape s = shapeGenerator.createRectangle(0, 0, width, height);
         g.setPaint(getMenuItemBackgroundPaint(s));
-        g.fill(s);
 
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.fill(s);
         Rectangle b = s.getBounds();
         int width1 = b.width;
         int height1 = b.height;
-        g.setColor(getMenuItemBottomLinePaint());
+        g.setColor(getMenuItemBottomLinePaint(c));
         g.drawLine(0, height1 - 1, width1 - 1, height1 - 1);
+    }
+    
+    protected void paintBackgroundMouseOverUnified(Graphics2D g, JComponent c, int width, int height) {
+        Shape s = shapeGenerator.createRectangle(0, 0, width, height);
+        g.setPaint(getMenuItemBackgroundPaintUnified(s));
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.fill(s);
     }
 
     public Paint getMenuItemBackgroundPaint(Shape s) {
         return createVerticalGradient(s, menuItemBackground);
     }
 
-    public Color getMenuItemBottomLinePaint() {
+    public Paint getMenuItemBackgroundPaintUnified(Shape s) {
+        return createVerticalGradient(s, new TwoColors(Color.WHITE, Color.WHITE));
+    }
+
+    public Color getMenuItemBottomLinePaint(JComponent c) {
         return menuItemBottomLine;
     }
 }

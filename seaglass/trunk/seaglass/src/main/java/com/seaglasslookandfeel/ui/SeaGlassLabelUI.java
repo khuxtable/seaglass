@@ -41,8 +41,6 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
 
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * SeaGlassLabelUI.
  * 
@@ -50,7 +48,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthLabelUI
  */
-public class SeaGlassLabelUI extends BasicLabelUI implements SynthUI {
+public class SeaGlassLabelUI extends BasicLabelUI implements SeaglassUI {
     private SeaGlassStyle style;
 
     /**

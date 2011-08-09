@@ -52,8 +52,6 @@ import javax.swing.plaf.synth.SynthStyle;
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * SeaGlassDesktopPaneUI implementation.
  * 
@@ -61,7 +59,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthDesktopPaneUI
  */
-public class SeaGlassDesktopPaneUI extends BasicDesktopPaneUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassDesktopPaneUI extends BasicDesktopPaneUI implements PropertyChangeListener, SeaglassUI {
     private SynthStyle     style;
     private TaskBar        taskBar;
     private DesktopManager oldDesktopManager;

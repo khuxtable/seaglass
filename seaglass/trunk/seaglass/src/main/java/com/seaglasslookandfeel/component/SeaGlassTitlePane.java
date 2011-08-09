@@ -19,10 +19,6 @@
  */
 package com.seaglasslookandfeel.component;
 
-import sun.swing.SwingUtilities2;
-
-import sun.swing.plaf.synth.SynthUI;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -31,30 +27,35 @@ import java.awt.FontMetrics;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.accessibility.AccessibleContext;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
+import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JRootPane;
+import javax.swing.JSeparator;
 import javax.swing.RootPaneContainer;
 import javax.swing.UIManager;
 import javax.swing.plaf.ActionMapUIResource;
@@ -64,10 +65,13 @@ import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.plaf.synth.SynthStyle;
 
+import sun.swing.SwingUtilities2;
+
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.ui.SeaGlassButtonUI;
 import com.seaglasslookandfeel.ui.SeaGlassRootPaneUI;
+import com.seaglasslookandfeel.ui.SeaglassUI;
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
 /**
@@ -78,7 +82,7 @@ import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
  *
  * @author Kathryn Huxtable
  */
-public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyChangeListener {
+public class SeaGlassTitlePane extends JComponent implements SeaglassUI, PropertyChangeListener {
     private static final long   serialVersionUID         = 7006086880911744060L;
     private static final String WINDOW_DOCUMENT_MODIFIED = "Window.documentModified";
 
@@ -93,8 +97,9 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     private JButton             iconButton;
     private JButton             maxButton;
     private JButton             closeButton;
+    private JButton             menuButton;
 
-    private JMenu             windowMenu;
+    private JPopupMenu        windowMenu;
     private JRootPane         rootPane;
     private RootPaneContainer rootParent;
 
@@ -147,7 +152,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
@@ -362,18 +367,99 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
 
         setLayout(createLayout());
 
+        assembleSystemMenu();
         createButtons();
         addSubComponents();
+    }
+
+    private void assembleSystemMenu() {
+        windowMenu = new JPopupMenu();
+        addSystemMenuItems(windowMenu);
+        enableActions();
+        menuButton = new JButton();
+        menuButton.setName("InternalFrameTitlePane.menuButtonAccessibleName");
+        updateMenuIcon();
+        menuButton.addMouseListener(new MouseAdapter() {
+                public void mousePressed(MouseEvent e) {
+                    showSystemMenu();
+                }
+            });
+        setInheritsPopupMenu(true);
+    }
+    
+    /**
+     * Add the items to the system menu.
+     *
+     * @param menu the system menu popup.
+     */
+    private void addSystemMenuItems(JPopupMenu menu) {
+        // PENDING: this should all be localizable!
+        JMenuItem mi = (JMenuItem) menu.add(restoreAction);
+
+        mi.setMnemonic('R');
+        mi = (JMenuItem) menu.add(moveAction);
+        mi.setMnemonic('M');
+        mi = (JMenuItem) menu.add(sizeAction);
+        mi.setMnemonic('S');
+        mi = (JMenuItem) menu.add(iconifyAction);
+        mi.setMnemonic('n');
+        mi = (JMenuItem) menu.add(maximizeAction);
+        mi.setMnemonic('x');
+        menu.add(new JSeparator());
+        mi = (JMenuItem) menu.add(closeAction);
+        mi.setMnemonic('C');
+    }
+    
+
+    /**
+     * Show the system menu.
+     */
+    private void showSystemMenu() {
+        Insets insets = rootPane.getInsets();
+        windowMenu.show(menuButton, getX() - insets.left - insets.right,
+            getY() + this.getPreferredSize().height);
+    }
+    
+    /**
+     * Resets the menuButton icon to match that of the frame.
+     */
+    private void updateMenuIcon() {
+        List<Image> iconList = null;
+        if (rootParent instanceof JFrame) {
+            iconList = ((JFrame) rootParent).getIconImages();
+        } else if (rootParent instanceof JDialog) {
+            iconList = ((JDialog) rootParent).getIconImages();
+        }
+        
+        Image frameIcon = iconList != null && iconList.size() > 0 ? iconList.get(0) : null;
+
+        SeaGlassContext context   = getContext(this);
+
+        if (frameIcon != null) {
+            Dimension maxSize   = (Dimension) context.getStyle().get(context, "InternalFrameTitlePane.maxFrameIconSize");
+            int       maxWidth  = 16;
+            int       maxHeight = 16;
+
+            if (maxSize != null) {
+                maxWidth  = maxSize.width;
+                maxHeight = maxSize.height;
+            }
+            menuButton.setIcon(new ImageIcon(frameIcon.getScaledInstance(maxWidth, maxHeight, Image.SCALE_SMOOTH)));
+        }
+
+        context.dispose();
     }
 
     /**
      * Add the buttons.
      */
     private void addSubComponents() {
+        menuButton.setName("InternalFrameTitlePane.menuButton");
         iconButton.setName("InternalFrameTitlePane.iconifyButton");
         maxButton.setName("InternalFrameTitlePane.maximizeButton");
         closeButton.setName("InternalFrameTitlePane.closeButton");
 
+        add(menuButton);
         add(iconButton);
         add(maxButton);
         add(closeButton);
@@ -417,7 +503,6 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
      */
     protected void uninstallListeners() {
         removeParentPropertyChangeListener(this);
-        removeParentPropertyChangeListener(this);
     }
 
     /**
@@ -455,7 +540,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
         SeaGlassContext context  = getContext(this, ENABLED);
         SynthStyle      oldStyle = style;
 
-        style = SeaGlassLookAndFeel.updateStyle(context, this);
+        style = SeaGlassLookAndFeel.updateSeaglassStyle(context, this);
 
         if (style != oldStyle) {
             titleSpacing = style.getInt(context, "InternalFrameTitlePane.titleSpacing", 2);
@@ -589,7 +674,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                     maxX = getParentWidth() - getParentInsets().right - titleSpacing;
                 }
 
-                minX = titleSpacing;
+                minX = menuButton.getX() + menuButton.getWidth() + titleSpacing;
             } else {
 
                 if (lastButton != null) {
@@ -598,7 +683,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                     minX = getParentInsets().left + titleSpacing;
                 }
 
-                maxX = getParentWidth() - getParentInsets().right - titleSpacing;
+                maxX = getParentWidth() - getParentInsets().right - menuButton.getX() - titleSpacing;
             }
 
             String clippedTitle = getTitle(title, fm, maxX - minX);
@@ -672,7 +757,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
@@ -701,6 +786,11 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
 
             if (SeaGlassLookAndFeel.shouldUpdateStyle(evt)) {
                 updateStyle(this);
+            }
+        } else {
+            // Changes for the internal frame
+            if (evt.getPropertyName() == "iconImage") {
+                updateMenuIcon();
             }
         }
 
@@ -900,7 +990,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
         public Dimension minimumLayoutSize(Container c) {
             SeaGlassContext context = getContext(SeaGlassTitlePane.this);
             int             width   = 10;
-            int             height  = 0;
+            int             height  = 24;
 
             int       buttonCount = 0;
             Dimension pref;
@@ -925,6 +1015,10 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                 height = Math.max(pref.height, height);
                 buttonCount++;
             }
+            
+            pref   = menuButton.getPreferredSize();
+            width  += pref.width;
+            height = Math.max(pref.height, height);
 
             FontMetrics        fm            = getFontMetrics(getFont());
             SynthGraphicsUtils graphicsUtils = context.getStyle().getGraphicsUtils(context);
@@ -998,6 +1092,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
             Insets insets = c.getInsets();
 
             if (isParentLeftToRight()) {
+                center(menuButton, insets, insets.left + 4, false);
                 int x = getWidth() - insets.right - 5;
 
                 if (isParentClosable()) {
@@ -1012,6 +1107,7 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
                     x = center(iconButton, insets, x, true);
                 }
             } else {
+                center(menuButton, insets, getWidth() - insets.right - 4, true);
                 int x = insets.left + 5;
 
                 if (isParentClosable()) {
@@ -1186,9 +1282,8 @@ public class SeaGlassTitlePane extends JComponent implements SynthUI, PropertyCh
          */
         public void actionPerformed(ActionEvent e) {
             if (show) {
-                windowMenu.doClick();
+                showSystemMenu();
             } else {
-                windowMenu.setVisible(false);
             }
         }
     }

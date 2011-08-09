@@ -36,10 +36,9 @@ import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.text.View;
 
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.component.SeaGlassIcon;
 
 import sun.swing.SwingUtilities2;
-
-import sun.swing.plaf.synth.SynthIcon;
 
 /**
  * Customize the graphics utilities used by Synth.
@@ -89,6 +88,22 @@ public class SeaGlassGraphicsUtils extends SynthGraphicsUtils {
             }
         }
     }
+    
+    /**
+     * Returns a new color with the alpha of the old color cut in half.
+     *
+     * @param  color the original color.
+     *
+     * @return the new color.
+     */
+    // Rossi: used in slider ui "paint ticks".
+    public static Color disable(Color color) {
+        int alpha = color.getAlpha();
+
+        alpha /= 2;
+
+        return new Color((color.getRGB() & 0xFFFFFF) | (alpha << 24), true);
+    }
 
     /**
      * Paints an icon and text. This will render the text as html, if necessary,
@@ -136,7 +151,7 @@ public class SeaGlassGraphicsUtils extends SynthGraphicsUtils {
 
             paintIconR.x += textOffset;
             paintIconR.y += textOffset;
-            SynthIcon.paintIcon(icon, ss, g2d, paintIconR.x, paintIconR.y, paintIconR.width, paintIconR.height);
+            SeaGlassIcon.paintIcon(icon, ss, g2d, paintIconR.x, paintIconR.y, paintIconR.width, paintIconR.height);
             g2d.setColor(color);
         }
 

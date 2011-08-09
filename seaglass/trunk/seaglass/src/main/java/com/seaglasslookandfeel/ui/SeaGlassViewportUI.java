@@ -39,8 +39,6 @@ import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.painter.ViewportPainter;
 
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * SeaGlassViewportUI implementation.
  * 
@@ -48,7 +46,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthViewportUI
  */
-public class SeaGlassViewportUI extends ViewportUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassViewportUI extends ViewportUI implements PropertyChangeListener, SeaglassUI {
     private SynthStyle style;
 
     public static ComponentUI createUI(JComponent c) {

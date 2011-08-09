@@ -37,7 +37,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -58,6 +57,8 @@ import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.text.View;
 
+import sun.swing.SwingUtilities2;
+
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassRegion;
@@ -66,16 +67,12 @@ import com.seaglasslookandfeel.component.SeaGlassArrowButton;
 import com.seaglasslookandfeel.util.ControlOrientation;
 import com.seaglasslookandfeel.util.SeaGlassTabCloseListener;
 
-import sun.swing.SwingUtilities2;
-
-import sun.swing.plaf.synth.SynthUI;
-
 /**
  * Sea Glass's TabbedPane UI delegate.
  *
  * <p>Based on SynthTabbedPaneUI.</p>
  */
-public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, PropertyChangeListener {
+public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SeaglassUI, PropertyChangeListener {
 
     private SeaGlassContext tabAreaContext;
     private SeaGlassContext tabContext;
@@ -400,7 +397,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
@@ -497,9 +494,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
      */
     protected JButton createScrollButton(int direction) {
         SynthScrollableTabButton b = new SynthScrollableTabButton(direction);
-
-        b.setName("TabbedPaneTabArea.button");
-
+        b.setName("TabbedPaneTabArea.button" + direction);
         return b;
     }
 
@@ -591,7 +586,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
@@ -900,7 +895,8 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
         } else {
             // plain text
             int mnemIndex = tabPane.getDisplayedMnemonicIndexAt(tabIndex);
-
+            FontMetrics    fm = SwingUtilities2.getFontMetrics(tabPane, g);
+            title = SwingUtilities2.clipStringIfNecessary(tabPane, fm, title, textRect.width);
             g.setColor(ss.getStyle().getColor(ss, ColorType.TEXT_FOREGROUND));
             ss.getStyle().getGraphicsUtils(ss).paintText(ss, g, title, textRect, mnemIndex);
         }
@@ -998,6 +994,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
         if (tabComponent != null) {
             width += tabComponent.getPreferredSize().width;
+            if (tabIndex < rects.length && tabCloseButtonPlacement != CENTER) {
+                width += getCloseButtonBounds(tabIndex).width + textIconGap;
+            }
         } else {
             if (icon != null) {
                 width += icon.getIconWidth() + textIconGap;
@@ -1208,6 +1207,7 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
          */
         public SynthScrollableTabButton(int direction) {
             super(direction);
+            putClientProperty("__arrow_scale__", 0.6);
         }
 
         /**
@@ -1256,10 +1256,9 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
             }
 
             calcContentRect();
-
+            
             for (int i = 0; i < tabPane.getComponentCount(); i++) {
                 Component child = tabPane.getComponent(i);
-
                 // Ignore the scroll buttons. They have already been positioned in
                 // calculateTabRects, which will have been called by calculateLayoutInfo,
                 // which is called above.
@@ -1267,11 +1266,40 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
                     child.setBounds(contentRect);
                 }
             }
-
+            setTabContainerBounds();
             layoutTabComponents();
 
             if (shouldChangeFocus && !SwingUtilities2.tabbedPaneChangeFocusTo(getVisibleComponent())) {
                 tabPane.requestFocus();
+            }
+        }
+        
+        /**
+         * Check if we have a custom tab component container.
+         * @return the container used to hold custom tab components.
+         */
+        private Component getTabContainer() {
+            int tabCount = tabPane.getTabCount();
+            for (int i = 0; i < tabCount; i++) {
+                Component tabComponent = tabPane.getTabComponentAt(i);
+                if (tabComponent != null) {
+                    return tabComponent.getParent();
+                }
+            }
+            return null;
+        }
+
+        /**
+         * Set the position of the tab container that is used to layout custom tab components.
+         */
+        private void setTabContainerBounds() {
+            Component tabContainer = getTabContainer();
+            if (tabContainer != null) {
+                int tabContainerX = tabPlacement == RIGHT ? contentRect.width : 0; 
+                int tabContainerY =  tabPlacement == BOTTOM ? contentRect.height : 0;
+                int tabContainerWidth = tabPlacement == LEFT || tabPlacement == RIGHT ? tabPane.getWidth() - contentRect.width : contentRect.width;
+                int tabContainerHeight = tabPlacement == TOP || tabPlacement == BOTTOM ? tabPane.getHeight() - contentRect.height : contentRect.height;
+                tabContainer.setBounds(tabContainerX, tabContainerY, tabContainerWidth, tabContainerHeight);
             }
         }
 
@@ -1417,12 +1445,13 @@ public class SeaGlassTabbedPaneUI extends BasicTabbedPaneUI implements SynthUI, 
 
                 Dimension preferredSize = c.getPreferredSize();
                 Insets    insets        = getTabInsets(tabPlacement, i);
-                int       outerX        = rect.x + insets.left;
-                int       outerY        = rect.y + insets.top;
+                int       outerX        = (rect.x-c.getParent().getX()) + insets.left;
+                int       outerY        = (rect.y-c.getParent().getY()) + insets.top;
                 int       outerWidth    = rect.width - insets.left - insets.right;
                 int       outerHeight   = rect.height - insets.top - insets.bottom;
 
                 // centralize component
+                // TODO rossi 30.06.2011 this may need adjustment to respect the optional close buttons
                 int       x             = outerX + (outerWidth - preferredSize.width) / 2;
                 int       y             = outerY + (outerHeight - preferredSize.height) / 2;
                 boolean   isSelected    = i == tabPane.getSelectedIndex();

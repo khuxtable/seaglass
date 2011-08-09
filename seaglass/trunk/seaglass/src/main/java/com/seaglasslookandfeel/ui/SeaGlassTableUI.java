@@ -19,8 +19,6 @@
  */
 package com.seaglasslookandfeel.ui;
 
-import sun.swing.plaf.synth.SynthUI;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -28,14 +26,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.NumberFormat;
-
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -83,7 +78,7 @@ import com.seaglasslookandfeel.util.WindowUtils;
  *
  * @see javax.swing.plaf.synth.SynthTableUI
  */
-public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyChangeListener, ViewportPainter {
+public class SeaGlassTableUI extends BasicTableUI implements SeaglassUI, PropertyChangeListener, ViewportPainter {
 
     private static final CellRendererPane CELL_RENDER_PANE = new CellRendererPane();
 
@@ -338,7 +333,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     // SynthUI
     //
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
@@ -385,7 +380,7 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {
@@ -507,11 +502,14 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
         // Paint the background, including stripes if requested.
         if (alternateColor != null) {
             // Fill the viewport with background color.
-            g.setColor(table.getBackground());
+        	// Rossi: Ugly broken hack to make the first column white instead of blue.
+        	// To see how the new blue table headers look like.
+        	// This is should be done by modifying the "for loop" instead.
+            g.setColor(alternateColor);
             g.fillRect(0, 0, width, height);
 
             // Now check if we need to paint some stripes
-            g.setColor(alternateColor);
+            g.setColor(table.getBackground());
 
             // Paint table rows to fill the viewport.
             for (int y = top + row * rh, ymax = height; y < ymax; y += rh) {
@@ -1017,7 +1015,8 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
                     int emptyColumnWidth = viewport.getWidth() - table.getWidth();
 
                     TableCellRenderer renderer  = table.getTableHeader().getDefaultRenderer();
-                    Component         component = renderer.getTableCellRendererComponent(table, "", false, false, -1, -1);
+                    // Rossi: Fix for indexoutofbounds exception: A try catch might be good too?
+                    Component         component = renderer.getTableCellRendererComponent(table, "", false, false, 0, table.getColumnCount()-1);
 
                     component.setBounds(0, 0, emptyColumnWidth, table.getTableHeader().getHeight());
 
@@ -1288,7 +1287,6 @@ public class SeaGlassTableUI extends BasicTableUI implements SynthUI, PropertyCh
             }
 
             Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            // System.out.println("row = " + row + ", opaque = " + isOpaque());
             if (row % 2 == 0) {
                 comp.setBackground(alternateColor);
                 setBackground(alternateColor);

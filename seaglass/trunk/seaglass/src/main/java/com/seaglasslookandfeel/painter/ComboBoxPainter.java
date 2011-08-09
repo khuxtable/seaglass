@@ -66,9 +66,7 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
 
         editable = false;
         if (state == Which.BACKGROUND_DISABLED_EDITABLE || state == Which.BACKGROUND_ENABLED_EDITABLE
-                || state == Which.BACKGROUND_PRESSED_EDITABLE) {
-            editable = true;
-        } else if (state == Which.BACKGROUND_FOCUSED_EDITABLE) {
+                || state == Which.BACKGROUND_PRESSED_EDITABLE || state == Which.BACKGROUND_FOCUSED_EDITABLE) {
             editable = true;
         } else {
             ComboBoxArrowButtonPainter.Which arrowState;
@@ -198,7 +196,8 @@ public final class ComboBoxPainter extends AbstractCommonColorsPainter {
     }
 
     private Shape createFocusPath(CornerSize size, int x, int y, int width, int height) {
-        CornerStyle leftStyle = editable ? CornerStyle.SQUARE : CornerStyle.ROUNDED;
+    	// Rossi: all corners are round on editable combo boxes too.
+        CornerStyle leftStyle = CornerStyle.ROUNDED;
         return shapeGenerator.createRoundRectangle(x, y, width, height, size, leftStyle, leftStyle, CornerStyle.ROUNDED,
             CornerStyle.ROUNDED);
     }

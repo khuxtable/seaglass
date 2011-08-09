@@ -26,6 +26,8 @@ import javax.swing.JComponent;
 
 import com.seaglasslookandfeel.effect.SeaGlassInternalShadowEffect;
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerStyle;
 
 /**
  * ComboBoxTextFieldPainter implementation.
@@ -48,14 +50,19 @@ public final class ComboBoxTextFieldPainter extends AbstractCommonColorsPainter 
 
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        Shape s = shapeGenerator.createRectangle(3, 3, width - 3, height - 6);
+        Shape s = shapeGenerator.createRoundRectangle(3, 3, width - 2, height - 6, 
+            CornerSize.BORDER, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE);
         g.setColor(c.getBackground());
         g.fill(s);
 
-        s = shapeGenerator.createRectangle(3, 3, width - 3, height - 6);
-        internalShadow.fill(g, s, false, false);
+        if (type != CommonControlState.DISABLED) {
+            s = shapeGenerator.createRoundRectangle(3, 3, width - 2, height - 6,
+                CornerSize.BORDER, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE);
+            internalShadow.fill(g, s, false, false);
+        }
 
-        s = shapeGenerator.createOpenRectangle(2, 2, width - 3, height - 5);
+        s = shapeGenerator.createRoundRectangle(2, 2, width - 2, height - 5,
+            CornerSize.BORDER, CornerStyle.ROUNDED, CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE);
         g.setPaint(getTextBorderPaint(type, false));
         g.draw(s);
     }

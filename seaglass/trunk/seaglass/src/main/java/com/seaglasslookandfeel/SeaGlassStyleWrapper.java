@@ -35,12 +35,10 @@ import javax.swing.plaf.synth.SynthPainter;
 import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.component.SeaGlassBorder;
-import com.seaglasslookandfeel.painter.Painter;
+import com.seaglasslookandfeel.painter.SeaGlassPainter;
+import com.seaglasslookandfeel.ui.SeaglassUI;
 import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
-import com.sun.java.swing.plaf.nimbus.NimbusStyle;
-
-import sun.swing.plaf.synth.SynthUI;
 
 /**
  * A SynthStyle implementation used by SeaGlass. This just wraps a SynthStyle
@@ -98,7 +96,7 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      * @param context the context.
      * @param ui      the UI delegate.
      */
-    public void installDefaults(SeaGlassContext context, SynthUI ui) {
+    public void installDefaults(SeaGlassContext context, SeaglassUI ui) {
         // Special case the Border as this will likely change when the LAF
         // can have more control over this.
         if (!context.isSubregion()) {
@@ -151,10 +149,8 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
 
         // Account for scale
         // The key "JComponent.sizeVariant" is used to match Apple's LAF
-        String scaleKey = (String) ctx.getComponent().getClientProperty("JComponent.sizeVariant");
-
+        String scaleKey = SeaGlassStyle.getSizeVariant(ctx.getComponent());
         if (scaleKey != null) {
-
             if (LARGE_KEY.equals(scaleKey)) {
                 f = f.deriveFont(Math.round(f.getSize2D() * LARGE_SCALE));
             } else if (SMALL_KEY.equals(scaleKey)) {
@@ -203,12 +199,12 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      *         none could be found.
      */
     @SuppressWarnings("unchecked")
-    public Painter getBackgroundPainter(SynthContext ctx) {
-        if (!(style instanceof NimbusStyle)) {
+    public SeaGlassPainter getBackgroundPainter(SynthContext ctx) {
+        if (!(style instanceof SeaGlassStyle)) {
             return null;
         }
 
-        return new PainterWrapper(((NimbusStyle) style).getBackgroundPainter(ctx));
+        return new PainterWrapper(((SeaGlassStyle) style).getBackgroundPainter(ctx));
     }
 
     /**
@@ -222,12 +218,12 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      *         none could be found.
      */
     @SuppressWarnings("unchecked")
-    public Painter getForegroundPainter(SynthContext ctx) {
-        if (!(style instanceof NimbusStyle)) {
+    public SeaGlassPainter getForegroundPainter(SynthContext ctx) {
+        if (!(style instanceof SeaGlassStyle)) {
             return null;
         }
 
-        return new PainterWrapper(((NimbusStyle) style).getForegroundPainter(ctx));
+        return new PainterWrapper(((SeaGlassStyle) style).getForegroundPainter(ctx));
     }
 
     /**
@@ -241,31 +237,31 @@ public final class SeaGlassStyleWrapper extends SeaGlassStyle {
      *         none could be found.
      */
     @SuppressWarnings("unchecked")
-    public Painter getBorderPainter(SynthContext ctx) {
-        if (!(style instanceof NimbusStyle)) {
+    public SeaGlassPainter getBorderPainter(SynthContext ctx) {
+        if (!(style instanceof SeaGlassStyle)) {
             return null;
         }
 
-        return new PainterWrapper(((NimbusStyle) style).getBorderPainter(ctx));
+        return new PainterWrapper(((SeaGlassStyle) style).getBorderPainter(ctx));
     }
 
     /**
      * Wrap the sun Painter class with our own.
      */
-    public class PainterWrapper implements Painter {
-        private com.sun.java.swing.Painter painter;
+    public class PainterWrapper implements SeaGlassPainter {
+        private SeaGlassPainter<Object> painter;
 
         /**
          * Creates a new PainterWrapper object.
          *
          * @param painter the painter to be wrapped.
          */
-        public PainterWrapper(com.sun.java.swing.Painter painter) {
+        public PainterWrapper(SeaGlassPainter<Object> painter) {
             this.painter = painter;
         }
 
         /**
-         * @see com.seaglasslookandfeel.painter.Painter#paint(java.awt.Graphics2D,
+         * @see com.seaglasslookandfeel.painter.SeaGlassPainter#paint(java.awt.Graphics2D,
          *      java.lang.Object, int, int)
          */
         public void paint(Graphics2D g, Object object, int width, int height) {

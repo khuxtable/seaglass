@@ -35,8 +35,8 @@ public final class TreePainter extends AbstractRegionPainter {
     private Which        state;
     private PaintContext ctx;
 
-    private Color        selectedColor = decodeColor("nimbusBlueGrey", 0.0f, -0.110526316f, 0.25490195f, 0);
-    private Color        enabledColor  = decodeColor("nimbusBlueGrey", -0.6111111f, -0.110526316f, -0.34509805f, 0);
+    private Color        selectedColor = decodeColor("seaGlassBlueGrey", 0.0f, -0.110526316f, 0.25490195f, 0);
+    private Color        enabledColor  = decodeColor("seaGlassBlueGrey", -0.6111111f, -0.110526316f, -0.34509805f, 0);
 
     public TreePainter(Which state) {
         super();

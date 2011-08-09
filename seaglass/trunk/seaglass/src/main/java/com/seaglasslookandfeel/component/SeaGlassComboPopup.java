@@ -60,6 +60,19 @@ public class SeaGlassComboPopup extends BasicComboPopup {
     public SeaGlassComboPopup(JComboBox combo) {
         super(combo);
     }
+    
+    
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateUI() {
+        // TODO Auto-generated method stub
+        super.updateUI();
+    }
+
+
 
     /**
      * Is the combo box popup a "drop down" popup, or does it overlay the box?
@@ -98,7 +111,7 @@ public class SeaGlassComboPopup extends BasicComboPopup {
     @Override
     protected void configureList() {
         list.setFont(comboBox.getFont());
-
+        list.setBorder(null);
         list.setCellRenderer(comboBox.getRenderer());
         list.setFocusable(false);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -243,7 +256,8 @@ public class SeaGlassComboPopup extends BasicComboPopup {
      * @return the maximum row count to display.
      */
     private int getMaximumRowCount() {
-        return isEditable() ? comboBox.getMaximumRowCount() : 100;
+       // return isEditable() ? comboBox.getMaximumRowCount() : 100;
+        return comboBox.getMaximumRowCount();
     }
 
     /**

@@ -35,8 +35,7 @@ import javax.swing.text.JTextComponent;
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.seaglasslookandfeel.SeaGlassStyle;
-
-import sun.swing.plaf.synth.SynthUI;
+import com.seaglasslookandfeel.ui.SeaglassUI;
 
 /**
  * SeaGlassBorder is a border that delegates to a Painter. The Insets are
@@ -48,7 +47,7 @@ import sun.swing.plaf.synth.SynthUI;
  */
 public class SeaGlassBorder extends AbstractBorder implements UIResource {
     private static final long serialVersionUID = 2565840147056359672L;
-    private SynthUI           ui;
+    private SeaglassUI        ui;
     private Insets            insets;
 
     /**
@@ -57,7 +56,7 @@ public class SeaGlassBorder extends AbstractBorder implements UIResource {
      * @param ui     the UI delegate for the control.
      * @param insets the border insets.
      */
-    public SeaGlassBorder(SynthUI ui, Insets insets) {
+    public SeaGlassBorder(SeaglassUI ui, Insets insets) {
         this.ui     = ui;
         this.insets = insets;
     }
@@ -67,7 +66,7 @@ public class SeaGlassBorder extends AbstractBorder implements UIResource {
      *
      * @param ui the UI degelate for the control.
      */
-    public SeaGlassBorder(SynthUI ui) {
+    public SeaGlassBorder(SeaglassUI ui) {
         this(ui, null);
     }
 

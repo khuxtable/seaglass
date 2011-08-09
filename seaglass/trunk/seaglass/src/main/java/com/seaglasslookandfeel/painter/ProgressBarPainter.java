@@ -166,6 +166,7 @@ public final class ProgressBarPainter extends AbstractCommonColorsPainter {
         Shape s = shapeGenerator.createRectangle(0, 0, width, height);
         g.setPaint(getProgressBarPaint(s, type));
         g.fill(s);
+
         s = shapeGenerator.createProgressBarIndeterminatePattern(0, 0, width, height);
         g.setPaint(getProgressBarIndeterminatePaint(s, type));
         g.fill(s);

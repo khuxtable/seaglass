@@ -137,7 +137,8 @@ public final class SliderThumbPainter extends AbstractCommonColorsPainter {
      */
     @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        if (isDiscrete) {
+        Boolean forceArrow = (Boolean) c.getClientProperty("Slider.paintThumbArrowShape");
+        if (isDiscrete || (forceArrow != null && forceArrow == Boolean.TRUE)) {
             paintDiscrete(g, c, width, height);
         } else {
             paintContinuous(g, c, width, height);
@@ -163,7 +164,7 @@ public final class SliderThumbPainter extends AbstractCommonColorsPainter {
     private void paintDiscrete(Graphics2D g, JComponent c, int width, int height) {
         boolean useToolBarColors = isInToolBar(c);
         Shape   s;
-
+        
         if (isFocused) {
             s = shapeGenerator.createSliderThumbDiscrete(0, 0, width, height, CornerSize.SLIDER_OUTER_FOCUS);
             g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
@@ -221,4 +222,5 @@ public final class SliderThumbPainter extends AbstractCommonColorsPainter {
         g.setPaint(getCommonInteriorPaint(s, type));
         g.fill(s);
     }
+        
 }

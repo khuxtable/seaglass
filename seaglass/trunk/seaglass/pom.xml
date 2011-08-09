@@ -40,6 +40,19 @@
 			</roles>
 			<timezone>-6</timezone>
 		</developer>
+		<developer>
+			<id>rossi</id>
+			<name>Bernd Rosstauscher</name>
+			<email>bernd@rosstauscher.de</email>
+			<url>http://www.rosstauscher.de</url>
+			<organization>rosstauscher.de</organization>
+			<organizationUrl>http://www.rosstauscher.de</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
 	</developers>
 	<mailingLists>
 		<mailingList>

@@ -32,13 +32,11 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 
 import javax.accessibility.AccessibleContext;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -60,12 +58,11 @@ import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.plaf.synth.SynthStyle;
 
-import com.seaglasslookandfeel.SeaGlassContext;
-import com.seaglasslookandfeel.SeaGlassLookAndFeel;
-
 import sun.swing.SwingUtilities2;
 
-import sun.swing.plaf.synth.SynthUI;
+import com.seaglasslookandfeel.SeaGlassContext;
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.ui.SeaglassUI;
 
 /**
  * Manage a title bar for an internal frame.
@@ -74,7 +71,7 @@ import sun.swing.plaf.synth.SynthUI;
  *
  * @see javax.swing.plaf.synth.SynthInternalFrameTitlePane
  */
-public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthUI, PropertyChangeListener {
+public class SeaGlassInternalFrameTitlePane extends JComponent implements SeaglassUI, PropertyChangeListener {
     private static final long serialVersionUID = 6852740789566412690L;
 
     private static final String CLOSE_CMD    = UIManager.getString("InternalFrameTitlePane.closeButtonText");
@@ -129,7 +126,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#getContext(javax.swing.JComponent)
+     * @see SeaglassUI#getContext(javax.swing.JComponent)
      */
     public SeaGlassContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
@@ -529,7 +526,7 @@ public class SeaGlassInternalFrameTitlePane extends JComponent implements SynthU
     }
 
     /**
-     * @see sun.swing.plaf.synth.SynthUI#paintBorder(javax.swing.plaf.synth.SynthContext,
+     * @see SeaglassUI#paintBorder(javax.swing.plaf.synth.SynthContext,
      *      java.awt.Graphics, int, int, int, int)
      */
     public void paintBorder(SynthContext context, Graphics g, int x, int y, int w, int h) {

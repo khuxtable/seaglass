@@ -42,10 +42,8 @@ import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.component.SeaGlassIcon;
 import com.seaglasslookandfeel.util.WindowUtils;
-
-import sun.swing.plaf.synth.SynthIcon;
-import sun.swing.plaf.synth.SynthUI;
 
 /**
  * SeaGlassToolBarUI implementation.
@@ -54,7 +52,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthToolBarUI
  */
-public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeListener, SeaglassUI {
     protected Icon      handleIcon  = null;
     protected Rectangle contentRect = new Rectangle();
 
@@ -211,8 +209,8 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
     protected void paint(SeaGlassContext context, Graphics g) {
         if (handleIcon != null && toolBar.isFloatable()) {
             int startX = toolBar.getComponentOrientation().isLeftToRight() ? 0 : toolBar.getWidth()
-                    - SynthIcon.getIconWidth(handleIcon, context);
-            SynthIcon.paintIcon(handleIcon, context, g, startX, 0, SynthIcon.getIconWidth(handleIcon, context), SynthIcon.getIconHeight(
+                    - SeaGlassIcon.getIconWidth(handleIcon, context);
+            SeaGlassIcon.paintIcon(handleIcon, context, g, startX, 0, SeaGlassIcon.getIconWidth(handleIcon, context), SeaGlassIcon.getIconHeight(
                 handleIcon, context));
         }
 
@@ -264,7 +262,7 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
             SeaGlassContext context = getContext(tb);
 
             if (tb.getOrientation() == JToolBar.HORIZONTAL) {
-                dim.width = tb.isFloatable() ? SynthIcon.getIconWidth(handleIcon, context) : 0;
+                dim.width = tb.isFloatable() ? SeaGlassIcon.getIconWidth(handleIcon, context) : 0;
                 Dimension compDim;
                 for (int i = 0; i < tb.getComponentCount(); i++) {
                     Component component = tb.getComponent(i);
@@ -275,7 +273,7 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
                     }
                 }
             } else {
-                dim.height = tb.isFloatable() ? SynthIcon.getIconHeight(handleIcon, context) : 0;
+                dim.height = tb.isFloatable() ? SeaGlassIcon.getIconHeight(handleIcon, context) : 0;
                 Dimension compDim;
                 for (int i = 0; i < tb.getComponentCount(); i++) {
                     Component component = tb.getComponent(i);
@@ -300,7 +298,7 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
             SeaGlassContext context = getContext(tb);
 
             if (tb.getOrientation() == JToolBar.HORIZONTAL) {
-                dim.width = tb.isFloatable() ? SynthIcon.getIconWidth(handleIcon, context) : 0;
+                dim.width = tb.isFloatable() ? SeaGlassIcon.getIconWidth(handleIcon, context) : 0;
                 Dimension compDim;
                 for (int i = 0; i < tb.getComponentCount(); i++) {
                     Component component = tb.getComponent(i);
@@ -311,7 +309,7 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
                     }
                 }
             } else {
-                dim.height = tb.isFloatable() ? SynthIcon.getIconHeight(handleIcon, context) : 0;
+                dim.height = tb.isFloatable() ? SeaGlassIcon.getIconHeight(handleIcon, context) : 0;
                 Dimension compDim;
                 for (int i = 0; i < tb.getComponentCount(); i++) {
                     Component component = tb.getComponent(i);
@@ -351,7 +349,7 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
             }
 
             if (tb.getOrientation() == JToolBar.HORIZONTAL) {
-                int handleWidth = tb.isFloatable() ? SynthIcon.getIconWidth(handleIcon, context) : 0;
+                int handleWidth = tb.isFloatable() ? SeaGlassIcon.getIconWidth(handleIcon, context) : 0;
 
                 // Note: contentRect does not take insets into account
                 // since it is used for determining the bounds that are
@@ -401,7 +399,7 @@ public class SeaGlassToolBarUI extends BasicToolBarUI implements PropertyChangeL
                     }
                 }
             } else {
-                int handleHeight = tb.isFloatable() ? SynthIcon.getIconHeight(handleIcon, context) : 0;
+                int handleHeight = tb.isFloatable() ? SeaGlassIcon.getIconHeight(handleIcon, context) : 0;
 
                 // See notes above regarding the use of insets
                 contentRect.x = 0;

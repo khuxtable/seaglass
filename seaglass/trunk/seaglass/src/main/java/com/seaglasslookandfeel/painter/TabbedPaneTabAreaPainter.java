@@ -22,6 +22,8 @@ package com.seaglasslookandfeel.painter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
@@ -41,15 +43,12 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
      */
     public static enum Which {
         BACKGROUND_ENABLED_TOP, BACKGROUND_ENABLED_LEFT, BACKGROUND_ENABLED_BOTTOM, BACKGROUND_ENABLED_RIGHT,
-
         BACKGROUND_DISABLED_TOP, BACKGROUND_DISABLED_LEFT, BACKGROUND_DISABLED_BOTTOM, BACKGROUND_DISABLED_RIGHT,
     }
 
-    private Color tabbedPaneTabAreaBackLineEnabled = decodeColor("tabbedPaneTabAreaBackLineEnabled");
-    private Color tabbedPaneTabAreaLightShadow     = decodeColor("tabbedPaneTabAreaLightShadow");
-    private Color tabbedPaneTabAreaDarkShadow      = decodeColor("tabbedPaneTabAreaDarkShadow");
-
-    private Color tabbedPaneTabAreaBackLineDisabled = disable(tabbedPaneTabAreaBackLineEnabled);
+    private Color        baseColor      = decodeColor("toolbarToggleButtonBase");
+    private TwoColors    tabLineInner     = new TwoColors(baseColor, deriveColor(baseColor, 0f, 0f, 0f, 0x28));
+    private TwoColors    tabLineInnerEdge = new TwoColors(baseColor, deriveColor(baseColor, 0f, 0f, 0f, 0xf0));
 
     /** DOCUMENT ME! */
     public Which         state;
@@ -117,12 +116,9 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
      * @param height DOCUMENT ME!
      */
     private void paintHorizontalLine(Graphics2D g, JComponent c, int x, int y, int width, int height) {
-        g.setPaint(getTabbedPaneTabAreaPaint(x, y - 1, width, 4));
-        g.fillRect(x, y - 1, width, 4);
-        g.setPaint(getTabbedPaneTabAreaBackgroundPaint());
-        g.drawLine(x, y, x + width - 1, y);
+        paintLine(g, width, height);
     }
-
+    
     /**
      * DOCUMENT ME!
      *
@@ -134,35 +130,55 @@ public final class TabbedPaneTabAreaPainter extends AbstractRegionPainter {
      * @param height DOCUMENT ME!
      */
     private void paintVerticalLine(Graphics2D g, JComponent c, int x, int y, int width, int height) {
-        g.setPaint(getTabbedPaneTabAreaPaint(x, y - 1, width, 3));
-        g.fillRect(x, y - 1, width, 3);
-        g.setPaint(getTabbedPaneTabAreaBackgroundPaint());
-        g.drawLine(x, y, x + width - 1, y);
+        paintLine(g, width, height);
     }
 
     /**
-     * DOCUMENT ME!
-     *
-     * @param  x      DOCUMENT ME!
-     * @param  y      DOCUMENT ME!
-     * @param  width  DOCUMENT ME!
-     * @param  height DOCUMENT ME!
-     *
-     * @return DOCUMENT ME!
+     * @param g
+     * @param width
+     * @param height
      */
-    public Paint getTabbedPaneTabAreaPaint(int x, int y, int width, int height) {
-        float midX = x + width / 2;
+    private void paintLine(Graphics2D g, int width, int height) {
+        Shape s = shapeGenerator.createRectangle(0, height/2, width, 1);
+        g.setPaint(getLinePaint(s, tabLineInnerEdge));
+        g.fill(s);
 
-        return createGradient(midX, y, midX, y + height, new float[] { 0f, 0.5f, 1f },
-                              new Color[] { tabbedPaneTabAreaLightShadow, tabbedPaneTabAreaDarkShadow, tabbedPaneTabAreaLightShadow });
+        s = shapeGenerator.createRectangle(0, height/2-1, width, 1);
+        g.setPaint(getLinePaint(s, tabLineInner));
+        g.fill(s);
+        
+        s = shapeGenerator.createRectangle(0, height/2+1, width, 1);
+        g.setPaint(getLinePaint(s, tabLineInner));
+        g.fill(s);
+    }
+    
+    /**
+     * @param s
+     * @param colors
+     * @return
+     */
+    public Paint getLinePaint(Shape s, TwoColors colors) {
+        return createLineGradient(s, colors);
     }
 
     /**
-     * DOCUMENT ME!
-     *
-     * @return DOCUMENT ME!
+     * @param s
+     * @param colors
+     * @return
      */
-    public Paint getTabbedPaneTabAreaBackgroundPaint() {
-        return isDisabled ? tabbedPaneTabAreaBackLineDisabled : tabbedPaneTabAreaBackLineEnabled;
+    private Paint createLineGradient(Shape s, TwoColors colors) {
+        Rectangle2D bounds = s.getBounds2D();
+        float x = (float) bounds.getX();
+        float y = (float) bounds.getY();
+        float w = (float) bounds.getWidth();
+        return createGradient(x, y, w + x, y, 
+            new float[] { 0f, 0.02f, 0.98f, 1f }, 
+            new Color[] {
+                colors.top,
+                colors.bottom,
+                colors.bottom,
+                colors.top 
+           });
     }
+   
 }

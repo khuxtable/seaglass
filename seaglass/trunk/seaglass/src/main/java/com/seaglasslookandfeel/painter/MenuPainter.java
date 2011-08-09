@@ -40,10 +40,10 @@ public final class MenuPainter extends MenuItemPainter {
     private Which        state;
     private PaintContext ctx;
 
-    private Color        iconDisabledSelected  = decodeColor("nimbusDisabledText");
-    private Color        iconEnabledSelected   = decodeColor("text");
-    private Color        iconSelectedMouseOver = decodeColor("nimbusSelectedText");
-
+    private Color        iconDisabledSelected  = decodeColor("seaGlassDisabledText");
+    private Color        iconEnabledSelected   = decodeColor("seaGlassMenuIcon");
+    private Color        iconSelectedMouseOver = decodeColor("seaGlassSelectedText");
+    
     public MenuPainter(Which state) {
         super(MenuItemPainter.Which.BACKGROUND_ENABLED);
         this.state = state;
@@ -54,7 +54,7 @@ public final class MenuPainter extends MenuItemPainter {
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
         switch (state) {
         case BACKGROUND_ENABLED_SELECTED:
-            paintBackgroundMouseOver(g, width, height);
+            paintBackgroundMouseOver(g, c, width, height);
             break;
         case ARROWICON_DISABLED:
             paintArrowIconDisabled(g, c, width, height);

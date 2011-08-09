@@ -19,6 +19,7 @@
  */
 package com.seaglasslookandfeel.ui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -42,11 +43,13 @@ import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthGraphicsUtils;
 import javax.swing.plaf.synth.SynthStyle;
 
+import sun.swing.DefaultLookup;
+import sun.swing.SwingUtilities2;
+
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
-
-import sun.swing.SwingUtilities2;
-import sun.swing.plaf.synth.SynthUI;
+import com.seaglasslookandfeel.SeaGlassStyle;
+import com.seaglasslookandfeel.util.SeaGlassGraphicsUtils;
 
 /**
  * SeaGlassSliderUI implementation.
@@ -56,7 +59,7 @@ import sun.swing.plaf.synth.SynthUI;
  * 
  * @see javax.swing.plaf.synth.SynthSliderUI
  */
-public class SeaGlassSliderUI extends BasicSliderUI implements PropertyChangeListener, SynthUI {
+public class SeaGlassSliderUI extends BasicSliderUI implements PropertyChangeListener, SeaglassUI {
     protected Dimension       contentDim = new Dimension();
     protected Rectangle       valueRect  = new Rectangle();
     protected boolean         paintValue;
@@ -152,20 +155,20 @@ public class SeaGlassSliderUI extends BasicSliderUI implements PropertyChangeLis
             // handle scaling for sizeVarients for special case components. The
             // key "JComponent.sizeVariant" scales for large/small/mini
             // components are based on Apples LAF
-            String scaleKey = (String) slider.getClientProperty("JComponent.sizeVariant");
+            String scaleKey = SeaGlassStyle.getSizeVariant(slider);
             if (scaleKey != null) {
-                if ("large".equals(scaleKey)) {
+                if (SeaGlassStyle.LARGE_KEY.equals(scaleKey)) {
                     thumbWidth *= 1.15;
                     thumbHeight *= 1.15;
                     trackHeightHack = 7;
-                } else if ("small".equals(scaleKey)) {
+                } else if (SeaGlassStyle.SMALL_KEY.equals(scaleKey)) {
                     thumbWidth *= 0.857;
                     thumbHeight *= 0.857;
                     trackHeightHack = 3;
-                } else if ("mini".equals(scaleKey)) {
+                } else if (SeaGlassStyle.MINI_KEY.equals(scaleKey)) {
                     thumbWidth *= 0.784;
                     thumbHeight *= 0.784;
-                    trackHeightHack = 1;
+                    trackHeightHack = 3;
                 }
             }
 
@@ -780,6 +783,50 @@ public class SeaGlassSliderUI extends BasicSliderUI implements PropertyChangeLis
 
         if (slider.getPaintLabels() && clip.intersects(labelRect)) {
             paintLabels(g);
+        }
+    }
+    
+    // Rossi: Ugly hack to change color of "ticks". Replacing this with an painter might be nicer.
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void paintMajorTickForHorizSlider(Graphics g, Rectangle tickBounds, int x) {
+        setTickColor(g);
+        super.paintMajorTickForHorizSlider(g, tickBounds, x);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void paintMajorTickForVertSlider(Graphics g, Rectangle tickBounds, int y) {
+        setTickColor(g);
+        super.paintMajorTickForVertSlider(g, tickBounds, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void paintMinorTickForHorizSlider(Graphics g, Rectangle tickBounds, int x) {
+        setTickColor(g);
+        super.paintMinorTickForHorizSlider(g, tickBounds, x);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void paintMinorTickForVertSlider(Graphics g, Rectangle tickBounds, int y) {
+        setTickColor(g);
+        super.paintMinorTickForVertSlider(g, tickBounds, y);
+    }
+
+    private void setTickColor(Graphics g) {
+        if (this.slider.isEnabled() == false) {
+            g.setColor(SeaGlassGraphicsUtils.disable(
+                DefaultLookup.getColor(slider, this, "Slider.tickColor", Color.black)));
         }
     }
 

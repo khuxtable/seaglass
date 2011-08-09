@@ -120,7 +120,7 @@ public class SegmentedButtonPainter extends ButtonVariantPainter {
      * @return the new height.
      */
     private int getButtonHeight(JComponent c, int height) {
-        String scaleKey  = (String) c.getClientProperty("JComponent.sizeVariant");
+        String scaleKey  = SeaGlassStyle.getSizeVariant(c);
         int    newHeight = 27;
 
         // If the key is natural, allow the button to scale.
