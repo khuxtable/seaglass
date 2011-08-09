@@ -990,7 +990,7 @@ public class SeaGlassTitlePane extends JComponent implements SeaglassUI, Propert
         public Dimension minimumLayoutSize(Container c) {
             SeaGlassContext context = getContext(SeaGlassTitlePane.this);
             int             width   = 10;
-            int             height  = 0;
+            int             height  = 24;
 
             int       buttonCount = 0;
             Dimension pref;
