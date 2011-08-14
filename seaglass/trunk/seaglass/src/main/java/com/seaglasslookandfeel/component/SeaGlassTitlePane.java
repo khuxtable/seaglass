@@ -69,6 +69,7 @@ import sun.swing.SwingUtilities2;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.painter.FrameAndRootPainter;
 import com.seaglasslookandfeel.ui.SeaGlassButtonUI;
 import com.seaglasslookandfeel.ui.SeaGlassRootPaneUI;
 import com.seaglasslookandfeel.ui.SeaglassUI;
@@ -990,7 +991,7 @@ public class SeaGlassTitlePane extends JComponent implements SeaglassUI, Propert
         public Dimension minimumLayoutSize(Container c) {
             SeaGlassContext context = getContext(SeaGlassTitlePane.this);
             int             width   = 10;
-            int             height  = 24;
+            int             height  = FrameAndRootPainter.TITLE_BAR_HEIGHT;
 
             int       buttonCount = 0;
             Dimension pref;
