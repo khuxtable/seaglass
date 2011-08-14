@@ -84,7 +84,7 @@ public class PlatformUtils {
      * @return true if this JVM is running Java 6 on a Mac.
      */
     public static boolean isJava6OnMac() {
-        return isMac() && getJavaVersion().startsWith("1.6");
+        return isMac() && isJava6();
     }
 
     /**
@@ -112,5 +112,12 @@ public class PlatformUtils {
      */
     public static boolean isSnowLeopard() {
         return isMac() && getOsVersion().startsWith("10.6");
+    }
+
+    /**
+     * @return true if we run on java 6 else we should be on Java 7 or newer
+     */
+    public static boolean isJava6() {
+        return getJavaVersion().startsWith("1.6");
     }
 }
