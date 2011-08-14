@@ -44,7 +44,7 @@ import com.seaglasslookandfeel.ui.SeaGlassRootPaneUI;
  */
 public final class FrameAndRootPainter extends AbstractRegionPainter {
 
-    private static final int TITLE_BAR_HEIGHT = 25;
+    public static final int TITLE_BAR_HEIGHT = 25;
 
     private static final State toolBarNorthState = new ToolBarNorthState();
     private static final State toolBarSouthState = new ToolBarSouthState();
