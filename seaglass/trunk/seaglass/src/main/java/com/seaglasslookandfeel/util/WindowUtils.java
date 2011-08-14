@@ -74,8 +74,34 @@ public class WindowUtils {
      * @param window to change the shape for 
      * @param s the new shape for the window.
      */
-    @SuppressWarnings("unchecked")
+
     public static void setWindowShape(Window window, Shape s) {
+        if (PlatformUtils.isJava6()) {
+            setWindowShapeJava6(window, s);
+        } else {
+            setWindowShapeJava7(window, s);
+        }
+    }
+
+    /**
+     * @param window
+     * @param s
+     */
+    private static void setWindowShapeJava7(Window window, Shape s) {
+        try {
+            Class  clazz  = window.getClass();
+            Method method = clazz.getMethod("setShape", Shape.class);
+            method.invoke(window, s);
+        } catch (Exception e) {
+            // silently ignore this exception.
+        }
+    }
+    
+    /**
+     * @param window
+     * @param s
+     */
+    private static void setWindowShapeJava6(Window window, Shape s) {
         try {
             Class  clazz  = Class.forName("com.sun.awt.AWTUtilities");
             Method method = clazz.getMethod("setWindowShape", java.awt.Window.class, Shape.class);

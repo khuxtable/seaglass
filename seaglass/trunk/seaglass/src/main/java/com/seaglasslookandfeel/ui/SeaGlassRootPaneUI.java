@@ -33,8 +33,11 @@ import java.awt.LayoutManager;
 import java.awt.LayoutManager2;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -62,6 +65,9 @@ import com.seaglasslookandfeel.component.SeaGlassBorder;
 import com.seaglasslookandfeel.component.SeaGlassTitlePane;
 import com.seaglasslookandfeel.painter.ContentPanePainter;
 import com.seaglasslookandfeel.painter.SeaGlassPainter;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
+import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerStyle;
 import com.seaglasslookandfeel.state.RootPaneWindowFocusedState;
 import com.seaglasslookandfeel.state.State;
 import com.seaglasslookandfeel.util.PlatformUtils;
@@ -432,13 +438,11 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SeaglassUI {
     private void installClientDecorations(JRootPane root) {
         installBorder(root);
         if (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog) {
-            // Indicate that this frame should not make all the content
-            // draggable. By default, when you set the opacity to 0 (like we do
-            // below) this property automatically gets set to true. Also note
-            // that this client property must be set *before* changing the
-            // opacity (not sure why).
-            root.putClientProperty("apple.awt.draggableWindowBackground", Boolean.FALSE);
-            WindowUtils.makeWindowNonOpaque((Window) root.getParent());
+            if (PlatformUtils.isJava6()) {
+                makeFrameBackgroundTransparent(root);
+            } else {
+                shapeWindow(root);
+            }
         }
 
         JComponent titlePane = createTitlePane(root);
@@ -450,6 +454,40 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SeaglassUI {
             root.revalidate();
             root.repaint();
         }
+    }
+
+    /**
+     * @param root
+     */
+    private void makeFrameBackgroundTransparent(JRootPane root) {
+        // Indicate that this frame should not make all the content
+        // draggable. By default, when you set the opacity to 0 (like we do
+        // below) this property automatically gets set to true. Also note
+        // that this client property must be set *before* changing the
+        // opacity (not sure why).
+
+        root.putClientProperty("apple.awt.draggableWindowBackground", Boolean.FALSE);
+        WindowUtils.makeWindowNonOpaque((Window) root.getParent());
+    }
+
+    /**
+     * @param root
+     */
+    private void shapeWindow(JRootPane root) {
+        root.getParent().addComponentListener(new ComponentAdapter() {
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void componentResized(ComponentEvent e) {
+                ShapeGenerator shapeGenerator = new ShapeGenerator();
+                int width = e.getComponent().getWidth();
+                int height = e.getComponent().getHeight();
+                Shape s = shapeGenerator.createRoundRectangle(0, 0, width+1, height+1, CornerSize.FRAME_BORDER,
+                    CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED);
+                WindowUtils.setWindowShape(window, s);
+            }
+        });
     }
 
     /**
