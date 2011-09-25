@@ -438,7 +438,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SeaglassUI {
     private void installClientDecorations(JRootPane root) {
         installBorder(root);
         if (root.getParent() instanceof JFrame || root.getParent() instanceof JDialog) {
-            if (PlatformUtils.isJava6()) {
+            if (PlatformUtils.isMac()) {
                 makeFrameBackgroundTransparent(root);
             } else {
                 shapeWindow(root);
