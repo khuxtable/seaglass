@@ -64,6 +64,7 @@ import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.DimensionUIResource;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.synth.ColorType;
@@ -2401,11 +2402,13 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
         d.put(p + "[Focused+Selected].backgroundPainter", new LazyPainter(c, TreeCellPainter.Which.BACKGROUND_SELECTED_FOCUSED));
 
         p = "Tree:\"Tree.cellRenderer\"";
+        d.put(p + ".font", new FontUIResource("SansSerif", Font.PLAIN, 13));
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(p + "[Disabled].textForeground", getDerivedColor("seaGlassDisabledText", 0, 0, 0, 0, true));
 
         p = "\"Tree.cellEditor\"";
         c = PAINTER_PREFIX + "TreeCellEditorPainter";
+        d.put(p + ".font", new FontUIResource("SansSerif", Font.PLAIN, 13));
         d.put(p + ".contentMargins", new InsetsUIResource(2, 5, 2, 5));
         d.put(p + ".opaque", Boolean.TRUE);
         d.put(p + ".background", d.get("control"));
