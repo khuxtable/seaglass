@@ -483,7 +483,7 @@ public class SeaGlassRootPaneUI extends BasicRootPaneUI implements SeaglassUI {
                 ShapeGenerator shapeGenerator = new ShapeGenerator();
                 int width = e.getComponent().getWidth();
                 int height = e.getComponent().getHeight();
-                Shape s = shapeGenerator.createRoundRectangle(0, 0, width+1, height+1, CornerSize.FRAME_BORDER,
+                Shape s = shapeGenerator.createRoundRectangle(0, 0, width, height, CornerSize.FRAME_INNER_HIGHLIGHT,
                     CornerStyle.ROUNDED, CornerStyle.SQUARE, CornerStyle.SQUARE, CornerStyle.ROUNDED);
                 WindowUtils.setWindowShape(window, s);
             }
