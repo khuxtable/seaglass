@@ -1467,6 +1467,7 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
         p = "MenuItem";
         d.put(p + ".contentMargins", new InsetsUIResource(1, 12, 2, 13));
         d.put(p + ".textIconGap", new Integer(5));
+        d.put(p + ".acceleratorFont", new DerivedFont("defaultFont", 1.0f, null, null));
         d.put(p + "[Disabled].textForeground", d.getColor("seaGlassDisabledText"));
         d.put(p + "[Enabled].textForeground", new ColorUIResource(Color.BLACK));
         d.put(p + "[MouseOver].textForeground", new ColorUIResource(Color.WHITE));
