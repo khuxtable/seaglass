@@ -46,6 +46,7 @@ import javax.swing.plaf.synth.ColorType;
 import javax.swing.plaf.synth.SynthContext;
 import javax.swing.plaf.synth.SynthStyle;
 
+import sun.swing.DefaultLookup;
 import sun.swing.SwingUtilities2;
 
 import com.seaglasslookandfeel.SeaGlassContext;
@@ -133,6 +134,22 @@ public class SeaGlassProgressBarUI extends BasicProgressBarUI implements Seaglas
             }
         }
         context.dispose();
+    }
+    
+    /**
+     * Overwritten to fix a very strange issue on Java 7 in BasicProgressBarUI
+     * The super method does exactly the same thing but has vertDim == null
+     * We with the same code in our overwritten method get a correct vertDim?
+     * Why? I don't know, but it fixes the issue.
+     * As a small modification I adjusted only the default hardcoded values to 19/150.
+     */
+    protected Dimension getPreferredInnerVertical() {
+        Dimension vertDim = (Dimension)DefaultLookup.get(progressBar, this,
+            "ProgressBar.vertictalSize");
+        if (vertDim == null) {
+            vertDim = new Dimension(19, 150);
+        }
+        return vertDim;
     }
 
     @Override
