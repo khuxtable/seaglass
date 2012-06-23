@@ -1,0 +1,98 @@
+Releasing a new version of the Sea Glass Look and Feel
+
+1. First you must check out a clean subversion copy. If the copy in your
+   working directory is clean you may use that. If you are using git-svn you
+   must check out a clean subversion copy in a new directory.
+
+2. Change to that clean directory.
+
+3. Prepare the release.
+
+   Execute the following command, substituting the "myusername" with your own
+   remote username.
+
+      mvn -Dusername=myusername release:prepare
+
+   The release:prepare command will ask what version number you want to use.
+   The default should be good. Then it will ask what tag you want to use to
+   tag the release. The default should still be good. Finally, it will ask
+   what version number you want to start developing. If you like the default,
+   use it, otherwise enter your own. Remember to add "-SNAPSHOT" to the end.
+   This is important.
+
+   The result of running this command is that the pom.xml file will have its
+   version updated to the release version and be checked in. Then a new tag
+   will be created for the release, consisting of the current trunk revisions.
+   Finally, the pom.xml file's version will be updated to the new version and
+   that will be checked in.
+
+4. Perform the release
+
+   Now execute the following command, substituting the "myusername" with your
+   own remote username and "mypassphrase" with your GPG passphrase.
+
+      mvn -Dusername=myusername release:perform
+
+   The release:perform command will either prompt for your GPG passphrase, or,
+   if you are running the agent, bring up a window to prompt.
+
+   The result of running this command is to create the target jar, the sources
+   jar, and the javadoc jar. These jars will then be signed, and the jars and
+   signature files will be deployed to the staging repository at Sonatype. The
+   site documentation will then be created and deployed to its web site,
+   currently http://www.kathrynhuxtable.org/projects/site/seaglass.
+
+5. Check and close the staged release at Sonatype
+
+   Open a web browser and go to http://oss.sonatype.org and log in. You should
+   see a "Staging" repository link under the "Enterprise" heading in the left
+   pane of the browser window.
+
+   Click on the "Staging" link. You should now see a "com.seaglasslookandfeel"
+   repository in the top panel of the "Staging" pane that opens. Click on the
+   "com.seaglasslookandfeel" label. If all went well in your "release:perform"
+   you should see a repository in the lower pane.
+
+   Click on that repository and it should open a third pane below, with the
+   directory structure that will be deployed. Check it out. Make sure
+   everything looks good.
+
+   If it does not look good, right-click on the staged repository in the
+   middle pane and select "drop" from the choices. Then go back to your
+   release process and figure out what went wrong and start over.
+
+   If it does look good, right-click on the staged repository in the middle
+   pane and select "close" from the choices. You will be prompted for a
+   comment. Enter something like "Releasing version xxx for general use.", or
+   whatever you like. Click "Close" on that dialog.
+
+   If there are signing problems with your GPG, this is where they will be
+   detected. If there are no problems, then the staging will be marked
+   "closed". At this point, the jars should show up in the staging repository
+   at http://oss.sonatype.org/content/groups/staging/, for more testing, if
+   desired.
+
+6. Promote the release
+
+   When you are satisfied, which generally shouldn't take long, you may
+   right-click again on the staged repository in the middle pane of the
+   "Staging" pane and select "promote" from the options. This moves the jars
+   into Sonatype's releases repository at
+   http://oss.sonatype.org/content/repositories/releases/, whence it will
+   be deployed to the Maven Central repository at
+   http://repo1.maven.org/maven2, which can take a day.
+
+More information
+
+   The main Maven documentation and release site is at
+
+      http://maven.apache.org
+
+   The release plugin documentation can be navigated to from there, but
+   it is at
+
+      http://maven.apache.org/plugins/maven-release-plugin/
+
+   For more information on Sonatype's open source hosting, go to
+
+      http://nexus.sonatype.org/oss-repository-hosting.html
