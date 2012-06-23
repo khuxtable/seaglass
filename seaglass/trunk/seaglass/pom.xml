@@ -3,7 +3,7 @@
 	<groupId>com.seaglasslookandfeel</groupId>
 	<artifactId>seaglasslookandfeel</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.7.4-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>Sea Glass Look and Feel for Swing</name>
 	<description>
 		A Java cross-platform look and feel for JRE 1.6u17 and later.
@@ -356,7 +356,7 @@
 							<source>1.6</source>
 							<target>1.6</target>
 							<compilerArguments>
-								<bootclasspath>${java.home}/shared_bundle/Classes/classes.jar</bootclasspath>
+								<bootclasspath>${java.home}/../Classes/classes.jar</bootclasspath>
 							</compilerArguments>
 						</configuration>
 					</plugin>
