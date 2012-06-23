@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<images>
+	<image file="button" class="javax.swing.JButton" width="100" height="27" panelWidth="120"
+		panelHeight="32">
+		<argument type="String" value="Button" />
+	</image>
+	<image file="button-textured" class="javax.swing.JButton" width="100" height="27" panelWidth="120"
+		panelHeight="32">
+		<argument type="String" value="Button" />
+		<clientProperty type="String" name="JButton.buttonType" value="textured" />
+	</image>
+	<image file="button-large" class="javax.swing.JButton" width="100" height="27" panelWidth="120"
+		panelHeight="32">
+		<argument type="String" value="Button" />
+		<clientProperty type="String" name="JComponent.sizeVariant" value="large" />
+	</image>
+	<image file="button-small" class="javax.swing.JButton" width="100" height="27" panelWidth="120"
+		panelHeight="32">
+		<argument type="String" value="Button" />
+		<clientProperty type="String" name="JComponent.sizeVariant" value="small" />
+	</image>
+	<image file="button-mini" class="javax.swing.JButton" width="100" height="27" panelWidth="120"
+		panelHeight="32">
+		<argument type="String" value="Button" />
+		<clientProperty type="String" name="JComponent.sizeVariant" value="mini" />
+	</image>
+	<image file="button-first" class="javax.swing.JButton" width="100" height="27" panelWidth="120"
+		panelHeight="32">
+		<argument type="String" value="Button" />
+		<clientProperty type="String" name="JButton.buttonType" value="segmented" />
+		<clientProperty type="String" name="JButton.segmentPosition" value="first" />
+	</image>
+	<image file="button-middle" class="javax.swing.JButton" width="100" height="27" panelWidth="120"
+		panelHeight="32">
+		<argument type="String" value="Button" />
+		<clientProperty type="String" name="JButton.buttonType" value="segmented" />
+		<clientProperty type="String" name="JButton.segmentPosition" value="middle" />
+	</image>
+	<image file="button-last" class="javax.swing.JButton" width="100" height="27" panelWidth="120"
+		panelHeight="32">
+		<argument type="String" value="Button" />
+		<clientProperty type="String" name="JButton.buttonType" value="segmented" />
+		<clientProperty type="String" name="JButton.segmentPosition" value="last" />
+	</image>
+	<image file="button-textured-first" class="javax.swing.JButton" width="100" height="27"
+		panelWidth="120" panelHeight="32">
+		<argument type="String" value="Button" />
+		<clientProperty type="String" name="JButton.buttonType" value="segmentedTextured" />
+		<clientProperty type="String" name="JButton.segmentPosition" value="first" />
+	</image>
+	<image file="button-textured-middle" class="javax.swing.JButton" width="100" height="27"
+		panelWidth="120" panelHeight="32">
+		<argument type="String" value="Button" />
+		<clientProperty type="String" name="JButton.buttonType" value="segmentedTextured" />
+		<clientProperty type="String" name="JButton.segmentPosition" value="middle" />
+	</image>
+	<image file="button-textured-last" class="javax.swing.JButton" width="100" height="27"
+		panelWidth="120" panelHeight="32">
+		<argument type="String" value="Button" />
+		<clientProperty type="String" name="JButton.buttonType" value="segmentedTextured" />
+		<clientProperty type="String" name="JButton.segmentPosition" value="last" />
+	</image>
+
+	<image file="checkbox" class="javax.swing.JCheckBox" width="27" height="27" panelWidth="120"
+		panelHeight="32">
+	</image>
+	<image file="checkbox-large" class="javax.swing.JCheckBox" width="27" height="27" panelWidth="120"
+		panelHeight="32">
+		<clientProperty type="String" name="JComponent.sizeVariant" value="large" />
+	</image>
+	<image file="checkbox-small" class="javax.swing.JCheckBox" width="27" height="27" panelWidth="120"
+		panelHeight="32">
+		<clientProperty type="String" name="JComponent.sizeVariant" value="small" />
+	</image>
+	<image file="checkbox-mini" class="javax.swing.JCheckBox" width="27" height="27" panelWidth="120"
+		panelHeight="32">
+		<clientProperty type="String" name="JComponent.sizeVariant" value="mini" />
+	</image>
+
+	<image file="radiobutton" class="javax.swing.JRadioButton" width="27" height="27" panelWidth="120"
+		panelHeight="32">
+	</image>
+	<image file="radiobutton-large" class="javax.swing.JRadioButton" width="27" height="27"
+		panelWidth="120" panelHeight="32">
+		<clientProperty type="String" name="JComponent.sizeVariant" value="large" />
+	</image>
+	<image file="radiobutton-small" class="javax.swing.JRadioButton" width="27" height="27"
+		panelWidth="120" panelHeight="32">
+		<clientProperty type="String" name="JComponent.sizeVariant" value="small" />
+	</image>
+	<image file="radiobutton-mini" class="javax.swing.JRadioButton" width="27" height="27"
+		panelWidth="120" panelHeight="32">
+		<clientProperty type="String" name="JComponent.sizeVariant" value="mini" />
+	</image>
+
+	<image file="text-field" class="javax.swing.JTextField" width="150" height="27" panelWidth="200"
+		panelHeight="32">
+		<argument type="String" value="Text" />
+	</image>
+	<image file="search-field" class="javax.swing.JTextField" width="150" height="27" panelWidth="200"
+		panelHeight="32">
+		<clientProperty name="JTextField.variant" type="String" value="search" />
+		<clientProperty name="JTextField.Search.PlaceholderText" type="String" value="Search..." />
+	</image>
+	<image file="search-field-text" class="javax.swing.JTextField" width="150" height="27" panelWidth="200"
+		panelHeight="32">
+		<argument type="String" value="sea glass" />
+		<clientProperty name="JTextField.variant" type="String" value="search" />
+		<clientProperty name="JTextField.Search.PlaceholderText" type="String" value="Search..." />
+	</image>
+</images>

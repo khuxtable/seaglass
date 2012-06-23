@@ -1,0 +1,460 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.seaglasslookandfeel</groupId>
+	<artifactId>seaglasslookandfeel</artifactId>
+	<packaging>jar</packaging>
+	<version>0.1.7.2</version>
+	<name>Sea Glass Look and Feel for Swing</name>
+	<description>
+		A Java cross-platform look and feel for JRE 1.6u17 and later.
+		This is developed from
+		Synth, and is based on forms seen in sea glass,
+		that is, bits of glass washed up on the shore by
+		the sea.
+	</description>
+	<inceptionYear>2009</inceptionYear>
+	<url>http://seaglasslookandfeel.com</url>
+	<developers>
+		<developer>
+			<id>kenneth.orr</id>
+			<name>Kenneth Orr</name>
+			<email>kenneth.orr@gmail.com</email>
+			<url>http://explodingpixels.wordpress.com/</url>
+			<organizationUrl>http://explodingpixels.wordpress.com/</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>-8</timezone>
+		</developer>
+		<developer>
+			<id>khuxtable</id>
+			<name>Kathryn Huxtable</name>
+			<email>kathryn@kathrynhuxtable.org</email>
+			<url>http://www.kathrynhuxtable.org</url>
+			<organization>kathrynhuxtable.org</organization>
+			<organizationUrl>http://www.kathrynhuxtable.org</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>-6</timezone>
+		</developer>
+	</developers>
+	<mailingLists>
+		<mailingList>
+			<name>Discussion List</name>
+			<subscribe>sea-glass-look-and-feel+subscribe@googlegroups.com</subscribe>
+			<unsubscribe>sea-glass-look-and-feel+unsubscribe@googlegroups.com</unsubscribe>
+			<post>sea-glass-look-and-feel@googlegroups.com</post>
+			<archive>http://groups.google.com/group/sea-glass-look-and-feel</archive>
+		</mailingList>
+	</mailingLists>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>LICENSE.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<organization>
+		<name>seaglasslookandfeel.com</name>
+		<url>http://seaglasslookandfeel.com</url>
+	</organization>
+	<build>
+		<plugins>
+			<!-- Configure the compiler plugin to use JDK 1.6. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<!--
+				Configure the jar plugin. This packages the jar for the project. The only configuration done
+				here is to add the Maven coordinate information.
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<!--
+				Configure the release plugin. This aids in releasing versions of the software by automating
+				repetitive tasks that could otherwise be omitted or done incorrectly.
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<tagBase>https://seaglass.googlecode.com/svn/seaglass/tags</tagBase>
+				</configuration>
+			</plugin>
+			<!--
+				Configure the resources plugin. This runs *before* the docbkx plugin in the pre-site phase and
+				copies the doxia site files to the staging directory.
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<phase>pre-site</phase>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${siteSourceDirectory}</directory>
+								</resource>
+							</resources>
+							<outputDirectory>${siteStagingDirectory}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!--
+				Configure the docbkx plugin, which is a more fully featured DocBook converter than the one
+				included in Doxia. In particular, it does language-based syntax highlighting in programlisting
+				elements. This is run in the pre-site phase and generates its output to the xhtml directory of
+				the site staging directory. The post-processing phase copies the doxia site files to the staging
+				directory and runs JTidy on the XHTML files to make them conform to xhtml standards, which the
+				docbkx plugin currently does not. This should change in version 2.0.10 of the plugin.
+			-->
+			<plugin>
+				<groupId>com.agilejava.docbkx</groupId>
+				<artifactId>docbkx-maven-plugin</artifactId>
+				<version>2.0.9</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate-html</goal>
+						</goals>
+						<phase>pre-site</phase>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>docbook</groupId>
+						<artifactId>docbook-xml</artifactId>
+						<version>4.5</version>
+						<scope>runtime</scope>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<chunkedOutput>false</chunkedOutput>
+					<sourceDirectory>${docbookBaseDirectory}</sourceDirectory>
+					<targetDirectory>${siteStagingXhtmlDirectory}</targetDirectory>
+					<generateMetaAbstract>0</generateMetaAbstract>
+					<highlightSource>1</highlightSource>
+					<highlightDefaultLanguage />
+					<htmlCustomization>${docbookXslDirectory}/html.xsl</htmlCustomization>
+					<imgSrcPath>./</imgSrcPath>
+					<htmlCellSpacing>2</htmlCellSpacing>
+					<htmlCellPadding>2</htmlCellPadding>
+					<suppressHeaderNavigation>1</suppressHeaderNavigation>
+					<suppressFooterNavigation>1</suppressFooterNavigation>
+					<tableBordersWithCss>1</tableBordersWithCss>
+					<tableFrameBorderThickness>0</tableFrameBorderThickness>
+					<tableCellBorderThickness>0</tableCellBorderThickness>
+					<targetFileExtension>xhtml</targetFileExtension>
+					<!-- use extensions -->
+					<useExtensions>1</useExtensions>
+					<!-- callouts -->
+					<calloutsExtension>1</calloutsExtension>
+				</configuration>
+			</plugin>
+			<!--
+				Configure the antrun plugin. This runs *after* the docbkx plugin in the pre-site phase and runs
+				JTidy on the files generated by the docbkx plugin. When version 2.0.10 of the docbkx plugin is
+				released we shouldn't need the JTidy invocation anymore, and we can remove it.
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.3</version>
+				<dependencies>
+					<dependency>
+						<groupId>jtidy</groupId>
+						<artifactId>jtidy</artifactId>
+						<version>4aug2000r7-dev</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<phase>pre-site</phase>
+						<configuration>
+							<tasks>
+								<!-- Run JTidy on the files generated by DocBook. -->
+								<apply executable="java">
+									<arg line="-cp ${settings.localRepository}/jtidy/jtidy/4aug2000r7-dev/jtidy-4aug2000r7-dev.jar" />
+									<arg value="org.w3c.tidy.Tidy" />
+									<arg value="-utf8" />
+									<arg value="-asxml" />
+									<arg value="-i" />
+									<arg value="-q" />
+									<arg value="-m" />
+									<fileset dir="${siteStagingXhtmlDirectory}">
+										<include name="*.xhtml" />
+									</fileset>
+								</apply>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!--
+				Configure the site plugin. This creates site documentation suitable for deploying to a web site.
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>2.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.doxia</groupId>
+						<artifactId>doxia-module-xhtml</artifactId>
+						<version>1.1.2</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<locales>en</locales>
+					<outputEncoding>${project.build.sourceEncoding}</outputEncoding>
+					<siteDirectory>${siteStagingDirectory}</siteDirectory>
+					<templateFile>${siteStagingDirectory}/site.vm</templateFile>
+				</configuration>
+			</plugin>
+			<!--
+				Configure the source plugin. This creates a jar of source files for deployment to the Maven
+				repository.
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Classifier>sources</Implementation-Classifier>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<!-- JUnit is the only external dependency for Sea Glass, and it is only used for testing. -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.6</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<distributionManagement>
+		<!-- Site to deploy releases to. -->
+		<repository>
+			<id>ossrh</id>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+		<!-- Site to deploy snapshots to. -->
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<!--
+			Site to deploy site documentation to. Note that this overwrites the previous site documentation.
+			But if someone checks out the project, they can rebuild the site documentation, so we're not too
+			concerned.
+		-->
+		<site>
+			<id>personal_website</id>
+			<url>scpexe://shell.sonic.net/home/k/kathryn5/public_html/projects/site/seaglasslookandfeel</url>
+		</site>
+	</distributionManagement>
+	<!-- Define Google Code site's issue management system. -->
+	<issueManagement>
+		<system>Google Code</system>
+		<url>http://seaglasslookandfeel.com/issues/</url>
+	</issueManagement>
+	<reporting>
+		<plugins>
+			<!-- Generate the following standard project reports. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.1.2</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>summary</report>
+							<report>dependencies</report>
+							<report>dependency-convergence</report>
+							<report>project-team</report>
+							<report>mailing-list</report>
+							<report>issue-tracking</report>
+							<report>license</report>
+							<report>scm</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+				<configuration>
+					<webAccessUrl>http://code.google.com/p/seaglass/source/checkout</webAccessUrl>
+					<anonymousConnection>scm:svn:http://code.google.com/p/seaglass/source/browse/seaglass/trunk/seaglass</anonymousConnection>
+					<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass
+					</developerConnection>
+				</configuration>
+			</plugin>
+			<!-- Configure the source cross reference. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<outputDirectory>${project.reporting.outputDirectory}/xref</outputDirectory>
+					<doctitle>${project.name} ${project.version} Code Cross-Reference</doctitle>
+					<windowtitle>${project.name} ${project.version} Java API.</windowtitle>
+					<javadocDir>${project.reporting.outputDirectory}/apidocs</javadocDir>
+				</configuration>
+			</plugin>
+			<!-- Generate a tag list report to easily find TODO and FIXME comments. -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<tags>
+						<tag>TODO</tag>
+						<tag>FIXME</tag>
+					</tags>
+				</configuration>
+			</plugin>
+			<!--
+				Configure the PMD report, reporting on coding style. This also configures CPD (copy/paste
+				detection) reporting.
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<targetJdk>1.6</targetJdk>
+				</configuration>
+			</plugin>
+			<!-- Configure the javadoc. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.6.1</version>
+				<configuration>
+					<links>
+						<link>http://java.sun.com/javase/6/docs/api</link>
+						<link>http://www.randelshofer.ch/quaqua/javadoc</link>
+					</links>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Classifier>javadoc</Implementation-Classifier>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+	<!--
+		Source control management definitions for anonymous checkout, developer checkout/checkin, and
+		browsing via the web. The developer connection is used by the release plugin, as well as in
+		generating the site documentation.
+	-->
+	<scm>
+		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass/tags/seaglasslookandfeel-0.1.7.2</connection>
+		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/tags/seaglasslookandfeel-0.1.7.2
+		</developerConnection>
+		<url>http://code.google.com/p/seaglass/source/browse/seaglass/tags/seaglasslookandfeel-0.1.7.2</url>
+	</scm>
+	<profiles>
+		<!--
+			Define the profile to be activated when performing a release. This makes sure all the
+			deliverables are signed with GPG.
+		-->
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.0</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<properties>
+		<!-- Define the default encoding. We want this to be platform independent. -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!--
+			Define the base directory for our site documentation. Note that we use the docbkx plugin for our
+			non-generated documentation, running it through JTidy to make it conform to XHTML/Transitional
+			standards so that Doxia's XHTML converter can wrap the site look and feel around it.
+		-->
+		<mysiteBaseDirectory>${basedir}/src/site</mysiteBaseDirectory>
+		<!-- Base directory for the DocBook documentation. -->
+		<docbookBaseDirectory>${mysiteBaseDirectory}/docbook</docbookBaseDirectory>
+		<!-- Base directory for the DocBook XSL stylesheet customizations. -->
+		<docbookXslDirectory>${docbookBaseDirectory}/xsl</docbookXslDirectory>
+		<!--
+			Define the base directory for the Doxia site configuration. This cannot be at the main level of
+			site documentation because if the site plugin detects src/site/site.xml it ignores the
+			sitedirectory argument. This entire directory gets copied to a staging directory, along with the
+			XHTML translations from DocBook, and then the site plugin builds a site.
+		-->
+		<siteSourceDirectory>${mysiteBaseDirectory}/site</siteSourceDirectory>
+		<!--
+			Staging directory for the Maven site plugin. All the files necessary to generate the site
+			documentation will be copied here.
+		-->
+		<siteStagingDirectory>${project.build.directory}/sitestage</siteStagingDirectory>
+		<!--
+			The destination for converted DocBook files. These will then get included in the site
+			documentation.
+		-->
+		<siteStagingXhtmlDirectory>${siteStagingDirectory}/xhtml</siteStagingXhtmlDirectory>
+	</properties>
+</project>

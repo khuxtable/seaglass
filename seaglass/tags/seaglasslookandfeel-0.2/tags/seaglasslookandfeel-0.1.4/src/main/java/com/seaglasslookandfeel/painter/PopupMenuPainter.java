@@ -1,0 +1,110 @@
+/*
+ * Copyright (c) 2009 Kathryn Huxtable and Kenneth Orr.
+ *
+ * This file is part of the SeaGlass Pluggable Look and Feel.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * $Id$
+ */
+package com.seaglasslookandfeel.painter;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Shape;
+import java.awt.geom.RoundRectangle2D;
+
+import javax.swing.JComponent;
+
+import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
+
+/**
+ * PopupMenuPainter implementation.
+ * 
+ * Based on Nimbus's implementation.
+ */
+public final class PopupMenuPainter extends AbstractRegionPainter {
+    public static enum Which {
+        BACKGROUND_DISABLED, BACKGROUND_ENABLED
+    }
+
+    private Which                  state;
+    private PaintContext           ctx;
+
+    private RoundRectangle2D       rect                  = new RoundRectangle2D.Double();
+
+    private Color                  disabledBorderColor   = new Color(0x80dddddd, true);
+    private Color                  disabledInteriorColor = new Color(0x80ffffff, true);
+
+    private Color                  enabledBorderColor    = new Color(0xdddddd);
+    private Color                  enabledInteriorColor  = new Color(0xffffff);
+
+    private static final Insets    insets                = new Insets(4, 2, 4, 2);
+    private static final Dimension dimension             = new Dimension(220, 313);
+    private static final CacheMode cacheMode             = CacheMode.NO_CACHING;
+    private static final Double    maxH                  = 1.0;
+    private static final Double    maxV                  = 1.0;
+
+    public PopupMenuPainter(Which state) {
+        super();
+        this.state = state;
+        this.ctx = new PaintContext(insets, dimension, false, cacheMode, maxH, maxV);
+    }
+
+    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
+        switch (state) {
+        case BACKGROUND_DISABLED:
+            paintBackgroundDisabled(g, width, height);
+            break;
+        case BACKGROUND_ENABLED:
+            paintBackgroundEnabled(g, width, height);
+            break;
+        }
+    }
+
+    protected final PaintContext getPaintContext() {
+        return ctx;
+    }
+
+    private void paintBackgroundDisabled(Graphics2D g, int width, int height) {
+        Shape s = decodeBorder(width, height);
+        g.setPaint(disabledBorderColor);
+        g.fill(s);
+        s = decodeInterior(width, height);
+        g.setPaint(disabledInteriorColor);
+        g.fill(s);
+
+    }
+
+    private void paintBackgroundEnabled(Graphics2D g, int width, int height) {
+        Shape s = decodeBorder(width, height);
+        g.setPaint(enabledBorderColor);
+        g.fill(s);
+        s = decodeInterior(width, height);
+        g.setPaint(enabledInteriorColor);
+        g.fill(s);
+
+    }
+
+    private Shape decodeBorder(int width, int height) {
+        rect.setRoundRect(0, 0, width, height, 6, 6);
+        return rect;
+    }
+
+    private Shape decodeInterior(int width, int height) {
+        rect.setRoundRect(1, 1, width - 2, height - 2, 5, 5);
+        return rect;
+    }
+}
