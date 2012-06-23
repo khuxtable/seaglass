@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Converted by db4-upgrade version 1.0 -->
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:ns5="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns4="http://www.w3.org/2000/svg"
+         xmlns:ns3="http://www.w3.org/1999/xhtml"
+         xmlns:ns="http://docbook.org/ns/docbook">
+  <info>
+    <title>Downloads</title>
+
+    <author>
+      <personname><firstname>Kathryn</firstname><surname>Huxtable</surname></personname>
+
+      <affiliation>
+        <orgname>kathrynhuxtable.org</orgname>
+      </affiliation>
+    </author>
+
+    <pubdate>2008-02-28</pubdate>
+  </info>
+
+  <section>
+    <info>
+      <title>Downloads</title>
+    </info>
+
+    <para>This page gives instructions on accessing the Sea Glass Look and
+    Feel.</para>
+
+    <para>See the <link xlink:href="usage.html">usage</link> page for more
+    information.</para>
+
+    <para>The current version is:</para>
+
+    <blockquote>
+      <para>${project.version}</para>
+    </blockquote>
+
+    <section>
+      <info>
+        <title>Maven</title>
+      </info>
+
+      <para>If you are using <link
+      xlink:href="http://maven.apache.org">Maven</link>, you may include the
+      following in your <link
+      xlink:href="http://maven.apache.org/pom.html"><filename>pom.xml</filename></link>
+      file:</para>
+      
+      <programlisting language="xml">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.seaglasslookandfeel&lt;/groupId&gt;
+        &lt;artifactId&gt;seaglasslookandfeel&lt;/artifactId&gt;
+        &lt;version&gt;${project.version}&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;</programlisting>
+
+<para>To test against a staged or snapshot
+      version, you must also include the following:</para>
+
+      <programlisting language="xml">&lt;repositories&gt;
+    &lt;repository&gt;
+        &lt;id&gt;OSS Staging&lt;/id&gt;
+        &lt;name&gt;Sonatype Staging Repository&lt;/name&gt;
+        &lt;url&gt;http://oss.sonatype.org/content/groups/staging/&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/repositories&gt;</programlisting>
+    </section>
+
+    <section>
+      <info>
+        <title>Simple Download</title>
+      </info>
+
+      <para>If you are not using Maven you may download the jar, its
+      documentation, and source from the following links:</para>
+
+      <informaltable tabstyle="striped">
+        <textobject>
+          <phrase>Download links</phrase>
+        </textobject>
+
+        <tgroup cols="4">
+          <thead>
+            <row>
+              <entry></entry>
+
+              <entry>File</entry>
+
+              <entry>Checksum</entry>
+
+              <entry>Signature</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>Jar</entry>
+
+              <entry><link
+              xlink:href="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}.jar">seaglasslookandfeel-${project.version}.jar</link></entry>
+
+              <entry><link
+              xlink:href="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}.jar.md5">seaglasslookandfeel-${project.version}.jar.md5</link></entry>
+
+              <entry><link
+              xlink:href="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}.jar.asc">seaglasslookandfeel-${project.version}.jar.asc</link></entry>
+            </row>
+
+            <row>
+              <entry>Javadoc</entry>
+
+              <entry><link
+              xlink:href="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-javadoc.jar">seaglasslookandfeel-${project.version}-javadoc.jar</link></entry>
+
+              <entry><link
+              xlink:href="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-javadoc.jar.md5">seaglasslookandfeel-${project.version}-javadoc.jar.md5</link></entry>
+
+              <entry><link
+              xlink:href="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-javadoc.jar.asc">seaglasslookandfeel-${project.version}-javadoc.jar.asc</link></entry>
+            </row>
+
+            <row>
+              <entry>Sources</entry>
+
+              <entry><link
+              xlink:href="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-sources.jar">seaglasslookandfeel-${project.version}-sources.jar</link></entry>
+
+              <entry><link
+              xlink:href="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-sources.jar.md5">seaglasslookandfeel-${project.version}-sources.jar.md5</link></entry>
+
+              <entry><link
+              xlink:href="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel/${project.version}/seaglasslookandfeel-${project.version}-sources.jar.asc">seaglasslookandfeel-${project.version}-sources.jar.asc</link></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+
+      <para>Older versions are available at the following site:</para>
+
+      <blockquote>
+        <para><link
+        xlink:href="http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel">http://repo1.maven.org/maven2/com/seaglasslookandfeel/seaglasslookandfeel</link></para>
+      </blockquote>
+    </section>
+  </section>
+</article>
