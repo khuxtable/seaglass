@@ -3,7 +3,7 @@
 	<groupId>com.seaglasslookandfeel</groupId>
 	<artifactId>seaglasslookandfeel</artifactId>
 	<packaging>jar</packaging>
-	<version>0.2.1-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>Sea Glass Look and Feel for Swing</name>
 	<description>
 		A Java cross-platform look and feel for JRE 1.6u17 and later.
@@ -332,10 +332,10 @@
 		generating the site documentation.
 	-->
 	<scm>
-		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass</connection>
-		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass
+		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</connection>
+		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass
 		</developerConnection>
-		<url>http://code.google.com/p/seaglass/source/browse/seaglass</url>
+		<url>http://code.google.com/p/seaglass/source/browse/seaglass/trunk/seaglass</url>
 	</scm>
 	<profiles>
 		<profile>
