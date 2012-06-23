@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Converted by db4-upgrade version 1.0 -->
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:ns5="http://www.w3.org/1999/xhtml"
+         xmlns:ns4="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns3="http://www.w3.org/2000/svg"
+         xmlns:ns="http://docbook.org/ns/docbook">
+  <info>
+    <title>Introduction</title>
+
+    <author>
+      <personname><firstname>Kathryn</firstname><surname>Huxtable</surname></personname>
+
+      <affiliation>
+        <orgname>kathrynhuxtable.org</orgname>
+      </affiliation>
+    </author>
+
+    <pubdate>2010-02-28</pubdate>
+  </info>
+
+  <section>
+    <info>
+      <title>Introduction</title>
+    </info>
+
+    <para>A Java cross-platform look and feel for JRE 1.6 update 17 and later.
+    This is developed from Synth, and is based on forms seen in sea glass,
+    that is, bits of glass washed up on the shore by the sea.</para>
+
+    <para>See the <link xlink:href="http://seaglasslookandfeel.com">Google
+    Code site</link> for access to the source and issues tracking.</para>
+  </section>
+</article>
