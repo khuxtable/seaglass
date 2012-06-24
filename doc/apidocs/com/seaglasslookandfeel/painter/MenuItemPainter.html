@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-MenuItemPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)
+MenuItemPainter (Sea Glass Look and Feel for Swing 0.2 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ MenuItemPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="MenuItemPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)";
+        parent.document.title="MenuItemPainter (Sea Glass Look and Feel for Swing 0.2 API)";
     }
 }
 </SCRIPT>
@@ -96,7 +96,7 @@ Class MenuItemPainter</H2>
       <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.painter.MenuItemPainter</B>
 </PRE>
 <DL>
-<DT><B>All Implemented Interfaces:</B> <DD>com.sun.java.swing.Painter&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;</DD>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../com/seaglasslookandfeel/painter/SeaGlassPainter.html" title="interface in com.seaglasslookandfeel.painter">SeaGlassPainter</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;, <A HREF="../../../com/sun/java/swing/Painter.html" title="interface in com.sun.java.swing">Painter</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;</DD>
 </DL>
 <DL>
 <DT><B>Direct Known Subclasses:</B> <DD><A HREF="../../../com/seaglasslookandfeel/painter/CheckBoxMenuItemPainter.html" title="class in com.seaglasslookandfeel.painter">CheckBoxMenuItemPainter</A>, <A HREF="../../../com/seaglasslookandfeel/painter/MenuPainter.html" title="class in com.seaglasslookandfeel.painter">MenuPainter</A>, <A HREF="../../../com/seaglasslookandfeel/painter/RadioButtonMenuItemPainter.html" title="class in com.seaglasslookandfeel.painter">RadioButtonMenuItemPainter</A></DD>
@@ -202,8 +202,16 @@ Class MenuItemPainter</H2>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-external=true" title="class or interface in java.awt">Paint</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/MenuItemPainter.html#getMenuItemBackgroundPaintUnified(java.awt.Shape)">getMenuItemBackgroundPaintUnified</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Shape.html?is-external=true" title="class or interface in java.awt">Shape</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A></CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/MenuItemPainter.html#getMenuItemBottomLinePaint()">getMenuItemBottomLinePaint</A></B>()</CODE>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/MenuItemPainter.html#getMenuItemBottomLinePaint(javax.swing.JComponent)">getMenuItemBottomLinePaint</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
@@ -219,9 +227,21 @@ Class MenuItemPainter</H2>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>protected &nbsp;void</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/MenuItemPainter.html#paintBackgroundMouseOver(java.awt.Graphics2D, int, int)">paintBackgroundMouseOver</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics2D.html?is-external=true" title="class or interface in java.awt">Graphics2D</A>&nbsp;g,
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/MenuItemPainter.html#paintBackgroundMouseOver(java.awt.Graphics2D, javax.swing.JComponent, int, int)">paintBackgroundMouseOver</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics2D.html?is-external=true" title="class or interface in java.awt">Graphics2D</A>&nbsp;g,
+                         <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c,
                          int&nbsp;width,
                          int&nbsp;height)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/MenuItemPainter.html#paintBackgroundMouseOverUnified(java.awt.Graphics2D, javax.swing.JComponent, int, int)">paintBackgroundMouseOverUnified</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics2D.html?is-external=true" title="class or interface in java.awt">Graphics2D</A>&nbsp;g,
+                                <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c,
+                                int&nbsp;width,
+                                int&nbsp;height)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
@@ -338,12 +358,27 @@ protected <A HREF="../../../com/seaglasslookandfeel/painter/AbstractRegionPainte
 </DL>
 <HR>
 
-<A NAME="paintBackgroundMouseOver(java.awt.Graphics2D, int, int)"><!-- --></A><H3>
+<A NAME="paintBackgroundMouseOver(java.awt.Graphics2D, javax.swing.JComponent, int, int)"><!-- --></A><H3>
 paintBackgroundMouseOver</H3>
 <PRE>
 protected void <B>paintBackgroundMouseOver</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics2D.html?is-external=true" title="class or interface in java.awt">Graphics2D</A>&nbsp;g,
+                                        <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c,
                                         int&nbsp;width,
                                         int&nbsp;height)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paintBackgroundMouseOverUnified(java.awt.Graphics2D, javax.swing.JComponent, int, int)"><!-- --></A><H3>
+paintBackgroundMouseOverUnified</H3>
+<PRE>
+protected void <B>paintBackgroundMouseOverUnified</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Graphics2D.html?is-external=true" title="class or interface in java.awt">Graphics2D</A>&nbsp;g,
+                                               <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c,
+                                               int&nbsp;width,
+                                               int&nbsp;height)</PRE>
 <DL>
 <DD><DL>
 </DL>
@@ -362,10 +397,21 @@ public <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-ext
 </DL>
 <HR>
 
-<A NAME="getMenuItemBottomLinePaint()"><!-- --></A><H3>
+<A NAME="getMenuItemBackgroundPaintUnified(java.awt.Shape)"><!-- --></A><H3>
+getMenuItemBackgroundPaintUnified</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-external=true" title="class or interface in java.awt">Paint</A> <B>getMenuItemBackgroundPaintUnified</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Shape.html?is-external=true" title="class or interface in java.awt">Shape</A>&nbsp;s)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMenuItemBottomLinePaint(javax.swing.JComponent)"><!-- --></A><H3>
 getMenuItemBottomLinePaint</H3>
 <PRE>
-public <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A> <B>getMenuItemBottomLinePaint</B>()</PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A> <B>getMenuItemBottomLinePaint</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
 <DL>
 <DD><DL>
 </DL>
@@ -432,6 +478,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+Copyright &#169; 2009-2012 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
 </BODY>
 </HTML>

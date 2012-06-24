@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-SeaGlassLookAndFeel (Sea Glass Look and Feel for Swing 0.1.7.3 API)
+SeaGlassLookAndFeel (Sea Glass Look and Feel for Swing 0.2 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ SeaGlassLookAndFeel (Sea Glass Look and Feel for Swing 0.1.7.3 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="SeaGlassLookAndFeel (Sea Glass Look and Feel for Swing 0.1.7.3 API)";
+        parent.document.title="SeaGlassLookAndFeel (Sea Glass Look and Feel for Swing 0.2 API)";
     }
 }
 </SCRIPT>
@@ -95,15 +95,14 @@ Class SeaGlassLookAndFeel</H2>
   <IMG SRC="../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true" title="class or interface in javax.swing">javax.swing.LookAndFeel</A>
       <IMG SRC="../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.basic">javax.swing.plaf.basic.BasicLookAndFeel</A>
           <IMG SRC="../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.synth">javax.swing.plaf.synth.SynthLookAndFeel</A>
-              <IMG SRC="../../resources/inherit.gif" ALT="extended by ">com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
-                  <IMG SRC="../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.SeaGlassLookAndFeel</B>
+              <IMG SRC="../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.SeaGlassLookAndFeel</B>
 </PRE>
 <DL>
 <DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</A></DD>
 </DL>
 <HR>
 <DL>
-<DT><PRE>public class <B>SeaGlassLookAndFeel</B><DT>extends com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</DL>
+<DT><PRE>public class <B>SeaGlassLookAndFeel</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthLookAndFeel</A></DL>
 </PRE>
 
 <P>
@@ -119,7 +118,6 @@ This is the main Sea Glass Look and Feel class.
 <DT><B>Author:</B></DT>
   <DD>Kathryn Huxtable, Kenneth Orr</DD>
 <DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.synth"><CODE>SynthLookAndFeel</CODE></A>, 
-<CODE>NimbusLookAndFeel</CODE>, 
 <A HREF="../../serialized-form.html#com.seaglasslookandfeel.SeaGlassLookAndFeel">Serialized Form</A></DL>
 <HR>
 
@@ -192,19 +190,48 @@ This is the main Sea Glass Look and Feel class.
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Font.html?is-external=true" title="class or interface in java.awt">Font</A></CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassLookAndFeel.html#getDefaultFont()">getDefaultFont</A></B>()</CODE>
-
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initialize the default font.</TD>
-</TR>
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/UIDefaults.html?is-external=true" title="class or interface in javax.swing">UIDefaults</A></CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassLookAndFeel.html#getDefaults()">getDefaults</A></B>()</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the defaults for SeaGlassLookAndFeel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassLookAndFeel.html#getDerivedColor(java.awt.Color, java.awt.Color, float)">getDerivedColor</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A>&nbsp;color1,
+                <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A>&nbsp;color2,
+                float&nbsp;midPoint)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes and returns a color, which is derived from a offset between two
+ other colors.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassLookAndFeel.html#getDerivedColor(java.awt.Color, java.awt.Color, float, boolean)">getDerivedColor</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A>&nbsp;color1,
+                <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A>&nbsp;color2,
+                float&nbsp;midPoint,
+                boolean&nbsp;uiResource)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes and returns a color, which is derived from an offset between two
+ other colors.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;com.seaglasslookandfeel.DerivedColor</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassLookAndFeel.html#getDerivedColor(java.lang.String, float, float, float, int, boolean)">getDerivedColor</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;parentUin,
+                float&nbsp;hOffset,
+                float&nbsp;sOffset,
+                float&nbsp;bOffset,
+                int&nbsp;aOffset,
+                boolean&nbsp;uiResource)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get a derived color, derived colors are shared instances and will be
+ updated when its parent UIDefault color changes.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -267,6 +294,14 @@ This is the main Sea Glass Look and Feel class.
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called by UIManager when this look and feel is installed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Font.html?is-external=true" title="class or interface in java.awt">Font</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassLookAndFeel.html#initializeDefaultFont()">initializeDefaultFont</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initialize the default font.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -342,6 +377,14 @@ This is the main Sea Glass Look and Feel class.
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassLookAndFeel.html#shouldUpdateStyleOnAncestorChanged()">shouldUpdateStyleOnAncestorChanged</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassLookAndFeel.html#uninitialize()">uninitialize</A></B>()</CODE>
 
@@ -360,8 +403,18 @@ This is the main Sea Glass Look and Feel class.
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthStyle.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthStyle</A></CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassLookAndFeel.html#updateStyle(com.seaglasslookandfeel.SeaGlassContext, sun.swing.plaf.synth.SynthUI)">updateStyle</A></B>(<A HREF="../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A>&nbsp;context,
-            sun.swing.plaf.synth.SynthUI&nbsp;ui)</CODE>
+<TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassLookAndFeel.html#updateSeaglassStyle(javax.swing.plaf.synth.SynthContext, com.seaglasslookandfeel.ui.SeaglassUI)">updateSeaglassStyle</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;context,
+                    <A HREF="../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>&nbsp;ui)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A convience method that will reset the Style of StyleContext if
+ necessary.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthStyle.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassLookAndFeel.html#updateStyle(com.seaglasslookandfeel.SeaGlassContext, com.seaglasslookandfeel.ui.SeaglassUI)">updateStyle</A></B>(<A HREF="../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A>&nbsp;context,
+            <A HREF="../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>&nbsp;ui)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A convience method that will reset the Style of StyleContext if
@@ -379,22 +432,13 @@ This is the main Sea Glass Look and Feel class.
  subregions.</TD>
 </TR>
 </TABLE>
-&nbsp;<A NAME="methods_inherited_from_class_com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"><!-- --></A>
-<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
-<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
-<TH ALIGN="left"><B>Methods inherited from class com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</B></TH>
-</TR>
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE>getDerivedColor, getDerivedColor, getDerivedColor, getDisabledIcon, getStyle, shouldUpdateStyleOnAncestorChanged</CODE></TD>
-</TR>
-</TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_javax.swing.plaf.synth.SynthLookAndFeel"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
 <TH ALIGN="left"><B>Methods inherited from class javax.swing.plaf.synth.<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthLookAndFeel</A></B></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#createUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.synth">createUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#getRegion(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.synth">getRegion</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#getStyleFactory()" title="class or interface in javax.swing.plaf.synth">getStyleFactory</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#load(java.io.InputStream, java.lang.Class)" title="class or interface in javax.swing.plaf.synth">load</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#load(java.net.URL)" title="class or interface in javax.swing.plaf.synth">load</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#setStyleFactory(javax.swing.plaf.synth.SynthStyleFactory)" title="class or interface in javax.swing.plaf.synth">setStyleFactory</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#updateStyles(java.awt.Component)" title="class or interface in javax.swing.plaf.synth">updateStyles</A></CODE></TD>
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#createUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.synth">createUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#getRegion(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.synth">getRegion</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#getStyle(javax.swing.JComponent, javax.swing.plaf.synth.Region)" title="class or interface in javax.swing.plaf.synth">getStyle</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#getStyleFactory()" title="class or interface in javax.swing.plaf.synth">getStyleFactory</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#load(java.io.InputStream, java.lang.Class)" title="class or interface in javax.swing.plaf.synth">load</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#load(java.net.URL)" title="class or interface in javax.swing.plaf.synth">load</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#setStyleFactory(javax.swing.plaf.synth.SynthStyleFactory)" title="class or interface in javax.swing.plaf.synth">setStyleFactory</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#updateStyles(java.awt.Component)" title="class or interface in javax.swing.plaf.synth">updateStyles</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_javax.swing.plaf.basic.BasicLookAndFeel"><!-- --></A>
@@ -412,7 +456,7 @@ This is the main Sea Glass Look and Feel class.
 <TH ALIGN="left"><B>Methods inherited from class javax.swing.<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true" title="class or interface in javax.swing">LookAndFeel</A></B></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#getDesktopPropertyValue(java.lang.String, java.lang.Object)" title="class or interface in javax.swing">getDesktopPropertyValue</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#getDisabledSelectedIcon(javax.swing.JComponent, javax.swing.Icon)" title="class or interface in javax.swing">getDisabledSelectedIcon</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#getLayoutStyle()" title="class or interface in javax.swing">getLayoutStyle</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#installBorder(javax.swing.JComponent, java.lang.String)" title="class or interface in javax.swing">installBorder</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#installColors(javax.swing.JComponent, java.lang.String, java.lang.String)" title="class or interface in javax.swing">installColors</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#installColorsAndFont(javax.swing.JComponent, java.lang.String, java.lang.String, java.lang.String)" title="class or interface in javax.swing">installColorsAndFont</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#installProperty(javax.swing.JComponent, java.lang.String, java.lang.Object)" title="class or interface in javax.swing">installProperty</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#loadKeyBindings(javax.swing.InputMap, java.lang.Object[])" title="class or interface in javax.swing">loadKeyBindings</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#makeComponentInputMap(javax.swing.JComponent, java.lang.Object[])" title="class or interface in javax.swing">makeComponentInputMap</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#makeIcon(java.lang.Class, java.lang.String)" title="class or interface in javax.swing">makeIcon</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#makeInputMap(java.lang.Object[])" title="class or interface in javax.swing">makeInputMap</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#makeKeyBindings(java.lang.Object[])" title="class or interface in javax.swing">makeKeyBindings</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#provideErrorFeedback(java.awt.Component)" title="class or interface in javax.swing">provideErrorFeedback</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#toString()" title="class or interface in javax.swing">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#uninstallBorder(javax.swing.JComponent)" title="class or interface in javax.swing">uninstallBorder</A></CODE></TD>
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#getDesktopPropertyValue(java.lang.String, java.lang.Object)" title="class or interface in javax.swing">getDesktopPropertyValue</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#getDisabledIcon(javax.swing.JComponent, javax.swing.Icon)" title="class or interface in javax.swing">getDisabledIcon</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#getDisabledSelectedIcon(javax.swing.JComponent, javax.swing.Icon)" title="class or interface in javax.swing">getDisabledSelectedIcon</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#getLayoutStyle()" title="class or interface in javax.swing">getLayoutStyle</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#installBorder(javax.swing.JComponent, java.lang.String)" title="class or interface in javax.swing">installBorder</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#installColors(javax.swing.JComponent, java.lang.String, java.lang.String)" title="class or interface in javax.swing">installColors</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#installColorsAndFont(javax.swing.JComponent, java.lang.String, java.lang.String, java.lang.String)" title="class or interface in javax.swing">installColorsAndFont</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#installProperty(javax.swing.JComponent, java.lang.String, java.lang.Object)" title="class or interface in javax.swing">installProperty</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#loadKeyBindings(javax.swing.InputMap, java.lang.Object[])" title="class or interface in javax.swing">loadKeyBindings</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#makeComponentInputMap(javax.swing.JComponent, java.lang.Object[])" title="class or interface in javax.swing">makeComponentInputMap</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#makeIcon(java.lang.Class, java.lang.String)" title="class or interface in javax.swing">makeIcon</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#makeInputMap(java.lang.Object[])" title="class or interface in javax.swing">makeInputMap</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#makeKeyBindings(java.lang.Object[])" title="class or interface in javax.swing">makeKeyBindings</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#provideErrorFeedback(java.awt.Component)" title="class or interface in javax.swing">provideErrorFeedback</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#toString()" title="class or interface in javax.swing">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/LookAndFeel.html?is-external=true#uninstallBorder(javax.swing.JComponent)" title="class or interface in javax.swing">uninstallBorder</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
@@ -509,7 +553,7 @@ public void <B>initialize</B>()</PRE>
 <DD>Called by UIManager when this look and feel is installed.
 <P>
 <DD><DL>
-<DT><B>Overrides:</B><DD><CODE>initialize</CODE> in class <CODE>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</CODE></DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#initialize()" title="class or interface in javax.swing.plaf.synth">initialize</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthLookAndFeel</A></CODE></DL>
 </DD>
 <DD><DL>
 </DL>
@@ -525,7 +569,7 @@ public void <B>uninitialize</B>()</PRE>
 <DD>Called by UIManager when this look and feel is uninstalled.
 <P>
 <DD><DL>
-<DT><B>Overrides:</B><DD><CODE>uninitialize</CODE> in class <CODE>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</CODE></DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#uninitialize()" title="class or interface in javax.swing.plaf.synth">uninitialize</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthLookAndFeel</A></CODE></DL>
 </DD>
 <DD><DL>
 </DL>
@@ -541,7 +585,7 @@ public <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/UIDefaults.htm
 <DD>Returns the defaults for SeaGlassLookAndFeel.
 <P>
 <DD><DL>
-<DT><B>Overrides:</B><DD><CODE>getDefaults</CODE> in class <CODE>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</CODE></DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#getDefaults()" title="class or interface in javax.swing.plaf.synth">getDefaults</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthLookAndFeel</A></CODE></DL>
 </DD>
 <DD><DL>
 
@@ -550,10 +594,26 @@ public <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/UIDefaults.htm
 </DL>
 <HR>
 
-<A NAME="getDefaultFont()"><!-- --></A><H3>
-getDefaultFont</H3>
+<A NAME="updateSeaglassStyle(javax.swing.plaf.synth.SynthContext, com.seaglasslookandfeel.ui.SeaglassUI)"><!-- --></A><H3>
+updateSeaglassStyle</H3>
 <PRE>
-protected <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Font.html?is-external=true" title="class or interface in java.awt">Font</A> <B>getDefaultFont</B>()</PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthStyle.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthStyle</A> <B>updateSeaglassStyle</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;context,
+                                             <A HREF="../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>&nbsp;ui)</PRE>
+<DL>
+<DD>A convience method that will reset the Style of StyleContext if
+ necessary.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>newStyle</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="initializeDefaultFont()"><!-- --></A><H3>
+initializeDefaultFont</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Font.html?is-external=true" title="class or interface in java.awt">Font</A> <B>initializeDefaultFont</B>()</PRE>
 <DL>
 <DD>Initialize the default font.
 <P>
@@ -573,7 +633,7 @@ public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-e
  will be the unquoted String "SeaGlass".
 <P>
 <DD><DL>
-<DT><B>Overrides:</B><DD><CODE>getName</CODE> in class <CODE>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</CODE></DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#getName()" title="class or interface in javax.swing.plaf.synth">getName</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthLookAndFeel</A></CODE></DL>
 </DD>
 <DD><DL>
 
@@ -591,7 +651,7 @@ public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-e
  the unquoted String "SeaGlass".
 <P>
 <DD><DL>
-<DT><B>Overrides:</B><DD><CODE>getID</CODE> in class <CODE>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</CODE></DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#getID()" title="class or interface in javax.swing.plaf.synth">getID</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthLookAndFeel</A></CODE></DL>
 </DD>
 <DD><DL>
 
@@ -608,7 +668,7 @@ public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-e
 <DD>Returns a textual description of this look and feel.
 <P>
 <DD><DL>
-<DT><B>Overrides:</B><DD><CODE>getDescription</CODE> in class <CODE>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</CODE></DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#getDescription()" title="class or interface in javax.swing.plaf.synth">getDescription</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthLookAndFeel</A></CODE></DL>
 </DD>
 <DD><DL>
 
@@ -770,9 +830,6 @@ public void <B>register</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax
  silently.</p>
 <P>
 <DD><DL>
-<DT><B>Overrides:</B><DD><CODE>register</CODE> in class <CODE>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</CODE></DL>
-</DD>
-<DD><DL>
 <DT><B>Parameters:</B><DD><CODE>region</CODE> - The Synth Region that is being registered. Such as Button,
                or ScrollBarThumb.<DD><CODE>prefix</CODE> - The UIDefault prefix. For example, could be ComboBox, or if
                a named components, "MyComboBox", or even something like
@@ -781,11 +838,11 @@ public void <B>register</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax
 </DL>
 <HR>
 
-<A NAME="updateStyle(com.seaglasslookandfeel.SeaGlassContext, sun.swing.plaf.synth.SynthUI)"><!-- --></A><H3>
+<A NAME="updateStyle(com.seaglasslookandfeel.SeaGlassContext, com.seaglasslookandfeel.ui.SeaglassUI)"><!-- --></A><H3>
 updateStyle</H3>
 <PRE>
 public static <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthStyle.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthStyle</A> <B>updateStyle</B>(<A HREF="../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A>&nbsp;context,
-                                     sun.swing.plaf.synth.SynthUI&nbsp;ui)</PRE>
+                                     <A HREF="../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>&nbsp;ui)</PRE>
 <DL>
 <DD>A convience method that will reset the Style of StyleContext if
  necessary.
@@ -897,6 +954,79 @@ public static void <B>resetSelectedUI</B>()</PRE>
 </DL>
 </DD>
 </DL>
+<HR>
+
+<A NAME="shouldUpdateStyleOnAncestorChanged()"><!-- --></A><H3>
+shouldUpdateStyleOnAncestorChanged</H3>
+<PRE>
+public boolean <B>shouldUpdateStyleOnAncestorChanged</B>()</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true#shouldUpdateStyleOnAncestorChanged()" title="class or interface in javax.swing.plaf.synth">shouldUpdateStyleOnAncestorChanged</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthLookAndFeel.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthLookAndFeel</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDerivedColor(java.lang.String, float, float, float, int, boolean)"><!-- --></A><H3>
+getDerivedColor</H3>
+<PRE>
+public com.seaglasslookandfeel.DerivedColor <B>getDerivedColor</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;parentUin,
+                                                            float&nbsp;hOffset,
+                                                            float&nbsp;sOffset,
+                                                            float&nbsp;bOffset,
+                                                            int&nbsp;aOffset,
+                                                            boolean&nbsp;uiResource)</PRE>
+<DL>
+<DD>Get a derived color, derived colors are shared instances and will be
+ updated when its parent UIDefault color changes.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>uiDefaultParentName</CODE> - The parent UIDefault key<DD><CODE>hOffset</CODE> - The hue offset<DD><CODE>sOffset</CODE> - The saturation offset<DD><CODE>bOffset</CODE> - The brightness offset<DD><CODE>aOffset</CODE> - The alpha offset<DD><CODE>uiResource</CODE> - True if the derived color should be a UIResource,
+        false if it should not be a UIResource
+<DT><B>Returns:</B><DD>The stored derived color</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDerivedColor(java.awt.Color, java.awt.Color, float, boolean)"><!-- --></A><H3>
+getDerivedColor</H3>
+<PRE>
+protected final <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A> <B>getDerivedColor</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A>&nbsp;color1,
+                                      <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A>&nbsp;color2,
+                                      float&nbsp;midPoint,
+                                      boolean&nbsp;uiResource)</PRE>
+<DL>
+<DD>Decodes and returns a color, which is derived from an offset between two
+ other colors.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>color1</CODE> - The first color<DD><CODE>color2</CODE> - The second color<DD><CODE>midPoint</CODE> - The offset between color 1 and color 2, a value of 0.0 is
+                 color 1 and 1.0 is color 2;<DD><CODE>uiResource</CODE> - True if the derived color should be a UIResource
+<DT><B>Returns:</B><DD>The derived color</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDerivedColor(java.awt.Color, java.awt.Color, float)"><!-- --></A><H3>
+getDerivedColor</H3>
+<PRE>
+protected final <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A> <B>getDerivedColor</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A>&nbsp;color1,
+                                      <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</A>&nbsp;color2,
+                                      float&nbsp;midPoint)</PRE>
+<DL>
+<DD>Decodes and returns a color, which is derived from a offset between two
+ other colors.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>color1</CODE> - The first color<DD><CODE>color2</CODE> - The second color<DD><CODE>midPoint</CODE> - The offset between color 1 and color 2, a value of 0.0 is
+                 color 1 and 1.0 is color 2;
+<DT><B>Returns:</B><DD>The derived color, which will be a UIResource</DL>
+</DD>
+</DL>
 <!-- ========= END OF CLASS DATA ========= -->
 <HR>
 
@@ -958,6 +1088,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+Copyright &#169; 2009-2012 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
 </BODY>
 </HTML>

@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-TabbedPaneTabAreaPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)
+TabbedPaneTabAreaPainter (Sea Glass Look and Feel for Swing 0.2 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ TabbedPaneTabAreaPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="TabbedPaneTabAreaPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)";
+        parent.document.title="TabbedPaneTabAreaPainter (Sea Glass Look and Feel for Swing 0.2 API)";
     }
 }
 </SCRIPT>
@@ -96,7 +96,7 @@ Class TabbedPaneTabAreaPainter</H2>
       <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.painter.TabbedPaneTabAreaPainter</B>
 </PRE>
 <DL>
-<DT><B>All Implemented Interfaces:</B> <DD>com.sun.java.swing.Painter&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;</DD>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../com/seaglasslookandfeel/painter/SeaGlassPainter.html" title="interface in com.seaglasslookandfeel.painter">SeaGlassPainter</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;, <A HREF="../../../com/sun/java/swing/Painter.html" title="interface in com.sun.java.swing">Painter</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;</DD>
 </DL>
 <HR>
 <DL>
@@ -203,30 +203,20 @@ Sea Glass TabbedPaneTabAreaPainter. Does nothing.
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-external=true" title="class or interface in java.awt">Paint</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/TabbedPaneTabAreaPainter.html#getLinePaint(java.awt.Shape, com.seaglasslookandfeel.painter.AbstractRegionPainter.TwoColors)">getLinePaint</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Shape.html?is-external=true" title="class or interface in java.awt">Shape</A>&nbsp;s,
+             <A HREF="../../../com/seaglasslookandfeel/painter/AbstractRegionPainter.TwoColors.html" title="class in com.seaglasslookandfeel.painter">AbstractRegionPainter.TwoColors</A>&nbsp;colors)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>protected &nbsp;<A HREF="../../../com/seaglasslookandfeel/painter/AbstractRegionPainter.PaintContext.html" title="class in com.seaglasslookandfeel.painter">AbstractRegionPainter.PaintContext</A></CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/TabbedPaneTabAreaPainter.html#getPaintContext()">getPaintContext</A></B>()</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets the PaintContext for this painting operation.</TD>
-</TR>
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-external=true" title="class or interface in java.awt">Paint</A></CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/TabbedPaneTabAreaPainter.html#getTabbedPaneTabAreaBackgroundPaint()">getTabbedPaneTabAreaBackgroundPaint</A></B>()</CODE>
-
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DOCUMENT ME!</TD>
-</TR>
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-external=true" title="class or interface in java.awt">Paint</A></CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/TabbedPaneTabAreaPainter.html#getTabbedPaneTabAreaPaint(int, int, int, int)">getTabbedPaneTabAreaPaint</A></B>(int&nbsp;x,
-                          int&nbsp;y,
-                          int&nbsp;width,
-                          int&nbsp;height)</CODE>
-
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DOCUMENT ME!</TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_com.seaglasslookandfeel.painter.AbstractRegionPainter"><!-- --></A>
@@ -366,33 +356,15 @@ protected <A HREF="../../../com/seaglasslookandfeel/painter/AbstractRegionPainte
 </DL>
 <HR>
 
-<A NAME="getTabbedPaneTabAreaPaint(int, int, int, int)"><!-- --></A><H3>
-getTabbedPaneTabAreaPaint</H3>
+<A NAME="getLinePaint(java.awt.Shape, com.seaglasslookandfeel.painter.AbstractRegionPainter.TwoColors)"><!-- --></A><H3>
+getLinePaint</H3>
 <PRE>
-public <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-external=true" title="class or interface in java.awt">Paint</A> <B>getTabbedPaneTabAreaPaint</B>(int&nbsp;x,
-                                       int&nbsp;y,
-                                       int&nbsp;width,
-                                       int&nbsp;height)</PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-external=true" title="class or interface in java.awt">Paint</A> <B>getLinePaint</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Shape.html?is-external=true" title="class or interface in java.awt">Shape</A>&nbsp;s,
+                          <A HREF="../../../com/seaglasslookandfeel/painter/AbstractRegionPainter.TwoColors.html" title="class in com.seaglasslookandfeel.painter">AbstractRegionPainter.TwoColors</A>&nbsp;colors)</PRE>
 <DL>
-<DD>DOCUMENT ME!
-<P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>x</CODE> - DOCUMENT ME!<DD><CODE>y</CODE> - DOCUMENT ME!<DD><CODE>width</CODE> - DOCUMENT ME!<DD><CODE>height</CODE> - DOCUMENT ME!
-<DT><B>Returns:</B><DD>DOCUMENT ME!</DL>
-</DD>
-</DL>
-<HR>
-
-<A NAME="getTabbedPaneTabAreaBackgroundPaint()"><!-- --></A><H3>
-getTabbedPaneTabAreaBackgroundPaint</H3>
-<PRE>
-public <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-external=true" title="class or interface in java.awt">Paint</A> <B>getTabbedPaneTabAreaBackgroundPaint</B>()</PRE>
-<DL>
-<DD>DOCUMENT ME!
-<P>
-<DD><DL>
-
-<DT><B>Returns:</B><DD>DOCUMENT ME!</DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - <DD><CODE>colors</CODE> - 
+<DT><B>Returns:</B><DD></DL>
 </DD>
 </DL>
 <!-- ========= END OF CLASS DATA ========= -->
@@ -456,6 +428,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+Copyright &#169; 2009-2012 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
 </BODY>
 </HTML>

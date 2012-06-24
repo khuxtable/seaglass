@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-SeaGlassProgressBarUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)
+SeaGlassProgressBarUI (Sea Glass Look and Feel for Swing 0.2 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ SeaGlassProgressBarUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="SeaGlassProgressBarUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)";
+        parent.document.title="SeaGlassProgressBarUI (Sea Glass Look and Feel for Swing 0.2 API)";
     }
 }
 </SCRIPT>
@@ -98,11 +98,11 @@ Class SeaGlassProgressBarUI</H2>
               <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.ui.SeaGlassProgressBarUI</B>
 </PRE>
 <DL>
-<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EventListener.html?is-external=true" title="class or interface in java.util">EventListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A>, sun.swing.plaf.synth.SynthUI</DD>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EventListener.html?is-external=true" title="class or interface in java.util">EventListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A>, <A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></DD>
 </DL>
 <HR>
 <DL>
-<DT><PRE>public class <B>SeaGlassProgressBarUI</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicProgressBarUI</A><DT>implements sun.swing.plaf.synth.SynthUI, <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A></DL>
+<DT><PRE>public class <B>SeaGlassProgressBarUI</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicProgressBarUI</A><DT>implements <A HREF="../../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A></DL>
 </PRE>
 
 <P>
@@ -224,6 +224,17 @@ SeaGlassProgressBarUI implementation.
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Dimension.html?is-external=true" title="class or interface in java.awt">Dimension</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassProgressBarUI.html#getPreferredInnerVertical()">getPreferredInnerVertical</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Overwritten to fix a very strange issue on Java 7 in BasicProgressBarUI
+ The super method does exactly the same thing but has vertDim == null
+ We with the same code in our overwritten method get a correct vertDim?
+ Why? I don't know, but it fixes the issue.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Dimension.html?is-external=true" title="class or interface in java.awt">Dimension</A></CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassProgressBarUI.html#getPreferredSize(javax.swing.JComponent)">getPreferredSize</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</CODE>
 
@@ -335,7 +346,7 @@ SeaGlassProgressBarUI implementation.
 <TH ALIGN="left"><B>Methods inherited from class javax.swing.plaf.basic.<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicProgressBarUI</A></B></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getAmountFull(java.awt.Insets, int, int)" title="class or interface in javax.swing.plaf.basic">getAmountFull</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getAnimationIndex()" title="class or interface in javax.swing.plaf.basic">getAnimationIndex</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getBaselineResizeBehavior(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">getBaselineResizeBehavior</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getBoxLength(int, int)" title="class or interface in javax.swing.plaf.basic">getBoxLength</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getCellLength()" title="class or interface in javax.swing.plaf.basic">getCellLength</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getCellSpacing()" title="class or interface in javax.swing.plaf.basic">getCellSpacing</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getFrameCount()" title="class or interface in javax.swing.plaf.basic">getFrameCount</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getMaximumSize(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">getMaximumSize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getMinimumSize(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">getMinimumSize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getPreferredInnerHorizontal()" title="class or interface in javax.swing.plaf.basic">getPreferredInnerHorizontal</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getPreferredInnerVertical()" title="class or interface in javax.swing.plaf.basic">getPreferredInnerVertical</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getSelectionBackground()" title="class or interface in javax.swing.plaf.basic">getSelectionBackground</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getSelectionForeground()" title="class or interface in javax.swing.plaf.basic">getSelectionForeground</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getStringPlacement(java.awt.Graphics, java.lang.String, int, int, int, int)" title="class or interface in javax.swing.plaf.basic">getStringPlacement</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#incrementAnimationIndex()" title="class or interface in javax.swing.plaf.basic">incrementAnimationIndex</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#installUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">installUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#paintDeterminate(java.awt.Graphics, javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">paintDeterminate</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#paintIndeterminate(java.awt.Graphics, javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">paintIndeterminate</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#paintString(java.awt.Graphics, int, int, int, int, int, java.awt.Insets)" title="class or interface in javax.swing.plaf.basic">paintString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#setCellLength(int)" title="class or interface in javax.swing.plaf.basic">setCellLength</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#setCellSpacing(int)" title="class or interface in javax.swing.plaf.basic">setCellSpacing</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#startAnimationTimer()" title="class or interface in javax.swing.plaf.basic">startAnimationTimer</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#stopAnimationTimer()" title="class or interface in javax.swing.plaf.basic">stopAnimationTimer</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#uninstallUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">uninstallUI</A></CODE></TD>
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getAmountFull(java.awt.Insets, int, int)" title="class or interface in javax.swing.plaf.basic">getAmountFull</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getAnimationIndex()" title="class or interface in javax.swing.plaf.basic">getAnimationIndex</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getBaselineResizeBehavior(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">getBaselineResizeBehavior</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getBoxLength(int, int)" title="class or interface in javax.swing.plaf.basic">getBoxLength</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getCellLength()" title="class or interface in javax.swing.plaf.basic">getCellLength</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getCellSpacing()" title="class or interface in javax.swing.plaf.basic">getCellSpacing</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getFrameCount()" title="class or interface in javax.swing.plaf.basic">getFrameCount</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getMaximumSize(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">getMaximumSize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getMinimumSize(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">getMinimumSize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getPreferredInnerHorizontal()" title="class or interface in javax.swing.plaf.basic">getPreferredInnerHorizontal</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getSelectionBackground()" title="class or interface in javax.swing.plaf.basic">getSelectionBackground</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getSelectionForeground()" title="class or interface in javax.swing.plaf.basic">getSelectionForeground</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getStringPlacement(java.awt.Graphics, java.lang.String, int, int, int, int)" title="class or interface in javax.swing.plaf.basic">getStringPlacement</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#incrementAnimationIndex()" title="class or interface in javax.swing.plaf.basic">incrementAnimationIndex</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#installUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">installUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#paintDeterminate(java.awt.Graphics, javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">paintDeterminate</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#paintIndeterminate(java.awt.Graphics, javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">paintIndeterminate</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#paintString(java.awt.Graphics, int, int, int, int, int, java.awt.Insets)" title="class or interface in javax.swing.plaf.basic">paintString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#setCellLength(int)" title="class or interface in javax.swing.plaf.basic">setCellLength</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#setCellSpacing(int)" title="class or interface in javax.swing.plaf.basic">setCellSpacing</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#startAnimationTimer()" title="class or interface in javax.swing.plaf.basic">startAnimationTimer</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#stopAnimationTimer()" title="class or interface in javax.swing.plaf.basic">stopAnimationTimer</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#uninstallUI(javax.swing.JComponent)" title="class or interface in javax.swing.plaf.basic">uninstallUI</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_javax.swing.plaf.ComponentUI"><!-- --></A>
@@ -442,6 +453,26 @@ protected void <B>installDefaults</B>()</PRE>
 </DL>
 <HR>
 
+<A NAME="getPreferredInnerVertical()"><!-- --></A><H3>
+getPreferredInnerVertical</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Dimension.html?is-external=true" title="class or interface in java.awt">Dimension</A> <B>getPreferredInnerVertical</B>()</PRE>
+<DL>
+<DD>Overwritten to fix a very strange issue on Java 7 in BasicProgressBarUI
+ The super method does exactly the same thing but has vertDim == null
+ We with the same code in our overwritten method get a correct vertDim?
+ Why? I don't know, but it fixes the issue.
+ As a small modification I adjusted only the default hardcoded values to 19/150.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true#getPreferredInnerVertical()" title="class or interface in javax.swing.plaf.basic">getPreferredInnerVertical</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicProgressBarUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicProgressBarUI</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
 <A NAME="uninstallDefaults()"><!-- --></A><H3>
 uninstallDefaults</H3>
 <PRE>
@@ -462,7 +493,7 @@ getContext</H3>
 public <A HREF="../../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A> <B>getContext</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
 <DL>
 <DD><DL>
-<DT><B>Specified by:</B><DD><CODE>getContext</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html#getContext(javax.swing.JComponent)">getContext</A></CODE> in interface <CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></CODE></DL>
 </DD>
 <DD><DL>
 </DL>
@@ -586,7 +617,7 @@ public void <B>paintBorder</B>(<A HREF="http://java.sun.com/javase/6/docs/api/ja
                         int&nbsp;h)</PRE>
 <DL>
 <DD><DL>
-<DT><B>Specified by:</B><DD><CODE>paintBorder</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html#paintBorder(javax.swing.plaf.synth.SynthContext, java.awt.Graphics, int, int, int, int)">paintBorder</A></CODE> in interface <CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></CODE></DL>
 </DD>
 <DD><DL>
 </DL>
@@ -681,6 +712,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+Copyright &#169; 2009-2012 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
 </BODY>
 </HTML>

@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-WindowUtils (Sea Glass Look and Feel for Swing 0.1.7.3 API)
+WindowUtils (Sea Glass Look and Feel for Swing 0.2 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ WindowUtils (Sea Glass Look and Feel for Swing 0.1.7.3 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="WindowUtils (Sea Glass Look and Feel for Swing 0.1.7.3 API)";
+        parent.document.title="WindowUtils (Sea Glass Look and Feel for Swing 0.2 API)";
     }
 }
 </SCRIPT>
@@ -182,6 +182,15 @@ Various utitilies used to manage window drawing.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Try's to make the given <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Window.html?is-external=true" title="class or interface in java.awt"><CODE>Window</CODE></A> non-opqaue (transparent) across
  platforms and JREs.</TD>
 </TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/util/WindowUtils.html#setWindowShape(java.awt.Window, java.awt.Shape)">setWindowShape</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Window.html?is-external=true" title="class or interface in java.awt">Window</A>&nbsp;window,
+               <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Shape.html?is-external=true" title="class or interface in java.awt">Shape</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the shape of a window.</TD>
+</TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
@@ -237,6 +246,21 @@ public static void <B>makeWindowNonOpaque</B>(<A HREF="http://java.sun.com/javas
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>window</CODE> - the <code>Window</code> to make non-opaque.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setWindowShape(java.awt.Window, java.awt.Shape)"><!-- --></A><H3>
+setWindowShape</H3>
+<PRE>
+public static void <B>setWindowShape</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Window.html?is-external=true" title="class or interface in java.awt">Window</A>&nbsp;window,
+                                  <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Shape.html?is-external=true" title="class or interface in java.awt">Shape</A>&nbsp;s)</PRE>
+<DL>
+<DD>Sets the shape of a window.
+ This will be done via a com.sun API and may be not available on all platforms.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>window</CODE> - to change the shape for<DD><CODE>s</CODE> - the new shape for the window.</DL>
 </DD>
 </DL>
 <HR>
@@ -369,6 +393,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+Copyright &#169; 2009-2012 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
 </BODY>
 </HTML>

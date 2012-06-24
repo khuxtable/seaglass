@@ -1,6 +1,7 @@
 com.seaglasslookandfeel
 com.seaglasslookandfeel.component
 com.seaglasslookandfeel.effect
+com.seaglasslookandfeel.icons
 com.seaglasslookandfeel.painter
 com.seaglasslookandfeel.painter.button
 com.seaglasslookandfeel.painter.titlepaneforegound
@@ -8,3 +9,7 @@ com.seaglasslookandfeel.painter.util
 com.seaglasslookandfeel.state
 com.seaglasslookandfeel.ui
 com.seaglasslookandfeel.util
+com.sun.java.swing
+javax.swing
+javax.swing.plaf.synth
+sun.swing.plaf.synth

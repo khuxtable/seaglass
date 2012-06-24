@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-SeaGlassTableUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)
+SeaGlassTableUI (Sea Glass Look and Feel for Swing 0.2 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ SeaGlassTableUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="SeaGlassTableUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)";
+        parent.document.title="SeaGlassTableUI (Sea Glass Look and Feel for Swing 0.2 API)";
     }
 }
 </SCRIPT>
@@ -98,19 +98,17 @@ Class SeaGlassTableUI</H2>
               <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.ui.SeaGlassTableUI</B>
 </PRE>
 <DL>
-<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../com/seaglasslookandfeel/painter/ViewportPainter.html" title="interface in com.seaglasslookandfeel.painter">ViewportPainter</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EventListener.html?is-external=true" title="class or interface in java.util">EventListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A>, sun.swing.plaf.synth.SynthUI</DD>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../com/seaglasslookandfeel/painter/ViewportPainter.html" title="interface in com.seaglasslookandfeel.painter">ViewportPainter</A>, <A HREF="../../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EventListener.html?is-external=true" title="class or interface in java.util">EventListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A>, <A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></DD>
 </DL>
 <HR>
 <DL>
-<DT><PRE>public class <B>SeaGlassTableUI</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicTableUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicTableUI</A><DT>implements sun.swing.plaf.synth.SynthUI, <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="../../../com/seaglasslookandfeel/painter/ViewportPainter.html" title="interface in com.seaglasslookandfeel.painter">ViewportPainter</A></DL>
+<DT><PRE>public class <B>SeaGlassTableUI</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicTableUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicTableUI</A><DT>implements <A HREF="../../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="../../../com/seaglasslookandfeel/painter/ViewportPainter.html" title="interface in com.seaglasslookandfeel.painter">ViewportPainter</A></DL>
 </PRE>
 
 <P>
 SeaGlassTableUI implementation.
- 
- <p>
- Based on SynthTableUI, which is package local.
- </p>
+
+ <p>Based on SynthTableUI, which is package local.</p>
 <P>
 
 <P>
@@ -213,6 +211,23 @@ SeaGlassTableUI implementation.
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The installation/uninstall procedures and support</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassTableUI.html#forceInstallRenderer(java.lang.Class)">forceInstallRenderer</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&nbsp;objectClass)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Force the installation of the appropriate Sea Glass Renderer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassTableUI.html#forceInstallRenderer(javax.swing.JTable, java.lang.Class)">forceInstallRenderer</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JTable.html?is-external=true" title="class or interface in javax.swing">JTable</A>&nbsp;table,
+                     <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&nbsp;objectClass)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Static wrapper around <A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassTableUI.html#forceInstallRenderer(java.lang.Class)"><CODE>forceInstallRenderer(Class objectClass)</CODE></A>.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -427,6 +442,41 @@ protected void <B>installDefaults</B>()</PRE>
 </DL>
 <HR>
 
+<A NAME="forceInstallRenderer(javax.swing.JTable, java.lang.Class)"><!-- --></A><H3>
+forceInstallRenderer</H3>
+<PRE>
+public static void <B>forceInstallRenderer</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JTable.html?is-external=true" title="class or interface in javax.swing">JTable</A>&nbsp;table,
+                                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&nbsp;objectClass)</PRE>
+<DL>
+<DD>Static wrapper around <A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassTableUI.html#forceInstallRenderer(java.lang.Class)"><CODE>forceInstallRenderer(Class objectClass)</CODE></A>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table to install the renderer on.<DD><CODE>objectClass</CODE> - the class to install the renderer on.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forceInstallRenderer(java.lang.Class)"><!-- --></A><H3>
+forceInstallRenderer</H3>
+<PRE>
+public void <B>forceInstallRenderer</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&nbsp;objectClass)</PRE>
+<DL>
+<DD>Force the installation of the appropriate Sea Glass Renderer. We don't
+ need to save the old renderer, because in principle that has already been
+ done in <A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassTableUI.html#installDefaults()"><CODE>installDefaults()</CODE></A>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>objectClass</CODE> - the object class to install the renderer on.</DL>
+</DD>
+</DL>
+<HR>
+
 <A NAME="installListeners()"><!-- --></A><H3>
 installListeners</H3>
 <PRE>
@@ -477,10 +527,10 @@ getContext</H3>
 public <A HREF="../../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A> <B>getContext</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
 <DL>
 <DD><DL>
-<DT><B>Specified by:</B><DD><CODE>getContext</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html#getContext(javax.swing.JComponent)">getContext</A></CODE> in interface <CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></CODE></DL>
 </DD>
 <DD><DL>
-<DT><B>See Also:</B><DD><CODE>SynthUI.getContext(javax.swing.JComponent)</CODE></DL>
+<DT><B>See Also:</B><DD><A HREF="../../../javax/swing/plaf/synth/SynthUI.html#getContext(javax.swing.JComponent)"><CODE>SynthUI.getContext(javax.swing.JComponent)</CODE></A></DL>
 </DD>
 </DL>
 <HR>
@@ -512,11 +562,11 @@ public void <B>paintBorder</B>(<A HREF="http://java.sun.com/javase/6/docs/api/ja
                         int&nbsp;h)</PRE>
 <DL>
 <DD><DL>
-<DT><B>Specified by:</B><DD><CODE>paintBorder</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html#paintBorder(javax.swing.plaf.synth.SynthContext, java.awt.Graphics, int, int, int, int)">paintBorder</A></CODE> in interface <CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></CODE></DL>
 </DD>
 <DD><DL>
-<DT><B>See Also:</B><DD><CODE>SynthUI.paintBorder(javax.swing.plaf.synth.SynthContext,
-      java.awt.Graphics, int, int, int, int)</CODE></DL>
+<DT><B>See Also:</B><DD><A HREF="../../../javax/swing/plaf/synth/SynthUI.html#paintBorder(javax.swing.plaf.synth.SynthContext, java.awt.Graphics, int, int, int, int)"><CODE>SynthUI.paintBorder(javax.swing.plaf.synth.SynthContext,
+      java.awt.Graphics, int, int, int, int)</CODE></A></DL>
 </DD>
 </DL>
 <HR>
@@ -687,6 +737,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+Copyright &#169; 2009-2012 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
 </BODY>
 </HTML>
