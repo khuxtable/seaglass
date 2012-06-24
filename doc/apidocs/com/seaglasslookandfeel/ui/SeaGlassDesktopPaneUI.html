@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-SeaGlassDesktopPaneUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)
+SeaGlassDesktopPaneUI (Sea Glass Look and Feel for Swing 0.2 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ SeaGlassDesktopPaneUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="SeaGlassDesktopPaneUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)";
+        parent.document.title="SeaGlassDesktopPaneUI (Sea Glass Look and Feel for Swing 0.2 API)";
     }
 }
 </SCRIPT>
@@ -98,11 +98,11 @@ Class SeaGlassDesktopPaneUI</H2>
               <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.ui.SeaGlassDesktopPaneUI</B>
 </PRE>
 <DL>
-<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EventListener.html?is-external=true" title="class or interface in java.util">EventListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A>, sun.swing.plaf.synth.SynthUI</DD>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EventListener.html?is-external=true" title="class or interface in java.util">EventListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A>, <A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></DD>
 </DL>
 <HR>
 <DL>
-<DT><PRE>public class <B>SeaGlassDesktopPaneUI</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicDesktopPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicDesktopPaneUI</A><DT>implements <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, sun.swing.plaf.synth.SynthUI</DL>
+<DT><PRE>public class <B>SeaGlassDesktopPaneUI</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicDesktopPaneUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicDesktopPaneUI</A><DT>implements <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="../../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A></DL>
 </PRE>
 
 <P>
@@ -462,7 +462,7 @@ getContext</H3>
 public <A HREF="../../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A> <B>getContext</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
 <DL>
 <DD><DL>
-<DT><B>Specified by:</B><DD><CODE>getContext</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html#getContext(javax.swing.JComponent)">getContext</A></CODE> in interface <CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></CODE></DL>
 </DD>
 <DD><DL>
 </DL>
@@ -526,7 +526,7 @@ public void <B>paintBorder</B>(<A HREF="http://java.sun.com/javase/6/docs/api/ja
                         int&nbsp;h)</PRE>
 <DL>
 <DD><DL>
-<DT><B>Specified by:</B><DD><CODE>paintBorder</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html#paintBorder(javax.swing.plaf.synth.SynthContext, java.awt.Graphics, int, int, int, int)">paintBorder</A></CODE> in interface <CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></CODE></DL>
 </DD>
 <DD><DL>
 </DL>
@@ -607,6 +607,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+Copyright &#169; 2009-2012 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
 </BODY>
 </HTML>

@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-SeaGlassStyleWrapper (Sea Glass Look and Feel for Swing 0.1.7.3 API)
+SeaGlassStyleWrapper (Sea Glass Look and Feel for Swing 0.2 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ SeaGlassStyleWrapper (Sea Glass Look and Feel for Swing 0.1.7.3 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="SeaGlassStyleWrapper (Sea Glass Look and Feel for Swing 0.1.7.3 API)";
+        parent.document.title="SeaGlassStyleWrapper (Sea Glass Look and Feel for Swing 0.2 API)";
     }
 }
 </SCRIPT>
@@ -168,7 +168,7 @@ A SynthStyle implementation used by SeaGlass. This just wraps a SynthStyle
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>&nbsp;<A HREF="../../com/seaglasslookandfeel/painter/Painter.html" title="interface in com.seaglasslookandfeel.painter">Painter</A></CODE></FONT></TD>
+<CODE>&nbsp;<A HREF="../../com/seaglasslookandfeel/painter/SeaGlassPainter.html" title="interface in com.seaglasslookandfeel.painter">SeaGlassPainter</A></CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassStyleWrapper.html#getBackgroundPainter(javax.swing.plaf.synth.SynthContext)">getBackgroundPainter</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;ctx)</CODE>
 
 <BR>
@@ -177,7 +177,7 @@ A SynthStyle implementation used by SeaGlass. This just wraps a SynthStyle
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>&nbsp;<A HREF="../../com/seaglasslookandfeel/painter/Painter.html" title="interface in com.seaglasslookandfeel.painter">Painter</A></CODE></FONT></TD>
+<CODE>&nbsp;<A HREF="../../com/seaglasslookandfeel/painter/SeaGlassPainter.html" title="interface in com.seaglasslookandfeel.painter">SeaGlassPainter</A></CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassStyleWrapper.html#getBorderPainter(javax.swing.plaf.synth.SynthContext)">getBorderPainter</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;ctx)</CODE>
 
 <BR>
@@ -203,7 +203,7 @@ A SynthStyle implementation used by SeaGlass. This just wraps a SynthStyle
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>&nbsp;<A HREF="../../com/seaglasslookandfeel/painter/Painter.html" title="interface in com.seaglasslookandfeel.painter">Painter</A></CODE></FONT></TD>
+<CODE>&nbsp;<A HREF="../../com/seaglasslookandfeel/painter/SeaGlassPainter.html" title="interface in com.seaglasslookandfeel.painter">SeaGlassPainter</A></CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassStyleWrapper.html#getForegroundPainter(javax.swing.plaf.synth.SynthContext)">getForegroundPainter</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;ctx)</CODE>
 
 <BR>
@@ -238,8 +238,8 @@ A SynthStyle implementation used by SeaGlass. This just wraps a SynthStyle
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassStyleWrapper.html#installDefaults(com.seaglasslookandfeel.SeaGlassContext, sun.swing.plaf.synth.SynthUI)">installDefaults</A></B>(<A HREF="../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A>&nbsp;context,
-                sun.swing.plaf.synth.SynthUI&nbsp;ui)</CODE>
+<TD><CODE><B><A HREF="../../com/seaglasslookandfeel/SeaGlassStyleWrapper.html#installDefaults(com.seaglasslookandfeel.SeaGlassContext, com.seaglasslookandfeel.ui.SeaglassUI)">installDefaults</A></B>(<A HREF="../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A>&nbsp;context,
+                <A HREF="../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>&nbsp;ui)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Re-implements SynthStyle.installDefaults(SynthContext, SynthUI) because
@@ -261,6 +261,15 @@ A SynthStyle implementation used by SeaGlass. This just wraps a SynthStyle
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if the region is opaque.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.seaglasslookandfeel.SeaGlassStyle"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class com.seaglasslookandfeel.<A HREF="../../com/seaglasslookandfeel/SeaGlassStyle.html" title="class in com.seaglasslookandfeel">SeaGlassStyle</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../com/seaglasslookandfeel/SeaGlassStyle.html#getSizeVariant(javax.swing.JComponent)">getSizeVariant</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_javax.swing.plaf.synth.SynthStyle"><!-- --></A>
@@ -311,17 +320,17 @@ public <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/Syn
 </DL>
 <HR>
 
-<A NAME="installDefaults(com.seaglasslookandfeel.SeaGlassContext, sun.swing.plaf.synth.SynthUI)"><!-- --></A><H3>
+<A NAME="installDefaults(com.seaglasslookandfeel.SeaGlassContext, com.seaglasslookandfeel.ui.SeaglassUI)"><!-- --></A><H3>
 installDefaults</H3>
 <PRE>
 public void <B>installDefaults</B>(<A HREF="../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A>&nbsp;context,
-                            sun.swing.plaf.synth.SynthUI&nbsp;ui)</PRE>
+                            <A HREF="../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>&nbsp;ui)</PRE>
 <DL>
 <DD>Re-implements SynthStyle.installDefaults(SynthContext, SynthUI) because
  it's package local.
 <P>
 <DD><DL>
-<DT><B>Overrides:</B><DD><CODE><A HREF="../../com/seaglasslookandfeel/SeaGlassStyle.html#installDefaults(com.seaglasslookandfeel.SeaGlassContext, sun.swing.plaf.synth.SynthUI)">installDefaults</A></CODE> in class <CODE><A HREF="../../com/seaglasslookandfeel/SeaGlassStyle.html" title="class in com.seaglasslookandfeel">SeaGlassStyle</A></CODE></DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../com/seaglasslookandfeel/SeaGlassStyle.html#installDefaults(com.seaglasslookandfeel.SeaGlassContext, com.seaglasslookandfeel.ui.SeaglassUI)">installDefaults</A></CODE> in class <CODE><A HREF="../../com/seaglasslookandfeel/SeaGlassStyle.html" title="class in com.seaglasslookandfeel">SeaGlassStyle</A></CODE></DL>
 </DD>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>context</CODE> - the context.<DD><CODE>ui</CODE> - the UI delegate.</DL>
@@ -519,7 +528,7 @@ public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-e
 <A NAME="getBackgroundPainter(javax.swing.plaf.synth.SynthContext)"><!-- --></A><H3>
 getBackgroundPainter</H3>
 <PRE>
-public <A HREF="../../com/seaglasslookandfeel/painter/Painter.html" title="interface in com.seaglasslookandfeel.painter">Painter</A> <B>getBackgroundPainter</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;ctx)</PRE>
+public <A HREF="../../com/seaglasslookandfeel/painter/SeaGlassPainter.html" title="interface in com.seaglasslookandfeel.painter">SeaGlassPainter</A> <B>getBackgroundPainter</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;ctx)</PRE>
 <DL>
 <DD>Gets the appropriate background Painter, if there is one, for the state
  specified in the given SynthContext. This method does appropriate
@@ -539,7 +548,7 @@ public <A HREF="../../com/seaglasslookandfeel/painter/Painter.html" title="inter
 <A NAME="getForegroundPainter(javax.swing.plaf.synth.SynthContext)"><!-- --></A><H3>
 getForegroundPainter</H3>
 <PRE>
-public <A HREF="../../com/seaglasslookandfeel/painter/Painter.html" title="interface in com.seaglasslookandfeel.painter">Painter</A> <B>getForegroundPainter</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;ctx)</PRE>
+public <A HREF="../../com/seaglasslookandfeel/painter/SeaGlassPainter.html" title="interface in com.seaglasslookandfeel.painter">SeaGlassPainter</A> <B>getForegroundPainter</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;ctx)</PRE>
 <DL>
 <DD>Gets the appropriate foreground Painter, if there is one, for the state
  specified in the given SynthContext. This method does appropriate
@@ -559,7 +568,7 @@ public <A HREF="../../com/seaglasslookandfeel/painter/Painter.html" title="inter
 <A NAME="getBorderPainter(javax.swing.plaf.synth.SynthContext)"><!-- --></A><H3>
 getBorderPainter</H3>
 <PRE>
-public <A HREF="../../com/seaglasslookandfeel/painter/Painter.html" title="interface in com.seaglasslookandfeel.painter">Painter</A> <B>getBorderPainter</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;ctx)</PRE>
+public <A HREF="../../com/seaglasslookandfeel/painter/SeaGlassPainter.html" title="interface in com.seaglasslookandfeel.painter">SeaGlassPainter</A> <B>getBorderPainter</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthContext.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthContext</A>&nbsp;ctx)</PRE>
 <DL>
 <DD>Gets the appropriate border Painter, if there is one, for the state
  specified in the given SynthContext. This method does appropriate
@@ -635,6 +644,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHO
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+Copyright &#169; 2009-2012 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
 </BODY>
 </HTML>

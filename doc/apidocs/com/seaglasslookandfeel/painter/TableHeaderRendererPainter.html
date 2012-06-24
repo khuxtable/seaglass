@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-TableHeaderRendererPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)
+TableHeaderRendererPainter (Sea Glass Look and Feel for Swing 0.2 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ TableHeaderRendererPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="TableHeaderRendererPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)";
+        parent.document.title="TableHeaderRendererPainter (Sea Glass Look and Feel for Swing 0.2 API)";
     }
 }
 </SCRIPT>
@@ -97,7 +97,7 @@ Class TableHeaderRendererPainter</H2>
           <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.painter.TableHeaderRendererPainter</B>
 </PRE>
 <DL>
-<DT><B>All Implemented Interfaces:</B> <DD>com.sun.java.swing.Painter&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;</DD>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../com/seaglasslookandfeel/painter/SeaGlassPainter.html" title="interface in com.seaglasslookandfeel.painter">SeaGlassPainter</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;, <A HREF="../../../com/sun/java/swing/Painter.html" title="interface in com.sun.java.swing">Painter</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;</DD>
 </DL>
 <HR>
 <DL>
@@ -126,7 +126,7 @@ Paint table headers.
 <TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/TableHeaderRendererPainter.Which.html" title="enum in com.seaglasslookandfeel.painter">TableHeaderRendererPainter.Which</A></B></CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;State class.</TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="nested_classes_inherited_from_class_com.seaglasslookandfeel.painter.AbstractCommonColorsPainter"><!-- --></A>
@@ -180,7 +180,7 @@ Paint table headers.
 <TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/TableHeaderRendererPainter.html#TableHeaderRendererPainter(com.seaglasslookandfeel.painter.TableHeaderRendererPainter.Which)">TableHeaderRendererPainter</A></B>(<A HREF="../../../com/seaglasslookandfeel/painter/TableHeaderRendererPainter.Which.html" title="enum in com.seaglasslookandfeel.painter">TableHeaderRendererPainter.Which</A>&nbsp;state)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a new TableHeaderRendererPainter object.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -218,7 +218,7 @@ Paint table headers.
 <TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/TableHeaderRendererPainter.html#getTableHeaderBorderPaint(com.seaglasslookandfeel.painter.AbstractCommonColorsPainter.CommonControlState)">getTableHeaderBorderPaint</A></B>(<A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.CommonControlState.html" title="enum in com.seaglasslookandfeel.painter">AbstractCommonColorsPainter.CommonControlState</A>&nbsp;type)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DOCUMENT ME!</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -228,7 +228,7 @@ Paint table headers.
                             boolean&nbsp;isSorted)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DOCUMENT ME!</TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_com.seaglasslookandfeel.painter.AbstractCommonColorsPainter"><!-- --></A>
@@ -276,6 +276,10 @@ TableHeaderRendererPainter</H3>
 <PRE>
 public <B>TableHeaderRendererPainter</B>(<A HREF="../../../com/seaglasslookandfeel/painter/TableHeaderRendererPainter.Which.html" title="enum in com.seaglasslookandfeel.painter">TableHeaderRendererPainter.Which</A>&nbsp;state)</PRE>
 <DL>
+<DD>Creates a new TableHeaderRendererPainter object.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>state</CODE> - the state.</DL>
 </DL>
 
 <!-- ============ METHOD DETAIL ========== -->
@@ -319,7 +323,8 @@ protected void <B>doPaint</B>(<A HREF="http://java.sun.com/javase/6/docs/api/jav
                           the case of painting the foreground, this value
                           may differ from c.getWidth().<DD><CODE>height</CODE> - The height of the region to paint. Note that in
                           the case of painting the foreground, this value
-                          may differ from c.getHeight().<DD><CODE>extendedCacheKeys</CODE> - The result of the call to getExtendedCacheKeys()</DL>
+                          may differ from c.getHeight().<DD><CODE>extendedCacheKeys</CODE> - The result of the call to getExtendedCacheKeys()<DT><B>See Also:</B><DD><A HREF="../../../com/seaglasslookandfeel/painter/AbstractRegionPainter.html#doPaint(java.awt.Graphics2D, javax.swing.JComponent, int, int, java.lang.Object[])"><CODE>AbstractRegionPainter.doPaint(java.awt.Graphics2D,
+      javax.swing.JComponent, int, int, java.lang.Object[])</CODE></A></DL>
 </DD>
 </DL>
 <HR>
@@ -346,7 +351,7 @@ protected <A HREF="../../../com/seaglasslookandfeel/painter/AbstractRegionPainte
 </DD>
 <DD><DL>
 
-<DT><B>Returns:</B><DD>a PaintContext associated with this paint operation.</DL>
+<DT><B>Returns:</B><DD>a PaintContext associated with this paint operation.<DT><B>See Also:</B><DD><A HREF="../../../com/seaglasslookandfeel/painter/AbstractRegionPainter.html#getPaintContext()"><CODE>AbstractRegionPainter.getPaintContext()</CODE></A></DL>
 </DD>
 </DL>
 <HR>
@@ -356,8 +361,11 @@ getTableHeaderBorderPaint</H3>
 <PRE>
 public <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-external=true" title="class or interface in java.awt">Paint</A> <B>getTableHeaderBorderPaint</B>(<A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.CommonControlState.html" title="enum in com.seaglasslookandfeel.painter">AbstractCommonColorsPainter.CommonControlState</A>&nbsp;type)</PRE>
 <DL>
+<DD>DOCUMENT ME!
+<P>
 <DD><DL>
-</DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - DOCUMENT ME!
+<DT><B>Returns:</B><DD>DOCUMENT ME!</DL>
 </DD>
 </DL>
 <HR>
@@ -369,8 +377,11 @@ public <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-ext
                                          <A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.CommonControlState.html" title="enum in com.seaglasslookandfeel.painter">AbstractCommonColorsPainter.CommonControlState</A>&nbsp;type,
                                          boolean&nbsp;isSorted)</PRE>
 <DL>
+<DD>DOCUMENT ME!
+<P>
 <DD><DL>
-</DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - DOCUMENT ME!<DD><CODE>type</CODE> - DOCUMENT ME!<DD><CODE>isSorted</CODE> - DOCUMENT ME!
+<DT><B>Returns:</B><DD>DOCUMENT ME!</DL>
 </DD>
 </DL>
 <!-- ========= END OF CLASS DATA ========= -->
@@ -434,6 +445,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+Copyright &#169; 2009-2012 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
 </BODY>
 </HTML>

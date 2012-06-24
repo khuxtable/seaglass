@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-SliderTrackPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)
+SliderTrackPainter (Sea Glass Look and Feel for Swing 0.2 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ SliderTrackPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="SliderTrackPainter (Sea Glass Look and Feel for Swing 0.1.7.3 API)";
+        parent.document.title="SliderTrackPainter (Sea Glass Look and Feel for Swing 0.2 API)";
     }
 }
 </SCRIPT>
@@ -93,14 +93,15 @@ Class SliderTrackPainter</H2>
 <PRE>
 <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
   <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../com/seaglasslookandfeel/painter/AbstractRegionPainter.html" title="class in com.seaglasslookandfeel.painter">com.seaglasslookandfeel.painter.AbstractRegionPainter</A>
-      <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.painter.SliderTrackPainter</B>
+      <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.html" title="class in com.seaglasslookandfeel.painter">com.seaglasslookandfeel.painter.AbstractCommonColorsPainter</A>
+          <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.painter.SliderTrackPainter</B>
 </PRE>
 <DL>
-<DT><B>All Implemented Interfaces:</B> <DD>com.sun.java.swing.Painter&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;</DD>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../com/seaglasslookandfeel/painter/SeaGlassPainter.html" title="interface in com.seaglasslookandfeel.painter">SeaGlassPainter</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;, <A HREF="../../../com/sun/java/swing/Painter.html" title="interface in com.sun.java.swing">Painter</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&gt;</DD>
 </DL>
 <HR>
 <DL>
-<DT><PRE>public final class <B>SliderTrackPainter</B><DT>extends <A HREF="../../../com/seaglasslookandfeel/painter/AbstractRegionPainter.html" title="class in com.seaglasslookandfeel.painter">AbstractRegionPainter</A></DL>
+<DT><PRE>public final class <B>SliderTrackPainter</B><DT>extends <A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.html" title="class in com.seaglasslookandfeel.painter">AbstractCommonColorsPainter</A></DL>
 </PRE>
 
 <P>
@@ -128,7 +129,17 @@ Nimbus's SliderTrackPainter.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DOCUMENT ME!</TD>
 </TR>
 </TABLE>
-&nbsp;<A NAME="nested_classes_inherited_from_class_com.seaglasslookandfeel.painter.AbstractRegionPainter"><!-- --></A>
+&nbsp;<A NAME="nested_classes_inherited_from_class_com.seaglasslookandfeel.painter.AbstractCommonColorsPainter"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from class com.seaglasslookandfeel.painter.<A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.html" title="class in com.seaglasslookandfeel.painter">AbstractCommonColorsPainter</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.CommonControlState.html" title="enum in com.seaglasslookandfeel.painter">AbstractCommonColorsPainter.CommonControlState</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<A NAME="nested_classes_inherited_from_class_com.seaglasslookandfeel.painter.AbstractRegionPainter"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
 <TH ALIGN="left"><B>Nested classes/interfaces inherited from class com.seaglasslookandfeel.painter.<A HREF="../../../com/seaglasslookandfeel/painter/AbstractRegionPainter.html" title="class in com.seaglasslookandfeel.painter">AbstractRegionPainter</A></B></TH>
@@ -217,6 +228,23 @@ Nimbus's SliderTrackPainter.
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DOCUMENT ME!</TD>
 </TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-external=true" title="class or interface in java.awt">Paint</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/painter/SliderTrackPainter.html#getValuePaint(java.awt.Shape)">getValuePaint</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Shape.html?is-external=true" title="class or interface in java.awt">Shape</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.seaglasslookandfeel.painter.AbstractCommonColorsPainter"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class com.seaglasslookandfeel.painter.<A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.html" title="class in com.seaglasslookandfeel.painter">AbstractCommonColorsPainter</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.html#getCommonArrowColors(com.seaglasslookandfeel.painter.AbstractCommonColorsPainter.CommonControlState)">getCommonArrowColors</A>, <A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.html#getCommonArrowPaint(java.awt.Shape, com.seaglasslookandfeel.painter.AbstractCommonColorsPainter.CommonControlState)">getCommonArrowPaint</A>, <A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.html#getCommonBorderColors(com.seaglasslookandfeel.painter.AbstractCommonColorsPainter.CommonControlState)">getCommonBorderColors</A>, <A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.html#getCommonBorderPaint(java.awt.Shape, com.seaglasslookandfeel.painter.AbstractCommonColorsPainter.CommonControlState)">getCommonBorderPaint</A>, <A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.html#getCommonInteriorColors(com.seaglasslookandfeel.painter.AbstractCommonColorsPainter.CommonControlState)">getCommonInteriorColors</A>, <A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.html#getCommonInteriorPaint(java.awt.Shape, com.seaglasslookandfeel.painter.AbstractCommonColorsPainter.CommonControlState)">getCommonInteriorPaint</A>, <A HREF="../../../com/seaglasslookandfeel/painter/AbstractCommonColorsPainter.html#getTextBorderPaint(com.seaglasslookandfeel.painter.AbstractCommonColorsPainter.CommonControlState, boolean)">getTextBorderPaint</A></CODE></TD>
+</TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_com.seaglasslookandfeel.painter.AbstractRegionPainter"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
@@ -301,6 +329,18 @@ protected void <B>doPaint</B>(<A HREF="http://java.sun.com/javase/6/docs/api/jav
                           may differ from c.getWidth().<DD><CODE>height</CODE> - The height of the region to paint. Note that in
                           the case of painting the foreground, this value
                           may differ from c.getHeight().<DD><CODE>extendedCacheKeys</CODE> - The result of the call to getExtendedCacheKeys()</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getValuePaint(java.awt.Shape)"><!-- --></A><H3>
+getValuePaint</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Paint.html?is-external=true" title="class or interface in java.awt">Paint</A> <B>getValuePaint</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Shape.html?is-external=true" title="class or interface in java.awt">Shape</A>&nbsp;s)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - <DD><CODE>type</CODE> - 
+<DT><B>Returns:</B><DD></DL>
 </DD>
 </DL>
 <HR>
@@ -418,6 +458,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+Copyright &#169; 2009-2012 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
 </BODY>
 </HTML>

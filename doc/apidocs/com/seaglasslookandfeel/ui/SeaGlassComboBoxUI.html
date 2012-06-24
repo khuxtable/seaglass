@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-SeaGlassComboBoxUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)
+SeaGlassComboBoxUI (Sea Glass Look and Feel for Swing 0.2 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ SeaGlassComboBoxUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="SeaGlassComboBoxUI (Sea Glass Look and Feel for Swing 0.1.7.3 API)";
+        parent.document.title="SeaGlassComboBoxUI (Sea Glass Look and Feel for Swing 0.2 API)";
     }
 }
 </SCRIPT>
@@ -98,11 +98,11 @@ Class SeaGlassComboBoxUI</H2>
               <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>com.seaglasslookandfeel.ui.SeaGlassComboBoxUI</B>
 </PRE>
 <DL>
-<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EventListener.html?is-external=true" title="class or interface in java.util">EventListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A>, sun.swing.plaf.synth.SynthUI</DD>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EventListener.html?is-external=true" title="class or interface in java.util">EventListener</A>, <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/synth/SynthConstants.html?is-external=true" title="class or interface in javax.swing.plaf.synth">SynthConstants</A>, <A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></DD>
 </DL>
 <HR>
 <DL>
-<DT><PRE>public class <B>SeaGlassComboBoxUI</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicComboBoxUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicComboBoxUI</A><DT>implements <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, sun.swing.plaf.synth.SynthUI</DL>
+<DT><PRE>public class <B>SeaGlassComboBoxUI</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicComboBoxUI.html?is-external=true" title="class or interface in javax.swing.plaf.basic">BasicComboBoxUI</A><DT>implements <A HREF="http://java.sun.com/javase/6/docs/api/java/beans/PropertyChangeListener.html?is-external=true" title="class or interface in java.beans">PropertyChangeListener</A>, <A HREF="../../../com/seaglasslookandfeel/ui/SeaglassUI.html" title="interface in com.seaglasslookandfeel.ui">SeaglassUI</A></DL>
 </PRE>
 
 <P>
@@ -244,6 +244,15 @@ SeaGlassComboBoxUI.
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return the default size of an empty display area of the combo box using
  the current renderer and font.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Dimension.html?is-external=true" title="class or interface in java.awt">Dimension</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/seaglasslookandfeel/ui/SeaGlassComboBoxUI.html#getSizeForComponent(java.awt.Component)">getSizeForComponent</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Component.html?is-external=true" title="class or interface in java.awt">Component</A>&nbsp;comp)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This has been refactored out in hopes that it may be investigated and
+ simplified for the next major release.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -517,7 +526,7 @@ getContext</H3>
 public <A HREF="../../../com/seaglasslookandfeel/SeaGlassContext.html" title="class in com.seaglasslookandfeel">SeaGlassContext</A> <B>getContext</B>(<A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/JComponent.html?is-external=true" title="class or interface in javax.swing">JComponent</A>&nbsp;c)</PRE>
 <DL>
 <DD><DL>
-<DT><B>Specified by:</B><DD><CODE>getContext</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html#getContext(javax.swing.JComponent)">getContext</A></CODE> in interface <CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></CODE></DL>
 </DD>
 <DD><DL>
 </DL>
@@ -651,7 +660,7 @@ public void <B>paintBorder</B>(<A HREF="http://java.sun.com/javase/6/docs/api/ja
                         int&nbsp;h)</PRE>
 <DL>
 <DD><DL>
-<DT><B>Specified by:</B><DD><CODE>paintBorder</CODE> in interface <CODE>sun.swing.plaf.synth.SynthUI</CODE></DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html#paintBorder(javax.swing.plaf.synth.SynthContext, java.awt.Graphics, int, int, int, int)">paintBorder</A></CODE> in interface <CODE><A HREF="../../../sun/swing/plaf/synth/SynthUI.html" title="interface in sun.swing.plaf.synth">SynthUI</A></CODE></DL>
 </DD>
 <DD><DL>
 </DL>
@@ -696,6 +705,27 @@ protected <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Dimension.html
 <DD><DL>
 
 <DT><B>Returns:</B><DD>the size of an empty display area<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/javax/swing/plaf/basic/BasicComboBoxUI.html?is-external=true#getDisplaySize()" title="class or interface in javax.swing.plaf.basic"><CODE>BasicComboBoxUI.getDisplaySize()</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSizeForComponent(java.awt.Component)"><!-- --></A><H3>
+getSizeForComponent</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Dimension.html?is-external=true" title="class or interface in java.awt">Dimension</A> <B>getSizeForComponent</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/awt/Component.html?is-external=true" title="class or interface in java.awt">Component</A>&nbsp;comp)</PRE>
+<DL>
+<DD>This has been refactored out in hopes that it may be investigated and
+ simplified for the next major release. adding/removing the component to
+ the currentValuePane and changing the font may be redundant operations.
+ 
+ NOTE: This method was copied in its entirety from BasicComboBoxUI. Might
+ want to make it protected in BasicComboBoxUI in Java 7
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
 </DD>
 </DL>
 <!-- ========= END OF CLASS DATA ========= -->
@@ -759,6 +789,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2009-2010 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
+Copyright &#169; 2009-2012 <a href="http://seaglasslookandfeel.com">seaglasslookandfeel.com</a>. All Rights Reserved.
 </BODY>
 </HTML>

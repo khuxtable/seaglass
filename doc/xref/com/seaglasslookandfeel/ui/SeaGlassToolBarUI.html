@@ -1,476 +1,474 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>SeaGlassToolBarUI xref</title>
 <link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
 </head>
 <body>
 <div id="overview"><a href="../../../../apidocs/com/seaglasslookandfeel/ui/SeaGlassToolBarUI.html">View Javadoc</a></div><pre>
 
-<a name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
-<a name="2" href="#2">2</a>   <em class="jxr_comment"> * Copyright (c) 2009 Kathryn Huxtable and Kenneth Orr.</em>
-<a name="3" href="#3">3</a>   <em class="jxr_comment"> *</em>
-<a name="4" href="#4">4</a>   <em class="jxr_comment"> * This file is part of the SeaGlass Pluggable Look and Feel.</em>
-<a name="5" href="#5">5</a>   <em class="jxr_comment"> *</em>
-<a name="6" href="#6">6</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
-<a name="7" href="#7">7</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
-<a name="8" href="#8">8</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
-<a name="9" href="#9">9</a>   <em class="jxr_comment"> *</em>
-<a name="10" href="#10">10</a>  <em class="jxr_comment"> *     <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
-<a name="11" href="#11">11</a>  <em class="jxr_comment"> *</em>
-<a name="12" href="#12">12</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
-<a name="13" href="#13">13</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
-<a name="14" href="#14">14</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
-<a name="15" href="#15">15</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
-<a name="16" href="#16">16</a>  <em class="jxr_comment"> * limitations under the License.</em>
-<a name="17" href="#17">17</a>  <em class="jxr_comment"> * </em>
-<a name="18" href="#18">18</a>  <em class="jxr_comment"> * $Id: SeaGlassToolBarUI.java 710 2010-01-12 19:34:03Z kathryn@kathrynhuxtable.org $</em>
-<a name="19" href="#19">19</a>  <em class="jxr_comment"> */</em>
-<a name="20" href="#20">20</a>  <strong class="jxr_keyword">package</strong> com.seaglasslookandfeel.ui;
-<a name="21" href="#21">21</a>  
-<a name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> java.awt.Component;
-<a name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> java.awt.Container;
-<a name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> java.awt.Dimension;
-<a name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> java.awt.Graphics;
-<a name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> java.awt.Insets;
-<a name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> java.awt.LayoutManager;
-<a name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> java.awt.Rectangle;
-<a name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> java.beans.PropertyChangeEvent;
-<a name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> java.beans.PropertyChangeListener;
-<a name="31" href="#31">31</a>  
-<a name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> javax.swing.Box;
-<a name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> javax.swing.Icon;
-<a name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> javax.swing.JComponent;
-<a name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> javax.swing.JSeparator;
-<a name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> javax.swing.JToolBar;
-<a name="37" href="#37">37</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.ComponentUI;
-<a name="38" href="#38">38</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.basic.BasicToolBarUI;
-<a name="39" href="#39">39</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.Region;
-<a name="40" href="#40">40</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.SynthContext;
-<a name="41" href="#41">41</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.SynthStyle;
-<a name="42" href="#42">42</a>  
-<a name="43" href="#43">43</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.SeaGlassContext;
-<a name="44" href="#44">44</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.SeaGlassLookAndFeel;
-<a name="45" href="#45">45</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.util.WindowUtils;
-<a name="46" href="#46">46</a>  
-<a name="47" href="#47">47</a>  <strong class="jxr_keyword">import</strong> sun.swing.plaf.synth.SynthIcon;
-<a name="48" href="#48">48</a>  <strong class="jxr_keyword">import</strong> sun.swing.plaf.synth.SynthUI;
-<a name="49" href="#49">49</a>  
-<a name="50" href="#50">50</a>  <em class="jxr_javadoccomment">/**</em>
-<a name="51" href="#51">51</a>  <em class="jxr_javadoccomment"> * SeaGlassToolBarUI implementation.</em>
-<a name="52" href="#52">52</a>  <em class="jxr_javadoccomment"> * </em>
-<a name="53" href="#53">53</a>  <em class="jxr_javadoccomment"> * Based on SynthToolBarUI.</em>
-<a name="54" href="#54">54</a>  <em class="jxr_javadoccomment"> * </em>
-<a name="55" href="#55">55</a>  <em class="jxr_javadoccomment"> * @see javax.swing.plaf.synth.SynthToolBarUI</em>
-<a name="56" href="#56">56</a>  <em class="jxr_javadoccomment"> */</em>
-<a name="57" href="#57">57</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassToolBarUI.html">SeaGlassToolBarUI</a> <strong class="jxr_keyword">extends</strong> BasicToolBarUI implements PropertyChangeListener, SynthUI {
-<a name="58" href="#58">58</a>      <strong class="jxr_keyword">protected</strong> Icon      handleIcon  = <strong class="jxr_keyword">null</strong>;
-<a name="59" href="#59">59</a>      <strong class="jxr_keyword">protected</strong> Rectangle contentRect = <strong class="jxr_keyword">new</strong> Rectangle();
-<a name="60" href="#60">60</a>  
-<a name="61" href="#61">61</a>      <strong class="jxr_keyword">private</strong> SynthStyle  style;
-<a name="62" href="#62">62</a>      <strong class="jxr_keyword">private</strong> SynthStyle  contentStyle;
-<a name="63" href="#63">63</a>      <strong class="jxr_keyword">private</strong> SynthStyle  dragWindowStyle;
-<a name="64" href="#64">64</a>  
-<a name="65" href="#65">65</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> ComponentUI createUI(JComponent c) {
-<a name="66" href="#66">66</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassToolBarUI.html">SeaGlassToolBarUI</a>();
-<a name="67" href="#67">67</a>      }
-<a name="68" href="#68">68</a>  
-<a name="69" href="#69">69</a>      @Override
-<a name="70" href="#70">70</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> installDefaults() {
-<a name="71" href="#71">71</a>          toolBar.setLayout(createLayout());
-<a name="72" href="#72">72</a>          updateStyle(toolBar);
-<a name="73" href="#73">73</a>      }
-<a name="74" href="#74">74</a>  
-<a name="75" href="#75">75</a>      @Override
-<a name="76" href="#76">76</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> installListeners() {
-<a name="77" href="#77">77</a>          <strong class="jxr_keyword">super</strong>.installListeners();
-<a name="78" href="#78">78</a>          toolBar.addPropertyChangeListener(<strong class="jxr_keyword">this</strong>);
-<a name="79" href="#79">79</a>  
-<a name="80" href="#80">80</a>          WindowUtils.installJComponentRepainterOnWindowFocusChanged(toolBar);
-<a name="81" href="#81">81</a>      }
-<a name="82" href="#82">82</a>  
-<a name="83" href="#83">83</a>      @Override
-<a name="84" href="#84">84</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> uninstallListeners() {
-<a name="85" href="#85">85</a>          <strong class="jxr_keyword">super</strong>.uninstallListeners();
-<a name="86" href="#86">86</a>          toolBar.removePropertyChangeListener(<strong class="jxr_keyword">this</strong>);
-<a name="87" href="#87">87</a>      }
-<a name="88" href="#88">88</a>  
-<a name="89" href="#89">89</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> updateStyle(JToolBar c) {
-<a name="90" href="#90">90</a>          <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c, Region.TOOL_BAR_CONTENT, <strong class="jxr_keyword">null</strong>, ENABLED);
-<a name="91" href="#91">91</a>          contentStyle = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
-<a name="92" href="#92">92</a>          context.getComponent().setOpaque(false);
-<a name="93" href="#93">93</a>          context.dispose();
-<a name="94" href="#94">94</a>  
-<a name="95" href="#95">95</a>          context = getContext(c, Region.TOOL_BAR_DRAG_WINDOW, <strong class="jxr_keyword">null</strong>, ENABLED);
-<a name="96" href="#96">96</a>          context.getComponent().setOpaque(false);
-<a name="97" href="#97">97</a>          dragWindowStyle = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
-<a name="98" href="#98">98</a>          context.dispose();
-<a name="99" href="#99">99</a>  
-<a name="100" href="#100">100</a>         context = getContext(c, ENABLED);
-<a name="101" href="#101">101</a>         context.getComponent().setOpaque(false);
-<a name="102" href="#102">102</a>         SynthStyle oldStyle = style;
-<a name="103" href="#103">103</a> 
-<a name="104" href="#104">104</a>         style = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
-<a name="105" href="#105">105</a>         <strong class="jxr_keyword">if</strong> (oldStyle != style) {
-<a name="106" href="#106">106</a>             handleIcon = style.getIcon(context, <span class="jxr_string">"ToolBar.handleIcon"</span>);
-<a name="107" href="#107">107</a>             <strong class="jxr_keyword">if</strong> (oldStyle != <strong class="jxr_keyword">null</strong>) {
-<a name="108" href="#108">108</a>                 uninstallKeyboardActions();
-<a name="109" href="#109">109</a>                 installKeyboardActions();
-<a name="110" href="#110">110</a>             }
-<a name="111" href="#111">111</a>         }
-<a name="112" href="#112">112</a>         context.dispose();
-<a name="113" href="#113">113</a>     }
-<a name="114" href="#114">114</a> 
-<a name="115" href="#115">115</a>     @Override
-<a name="116" href="#116">116</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> uninstallDefaults() {
-<a name="117" href="#117">117</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(toolBar, ENABLED);
-<a name="118" href="#118">118</a> 
-<a name="119" href="#119">119</a>         style.uninstallDefaults(context);
-<a name="120" href="#120">120</a>         context.dispose();
-<a name="121" href="#121">121</a>         style = <strong class="jxr_keyword">null</strong>;
-<a name="122" href="#122">122</a> 
-<a name="123" href="#123">123</a>         handleIcon = <strong class="jxr_keyword">null</strong>;
-<a name="124" href="#124">124</a> 
-<a name="125" href="#125">125</a>         context = getContext(toolBar, Region.TOOL_BAR_CONTENT, contentStyle, ENABLED);
-<a name="126" href="#126">126</a>         contentStyle.uninstallDefaults(context);
-<a name="127" href="#127">127</a>         context.dispose();
-<a name="128" href="#128">128</a>         contentStyle = <strong class="jxr_keyword">null</strong>;
-<a name="129" href="#129">129</a> 
-<a name="130" href="#130">130</a>         context = getContext(toolBar, Region.TOOL_BAR_DRAG_WINDOW, dragWindowStyle, ENABLED);
-<a name="131" href="#131">131</a>         dragWindowStyle.uninstallDefaults(context);
-<a name="132" href="#132">132</a>         context.dispose();
-<a name="133" href="#133">133</a>         dragWindowStyle = <strong class="jxr_keyword">null</strong>;
-<a name="134" href="#134">134</a> 
-<a name="135" href="#135">135</a>         toolBar.setLayout(<strong class="jxr_keyword">null</strong>);
-<a name="136" href="#136">136</a>     }
-<a name="137" href="#137">137</a> 
-<a name="138" href="#138">138</a>     @Override
-<a name="139" href="#139">139</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> installComponents() {
-<a name="140" href="#140">140</a>     }
-<a name="141" href="#141">141</a> 
-<a name="142" href="#142">142</a>     @Override
-<a name="143" href="#143">143</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> uninstallComponents() {
-<a name="144" href="#144">144</a>     }
-<a name="145" href="#145">145</a> 
-<a name="146" href="#146">146</a>     <strong class="jxr_keyword">protected</strong> LayoutManager createLayout() {
-<a name="147" href="#147">147</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassToolBarUI.html">SynthToolBarLayoutManager</a>();
-<a name="148" href="#148">148</a>     }
-<a name="149" href="#149">149</a> 
-<a name="150" href="#150">150</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c) {
-<a name="151" href="#151">151</a>         <strong class="jxr_keyword">return</strong> getContext(c, getComponentState(c));
-<a name="152" href="#152">152</a>     }
-<a name="153" href="#153">153</a> 
-<a name="154" href="#154">154</a>     <strong class="jxr_keyword">private</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, <strong class="jxr_keyword">int</strong> state) {
-<a name="155" href="#155">155</a>         <strong class="jxr_keyword">return</strong> SeaGlassContext.getContext(SeaGlassContext.<strong class="jxr_keyword">class</strong>, c, SeaGlassLookAndFeel.getRegion(c), style, state);
-<a name="156" href="#156">156</a>     }
-<a name="157" href="#157">157</a> 
-<a name="158" href="#158">158</a>     <strong class="jxr_keyword">private</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, Region region, SynthStyle style) {
-<a name="159" href="#159">159</a>         <strong class="jxr_keyword">return</strong> SeaGlassContext.getContext(SeaGlassContext.<strong class="jxr_keyword">class</strong>, c, region, style, getComponentState(c, region));
-<a name="160" href="#160">160</a>     }
-<a name="161" href="#161">161</a> 
-<a name="162" href="#162">162</a>     <strong class="jxr_keyword">private</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, Region region, SynthStyle style, <strong class="jxr_keyword">int</strong> state) {
-<a name="163" href="#163">163</a>         <strong class="jxr_keyword">return</strong> SeaGlassContext.getContext(SeaGlassContext.<strong class="jxr_keyword">class</strong>, c, region, style, state);
-<a name="164" href="#164">164</a>     }
-<a name="165" href="#165">165</a> 
-<a name="166" href="#166">166</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> getComponentState(JComponent c) {
-<a name="167" href="#167">167</a>         <strong class="jxr_keyword">return</strong> SeaGlassLookAndFeel.getComponentState(c);
-<a name="168" href="#168">168</a>     }
-<a name="169" href="#169">169</a> 
-<a name="170" href="#170">170</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> getComponentState(JComponent c, Region region) {
-<a name="171" href="#171">171</a>         <strong class="jxr_keyword">return</strong> SeaGlassLookAndFeel.getComponentState(c);
-<a name="172" href="#172">172</a>     }
-<a name="173" href="#173">173</a> 
-<a name="174" href="#174">174</a>     @Override
-<a name="175" href="#175">175</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> update(Graphics g, JComponent c) {
-<a name="176" href="#176">176</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c);
-<a name="177" href="#177">177</a> 
-<a name="178" href="#178">178</a>         SeaGlassLookAndFeel.update(context, g);
-<a name="179" href="#179">179</a>         context.getPainter().paintToolBarBackground(context, g, 0, 0, c.getWidth(), c.getHeight(), toolBar.getOrientation());
-<a name="180" href="#180">180</a>         paint(context, g);
-<a name="181" href="#181">181</a>         context.dispose();
-<a name="182" href="#182">182</a>     }
-<a name="183" href="#183">183</a> 
-<a name="184" href="#184">184</a>     @Override
-<a name="185" href="#185">185</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paint(Graphics g, JComponent c) {
-<a name="186" href="#186">186</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c);
-<a name="187" href="#187">187</a> 
-<a name="188" href="#188">188</a>         paint(context, g);
-<a name="189" href="#189">189</a>         context.dispose();
-<a name="190" href="#190">190</a>     }
-<a name="191" href="#191">191</a> 
-<a name="192" href="#192">192</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paintBorder(SynthContext context, Graphics g, <strong class="jxr_keyword">int</strong> x, <strong class="jxr_keyword">int</strong> y, <strong class="jxr_keyword">int</strong> w, <strong class="jxr_keyword">int</strong> h) {
-<a name="193" href="#193">193</a>         ((<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a>) context).getPainter().paintToolBarBorder(context, g, x, y, w, h, toolBar.getOrientation());
-<a name="194" href="#194">194</a>     }
-<a name="195" href="#195">195</a> 
-<a name="196" href="#196">196</a>     <em class="jxr_comment">// Overloaded to do nothing so we can share listeners.</em>
-<a name="197" href="#197">197</a>     @Override
-<a name="198" href="#198">198</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBorderToNonRollover(Component c) {
-<a name="199" href="#199">199</a>     }
-<a name="200" href="#200">200</a> 
-<a name="201" href="#201">201</a>     <em class="jxr_comment">// Overloaded to do nothing so we can share listeners.</em>
-<a name="202" href="#202">202</a>     @Override
-<a name="203" href="#203">203</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBorderToRollover(Component c) {
-<a name="204" href="#204">204</a>     }
-<a name="205" href="#205">205</a> 
-<a name="206" href="#206">206</a>     <em class="jxr_comment">// Overloaded to do nothing so we can share listeners.</em>
-<a name="207" href="#207">207</a>     @Override
-<a name="208" href="#208">208</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBorderToNormal(Component c) {
-<a name="209" href="#209">209</a>     }
-<a name="210" href="#210">210</a> 
-<a name="211" href="#211">211</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> paint(<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context, Graphics g) {
-<a name="212" href="#212">212</a>         <strong class="jxr_keyword">if</strong> (handleIcon != <strong class="jxr_keyword">null</strong> &amp;&amp; toolBar.isFloatable()) {
-<a name="213" href="#213">213</a>             <strong class="jxr_keyword">int</strong> startX = toolBar.getComponentOrientation().isLeftToRight() ? 0 : toolBar.getWidth()
-<a name="214" href="#214">214</a>                     - SynthIcon.getIconWidth(handleIcon, context);
-<a name="215" href="#215">215</a>             SynthIcon.paintIcon(handleIcon, context, g, startX, 0, SynthIcon.getIconWidth(handleIcon, context), SynthIcon.getIconHeight(
-<a name="216" href="#216">216</a>                 handleIcon, context));
-<a name="217" href="#217">217</a>         }
-<a name="218" href="#218">218</a> 
-<a name="219" href="#219">219</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> subcontext = getContext(toolBar, Region.TOOL_BAR_CONTENT, contentStyle);
-<a name="220" href="#220">220</a>         <em class="jxr_comment">// paintContent(subcontext, g, contentRect);</em>
-<a name="221" href="#221">221</a>         subcontext.dispose();
-<a name="222" href="#222">222</a>     }
-<a name="223" href="#223">223</a> 
-<a name="224" href="#224">224</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paintContent(<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context, Graphics g, Rectangle bounds) {
-<a name="225" href="#225">225</a>         SeaGlassLookAndFeel.updateSubregion(context, g, bounds);
-<a name="226" href="#226">226</a>         context.getPainter().paintToolBarContentBackground(context, g, bounds.x, bounds.y, bounds.width, bounds.height,
-<a name="227" href="#227">227</a>             toolBar.getOrientation());
-<a name="228" href="#228">228</a>         context.getPainter().paintToolBarContentBorder(context, g, bounds.x, bounds.y, bounds.width, bounds.height,
-<a name="229" href="#229">229</a>             toolBar.getOrientation());
-<a name="230" href="#230">230</a>     }
-<a name="231" href="#231">231</a> 
-<a name="232" href="#232">232</a>     @Override
-<a name="233" href="#233">233</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> paintDragWindow(Graphics g) {
-<a name="234" href="#234">234</a>         <strong class="jxr_keyword">int</strong> w = dragWindow.getWidth();
-<a name="235" href="#235">235</a>         <strong class="jxr_keyword">int</strong> h = dragWindow.getHeight();
-<a name="236" href="#236">236</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(toolBar, Region.TOOL_BAR_DRAG_WINDOW, dragWindowStyle);
-<a name="237" href="#237">237</a>         SeaGlassLookAndFeel.updateSubregion(context, g, <strong class="jxr_keyword">new</strong> Rectangle(0, 0, w, h));
-<a name="238" href="#238">238</a>         context.getPainter().paintToolBarDragWindowBackground(context, g, 0, 0, w, h, dragWindow.getOrientation());
-<a name="239" href="#239">239</a>         context.getPainter().paintToolBarDragWindowBorder(context, g, 0, 0, w, h, dragWindow.getOrientation());
-<a name="240" href="#240">240</a>         context.dispose();
-<a name="241" href="#241">241</a>     }
-<a name="242" href="#242">242</a> 
-<a name="243" href="#243">243</a>     <em class="jxr_comment">//</em>
-<a name="244" href="#244">244</a>     <em class="jxr_comment">// PropertyChangeListener</em>
-<a name="245" href="#245">245</a>     <em class="jxr_comment">//</em>
-<a name="246" href="#246">246</a> 
-<a name="247" href="#247">247</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> propertyChange(PropertyChangeEvent e) {
-<a name="248" href="#248">248</a>         <strong class="jxr_keyword">if</strong> (SeaGlassLookAndFeel.shouldUpdateStyle(e)) {
-<a name="249" href="#249">249</a>             updateStyle((JToolBar) e.getSource());
-<a name="250" href="#250">250</a>         }
-<a name="251" href="#251">251</a>     }
-<a name="252" href="#252">252</a> 
-<a name="253" href="#253">253</a>     <strong class="jxr_keyword">class</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassToolBarUI.html">SynthToolBarLayoutManager</a> implements LayoutManager {
-<a name="254" href="#254">254</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addLayoutComponent(String name, Component comp) {
-<a name="255" href="#255">255</a>         }
-<a name="256" href="#256">256</a> 
-<a name="257" href="#257">257</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> removeLayoutComponent(Component comp) {
-<a name="258" href="#258">258</a>         }
-<a name="259" href="#259">259</a> 
-<a name="260" href="#260">260</a>         <strong class="jxr_keyword">public</strong> Dimension minimumLayoutSize(Container parent) {
-<a name="261" href="#261">261</a>             JToolBar tb = (JToolBar) parent;
-<a name="262" href="#262">262</a>             Insets insets = tb.getInsets();
-<a name="263" href="#263">263</a>             Dimension dim = <strong class="jxr_keyword">new</strong> Dimension();
-<a name="264" href="#264">264</a>             <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(tb);
-<a name="265" href="#265">265</a> 
-<a name="266" href="#266">266</a>             <strong class="jxr_keyword">if</strong> (tb.getOrientation() == JToolBar.HORIZONTAL) {
-<a name="267" href="#267">267</a>                 dim.width = tb.isFloatable() ? SynthIcon.getIconWidth(handleIcon, context) : 0;
-<a name="268" href="#268">268</a>                 Dimension compDim;
-<a name="269" href="#269">269</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
-<a name="270" href="#270">270</a>                     Component component = tb.getComponent(i);
-<a name="271" href="#271">271</a>                     <strong class="jxr_keyword">if</strong> (component.isVisible()) {
-<a name="272" href="#272">272</a>                         compDim = component.getMinimumSize();
-<a name="273" href="#273">273</a>                         dim.width += compDim.width;
-<a name="274" href="#274">274</a>                         dim.height = Math.max(dim.height, compDim.height);
-<a name="275" href="#275">275</a>                     }
-<a name="276" href="#276">276</a>                 }
-<a name="277" href="#277">277</a>             } <strong class="jxr_keyword">else</strong> {
-<a name="278" href="#278">278</a>                 dim.height = tb.isFloatable() ? SynthIcon.getIconHeight(handleIcon, context) : 0;
-<a name="279" href="#279">279</a>                 Dimension compDim;
-<a name="280" href="#280">280</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
-<a name="281" href="#281">281</a>                     Component component = tb.getComponent(i);
-<a name="282" href="#282">282</a>                     <strong class="jxr_keyword">if</strong> (component.isVisible()) {
-<a name="283" href="#283">283</a>                         compDim = component.getMinimumSize();
-<a name="284" href="#284">284</a>                         dim.width = Math.max(dim.width, compDim.width);
-<a name="285" href="#285">285</a>                         dim.height += compDim.height;
-<a name="286" href="#286">286</a>                     }
-<a name="287" href="#287">287</a>                 }
-<a name="288" href="#288">288</a>             }
-<a name="289" href="#289">289</a>             dim.width += insets.left + insets.right;
-<a name="290" href="#290">290</a>             dim.height += insets.top + insets.bottom;
-<a name="291" href="#291">291</a> 
-<a name="292" href="#292">292</a>             context.dispose();
-<a name="293" href="#293">293</a>             <strong class="jxr_keyword">return</strong> dim;
-<a name="294" href="#294">294</a>         }
-<a name="295" href="#295">295</a> 
-<a name="296" href="#296">296</a>         <strong class="jxr_keyword">public</strong> Dimension preferredLayoutSize(Container parent) {
-<a name="297" href="#297">297</a>             JToolBar tb = (JToolBar) parent;
-<a name="298" href="#298">298</a>             Insets insets = tb.getInsets();
-<a name="299" href="#299">299</a>             Dimension dim = <strong class="jxr_keyword">new</strong> Dimension();
-<a name="300" href="#300">300</a>             <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(tb);
-<a name="301" href="#301">301</a> 
-<a name="302" href="#302">302</a>             <strong class="jxr_keyword">if</strong> (tb.getOrientation() == JToolBar.HORIZONTAL) {
-<a name="303" href="#303">303</a>                 dim.width = tb.isFloatable() ? SynthIcon.getIconWidth(handleIcon, context) : 0;
-<a name="304" href="#304">304</a>                 Dimension compDim;
-<a name="305" href="#305">305</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
-<a name="306" href="#306">306</a>                     Component component = tb.getComponent(i);
-<a name="307" href="#307">307</a>                     <strong class="jxr_keyword">if</strong> (component.isVisible()) {
-<a name="308" href="#308">308</a>                         compDim = component.getPreferredSize();
-<a name="309" href="#309">309</a>                         dim.width += compDim.width;
-<a name="310" href="#310">310</a>                         dim.height = Math.max(dim.height, compDim.height);
-<a name="311" href="#311">311</a>                     }
-<a name="312" href="#312">312</a>                 }
-<a name="313" href="#313">313</a>             } <strong class="jxr_keyword">else</strong> {
-<a name="314" href="#314">314</a>                 dim.height = tb.isFloatable() ? SynthIcon.getIconHeight(handleIcon, context) : 0;
-<a name="315" href="#315">315</a>                 Dimension compDim;
-<a name="316" href="#316">316</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
-<a name="317" href="#317">317</a>                     Component component = tb.getComponent(i);
-<a name="318" href="#318">318</a>                     <strong class="jxr_keyword">if</strong> (component.isVisible()) {
-<a name="319" href="#319">319</a>                         compDim = component.getPreferredSize();
-<a name="320" href="#320">320</a>                         dim.width = Math.max(dim.width, compDim.width);
-<a name="321" href="#321">321</a>                         dim.height += compDim.height;
-<a name="322" href="#322">322</a>                     }
-<a name="323" href="#323">323</a>                 }
-<a name="324" href="#324">324</a>             }
-<a name="325" href="#325">325</a>             dim.width += insets.left + insets.right;
-<a name="326" href="#326">326</a>             dim.height += insets.top + insets.bottom;
-<a name="327" href="#327">327</a> 
-<a name="328" href="#328">328</a>             context.dispose();
-<a name="329" href="#329">329</a>             <strong class="jxr_keyword">return</strong> dim;
-<a name="330" href="#330">330</a>         }
-<a name="331" href="#331">331</a> 
-<a name="332" href="#332">332</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> layoutContainer(Container parent) {
-<a name="333" href="#333">333</a>             JToolBar tb = (JToolBar) parent;
-<a name="334" href="#334">334</a>             Insets insets = tb.getInsets();
-<a name="335" href="#335">335</a>             <strong class="jxr_keyword">boolean</strong> ltr = tb.getComponentOrientation().isLeftToRight();
-<a name="336" href="#336">336</a>             <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(tb);
-<a name="337" href="#337">337</a> 
-<a name="338" href="#338">338</a>             Component c;
-<a name="339" href="#339">339</a>             Dimension d;
-<a name="340" href="#340">340</a> 
-<a name="341" href="#341">341</a>             <em class="jxr_comment">// JToolBar by default uses a somewhat modified BoxLayout as</em>
-<a name="342" href="#342">342</a>             <em class="jxr_comment">// its layout manager. For compatibility reasons, we want to</em>
-<a name="343" href="#343">343</a>             <em class="jxr_comment">// support Box "glue" as a way to move things around on the</em>
-<a name="344" href="#344">344</a>             <em class="jxr_comment">// toolbar. "glue" is represented in BoxLayout as a Box.Filler</em>
-<a name="345" href="#345">345</a>             <em class="jxr_comment">// with a minimum and preferred size of (0,0).</em>
-<a name="346" href="#346">346</a>             <em class="jxr_comment">// So what we do here is find the number of such glue fillers</em>
-<a name="347" href="#347">347</a>             <em class="jxr_comment">// and figure out how much space should be allocated to them.</em>
-<a name="348" href="#348">348</a>             <strong class="jxr_keyword">int</strong> glueCount = 0;
-<a name="349" href="#349">349</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
-<a name="350" href="#350">350</a>                 <strong class="jxr_keyword">if</strong> (isGlue(tb.getComponent(i))) glueCount++;
-<a name="351" href="#351">351</a>             }
-<a name="352" href="#352">352</a> 
-<a name="353" href="#353">353</a>             <strong class="jxr_keyword">if</strong> (tb.getOrientation() == JToolBar.HORIZONTAL) {
-<a name="354" href="#354">354</a>                 <strong class="jxr_keyword">int</strong> handleWidth = tb.isFloatable() ? SynthIcon.getIconWidth(handleIcon, context) : 0;
-<a name="355" href="#355">355</a> 
-<a name="356" href="#356">356</a>                 <em class="jxr_comment">// Note: contentRect does not take insets into account</em>
-<a name="357" href="#357">357</a>                 <em class="jxr_comment">// since it is used for determining the bounds that are</em>
-<a name="358" href="#358">358</a>                 <em class="jxr_comment">// passed to paintToolBarContentBackground().</em>
-<a name="359" href="#359">359</a>                 contentRect.x = ltr ? handleWidth : 0;
-<a name="360" href="#360">360</a>                 contentRect.y = 0;
-<a name="361" href="#361">361</a>                 contentRect.width = tb.getWidth() - handleWidth;
-<a name="362" href="#362">362</a>                 contentRect.height = tb.getHeight();
-<a name="363" href="#363">363</a> 
-<a name="364" href="#364">364</a>                 <em class="jxr_comment">// However, we do take the insets into account here for</em>
-<a name="365" href="#365">365</a>                 <em class="jxr_comment">// the purposes of laying out the toolbar child components.</em>
-<a name="366" href="#366">366</a>                 <strong class="jxr_keyword">int</strong> x = ltr ? handleWidth + insets.left : tb.getWidth() - handleWidth - insets.right;
-<a name="367" href="#367">367</a>                 <strong class="jxr_keyword">int</strong> baseY = insets.top;
-<a name="368" href="#368">368</a>                 <strong class="jxr_keyword">int</strong> baseH = tb.getHeight() - insets.top - insets.bottom;
-<a name="369" href="#369">369</a> 
-<a name="370" href="#370">370</a>                 <em class="jxr_comment">// we need to get the minimum width for laying things out</em>
-<a name="371" href="#371">371</a>                 <em class="jxr_comment">// so that we can calculate how much empty space needs to</em>
-<a name="372" href="#372">372</a>                 <em class="jxr_comment">// be distributed among the "glue", if any</em>
-<a name="373" href="#373">373</a>                 <strong class="jxr_keyword">int</strong> extraSpacePerGlue = 0;
-<a name="374" href="#374">374</a>                 <strong class="jxr_keyword">if</strong> (glueCount &gt; 0) {
-<a name="375" href="#375">375</a>                     <strong class="jxr_keyword">int</strong> minWidth = minimumLayoutSize(parent).width;
-<a name="376" href="#376">376</a>                     extraSpacePerGlue = (tb.getWidth() - minWidth) / glueCount;
-<a name="377" href="#377">377</a>                     <strong class="jxr_keyword">if</strong> (extraSpacePerGlue &lt; 0) extraSpacePerGlue = 0;
-<a name="378" href="#378">378</a>                 }
-<a name="379" href="#379">379</a> 
-<a name="380" href="#380">380</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
-<a name="381" href="#381">381</a>                     c = tb.getComponent(i);
-<a name="382" href="#382">382</a>                     <strong class="jxr_keyword">if</strong> (c.isVisible()) {
-<a name="383" href="#383">383</a>                         d = c.getPreferredSize();
-<a name="384" href="#384">384</a>                         <strong class="jxr_keyword">int</strong> y, h;
-<a name="385" href="#385">385</a>                         <strong class="jxr_keyword">if</strong> (d.height &gt;= baseH || c instanceof JSeparator) {
-<a name="386" href="#386">386</a>                             <em class="jxr_comment">// Fill available height</em>
-<a name="387" href="#387">387</a>                             y = baseY;
-<a name="388" href="#388">388</a>                             h = baseH;
-<a name="389" href="#389">389</a>                         } <strong class="jxr_keyword">else</strong> {
-<a name="390" href="#390">390</a>                             <em class="jxr_comment">// Center component vertically in the available</em>
-<a name="391" href="#391">391</a>                             <em class="jxr_comment">// space</em>
-<a name="392" href="#392">392</a>                             y = baseY + (baseH / 2) - (d.height / 2);
-<a name="393" href="#393">393</a>                             h = d.height;
-<a name="394" href="#394">394</a>                         }
-<a name="395" href="#395">395</a>                         <em class="jxr_comment">// if the component is a "glue" component then add to</em>
-<a name="396" href="#396">396</a>                         <em class="jxr_comment">// its</em>
-<a name="397" href="#397">397</a>                         <em class="jxr_comment">// width the extraSpacePerGlue it is due</em>
-<a name="398" href="#398">398</a>                         <strong class="jxr_keyword">if</strong> (isGlue(c)) d.width += extraSpacePerGlue;
-<a name="399" href="#399">399</a>                         c.setBounds(ltr ? x : x - d.width, y, d.width, h);
-<a name="400" href="#400">400</a>                         x = ltr ? x + d.width : x - d.width;
-<a name="401" href="#401">401</a>                     }
-<a name="402" href="#402">402</a>                 }
-<a name="403" href="#403">403</a>             } <strong class="jxr_keyword">else</strong> {
-<a name="404" href="#404">404</a>                 <strong class="jxr_keyword">int</strong> handleHeight = tb.isFloatable() ? SynthIcon.getIconHeight(handleIcon, context) : 0;
-<a name="405" href="#405">405</a> 
-<a name="406" href="#406">406</a>                 <em class="jxr_comment">// See notes above regarding the use of insets</em>
-<a name="407" href="#407">407</a>                 contentRect.x = 0;
-<a name="408" href="#408">408</a>                 contentRect.y = handleHeight;
-<a name="409" href="#409">409</a>                 contentRect.width = tb.getWidth();
-<a name="410" href="#410">410</a>                 contentRect.height = tb.getHeight() - handleHeight;
-<a name="411" href="#411">411</a> 
-<a name="412" href="#412">412</a>                 <strong class="jxr_keyword">int</strong> baseX = insets.left;
-<a name="413" href="#413">413</a>                 <strong class="jxr_keyword">int</strong> baseW = tb.getWidth() - insets.left - insets.right;
-<a name="414" href="#414">414</a>                 <strong class="jxr_keyword">int</strong> y = handleHeight + insets.top;
-<a name="415" href="#415">415</a> 
-<a name="416" href="#416">416</a>                 <em class="jxr_comment">// we need to get the minimum height for laying things out</em>
-<a name="417" href="#417">417</a>                 <em class="jxr_comment">// so that we can calculate how much empty space needs to</em>
-<a name="418" href="#418">418</a>                 <em class="jxr_comment">// be distributed among the "glue", if any</em>
-<a name="419" href="#419">419</a>                 <strong class="jxr_keyword">int</strong> extraSpacePerGlue = 0;
-<a name="420" href="#420">420</a>                 <strong class="jxr_keyword">if</strong> (glueCount &gt; 0) {
-<a name="421" href="#421">421</a>                     <strong class="jxr_keyword">int</strong> minHeight = minimumLayoutSize(parent).height;
-<a name="422" href="#422">422</a>                     extraSpacePerGlue = (tb.getHeight() - minHeight) / glueCount;
-<a name="423" href="#423">423</a>                     <strong class="jxr_keyword">if</strong> (extraSpacePerGlue &lt; 0) extraSpacePerGlue = 0;
-<a name="424" href="#424">424</a>                 }
-<a name="425" href="#425">425</a> 
-<a name="426" href="#426">426</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
-<a name="427" href="#427">427</a>                     c = tb.getComponent(i);
-<a name="428" href="#428">428</a>                     <strong class="jxr_keyword">if</strong> (c.isVisible()) {
-<a name="429" href="#429">429</a>                         d = c.getPreferredSize();
-<a name="430" href="#430">430</a>                         <strong class="jxr_keyword">int</strong> x, w;
-<a name="431" href="#431">431</a>                         <strong class="jxr_keyword">if</strong> (d.width &gt;= baseW || c instanceof JSeparator) {
-<a name="432" href="#432">432</a>                             <em class="jxr_comment">// Fill available width</em>
-<a name="433" href="#433">433</a>                             x = baseX;
-<a name="434" href="#434">434</a>                             w = baseW;
-<a name="435" href="#435">435</a>                         } <strong class="jxr_keyword">else</strong> {
-<a name="436" href="#436">436</a>                             <em class="jxr_comment">// Center component horizontally in the available</em>
-<a name="437" href="#437">437</a>                             <em class="jxr_comment">// space</em>
-<a name="438" href="#438">438</a>                             x = baseX + (baseW / 2) - (d.width / 2);
-<a name="439" href="#439">439</a>                             w = d.width;
-<a name="440" href="#440">440</a>                         }
-<a name="441" href="#441">441</a>                         <em class="jxr_comment">// if the component is a "glue" component then add to</em>
-<a name="442" href="#442">442</a>                         <em class="jxr_comment">// its</em>
-<a name="443" href="#443">443</a>                         <em class="jxr_comment">// height the extraSpacePerGlue it is due</em>
-<a name="444" href="#444">444</a>                         <strong class="jxr_keyword">if</strong> (isGlue(c)) d.height += extraSpacePerGlue;
-<a name="445" href="#445">445</a>                         c.setBounds(x, y, w, d.height);
-<a name="446" href="#446">446</a>                         y += d.height;
-<a name="447" href="#447">447</a>                     }
-<a name="448" href="#448">448</a>                 }
-<a name="449" href="#449">449</a>             }
-<a name="450" href="#450">450</a>             context.dispose();
-<a name="451" href="#451">451</a>         }
-<a name="452" href="#452">452</a> 
-<a name="453" href="#453">453</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> isGlue(Component c) {
-<a name="454" href="#454">454</a>             <strong class="jxr_keyword">if</strong> (c.isVisible() &amp;&amp; c instanceof Box.Filler) {
-<a name="455" href="#455">455</a>                 Box.Filler f = (Box.Filler) c;
-<a name="456" href="#456">456</a>                 Dimension min = f.getMinimumSize();
-<a name="457" href="#457">457</a>                 Dimension pref = f.getPreferredSize();
-<a name="458" href="#458">458</a>                 <strong class="jxr_keyword">return</strong> min.width == 0 &amp;&amp; min.height == 0 &amp;&amp; pref.width == 0 &amp;&amp; pref.height == 0;
-<a name="459" href="#459">459</a>             }
-<a name="460" href="#460">460</a>             <strong class="jxr_keyword">return</strong> false;
-<a name="461" href="#461">461</a>         }
-<a name="462" href="#462">462</a>     }
-<a name="463" href="#463">463</a> }
+<a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment"> * Copyright (c) 2009 Kathryn Huxtable and Kenneth Orr.</em>
+<a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_comment"> * This file is part of the SeaGlass Pluggable Look and Feel.</em>
+<a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
+<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
+<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_comment"> *     <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="15" href="#15">15</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="16" href="#16">16</a>  <em class="jxr_comment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> * </em>
+<a class="jxr_linenumber" name="18" href="#18">18</a>  <em class="jxr_comment"> * $Id: SeaGlassToolBarUI.java 1595 2011-08-09 20:33:48Z rosstauscher@gmx.de $</em>
+<a class="jxr_linenumber" name="19" href="#19">19</a>  <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">package</strong> com.seaglasslookandfeel.ui;
+<a class="jxr_linenumber" name="21" href="#21">21</a>  
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> java.awt.Component;
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> java.awt.Container;
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> java.awt.Dimension;
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> java.awt.Graphics;
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> java.awt.Insets;
+<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> java.awt.LayoutManager;
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> java.awt.Rectangle;
+<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> java.beans.PropertyChangeEvent;
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> java.beans.PropertyChangeListener;
+<a class="jxr_linenumber" name="31" href="#31">31</a>  
+<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> javax.swing.Box;
+<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> javax.swing.Icon;
+<a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> javax.swing.JComponent;
+<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> javax.swing.JSeparator;
+<a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> javax.swing.JToolBar;
+<a class="jxr_linenumber" name="37" href="#37">37</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.ComponentUI;
+<a class="jxr_linenumber" name="38" href="#38">38</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.basic.BasicToolBarUI;
+<a class="jxr_linenumber" name="39" href="#39">39</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.Region;
+<a class="jxr_linenumber" name="40" href="#40">40</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.SynthContext;
+<a class="jxr_linenumber" name="41" href="#41">41</a>  <strong class="jxr_keyword">import</strong> javax.swing.plaf.synth.SynthStyle;
+<a class="jxr_linenumber" name="42" href="#42">42</a>  
+<a class="jxr_linenumber" name="43" href="#43">43</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.SeaGlassContext;
+<a class="jxr_linenumber" name="44" href="#44">44</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.SeaGlassLookAndFeel;
+<a class="jxr_linenumber" name="45" href="#45">45</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.component.SeaGlassIcon;
+<a class="jxr_linenumber" name="46" href="#46">46</a>  <strong class="jxr_keyword">import</strong> com.seaglasslookandfeel.util.WindowUtils;
+<a class="jxr_linenumber" name="47" href="#47">47</a>  
+<a class="jxr_linenumber" name="48" href="#48">48</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="49" href="#49">49</a>  <em class="jxr_javadoccomment"> * SeaGlassToolBarUI implementation.</em>
+<a class="jxr_linenumber" name="50" href="#50">50</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="51" href="#51">51</a>  <em class="jxr_javadoccomment"> * Based on SynthToolBarUI.</em>
+<a class="jxr_linenumber" name="52" href="#52">52</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="53" href="#53">53</a>  <em class="jxr_javadoccomment"> * @see javax.swing.plaf.synth.SynthToolBarUI</em>
+<a class="jxr_linenumber" name="54" href="#54">54</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="55" href="#55">55</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassToolBarUI.html">SeaGlassToolBarUI</a> <strong class="jxr_keyword">extends</strong> BasicToolBarUI <strong class="jxr_keyword">implements</strong> PropertyChangeListener, <a href="../../../com/seaglasslookandfeel/ui/SeaglassUI.html">SeaglassUI</a> {
+<a class="jxr_linenumber" name="56" href="#56">56</a>      <strong class="jxr_keyword">protected</strong> Icon      handleIcon  = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="57" href="#57">57</a>      <strong class="jxr_keyword">protected</strong> Rectangle contentRect = <strong class="jxr_keyword">new</strong> Rectangle();
+<a class="jxr_linenumber" name="58" href="#58">58</a>  
+<a class="jxr_linenumber" name="59" href="#59">59</a>      <strong class="jxr_keyword">private</strong> SynthStyle  style;
+<a class="jxr_linenumber" name="60" href="#60">60</a>      <strong class="jxr_keyword">private</strong> SynthStyle  contentStyle;
+<a class="jxr_linenumber" name="61" href="#61">61</a>      <strong class="jxr_keyword">private</strong> SynthStyle  dragWindowStyle;
+<a class="jxr_linenumber" name="62" href="#62">62</a>  
+<a class="jxr_linenumber" name="63" href="#63">63</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> ComponentUI createUI(JComponent c) {
+<a class="jxr_linenumber" name="64" href="#64">64</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassToolBarUI.html">SeaGlassToolBarUI</a>();
+<a class="jxr_linenumber" name="65" href="#65">65</a>      }
+<a class="jxr_linenumber" name="66" href="#66">66</a>  
+<a class="jxr_linenumber" name="67" href="#67">67</a>      @Override
+<a class="jxr_linenumber" name="68" href="#68">68</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> installDefaults() {
+<a class="jxr_linenumber" name="69" href="#69">69</a>          toolBar.setLayout(createLayout());
+<a class="jxr_linenumber" name="70" href="#70">70</a>          updateStyle(toolBar);
+<a class="jxr_linenumber" name="71" href="#71">71</a>      }
+<a class="jxr_linenumber" name="72" href="#72">72</a>  
+<a class="jxr_linenumber" name="73" href="#73">73</a>      @Override
+<a class="jxr_linenumber" name="74" href="#74">74</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> installListeners() {
+<a class="jxr_linenumber" name="75" href="#75">75</a>          <strong class="jxr_keyword">super</strong>.installListeners();
+<a class="jxr_linenumber" name="76" href="#76">76</a>          toolBar.addPropertyChangeListener(<strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="77" href="#77">77</a>  
+<a class="jxr_linenumber" name="78" href="#78">78</a>          WindowUtils.installJComponentRepainterOnWindowFocusChanged(toolBar);
+<a class="jxr_linenumber" name="79" href="#79">79</a>      }
+<a class="jxr_linenumber" name="80" href="#80">80</a>  
+<a class="jxr_linenumber" name="81" href="#81">81</a>      @Override
+<a class="jxr_linenumber" name="82" href="#82">82</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> uninstallListeners() {
+<a class="jxr_linenumber" name="83" href="#83">83</a>          <strong class="jxr_keyword">super</strong>.uninstallListeners();
+<a class="jxr_linenumber" name="84" href="#84">84</a>          toolBar.removePropertyChangeListener(<strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="85" href="#85">85</a>      }
+<a class="jxr_linenumber" name="86" href="#86">86</a>  
+<a class="jxr_linenumber" name="87" href="#87">87</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> updateStyle(JToolBar c) {
+<a class="jxr_linenumber" name="88" href="#88">88</a>          <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c, Region.TOOL_BAR_CONTENT, <strong class="jxr_keyword">null</strong>, ENABLED);
+<a class="jxr_linenumber" name="89" href="#89">89</a>          contentStyle = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="90" href="#90">90</a>          context.getComponent().setOpaque(false);
+<a class="jxr_linenumber" name="91" href="#91">91</a>          context.dispose();
+<a class="jxr_linenumber" name="92" href="#92">92</a>  
+<a class="jxr_linenumber" name="93" href="#93">93</a>          context = getContext(c, Region.TOOL_BAR_DRAG_WINDOW, <strong class="jxr_keyword">null</strong>, ENABLED);
+<a class="jxr_linenumber" name="94" href="#94">94</a>          context.getComponent().setOpaque(false);
+<a class="jxr_linenumber" name="95" href="#95">95</a>          dragWindowStyle = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="96" href="#96">96</a>          context.dispose();
+<a class="jxr_linenumber" name="97" href="#97">97</a>  
+<a class="jxr_linenumber" name="98" href="#98">98</a>          context = getContext(c, ENABLED);
+<a class="jxr_linenumber" name="99" href="#99">99</a>          context.getComponent().setOpaque(false);
+<a class="jxr_linenumber" name="100" href="#100">100</a>         SynthStyle oldStyle = style;
+<a class="jxr_linenumber" name="101" href="#101">101</a> 
+<a class="jxr_linenumber" name="102" href="#102">102</a>         style = SeaGlassLookAndFeel.updateStyle(context, <strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="103" href="#103">103</a>         <strong class="jxr_keyword">if</strong> (oldStyle != style) {
+<a class="jxr_linenumber" name="104" href="#104">104</a>             handleIcon = style.getIcon(context, <span class="jxr_string">"ToolBar.handleIcon"</span>);
+<a class="jxr_linenumber" name="105" href="#105">105</a>             <strong class="jxr_keyword">if</strong> (oldStyle != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="106" href="#106">106</a>                 uninstallKeyboardActions();
+<a class="jxr_linenumber" name="107" href="#107">107</a>                 installKeyboardActions();
+<a class="jxr_linenumber" name="108" href="#108">108</a>             }
+<a class="jxr_linenumber" name="109" href="#109">109</a>         }
+<a class="jxr_linenumber" name="110" href="#110">110</a>         context.dispose();
+<a class="jxr_linenumber" name="111" href="#111">111</a>     }
+<a class="jxr_linenumber" name="112" href="#112">112</a> 
+<a class="jxr_linenumber" name="113" href="#113">113</a>     @Override
+<a class="jxr_linenumber" name="114" href="#114">114</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> uninstallDefaults() {
+<a class="jxr_linenumber" name="115" href="#115">115</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(toolBar, ENABLED);
+<a class="jxr_linenumber" name="116" href="#116">116</a> 
+<a class="jxr_linenumber" name="117" href="#117">117</a>         style.uninstallDefaults(context);
+<a class="jxr_linenumber" name="118" href="#118">118</a>         context.dispose();
+<a class="jxr_linenumber" name="119" href="#119">119</a>         style = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="120" href="#120">120</a> 
+<a class="jxr_linenumber" name="121" href="#121">121</a>         handleIcon = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="122" href="#122">122</a> 
+<a class="jxr_linenumber" name="123" href="#123">123</a>         context = getContext(toolBar, Region.TOOL_BAR_CONTENT, contentStyle, ENABLED);
+<a class="jxr_linenumber" name="124" href="#124">124</a>         contentStyle.uninstallDefaults(context);
+<a class="jxr_linenumber" name="125" href="#125">125</a>         context.dispose();
+<a class="jxr_linenumber" name="126" href="#126">126</a>         contentStyle = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="127" href="#127">127</a> 
+<a class="jxr_linenumber" name="128" href="#128">128</a>         context = getContext(toolBar, Region.TOOL_BAR_DRAG_WINDOW, dragWindowStyle, ENABLED);
+<a class="jxr_linenumber" name="129" href="#129">129</a>         dragWindowStyle.uninstallDefaults(context);
+<a class="jxr_linenumber" name="130" href="#130">130</a>         context.dispose();
+<a class="jxr_linenumber" name="131" href="#131">131</a>         dragWindowStyle = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="132" href="#132">132</a> 
+<a class="jxr_linenumber" name="133" href="#133">133</a>         toolBar.setLayout(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="134" href="#134">134</a>     }
+<a class="jxr_linenumber" name="135" href="#135">135</a> 
+<a class="jxr_linenumber" name="136" href="#136">136</a>     @Override
+<a class="jxr_linenumber" name="137" href="#137">137</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> installComponents() {
+<a class="jxr_linenumber" name="138" href="#138">138</a>     }
+<a class="jxr_linenumber" name="139" href="#139">139</a> 
+<a class="jxr_linenumber" name="140" href="#140">140</a>     @Override
+<a class="jxr_linenumber" name="141" href="#141">141</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> uninstallComponents() {
+<a class="jxr_linenumber" name="142" href="#142">142</a>     }
+<a class="jxr_linenumber" name="143" href="#143">143</a> 
+<a class="jxr_linenumber" name="144" href="#144">144</a>     <strong class="jxr_keyword">protected</strong> LayoutManager createLayout() {
+<a class="jxr_linenumber" name="145" href="#145">145</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassToolBarUI.html">SynthToolBarLayoutManager</a>();
+<a class="jxr_linenumber" name="146" href="#146">146</a>     }
+<a class="jxr_linenumber" name="147" href="#147">147</a> 
+<a class="jxr_linenumber" name="148" href="#148">148</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c) {
+<a class="jxr_linenumber" name="149" href="#149">149</a>         <strong class="jxr_keyword">return</strong> getContext(c, getComponentState(c));
+<a class="jxr_linenumber" name="150" href="#150">150</a>     }
+<a class="jxr_linenumber" name="151" href="#151">151</a> 
+<a class="jxr_linenumber" name="152" href="#152">152</a>     <strong class="jxr_keyword">private</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, <strong class="jxr_keyword">int</strong> state) {
+<a class="jxr_linenumber" name="153" href="#153">153</a>         <strong class="jxr_keyword">return</strong> SeaGlassContext.getContext(SeaGlassContext.<strong class="jxr_keyword">class</strong>, c, SeaGlassLookAndFeel.getRegion(c), style, state);
+<a class="jxr_linenumber" name="154" href="#154">154</a>     }
+<a class="jxr_linenumber" name="155" href="#155">155</a> 
+<a class="jxr_linenumber" name="156" href="#156">156</a>     <strong class="jxr_keyword">private</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, Region region, SynthStyle style) {
+<a class="jxr_linenumber" name="157" href="#157">157</a>         <strong class="jxr_keyword">return</strong> SeaGlassContext.getContext(SeaGlassContext.<strong class="jxr_keyword">class</strong>, c, region, style, getComponentState(c, region));
+<a class="jxr_linenumber" name="158" href="#158">158</a>     }
+<a class="jxr_linenumber" name="159" href="#159">159</a> 
+<a class="jxr_linenumber" name="160" href="#160">160</a>     <strong class="jxr_keyword">private</strong> <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> getContext(JComponent c, Region region, SynthStyle style, <strong class="jxr_keyword">int</strong> state) {
+<a class="jxr_linenumber" name="161" href="#161">161</a>         <strong class="jxr_keyword">return</strong> SeaGlassContext.getContext(SeaGlassContext.<strong class="jxr_keyword">class</strong>, c, region, style, state);
+<a class="jxr_linenumber" name="162" href="#162">162</a>     }
+<a class="jxr_linenumber" name="163" href="#163">163</a> 
+<a class="jxr_linenumber" name="164" href="#164">164</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> getComponentState(JComponent c) {
+<a class="jxr_linenumber" name="165" href="#165">165</a>         <strong class="jxr_keyword">return</strong> SeaGlassLookAndFeel.getComponentState(c);
+<a class="jxr_linenumber" name="166" href="#166">166</a>     }
+<a class="jxr_linenumber" name="167" href="#167">167</a> 
+<a class="jxr_linenumber" name="168" href="#168">168</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> getComponentState(JComponent c, Region region) {
+<a class="jxr_linenumber" name="169" href="#169">169</a>         <strong class="jxr_keyword">return</strong> SeaGlassLookAndFeel.getComponentState(c);
+<a class="jxr_linenumber" name="170" href="#170">170</a>     }
+<a class="jxr_linenumber" name="171" href="#171">171</a> 
+<a class="jxr_linenumber" name="172" href="#172">172</a>     @Override
+<a class="jxr_linenumber" name="173" href="#173">173</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> update(Graphics g, JComponent c) {
+<a class="jxr_linenumber" name="174" href="#174">174</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c);
+<a class="jxr_linenumber" name="175" href="#175">175</a> 
+<a class="jxr_linenumber" name="176" href="#176">176</a>         SeaGlassLookAndFeel.update(context, g);
+<a class="jxr_linenumber" name="177" href="#177">177</a>         context.getPainter().paintToolBarBackground(context, g, 0, 0, c.getWidth(), c.getHeight(), toolBar.getOrientation());
+<a class="jxr_linenumber" name="178" href="#178">178</a>         paint(context, g);
+<a class="jxr_linenumber" name="179" href="#179">179</a>         context.dispose();
+<a class="jxr_linenumber" name="180" href="#180">180</a>     }
+<a class="jxr_linenumber" name="181" href="#181">181</a> 
+<a class="jxr_linenumber" name="182" href="#182">182</a>     @Override
+<a class="jxr_linenumber" name="183" href="#183">183</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paint(Graphics g, JComponent c) {
+<a class="jxr_linenumber" name="184" href="#184">184</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(c);
+<a class="jxr_linenumber" name="185" href="#185">185</a> 
+<a class="jxr_linenumber" name="186" href="#186">186</a>         paint(context, g);
+<a class="jxr_linenumber" name="187" href="#187">187</a>         context.dispose();
+<a class="jxr_linenumber" name="188" href="#188">188</a>     }
+<a class="jxr_linenumber" name="189" href="#189">189</a> 
+<a class="jxr_linenumber" name="190" href="#190">190</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paintBorder(SynthContext context, Graphics g, <strong class="jxr_keyword">int</strong> x, <strong class="jxr_keyword">int</strong> y, <strong class="jxr_keyword">int</strong> w, <strong class="jxr_keyword">int</strong> h) {
+<a class="jxr_linenumber" name="191" href="#191">191</a>         ((<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a>) context).getPainter().paintToolBarBorder(context, g, x, y, w, h, toolBar.getOrientation());
+<a class="jxr_linenumber" name="192" href="#192">192</a>     }
+<a class="jxr_linenumber" name="193" href="#193">193</a> 
+<a class="jxr_linenumber" name="194" href="#194">194</a>     <em class="jxr_comment">// Overloaded to do nothing so we can share listeners.</em>
+<a class="jxr_linenumber" name="195" href="#195">195</a>     @Override
+<a class="jxr_linenumber" name="196" href="#196">196</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBorderToNonRollover(Component c) {
+<a class="jxr_linenumber" name="197" href="#197">197</a>     }
+<a class="jxr_linenumber" name="198" href="#198">198</a> 
+<a class="jxr_linenumber" name="199" href="#199">199</a>     <em class="jxr_comment">// Overloaded to do nothing so we can share listeners.</em>
+<a class="jxr_linenumber" name="200" href="#200">200</a>     @Override
+<a class="jxr_linenumber" name="201" href="#201">201</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBorderToRollover(Component c) {
+<a class="jxr_linenumber" name="202" href="#202">202</a>     }
+<a class="jxr_linenumber" name="203" href="#203">203</a> 
+<a class="jxr_linenumber" name="204" href="#204">204</a>     <em class="jxr_comment">// Overloaded to do nothing so we can share listeners.</em>
+<a class="jxr_linenumber" name="205" href="#205">205</a>     @Override
+<a class="jxr_linenumber" name="206" href="#206">206</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBorderToNormal(Component c) {
+<a class="jxr_linenumber" name="207" href="#207">207</a>     }
+<a class="jxr_linenumber" name="208" href="#208">208</a> 
+<a class="jxr_linenumber" name="209" href="#209">209</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> paint(<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context, Graphics g) {
+<a class="jxr_linenumber" name="210" href="#210">210</a>         <strong class="jxr_keyword">if</strong> (handleIcon != <strong class="jxr_keyword">null</strong> &amp;&amp; toolBar.isFloatable()) {
+<a class="jxr_linenumber" name="211" href="#211">211</a>             <strong class="jxr_keyword">int</strong> startX = toolBar.getComponentOrientation().isLeftToRight() ? 0 : toolBar.getWidth()
+<a class="jxr_linenumber" name="212" href="#212">212</a>                     - SeaGlassIcon.getIconWidth(handleIcon, context);
+<a class="jxr_linenumber" name="213" href="#213">213</a>             SeaGlassIcon.paintIcon(handleIcon, context, g, startX, 0, SeaGlassIcon.getIconWidth(handleIcon, context), SeaGlassIcon.getIconHeight(
+<a class="jxr_linenumber" name="214" href="#214">214</a>                 handleIcon, context));
+<a class="jxr_linenumber" name="215" href="#215">215</a>         }
+<a class="jxr_linenumber" name="216" href="#216">216</a> 
+<a class="jxr_linenumber" name="217" href="#217">217</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> subcontext = getContext(toolBar, Region.TOOL_BAR_CONTENT, contentStyle);
+<a class="jxr_linenumber" name="218" href="#218">218</a>         <em class="jxr_comment">// paintContent(subcontext, g, contentRect);</em>
+<a class="jxr_linenumber" name="219" href="#219">219</a>         subcontext.dispose();
+<a class="jxr_linenumber" name="220" href="#220">220</a>     }
+<a class="jxr_linenumber" name="221" href="#221">221</a> 
+<a class="jxr_linenumber" name="222" href="#222">222</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paintContent(<a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context, Graphics g, Rectangle bounds) {
+<a class="jxr_linenumber" name="223" href="#223">223</a>         SeaGlassLookAndFeel.updateSubregion(context, g, bounds);
+<a class="jxr_linenumber" name="224" href="#224">224</a>         context.getPainter().paintToolBarContentBackground(context, g, bounds.x, bounds.y, bounds.width, bounds.height,
+<a class="jxr_linenumber" name="225" href="#225">225</a>             toolBar.getOrientation());
+<a class="jxr_linenumber" name="226" href="#226">226</a>         context.getPainter().paintToolBarContentBorder(context, g, bounds.x, bounds.y, bounds.width, bounds.height,
+<a class="jxr_linenumber" name="227" href="#227">227</a>             toolBar.getOrientation());
+<a class="jxr_linenumber" name="228" href="#228">228</a>     }
+<a class="jxr_linenumber" name="229" href="#229">229</a> 
+<a class="jxr_linenumber" name="230" href="#230">230</a>     @Override
+<a class="jxr_linenumber" name="231" href="#231">231</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> paintDragWindow(Graphics g) {
+<a class="jxr_linenumber" name="232" href="#232">232</a>         <strong class="jxr_keyword">int</strong> w = dragWindow.getWidth();
+<a class="jxr_linenumber" name="233" href="#233">233</a>         <strong class="jxr_keyword">int</strong> h = dragWindow.getHeight();
+<a class="jxr_linenumber" name="234" href="#234">234</a>         <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(toolBar, Region.TOOL_BAR_DRAG_WINDOW, dragWindowStyle);
+<a class="jxr_linenumber" name="235" href="#235">235</a>         SeaGlassLookAndFeel.updateSubregion(context, g, <strong class="jxr_keyword">new</strong> Rectangle(0, 0, w, h));
+<a class="jxr_linenumber" name="236" href="#236">236</a>         context.getPainter().paintToolBarDragWindowBackground(context, g, 0, 0, w, h, dragWindow.getOrientation());
+<a class="jxr_linenumber" name="237" href="#237">237</a>         context.getPainter().paintToolBarDragWindowBorder(context, g, 0, 0, w, h, dragWindow.getOrientation());
+<a class="jxr_linenumber" name="238" href="#238">238</a>         context.dispose();
+<a class="jxr_linenumber" name="239" href="#239">239</a>     }
+<a class="jxr_linenumber" name="240" href="#240">240</a> 
+<a class="jxr_linenumber" name="241" href="#241">241</a>     <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="242" href="#242">242</a>     <em class="jxr_comment">// PropertyChangeListener</em>
+<a class="jxr_linenumber" name="243" href="#243">243</a>     <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="244" href="#244">244</a> 
+<a class="jxr_linenumber" name="245" href="#245">245</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> propertyChange(PropertyChangeEvent e) {
+<a class="jxr_linenumber" name="246" href="#246">246</a>         <strong class="jxr_keyword">if</strong> (SeaGlassLookAndFeel.shouldUpdateStyle(e)) {
+<a class="jxr_linenumber" name="247" href="#247">247</a>             updateStyle((JToolBar) e.getSource());
+<a class="jxr_linenumber" name="248" href="#248">248</a>         }
+<a class="jxr_linenumber" name="249" href="#249">249</a>     }
+<a class="jxr_linenumber" name="250" href="#250">250</a> 
+<a class="jxr_linenumber" name="251" href="#251">251</a>     <strong class="jxr_keyword">class</strong> <a href="../../../com/seaglasslookandfeel/ui/SeaGlassToolBarUI.html">SynthToolBarLayoutManager</a> <strong class="jxr_keyword">implements</strong> LayoutManager {
+<a class="jxr_linenumber" name="252" href="#252">252</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addLayoutComponent(String name, Component comp) {
+<a class="jxr_linenumber" name="253" href="#253">253</a>         }
+<a class="jxr_linenumber" name="254" href="#254">254</a> 
+<a class="jxr_linenumber" name="255" href="#255">255</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> removeLayoutComponent(Component comp) {
+<a class="jxr_linenumber" name="256" href="#256">256</a>         }
+<a class="jxr_linenumber" name="257" href="#257">257</a> 
+<a class="jxr_linenumber" name="258" href="#258">258</a>         <strong class="jxr_keyword">public</strong> Dimension minimumLayoutSize(Container parent) {
+<a class="jxr_linenumber" name="259" href="#259">259</a>             JToolBar tb = (JToolBar) parent;
+<a class="jxr_linenumber" name="260" href="#260">260</a>             Insets insets = tb.getInsets();
+<a class="jxr_linenumber" name="261" href="#261">261</a>             Dimension dim = <strong class="jxr_keyword">new</strong> Dimension();
+<a class="jxr_linenumber" name="262" href="#262">262</a>             <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(tb);
+<a class="jxr_linenumber" name="263" href="#263">263</a> 
+<a class="jxr_linenumber" name="264" href="#264">264</a>             <strong class="jxr_keyword">if</strong> (tb.getOrientation() == JToolBar.HORIZONTAL) {
+<a class="jxr_linenumber" name="265" href="#265">265</a>                 dim.width = tb.isFloatable() ? SeaGlassIcon.getIconWidth(handleIcon, context) : 0;
+<a class="jxr_linenumber" name="266" href="#266">266</a>                 Dimension compDim;
+<a class="jxr_linenumber" name="267" href="#267">267</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
+<a class="jxr_linenumber" name="268" href="#268">268</a>                     Component component = tb.getComponent(i);
+<a class="jxr_linenumber" name="269" href="#269">269</a>                     <strong class="jxr_keyword">if</strong> (component.isVisible()) {
+<a class="jxr_linenumber" name="270" href="#270">270</a>                         compDim = component.getMinimumSize();
+<a class="jxr_linenumber" name="271" href="#271">271</a>                         dim.width += compDim.width;
+<a class="jxr_linenumber" name="272" href="#272">272</a>                         dim.height = Math.max(dim.height, compDim.height);
+<a class="jxr_linenumber" name="273" href="#273">273</a>                     }
+<a class="jxr_linenumber" name="274" href="#274">274</a>                 }
+<a class="jxr_linenumber" name="275" href="#275">275</a>             } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="276" href="#276">276</a>                 dim.height = tb.isFloatable() ? SeaGlassIcon.getIconHeight(handleIcon, context) : 0;
+<a class="jxr_linenumber" name="277" href="#277">277</a>                 Dimension compDim;
+<a class="jxr_linenumber" name="278" href="#278">278</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
+<a class="jxr_linenumber" name="279" href="#279">279</a>                     Component component = tb.getComponent(i);
+<a class="jxr_linenumber" name="280" href="#280">280</a>                     <strong class="jxr_keyword">if</strong> (component.isVisible()) {
+<a class="jxr_linenumber" name="281" href="#281">281</a>                         compDim = component.getMinimumSize();
+<a class="jxr_linenumber" name="282" href="#282">282</a>                         dim.width = Math.max(dim.width, compDim.width);
+<a class="jxr_linenumber" name="283" href="#283">283</a>                         dim.height += compDim.height;
+<a class="jxr_linenumber" name="284" href="#284">284</a>                     }
+<a class="jxr_linenumber" name="285" href="#285">285</a>                 }
+<a class="jxr_linenumber" name="286" href="#286">286</a>             }
+<a class="jxr_linenumber" name="287" href="#287">287</a>             dim.width += insets.left + insets.right;
+<a class="jxr_linenumber" name="288" href="#288">288</a>             dim.height += insets.top + insets.bottom;
+<a class="jxr_linenumber" name="289" href="#289">289</a> 
+<a class="jxr_linenumber" name="290" href="#290">290</a>             context.dispose();
+<a class="jxr_linenumber" name="291" href="#291">291</a>             <strong class="jxr_keyword">return</strong> dim;
+<a class="jxr_linenumber" name="292" href="#292">292</a>         }
+<a class="jxr_linenumber" name="293" href="#293">293</a> 
+<a class="jxr_linenumber" name="294" href="#294">294</a>         <strong class="jxr_keyword">public</strong> Dimension preferredLayoutSize(Container parent) {
+<a class="jxr_linenumber" name="295" href="#295">295</a>             JToolBar tb = (JToolBar) parent;
+<a class="jxr_linenumber" name="296" href="#296">296</a>             Insets insets = tb.getInsets();
+<a class="jxr_linenumber" name="297" href="#297">297</a>             Dimension dim = <strong class="jxr_keyword">new</strong> Dimension();
+<a class="jxr_linenumber" name="298" href="#298">298</a>             <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(tb);
+<a class="jxr_linenumber" name="299" href="#299">299</a> 
+<a class="jxr_linenumber" name="300" href="#300">300</a>             <strong class="jxr_keyword">if</strong> (tb.getOrientation() == JToolBar.HORIZONTAL) {
+<a class="jxr_linenumber" name="301" href="#301">301</a>                 dim.width = tb.isFloatable() ? SeaGlassIcon.getIconWidth(handleIcon, context) : 0;
+<a class="jxr_linenumber" name="302" href="#302">302</a>                 Dimension compDim;
+<a class="jxr_linenumber" name="303" href="#303">303</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
+<a class="jxr_linenumber" name="304" href="#304">304</a>                     Component component = tb.getComponent(i);
+<a class="jxr_linenumber" name="305" href="#305">305</a>                     <strong class="jxr_keyword">if</strong> (component.isVisible()) {
+<a class="jxr_linenumber" name="306" href="#306">306</a>                         compDim = component.getPreferredSize();
+<a class="jxr_linenumber" name="307" href="#307">307</a>                         dim.width += compDim.width;
+<a class="jxr_linenumber" name="308" href="#308">308</a>                         dim.height = Math.max(dim.height, compDim.height);
+<a class="jxr_linenumber" name="309" href="#309">309</a>                     }
+<a class="jxr_linenumber" name="310" href="#310">310</a>                 }
+<a class="jxr_linenumber" name="311" href="#311">311</a>             } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="312" href="#312">312</a>                 dim.height = tb.isFloatable() ? SeaGlassIcon.getIconHeight(handleIcon, context) : 0;
+<a class="jxr_linenumber" name="313" href="#313">313</a>                 Dimension compDim;
+<a class="jxr_linenumber" name="314" href="#314">314</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
+<a class="jxr_linenumber" name="315" href="#315">315</a>                     Component component = tb.getComponent(i);
+<a class="jxr_linenumber" name="316" href="#316">316</a>                     <strong class="jxr_keyword">if</strong> (component.isVisible()) {
+<a class="jxr_linenumber" name="317" href="#317">317</a>                         compDim = component.getPreferredSize();
+<a class="jxr_linenumber" name="318" href="#318">318</a>                         dim.width = Math.max(dim.width, compDim.width);
+<a class="jxr_linenumber" name="319" href="#319">319</a>                         dim.height += compDim.height;
+<a class="jxr_linenumber" name="320" href="#320">320</a>                     }
+<a class="jxr_linenumber" name="321" href="#321">321</a>                 }
+<a class="jxr_linenumber" name="322" href="#322">322</a>             }
+<a class="jxr_linenumber" name="323" href="#323">323</a>             dim.width += insets.left + insets.right;
+<a class="jxr_linenumber" name="324" href="#324">324</a>             dim.height += insets.top + insets.bottom;
+<a class="jxr_linenumber" name="325" href="#325">325</a> 
+<a class="jxr_linenumber" name="326" href="#326">326</a>             context.dispose();
+<a class="jxr_linenumber" name="327" href="#327">327</a>             <strong class="jxr_keyword">return</strong> dim;
+<a class="jxr_linenumber" name="328" href="#328">328</a>         }
+<a class="jxr_linenumber" name="329" href="#329">329</a> 
+<a class="jxr_linenumber" name="330" href="#330">330</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> layoutContainer(Container parent) {
+<a class="jxr_linenumber" name="331" href="#331">331</a>             JToolBar tb = (JToolBar) parent;
+<a class="jxr_linenumber" name="332" href="#332">332</a>             Insets insets = tb.getInsets();
+<a class="jxr_linenumber" name="333" href="#333">333</a>             <strong class="jxr_keyword">boolean</strong> ltr = tb.getComponentOrientation().isLeftToRight();
+<a class="jxr_linenumber" name="334" href="#334">334</a>             <a href="../../../com/seaglasslookandfeel/SeaGlassContext.html">SeaGlassContext</a> context = getContext(tb);
+<a class="jxr_linenumber" name="335" href="#335">335</a> 
+<a class="jxr_linenumber" name="336" href="#336">336</a>             Component c;
+<a class="jxr_linenumber" name="337" href="#337">337</a>             Dimension d;
+<a class="jxr_linenumber" name="338" href="#338">338</a> 
+<a class="jxr_linenumber" name="339" href="#339">339</a>             <em class="jxr_comment">// JToolBar by default uses a somewhat modified BoxLayout as</em>
+<a class="jxr_linenumber" name="340" href="#340">340</a>             <em class="jxr_comment">// its layout manager. For compatibility reasons, we want to</em>
+<a class="jxr_linenumber" name="341" href="#341">341</a>             <em class="jxr_comment">// support Box "glue" as a way to move things around on the</em>
+<a class="jxr_linenumber" name="342" href="#342">342</a>             <em class="jxr_comment">// toolbar. "glue" is represented in BoxLayout as a Box.Filler</em>
+<a class="jxr_linenumber" name="343" href="#343">343</a>             <em class="jxr_comment">// with a minimum and preferred size of (0,0).</em>
+<a class="jxr_linenumber" name="344" href="#344">344</a>             <em class="jxr_comment">// So what we do here is find the number of such glue fillers</em>
+<a class="jxr_linenumber" name="345" href="#345">345</a>             <em class="jxr_comment">// and figure out how much space should be allocated to them.</em>
+<a class="jxr_linenumber" name="346" href="#346">346</a>             <strong class="jxr_keyword">int</strong> glueCount = 0;
+<a class="jxr_linenumber" name="347" href="#347">347</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
+<a class="jxr_linenumber" name="348" href="#348">348</a>                 <strong class="jxr_keyword">if</strong> (isGlue(tb.getComponent(i))) glueCount++;
+<a class="jxr_linenumber" name="349" href="#349">349</a>             }
+<a class="jxr_linenumber" name="350" href="#350">350</a> 
+<a class="jxr_linenumber" name="351" href="#351">351</a>             <strong class="jxr_keyword">if</strong> (tb.getOrientation() == JToolBar.HORIZONTAL) {
+<a class="jxr_linenumber" name="352" href="#352">352</a>                 <strong class="jxr_keyword">int</strong> handleWidth = tb.isFloatable() ? SeaGlassIcon.getIconWidth(handleIcon, context) : 0;
+<a class="jxr_linenumber" name="353" href="#353">353</a> 
+<a class="jxr_linenumber" name="354" href="#354">354</a>                 <em class="jxr_comment">// Note: contentRect does not take insets into account</em>
+<a class="jxr_linenumber" name="355" href="#355">355</a>                 <em class="jxr_comment">// since it is used for determining the bounds that are</em>
+<a class="jxr_linenumber" name="356" href="#356">356</a>                 <em class="jxr_comment">// passed to paintToolBarContentBackground().</em>
+<a class="jxr_linenumber" name="357" href="#357">357</a>                 contentRect.x = ltr ? handleWidth : 0;
+<a class="jxr_linenumber" name="358" href="#358">358</a>                 contentRect.y = 0;
+<a class="jxr_linenumber" name="359" href="#359">359</a>                 contentRect.width = tb.getWidth() - handleWidth;
+<a class="jxr_linenumber" name="360" href="#360">360</a>                 contentRect.height = tb.getHeight();
+<a class="jxr_linenumber" name="361" href="#361">361</a> 
+<a class="jxr_linenumber" name="362" href="#362">362</a>                 <em class="jxr_comment">// However, we do take the insets into account here for</em>
+<a class="jxr_linenumber" name="363" href="#363">363</a>                 <em class="jxr_comment">// the purposes of laying out the toolbar child components.</em>
+<a class="jxr_linenumber" name="364" href="#364">364</a>                 <strong class="jxr_keyword">int</strong> x = ltr ? handleWidth + insets.left : tb.getWidth() - handleWidth - insets.right;
+<a class="jxr_linenumber" name="365" href="#365">365</a>                 <strong class="jxr_keyword">int</strong> baseY = insets.top;
+<a class="jxr_linenumber" name="366" href="#366">366</a>                 <strong class="jxr_keyword">int</strong> baseH = tb.getHeight() - insets.top - insets.bottom;
+<a class="jxr_linenumber" name="367" href="#367">367</a> 
+<a class="jxr_linenumber" name="368" href="#368">368</a>                 <em class="jxr_comment">// we need to get the minimum width for laying things out</em>
+<a class="jxr_linenumber" name="369" href="#369">369</a>                 <em class="jxr_comment">// so that we can calculate how much empty space needs to</em>
+<a class="jxr_linenumber" name="370" href="#370">370</a>                 <em class="jxr_comment">// be distributed among the "glue", if any</em>
+<a class="jxr_linenumber" name="371" href="#371">371</a>                 <strong class="jxr_keyword">int</strong> extraSpacePerGlue = 0;
+<a class="jxr_linenumber" name="372" href="#372">372</a>                 <strong class="jxr_keyword">if</strong> (glueCount &gt; 0) {
+<a class="jxr_linenumber" name="373" href="#373">373</a>                     <strong class="jxr_keyword">int</strong> minWidth = minimumLayoutSize(parent).width;
+<a class="jxr_linenumber" name="374" href="#374">374</a>                     extraSpacePerGlue = (tb.getWidth() - minWidth) / glueCount;
+<a class="jxr_linenumber" name="375" href="#375">375</a>                     <strong class="jxr_keyword">if</strong> (extraSpacePerGlue &lt; 0) extraSpacePerGlue = 0;
+<a class="jxr_linenumber" name="376" href="#376">376</a>                 }
+<a class="jxr_linenumber" name="377" href="#377">377</a> 
+<a class="jxr_linenumber" name="378" href="#378">378</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
+<a class="jxr_linenumber" name="379" href="#379">379</a>                     c = tb.getComponent(i);
+<a class="jxr_linenumber" name="380" href="#380">380</a>                     <strong class="jxr_keyword">if</strong> (c.isVisible()) {
+<a class="jxr_linenumber" name="381" href="#381">381</a>                         d = c.getPreferredSize();
+<a class="jxr_linenumber" name="382" href="#382">382</a>                         <strong class="jxr_keyword">int</strong> y, h;
+<a class="jxr_linenumber" name="383" href="#383">383</a>                         <strong class="jxr_keyword">if</strong> (d.height &gt;= baseH || c instanceof JSeparator) {
+<a class="jxr_linenumber" name="384" href="#384">384</a>                             <em class="jxr_comment">// Fill available height</em>
+<a class="jxr_linenumber" name="385" href="#385">385</a>                             y = baseY;
+<a class="jxr_linenumber" name="386" href="#386">386</a>                             h = baseH;
+<a class="jxr_linenumber" name="387" href="#387">387</a>                         } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="388" href="#388">388</a>                             <em class="jxr_comment">// Center component vertically in the available</em>
+<a class="jxr_linenumber" name="389" href="#389">389</a>                             <em class="jxr_comment">// space</em>
+<a class="jxr_linenumber" name="390" href="#390">390</a>                             y = baseY + (baseH / 2) - (d.height / 2);
+<a class="jxr_linenumber" name="391" href="#391">391</a>                             h = d.height;
+<a class="jxr_linenumber" name="392" href="#392">392</a>                         }
+<a class="jxr_linenumber" name="393" href="#393">393</a>                         <em class="jxr_comment">// if the component is a "glue" component then add to</em>
+<a class="jxr_linenumber" name="394" href="#394">394</a>                         <em class="jxr_comment">// its</em>
+<a class="jxr_linenumber" name="395" href="#395">395</a>                         <em class="jxr_comment">// width the extraSpacePerGlue it is due</em>
+<a class="jxr_linenumber" name="396" href="#396">396</a>                         <strong class="jxr_keyword">if</strong> (isGlue(c)) d.width += extraSpacePerGlue;
+<a class="jxr_linenumber" name="397" href="#397">397</a>                         c.setBounds(ltr ? x : x - d.width, y, d.width, h);
+<a class="jxr_linenumber" name="398" href="#398">398</a>                         x = ltr ? x + d.width : x - d.width;
+<a class="jxr_linenumber" name="399" href="#399">399</a>                     }
+<a class="jxr_linenumber" name="400" href="#400">400</a>                 }
+<a class="jxr_linenumber" name="401" href="#401">401</a>             } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="402" href="#402">402</a>                 <strong class="jxr_keyword">int</strong> handleHeight = tb.isFloatable() ? SeaGlassIcon.getIconHeight(handleIcon, context) : 0;
+<a class="jxr_linenumber" name="403" href="#403">403</a> 
+<a class="jxr_linenumber" name="404" href="#404">404</a>                 <em class="jxr_comment">// See notes above regarding the use of insets</em>
+<a class="jxr_linenumber" name="405" href="#405">405</a>                 contentRect.x = 0;
+<a class="jxr_linenumber" name="406" href="#406">406</a>                 contentRect.y = handleHeight;
+<a class="jxr_linenumber" name="407" href="#407">407</a>                 contentRect.width = tb.getWidth();
+<a class="jxr_linenumber" name="408" href="#408">408</a>                 contentRect.height = tb.getHeight() - handleHeight;
+<a class="jxr_linenumber" name="409" href="#409">409</a> 
+<a class="jxr_linenumber" name="410" href="#410">410</a>                 <strong class="jxr_keyword">int</strong> baseX = insets.left;
+<a class="jxr_linenumber" name="411" href="#411">411</a>                 <strong class="jxr_keyword">int</strong> baseW = tb.getWidth() - insets.left - insets.right;
+<a class="jxr_linenumber" name="412" href="#412">412</a>                 <strong class="jxr_keyword">int</strong> y = handleHeight + insets.top;
+<a class="jxr_linenumber" name="413" href="#413">413</a> 
+<a class="jxr_linenumber" name="414" href="#414">414</a>                 <em class="jxr_comment">// we need to get the minimum height for laying things out</em>
+<a class="jxr_linenumber" name="415" href="#415">415</a>                 <em class="jxr_comment">// so that we can calculate how much empty space needs to</em>
+<a class="jxr_linenumber" name="416" href="#416">416</a>                 <em class="jxr_comment">// be distributed among the "glue", if any</em>
+<a class="jxr_linenumber" name="417" href="#417">417</a>                 <strong class="jxr_keyword">int</strong> extraSpacePerGlue = 0;
+<a class="jxr_linenumber" name="418" href="#418">418</a>                 <strong class="jxr_keyword">if</strong> (glueCount &gt; 0) {
+<a class="jxr_linenumber" name="419" href="#419">419</a>                     <strong class="jxr_keyword">int</strong> minHeight = minimumLayoutSize(parent).height;
+<a class="jxr_linenumber" name="420" href="#420">420</a>                     extraSpacePerGlue = (tb.getHeight() - minHeight) / glueCount;
+<a class="jxr_linenumber" name="421" href="#421">421</a>                     <strong class="jxr_keyword">if</strong> (extraSpacePerGlue &lt; 0) extraSpacePerGlue = 0;
+<a class="jxr_linenumber" name="422" href="#422">422</a>                 }
+<a class="jxr_linenumber" name="423" href="#423">423</a> 
+<a class="jxr_linenumber" name="424" href="#424">424</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; tb.getComponentCount(); i++) {
+<a class="jxr_linenumber" name="425" href="#425">425</a>                     c = tb.getComponent(i);
+<a class="jxr_linenumber" name="426" href="#426">426</a>                     <strong class="jxr_keyword">if</strong> (c.isVisible()) {
+<a class="jxr_linenumber" name="427" href="#427">427</a>                         d = c.getPreferredSize();
+<a class="jxr_linenumber" name="428" href="#428">428</a>                         <strong class="jxr_keyword">int</strong> x, w;
+<a class="jxr_linenumber" name="429" href="#429">429</a>                         <strong class="jxr_keyword">if</strong> (d.width &gt;= baseW || c instanceof JSeparator) {
+<a class="jxr_linenumber" name="430" href="#430">430</a>                             <em class="jxr_comment">// Fill available width</em>
+<a class="jxr_linenumber" name="431" href="#431">431</a>                             x = baseX;
+<a class="jxr_linenumber" name="432" href="#432">432</a>                             w = baseW;
+<a class="jxr_linenumber" name="433" href="#433">433</a>                         } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="434" href="#434">434</a>                             <em class="jxr_comment">// Center component horizontally in the available</em>
+<a class="jxr_linenumber" name="435" href="#435">435</a>                             <em class="jxr_comment">// space</em>
+<a class="jxr_linenumber" name="436" href="#436">436</a>                             x = baseX + (baseW / 2) - (d.width / 2);
+<a class="jxr_linenumber" name="437" href="#437">437</a>                             w = d.width;
+<a class="jxr_linenumber" name="438" href="#438">438</a>                         }
+<a class="jxr_linenumber" name="439" href="#439">439</a>                         <em class="jxr_comment">// if the component is a "glue" component then add to</em>
+<a class="jxr_linenumber" name="440" href="#440">440</a>                         <em class="jxr_comment">// its</em>
+<a class="jxr_linenumber" name="441" href="#441">441</a>                         <em class="jxr_comment">// height the extraSpacePerGlue it is due</em>
+<a class="jxr_linenumber" name="442" href="#442">442</a>                         <strong class="jxr_keyword">if</strong> (isGlue(c)) d.height += extraSpacePerGlue;
+<a class="jxr_linenumber" name="443" href="#443">443</a>                         c.setBounds(x, y, w, d.height);
+<a class="jxr_linenumber" name="444" href="#444">444</a>                         y += d.height;
+<a class="jxr_linenumber" name="445" href="#445">445</a>                     }
+<a class="jxr_linenumber" name="446" href="#446">446</a>                 }
+<a class="jxr_linenumber" name="447" href="#447">447</a>             }
+<a class="jxr_linenumber" name="448" href="#448">448</a>             context.dispose();
+<a class="jxr_linenumber" name="449" href="#449">449</a>         }
+<a class="jxr_linenumber" name="450" href="#450">450</a> 
+<a class="jxr_linenumber" name="451" href="#451">451</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> isGlue(Component c) {
+<a class="jxr_linenumber" name="452" href="#452">452</a>             <strong class="jxr_keyword">if</strong> (c.isVisible() &amp;&amp; c instanceof Box.Filler) {
+<a class="jxr_linenumber" name="453" href="#453">453</a>                 Box.Filler f = (Box.Filler) c;
+<a class="jxr_linenumber" name="454" href="#454">454</a>                 Dimension min = f.getMinimumSize();
+<a class="jxr_linenumber" name="455" href="#455">455</a>                 Dimension pref = f.getPreferredSize();
+<a class="jxr_linenumber" name="456" href="#456">456</a>                 <strong class="jxr_keyword">return</strong> min.width == 0 &amp;&amp; min.height == 0 &amp;&amp; pref.width == 0 &amp;&amp; pref.height == 0;
+<a class="jxr_linenumber" name="457" href="#457">457</a>             }
+<a class="jxr_linenumber" name="458" href="#458">458</a>             <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="459" href="#459">459</a>         }
+<a class="jxr_linenumber" name="460" href="#460">460</a>     }
+<a class="jxr_linenumber" name="461" href="#461">461</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
