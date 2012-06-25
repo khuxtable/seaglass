@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="SeaGlass-Demo" default="create_demo_jar">
+
+	<description>
+    	Build file mainly used to create a demo jar. 
+    </description>
+
+	<!-- Properties ======================================================= -->
+
+	<property name="seaglass_base" location="../seaglass"/>
+	<property name="temp" location="tmp"/>
+	<property name="classes" location="bin"/>
+	<property name="libs" location="lib"/>
+	<property name="deploy" location="deploy"/>
+
+	<!-- Tasks ============================================================ -->
+
+	<target name="init">
+		<delete dir="${temp}" />
+		<mkdir dir="${temp}" />
+		<delete dir="${deploy}" />
+		<mkdir dir="${deploy}" />
+	</target>
+
+	<target name="copy_classes" depends="init" description="Copy the launcher class files">
+		<copy todir="${temp}">
+			<fileset dir="${classes}">
+				<include name="com/seaglasslookandfeel/demo/SeaGlassLaffy*.class" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="copy_seaglass" depends="init" description="Copy the seaglass class files">
+		<copy todir="${temp}">
+			<fileset dir="${seaglass_base}/target/classes/">
+				<include name="**" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="extract_laffy" depends="init" description="Extract laffy files to temp folder">
+		<unjar src="${libs}/laffy-seaglass.jar" dest="${temp}" />
+	</target>
+	
+	<target name="create_demo_jar" depends="copy_classes, extract_laffy, copy_seaglass" description="Generate the main demo jar">
+		<tstamp />
+		<jar jarfile="${deploy}/seaglass-demo.jar" basedir="${temp}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Implementation-Title" value="SeaGlass Demo" />
+				<attribute name="Implementation-Version" value="${DSTAMP}" />
+				<attribute name="Main-Class" value="com.seaglasslookandfeel.demo.SeaGlassLaffyDemo" />
+			</manifest>
+		</jar>
+		<delete dir="${temp}" />
+	</target>
+
+</project>
