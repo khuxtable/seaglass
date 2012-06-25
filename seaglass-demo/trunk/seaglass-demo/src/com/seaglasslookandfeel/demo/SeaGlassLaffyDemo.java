@@ -17,7 +17,7 @@ public class SeaGlassLaffyDemo {
                     UIManager.installLookAndFeel("SeaGlass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
                     UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
                 } catch (Exception e) {
-                    System.err.println("Nimbus LAF not available using Ocean.");
+                    System.err.println("Seaglass LAF not available using Ocean.");
                     try {
                         UIManager.setLookAndFeel(new MetalLookAndFeel());
                     } catch (Exception e2) {
