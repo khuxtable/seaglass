@@ -352,6 +352,9 @@ public class SeaGlassTitlePane extends JComponent implements SeaglassUI, Propert
      *         otheriwes.
      */
     private boolean isParentMaximizable() {
+        if (rootParent instanceof JFrame) {
+            return ((JFrame)rootParent).isResizable();
+        }
         return true;
     }
 
