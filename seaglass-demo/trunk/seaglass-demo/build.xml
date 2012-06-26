@@ -41,6 +41,11 @@
 	
 	<target name="extract_laffy" depends="init" description="Extract laffy files to temp folder">
 		<unjar src="${libs}/laffy-seaglass.jar" dest="${temp}" />
+		<delete> <!-- Delete broken translation files -->
+			<fileset dir="${temp}">
+				<include name="org/jdesktop/laffy/resources/laffy_*.properties" />
+			</fileset>
+		</delete>
 	</target>
 	
 	<target name="create_demo_jar" depends="copy_classes, extract_laffy, copy_seaglass" description="Generate the main demo jar">
