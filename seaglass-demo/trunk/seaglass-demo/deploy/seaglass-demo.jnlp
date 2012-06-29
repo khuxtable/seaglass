@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+  spec="6.0+"
+  codebase="http://seaglass.googlecode.com/svn/seaglass-demo/trunk/seaglass-demo/deploy/"
+  href="seaglass-demo.jnlp">
+  <information>
+    <title>Seaglass Look and Feel for Swing</title>
+    <homepage href="https://code.google.com/p/seaglass/"/>
+    <description>Seaglass demo application based on Laffy</description>
+    <description kind="short">Seaglass Demo</description>
+    <offline-allowed/> 
+  </information>
+  <!-- security>
+      <all-permissions/>
+  </security -->
+  <resources>
+    <j2se version="1.6+"/>
+    <jar href="seaglass-demo.jar"/>
+  </resources>
+  <application-desc main-class="com.seaglasslookandfeel.demo.SeaGlassLaffyDemo"/>
+</jnlp> 
