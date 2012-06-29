@@ -11,9 +11,9 @@
     <vendor>The Seaglass Team</vendor>
     <offline-allowed/> 
   </information>
-  <!-- security>
+  <security>
       <all-permissions/>
-  </security -->
+  </security>
   <resources>
     <j2se version="1.6+"/>
     <jar href="seaglass-demo.jar"/>
