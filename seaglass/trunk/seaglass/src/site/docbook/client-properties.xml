@@ -24,15 +24,19 @@
     <info>
       <title>Client Properties</title>
     </info>
+    
+    <para>Seaglass makes use of some client properties to control the look or behavior of some components.
+    To set a property on a given component you can do so with <code>component.putClientProperty(propertName, value)</code>
+    This will activate the feature on a single component. If you want to activate this on all components you can specify 
+    a system property with the same name (<code>System.setProperty(propertyName, value)</code> or via the java command line -D option). 
+    Settings on component level will have precedence over the global settings. 
+    </para>
 
     <para>We currently support Mac-style properties on buttons to make them
     look different when used on our background gradient and to segment them.
     See <link
     xlink:href="http://developer.apple.com/mac/library/technotes/tn2007/tn2196.html">Apple
     Technical Note TN2196</link> for more information.</para>
-
-    <para>We plan on more use of client properties to control the appearance
-    of controls.</para>
 
     <section>
       <info>
@@ -518,5 +522,29 @@
       field if there is no text present. This is a paint effect only; no text
       is actually in the <classname>JTextField</classname> object.</para>
     </section>
+    
+    <section>
+      <info>
+        <title><classname>BorderFactory</classname> properties</title>
+      </info>
+
+      <para>For <classname>BorderFactory</classname>, we have overwritten the style of 
+      some borders. If this makes problems with your application you can deactivate this 
+      with the following system property. 
+      <code>SeaGlass.BorderFactory.overrideDefaults</code> property being set to <code>"false"</code>
+      </para>
+    </section>
+    
+     <section>
+      <info>
+        <title><classname>JTextArea</classname> properties</title>
+      </info>
+
+      <para>For <classname>JTextArea</classname>, we paint lines to make it look like a scribbling pad. 
+      If you do not like this you can deactivate this with the following client property. 
+      <code>SeaGlass.JTextArea.drawLineSeparator</code> property being set to <code>"false"</code>
+      </para>
+    </section>
+        
   </section>
 </article>
