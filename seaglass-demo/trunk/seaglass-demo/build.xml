@@ -19,8 +19,7 @@
 	<target name="init">
 		<delete dir="${temp}" />
 		<mkdir dir="${temp}" />
-		<delete dir="${deploy}" />
-		<mkdir dir="${deploy}" />
+		<delete dir="${deploy}/seaglass-demo.jar" />
 	</target>
 
 	<target name="copy_classes" depends="init" description="Copy the launcher class files">
