@@ -8,6 +8,7 @@
     <homepage href="https://code.google.com/p/seaglass/"/>
     <description>Seaglass demo application based on Laffy</description>
     <description kind="short">Seaglass Demo</description>
+    <vendor>The Seaglass Team</vendor>
     <offline-allowed/> 
   </information>
   <!-- security>
