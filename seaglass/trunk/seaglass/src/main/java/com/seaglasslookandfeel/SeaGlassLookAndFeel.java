@@ -2291,10 +2291,16 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
 
             d.put("seaGlassToolBarInactiveTopT", new Color(0xe9e9e9));
             d.put("seaGlassToolBarInactiveBottomB", new Color(0xcacaca));
+        } else if (PlatformUtils.isLion()) {
+            d.put("seaGlassToolBarActiveTopT", new Color(0xdedede));
+            d.put("seaGlassToolBarActiveBottomB", new Color(0xb0b0b0));
+
+            d.put("seaGlassToolBarInactiveTopT", new Color(0xf3f3f3));
+            d.put("seaGlassToolBarInactiveBottomB", new Color(0xdedede));
         } else if (PlatformUtils.isSnowLeopard()) {
             d.put("seaGlassToolBarActiveTopT", new Color(0xc9c9c9));
             d.put("seaGlassToolBarActiveBottomB", new Color(0xa7a7a7));
-
+            
             d.put("seaGlassToolBarInactiveTopT", new Color(0xe9e9e9));
             d.put("seaGlassToolBarInactiveBottomB", new Color(0xcacaca));
         } else {

@@ -113,6 +113,15 @@ public class PlatformUtils {
     public static boolean isSnowLeopard() {
         return isMac() && getOsVersion().startsWith("10.6");
     }
+    
+    /**
+     * True if this JVM is running on Mac OS X 10.7, Lion.
+     *
+     * @return true if this JVM is running on Mac OS X 10.7, Lion.
+     */
+    public static boolean isLion() {
+        return isMac() && getOsVersion().startsWith("10.7");
+    }
 
     /**
      * @return true if we run on java 6 else we should be on Java 7 or newer
