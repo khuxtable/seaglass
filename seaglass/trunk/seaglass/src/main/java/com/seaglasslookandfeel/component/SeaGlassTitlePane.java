@@ -342,7 +342,10 @@ public class SeaGlassTitlePane extends JComponent implements SeaglassUI, Propert
      *         otheriwes.
      */
     private boolean isParentIconifiable() {
-        return true;
+        if (rootParent instanceof JFrame) {
+            return ((JFrame)rootParent).isResizable();
+        }
+        return false;
     }
 
     /**
@@ -355,7 +358,7 @@ public class SeaGlassTitlePane extends JComponent implements SeaglassUI, Propert
         if (rootParent instanceof JFrame) {
             return ((JFrame)rootParent).isResizable();
         }
-        return true;
+        return false;
     }
 
     /**
