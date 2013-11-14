@@ -25,6 +25,8 @@ import java.awt.Paint;
 import java.awt.Shape;
 
 import javax.swing.JComponent;
+import javax.swing.JSpinner;
+import javax.swing.JSpinner.DefaultEditor;
 
 import com.seaglasslookandfeel.painter.AbstractRegionPainter.PaintContext.CacheMode;
 import com.seaglasslookandfeel.painter.util.ShapeGenerator.CornerSize;
@@ -76,10 +78,12 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
 
     public SpinnerPreviousButtonPainter(Which state) {
         super();
-        this.ctx = new PaintContext(CacheMode.FIXED_SIZES);
+        this.ctx = new PaintContext(CacheMode.NO_CACHING);
 
         type = getButtonType(state);
-        focused = (state == Which.BACKGROUND_FOCUSED || state == Which.BACKGROUND_PRESSED_FOCUSED);
+        focused = (state == Which.BACKGROUND_FOCUSED || state == Which.BACKGROUND_PRESSED_FOCUSED 
+                || state == Which.FOREGROUND_FOCUSED || state == Which.FOREGROUND_PRESSED_FOCUSED);
+
         isForeground = isForeground(state);
     }
 
@@ -133,7 +137,13 @@ public final class SpinnerPreviousButtonPainter extends AbstractCommonColorsPain
         boolean useToolBarColors = isInToolBar(c);
         Shape s;
 
-        if (focused) {
+        JSpinner spinner = (JSpinner) c.getParent();
+        boolean editorFocused = false;
+        JComponent editor = spinner.getEditor();
+        if (editor instanceof DefaultEditor) {
+            editorFocused = ((DefaultEditor)editor).getTextField().isFocusOwner();
+        }
+        if (focused || editorFocused) {
             s = createButtonShape(0, 0, width, height, CornerSize.OUTER_FOCUS);
             g.setPaint(getFocusPaint(s, FocusType.OUTER_FOCUS, useToolBarColors));
             g.fill(s);
