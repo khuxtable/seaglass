@@ -15,7 +15,7 @@
       <all-permissions/>
   </security>
   <resources>
-    <j2se version="1.6+"/>
+    <j2se version="1.7+"/>
     <jar href="seaglass-demo.jar"/>
   </resources>
   <application-desc main-class="com.seaglasslookandfeel.demo.SeaGlassLaffyDemo"/>
