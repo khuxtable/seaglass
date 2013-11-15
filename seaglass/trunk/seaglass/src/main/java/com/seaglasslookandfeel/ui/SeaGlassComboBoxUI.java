@@ -21,6 +21,7 @@ package com.seaglasslookandfeel.ui;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Rectangle;
@@ -157,31 +158,6 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         // for an update release. This *should* be fixed in Java 7
         padding = UIManager.getInsets("ComboBox.padding");
 
-        // handle scaling for sizeVarients for special case components. The
-        // key "JComponent.sizeVariant" scales for large/small/mini
-        // components are based on Apples LAF
-        if (padding != null) {
-            String scaleKey = SeaGlassStyle.getSizeVariant(comboBox);
-            if (scaleKey != null) {
-                if (SeaGlassStyle.LARGE_KEY.equals(scaleKey)) {
-                    padding.left *= 1.15;
-                    padding.right *= 1.15;
-                    padding.bottom *= 1.15;
-                    padding.top *= 1.15;
-                } else if (SeaGlassStyle.SMALL_KEY.equals(scaleKey)) {
-                    padding.left *= 0.857;
-                    padding.right *= 0.857;
-                    padding.bottom *= 0.857;
-                    padding.top *= 0.857;
-                } else if (SeaGlassStyle.MINI_KEY.equals(scaleKey)) {
-                    padding.left *= 0.784;
-                    padding.right *= 0.784;
-                    padding.bottom *= 0.784;
-                    padding.top *= 0.784;
-                }
-            }
-        }
-
         updateStyle(comboBox);
     }
 
@@ -300,7 +276,16 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
 
     @Override
     protected ComboBoxEditor createEditor() {
-        return new SynthComboBoxEditor();
+    	// In case the combo box is editable we inherit the size variant to the editor.
+        // TODO this needs to be done later to support client property override
+        // because the editor is created in the ComboBox constructor already a later set of the property has no effect
+        SynthComboBoxEditor result = new SynthComboBoxEditor();
+        String scaleKey = SeaGlassStyle.getSizeVariant(comboBox);
+        if (scaleKey != null) {
+            ((JComponent)result.getEditorComponent()).putClientProperty("JComponent.sizeVariant", scaleKey);
+        }
+        return result;
+
     }
 
     //
@@ -433,7 +418,23 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
      */
     protected Dimension getSizeForComponent(Component comp) {
         currentValuePane.add(comp);
-        comp.setFont(comboBox.getFont());
+        
+        Font f = comboBox.getFont();
+        
+        // handle scaling for sizeVarients for special case components. The
+        // key "JComponent.sizeVariant" scales for large/small/mini
+        // components are based on Apples LAF
+        String scaleKey = SeaGlassStyle.getSizeVariant(comboBox);
+        if (scaleKey != null) {
+            if (SeaGlassStyle.LARGE_KEY.equals(scaleKey)) {
+                f = f.deriveFont(f.getSize2D()*1.15f);
+            } else if (SeaGlassStyle.SMALL_KEY.equals(scaleKey)) {
+                f = f.deriveFont(f.getSize2D()*0.857f);
+            } else if (SeaGlassStyle.MINI_KEY.equals(scaleKey)) {
+                f = f.deriveFont(f.getSize2D()*0.784f);
+            }
+        }
+        comp.setFont(f);
         Dimension d = comp.getPreferredSize();
         currentValuePane.remove(comp);
         return d;
