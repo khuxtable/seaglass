@@ -286,8 +286,8 @@ public class SeaGlassTitlePane extends JComponent implements SeaglassUI, Propert
                 Insets                i  = Toolkit.getDefaultToolkit().getScreenInsets(gc);
                 Rectangle             r  = gc.getBounds();
 
-                r.x      += i.left;
-                r.y      += i.top;
+                r.x      = 0;
+                r.y      = 0;
                 r.width  -= i.left + i.right;
                 r.height -= i.top + i.bottom;
                 frame.setMaximizedBounds(r);
