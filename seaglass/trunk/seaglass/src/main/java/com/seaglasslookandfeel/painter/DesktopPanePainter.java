@@ -44,9 +44,11 @@ public final class DesktopPanePainter extends AbstractRegionPainter {
     }
 
     protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        DesktopPane panePainter = new DesktopPane();
-        panePainter.setDimension(new Dimension(width, height));
-        panePainter.paintIcon(c, g, 0, 0);
+        if (c.isOpaque()) {
+            DesktopPane panePainter = new DesktopPane();
+            panePainter.setDimension(new Dimension(width, height));
+            panePainter.paintIcon(c, g, 0, 0);
+        }
     }
 
     protected final PaintContext getPaintContext() {
