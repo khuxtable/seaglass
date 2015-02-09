@@ -67,6 +67,7 @@ import javax.swing.table.TableColumnModel;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.seaglasslookandfeel.SeaGlassStyle;
 import com.seaglasslookandfeel.component.SeaGlassBorder;
 import com.seaglasslookandfeel.painter.ViewportPainter;
 import com.seaglasslookandfeel.util.WindowUtils;
@@ -205,87 +206,90 @@ public class SeaGlassTableUI extends BasicTableUI implements SeaglassUI, Propert
         SeaGlassContext context  = getContext(c, ENABLED);
         SynthStyle      oldStyle = style;
 
-        style = SeaGlassLookAndFeel.updateStyle(context, this);
+        SynthStyle s = SeaGlassLookAndFeel.updateStyle(context, this);
+        if (s instanceof SeaGlassStyle) {
+            style = (SeaGlassStyle) s;
 
-        selectionActiveBottomBorderColor   = UIManager.getColor("seaGlassTableSelectionActiveBottom");
-        selectionInactiveBottomBorderColor = UIManager.getColor("seaGlassTableSelectionInactiveBottom");
-        transparentColor                   = UIManager.getColor("seaGlassTransparent");
+            selectionActiveBottomBorderColor   = UIManager.getColor("seaGlassTableSelectionActiveBottom");
+            selectionInactiveBottomBorderColor = UIManager.getColor("seaGlassTableSelectionInactiveBottom");
+            transparentColor                   = UIManager.getColor("seaGlassTransparent");
 
-        if (style != oldStyle) {
-            table.remove(rendererPane);
-            rendererPane = createCustomCellRendererPane();
-            table.add(rendererPane);
+            if (style != oldStyle) {
+                table.remove(rendererPane);
+                rendererPane = createCustomCellRendererPane();
+                table.add(rendererPane);
 
-            context.setComponentState(ENABLED | SELECTED);
+                context.setComponentState(ENABLED | SELECTED);
 
-            Color sbg = table.getSelectionBackground();
+                Color sbg = table.getSelectionBackground();
 
-            if (sbg == null || sbg instanceof UIResource) {
-                table.setSelectionBackground(style.getColor(context, ColorType.TEXT_BACKGROUND));
-            }
-
-            Color sfg = table.getSelectionForeground();
-
-            if (sfg == null || sfg instanceof UIResource) {
-                table.setSelectionForeground(style.getColor(context, ColorType.TEXT_FOREGROUND));
-            }
-
-            context.setComponentState(ENABLED);
-
-            Color gridColor = table.getGridColor();
-
-            if (gridColor == null || gridColor instanceof UIResource) {
-                gridColor = (Color) style.get(context, "Table.gridColor");
-                if (gridColor == null) {
-                    gridColor = style.getColor(context, ColorType.FOREGROUND);
+                if (sbg == null || sbg instanceof UIResource) {
+                    table.setSelectionBackground(style.getColor(context, ColorType.TEXT_BACKGROUND));
                 }
 
-                table.setGridColor(gridColor);
-            }
+                Color sfg = table.getSelectionForeground();
 
-            useTableColors = style.getBoolean(context, "Table.rendererUseTableColors", true);
-            useUIBorder    = style.getBoolean(context, "Table.rendererUseUIBorder", true);
+                if (sfg == null || sfg instanceof UIResource) {
+                    table.setSelectionForeground(style.getColor(context, ColorType.TEXT_FOREGROUND));
+                }
 
-            Object rowHeight = style.get(context, "Table.rowHeight");
+                context.setComponentState(ENABLED);
 
-            if (rowHeight != null) {
-                LookAndFeel.installProperty(table, "rowHeight", rowHeight);
-            }
+                Color gridColor = table.getGridColor();
 
-            boolean showGrid = style.getBoolean(context, "Table.showGrid", true);
+                if (gridColor == null || gridColor instanceof UIResource) {
+                    gridColor = (Color) style.get(context, "Table.gridColor");
+                    if (gridColor == null) {
+                        gridColor = style.getColor(context, ColorType.FOREGROUND);
+                    }
 
-            if (!showGrid) {
-                table.setShowGrid(false);
-            }
+                    table.setGridColor(gridColor);
+                }
 
-            Dimension d = table.getIntercellSpacing();
-            // if (d == null || d instanceof UIResource) {
-            if (d != null) {
-                d = (Dimension) style.get(context, "Table.intercellSpacing");
-            }
+                useTableColors = style.getBoolean(context, "Table.rendererUseTableColors", true);
+                useUIBorder    = style.getBoolean(context, "Table.rendererUseUIBorder", true);
 
-            alternateColor = (Color) style.get(context, "Table.alternateRowColor");
-            if (d != null) {
-                table.setIntercellSpacing(d);
-            }
+                Object rowHeight = style.get(context, "Table.rowHeight");
 
-            table.setOpaque(false);
+                if (rowHeight != null) {
+                    LookAndFeel.installProperty(table, "rowHeight", rowHeight);
+                }
 
-            if (alternateColor != null) {
-                table.setShowHorizontalLines(false);
-            }
+                boolean showGrid = style.getBoolean(context, "Table.showGrid", true);
 
-            // Make header column extend the width of the viewport (if there is
-            // a viewport).
-            table.getTableHeader().setBorder(createTableHeaderEmptyColumnPainter(table));
-            setViewPortListeners(table);
+                if (!showGrid) {
+                    table.setShowGrid(false);
+                }
 
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                Dimension d = table.getIntercellSpacing();
+                // if (d == null || d instanceof UIResource) {
+                if (d != null) {
+                    d = (Dimension) style.get(context, "Table.intercellSpacing");
+                }
+
+                alternateColor = (Color) style.get(context, "Table.alternateRowColor");
+                if (d != null) {
+                    table.setIntercellSpacing(d);
+                }
+
+                table.setOpaque(false);
+
+                if (alternateColor != null) {
+                    table.setShowHorizontalLines(false);
+                }
+
+                // Make header column extend the width of the viewport (if there is
+                // a viewport).
+                table.getTableHeader().setBorder(createTableHeaderEmptyColumnPainter(table));
+                setViewPortListeners(table);
+
+                if (oldStyle != null) {
+                    uninstallKeyboardActions();
+                    installKeyboardActions();
+                }
             }
         }
-
+        
         context.dispose();
     }
 

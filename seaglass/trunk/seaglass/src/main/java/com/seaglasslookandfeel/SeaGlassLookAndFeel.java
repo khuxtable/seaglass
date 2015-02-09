@@ -193,18 +193,24 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
 
     private static final String[] UI_LIST = new String[]{
         "Button",
+        "CheckBox",
         "CheckBoxMenuItem",
         "ComboBox",
         "DesktopPane",
+        "EditorPane",
         "FormattedTextField",
         "Label",
+        "List",
+        "Menu",
         "MenuItem",
         "InternalFrame",
         "DesktopIcon",
+        "OptionPane",
         "Panel",
         "PasswordField",
         "PopupMenu",
         "ProgressBar",
+        "RadioButton",
         "RadioButtonMenuItem",
         "RootPane",
         "ScrollBar",
@@ -212,15 +218,21 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
         "SearchFieldButton",
         "Separator",
         "Slider",
+        "Spinner",
         "SplitPane",
         "TabbedPane",
         "Table",
         "TableHeader",
         "TextField",
         "TextArea",
+        "TextPane",
+        "ToolTip",
         "ToggleButton",
         "ToolBar",
+        "Tree",
         "Viewport",
+        "PopupMenuSeparator", 
+        "ToolBarSeparator",
     };
     
     
@@ -1425,6 +1437,7 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
         d.put(p + "[Enabled].arrowIconPainter", new LazyPainter(c, MenuPainter.Which.ARROWICON_ENABLED));
         d.put(p + "[Enabled+Selected].arrowIconPainter", new LazyPainter(c, MenuPainter.Which.ARROWICON_ENABLED_SELECTED));
         d.put(p + ".arrowIcon", new SeaGlassIcon(p + "", "arrowIconPainter", 9, 10));
+        d.put(p + ".checkIcon", new SeaGlassIcon(p + "", "checkIconPainter", 6, 10));
 
         p = "Menu:MenuItemAccelerator";
         d.put(p + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
@@ -2724,7 +2737,9 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
             }
 
             context.setStyle(newStyle);
-            ((SeaGlassStyle) newStyle).installDefaults(context, ui);
+            if (newStyle instanceof SeaGlassStyle) {
+                ((SeaGlassStyle) newStyle).installDefaults(context, ui);
+            }
         }
 
         return newStyle;
@@ -2960,20 +2975,28 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
          */
         @SuppressWarnings("unchecked")
         public Object createValue(UIDefaults table) {
+            Constructor constructor = null;
+            Object cl = null;
             try {
                 Class  c;
-                Object cl;
 
                 // See if we should use a separate ClassLoader
-                if (table == null || !((cl = table.get("ClassLoader")) instanceof ClassLoader)) {
-                    cl = Thread.currentThread().getContextClassLoader();
-
-                    if (cl == null) {
-
-                        // Fallback to the system class loader.
-                        cl = ClassLoader.getSystemClassLoader();
-                    }
+                // GM: use ClassLoader from this class, if no separate ClassLoader
+                cl = table.get("ClassLoader");
+                if (cl == null) {
+                    cl = getClass().getClassLoader();
                 }
+                
+// GM: doesn't work with WebStart and OSGi                
+//                if (table == null || !(cl instanceof ClassLoader)) {
+//                    cl = Thread.currentThread().getContextClassLoader();
+//
+//                    if (cl == null) {
+//
+//                        // Fallback to the system class loader.
+//                        cl = ClassLoader.getSystemClassLoader();
+//                    }
+//                }
 
                 c = Class.forName(className, true, (ClassLoader) cl);
 
@@ -2984,7 +3007,7 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
                     throw new NullPointerException("Failed to find the constructor for the class: " + className + ".Which");
                 }
 
-                Constructor constructor = c.getConstructor(stateClass);
+                constructor = c.getConstructor(stateClass);
 
                 if (constructor == null) {
                     throw new NullPointerException("Failed to find the constructor for the class: " + className);
@@ -2992,6 +3015,8 @@ public class SeaGlassLookAndFeel extends SynthLookAndFeel {
 
                 return constructor.newInstance(which);
             } catch (Exception e) {
+                System.err.println( "createValue: " + which.getClass() + ", " + (constructor != null ? constructor : "") );
+                System.err.println( "class loaders: " + which.getClass().getClassLoader() + ", " + cl + ", UIDefaults = " + table );
                 e.printStackTrace();
 
                 return null;

@@ -100,7 +100,11 @@ public final class SliderTrackPainter extends AbstractCommonColorsPainter {
           JSlider slider = (JSlider) c;
           int orientation = slider.getOrientation();
           double trackLength = slider.getMaximum()-slider.getMinimum();
-          double percentFilled = slider.getValue() / trackLength; 
+          double percentFilled = (slider.getValue()-slider.getMinimum()) / trackLength;
+          if ( "LogarithmicJSlider".equals( c.getClass().getSimpleName() ) ) {
+              percentFilled = (Math.log((slider.getValue()))-Math.log(slider.getMinimum())) / 
+              ((double) Math.log(slider.getMaximum()) - (double) Math.log(slider.getMinimum()));
+          }
           if (percentFilled > 0) {
               Shape s = getValueShape(c, width, height, orientation, percentFilled);
               g.setPaint(getValuePaint(s));

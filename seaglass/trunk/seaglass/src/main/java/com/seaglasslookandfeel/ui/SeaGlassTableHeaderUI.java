@@ -398,6 +398,10 @@ public class SeaGlassTableHeaderUI extends BasicTableHeaderUI implements Propert
                 setIcon(label.getIcon());
                 setHorizontalAlignment(label.getHorizontalAlignment());
                 setHorizontalTextPosition(label.getHorizontalTextPosition());
+                setVerticalAlignment(label.getVerticalAlignment());
+                setVerticalTextPosition(label.getVerticalTextPosition());
+                setToolTipText(label.getToolTipText());
+                
             } else {
                 setText(value == null ? "" : value.toString());
                 setIcon(null);
