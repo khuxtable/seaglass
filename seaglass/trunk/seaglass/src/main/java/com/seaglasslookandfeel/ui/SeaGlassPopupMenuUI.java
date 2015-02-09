@@ -32,6 +32,7 @@ import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicPopupMenuUI;
 import javax.swing.plaf.basic.DefaultMenuLayout;
 import javax.swing.plaf.synth.SynthContext;
+import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
@@ -85,11 +86,15 @@ public class SeaGlassPopupMenuUI extends BasicPopupMenuUI implements PropertyCha
             WindowUtils.makeWindowNonOpaque(window);
         }
         SeaGlassStyle oldStyle = style;
-        style = (SeaGlassStyle) SeaGlassLookAndFeel.updateStyle(context, this);
-        if (style != oldStyle) {
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+        
+        SynthStyle s = SeaGlassLookAndFeel.updateStyle(context, this);
+        if (s instanceof SeaGlassStyle) {
+            style = (SeaGlassStyle) s;
+            if (style != oldStyle) {
+                if (oldStyle != null) {
+                    uninstallKeyboardActions();
+                    installKeyboardActions();
+                }
             }
         }
         context.dispose();

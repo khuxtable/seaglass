@@ -35,6 +35,7 @@ import javax.swing.plaf.basic.BasicLabelUI;
 import javax.swing.plaf.synth.ColorType;
 import javax.swing.plaf.synth.SynthConstants;
 import javax.swing.plaf.synth.SynthContext;
+import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.text.View;
 
 import com.seaglasslookandfeel.SeaGlassContext;
@@ -64,7 +65,10 @@ public class SeaGlassLabelUI extends BasicLabelUI implements SeaglassUI {
 
     void updateStyle(JLabel c) {
         SeaGlassContext context = getContext(c, ENABLED);
-        style = (SeaGlassStyle) SeaGlassLookAndFeel.updateStyle(context, this);
+        SynthStyle s = SeaGlassLookAndFeel.updateStyle(context, this);
+        if (s instanceof SeaGlassStyle) {
+            style = (SeaGlassStyle) s;
+        }
         context.dispose();
     }
 

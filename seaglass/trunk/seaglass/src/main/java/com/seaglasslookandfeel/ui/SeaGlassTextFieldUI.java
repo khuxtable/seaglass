@@ -128,19 +128,22 @@ public class SeaGlassTextFieldUI extends BasicTextFieldUI implements SeaglassUI,
         SeaGlassContext context  = getContext(c, ENABLED);
         SynthStyle      oldStyle = style;
 
-        style = SeaGlassLookAndFeel.updateStyle(context, this);
+        SynthStyle s = SeaGlassLookAndFeel.updateStyle(context, this);
+        if (s instanceof SeaGlassStyle) {
+            style = (SeaGlassStyle) s;
 
-        updateSearchStyle(c, context, getPropertyPrefix());
+            updateSearchStyle(c, context, getPropertyPrefix());
 
-        if (style != oldStyle) {
-            updateStyle(c, context, getPropertyPrefix());
+            if (style != oldStyle) {
+                updateStyle(c, context, getPropertyPrefix());
 
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                if (oldStyle != null) {
+                    uninstallKeyboardActions();
+                    installKeyboardActions();
+                }
             }
         }
-
+        
         context.dispose();
 
         context   = getContext(c, SeaGlassRegion.SEARCH_FIELD_FIND_BUTTON, ENABLED);

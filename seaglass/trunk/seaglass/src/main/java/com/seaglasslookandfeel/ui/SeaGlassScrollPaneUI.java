@@ -266,6 +266,7 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
      * @param g
      * @param c
      */
+    @SuppressWarnings("unchecked")
     private void paintScrollPaneCorner(Graphics g, JComponent c) {
         if (scrollpane == null) {
             return;
@@ -283,15 +284,28 @@ public class SeaGlassScrollPaneUI extends BasicScrollPaneUI implements PropertyC
         Insets insets = c.getInsets();
 
         Graphics2D g2 = (Graphics2D) g.create();
-        if (scrollpane.getComponentOrientation().isLeftToRight()) {
-            g2.translate(c.getWidth() - insets.right - vBarWidth, c.getHeight() - insets.bottom - hBarHeight);
-            g2.setClip(0, 0, vBarWidth, hBarHeight);
-        } else {
-            g2.translate(15 + insets.right, c.getHeight() - insets.bottom - hBarHeight);
-            g2.scale(-1, 1);
-            g2.setClip(0, 0, vBarWidth, hBarHeight);
+        
+        int translateX = c.getWidth() - insets.right - vBarWidth;
+        int translateY = c.getHeight() - insets.bottom - hBarHeight;
+        boolean ltr = scrollpane.getComponentOrientation().isLeftToRight();
+        if (!ltr) {
+            translateX = 15 + insets.right;
         }
-        cornerPainter.paint(g2, c, 15, 15);
+        Rectangle visibleRect = scrollpane.getVisibleRect();
+        
+        // Berechnung, ob die Ecke im sichtbare Bereich liegt
+        int clipX = Math.min( vBarWidth, visibleRect.x + visibleRect.width - translateX );
+        int clipY = Math.min( hBarHeight, visibleRect.y + visibleRect.height - translateY );
+        
+        if ( clipY > 0 && clipX > 0 ) {
+            g2.translate(translateX, translateY);
+            if (!ltr) {
+                g2.scale(-1, 1);
+            }
+            g2.setClip(0, 0, clipX, clipY);
+            
+            cornerPainter.paint(g2, c, 15, 15);
+        }
     }
 
     public void paint(Graphics g, JComponent c) {

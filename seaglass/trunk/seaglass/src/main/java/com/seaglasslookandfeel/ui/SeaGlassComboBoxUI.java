@@ -54,6 +54,7 @@ import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.plaf.synth.SynthContext;
+import javax.swing.plaf.synth.SynthStyle;
 
 import com.seaglasslookandfeel.SeaGlassContext;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
@@ -165,18 +166,21 @@ public class SeaGlassComboBoxUI extends BasicComboBoxUI implements PropertyChang
         SeaGlassStyle oldStyle = style;
         SeaGlassContext context = getContext(comboBox, ENABLED);
 
-        style = (SeaGlassStyle) SeaGlassLookAndFeel.updateStyle(context, this);
-        if (style != oldStyle) {
-            popupInsets = (Insets) style.get(context, "ComboBox.popupInsets");
-            useListColors = style.getBoolean(context, "ComboBox.rendererUseListColors", true);
-            buttonWhenNotEditable = style.getBoolean(context, "ComboBox.buttonWhenNotEditable", false);
-            pressedWhenPopupVisible = style.getBoolean(context, "ComboBox.pressedWhenPopupVisible", false);
-            
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+        SynthStyle s = SeaGlassLookAndFeel.updateStyle(context, this);
+        if (s instanceof SeaGlassStyle) {
+            style = (SeaGlassStyle) s;
+            if (style != oldStyle) {
+                popupInsets = (Insets) style.get(context, "ComboBox.popupInsets");
+                useListColors = style.getBoolean(context, "ComboBox.rendererUseListColors", true);
+                buttonWhenNotEditable = style.getBoolean(context, "ComboBox.buttonWhenNotEditable", false);
+                pressedWhenPopupVisible = style.getBoolean(context, "ComboBox.pressedWhenPopupVisible", false);
+
+                if (oldStyle != null) {
+                    uninstallKeyboardActions();
+                    installKeyboardActions();
+                }
+                forceOpaque = style.getBoolean(context, "ComboBox.forceOpaque", false);
             }
-            forceOpaque = style.getBoolean(context, "ComboBox.forceOpaque", false);
         }
         context.dispose();
     }
