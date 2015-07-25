@@ -26,7 +26,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
-
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 
@@ -45,7 +44,7 @@ import javax.swing.event.AncestorListener;
 public class WindowUtils {
 
     /**
-     * Try's to make the given {@link Window} non-opqaue (transparent) across
+     * Tries to make the given {@link Window} non-opqaue (transparent) across
      * platforms and JREs. This method is not guaranteed to succeed, and will
      * fail silently if the given {@code Window} cannot be made non-opaque.
      *
@@ -56,15 +55,13 @@ public class WindowUtils {
      * @param window the {@code Window} to make non-opaque.
      */
     public static void makeWindowNonOpaque(Window window) {
-        // on the mac, simply setting the window's background color to be fully
-        // transparent makes the window non-opaque.
-//        window.setBackground(UIManager.getColor("seaGlassTransparent"));
-
-        // on non-mac platforms, try to use the facilities of Java 6 update 10.
-        if (!PlatformUtils.isMac()) {
-            quietlyTryToMakeWindowNonOqaque(window);
-        } else {
-            window.setBackground(UIManager.getColor("seaGlassTransparent"));
+        if (PlatformUtils.isJava6()) {
+            // on non-mac platforms, try to use the facilities of Java 6 update 10.
+            if (!PlatformUtils.isMac()) {
+                quietlyTryToMakeWindowNonOqaque(window);
+            } else {
+                window.setBackground(UIManager.getColor("seaGlassTransparent"));
+            }
         }
     }
     
