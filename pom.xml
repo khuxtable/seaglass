@@ -6,7 +6,7 @@
 	<version>0.2.1-SNAPSHOT</version>
 	<name>Sea Glass Look and Feel for Swing</name>
 	<description>
-		A Java cross-platform look and feel for JRE 1.6u17 and later.
+		A Java cross-platform look and feel for JRE 1.8 and later.
 		This is developed from
 		Synth, and is based on forms seen in sea glass,
 		that is, bits of glass washed up on the shore by
@@ -80,10 +80,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>3.3</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<compilerArguments>
 						<bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
 					</compilerArguments>
@@ -96,7 +96,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
+				<version>2.6</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -112,10 +112,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>2.5.2</version>
 				<configuration>
 					<goals>deploy</goals>
-					<tagBase>https://seaglass.googlecode.com/svn/seaglass/tags</tagBase>
 					<mavenExecutorId>forked-path</mavenExecutorId>
 				</configuration>
 			</plugin>
@@ -177,7 +176,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.4</version>
 				<configuration>
 					<locales>en</locales>
 					<outputEncoding>${project.build.sourceEncoding}</outputEncoding>
@@ -190,7 +189,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
+				<version>2.4</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -209,7 +208,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.6</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -230,14 +229,14 @@
 			concerned.
 		-->
 		<site>
-			<id>local_website</id>
-			<url>${siteDeployURL}</url>
+			<id>github-site</id>
+			<url>gitsite:git@github.com/khuxtable/seaglass.git</url>
 		</site>
 	</distributionManagement>
 	<!-- Define Google Code site's issue management system. -->
 	<issueManagement>
-		<system>Google Code</system>
-		<url>http://seaglasslookandfeel.com/issues/</url>
+		<system>GitHub</system>
+		<url>http://github.com/khuxtable/seaglass/issues</url>
 	</issueManagement>
 	<reporting>
 		<plugins>
@@ -245,7 +244,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.4</version>
+				<version>2.8</version>
 				<reportSets>
 					<reportSet>
 						<reports>
@@ -261,17 +260,16 @@
 					</reportSet>
 				</reportSets>
 				<configuration>
-					<webAccessUrl>http://code.google.com/p/seaglass/source/checkout</webAccessUrl>
-					<anonymousConnection>scm:svn:http://code.google.com/p/seaglass/source/browse/seaglass/trunk/seaglass</anonymousConnection>
-					<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass
-					</developerConnection>
+					<webAccessUrl>https://github.com/khuxtable/seaglass</webAccessUrl>
+					<anonymousConnection>scm:git:git://github.com/khuxtable/seaglass.git</anonymousConnection>
+					<developerConnection>scm:git:git@github.com:khuxtable/seaglass.git</developerConnection>
 				</configuration>
 			</plugin>
 			<!-- Configure the source cross reference. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
-				<version>2.3</version>
+				<version>2.5</version>
 				<configuration>
 					<outputDirectory>${project.reporting.outputDirectory}/xref</outputDirectory>
 					<doctitle>${project.name} ${project.version} Code Cross-Reference</doctitle>
@@ -298,16 +296,16 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>2.7.1</version>
+				<version>3.5</version>
 				<configuration>
-					<targetJdk>1.6</targetJdk>
+					<targetJdk>1.8</targetJdk>
 				</configuration>
 			</plugin>
 			<!-- Configure the javadoc. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.8.1</version>
+				<version>2.10.3</version>
 				<configuration>
 					<notimestamp>true</notimestamp>
 					<links>
@@ -332,10 +330,9 @@
 		generating the site documentation.
 	-->
 	<scm>
-		<connection>scm:svn:http://seaglass.googlecode.com/svn/seaglass/trunk/seaglass</connection>
-		<developerConnection>scm:svn:https://seaglass.googlecode.com/svn/seaglass/trunk/seaglass
-		</developerConnection>
-		<url>http://code.google.com/p/seaglass/source/browse/seaglass/trunk/seaglass</url>
+		<connection>scm:git:git://github.com/khuxtable/seaglass.git</connection>
+		<developerConnection>scm:git:git@github.com:khuxtable/seaglass.git</developerConnection>
+		<url>https://github.com/khuxtable/seaglass</url>
 	</scm>
 	<profiles>
 		<profile>
@@ -351,10 +348,10 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.5.1</version>
+						<version>3.3</version>
 						<configuration>
-							<source>1.6</source>
-							<target>1.6</target>
+							<source>1.8</source>
+							<target>1.8</target>
 							<compilerArguments>
 								<bootclasspath>${java.home}/../Classes/classes.jar</bootclasspath>
 							</compilerArguments>
@@ -380,7 +377,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.4</version>
+						<version>1.6</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -408,6 +405,5 @@
 			around it.
 		-->
 		<siteBaseDirectory>${basedir}/src/site</siteBaseDirectory>
-		<siteDeployURL>file:///Users/huxtable/Sites/maven-sites/seaglasslookandfeel</siteDeployURL>
 	</properties>
 </project>
