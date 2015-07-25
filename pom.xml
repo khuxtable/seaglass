@@ -3,7 +3,7 @@
 	<groupId>com.seaglasslookandfeel</groupId>
 	<artifactId>seaglasslookandfeel</artifactId>
 	<packaging>jar</packaging>
-	<version>0.2.1-SNAPSHOT</version>
+	<version>0.2.1</version>
 	<name>Sea Glass Look and Feel for Swing</name>
 	<description>
 		A Java cross-platform look and feel for JRE 1.8 and later.
@@ -333,7 +333,8 @@
 		<connection>scm:git:git://github.com/khuxtable/seaglass.git</connection>
 		<developerConnection>scm:git:git@github.com:khuxtable/seaglass.git</developerConnection>
 		<url>https://github.com/khuxtable/seaglass</url>
-	</scm>
+	  <tag>seaglasslookandfeel-0.2.1</tag>
+  </scm>
 	<profiles>
 		<!--
 			Define the profile to be activated when performing a release. This makes sure all the
